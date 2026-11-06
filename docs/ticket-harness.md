@@ -1,9 +1,10 @@
 # Scripted single-ticket harness
 
-Tickets 01–06 execute one selected approved ticket with scripted external agents,
+Tickets 01–07 execute one selected approved ticket with scripted external agents,
 validate its requirements and reports, bind verification to exact revisions, and
 repair rejected submissions within a configured allowance, stopping immediately
 when a valid report requires a human decision outside approved contracts.
+Optional review suggestions remain visible without requiring repair or delaying integration.
 Dependency scheduling, timeouts, live Codex, and an operating-system
 sandbox remain later numbered tickets. Run only trusted scripted processes and
 project commands.
@@ -356,6 +357,40 @@ Integrity checks observe process boundaries. They do not detect a transient edit
 restored before the process returns, authenticate local artifacts, or prevent a
 process with unrestricted filesystem/Git access from racing observations. Run
 only trusted commands until role access enforcement is supplied by ticket 14.
+
+## Optional review suggestions
+
+Both review axes accept complete findings classified as `optional`. They do not
+fail a review, consume a repair allowance, or request a human decision, even when
+their `human_decision_needed` flag is true. Every optional finding still requires
+all documented finding fields and exact report identity. Whole-report validation
+and process success remain required: malformed optional evidence or a nonzero
+review exit cannot approve a submission.
+
+Run and status print the same indented, human-readable JSON as `run.json`.
+Read each Spec/Standards gate's `report.findings` for suggestions, including its
+location, requirement, consequence, evidence and suggested resolution. For example,
+a passing gate can contain `"classification": "optional"` while the ticket is
+`"state": "Done"`. The gate and report's `attempt` and `revision` identify the
+reviewed submission; `base_revision` identifies the fixed approved baseline.
+`ticket.done_revision` identifies the separately tested candidate merge.
+
+When blocking and optional findings coexist, the ordinary blocking failure
+triggers bounded repair. The repair assignment's `repair_context.failure` names
+the rejected stage, and `check_results` retains the complete review report.
+Optional findings in that history are context, not mandatory repair requirements.
+A blocking finding requiring a human decision still stops immediately under the
+decision rules above. A passing repaired ticket may retain an unimplemented
+optional suggestion.
+
+Earlier gate reports and artifacts remain attached to their original reviewed
+revisions, including after a successful repair or exhausted allowance. Each new
+submission requires renewed checks and fresh reviews. A suggestion may disappear,
+appear, or reuse an ID in a new report; its ID is unique only within that report.
+Read `attempts` and their gate ranges to distinguish earlier suggestions from the
+latest review. No earlier finding or approval is transferred to a later revision,
+and retained history does not assert that a disappeared suggestion was resolved.
+Status only reads these durable observations and launches no agents.
 
 ## Records and artifacts
 
