@@ -1,6 +1,10 @@
-# Reusable ticket-execution harness: first working version
+# Reusable ticket-execution harness with milestone QA
 
 **Status:** ready-for-agent
+
+**Plan approval:** The human approved the milestone-QA realignment. This is the canonical current spec; the [implementation plan](ticket-proposal.md) contains its approved decomposition and milestones.
+
+**Implementation status:** Tickets 01–09 are complete under the [previous spec](archive/spec-before-milestone-qa.md). Their evidence remains valid for that scope. The QA-first remaining definitions are published as 10–28 and gated by the milestone plan; publication does not claim the new QA/background capabilities exist. Start from the [feature index](README.md) for execution status.
 
 ## Problem Statement
 
@@ -10,11 +14,11 @@ The developer also wants reusable repo-owned guidance that incorporates applicab
 
 ## Solution
 
-Build a reusable Python command-line harness that operates on a target Git repository using approved local Markdown specs and tickets. The first version executes tickets sequentially, launches fresh Codex implementation and review processes, independently verifies submitted changes, tests a candidate merge, and advances a local integration branch only after all required gates pass.
+Build a reusable Python command-line harness that executes an approved versioned spec, tickets, and QA milestones in a target Git repository. The first release executes tickets sequentially using fresh Codex processes, independently verifies ticket candidates into a feature branch, and promotes exact tested milestone candidates into the development branch only after human QA acceptance. The eventual CLI normally runs in the background with foreground operation available for debugging.
 
-The first tracer bullet demonstrates one complete ticket cycle in a disposable repository using scripted agent responses. Subsequent implementation tickets extend that same cycle with bounded repairs, timeouts, dependency scheduling, real Codex execution, and custom skills. The first usable release includes all those behaviors; a scripted tracer bullet alone is not completion of this spec.
+Completed tickets 01–09 establish the scripted execution, validation, bounded repairs, timeouts, and sequential dependency foundation. Extend that work rather than rebuilding it. The next demonstration uses foreground scripted workers and two milestones in a disposable repository, including approval waiting, stale-approval rejection, tested local promotion, and deliberate continuation from a QA checkpoint. The first usable release adds the unified planning skill, QA-session guidance, approved corrections, background operation, blocked-work isolation, real Codex roles, and access validation.
 
-Concurrency, interrupted-run recovery, and failure emails are later slices.
+Concurrency, recovery from arbitrary execution interruptions, hosted PR/GitHub workflow integration, and failure emails are later slices. Deliberate stop and continuation at planned QA checkpoints are in scope.
 
 ## User Stories
 
@@ -26,7 +30,7 @@ Concurrency, interrupted-run recovery, and failure emails are later slices.
 6. As a developer, I want a baseline test run so that pre-existing failures are distinguished from failures introduced by agents.
 7. As a developer, I want each implementation attempt to start with fresh context and an isolated writable worktree.
 8. As a developer, I want workers to receive the applicable custom skills even when the target repository differs from the harness repository.
-9. As a developer, I want model and reasoning settings configurable by role.
+9. As a developer, I want configurable role profiles defaulting implementation/repair to Medium and both independent reviews to High, with ticket overrides inherited by repairs.
 10. As a developer, I want lightweight ticket checks rerun independently of a worker's claims.
 11. As a developer, I want a fresh Spec reviewer to assess the submitted revision against the approved requirements.
 12. As a developer, I want a separate fresh Standards reviewer to assess that revision against project rules and the combined design policy.
@@ -48,6 +52,21 @@ Concurrency, interrupted-run recovery, and failure emails are later slices.
 28. As a developer, I want a separate small real-Codex test so that process invocation, skill delivery, and structured reports are actually exercised.
 29. As a developer, I want project-default skills by role and ticket-specific additions so that each task receives relevant custom guidance.
 30. As a developer, I want selected skills and their required references captured for a run so that later library edits cannot silently change its instructions.
+31. As a developer, I want one planning conversation to grill decisions, draft a spec, revise ticket/milestone proposals, and publish the approved coherent bundle.
+32. As a developer, I want the spec to evolve with proposal feedback before final approval, with targeted grilling for new consequential decisions.
+33. As a developer, I want every plan to include final acceptance QA and proposed earlier capability milestones unless I specify a cadence such as every five tickets.
+34. As a developer, I want explicit dependency-consistent milestone membership and concrete QA actions and acceptance conditions.
+35. As a developer, I want eligible tickets to integrate into the feature branch while later milestone work waits for human acceptance.
+36. As a developer, I want QA to assess a regression-tested feature-to-development candidate whose exact inputs cannot change unnoticed.
+37. As a developer, I want a separate QA session to guide testing, record my explicit decision, and propose correction tickets without changing product code.
+38. As a developer, I want the orchestrator to watch a precisely identified decision artifact without needing the launching terminal.
+39. As a developer, I want indefinite QA waits to remain visible without consuming repair attempts or being reported as failures.
+40. As a developer, I want the development branch advanced only to the accepted tested candidate and subsequent work based on that commit.
+41. As a developer, I want correction tickets and affected plan changes approved as a new version while earlier snapshots and evidence remain intact.
+42. As a developer, I want to start execution in the background and inspect status/logs or stop it through the CLI.
+43. As a developer, I want to stop cleanly at planned QA checkpoints and continue after validating the stored identities.
+44. As a developer, I want ticket Done, milestone accepted/promoted, and feature complete to be reported distinctly.
+45. As a developer, I want the context-budget experiment prioritized immediately after real Codex becomes available without waiting for final release packaging.
 
 ## Implementation Decisions
 
@@ -57,12 +76,14 @@ The CLI provides two public operations:
 
 | Operation | Inputs | Observable result |
 | --- | --- | --- |
-| Run | Target repository, base/integration branch, approved spec and ticket selection, project configuration, and a separate run-output location | Executes the selected work, records artifacts and outcomes, and returns success only when all selected tickets are done. |
-| Status | A recorded run | Displays its recorded progress, ticket outcomes, attempts, failures, and artifact locations without launching agents or changing the target repository. |
+| Start/run | Target repository, feature/development branches, approved versioned plan and ticket selection, configuration, and separate run-output location | Executes eligible work in the background by default and returns a run identity; foreground mode is available. |
+| Status/logs | A recorded run | Displays ticket, milestone, feature and process observations, decisions, failures, and artifact locations without starting work or mutating source. |
+| Stop | An executing run | Provides documented stopping controls and preserves evidence; clean planned QA checkpoints support continuation. |
+| Continue | A deliberately stopped planned QA checkpoint | Validates captured inputs and branch/candidate identities, then resumes the eligible workflow without replaying completed assignments. |
 
 Starting a run intentionally counts as approval of its selected requirements, configured checks, and skill selections. Record the content identities of those inputs, the base commit, and the role/design instructions supplied to agents. An implementation attempt cannot expand that authorization.
 
-Run returns a nonzero result for incomplete work, invalid inputs, or an execution-environment failure. The report distinguishes these outcomes. Status reports recorded observations; it does not promise live process discovery or interrupted-run recovery.
+Distinguish successful background launch from completed feature execution. A feature succeeds only after all required tickets and milestones pass and the final candidate enters the development branch. Invalid inputs, blocked/incomplete work, environment failure, and an intentional planned QA wait have distinct recorded meanings; waiting alone is not failure. Document command exit semantics for these cases. Status is observational and must not start execution; general interrupted-run recovery remains deferred.
 
 ### Requirements, configuration, and run records
 
@@ -72,17 +93,17 @@ Ticket readiness is separate from dependency satisfaction and execution status. 
 
 Project configuration supplies:
 
-- The target code revision and integration destination.
+- The target revision, feature branch, development branch, approved plan version, and explicit milestone membership/QA conditions.
 - Named lightweight ticket checks and the broader baseline/integration suite.
 - Applicable project standards, architecture decisions, and design-policy references.
 - Default skill selections by role, with explicit local source references.
-- Codex role profiles for implementation, repair, Spec review, and Standards review; profiles may share settings.
+- Codex role profiles for implementation, repair, Spec review, and Standards review; profiles may share settings. Defaults are Medium for implementation/repair and High for reviews. Validate ticket worker overrides and apply them to both implementation and repair without altering reviewer profiles.
 - Positive stage timeouts and the maximum number of repair attempts, defaulting to two.
 - The output location for records and artifacts, separate from approved requirements and agent-editable source.
 
-Store statuses, attempts, observed revisions, check results, review findings, and final outcomes in harness-owned run records. Full prompts, machine-readable process events, final reports, and command output are artifacts; they do not accumulate in a coordinating model's context. Records remain inspectable even though resuming execution is deferred.
+Store statuses, attempts, observed revisions, check results, review findings, and final outcomes in harness-owned run records. Full prompts, machine-readable process events, final reports, and command output are artifacts; they do not accumulate in a coordinating model's context. Records remain inspectable and include milestone candidates, QA requests/decisions, promotion identities, safe checkpoints, and plan-version lineage. Only continuation from deliberately persisted QA checkpoints is initially supported.
 
-The initial implementation may use simple local files for records. Atomic record writes must avoid reporting a partially written result as successful. This is diagnostic durability, not a promise of crash recovery.
+The initial implementation may use simple local files for records. Atomic record writes must avoid reporting a partially written result as successful. Atomic records also support deliberate QA checkpoint continuation. They do not imply recovery from an arbitrary interrupted worker, review, check, or merge.
 
 ### Cohesive module responsibilities
 
@@ -106,14 +127,14 @@ The harness is the sole authority over execution state:
 | Ready | Eligible for the next implementation attempt. |
 | Running | An initial or repair implementation attempt is active. |
 | Verifying | The submission is being checked, reviewed, or tested as a candidate merge. |
-| Done | All required evidence passed and the integration branch references the verified candidate. |
+| Done | All required ticket evidence passed and the feature branch contains the verified ticket candidate. This does not imply milestone acceptance or feature completion. |
 | Blocked | Human input is required or the bounded failure policy has been exhausted. |
 
 A repair transitions the ticket back into implementation with a new attempt identity. A blocking review finding normally triggers repair; it does not itself imply the Blocked state. A dependent ticket remains Pending when its prerequisite is Blocked.
 
 The normal cycle is baseline verification, fresh implementation, independent lightweight checks, fresh Spec and Standards reviews, candidate merge, extensive integration checks, integration-branch advancement, and Done. Dependencies unlock only after Done.
 
-Run one ticket at a time. Choose ready tickets using a documented stable ordering, and continue unrelated ready work after a ticket becomes Blocked. When no executable work remains, report the completed, blocked, and waiting tickets accurately.
+Run one ticket at a time within the current milestone. Choose ready tickets using a documented stable ordering and continue unrelated eligible work after a ticket becomes Blocked; blocked dependencies and later milestones remain waiting. Do not cross a QA boundary. When no executable work remains, distinguish completed, blocked, waiting-for-dependency, and awaiting-human-QA outcomes accurately.
 
 ### Independent checks and exact revisions
 
@@ -127,7 +148,35 @@ A failed check, rejected review, failed merge, or failed candidate suite cannot 
 
 Changed source invalidates earlier check/review approvals. A repaired submission repeats the applicable verification cycle. Any resolution that changes the code after review must return through review.
 
+### Planning and milestone contract
+
+One user-facing custom workflow reuses grilling, domain modeling, to-spec, and to-tickets principles. It settles milestone/QA decisions during grilling, confirms shared understanding, drafts or updates the spec, presents ticket/milestone proposals, revises both from feedback, and publishes only the approved coherent bundle. Substantive new decisions reopen targeted grilling. Leave upstream skills unchanged; reuse shared custom policy and augmented templates rather than adding separate user commands for the internal stages.
+
+Every approved plan has a final milestone covering all required work and overall acceptance. Propose earlier meaningful capabilities by default. Honor an explicit every-N-ticket cadence through fixed, dependency-consistent groups, including any smaller final group. Record stable milestone IDs, ticket membership, testing instructions, and observable acceptance conditions. Validate missing/duplicate membership, missing final coverage, invalid dependencies across groups, and contradictory settings before execution.
+
+### Feature-to-development promotion and human QA
+
+After the current milestone's required tickets are Done on the feature branch, hold later tickets. Prepare a candidate combining that feature revision with the current development branch and run its configured broader regression gates locally. Only a passing candidate can be presented for QA.
+
+Write a QA request identifying the run, approved plan version, milestone, feature revision, development base, candidate revision, evidence, and planned human checks. Keep the candidate stable during assessment. A separate QA skill guides the human, inspects results, records findings, and proposes correction tickets; it cannot self-approve, implement changes, or advance branches.
+
+The background orchestrator watches a human/QA-session-written decision artifact outside approved requirements and implementation worktrees. Require an explicit field such as Decision: APPROVED and matching request identities, not substring search. Missing, malformed, stale, mismatched, and replayed approvals cannot promote or unlock subsequent work. Record the actual decision consumed. Implementation/repair workers cannot authorize this artifact.
+
+QA acceptance authorizes expected-old-checked advancement of development to the exact tested candidate and alignment of the feature branch to that commit before the next milestone. Do not overwrite concurrent branch movement. Changed feature or development inputs require a fresh candidate, renewed checks, and renewed human acceptance. Code changes during conflict resolution additionally renew affected reviews.
+
+QA waits are indefinite and observable, without repair-budget consumption or failure classification. Distinguish ticket Done, milestone accepted/promoted, and feature complete. All tickets Done while awaiting final QA is not feature completion.
+
+### Corrections and safe continuation
+
+When QA requests corrections, propose focused tickets and affected spec/milestone changes. Obtain approval of those changes as a new plan version without reapproving unchanged requirements. Preserve old snapshots, evidence, completed-ticket history, and decision lineage; do not mutate an active version's approved inputs. Execute approved corrections through the existing gates, prepare a new candidate, and repeat QA before admitting later work.
+
+Persist a deliberate safe QA checkpoint that can be stopped cleanly and continued later. Validate approved identities, branch/candidate state, and relevant recorded evidence before continuation. Prevent duplicate active ownership and repeated promotion/approval consumption for one run. Do not rerun completed assignments merely because the orchestrator restarts at this checkpoint. An arbitrary interruption during execution remains outside this initial continuation promise.
+
+Provide CLI background launch, run identity, observational status/logs, stopping controls, and a foreground mode. Document lifecycle and exit semantics using implemented interfaces; routine background tests remain scripted and offline. Planned QA waiting is separate from worker/check timeouts.
+
 ### Agent contracts and access
+
+Use the [agent context policy](README.md#agent-context-policy): target 250K active tokens per fresh assignment, with headroom for checks and the handoff. The independent early experiment compares 100K, 150K, 200K, and 250K settings as soon as the real backend is available; distinguish enforced limits, compaction thresholds, and advisory targets from cumulative/cached usage.
 
 Every implementation, repair, and review assignment uses a fresh process/session without inherited development conversation history. Supply the approved ticket, relevant spec, repository instructions, applicable policy, required checks, and role-specific output contract.
 
@@ -170,7 +219,7 @@ Use this initial role mapping, with focused references to the applicable guidanc
 
 | Role | Initial guidance |
 | --- | --- |
-| Planning | [Grilling](../../.agents/skills/matt-pocock/grilling/SKILL.md), [domain modeling](../../.agents/skills/matt-pocock/domain-modeling/SKILL.md), the shared design policy, and custom test strategy to establish contracts and produce independently verifiable tickets with the human. |
+| Planning | The unified grilling/spec/proposal/publication workflow, using [Grilling](../../.agents/skills/matt-pocock/grilling/SKILL.md), [domain modeling](../../.agents/skills/matt-pocock/domain-modeling/SKILL.md), the shared design policy, and custom test strategy to establish contracts and produce independently verifiable tickets with the human. |
 | Implementation and repair | Approved contracts, applicable shared design constraints, custom test strategy, and [TDD](../../.agents/skills/matt-pocock/tdd/SKILL.md) when behavior needs new coverage. |
 | Spec review | Required behavior, scope, acceptance evidence, and regression protection. |
 | Standards review | The combined Matt Pocock/Microsoft design policy and the custom test-strategy review guidance. |
@@ -234,12 +283,13 @@ Acceptance scenarios include:
 - Missing selected skills or required references are reported before affected work starts.
 - Edits to source skills or required references after run capture leave assignment content unchanged; artifacts identify the captured and actually delivered content, including repairs.
 
-This repository currently has no Python harness implementation or test suite to extend. Establish a reproducible Python project/check setup as part of the first tracer bullet, and keep the fixture small.
+Tickets 01–09 already establish a verified implementation and regression suite; preserve their [completion evidence](README.md#completion-evidence). Extend the existing public CLI/process/Git/report seam rather than rebuilding the foundation. Add two-milestone foreground tests for approval waiting, rejection of stale/malformed/replayed decisions, exact feature-to-development promotion, externally moved development, source-changing conflict resolution, safe checkpoint continuation, approved corrections, and feature-versus-ticket completion. Validate planning/QA/development skills and handoff eligibility separately; test background lifecycle without live model calls. Exercise the real backend explicitly and keep the context-limit comparison immediately after its availability.
 
 ## Out of Scope
 
 - Concurrent ticket execution.
-- Resuming interrupted runs or automatic crash recovery.
+- Recovery from arbitrary interrupted execution or automatic crash recovery; deliberate continuation at planned QA checkpoints is in scope.
+- Hosted PR creation/approval and required GitHub workflow integration; initial milestone regressions execute locally.
 - Automated failure emails and notification-provider setup.
 - Additional agent backends, issue-tracker connectors, dashboards, and automatic model-selection algorithms.
 - Automatic changes to approved scope, interfaces, requirements, or project standards.
@@ -249,8 +299,8 @@ This repository currently has no Python harness implementation or test suite to 
 
 ## Further Notes
 
-The confirmed [design decisions](../../docs/harness-design.md), [domain glossary](../../GLOSSARY.md), and [ADR-0001](../../docs/adr/0001-reusable-harness-and-local-integration.md) supply the context and vocabulary.
+The [domain glossary](../../GLOSSARY.md), [ADR-0001](../../docs/adr/0001-reusable-harness-and-local-integration.md), and [ADR-0002](../../docs/adr/0002-human-qa-gates-feature-promotion.md) supply vocabulary and architectural rationale. This spec is the requirements authority; the former design summary now points here.
 
-The implementation ticket breakdown is proposed separately for human review. Ticket publication does not start harness execution or authorize publishing changes externally.
+The [approved implementation plan](ticket-proposal.md) records the skill/ticket/milestone mapping. Reconcile issue files against it while preserving existing IDs and completed evidence. This bundle's approval does not start execution or authorize external publishing. Runtime schemas, exact CLI names, file encoding, and polling details are implementation choices to document and verify.
 
 Numeric timeout defaults, physical record encoding, internal source layout, and the installed CLI's exact invocation details are implementation choices to document and verify against the fixture. They must preserve the observable contracts above.

@@ -1,16 +1,20 @@
+# Historical ticket definition
+
+Superseded by the approved QA-first plan. This is the previous unimplemented definition of ticket 15; use the [current ticket](../../issues/10-produce-approved-harness-inputs-with-planning-skill.md) for work. Source: `84982495be5d4943301e165f8419421391e75d18:.scratch/ticket-harness/issues/15-produce-approved-harness-inputs-with-planning-skill.md`. Relative links were adjusted for this archive location.
+
 # 15: Produce executable Markdown requirements with a planning skill
 
 **What to build:** An interactive custom planning skill converts human-approved decisions into canonical specs and small dependency-aware Markdown tickets that pass validation and run through the harness.
 
-**Blocked by:** [09: Execute verified dependencies in a stable order](09-execute-dependencies-sequentially.md); [11: Supply combined Python design guidance to Standards review](11-supply-combined-design-guidance-to-standards-review.md)
+**Blocked by:** [09: Execute verified dependencies in a stable order](../../issues/09-execute-dependencies-sequentially.md); [11: Supply combined Python design guidance to Standards review](11-supply-combined-design-guidance-to-standards-review.md)
 
 **Status:** ready-for-agent
 
 **Phase:** First usable release.
 
-**Agent context limit:** 250,000 tokens of active context. Use the [agent context policy](../README.md#agent-context-policy).
+**Agent context limit:** 250,000 tokens of active context. Use the [agent context policy](../../README.md#agent-context-policy).
 
-**Context:** [Custom skills and design policy](../spec.md#custom-skills-and-design-policy); [Skill selection and delivery](../spec.md#skill-selection-and-delivery); [Requirements, configuration, and run records](../spec.md#requirements-configuration-and-run-records); [Public interface and approval](../spec.md#public-interface-and-approval).
+**Context:** [Custom skills and design policy](../spec-before-milestone-qa.md#custom-skills-and-design-policy); [Skill selection and delivery](../spec-before-milestone-qa.md#skill-selection-and-delivery); [Requirements, configuration, and run records](../spec-before-milestone-qa.md#requirements-configuration-and-run-records); [Public interface and approval](../spec-before-milestone-qa.md#public-interface-and-approval).
 
 **Scope:** The planning role and a small example input bundle, reusing grilling, domain modeling, the shared design policy, custom test strategy, issue 11's skill-selection contract, and the existing local tracker. Planning establishes human-approved inputs; it is not an autonomous run stage or a next-agent development handoff.
 
@@ -31,4 +35,4 @@ Validate the planning skill, review its example outputs against the agreed contr
 
 ## Handoff
 
-Return the implemented behavior, changed commits/files, checks and results, and unresolved questions in a compact report. Follow the [shared worker handoff](../README.md#worker-handoff).
+Return the implemented behavior, changed commits/files, checks and results, and unresolved questions in a compact report. Follow the [shared worker handoff](../../README.md#worker-handoff).

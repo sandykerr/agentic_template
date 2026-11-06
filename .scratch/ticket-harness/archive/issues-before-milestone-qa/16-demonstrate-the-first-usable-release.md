@@ -1,16 +1,20 @@
+# Historical ticket definition
+
+Superseded by the approved QA-first plan. This is the previous unimplemented definition of ticket 16; use the [current ticket](../../issues/28-demonstrate-the-first-usable-release.md) for work. Source: `84982495be5d4943301e165f8419421391e75d18:.scratch/ticket-harness/issues/16-demonstrate-the-first-usable-release.md`. Relative links were adjusted for this archive location.
+
 # 16: Demonstrate the first usable release from a clean checkout
 
 **What to build:** A developer can install the harness, configure a separate small repository, and reproduce the documented successful, repaired, and blocked outcomes.
 
-**Blocked by:** [07: Report optional review suggestions without rework](07-report-optional-suggestions-without-repair.md); [10: Continue unrelated tickets after a blocked prerequisite](10-continue-independent-work-after-blocks.md); [14: Verify implementation and review access boundaries](14-verify-role-write-boundaries.md); [15: Produce executable Markdown requirements with a planning skill](15-produce-approved-harness-inputs-with-planning-skill.md)
+**Blocked by:** [07: Report optional review suggestions without rework](../../issues/07-report-optional-suggestions-without-repair.md); [10: Continue unrelated tickets after a blocked prerequisite](10-continue-independent-work-after-blocks.md); [14: Verify implementation and review access boundaries](14-verify-role-write-boundaries.md); [15: Produce executable Markdown requirements with a planning skill](15-produce-approved-harness-inputs-with-planning-skill.md)
 
 **Status:** ready-for-agent
 
 **Phase:** First usable release.
 
-**Agent context limit:** 250,000 tokens of active context. Use the [agent context policy](../README.md#agent-context-policy).
+**Agent context limit:** 250,000 tokens of active context. Use the [agent context policy](../../README.md#agent-context-policy).
 
-**Context:** [Testing decisions](../spec.md#testing-decisions); [Skill selection and delivery](../spec.md#skill-selection-and-delivery); [Out of scope](../spec.md#out-of-scope); [Public interface and approval](../spec.md#public-interface-and-approval).
+**Context:** [Testing decisions](../spec-before-milestone-qa.md#testing-decisions); [Skill selection and delivery](../spec-before-milestone-qa.md#skill-selection-and-delivery); [Out of scope](../spec-before-milestone-qa.md#out-of-scope); [Public interface and approval](../spec-before-milestone-qa.md#public-interface-and-approval).
 
 **Scope:** Release acceptance and the runnable walkthrough for the agreed sequential first version; preserve concurrency, recovery, and notifications as later work. The context-limit experiment is an independent early slice after issue 13, rather than a prerequisite for this release demonstration.
 
@@ -30,4 +34,4 @@ Follow the documented walkthrough from a clean environment against disposable ta
 
 ## Handoff
 
-Return the implemented behavior, changed commits/files, checks and results, and unresolved questions in a compact report. Follow the [shared worker handoff](../README.md#worker-handoff).
+Return the implemented behavior, changed commits/files, checks and results, and unresolved questions in a compact report. Follow the [shared worker handoff](../../README.md#worker-handoff).

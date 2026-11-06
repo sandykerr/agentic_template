@@ -1,16 +1,20 @@
+# Historical ticket definition
+
+Superseded by the approved QA-first plan. This is the previous unimplemented definition of ticket 13; use the [current ticket](../../issues/24-run-a-real-codex-ticket-cycle.md) for work. Source: `84982495be5d4943301e165f8419421391e75d18:.scratch/ticket-harness/issues/13-run-a-real-codex-ticket-cycle.md`. Relative links were adjusted for this archive location.
+
 # 13: Complete one real Codex ticket with configured role profiles
 
 **What to build:** A small ticket completes the existing verified cycle with actual fresh Codex implementation and review processes in a separate disposable target repository.
 
-**Blocked by:** [08: Stop stalled assignments and check processes](08-stop-timed-out-process-trees.md); [12: Deliver focused implementation and Spec-review skills](12-deliver-focused-implementation-and-spec-review-contexts.md)
+**Blocked by:** [08: Stop stalled assignments and check processes](../../issues/08-stop-timed-out-process-trees.md); [12: Deliver focused implementation and Spec-review skills](12-deliver-focused-implementation-and-spec-review-contexts.md)
 
 **Status:** ready-for-agent
 
 **Phase:** First usable release.
 
-**Agent context limit:** 250,000 tokens of active context. Use the [agent context policy](../README.md#agent-context-policy).
+**Agent context limit:** 250,000 tokens of active context. Use the [agent context policy](../../README.md#agent-context-policy).
 
-**Context:** [Codex execution](../spec.md#codex-execution); [Skill selection and delivery](../spec.md#skill-selection-and-delivery); [Agent contracts and access](../spec.md#agent-contracts-and-access); [Public interface and approval](../spec.md#public-interface-and-approval).
+**Context:** [Codex execution](../spec-before-milestone-qa.md#codex-execution); [Skill selection and delivery](../spec-before-milestone-qa.md#skill-selection-and-delivery); [Agent contracts and access](../spec-before-milestone-qa.md#agent-contracts-and-access); [Public interface and approval](../spec-before-milestone-qa.md#public-interface-and-approval).
 
 **Scope:** Replace the scripted process at the existing external seam with the installed Codex CLI; preserve all current gate and role contracts.
 
@@ -29,4 +33,4 @@ Run existing deterministic checks and the separate tiny real-Codex fixture. Repo
 
 ## Handoff
 
-Return the implemented behavior, changed commits/files, checks and results, and unresolved questions in a compact report. Follow the [shared worker handoff](../README.md#worker-handoff).
+Return the implemented behavior, changed commits/files, checks and results, and unresolved questions in a compact report. Follow the [shared worker handoff](../../README.md#worker-handoff).

@@ -6,7 +6,7 @@ Specs and tickets for this repository live in `.scratch/`.
 
 - One feature per directory: `.scratch/<feature-slug>/`.
 - The spec is `.scratch/<feature-slug>/spec.md`.
-- Implementation tickets are one file each: `.scratch/<feature-slug>/issues/<NN>-<slug>.md`, numbered from `01` in dependency order.
+- Implementation tickets are one file each: `.scratch/<feature-slug>/issues/<NN>-<slug>.md`, initially numbered from `01` in dependency order. Keep completed IDs and captured run inputs stable. When the human explicitly requests sequential renumbering of open tickets, update filenames and live references together and retain an old-to-new mapping; historical definitions and evidence keep their original identities. Dependencies, milestone gates, and documented priorities determine execution eligibility.
 - Record triage readiness in a `Status:` line near the top of each open implementation ticket, using the vocabulary in `triage-labels.md`. Verified completion changes this line to `Status: completed` under the completion bookkeeping rules below.
 - Declare dependencies in a `Blocked by:` line using ticket numbers and titles. A ticket's readiness label does not imply its dependencies are complete.
 - Append comments and conversation history under a `## Comments` heading.

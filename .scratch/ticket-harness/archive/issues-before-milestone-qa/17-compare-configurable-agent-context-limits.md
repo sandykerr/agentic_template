@@ -1,3 +1,7 @@
+# Historical ticket definition
+
+Superseded by the approved QA-first plan. This is the previous unimplemented definition of ticket 17; use the [current ticket](../../issues/25-compare-configurable-agent-context-limits.md) for work. Source: `84982495be5d4943301e165f8419421391e75d18:.scratch/ticket-harness/issues/17-compare-configurable-agent-context-limits.md`. Relative links were adjusted for this archive location.
+
 # 17: Compare configurable 100K–250K agent context limits
 
 **What to build:** An early live-backend experiment configures 100K, 150K, 200K, and 250K per-agent active-context limits and compares verified outcomes on a fixed workload.
@@ -8,9 +12,9 @@
 
 **Phase:** Early experiment immediately after 13; separate from first-release completion requirements.
 
-**Agent context limit:** 250,000 tokens of active context. Use the [agent context policy](../README.md#agent-context-policy).
+**Agent context limit:** 250,000 tokens of active context. Use the [agent context policy](../../README.md#agent-context-policy).
 
-**Context:** [Early context-budget experiment](../README.md#early-context-budget-experiment); [baseline spec](../spec.md).
+**Context:** [Early context-budget experiment](../../README.md#early-context-budget-experiment); [baseline spec](../spec-before-milestone-qa.md).
 
 **Scope:** Extend the first verified real-Codex cycle with context controls and measurements. Prioritize this issue as soon as 13 is integrated; final release packaging, custom planning, and the comprehensive access-boundary probes are not prerequisites. Preserve this issue's stable identifier and avoid introducing automatic model selection.
 
@@ -31,4 +35,4 @@ Exercise the configured limits using the existing public CLI/live backend and fi
 
 ## Handoff
 
-Return the implemented behavior, changed commits/files, checks and results, and unresolved questions in a compact report. Follow the [shared worker handoff](../README.md#worker-handoff).
+Return the implemented behavior, changed commits/files, checks and results, and unresolved questions in a compact report. Follow the [shared worker handoff](../../README.md#worker-handoff).

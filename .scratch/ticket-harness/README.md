@@ -1,41 +1,38 @@
-# Ticket harness implementation
+# Ticket harness
 
-The [approved spec](spec.md) is implemented by the individual numbered [issues](issues/). This index is the current publication map. The [earlier seven-ticket proposal](ticket-proposal.md) remains planning history; use the numbered issues for execution.
+Start here. The human approved the milestone-QA realignment; its requirements and delivery plan now live together in this directory.
 
-All published issues use the configured ready-for-agent triage label. That label describes readiness; an issue with incomplete prerequisites is not on the executable frontier. Initially, only issue 01 is executable.
+| Document | Authority |
+| --- | --- |
+| [spec.md](spec.md) | Current approved behavior, execution boundaries, QA contract, and release scope. |
+| [ticket-proposal.md](ticket-proposal.md) | Approved remaining slices, skill refactors, development milestones, dependencies, and mapping to current ticket IDs. |
+| [milestones.md](milestones.md) | Current milestone membership, QA instructions, acceptance state, and eligibility. |
+| [issues/](issues/) and [completion evidence](#completion-evidence) | Individual published tickets and actual implementation evidence. |
 
-**Early experiment priority:** run issue 17 as soon as issue 13 is integrated, before proceeding to the final release walkthrough. Its stable identifier is retained; its dependency is 13, not 16. It can proceed independently of issues 14 and 15 and is separate from first-release completion requirements.
+## Implementation status
 
-## First-release tickets
+Tickets **01–09 are complete**. They were assessed against the [previous spec](archive/spec-before-milestone-qa.md), which is retained for provenance. Their completion does not imply the newly approved QA, background, or feature-to-dev workflow is implemented.
 
-Select issues 01–16 for the first usable release. Each issue delivers a bounded observable extension of the existing cycle. The initial tracer bullet crosses the entire path with scripted processes; the complete release also requires real Codex execution and all remaining acceptance gates.
+The QA-first definitions are now published as **19 open tickets (10–28)**. The old unfinished product-first roadmap is superseded; [previous definitions](archive/issues-before-milestone-qa/) are historical only. The first eligible ticket is **10**, the unified planning workflow, followed by prerequisite-ready M1 work in ascending order.
 
-| Issue | Observable behavior | Blocked by |
+At the human's request, the 19 open tickets are numbered in preferred execution order. Completed tickets 01–09 and their evidence remain unchanged; the [numbering history](archive/ticket-numbering-history.md) maps earlier QA-first IDs to current IDs. Its R01–R19 references map to actual tickets in the [published mapping](ticket-proposal.md#published-slice-to-ticket-mapping). Plan approval and publication do not start implementation or a harness run.
+
+## QA-first execution order
+
+Use [milestones.md](milestones.md) for ticket membership and QA state. Complete M1's scripted feature-to-dev approval and safe-continuation cycle before the later operator, live-backend, or release milestones. No completed-ticket record or plan approval counts as milestone QA acceptance.
+
+| Milestone | Tickets in preferred plan order | Delivery |
 | --- | --- | --- |
-| [01](issues/01-complete-one-scripted-ticket-cycle.md) | Complete one scripted ticket through every gate | None |
-| [02](issues/02-reject-invalid-inputs-before-execution.md) | Reject invalid requirements before starting work | 01 |
-| [03](issues/03-validate-agent-reports-and-review-evidence.md) | Reject invalid agent reports and review evidence | 01 |
-| [04](issues/04-promote-only-the-verified-candidate.md) | Promote only the exact verified candidate | 01 |
-| [05](issues/05-repair-rejected-submissions-within-budget.md) | Repair rejected submissions within a bounded allowance | 03, 04 |
-| [06](issues/06-surface-human-decisions-without-retrying.md) | Stop for decisions outside approved contracts | 05 |
-| [07](issues/07-report-optional-suggestions-without-repair.md) | Report optional review suggestions without rework | 05 |
-| [08](issues/08-stop-timed-out-process-trees.md) | Stop stalled assignments and check processes | 05 |
-| [09](issues/09-execute-dependencies-sequentially.md) | Execute verified dependencies in a stable order | 02 |
-| [10](issues/10-continue-independent-work-after-blocks.md) | Continue unrelated tickets after a blocked prerequisite | 06, 09 |
-| [11](issues/11-supply-combined-design-guidance-to-standards-review.md) | Capture additive skill selections and deliver combined design/Standards guidance | 03 |
-| [12](issues/12-deliver-focused-implementation-and-spec-review-contexts.md) | Deliver focused implementation, repair, and Spec guidance from captured selections | 11 |
-| [13](issues/13-run-a-real-codex-ticket-cycle.md) | Complete one real Codex ticket with configured role profiles | 08, 12 |
-| [14](issues/14-verify-role-write-boundaries.md) | Verify implementation and review access boundaries | 13 |
-| [15](issues/15-produce-approved-harness-inputs-with-planning-skill.md) | Produce executable Markdown requirements with a planning skill | 09, 11 |
-| [16](issues/16-demonstrate-the-first-usable-release.md) | Demonstrate the first usable release from a clean checkout | 07, 10, 14, 15 |
+| M1 | [10](issues/10-produce-approved-harness-inputs-with-planning-skill.md), [11](issues/11-stop-development-handoffs-at-qa-milestones.md), [12](issues/12-execute-only-the-current-qa-milestone.md), [13](issues/13-prepare-a-tested-feature-to-dev-candidate.md), [14](issues/14-promote-only-the-human-approved-milestone.md), [15](issues/15-continue-from-a-planned-qa-checkpoint.md) | A complete QA-controlled Git cycle |
+| M2 | [16](issues/16-guide-and-record-human-milestone-qa.md), [17](issues/17-propose-versioned-qa-corrections.md), [18](issues/18-execute-approved-qa-corrections.md), [19](issues/19-operate-the-harness-in-the-background.md), [20](issues/20-continue-independent-work-after-blocks.md) | An unattended operator workflow |
+| M3 | [21](issues/21-supply-combined-design-guidance-to-standards-review.md), [22](issues/22-capture-and-deliver-selected-local-skills.md), [23](issues/23-deliver-focused-implementation-and-spec-review-contexts.md), [24](issues/24-run-a-real-codex-ticket-cycle.md) | Real agents with explicit guidance |
+| M4 | [26](issues/26-verify-role-write-boundaries.md), [27](issues/27-run-a-generated-plan-through-the-runtime.md), [28](issues/28-demonstrate-the-first-usable-release.md) | First usable release and final acceptance |
 
-Dependencies express actual required behavior/contracts, not preferred work order. Several implementation branches can become ready together, although the harness's first version still executes target tickets sequentially.
+E1 contains [25](issues/25-compare-configurable-agent-context-limits.md) only: run it immediately after 24 becomes verified, separately from release acceptance. Within the current milestone select ready work in this plan order. At its end generate a QA handoff or waiting status, never a next-milestone implementation assignment before human acceptance.
 
-## Approved skill integration
+## History
 
-The [skill-selection contract](spec.md#skill-selection-and-delivery) combines required role guidance, project-default skills, and optional ticket additions. Explicit local selections and required references are captured for the run and delivered by role. The [initial role mapping](spec.md#custom-skills-and-design-policy) reuses applicable custom guidance alongside the upstream references while preserving harness-owned responsibilities.
-
-Issue 11 establishes shared selection/capture and Standards delivery; 12 applies it to implementation, repair, and Spec review; 13 proves real Codex delivery; 15 produces approved planning inputs with skill additions; 16 documents and demonstrates the release. These are planned requirements, not claims that runtime skill selection is already implemented. Existing dependencies and completion evidence are unchanged.
+The [archive](archive/README.md) holds the superseded spec and original seven-ticket proposal. It is historical context, not the current execution plan. The former `qa-realignment/` staging directory has been consolidated into the two current documents above. [Design rationale](../../docs/adr/0002-human-qa-gates-feature-promotion.md) remains in the repository's ADR context; [runtime usage](../../docs/ticket-harness.md) describes capabilities actually implemented.
 
 ## Agent context policy
 
@@ -54,23 +51,11 @@ Start from the latest integrated prerequisite work. Read the current interface a
 
 Return a compact report with the outcome, commit references/changed files, actual check commands and exit results, and remaining decisions or risks. Preserve verbose logs as artifacts and link to them when needed.
 
-During approved harness execution, source specs and tickets remain unchanged and the harness owns execution records. A ready-for-agent label or published ticket alone does not start a run. Concurrency, interrupted-run recovery, and email notification remain deferred.
-
-## Original proposal coverage
-
-| Original proposal | Focused published issues |
-| --- | --- |
-| 01: Scripted full cycle | 01–04 |
-| 02: Bounded repairs | 05–07 |
-| 03: Stalled/unreliable stages | 03, 08 |
-| 04: Dependency scheduling | 09–10 |
-| 05: Live Codex and design/review skills | 11–14 |
-| 06: Custom planning | 15 |
-| 07: Release demonstration | 16 |
+During approved harness execution, source specs and tickets remain unchanged and the harness owns execution records. A ready-for-agent label or published ticket alone does not start a run. Concurrency, arbitrary interruption/crash recovery, hosted PRs, and email remain deferred. Planned-QA checkpoint continuation is required by the new workflow, not yet implemented.
 
 ## Early context-budget experiment
 
-[17: Compare configurable 100K–250K agent context limits](issues/17-compare-configurable-agent-context-limits.md) is ready for execution immediately after issue 13 supplies the verified real Codex cycle, configured roles, and usage artifacts. Prioritize it then; it does not require the final release demonstration, multi-ticket scheduling, the planning skill, or the later access-boundary probes. It is a separate early experiment, not an additional first-release completion gate.
+[25: Compare configurable 100K–250K agent context limits](issues/25-compare-configurable-agent-context-limits.md) is ready for execution immediately after issue 24 supplies the verified real Codex cycle, configured roles, and usage artifacts. Prioritize it then; it does not require the final release demonstration, multi-ticket scheduling, the planning skill, or the later access-boundary probes. It is a separate early experiment, not an additional first-release completion gate.
 
 The user requested configurable per-agent limits of **100K, 150K, 200K, and 250K**. Compare the same workload, model, role reasoning settings, and acceptance checks at each setting. Record verified results, repair behavior, observed active context, compaction/handoff behavior, elapsed time, and cumulative/cached usage separately.
 
@@ -96,4 +81,4 @@ Verify whether the installed backend enforces a hard limit, applies a compaction
 
 - [08: Stop stalled assignments and check processes — completed](evidence/08-completion.md): implementation `fbfc088`; **448 passing tests**, strict mypy, Ruff lint/format, whitespace, wheel/install and installed CLI passed. [27 actual timeout-test observations plus installed CLI smoke](evidence/08-fixture-observations.json) verify positive stage allowances, inherited process-group/child cleanup, partial output, timeout precedence over report claims/zero leader exits, fresh bounded repairs and exact integration, exhaustion, baseline/environment stopping and durable status evidence. Separate fresh Spec and Standards reviews found no blockers; Spec independently verified background-child cleanup after normal completion. Standards recorded optional S1 about streaming output to reduce memory use. All six criteria are verified; no unchecked criteria or required unresolved items remain. Scheduling/continuation, live Codex/role guidance, OS role enforcement and recovery remain later tickets.
 
-- [09: Execute verified dependencies in a stable order — completed](evidence/09-completion.md): implementation `7f4eac0`; **469 passing tests**, strict mypy, Ruff lint/format, whitespace, wheel/install and installed CLI graph/status passed. [21 final-suite dependency scenarios and installed graph](evidence/09-fixture-observations.json) and [actual check output](evidence/09-checks.log) verify explicit selection, stable numeric ready order, one baseline, current verified integration bases, dependency unlocking only after Done, per-ticket repairs/evidence, and complete run/status states/revisions. Separate fresh Spec and Standards reviews found no blockers or optional suggestions; Spec independently passed three cases. All six criteria are verified; no unchecked criteria or required unresolved items remain. Continuing unrelated work after blocks remains ticket 10; live Codex/role guidance, OS enforcement, concurrency and recovery remain later work.
+- [09: Execute verified dependencies in a stable order — completed](evidence/09-completion.md): implementation `7f4eac0`; **469 passing tests**, strict mypy, Ruff lint/format, whitespace, wheel/install and installed CLI graph/status passed. [21 final-suite dependency scenarios and installed graph](evidence/09-fixture-observations.json) and [actual check output](evidence/09-checks.log) verify explicit selection, stable numeric ready order, one baseline, current verified integration bases, dependency unlocking only after Done, per-ticket repairs/evidence, and complete run/status states/revisions. Separate fresh Spec and Standards reviews found no blockers or optional suggestions; Spec independently passed three cases. All six criteria are verified; no unchecked criteria or required unresolved items remain. Continuing unrelated work after blocks remains ticket 20; live Codex/role guidance, OS enforcement, concurrency and recovery remain later work.

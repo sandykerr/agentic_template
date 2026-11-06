@@ -1,3 +1,7 @@
+# Historical ticket definition
+
+Superseded by the approved QA-first plan. This is the previous unimplemented definition of ticket 12; use the [current ticket](../../issues/23-deliver-focused-implementation-and-spec-review-contexts.md) for work. Source: `84982495be5d4943301e165f8419421391e75d18:.scratch/ticket-harness/issues/12-deliver-focused-implementation-and-spec-review-contexts.md`. Relative links were adjusted for this archive location.
+
 # 12: Deliver focused implementation and Spec-review skills
 
 **What to build:** Implementation, repair, and Spec-review assignments receive distinct repo-owned guidance, applicable project-default and ticket-added skills, and bounded requirements, code pointers, and evidence relevant to their roles.
@@ -8,9 +12,9 @@
 
 **Phase:** First usable release.
 
-**Agent context limit:** 250,000 tokens of active context. Use the [agent context policy](../README.md#agent-context-policy).
+**Agent context limit:** 250,000 tokens of active context. Use the [agent context policy](../../README.md#agent-context-policy).
 
-**Context:** [Agent contracts and access](../spec.md#agent-contracts-and-access); [Custom skills and design policy](../spec.md#custom-skills-and-design-policy); [Skill selection and delivery](../spec.md#skill-selection-and-delivery); [Codex execution](../spec.md#codex-execution).
+**Context:** [Agent contracts and access](../spec-before-milestone-qa.md#agent-contracts-and-access); [Custom skills and design policy](../spec-before-milestone-qa.md#custom-skills-and-design-policy); [Skill selection and delivery](../spec-before-milestone-qa.md#skill-selection-and-delivery); [Codex execution](../spec-before-milestone-qa.md#codex-execution).
 
 **Scope:** The custom implementation and Spec-review roles and their context assembly, reusing issue 11's selection/capture/delivery contract, shared design policy, and Standards role. Adapt reusable guidance from existing custom skills while preserving the harness's ownership of checks, review orchestration, commits/integration, execution records, and completion.
 
@@ -30,4 +34,4 @@ Use skill-authoring checks and public scripted-agent runs that capture each role
 
 ## Handoff
 
-Return the implemented behavior, changed commits/files, checks and results, and unresolved questions in a compact report. Follow the [shared worker handoff](../README.md#worker-handoff).
+Return the implemented behavior, changed commits/files, checks and results, and unresolved questions in a compact report. Follow the [shared worker handoff](../../README.md#worker-handoff).

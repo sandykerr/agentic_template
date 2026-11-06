@@ -1,3 +1,7 @@
+# Historical ticket definition
+
+Superseded by the approved QA-first plan. This is the previous unimplemented definition of ticket 14; use the [current ticket](../../issues/26-verify-role-write-boundaries.md) for work. Source: `84982495be5d4943301e165f8419421391e75d18:.scratch/ticket-harness/issues/14-verify-role-write-boundaries.md`. Relative links were adjusted for this archive location.
+
 # 14: Verify implementation and review access boundaries
 
 **What to build:** The live backend enforces writable implementation worktrees and read-only reviewer source while protecting approved inputs, run records, and integration ownership.
@@ -8,9 +12,9 @@
 
 **Phase:** First usable release.
 
-**Agent context limit:** 250,000 tokens of active context. Use the [agent context policy](../README.md#agent-context-policy).
+**Agent context limit:** 250,000 tokens of active context. Use the [agent context policy](../../README.md#agent-context-policy).
 
-**Context:** [Agent contracts and access](../spec.md#agent-contracts-and-access); [Codex execution](../spec.md#codex-execution); [Requirements, configuration, and run records](../spec.md#requirements-configuration-and-run-records).
+**Context:** [Agent contracts and access](../spec-before-milestone-qa.md#agent-contracts-and-access); [Codex execution](../spec-before-milestone-qa.md#codex-execution); [Requirements, configuration, and run records](../spec-before-milestone-qa.md#requirements-configuration-and-run-records).
 
 **Scope:** Exercise and tighten role permissions using the installed backend in disposable repositories; preserve the established harness-owned commit/integration model.
 
@@ -29,4 +33,4 @@ Combine deterministic role-configuration tests with explicit live sandbox probes
 
 ## Handoff
 
-Return the implemented behavior, changed commits/files, checks and results, and unresolved questions in a compact report. Follow the [shared worker handoff](../README.md#worker-handoff).
+Return the implemented behavior, changed commits/files, checks and results, and unresolved questions in a compact report. Follow the [shared worker handoff](../../README.md#worker-handoff).

@@ -1,16 +1,20 @@
+# Historical ticket definition
+
+Superseded by the approved QA-first plan. This is the previous unimplemented definition of ticket 10; use the [current ticket](../../issues/20-continue-independent-work-after-blocks.md) for work. Source: `84982495be5d4943301e165f8419421391e75d18:.scratch/ticket-harness/issues/10-continue-independent-work-after-blocks.md`. Relative links were adjusted for this archive location.
+
 # 10: Continue unrelated tickets after a blocked prerequisite
 
 **What to build:** A blocked ticket leaves dependents waiting while unrelated ready tickets finish, and the run ends with an accurate incomplete-work report.
 
-**Blocked by:** [06: Stop for decisions outside approved contracts](06-surface-human-decisions-without-retrying.md); [09: Execute verified dependencies in a stable order](09-execute-dependencies-sequentially.md)
+**Blocked by:** [06: Stop for decisions outside approved contracts](../../issues/06-surface-human-decisions-without-retrying.md); [09: Execute verified dependencies in a stable order](../../issues/09-execute-dependencies-sequentially.md)
 
 **Status:** ready-for-agent
 
 **Phase:** First usable release.
 
-**Agent context limit:** 250,000 tokens of active context. Use the [agent context policy](../README.md#agent-context-policy).
+**Agent context limit:** 250,000 tokens of active context. Use the [agent context policy](../../README.md#agent-context-policy).
 
-**Context:** [Ticket lifecycle](../spec.md#ticket-lifecycle); [Bounded failures and timeouts](../spec.md#bounded-failures-and-timeouts); [Public interface and approval](../spec.md#public-interface-and-approval).
+**Context:** [Ticket lifecycle](../spec-before-milestone-qa.md#ticket-lifecycle); [Bounded failures and timeouts](../spec-before-milestone-qa.md#bounded-failures-and-timeouts); [Public interface and approval](../spec-before-milestone-qa.md#public-interface-and-approval).
 
 **Scope:** Failure isolation and termination of the existing sequential dependency scheduler.
 
@@ -29,4 +33,4 @@ Exercise exhausted-repair and human-decision fixtures through a real multi-ticke
 
 ## Handoff
 
-Return the implemented behavior, changed commits/files, checks and results, and unresolved questions in a compact report. Follow the [shared worker handoff](../README.md#worker-handoff).
+Return the implemented behavior, changed commits/files, checks and results, and unresolved questions in a compact report. Follow the [shared worker handoff](../../README.md#worker-handoff).

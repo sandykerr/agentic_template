@@ -1,16 +1,20 @@
+# Historical ticket definition
+
+Superseded by the approved QA-first plan. This is the previous unimplemented definition of ticket 11; use the [current ticket](../../issues/21-supply-combined-design-guidance-to-standards-review.md) for work. Source: `84982495be5d4943301e165f8419421391e75d18:.scratch/ticket-harness/issues/11-supply-combined-design-guidance-to-standards-review.md`. Relative links were adjusted for this archive location.
+
 # 11: Supply combined Python design guidance to Standards review
 
 **What to build:** Standards review receives a repo-owned skill and coherent Python design policy that reuse applicable custom, Matt Pocock, and Microsoft guidance. A shared skill-selection contract captures project defaults and ticket additions for delivery across repositories.
 
-**Blocked by:** [03: Reject invalid agent reports and review evidence](03-validate-agent-reports-and-review-evidence.md)
+**Blocked by:** [03: Reject invalid agent reports and review evidence](../../issues/03-validate-agent-reports-and-review-evidence.md)
 
 **Status:** ready-for-agent
 
 **Phase:** First usable release.
 
-**Agent context limit:** 250,000 tokens of active context. Use the [agent context policy](../README.md#agent-context-policy).
+**Agent context limit:** 250,000 tokens of active context. Use the [agent context policy](../../README.md#agent-context-policy).
 
-**Context:** [Custom skills and design policy](../spec.md#custom-skills-and-design-policy); [Skill selection and delivery](../spec.md#skill-selection-and-delivery); [Cohesive module responsibilities](../spec.md#cohesive-module-responsibilities); [Agent contracts and access](../spec.md#agent-contracts-and-access).
+**Context:** [Custom skills and design policy](../spec-before-milestone-qa.md#custom-skills-and-design-policy); [Skill selection and delivery](../spec-before-milestone-qa.md#skill-selection-and-delivery); [Cohesive module responsibilities](../spec-before-milestone-qa.md#cohesive-module-responsibilities); [Agent contracts and access](../spec-before-milestone-qa.md#agent-contracts-and-access).
 
 **Scope:** Establish common selection, validation, capture, and delivery of local skill content; create the shared code-design guidance and Standards-review role through the existing assignment seam. Document canonical project-default and ticket-addition metadata and source resolution. Use skill-creation and writing-for-agents guidance when authoring skills. Issue 12 applies this foundation to implementation and Spec review; automatic discovery and installation remain outside scope.
 
@@ -31,4 +35,4 @@ Validate the skills using their supported authoring checks, inspect concrete goo
 
 ## Handoff
 
-Return the implemented behavior, changed commits/files, checks and results, and unresolved questions in a compact report. Follow the [shared worker handoff](../README.md#worker-handoff).
+Return the implemented behavior, changed commits/files, checks and results, and unresolved questions in a compact report. Follow the [shared worker handoff](../../README.md#worker-handoff).
