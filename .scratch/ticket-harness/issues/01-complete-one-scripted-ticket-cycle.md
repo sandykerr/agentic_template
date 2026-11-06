@@ -30,3 +30,17 @@ Drive the public CLI with scripted external agents and a real disposable Git rep
 ## Handoff
 
 Return the implemented behavior, changed commits/files, checks and results, and unresolved questions in a compact report. Follow the [shared worker handoff](../README.md#worker-handoff).
+
+## Comments
+
+### Completion — 2026-11-06
+
+Implemented the ticket-01 scripted vertical slice in checkpoint `b09e324`, with final implementation commit `1666920` resolving the optional Standards cleanup. Review baseline was captured before editing: `1a623bad0b08241367948948b731b9e1f5114671`. The checkpoint was committed before the two independent reviews.
+
+All six acceptance criteria are verified in the [completion evidence](../evidence/01-completion.md), with [saved actual CLI/Git/gate observations](../evidence/01-fixture-observations.json). The passing run completed every gate and recorded integration/Done at tested candidate `0ef4b6f61c35bf1c0d6ba356f10bc4c1dce2a3ab`. A separate rejected candidate suite returned exit 1, preserved its evidence, and left integration at baseline `6148f5f8e0d8d0353e305bf0939c19b4a7cbc5c8`. Tests also cover failures at baseline, implementation, lightweight checks, and both review axes. Approved snapshots, fresh assignments, preserved caller work, and read-only status were verified through public CLI/Git/report outcomes.
+
+Checks: complete suite **8 passed**; strict mypy, Ruff lint, Ruff formatting, and whitespace checks all exited 0. Wheel build/install and installed CLI entry-point smoke check passed. Python/tests used micromamba; check tools used an isolated micromamba prefix.
+
+Independent review outcomes: **Spec: no findings. Standards: no blocking findings; one optional duplicate-ignore cleanup fixed in `1666920` and re-reviewed with no residual findings.** Full outcomes and standards/spec sources are recorded in the evidence. No runtime changes followed review.
+
+Only ticket 01 is complete. Repairs, dependency scheduling, live Codex, comprehensive validation, and later access-boundary protections remain with their owning tickets. Approved requirements and the `ready-for-agent` readiness label are unchanged. Concurrent unrelated Python setup edits were preserved outside these commits. No unresolved questions for this slice.

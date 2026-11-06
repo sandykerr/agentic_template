@@ -71,3 +71,7 @@ The user requested configurable per-agent limits of **100K, 150K, 200K, and 250K
 Use a short control to verify configuration and reporting, plus a task-relevant case that can approach the configured context thresholds. If all runs remain below 100K, they cannot establish the comparative effects of the larger budgets.
 
 Verify whether the installed backend enforces a hard limit, applies a compaction threshold, or only supports advisory guidance. Report that distinction explicitly rather than interpreting cumulative input totals as window occupancy or claiming unsupported enforcement.
+
+## Completion evidence
+
+- [01: Complete one scripted ticket through every gate — completed](evidence/01-completion.md): implementation `b09e324`, final implementation `1666920`; 8 passing tests and passing checks; separate independent Spec and Standards reviews completed. [Actual fixture observations](evidence/01-fixture-observations.json) and the [ticket completion comment](issues/01-complete-one-scripted-ticket-cycle.md#comments) record the passing and rejected runs. Later tickets and first-release completion remain outstanding.

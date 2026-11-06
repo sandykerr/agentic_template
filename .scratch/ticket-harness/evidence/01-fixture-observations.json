@@ -1,0 +1,166 @@
+{
+  "artifact_root": "/tmp/ticket-harness-01-evidence-tgpa0gkw",
+  "scenarios": [
+    {
+      "scenario": "passing",
+      "command": [
+        "/home/ajkerr1/development/agentic_template/.micromamba/envs/dev/bin/python",
+        "-m",
+        "ticket_harness",
+        "run",
+        "--config",
+        "/tmp/ticket-harness-01-evidence-tgpa0gkw/passing/target/project.json",
+        "--output",
+        "/tmp/ticket-harness-01-evidence-tgpa0gkw/passing/run"
+      ],
+      "exit_code": 0,
+      "outcome": "completed",
+      "ticket": {
+        "state": "Done",
+        "attempt": 1,
+        "id": "01",
+        "submitted_revision": "1c88e025fd1f5488e7d3ed043739cdbc570e8c0a",
+        "changed_files": [
+          "value.txt"
+        ],
+        "candidate_revision": "0ef4b6f61c35bf1c0d6ba356f10bc4c1dce2a3ab",
+        "done_revision": "0ef4b6f61c35bf1c0d6ba356f10bc4c1dce2a3ab"
+      },
+      "base_revision": "6148f5f8e0d8d0353e305bf0939c19b4a7cbc5c8",
+      "integration_after": "0ef4b6f61c35bf1c0d6ba356f10bc4c1dce2a3ab",
+      "caller_work_preserved": true,
+      "status_identical_and_read_only": true,
+      "run_record": "/tmp/ticket-harness-01-evidence-tgpa0gkw/passing/run/run.json",
+      "gates": [
+        {
+          "stage": "baseline",
+          "revision": "6148f5f8e0d8d0353e305bf0939c19b4a7cbc5c8",
+          "passed": true,
+          "exit_code": 0,
+          "stdout": "baseline 6148f5f8e0d8d0353e305bf0939c19b4a7cbc5c8\n",
+          "stderr": ""
+        },
+        {
+          "stage": "implementation",
+          "revision": "6148f5f8e0d8d0353e305bf0939c19b4a7cbc5c8",
+          "passed": true,
+          "exit_code": 0,
+          "stdout": "{\"role\": \"implementation\", \"ticket\": \"01\", \"attempt\": 1, \"base_revision\": \"6148f5f8e0d8d0353e305bf0939c19b4a7cbc5c8\", \"revision\": \"6148f5f8e0d8d0353e305bf0939c19b4a7cbc5c8\", \"pid\": 28, \"result\": \"submitted\", \"summary\": \"Changed value to 2\", \"changed_files\": [\"value.txt\"], \"checks\": [], \"acceptance_evidence\": [\"value.txt contains 2\"], \"unresolved_questions\": []}\n",
+          "stderr": ""
+        },
+        {
+          "stage": "check-ticket",
+          "revision": "1c88e025fd1f5488e7d3ed043739cdbc570e8c0a",
+          "passed": true,
+          "exit_code": 0,
+          "stdout": "check-ticket 1c88e025fd1f5488e7d3ed043739cdbc570e8c0a\n",
+          "stderr": ""
+        },
+        {
+          "stage": "spec",
+          "revision": "1c88e025fd1f5488e7d3ed043739cdbc570e8c0a",
+          "passed": true,
+          "exit_code": 0,
+          "stdout": "{\"role\": \"spec\", \"ticket\": \"01\", \"attempt\": 1, \"base_revision\": \"6148f5f8e0d8d0353e305bf0939c19b4a7cbc5c8\", \"revision\": \"1c88e025fd1f5488e7d3ed043739cdbc570e8c0a\", \"pid\": 43, \"findings\": []}\n",
+          "stderr": ""
+        },
+        {
+          "stage": "standards",
+          "revision": "1c88e025fd1f5488e7d3ed043739cdbc570e8c0a",
+          "passed": true,
+          "exit_code": 0,
+          "stdout": "{\"role\": \"standards\", \"ticket\": \"01\", \"attempt\": 1, \"base_revision\": \"6148f5f8e0d8d0353e305bf0939c19b4a7cbc5c8\", \"revision\": \"1c88e025fd1f5488e7d3ed043739cdbc570e8c0a\", \"pid\": 48, \"findings\": []}\n",
+          "stderr": ""
+        },
+        {
+          "stage": "candidate",
+          "revision": "0ef4b6f61c35bf1c0d6ba356f10bc4c1dce2a3ab",
+          "passed": true,
+          "exit_code": 0,
+          "stdout": "candidate 0ef4b6f61c35bf1c0d6ba356f10bc4c1dce2a3ab\n",
+          "stderr": ""
+        }
+      ]
+    },
+    {
+      "scenario": "candidate-rejected",
+      "command": [
+        "/home/ajkerr1/development/agentic_template/.micromamba/envs/dev/bin/python",
+        "-m",
+        "ticket_harness",
+        "run",
+        "--config",
+        "/tmp/ticket-harness-01-evidence-tgpa0gkw/candidate-rejected/target/project.json",
+        "--output",
+        "/tmp/ticket-harness-01-evidence-tgpa0gkw/candidate-rejected/run"
+      ],
+      "exit_code": 1,
+      "outcome": "incomplete",
+      "ticket": {
+        "state": "Blocked",
+        "attempt": 1,
+        "id": "01",
+        "submitted_revision": "1c88e025fd1f5488e7d3ed043739cdbc570e8c0a",
+        "changed_files": [
+          "value.txt"
+        ],
+        "candidate_revision": "0ef4b6f61c35bf1c0d6ba356f10bc4c1dce2a3ab"
+      },
+      "base_revision": "6148f5f8e0d8d0353e305bf0939c19b4a7cbc5c8",
+      "integration_after": "6148f5f8e0d8d0353e305bf0939c19b4a7cbc5c8",
+      "caller_work_preserved": true,
+      "status_identical_and_read_only": true,
+      "run_record": "/tmp/ticket-harness-01-evidence-tgpa0gkw/candidate-rejected/run/run.json",
+      "gates": [
+        {
+          "stage": "baseline",
+          "revision": "6148f5f8e0d8d0353e305bf0939c19b4a7cbc5c8",
+          "passed": true,
+          "exit_code": 0,
+          "stdout": "baseline 6148f5f8e0d8d0353e305bf0939c19b4a7cbc5c8\n",
+          "stderr": ""
+        },
+        {
+          "stage": "implementation",
+          "revision": "6148f5f8e0d8d0353e305bf0939c19b4a7cbc5c8",
+          "passed": true,
+          "exit_code": 0,
+          "stdout": "{\"role\": \"implementation\", \"ticket\": \"01\", \"attempt\": 1, \"base_revision\": \"6148f5f8e0d8d0353e305bf0939c19b4a7cbc5c8\", \"revision\": \"6148f5f8e0d8d0353e305bf0939c19b4a7cbc5c8\", \"pid\": 89, \"result\": \"submitted\", \"summary\": \"Changed value to 2\", \"changed_files\": [\"value.txt\"], \"checks\": [], \"acceptance_evidence\": [\"value.txt contains 2\"], \"unresolved_questions\": []}\n",
+          "stderr": ""
+        },
+        {
+          "stage": "check-ticket",
+          "revision": "1c88e025fd1f5488e7d3ed043739cdbc570e8c0a",
+          "passed": true,
+          "exit_code": 0,
+          "stdout": "check-ticket 1c88e025fd1f5488e7d3ed043739cdbc570e8c0a\n",
+          "stderr": ""
+        },
+        {
+          "stage": "spec",
+          "revision": "1c88e025fd1f5488e7d3ed043739cdbc570e8c0a",
+          "passed": true,
+          "exit_code": 0,
+          "stdout": "{\"role\": \"spec\", \"ticket\": \"01\", \"attempt\": 1, \"base_revision\": \"6148f5f8e0d8d0353e305bf0939c19b4a7cbc5c8\", \"revision\": \"1c88e025fd1f5488e7d3ed043739cdbc570e8c0a\", \"pid\": 104, \"findings\": []}\n",
+          "stderr": ""
+        },
+        {
+          "stage": "standards",
+          "revision": "1c88e025fd1f5488e7d3ed043739cdbc570e8c0a",
+          "passed": true,
+          "exit_code": 0,
+          "stdout": "{\"role\": \"standards\", \"ticket\": \"01\", \"attempt\": 1, \"base_revision\": \"6148f5f8e0d8d0353e305bf0939c19b4a7cbc5c8\", \"revision\": \"1c88e025fd1f5488e7d3ed043739cdbc570e8c0a\", \"pid\": 109, \"findings\": []}\n",
+          "stderr": ""
+        },
+        {
+          "stage": "candidate",
+          "revision": "0ef4b6f61c35bf1c0d6ba356f10bc4c1dce2a3ab",
+          "passed": false,
+          "exit_code": 1,
+          "stdout": "candidate 0ef4b6f61c35bf1c0d6ba356f10bc4c1dce2a3ab\n",
+          "stderr": "scripted gate rejection\n"
+        }
+      ]
+    }
+  ]
+}
