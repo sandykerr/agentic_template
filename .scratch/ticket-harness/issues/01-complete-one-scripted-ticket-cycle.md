@@ -16,12 +16,12 @@
 
 ## Acceptance criteria
 
-- [ ] Provide a reproducible Python project/check setup and public run/status operations with a minimal documented fixture input.
-- [ ] Record the approved inputs and starting revision separately from agent-editable source; use a fresh scripted external process for each assignment.
-- [ ] Independently run the baseline suite, lightweight ticket checks, separate Spec and Standards reviews, and the candidate integration suite.
-- [ ] Capture the submitted changes in Git and advance the integration branch only to the candidate that passed the required gates; success records that revision as Done.
-- [ ] A required gate returning failure cannot advance the integration branch or produce a successful completion result.
-- [ ] Status reads the recorded outcome and artifact locations without launching agents or changing the caller's work.
+- [x] Provide a reproducible Python project/check setup and public run/status operations with a minimal documented fixture input.
+- [x] Record the approved inputs and starting revision separately from agent-editable source; use a fresh scripted external process for each assignment.
+- [x] Independently run the baseline suite, lightweight ticket checks, separate Spec and Standards reviews, and the candidate integration suite.
+- [x] Capture the submitted changes in Git and advance the integration branch only to the candidate that passed the required gates; success records that revision as Done.
+- [x] A required gate returning failure cannot advance the integration branch or produce a successful completion result.
+- [x] Status reads the recorded outcome and artifact locations without launching agents or changing the caller's work.
 
 ## Verification
 

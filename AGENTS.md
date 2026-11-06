@@ -1,3 +1,7 @@
+## Python development
+
+Before running Python, installing dependencies, or running tests, read `docs/agents/python-environment.md` for the reusable micromamba environment and worktree instructions.
+
 ## Agent skills
 
 ### Issue tracker

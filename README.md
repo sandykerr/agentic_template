@@ -1,5 +1,7 @@
 # Agentic Template Repo
 
+Python development uses a reusable micromamba environment. See [Python environment setup and usage](docs/agents/python-environment.md).
+
 This is my template for how I do agentic work. Currently, this uses Matt Pocock's skills which allow humans to "stay in the loop" while also taking advantage of the efficiency gains of automated agentic development. Commands below are in the codex `$skill` format, but other platforms may invoke skills differently.
 
 # Basic workflow for a single feature:
@@ -29,6 +31,8 @@ This step is quite crucial in an efficient agentic workflow. Due to context rot,
 With the tickets, agents can work autonomously on issues after we've brainstormed, given parameters we set. For example, you can require a code review afer a certain number of tickets; this helps keep you in the loop and can give you more clarity on the decisions you deferred in step 2 (grilling). This is a very granular way of batching agent work into parts you care about so that you stay in the loop.
 
 ## 5. Implementing the tickets/project spec - MOST OF THE WORKFLOW
+
+For one local Markdown ticket, run `$implement-with-checkboxes <ticket-path>`. This wraps Matt's implementation workflow with independent review and evidence-backed acceptance checkbox updates after verification. See the [skill](.agents/skills/implement-with-checkboxes/SKILL.md) and [completion bookkeeping rules](docs/agents/issue-tracker.md#completion-bookkeeping).
 
 Run: `$implement-spec <prompt>` to start agentic development. At this point, we are ready to start generating code, using subagents to more efficiently manage context. There are multiple advantages to subagent-driven development:
 
