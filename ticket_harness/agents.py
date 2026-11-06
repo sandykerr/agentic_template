@@ -1,6 +1,7 @@
 """Fresh process assignments and complete report validation; no integration authority."""
 
 import json
+from math import isfinite
 from pathlib import Path
 from typing import Any
 
@@ -149,12 +150,20 @@ def invalid_constant(value: str) -> None:
     raise ValueError(f"invalid JSON constant {value}")
 
 
+def finite_number(value: str) -> float:
+    number = float(value)
+    if not isfinite(number):
+        raise ValueError(f"nonfinite JSON number {value}")
+    return number
+
+
 def report(gate: dict[str, Any], expected: dict[str, Any]) -> dict[str, Any]:
     try:
         value = json.loads(
             Path(gate["stdout"]).read_text(),
             object_pairs_hook=report_object,
             parse_constant=invalid_constant,
+            parse_float=finite_number,
         )
         gate["report"] = value
         if not isinstance(value, dict):

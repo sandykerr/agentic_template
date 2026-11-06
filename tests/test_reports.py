@@ -228,8 +228,10 @@ def test_outcomes_require_their_supporting_evidence(harness, result, field):
     [
         ("print(json.dumps(report)[:-1] + ',\"attempt\":1}')", "duplicate"),
         ("print(json.dumps(report)[:-1] + ',\"extra\":NaN}')", "constant"),
+        ("print(json.dumps(report)[:-1] + ',\"extra\":1e400}')", "nonfinite"),
+        ('print(json.dumps(report)[:-1] + \',"extra":{"nested":[-1e400]}}\')', "nonfinite"),
     ],
-    ids=["duplicate-key", "non-finite-number"],
+    ids=["duplicate-key", "non-finite-number", "overflowing-number", "nested-overflow"],
 )
 def test_ambiguous_or_non_json_reports_are_rejected(harness, role, payload, diagnostic):
     harness.agent_report(role, payload + "; sys.exit(0)")
