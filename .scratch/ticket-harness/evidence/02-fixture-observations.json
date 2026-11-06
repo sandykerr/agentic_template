@@ -1,0 +1,449 @@
+{
+  "implementation_revision": "b11fd20f37dbb18730278bd271cf3d47d05f6e82",
+  "artifact_root": "/tmp/ticket-harness-02-evidence-3v6qxg0p",
+  "scenarios": [
+    {
+      "scenario": "valid-normalized",
+      "cli_exit": 0,
+      "outcome": "completed",
+      "failure": null,
+      "ticket": {
+        "state": "Done",
+        "attempt": 1,
+        "id": "01",
+        "submitted_revision": "9c243fe4dfaae8acdbc75f3d1f3228d719444715",
+        "changed_files": [
+          "value.txt"
+        ],
+        "candidate_revision": "f775b8a32443e97f4c28cf251bc213af16eb4938",
+        "done_revision": "f775b8a32443e97f4c28cf251bc213af16eb4938"
+      },
+      "normalized_requirements": {
+        "01": {
+          "id": "01",
+          "title": "Change value",
+          "readiness": "ready-for-agent",
+          "dependencies": [],
+          "acceptance": [
+            "value.txt contains 2."
+          ],
+          "checks": [
+            "ticket"
+          ],
+          "source": "/tmp/ticket-harness-02-evidence-3v6qxg0p/valid-normalized/target/01-value.md"
+        }
+      },
+      "agent_launched": true,
+      "refs_before": "c3ca2b04457e25d52f5b4ab2cf1971b867113c53 refs/heads/integration\nc3ca2b04457e25d52f5b4ab2cf1971b867113c53 refs/heads/main",
+      "refs_after": "f775b8a32443e97f4c28cf251bc213af16eb4938 refs/heads/integration\nc3ca2b04457e25d52f5b4ab2cf1971b867113c53 refs/heads/main",
+      "worktrees_unchanged": false,
+      "caller_status_unchanged": true,
+      "status_matches_record": true,
+      "record": "/tmp/ticket-harness-02-evidence-3v6qxg0p/valid-normalized/run/run.json",
+      "gate_stages": [
+        "baseline",
+        "implementation",
+        "check-ticket",
+        "spec",
+        "standards",
+        "candidate"
+      ]
+    },
+    {
+      "scenario": "duplicate-id",
+      "cli_exit": 1,
+      "outcome": "invalid-input",
+      "failure": {
+        "stage": "inputs",
+        "message": "/tmp/ticket-harness-02-evidence-3v6qxg0p/duplicate-id/target/duplicate.md: duplicate ticket ID 01; also declared by /tmp/ticket-harness-02-evidence-3v6qxg0p/duplicate-id/target/01-value.md"
+      },
+      "ticket": {
+        "state": "Blocked",
+        "attempt": 0
+      },
+      "normalized_requirements": null,
+      "agent_launched": false,
+      "refs_before": "c332e615dbb03ff5a15276fea2a60292073fecb4 refs/heads/integration\nc332e615dbb03ff5a15276fea2a60292073fecb4 refs/heads/main",
+      "refs_after": "c332e615dbb03ff5a15276fea2a60292073fecb4 refs/heads/integration\nc332e615dbb03ff5a15276fea2a60292073fecb4 refs/heads/main",
+      "worktrees_unchanged": true,
+      "caller_status_unchanged": true,
+      "status_matches_record": true,
+      "record": "/tmp/ticket-harness-02-evidence-3v6qxg0p/duplicate-id/run/run.json",
+      "gate_stages": []
+    },
+    {
+      "scenario": "missing-dependency",
+      "cli_exit": 1,
+      "outcome": "invalid-input",
+      "failure": {
+        "stage": "inputs",
+        "message": "ticket 01: missing dependency 02 in tickets bundle"
+      },
+      "ticket": {
+        "state": "Blocked",
+        "attempt": 0
+      },
+      "normalized_requirements": null,
+      "agent_launched": false,
+      "refs_before": "c332e615dbb03ff5a15276fea2a60292073fecb4 refs/heads/integration\nc332e615dbb03ff5a15276fea2a60292073fecb4 refs/heads/main",
+      "refs_after": "c332e615dbb03ff5a15276fea2a60292073fecb4 refs/heads/integration\nc332e615dbb03ff5a15276fea2a60292073fecb4 refs/heads/main",
+      "worktrees_unchanged": true,
+      "caller_status_unchanged": true,
+      "status_matches_record": true,
+      "record": "/tmp/ticket-harness-02-evidence-3v6qxg0p/missing-dependency/run/run.json",
+      "gate_stages": []
+    },
+    {
+      "scenario": "cycle",
+      "cli_exit": 1,
+      "outcome": "invalid-input",
+      "failure": {
+        "stage": "inputs",
+        "message": "dependency cycle: 01 -> 02 -> 01"
+      },
+      "ticket": {
+        "state": "Blocked",
+        "attempt": 0
+      },
+      "normalized_requirements": null,
+      "agent_launched": false,
+      "refs_before": "c332e615dbb03ff5a15276fea2a60292073fecb4 refs/heads/integration\nc332e615dbb03ff5a15276fea2a60292073fecb4 refs/heads/main",
+      "refs_after": "c332e615dbb03ff5a15276fea2a60292073fecb4 refs/heads/integration\nc332e615dbb03ff5a15276fea2a60292073fecb4 refs/heads/main",
+      "worktrees_unchanged": true,
+      "caller_status_unchanged": true,
+      "status_matches_record": true,
+      "record": "/tmp/ticket-harness-02-evidence-3v6qxg0p/cycle/run/run.json",
+      "gate_stages": []
+    },
+    {
+      "scenario": "contradictory-status",
+      "cli_exit": 1,
+      "outcome": "invalid-input",
+      "failure": {
+        "stage": "inputs",
+        "message": "/tmp/ticket-harness-02-evidence-3v6qxg0p/contradictory-status/target/01-value.md: duplicate Status metadata; keep one authoritative value"
+      },
+      "ticket": {
+        "state": "Blocked",
+        "attempt": 0
+      },
+      "normalized_requirements": null,
+      "agent_launched": false,
+      "refs_before": "c332e615dbb03ff5a15276fea2a60292073fecb4 refs/heads/integration\nc332e615dbb03ff5a15276fea2a60292073fecb4 refs/heads/main",
+      "refs_after": "c332e615dbb03ff5a15276fea2a60292073fecb4 refs/heads/integration\nc332e615dbb03ff5a15276fea2a60292073fecb4 refs/heads/main",
+      "worktrees_unchanged": true,
+      "caller_status_unchanged": true,
+      "status_matches_record": true,
+      "record": "/tmp/ticket-harness-02-evidence-3v6qxg0p/contradictory-status/run/run.json",
+      "gate_stages": []
+    },
+    {
+      "scenario": "contradictory-id",
+      "cli_exit": 1,
+      "outcome": "invalid-input",
+      "failure": {
+        "stage": "inputs",
+        "message": "/tmp/ticket-harness-02-evidence-3v6qxg0p/contradictory-id/target/01-value.md: ID metadata conflicts with heading"
+      },
+      "ticket": {
+        "state": "Blocked",
+        "attempt": 0
+      },
+      "normalized_requirements": null,
+      "agent_launched": false,
+      "refs_before": "b9bb6aa79e8f6287d4a56ecd8941487da126b10d refs/heads/integration\nb9bb6aa79e8f6287d4a56ecd8941487da126b10d refs/heads/main",
+      "refs_after": "b9bb6aa79e8f6287d4a56ecd8941487da126b10d refs/heads/integration\nb9bb6aa79e8f6287d4a56ecd8941487da126b10d refs/heads/main",
+      "worktrees_unchanged": true,
+      "caller_status_unchanged": true,
+      "status_matches_record": true,
+      "record": "/tmp/ticket-harness-02-evidence-3v6qxg0p/contradictory-id/run/run.json",
+      "gate_stages": []
+    },
+    {
+      "scenario": "contradictory-link",
+      "cli_exit": 1,
+      "outcome": "invalid-input",
+      "failure": {
+        "stage": "inputs",
+        "message": "ticket 01: dependency 02 link conflicts with /tmp/ticket-harness-02-evidence-3v6qxg0p/contradictory-link/target/02-other.md"
+      },
+      "ticket": {
+        "state": "Blocked",
+        "attempt": 0
+      },
+      "normalized_requirements": null,
+      "agent_launched": false,
+      "refs_before": "b9bb6aa79e8f6287d4a56ecd8941487da126b10d refs/heads/integration\nb9bb6aa79e8f6287d4a56ecd8941487da126b10d refs/heads/main",
+      "refs_after": "b9bb6aa79e8f6287d4a56ecd8941487da126b10d refs/heads/integration\nb9bb6aa79e8f6287d4a56ecd8941487da126b10d refs/heads/main",
+      "worktrees_unchanged": true,
+      "caller_status_unchanged": true,
+      "status_matches_record": true,
+      "record": "/tmp/ticket-harness-02-evidence-3v6qxg0p/contradictory-link/run/run.json",
+      "gate_stages": []
+    },
+    {
+      "scenario": "missing-acceptance",
+      "cli_exit": 1,
+      "outcome": "invalid-input",
+      "failure": {
+        "stage": "inputs",
+        "message": "/tmp/ticket-harness-02-evidence-3v6qxg0p/missing-acceptance/target/01-value.md: Acceptance criteria needs nonempty checklist items"
+      },
+      "ticket": {
+        "state": "Blocked",
+        "attempt": 0
+      },
+      "normalized_requirements": null,
+      "agent_launched": false,
+      "refs_before": "b9bb6aa79e8f6287d4a56ecd8941487da126b10d refs/heads/integration\nb9bb6aa79e8f6287d4a56ecd8941487da126b10d refs/heads/main",
+      "refs_after": "b9bb6aa79e8f6287d4a56ecd8941487da126b10d refs/heads/integration\nb9bb6aa79e8f6287d4a56ecd8941487da126b10d refs/heads/main",
+      "worktrees_unchanged": true,
+      "caller_status_unchanged": true,
+      "status_matches_record": true,
+      "record": "/tmp/ticket-harness-02-evidence-3v6qxg0p/missing-acceptance/run/run.json",
+      "gate_stages": []
+    },
+    {
+      "scenario": "empty-acceptance",
+      "cli_exit": 1,
+      "outcome": "invalid-input",
+      "failure": {
+        "stage": "inputs",
+        "message": "/tmp/ticket-harness-02-evidence-3v6qxg0p/empty-acceptance/target/01-value.md: empty acceptance requirement; supply concrete content"
+      },
+      "ticket": {
+        "state": "Blocked",
+        "attempt": 0
+      },
+      "normalized_requirements": null,
+      "agent_launched": false,
+      "refs_before": "b9bb6aa79e8f6287d4a56ecd8941487da126b10d refs/heads/integration\nb9bb6aa79e8f6287d4a56ecd8941487da126b10d refs/heads/main",
+      "refs_after": "b9bb6aa79e8f6287d4a56ecd8941487da126b10d refs/heads/integration\nb9bb6aa79e8f6287d4a56ecd8941487da126b10d refs/heads/main",
+      "worktrees_unchanged": true,
+      "caller_status_unchanged": true,
+      "status_matches_record": true,
+      "record": "/tmp/ticket-harness-02-evidence-3v6qxg0p/empty-acceptance/run/run.json",
+      "gate_stages": []
+    },
+    {
+      "scenario": "non-agent-ready",
+      "cli_exit": 1,
+      "outcome": "invalid-input",
+      "failure": {
+        "stage": "inputs",
+        "message": "ticket 01: selected Status must be ready-for-agent; found 'ready-for-human'"
+      },
+      "ticket": {
+        "state": "Blocked",
+        "attempt": 0
+      },
+      "normalized_requirements": null,
+      "agent_launched": false,
+      "refs_before": "b9bb6aa79e8f6287d4a56ecd8941487da126b10d refs/heads/integration\nb9bb6aa79e8f6287d4a56ecd8941487da126b10d refs/heads/main",
+      "refs_after": "b9bb6aa79e8f6287d4a56ecd8941487da126b10d refs/heads/integration\nb9bb6aa79e8f6287d4a56ecd8941487da126b10d refs/heads/main",
+      "worktrees_unchanged": true,
+      "caller_status_unchanged": true,
+      "status_matches_record": true,
+      "record": "/tmp/ticket-harness-02-evidence-3v6qxg0p/non-agent-ready/run/run.json",
+      "gate_stages": []
+    },
+    {
+      "scenario": "unknown-check",
+      "cli_exit": 1,
+      "outcome": "invalid-input",
+      "failure": {
+        "stage": "inputs",
+        "message": "/tmp/ticket-harness-02-evidence-3v6qxg0p/unknown-check/target/01-value.md: unknown check reference 'missing'; configure it in checks"
+      },
+      "ticket": {
+        "state": "Blocked",
+        "attempt": 0
+      },
+      "normalized_requirements": null,
+      "agent_launched": false,
+      "refs_before": "0b76d72a6fa77672f58638dbdd14c42a4895530f refs/heads/integration\n0b76d72a6fa77672f58638dbdd14c42a4895530f refs/heads/main",
+      "refs_after": "0b76d72a6fa77672f58638dbdd14c42a4895530f refs/heads/integration\n0b76d72a6fa77672f58638dbdd14c42a4895530f refs/heads/main",
+      "worktrees_unchanged": true,
+      "caller_status_unchanged": true,
+      "status_matches_record": true,
+      "record": "/tmp/ticket-harness-02-evidence-3v6qxg0p/unknown-check/run/run.json",
+      "gate_stages": []
+    },
+    {
+      "scenario": "invalid-name",
+      "cli_exit": 1,
+      "outcome": "invalid-input",
+      "failure": {
+        "stage": "inputs",
+        "message": "checks.bad/name: invalid check name; use letters, numbers, hyphens"
+      },
+      "ticket": {
+        "state": "Blocked",
+        "attempt": 0
+      },
+      "normalized_requirements": null,
+      "agent_launched": false,
+      "refs_before": "0b76d72a6fa77672f58638dbdd14c42a4895530f refs/heads/integration\n0b76d72a6fa77672f58638dbdd14c42a4895530f refs/heads/main",
+      "refs_after": "0b76d72a6fa77672f58638dbdd14c42a4895530f refs/heads/integration\n0b76d72a6fa77672f58638dbdd14c42a4895530f refs/heads/main",
+      "worktrees_unchanged": true,
+      "caller_status_unchanged": true,
+      "status_matches_record": true,
+      "record": "/tmp/ticket-harness-02-evidence-3v6qxg0p/invalid-name/run/run.json",
+      "gate_stages": []
+    },
+    {
+      "scenario": "invalid-argv",
+      "cli_exit": 1,
+      "outcome": "invalid-input",
+      "failure": {
+        "stage": "inputs",
+        "message": "checks.ticket: expected a nonempty argument array of nonempty strings"
+      },
+      "ticket": {
+        "state": "Blocked",
+        "attempt": 0
+      },
+      "normalized_requirements": null,
+      "agent_launched": false,
+      "refs_before": "0b76d72a6fa77672f58638dbdd14c42a4895530f refs/heads/integration\n0b76d72a6fa77672f58638dbdd14c42a4895530f refs/heads/main",
+      "refs_after": "0b76d72a6fa77672f58638dbdd14c42a4895530f refs/heads/integration\n0b76d72a6fa77672f58638dbdd14c42a4895530f refs/heads/main",
+      "worktrees_unchanged": true,
+      "caller_status_unchanged": true,
+      "status_matches_record": true,
+      "record": "/tmp/ticket-harness-02-evidence-3v6qxg0p/invalid-argv/run/run.json",
+      "gate_stages": []
+    },
+    {
+      "scenario": "missing-executable",
+      "cli_exit": 1,
+      "outcome": "invalid-input",
+      "failure": {
+        "stage": "inputs",
+        "message": "checks.ticket: executable unavailable: 'ticket-harness-nonexistent-executable'"
+      },
+      "ticket": {
+        "state": "Blocked",
+        "attempt": 0
+      },
+      "normalized_requirements": null,
+      "agent_launched": false,
+      "refs_before": "0b76d72a6fa77672f58638dbdd14c42a4895530f refs/heads/integration\n0b76d72a6fa77672f58638dbdd14c42a4895530f refs/heads/main",
+      "refs_after": "0b76d72a6fa77672f58638dbdd14c42a4895530f refs/heads/integration\n0b76d72a6fa77672f58638dbdd14c42a4895530f refs/heads/main",
+      "worktrees_unchanged": true,
+      "caller_status_unchanged": true,
+      "status_matches_record": true,
+      "record": "/tmp/ticket-harness-02-evidence-3v6qxg0p/missing-executable/run/run.json",
+      "gate_stages": []
+    },
+    {
+      "scenario": "duplicate-json",
+      "cli_exit": 1,
+      "outcome": "invalid-input",
+      "failure": {
+        "stage": "inputs",
+        "message": "duplicate JSON key 'checks'; keep one authoritative value"
+      },
+      "ticket": {
+        "state": "Blocked",
+        "attempt": 0
+      },
+      "normalized_requirements": null,
+      "agent_launched": false,
+      "refs_before": "0b76d72a6fa77672f58638dbdd14c42a4895530f refs/heads/integration\n0b76d72a6fa77672f58638dbdd14c42a4895530f refs/heads/main",
+      "refs_after": "0b76d72a6fa77672f58638dbdd14c42a4895530f refs/heads/integration\n0b76d72a6fa77672f58638dbdd14c42a4895530f refs/heads/main",
+      "worktrees_unchanged": true,
+      "caller_status_unchanged": true,
+      "status_matches_record": true,
+      "record": "/tmp/ticket-harness-02-evidence-3v6qxg0p/duplicate-json/run/run.json",
+      "gate_stages": []
+    },
+    {
+      "scenario": "unsatisfied-prerequisite",
+      "cli_exit": 1,
+      "outcome": "invalid-input",
+      "failure": {
+        "stage": "inputs",
+        "message": "ticket 01: unsatisfied prerequisites ['02']; supply completed_runs with integrated Done evidence"
+      },
+      "ticket": {
+        "state": "Blocked",
+        "attempt": 0
+      },
+      "normalized_requirements": null,
+      "agent_launched": false,
+      "refs_before": "730b3039cfecb980b8dee2c63671ddd99e95190f refs/heads/integration\n730b3039cfecb980b8dee2c63671ddd99e95190f refs/heads/main",
+      "refs_after": "730b3039cfecb980b8dee2c63671ddd99e95190f refs/heads/integration\n730b3039cfecb980b8dee2c63671ddd99e95190f refs/heads/main",
+      "worktrees_unchanged": true,
+      "caller_status_unchanged": true,
+      "status_matches_record": true,
+      "record": "/tmp/ticket-harness-02-evidence-3v6qxg0p/unsatisfied-prerequisite/run/run.json",
+      "gate_stages": []
+    },
+    {
+      "scenario": "untracked-relative-executable",
+      "cli_exit": 1,
+      "outcome": "invalid-input",
+      "failure": {
+        "stage": "inputs",
+        "message": "checks.ticket: relative executable unavailable or not executable at base: './local-check'"
+      },
+      "ticket": {
+        "state": "Blocked",
+        "attempt": 0
+      },
+      "normalized_requirements": null,
+      "agent_launched": false,
+      "refs_before": "730b3039cfecb980b8dee2c63671ddd99e95190f refs/heads/integration\n730b3039cfecb980b8dee2c63671ddd99e95190f refs/heads/main",
+      "refs_after": "730b3039cfecb980b8dee2c63671ddd99e95190f refs/heads/integration\n730b3039cfecb980b8dee2c63671ddd99e95190f refs/heads/main",
+      "worktrees_unchanged": true,
+      "caller_status_unchanged": true,
+      "status_matches_record": true,
+      "record": "/tmp/ticket-harness-02-evidence-3v6qxg0p/untracked-relative-executable/run/run.json",
+      "gate_stages": []
+    },
+    {
+      "scenario": "relative-path-search",
+      "cli_exit": 1,
+      "outcome": "invalid-input",
+      "failure": {
+        "stage": "inputs",
+        "message": "checks.ticket: executable resolved through a relative PATH entry; use an absolute path"
+      },
+      "ticket": {
+        "state": "Blocked",
+        "attempt": 0
+      },
+      "normalized_requirements": null,
+      "agent_launched": false,
+      "refs_before": "730b3039cfecb980b8dee2c63671ddd99e95190f refs/heads/integration\n730b3039cfecb980b8dee2c63671ddd99e95190f refs/heads/main",
+      "refs_after": "730b3039cfecb980b8dee2c63671ddd99e95190f refs/heads/integration\n730b3039cfecb980b8dee2c63671ddd99e95190f refs/heads/main",
+      "worktrees_unchanged": true,
+      "caller_status_unchanged": true,
+      "status_matches_record": true,
+      "record": "/tmp/ticket-harness-02-evidence-3v6qxg0p/relative-path-search/run/run.json",
+      "gate_stages": []
+    },
+    {
+      "scenario": "ambiguous-relative-path",
+      "cli_exit": 1,
+      "outcome": "invalid-input",
+      "failure": {
+        "stage": "inputs",
+        "message": "checks.ticket: relative executable path must not contain '..' or end with '/' or '/.'"
+      },
+      "ticket": {
+        "state": "Blocked",
+        "attempt": 0
+      },
+      "normalized_requirements": null,
+      "agent_launched": false,
+      "refs_before": "44ecc386e5b0ae7e96f7c59567653a0b7ec7d4ef refs/heads/integration\n44ecc386e5b0ae7e96f7c59567653a0b7ec7d4ef refs/heads/main",
+      "refs_after": "44ecc386e5b0ae7e96f7c59567653a0b7ec7d4ef refs/heads/integration\n44ecc386e5b0ae7e96f7c59567653a0b7ec7d4ef refs/heads/main",
+      "worktrees_unchanged": true,
+      "caller_status_unchanged": true,
+      "status_matches_record": true,
+      "record": "/tmp/ticket-harness-02-evidence-3v6qxg0p/ambiguous-relative-path/run/run.json",
+      "gate_stages": []
+    }
+  ]
+}
