@@ -10,4 +10,4 @@ Use these labels when evaluating issues and assigning readiness.
 | Ready for a human | `ready-for-human` | The work requires human implementation. |
 | Declined | `wontfix` | The work will not be actioned. |
 
-Record the applicable label in the local ticket's `Status:` line. These labels describe triage readiness; harness execution state is recorded separately.
+Record the applicable label in an open implementation ticket's `Status:` line. These labels describe triage readiness; harness execution state is recorded separately. After verified completion outside an active harness run, the [completion bookkeeping rules](issue-tracker.md#completion-bookkeeping) replace that line with `Status: completed` and retain the previous readiness label in the completion comment. `completed` is a terminal bookkeeping status, not another triage label.

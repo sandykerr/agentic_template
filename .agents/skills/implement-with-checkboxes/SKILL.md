@@ -1,6 +1,6 @@
 ---
 name: implement-with-checkboxes
-description: Implement a local Markdown ticket with Matt Pocock's implementation workflow, then update its acceptance checkboxes with verification and review evidence.
+description: Implement a local Markdown ticket with Matt Pocock's implementation workflow, then reconcile acceptance checkboxes and completion status with verification and review evidence.
 ---
 
 # Implement with checkboxes
@@ -17,6 +17,8 @@ Read and follow [Matt's implementation skill](../matt-pocock/implement/SKILL.md)
 
 After implementation checks and reviews, apply the tracker's **Completion bookkeeping** rules. Map each acceptance criterion to evidence from the verified implementation revision; completing code or receiving an agent's success report alone is insufficient.
 
-Update satisfied acceptance checkboxes, append the completion comment, and link evidence from the feature index when present. Commit these documentation changes separately from the reviewed implementation; stage only this ticket's bookkeeping. Review any subsequent code changes through the implementation gates again.
+Update satisfied acceptance checkboxes. Once every criterion and required gate is verified, set the ticket's header to `**Status:** completed`; record its previous readiness label in the completion comment. Keep `Blocked by:` as the declared dependency history. If verification is incomplete, retain the existing readiness status and explain what remains pending.
+
+Append the completion comment and link evidence from the feature index when present. Before committing, verify that the acceptance markers, header status, completion comment, and feature index agree on the verified outcome. Commit these documentation changes separately from the reviewed implementation; stage only this ticket's bookkeeping. Review any subsequent code changes through the implementation gates again.
 
 Report the implementation and bookkeeping commit references, checks, review outcomes, and any unchecked criteria. Declare completion only when every criterion is verified, required checks pass, blocking findings are resolved, and bookkeeping is saved. If a required step fails or approved inputs belong to an active harness run, report the exact blocker and leave completion pending.
