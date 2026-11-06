@@ -1,8 +1,9 @@
 # Scripted single-ticket harness
 
-Tickets 01–05 execute one selected approved ticket with scripted external agents,
+Tickets 01–06 execute one selected approved ticket with scripted external agents,
 validate its requirements and reports, bind verification to exact revisions, and
-repair rejected submissions within a configured allowance.
+repair rejected submissions within a configured allowance, stopping immediately
+when a valid report requires a human decision outside approved contracts.
 Dependency scheduling, timeouts, live Codex, and an operating-system
 sandbox remain later numbered tickets. Run only trusted scripted processes and
 project commands.
@@ -247,10 +248,12 @@ and check results. It does not treat claims as verified facts. Workers edit thei
 source worktree and leave committing to the harness. Claimed revisions, file
 lists, checks, or execution state never override harness-owned observations.
 
-A complete `human-decision-needed` report is recognized as valid but stops this
-attempt with an incomplete outcome and a diagnostic containing its questions.
-It does not capture a submission, run checks/reviews, integrate, or start repair.
-Broader human-decision lifecycle handling belongs to ticket 06.
+A complete `human-decision-needed` report stops the attempt with an incomplete
+outcome, even if the process exits nonzero. Describe the precise decision and
+relevant approved requirement or interface in `summary`/`unresolved_questions`,
+and available evidence in `acceptance_evidence`. These existing fields remain the
+report contract; no new report fields are required. Current work stays in its
+worktree without submission capture, further checks/reviews, integration, or repair.
 
 Review reports require a `findings` array, in addition to every identity field.
 An empty array passes review only for the correct assignment and revision.
@@ -271,6 +274,26 @@ A complete blocking finding fails the gate while remaining a valid report.
 Optional findings are preserved and allow the gate to pass. Nonzero process exit
 fails even with a complete success report; zero exit cannot replace a valid report.
 
+A blocking finding with `human_decision_needed: true` from either review axis
+stops immediately, including on nonzero process exit. Use `requirement` to identify
+the approved contract, `evidence`/`consequence` to explain the conflict, and
+`resolution` for the precise decision needed. The diagnostic includes the
+requirement and resolution. A blocking decision finding takes precedence
+over ordinary repairable blockers in the same validated report. Optional findings
+retain their non-blocking behavior, including when their decision flag is true.
+The entire report must pass identity, shape, and evidence validation before any
+decision is recognized; invalid decision-like output follows ordinary bounded
+report-failure handling. Report claims never become verified source/check facts.
+
+Both kinds of decision leave the ticket Blocked and the run incomplete without
+consuming the remaining repairs or launching subsequent verification processes.
+Approved spec, ticket, and standards stay unchanged; integration stays at its
+last verified revision. Later-repair decisions retain all previous attempts,
+rejected revisions, prompts, and output. The harness hands off the conflict for
+human resolution rather than inferring requirements or changing an approved
+interface. Starting a new run after a decision requires human-approved inputs;
+this slice does not provide continuation or resume.
+
 The harness captures the submission, independently runs lightweight checks, and
 uses separate detached worktrees and processes for the two review axes. A failed
 gate rejects the attempt with preserved evidence and enters the remaining repair
@@ -286,11 +309,10 @@ suite must pass. Rejected attempts' approvals never authorize the new source;
 source validation starts again for the new attempt while retaining the shared
 baseline check. Exhaustion leaves the ticket Blocked with an incomplete outcome,
 all rejected revisions/worktrees and full history intact. Baseline and preflight
-failures start no attempts. Valid worker human-decision reports, approved-input
+failures start no attempts. Valid human-decision reports, approved-input
 or evidence integrity violations, worker-owned HEAD changes, and external
 integration movement stop without authorizing more repairs. Repairs cannot change
-the approved baseline or requirements. Broader human-decision handling and
-timeouts remain separate tickets.
+the approved baseline or requirements. Timeouts remain a separate ticket.
 Check and review worktrees must remain clean and on the submitted revision.
 Assume-unchanged and skip-worktree index flags are rejected so tracked edits
 cannot be concealed from source validation.
@@ -350,6 +372,18 @@ operation `attempt` is zero for baseline work and positive for ticket attempts.
 The top-level `ticket` exposes the latest attempt and its observed revisions;
 earlier identities remain in `attempts`. A successful repair retains rejected
 failure evidence there while the run's final outcome is completed.
+When a valid report requests a human decision, the latest `ticket` and affected
+`attempts` entry also expose `human_decision`: the `role`, actual `attempt` and
+assigned `revision`, complete validated `report`, approved input paths/snapshots
+and SHA-256 identities in `approved_inputs`, and `assignment`, `stdout`, `stderr`
+artifact paths. The implementation source path remains on the attempt; the gate's
+`cwd` identifies the reporting worktree. The report retains the precise questions
+or complete review findings, including the contract and available evidence.
+This handoff is descriptive evidence, not a passing gate or approval. A nonzero
+exit remains recorded and appears alongside the decision diagnostic. Attempt
+counters and gate ranges include only assignments and processes actually run;
+the stopped attempt is `Rejected` while the ticket is `Blocked`. Run's final JSON
+and read-only status display the same handoff and preserved history.
 `operations` records Git worktree preparation, submission capture, and candidate
 merge stages, with `passed` and integrity diagnostics when applicable. These are
 separate from check/agent gates; rejected observed revisions remain on the ticket

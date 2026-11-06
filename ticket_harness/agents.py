@@ -11,7 +11,11 @@ INSTRUCTIONS = {
     "implementation": "Implement only the approved ticket in this worktree. Do not commit. "
     "When repair_context is present, repair the current changes using its rejected revisions, "
     "failure diagnostic, and the check_results reports and output artifacts. "
-    "Return submitted or human-decision-needed; only the harness can declare Done.",
+    "Return submitted or human-decision-needed; only the harness can declare Done. "
+    "For unavailable requirements or changes to approved contracts, stop immediately, "
+    "preserve current work, and return human-decision-needed. Describe the precise decision "
+    "and relevant approved contract in summary/unresolved_questions, and available evidence "
+    "in acceptance_evidence. Do not invent requirements or change approved inputs/interfaces.",
     "spec": "Review the exact revision against the approved ticket/spec and actual check results. "
     "Do not edit source. Return findings classified as blocking or optional.",
     "standards": "Review the exact revision against the supplied project standards and instructions. "
@@ -37,7 +41,15 @@ def assignment(
         "repair_context": repair_context,
         "base_revision": base,
         "revision": revision,
-        "instructions": INSTRUCTIONS[role],
+        "instructions": INSTRUCTIONS[role]
+        + (
+            " For unavailable requirements or changes to approved contracts, return a blocking "
+            "finding with human_decision_needed true. Identify the approved contract in "
+            "requirement, supporting evidence/consequence, and the precise decision in resolution. "
+            "Do not resolve the conflict by changing approved inputs or interfaces."
+            if role in ("spec", "standards")
+            else ""
+        ),
         "inputs": {
             name: Path(entry["artifact"]).read_text()
             for name, entry in snapshots.items()

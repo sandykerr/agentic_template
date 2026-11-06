@@ -111,21 +111,45 @@ def run(config_path: Path, output: Path) -> tuple[dict[str, Any], int]:
         save()
         if prompt is not None:
             report = agents.report(result, prompt)
+            questions = []
             if stage == "implementation" and report["result"] == "human-decision-needed":
+                questions = report["unresolved_questions"]
+            elif stage in ("spec", "standards"):
+                questions = [
+                    f"{finding['requirement']}: {finding['resolution']}"
+                    for finding in report["findings"]
+                    if finding["classification"] == "blocking" and finding["human_decision_needed"]
+                ]
+            if questions:
                 repairable = False
+                decision = {
+                    "role": stage,
+                    "attempt": attempt,
+                    "revision": revision,
+                    "report": report,
+                    "approved_inputs": record["inputs"],
+                    "assignment": result["assignment"],
+                    "stdout": result["stdout"],
+                    "stderr": result["stderr"],
+                }
+                record["ticket"]["human_decision"] = decision
+                record["attempts"][-1]["human_decision"] = decision
             if result["exit_code"] != 0:
                 result.update(
                     passed=False,
                     diagnostic=f"process exit {result['exit_code']}; see {result['stderr']}",
                 )
-            elif stage == "implementation" and report["result"] == "human-decision-needed":
+            if questions:
                 result.update(
                     passed=False,
                     diagnostic="human decision needed: "
-                    + "; ".join(report["unresolved_questions"]),
+                    + "; ".join(questions)
+                    + (f"; {result['diagnostic']}" if result["exit_code"] != 0 else ""),
                 )
-            elif stage in ("spec", "standards") and any(
-                finding["classification"] == "blocking" for finding in report["findings"]
+            elif (
+                result["exit_code"] == 0
+                and stage in ("spec", "standards")
+                and any(finding["classification"] == "blocking" for finding in report["findings"])
             ):
                 result.update(passed=False, diagnostic="blocking review finding; see report")
             save()
