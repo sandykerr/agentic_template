@@ -4,7 +4,15 @@ from pathlib import Path
 from typing import Any
 
 from ticket_harness import agents, inputs
-from ticket_harness.git import candidate, capture, git, promote, require_unchanged, worktree
+from ticket_harness.git import (
+    candidate,
+    capture,
+    git,
+    promote,
+    require_reviewed_candidate,
+    require_unchanged,
+    worktree,
+)
 from ticket_harness.records import GateFailure, execute, write_json
 
 
@@ -27,6 +35,22 @@ def run(config_path: Path, output: Path) -> tuple[dict[str, Any], int]:
     def save() -> None:
         write_json(output / "run.json", record)
 
+    verified: list[tuple[dict[str, Any], Path, str]] = []
+
+    def validate_sources() -> None:
+        failures = []
+        for evidence, source, revision in verified:
+            try:
+                require_unchanged(source, revision)
+            except GateFailure as error:
+                evidence.update(
+                    passed=False, verification_status="invalidated", diagnostic=str(error)
+                )
+                failures.append(str(error))
+        if failures:
+            save()
+            raise GateFailure("; ".join(failures))
+
     def gate(
         stage: str,
         argv: list[str],
@@ -34,7 +58,19 @@ def run(config_path: Path, output: Path) -> tuple[dict[str, Any], int]:
         revision: str,
         prompt: dict[str, Any] | None = None,
     ) -> dict[str, Any]:
-        result = execute(argv, source, artifacts, stage, revision, prompt)
+        inputs.require_approved(record["inputs"])
+        validate_sources()
+        protected = {output / "run.json": True}
+        for snapshot in record["inputs"].values():
+            protected[Path(snapshot["source"])] = False
+            protected[Path(snapshot["artifact"])] = True
+            try:
+                relative = Path(snapshot["source"]).relative_to(repository)
+            except ValueError:
+                continue
+            for tree in trees.iterdir():
+                protected[tree / relative] = False
+        result = execute(argv, source, artifacts, stage, revision, prompt, protected)
         record["gates"].append(result)
         save()
         if prompt is not None:
@@ -55,6 +91,14 @@ def run(config_path: Path, output: Path) -> tuple[dict[str, Any], int]:
             ):
                 result.update(passed=False, diagnostic="blocking review finding; see report")
             save()
+        if stage != "implementation":
+            verified.append((result, source, revision))
+        try:
+            validate_sources()
+        except GateFailure as error:
+            result.update(passed=False, diagnostic=str(error))
+            save()
+            raise
         if not result["passed"]:
             raise GateFailure(
                 f"Required gate failed: {stage}; "
@@ -101,6 +145,14 @@ def run(config_path: Path, output: Path) -> tuple[dict[str, Any], int]:
             state="Verifying", submitted_revision=submitted, changed_files=changed
         )
         save()
+        approved_source = set()
+        for snapshot in snapshots.values():
+            try:
+                approved_source.add(str(Path(snapshot["source"]).relative_to(repository)))
+            except ValueError:
+                continue
+        if approved_source.intersection(changed):
+            raise GateFailure("Submission changed approved input source; human decision required")
         for name, argv in config["checks"].items():
             stage = f"check-{name}"
             gate(stage, argv, source, submitted)
@@ -118,9 +170,13 @@ def run(config_path: Path, output: Path) -> tuple[dict[str, Any], int]:
         candidate_source = trees / "candidate"
         revision = candidate(repository, candidate_source, base, submitted)
         record["ticket"]["candidate_revision"] = revision
+        save()
+        require_reviewed_candidate(candidate_source, revision, base, submitted)
         gate(stage, config["suite"], candidate_source, revision)
         require_unchanged(candidate_source, revision)
         stage = "integration"
+        inputs.require_approved(snapshots)
+        validate_sources()
         promote(repository, integration, revision, previous)
         record["ticket"].update(state="Done", done_revision=revision)
         record["outcome"] = "completed"

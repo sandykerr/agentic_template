@@ -1,8 +1,8 @@
 # Scripted single-ticket harness
 
-Tickets 01–03 execute one selected approved ticket with scripted external agents
-and validate its requirements bundle and assignment reports. Repairs, dependency
-scheduling, timeouts, live Codex, transaction hardening, and an operating-system
+Tickets 01–04 execute one selected approved ticket with scripted external agents,
+validate its requirements and reports, and bind verification to exact revisions.
+Repairs, dependency scheduling, timeouts, live Codex, and an operating-system
 sandbox remain later numbered tickets. Run only trusted scripted processes and
 project commands.
 
@@ -262,14 +262,43 @@ fails even with a complete success report; zero exit cannot replace a valid repo
 The harness captures the submission, independently runs lightweight checks, and
 uses separate detached worktrees and processes for the two review axes. A failed
 gate stops this single attempt with preserved evidence; no repairs run.
-Review worktrees must remain clean and on the submitted revision. This detects
-ordinary edits; it is not an enforced read-only process sandbox (ticket 14).
+Check and review worktrees must remain clean and on the submitted revision.
+The harness rechecks earlier verified worktrees after each process and before
+promotion. Changed HEAD, index, or working files invalidate the affected gate:
+`passed` becomes false, `verification_status` is `invalidated`, and `diagnostic`
+identifies the changed source. A structurally valid review report retains
+`report_status: "valid"`; it cannot approve changed source. This attempt stops;
+renewed checks and reviews are required before integration. Automatic repair is
+ticket 05. These observations are not an enforced process sandbox (ticket 14).
 
 The harness creates a real merge candidate with the starting integration
 revision as first parent, tests it, and atomically updates the integration ref
-using the expected previous revision. Only that tested candidate becomes
-`done_revision`. Caller HEAD, index, and working files stay untouched. The
-broader tampering/race matrix is ticket 04.
+using the expected previous revision. In this sequential slice, submission
+descends from the starting integration revision. Candidate parents must be that
+revision and submission, and its tree must equal the reviewed submission tree;
+hook-created source resolutions require renewed review. The suite must leave
+the exact candidate clean. Only that tested candidate becomes `done_revision`.
+An external integration update causes compare-and-swap to fail; the harness
+preserves the external tip, candidate, and diagnostics. Failed merges and failed
+candidate suites also leave integration unchanged by the harness. Caller HEAD,
+index, and working files stay untouched.
+
+Approved source files and snapshots are checked against recorded SHA-256
+identities before processes and promotion. Each process is bracketed by integrity
+checks covering approved originals, snapshots, copies of approved paths in source
+worktrees, `run.json`, assignments, and earlier process artifacts. A submitted
+Git diff cannot change an approved input path, including through commit hooks.
+Detected edits stop the attempt. Gate `integrity` entries record the path,
+expected/observed SHA-256 (`null` for absent contents), and a rejected-content
+artifact when bytes exist. Harness-owned snapshots and evidence are restored
+from the pre-process bytes after rejected bytes are saved; changed original
+inputs and source worktrees remain available for inspection. Restore original
+requirements before starting a newly approved run.
+
+Integrity checks observe process boundaries. They do not detect a transient edit
+restored before the process returns, authenticate local artifacts, or prevent a
+process with unrestricted filesystem/Git access from racing observations. Run
+only trusted commands until role access enforcement is supplied by ticket 14.
 
 ## Records and artifacts
 

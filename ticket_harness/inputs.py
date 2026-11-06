@@ -283,6 +283,14 @@ def completed_tickets(
     return completed
 
 
+def require_approved(snapshots: dict[str, Any]) -> None:
+    for snapshot in snapshots.values():
+        for field in ("source", "artifact"):
+            path = Path(snapshot[field])
+            if hashlib.sha256(path.read_bytes()).hexdigest() != snapshot["sha256"]:
+                raise GateFailure(f"Approved input changed: {path}")
+
+
 def load(config_path: Path, output: Path) -> tuple[dict[str, Any], dict[str, Any], str]:
     config = configuration(json.loads(config_path.read_text(), object_pairs_hook=unique_object))
     repository = (config_path.parent / config["repository"]).resolve()

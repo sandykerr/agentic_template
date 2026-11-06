@@ -46,5 +46,18 @@ def candidate(repository: Path, source: Path, base: str, submission: str) -> str
     return git(source, "rev-parse", "HEAD")
 
 
+def require_reviewed_candidate(source: Path, revision: str, base: str, submission: str) -> None:
+    # In this sequential slice submission descends directly from the starting base.
+    # Any different merge tree introduces source that neither reviewer approved.
+    parents = git(source, "show", "-s", "--format=%P", revision).split()
+    if parents != [base, submission] or git(source, "rev-parse", f"{revision}^{{tree}}") != git(
+        source, "rev-parse", f"{submission}^{{tree}}"
+    ):
+        raise GateFailure(
+            f"Candidate {revision} differs from reviewed source; renewed review required"
+        )
+    require_unchanged(source, revision)
+
+
 def promote(repository: Path, branch: str, revision: str, previous: str) -> None:
     git(repository, "update-ref", f"refs/heads/{branch}", revision, previous)
