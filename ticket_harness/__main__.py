@@ -1,0 +1,34 @@
+"""Public run/status CLI; JSON output is also the inspectable record contract."""
+
+import argparse
+import json
+import sys
+from pathlib import Path
+
+from ticket_harness.runner import run
+
+
+def main() -> int:
+    parser = argparse.ArgumentParser(prog="ticket-harness")
+    operations = parser.add_subparsers(dest="operation", required=True)
+    start = operations.add_parser("run")
+    start.add_argument("--config", type=Path, required=True)
+    start.add_argument("--output", type=Path, required=True)
+    status = operations.add_parser("status")
+    status.add_argument("run", type=Path)
+    args = parser.parse_args()
+    try:
+        if args.operation == "status":
+            record = json.loads((args.run / "run.json").read_text())
+            code = 0
+        else:
+            record, code = run(args.config.resolve(), args.output.resolve())
+        print(json.dumps(record, indent=2))
+        return code
+    except (OSError, ValueError) as error:
+        print(str(error), file=sys.stderr)
+        return 1
+
+
+if __name__ == "__main__":
+    sys.exit(main())

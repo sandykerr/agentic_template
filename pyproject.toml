@@ -1,0 +1,32 @@
+[build-system]
+requires = ["setuptools==80.9.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "ticket-harness"
+version = "0.1.0"
+description = "Single-ticket scripted Git execution harness"
+requires-python = ">=3.12"
+dependencies = []
+
+[project.optional-dependencies]
+dev = ["pytest==9.2.0", "mypy==1.19.1", "ruff==0.14.10"]
+
+[project.scripts]
+ticket-harness = "ticket_harness.__main__:main"
+
+[tool.setuptools.packages.find]
+include = ["ticket_harness*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+
+[tool.mypy]
+strict = true
+files = ["ticket_harness"]
+
+[tool.ruff]
+line-length = 100
+
+[tool.ruff.lint]
+select = ["E4", "E7", "E9", "F", "I"]
