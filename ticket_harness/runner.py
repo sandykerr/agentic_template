@@ -1,5 +1,7 @@
 """Single-attempt ticket lifecycle and required gate ownership."""
 
+from collections.abc import Iterator
+from contextlib import contextmanager
 from pathlib import Path
 from typing import Any
 
@@ -13,7 +15,7 @@ from ticket_harness.git import (
     require_unchanged,
     worktree,
 )
-from ticket_harness.records import GateFailure, execute, write_json
+from ticket_harness.records import GateFailure, execute, protect, write_json
 
 
 def run(config_path: Path, output: Path) -> tuple[dict[str, Any], int]:
@@ -36,6 +38,29 @@ def run(config_path: Path, output: Path) -> tuple[dict[str, Any], int]:
         write_json(output / "run.json", record)
 
     verified: list[tuple[dict[str, Any], Path, str]] = []
+
+    def protected_paths() -> dict[Path, bool]:
+        protected = {output / "run.json": True}
+        for snapshot in record["inputs"].values():
+            protected[Path(snapshot["source"])] = False
+            protected[Path(snapshot["artifact"])] = True
+        for tree in trees.iterdir():
+            protected.update({tree / relative: False for relative in approved_source})
+        return protected
+
+    @contextmanager
+    def git_operation(name: str) -> Iterator[None]:
+        operation: dict[str, Any] = {"stage": name, "passed": False}
+        record.setdefault("operations", []).append(operation)
+        save()
+        try:
+            with protect(protected_paths(), artifacts, name, operation):
+                yield
+            if operation.get("integrity"):
+                raise GateFailure(operation["diagnostic"])
+            operation["passed"] = True
+        finally:
+            save()
 
     def validate_sources() -> None:
         failures = []
@@ -60,17 +85,7 @@ def run(config_path: Path, output: Path) -> tuple[dict[str, Any], int]:
     ) -> dict[str, Any]:
         inputs.require_approved(record["inputs"])
         validate_sources()
-        protected = {output / "run.json": True}
-        for snapshot in record["inputs"].values():
-            protected[Path(snapshot["source"])] = False
-            protected[Path(snapshot["artifact"])] = True
-            try:
-                relative = Path(snapshot["source"]).relative_to(repository)
-            except ValueError:
-                continue
-            for tree in trees.iterdir():
-                protected[tree / relative] = False
-        result = execute(argv, source, artifacts, stage, revision, prompt, protected)
+        result = execute(argv, source, artifacts, stage, revision, prompt, protected_paths())
         record["gates"].append(result)
         save()
         if prompt is not None:
@@ -114,6 +129,12 @@ def run(config_path: Path, output: Path) -> tuple[dict[str, Any], int]:
         record["requirements"] = config["requirements"]
         record["ticket"]["id"] = ticket
         repository = Path(config["repository"])
+        approved_source = set()
+        for snapshot in snapshots.values():
+            try:
+                approved_source.add(str(Path(snapshot["source"]).relative_to(repository)))
+            except ValueError:
+                continue
         integration = config["integration"]
         git(repository, "check-ref-format", f"refs/heads/{integration}")
         # Refuse to move a checked-out branch, even in another caller worktree.
@@ -129,28 +150,25 @@ def run(config_path: Path, output: Path) -> tuple[dict[str, Any], int]:
         record["base_revision"] = base
         record["integration_branch"] = integration
         stage = "baseline"
-        baseline = worktree(repository, trees / "baseline", base)
+        with git_operation("baseline-worktree"):
+            baseline = worktree(repository, trees / "baseline", base)
         gate(stage, config["suite"], baseline, base)
         require_unchanged(baseline, base)
         stage = "implementation"
         record["ticket"].update(state="Running", attempt=1)
         save()
-        source = worktree(repository, trees / "implementation", base)
+        with git_operation("implementation-worktree"):
+            source = worktree(repository, trees / "implementation", base)
         prompt = agents.assignment(
             stage, ticket, base, base, snapshots, record["gates"][:], config["checks"]
         )
         gate(stage, config["agent"], source, base, prompt)
-        submitted, changed = capture(source, base, ticket)
-        record["ticket"].update(
-            state="Verifying", submitted_revision=submitted, changed_files=changed
-        )
+        with git_operation("submission"):
+            submitted, changed = capture(source, base, ticket)
+            record["ticket"].update(
+                state="Verifying", submitted_revision=submitted, changed_files=changed
+            )
         save()
-        approved_source = set()
-        for snapshot in snapshots.values():
-            try:
-                approved_source.add(str(Path(snapshot["source"]).relative_to(repository)))
-            except ValueError:
-                continue
         if approved_source.intersection(changed):
             raise GateFailure("Submission changed approved input source; human decision required")
         for name, argv in config["checks"].items():
@@ -159,7 +177,8 @@ def run(config_path: Path, output: Path) -> tuple[dict[str, Any], int]:
             require_unchanged(source, submitted)
         for role in ("spec", "standards"):
             stage = role
-            review_source = worktree(repository, trees / role, submitted)
+            with git_operation(f"{role}-worktree"):
+                review_source = worktree(repository, trees / role, submitted)
             prompt = agents.assignment(
                 role, ticket, base, submitted, snapshots, record["gates"][:], config["checks"]
             )
@@ -168,8 +187,9 @@ def run(config_path: Path, output: Path) -> tuple[dict[str, Any], int]:
             save()
         stage = "candidate"
         candidate_source = trees / "candidate"
-        revision = candidate(repository, candidate_source, base, submitted)
-        record["ticket"]["candidate_revision"] = revision
+        with git_operation("candidate-merge"):
+            revision = candidate(repository, candidate_source, base, submitted)
+            record["ticket"]["candidate_revision"] = revision
         save()
         require_reviewed_candidate(candidate_source, revision, base, submitted)
         gate(stage, config["suite"], candidate_source, revision)

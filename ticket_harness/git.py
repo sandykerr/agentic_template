@@ -23,6 +23,9 @@ def worktree(repository: Path, path: Path, revision: str) -> Path:
 
 
 def require_unchanged(source: Path, revision: str) -> None:
+    flags = git(source, "ls-files", "-v", "-z").split("\0")
+    if any(entry and (entry[0].islower() or entry[0] == "S") for entry in flags):
+        raise GateFailure(f"Verified source changed index visibility flags at {source}")
     if git(source, "rev-parse", "HEAD") != revision or git(source, "status", "--porcelain"):
         raise GateFailure(f"Verified source changed at {source}")
 
@@ -60,4 +63,13 @@ def require_reviewed_candidate(source: Path, revision: str, base: str, submissio
 
 
 def promote(repository: Path, branch: str, revision: str, previous: str) -> None:
-    git(repository, "update-ref", f"refs/heads/{branch}", revision, previous)
+    # No user code may run between final validation and the atomic ref update.
+    git(
+        repository,
+        "-c",
+        "core.hooksPath=/dev/null",
+        "update-ref",
+        f"refs/heads/{branch}",
+        revision,
+        previous,
+    )

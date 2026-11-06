@@ -4,6 +4,8 @@ import hashlib
 import json
 import os
 import subprocess
+from collections.abc import Iterator
+from contextlib import contextmanager
 from pathlib import Path
 from typing import Any
 
@@ -18,6 +20,59 @@ def write_json(path: Path, value: Any) -> None:
     temporary.replace(path)
 
 
+@contextmanager
+def protect(
+    restore_on_violation_by_path: dict[Path, bool],
+    artifacts: Path,
+    stage: str,
+    evidence: dict[str, Any],
+) -> Iterator[None]:
+    """Bracket external execution; True paths are restored, False paths stay inspectable."""
+    protected = dict(restore_on_violation_by_path)
+    protected.update({path: True for path in artifacts.iterdir()})
+    originals = {path: path.read_bytes() if path.exists() else None for path in protected}
+    try:
+        yield
+    finally:
+        violations: list[dict[str, Any]] = []
+        for path, original in originals.items():
+            try:
+                observed = path.read_bytes() if path.exists() else None
+            except OSError:
+                observed = None
+            if observed == original and not path.is_symlink():
+                continue
+            rejected = artifacts / f"{stage}.integrity-{len(violations)}"
+            moved_directory = protected[path] and path.is_dir() and not path.is_symlink()
+            if moved_directory:
+                path.replace(rejected)
+            if observed is not None:
+                rejected.write_bytes(observed)
+            violations.append(
+                {
+                    "path": str(path),
+                    "expected_sha256": hashlib.sha256(original).hexdigest()
+                    if original is not None
+                    else None,
+                    "observed_sha256": hashlib.sha256(observed).hexdigest()
+                    if observed is not None
+                    else None,
+                    "artifact": str(rejected) if observed is not None or moved_directory else None,
+                }
+            )
+            if protected[path] and original is not None:
+                # Keep approved snapshots and prior evidence usable after rejection.
+                if path.is_symlink():
+                    path.unlink()
+                path.write_bytes(original)
+        if violations:
+            evidence.update(
+                passed=False,
+                integrity=violations,
+                diagnostic="Integrity violation: protected files changed",
+            )
+
+
 def execute(
     argv: list[str],
     cwd: Path,
@@ -25,7 +80,7 @@ def execute(
     stage: str,
     revision: str,
     assignment: dict[str, Any] | None = None,
-    protected: dict[Path, bool] | None = None,
+    restore_on_violation_by_path: dict[Path, bool] | None = None,
 ) -> dict[str, Any]:
     stdout = artifacts / f"{stage}.stdout"
     stderr = artifacts / f"{stage}.stderr"
@@ -44,11 +99,11 @@ def execute(
         write_json(prompt, assignment)
         gate["assignment"] = str(prompt)
         payload = json.dumps(assignment)
-    protected = dict(protected or {})
-    # Include the prompt just written, and evidence from every earlier stage.
-    protected.update({path: True for path in artifacts.iterdir() if path not in (stdout, stderr)})
-    originals = {path: path.read_bytes() if path.exists() else None for path in protected}
-    with stdout.open("w") as out, stderr.open("w") as err:
+    with (
+        protect(restore_on_violation_by_path or {}, artifacts, stage, gate),
+        stdout.open("w") as out,
+        stderr.open("w") as err,
+    ):
         try:
             process = subprocess.run(
                 argv,
@@ -65,38 +120,4 @@ def execute(
         except OSError as error:
             err.write(str(error))
             gate["exit_code"] = None
-    violations: list[dict[str, Any]] = []
-    for path, original in originals.items():
-        try:
-            observed = path.read_bytes() if path.exists() else None
-        except OSError:
-            observed = None
-        if observed == original and not path.is_symlink():
-            continue
-        evidence = artifacts / f"{stage}.integrity-{len(violations)}"
-        if observed is not None:
-            evidence.write_bytes(observed)
-        violations.append(
-            {
-                "path": str(path),
-                "expected_sha256": hashlib.sha256(original).hexdigest()
-                if original is not None
-                else None,
-                "observed_sha256": hashlib.sha256(observed).hexdigest()
-                if observed is not None
-                else None,
-                "artifact": str(evidence) if observed is not None else None,
-            }
-        )
-        if protected[path] and original is not None:
-            # Keep approved snapshots and prior evidence usable; retain rejected bytes above.
-            if path.is_symlink():
-                path.unlink()
-            path.write_bytes(original)
-    if violations:
-        gate.update(
-            passed=False,
-            integrity=violations,
-            diagnostic="Integrity violation: protected files changed",
-        )
     return gate

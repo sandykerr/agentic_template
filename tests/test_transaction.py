@@ -210,7 +210,7 @@ def test_submission_hook_cannot_change_approved_requirements(harness):
     assert result.returncode != 0
     record = harness.record()
     assert record["failure"]["stage"] == "implementation"
-    assert "approved" in record["failure"]["message"].lower()
+    assert "integrity" in record["failure"]["message"].lower()
     assert harness.git("rev-parse", "integration") == harness.base
     assert "done_revision" not in record["ticket"]
     assert (
@@ -233,3 +233,93 @@ def test_rejected_candidate_preserves_caller_index_and_file_bytes(harness):
     assert (harness.output / "worktrees/implementation/value.txt").read_text() == "2\n"
     assert (harness.output / "worktrees/candidate/value.txt").read_text() == "2\n"
     assert harness.git("show", record["ticket"]["submitted_revision"] + ":value.txt") == "2"
+
+
+@pytest.mark.parametrize("flag", ["--assume-unchanged", "--skip-worktree"])
+def test_index_flags_cannot_hide_unreviewed_source(harness, flag):
+    harness.agent_report(
+        "spec",
+        "from pathlib import Path\nimport subprocess\nPath('value.txt').write_text('3\\n')\n"
+        f"subprocess.run(['git', 'update-index', {flag!r}, 'value.txt'], check=True)",
+    )
+    record = harness.assert_rejected_gate("spec")
+    assert record["gates"][-1]["verification_status"] == "invalidated"
+    assert (harness.output / "worktrees/spec/value.txt").read_text() == "3\n"
+
+
+@pytest.mark.parametrize("hook_name", ["pre-commit", "pre-merge-commit"])
+@pytest.mark.parametrize("target", ["review-output", "record", "snapshot"])
+def test_git_hooks_cannot_overwrite_harness_evidence(harness, hook_name, target):
+    paths = {
+        "review-output": harness.output
+        / ("artifacts/baseline.stdout" if hook_name == "pre-commit" else "artifacts/spec.stdout"),
+        "record": harness.output / "run.json",
+        "snapshot": harness.output / "inputs/ticket.md",
+    }
+    path = paths[target]
+    hook = harness.repo / f".git/hooks/{hook_name}"
+    hook.write_text(f"#!/bin/sh\necho 'tampered by hook' > '{path}'\n")
+    hook.chmod(0o755)
+    result = harness.run_ticket()
+    assert result.returncode != 0
+    record = harness.record()
+    assert record["failure"]["stage"] == (
+        "implementation" if hook_name == "pre-commit" else "candidate"
+    )
+    assert "integrity" in record["failure"]["message"].lower()
+    operation = record["operations"][-1]
+    assert not operation["passed"]
+    violation = next(item for item in operation["integrity"] if item["path"] == str(path))
+    assert Path(violation["artifact"]).read_text() == "tampered by hook\n"
+    assert path.read_text() != "tampered by hook\n"
+    assert harness.git("rev-parse", "integration") == harness.base
+    assert "done_revision" not in record["ticket"]
+    assert json.loads(harness.cli("status", harness.output).stdout) == record
+
+
+def test_worktree_checkout_hook_cannot_destroy_previous_review(harness):
+    path = harness.output / "artifacts/spec.stdout"
+    hook = harness.repo / ".git/hooks/post-checkout"
+    hook.write_text(f"#!/bin/sh\nif test -f '{path}'; then echo 'tampered' > '{path}'; fi\n")
+    hook.chmod(0o755)
+    result = harness.run_ticket()
+    assert result.returncode != 0
+    record = harness.record()
+    assert record["failure"]["stage"] == "standards"
+    assert record["operations"][-1]["integrity"]
+    assert path.read_text() != "tampered\n"
+    assert harness.git("rev-parse", "integration") == harness.base
+    assert "done_revision" not in record["ticket"]
+
+
+def test_final_ref_update_cannot_run_hooks_after_verification(harness):
+    path = harness.output / "artifacts/spec.stdout"
+    marker = harness.home / "candidate-verified"
+    suite_script(harness, f"Path({str(marker)!r}).touch()")
+    hook = harness.repo / ".git/hooks/reference-transaction"
+    hook.write_text(
+        "#!/bin/sh\n"
+        f'if test -f "{marker}" && test "$1" = committed; then\n'
+        f"  echo 'tampered after verification' > '{path}'\nfi\n"
+    )
+    hook.chmod(0o755)
+    result = harness.run_ticket()
+    assert result.returncode == 0, result.stdout + result.stderr
+    record = harness.record()
+    assert json.loads(path.read_text())["revision"] == record["ticket"]["submitted_revision"]
+    assert harness.git("rev-parse", "integration") == record["ticket"]["candidate_revision"]
+
+
+@pytest.mark.parametrize("replacement", ["missing", "directory"])
+def test_removed_or_replaced_snapshot_is_restored_with_durable_diagnostics(harness, replacement):
+    path = harness.output / "inputs/ticket.md"
+    mutation = f"from pathlib import Path\np = Path({str(path)!r})\np.unlink()"
+    if replacement == "directory":
+        mutation += "\np.mkdir()\n(p / 'payload').write_text('rejected directory')"
+    harness.agent_report("implementation", mutation)
+    record = harness.assert_rejected_gate("implementation")
+    assert path.read_bytes() == (harness.repo / "01-value.md").read_bytes()
+    violation = next(item for item in record["gates"][-1]["integrity"] if item["path"] == str(path))
+    assert violation["observed_sha256"] is None
+    if replacement == "directory":
+        assert (Path(violation["artifact"]) / "payload").read_text() == "rejected directory"

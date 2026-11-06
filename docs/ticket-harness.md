@@ -263,6 +263,8 @@ The harness captures the submission, independently runs lightweight checks, and
 uses separate detached worktrees and processes for the two review axes. A failed
 gate stops this single attempt with preserved evidence; no repairs run.
 Check and review worktrees must remain clean and on the submitted revision.
+Assume-unchanged and skip-worktree index flags are rejected so tracked edits
+cannot be concealed from source validation.
 The harness rechecks earlier verified worktrees after each process and before
 promotion. Changed HEAD, index, or working files invalidate the affected gate:
 `passed` becomes false, `verification_status` is `invalidated`, and `diagnostic`
@@ -281,16 +283,20 @@ the exact candidate clean. Only that tested candidate becomes `done_revision`.
 An external integration update causes compare-and-swap to fail; the harness
 preserves the external tip, candidate, and diagnostics. Failed merges and failed
 candidate suites also leave integration unchanged by the harness. Caller HEAD,
-index, and working files stay untouched.
+index, and working files stay untouched. Git hooks are disabled for the final
+atomic ref update so user code cannot run after final validation. Checkout,
+submission, and merge hooks execute within the integrity checks described below.
 
 Approved source files and snapshots are checked against recorded SHA-256
-identities before processes and promotion. Each process is bracketed by integrity
+identities before processes and promotion. Each process and hook-capable Git
+worktree/submission/merge operation is bracketed by integrity
 checks covering approved originals, snapshots, copies of approved paths in source
 worktrees, `run.json`, assignments, and earlier process artifacts. A submitted
 Git diff cannot change an approved input path, including through commit hooks.
-Detected edits stop the attempt. Gate `integrity` entries record the path,
-expected/observed SHA-256 (`null` for absent contents), and a rejected-content
-artifact when bytes exist. Harness-owned snapshots and evidence are restored
+Detected edits stop the attempt. Gate or Git operation `integrity` entries record the path,
+expected/observed SHA-256 (`null` for absent or unreadable file contents), and a rejected-content
+artifact when bytes exist. A directory replacing a harness-owned file is moved
+intact to its rejected artifact before restoration. Harness-owned snapshots and evidence are restored
 from the pre-process bytes after rejected bytes are saved; changed original
 inputs and source worktrees remain available for inspection. Restore original
 requirements before starting a newly approved run.
@@ -305,6 +311,10 @@ only trusted commands until role access enforcement is supplied by ticket 14.
 `run.json` records execution state (`Ready`, `Running`, `Verifying`, `Done`, or
 `Blocked`), attempt number, inputs, base/submission/candidate/Done identities,
 changed files, gates and findings, final outcome, failures, and artifact paths.
+`operations` records Git worktree preparation, submission capture, and candidate
+merge stages, with `passed` and integrity diagnostics when applicable. These are
+separate from check/agent gates; rejected observed revisions remain on the ticket
+or in the retained Git worktree if an operation failed before returning a revision.
 Records are replaced atomically so status does not read a partially written
 success. This does not provide crash recovery or resume.
 
