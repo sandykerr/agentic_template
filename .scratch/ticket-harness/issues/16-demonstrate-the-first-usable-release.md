@@ -10,17 +10,18 @@
 
 **Agent context limit:** 250,000 tokens of active context. Use the [agent context policy](../README.md#agent-context-policy).
 
-**Context:** [Testing decisions](../spec.md#testing-decisions); [Out of scope](../spec.md#out-of-scope); [Public interface and approval](../spec.md#public-interface-and-approval).
+**Context:** [Testing decisions](../spec.md#testing-decisions); [Skill selection and delivery](../spec.md#skill-selection-and-delivery); [Out of scope](../spec.md#out-of-scope); [Public interface and approval](../spec.md#public-interface-and-approval).
 
 **Scope:** Release acceptance and the runnable walkthrough for the agreed sequential first version; preserve concurrency, recovery, and notifications as later work. The context-limit experiment is an independent early slice after issue 13, rather than a prerequisite for this release demonstration.
 
 ## Acceptance criteria
 
 - [ ] Document installation, project commands, role settings, limits, local requirements, run/status usage, and artifact inspection using the interfaces actually implemented.
+- [ ] Document required role guidance, project-default skills, additive ticket skills, supported local sources, required-reference validation, and run-captured content using the implemented metadata and source-resolution convention; show where to inspect actual delivered content and its identities.
 - [ ] Provide a runnable example showing successful integration, bounded repair, a blocked ticket, a waiting dependent, optional suggestions, and unrelated successful work.
 - [ ] Run the complete deterministic suite from a clean checkout without requiring model credentials or network access.
 - [ ] Run the separate small live check in the configured Codex environment and record actual integration and skill/access evidence, or report the explicit blocker without claiming complete live validation.
-- [ ] Show approved inputs unchanged and integration references bound only to passing candidates.
+- [ ] Show approved inputs, including captured selected skills/references, unchanged and integration references bound only to passing candidates; the walkthrough includes a project default and a ticket addition without relying on automatic discovery or installation.
 - [ ] Describe sequential execution and non-resumable interrupted runs accurately, with a clean distinction between the first release and deferred slices.
 
 ## Verification

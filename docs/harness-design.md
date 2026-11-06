@@ -26,13 +26,13 @@ The harness and shared role skills are maintained in this repository and can ope
 
 After a human approves a spec and its tickets, the harness may implement tickets, run checks, request bounded repairs, and integrate passing changes locally. Publishing remains separate. Missing requirements, incompatible architectural choices, and exhausted repair attempts stop the affected ticket and surface a human decision.
 
-Intentionally starting the CLI run counts as approval of the selected spec, tickets, and configured checks. Record those approved inputs; no additional per-ticket confirmation is required within that scope.
+Intentionally starting the CLI run counts as approval of the selected spec, tickets, configured checks, and skill selections. Record those approved inputs; no additional per-ticket confirmation is required within that scope.
 
 See [ADR-0001](adr/0001-reusable-harness-and-local-integration.md) for the architectural decision and rationale.
 
 ## Design review policy
 
-Combined design guidance from Matt Pocock's skills and the Microsoft OOP skill applies by default. Explicit project rules are enforceable; general principles require judgment and evidence.
+Combined design guidance from Matt Pocock's skills and the Microsoft OOP skill applies by default, alongside applicable repo-owned custom guidance. Explicit project rules are enforceable; general principles require judgment and evidence.
 
 Each ticket receives separate fresh Spec and Standards reviews. Spec review assesses the implementation against approved requirements. Standards review assesses project standards and the combined design guidance.
 
@@ -52,7 +52,13 @@ The combined code-design guidance supports functional and object-oriented code, 
 
 The first version reads specs and tickets from local Markdown files. Ticket metadata provides structured IDs, dependencies, and acceptance requirements.
 
-Custom harness skills live in their own directory and reference one shared design-policy document. Matt Pocock's and Microsoft's installed skills remain upstream references; useful upstream changes are incorporated deliberately. Workers receive ticket-specific constraints, and reviewers receive the applicable broader policy.
+Custom harness skills live in their own directory and reference one shared design-policy document. Reuse applicable existing custom guidance before creating new role skills. Matt Pocock's and Microsoft's installed skills remain upstream references; useful upstream changes are incorporated deliberately. The [spec's initial role mapping](../.scratch/ticket-harness/spec.md#custom-skills-and-design-policy) assigns planning, implementation/repair, Spec, and Standards guidance, including custom test strategy.
+
+Skill selection combines required role skills, project defaults, and optional ticket additions for the relevant roles. Ticket additions preserve defaults and the required role/access/output contracts. Sources are explicitly selected local skills from the harness library, target repository, or already installed libraries. Automatic discovery and installation are deferred.
+
+At run start, capture selected skill content and required local references with source/content identities and their selection origins. Validate availability before affected work starts and record what each assignment actually receives. Assignments, including repairs, use the captured content even if the source library changes. This makes the approved guidance inspectable and stable at the cost of requiring a new approved run to change its selection. The [skill-selection contract](../.scratch/ticket-harness/spec.md#skill-selection-and-delivery) defines the requirements.
+
+Development implementation and next-agent handoff skills remain development workflows. Their applicable practices can be shared through focused references, while the harness owns verification, review orchestration, submission commits, integration, completion, and execution records. Planning uses grilling and domain modeling with the human; it may propose ticket-specific skills as part of the approved requirements.
 
 Approved specs and tickets remain unchanged during execution. The harness owns separate run records containing statuses, attempts, commits, check outcomes, and review findings. Workers report outcomes rather than modifying execution state. Changes to approved requirements require a human decision.
 

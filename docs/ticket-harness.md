@@ -11,6 +11,9 @@ project commands.
 
 ## Python and checks
 
+Use the [testing policy](agents/testing.md) to select focused development checks,
+preserve the full-suite completion gate, and capture evidence without redundant runs.
+
 Use the reusable micromamba Python environment described in
 [Python environment guidance](agents/python-environment.md). The runtime uses only
 Python 3.12+ and Git. From this checkout, `python -m ticket_harness` requires no

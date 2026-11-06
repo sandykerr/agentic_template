@@ -6,7 +6,7 @@
 
 The developer wants agents to implement approved software changes unattended without relying on a long-lived coordinating conversation. Existing skills provide useful planning, testing, and design practices, but agent-directed scheduling and integration do not provide the deterministic ownership, verification gates, and inspectable outcomes required for this workflow.
 
-The developer also wants coherent custom guidance for good Python code design, drawing on Matt Pocock's deep-module and review practices and Microsoft's OOP guidance. The resulting guidance must support Pythonic combinations of functions and objects, with concrete project decisions taking precedence over general design heuristics.
+The developer also wants reusable repo-owned guidance that incorporates applicable custom skills alongside Matt Pocock's planning, testing, and deep-module practices and Microsoft's OOP guidance. The resulting design policy must support Pythonic combinations of functions and objects, with concrete project decisions taking precedence over general design heuristics.
 
 ## Solution
 
@@ -46,6 +46,8 @@ Concurrency, interrupted-run recovery, and failure emails are later slices.
 26. As a developer, I want design guidance that supports functional, object-oriented, and combined Pythonic approaches without prescribing unnecessary classes.
 27. As a developer, I want deterministic tests using scripted agents and real Git repositories so that failure behavior can be tested reliably.
 28. As a developer, I want a separate small real-Codex test so that process invocation, skill delivery, and structured reports are actually exercised.
+29. As a developer, I want project-default skills by role and ticket-specific additions so that each task receives relevant custom guidance.
+30. As a developer, I want selected skills and their required references captured for a run so that later library edits cannot silently change its instructions.
 
 ## Implementation Decisions
 
@@ -58,13 +60,13 @@ The CLI provides two public operations:
 | Run | Target repository, base/integration branch, approved spec and ticket selection, project configuration, and a separate run-output location | Executes the selected work, records artifacts and outcomes, and returns success only when all selected tickets are done. |
 | Status | A recorded run | Displays its recorded progress, ticket outcomes, attempts, failures, and artifact locations without launching agents or changing the target repository. |
 
-Starting a run intentionally counts as approval of its selected requirements and configured checks. Record the content identities of those inputs, the base commit, and the role/design instructions supplied to agents. An implementation attempt cannot expand that authorization.
+Starting a run intentionally counts as approval of its selected requirements, configured checks, and skill selections. Record the content identities of those inputs, the base commit, and the role/design instructions supplied to agents. An implementation attempt cannot expand that authorization.
 
 Run returns a nonzero result for incomplete work, invalid inputs, or an execution-environment failure. The report distinguishes these outcomes. Status reports recorded observations; it does not promise live process discovery or interrupted-run recovery.
 
 ### Requirements, configuration, and run records
 
-Use the configured local issue-tracker conventions: one spec and one Markdown file per ticket, with a title, triage Status, declared dependencies, and acceptance criteria. Give every ticket a stable identifier. Normalize the Markdown into one documented input contract; preserve compatibility with the approved authoring conventions and reject conflicting metadata instead of choosing a silent interpretation.
+Use the configured local issue-tracker conventions: one spec and one Markdown file per ticket, with a title, triage Status, declared dependencies, and acceptance criteria. Give every ticket a stable identifier. A ticket may additionally declare skills for the roles that need them, under the [skill-selection contract](#skill-selection-and-delivery). Normalize the Markdown into one documented input contract; preserve compatibility with the approved authoring conventions and reject conflicting metadata instead of choosing a silent interpretation.
 
 Ticket readiness is separate from dependency satisfaction and execution status. Only approved, agent-ready work is eligible to execute. Validate unique identifiers, existing dependency references, cycles, required acceptance content, check references, and executable configuration before starting workers. Selected work with missing prerequisite completion must not silently run.
 
@@ -73,6 +75,7 @@ Project configuration supplies:
 - The target code revision and integration destination.
 - Named lightweight ticket checks and the broader baseline/integration suite.
 - Applicable project standards, architecture decisions, and design-policy references.
+- Default skill selections by role, with explicit local source references.
 - Codex role profiles for implementation, repair, Spec review, and Standards review; profiles may share settings.
 - Positive stage timeouts and the maximum number of repair attempts, defaulting to two.
 - The output location for records and artifacts, separate from approved requirements and agent-editable source.
@@ -144,7 +147,7 @@ Reject missing, malformed, mismatched, or incomplete reports. A zero process exi
 
 ### Custom skills and design policy
 
-Maintain repo-owned skills with distinct responsibilities for planning, implementation, Spec review, Standards review, and shared code design. Their exact packaging can remain small; the combined policy has one authoritative source with focused references.
+Maintain repo-owned skills with distinct responsibilities for planning, implementation, Spec review, Standards review, and shared code design. Audit existing custom skills for reusable guidance before creating new role instructions. Their exact packaging can remain small; the combined policy has one authoritative source with focused references.
 
 Planning records important interfaces, invariants, and testing seams with the human, then produces independently verifiable tickets and their dependency graph. Implementation follows those contracts while choosing its internals. Standards review receives the applicable policy explicitly; workers receive the policy and references relevant to their assignment.
 
@@ -162,6 +165,29 @@ Synthesize the upstream guidance around:
 Project requirements, standards, and accepted architecture decisions govern the target project. General policy is a default design lens. A reviewer must connect a blocking concern to behavior, an agreed rule, or a concrete maintenance problem. Optional suggestions are reported without delaying integration.
 
 Keep Matt's and Microsoft's upstream skills as references. Incorporate useful changes deliberately instead of maintaining duplicate competing assessments.
+
+Use this initial role mapping, with focused references to the applicable guidance:
+
+| Role | Initial guidance |
+| --- | --- |
+| Planning | [Grilling](../../.agents/skills/matt-pocock/grilling/SKILL.md), [domain modeling](../../.agents/skills/matt-pocock/domain-modeling/SKILL.md), the shared design policy, and custom test strategy to establish contracts and produce independently verifiable tickets with the human. |
+| Implementation and repair | Approved contracts, applicable shared design constraints, custom test strategy, and [TDD](../../.agents/skills/matt-pocock/tdd/SKILL.md) when behavior needs new coverage. |
+| Spec review | Required behavior, scope, acceptance evidence, and regression protection. |
+| Standards review | The combined Matt Pocock/Microsoft design policy and the custom test-strategy review guidance. |
+
+Reuse [test-strategy](../../.agents/skills/custom/test-strategy/SKILL.md) for coverage and verification decisions. The [development implementation wrapper](../../.agents/skills/custom/implement-with-checkboxes/SKILL.md) and [next-agent handoff](../../.agents/skills/custom/create-next-agent-prompt/SKILL.md) contain useful practices, but their commit, nested-review orchestration, completion-bookkeeping, and handoff responsibilities belong to the development workflow or harness. Expose applicable shared guidance through focused references or shared resources rather than assigning those workflows wholesale to runtime workers. Harness-owned verification gates, role access, integration, and execution records remain authoritative.
+
+### Skill selection and delivery
+
+Each assignment receives its required role instructions and project-default skills, supplemented by any ticket-specific skills for that role. Ticket additions preserve defaults and required role/output/access contracts. Planning follows these selection conventions when producing approved inputs; this does not introduce an autonomous planning stage into a run.
+
+Select skills explicitly from local sources: the harness library, the target repository, or an already installed skills library. Project configuration declares role defaults; optional ticket metadata declares additions and their applicable roles. Document one canonical format and source-resolution convention. An unlisted installed skill does not become part of a run merely because it is available. Automatic discovery, downloading, and installation are outside this release.
+
+At run start, resolve and capture the selected skill content and its required local references in harness-owned artifacts. Record each selection's role, whether it came from required guidance, a project default, or a ticket addition, its source identity, and its content identity. Validate that selected skills and required references are available before affected work starts; missing required content is an input error, not permission to omit guidance.
+
+Use the captured content for every applicable implementation, repair, and review assignment. Later edits to source skills or references do not change an active run's instructions. Preserve the approved selection and captured inputs, and record the content actually delivered to each assignment. Changing the selection requires a newly approved run. Failure to deliver captured required instructions during an assignment remains a failed assignment under the bounded failure policy.
+
+Selected guidance operates within target-project requirements, standards, accepted architecture decisions, and harness role contracts. Incompatible guidance that requires changing those contracts is a human decision rather than an expansion of worker authority.
 
 ### Codex execution
 
@@ -204,6 +230,9 @@ Acceptance scenarios include:
 - An externally changed integration branch is not overwritten.
 - Status accurately exposes recorded results without starting execution.
 - The real-Codex fixture receives the required custom role/design guidance in a different target repository.
+- Project-default skills and a ticket-specific addition reach only the applicable roles while required role contracts remain present.
+- Missing selected skills or required references are reported before affected work starts.
+- Edits to source skills or required references after run capture leave assignment content unchanged; artifacts identify the captured and actually delivered content, including repairs.
 
 This repository currently has no Python harness implementation or test suite to extend. Establish a reproducible Python project/check setup as part of the first tracer bullet, and keep the fixture small.
 
@@ -216,6 +245,7 @@ This repository currently has no Python harness implementation or test suite to 
 - Automatic changes to approved scope, interfaces, requirements, or project standards.
 - Publishing, pushing, production deployment, or external side effects beyond the approved project checks.
 - A general actor framework, plugin framework, or class hierarchy without a present requirement.
+- Automatic skill discovery, downloading, or installation during ticket execution.
 
 ## Further Notes
 

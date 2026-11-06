@@ -4,6 +4,10 @@ Before running Python, installing dependencies, or running tests, read `docs/age
 
 ## Agent skills
 
+### Testing
+
+Before adding or changing tests, or choosing verification scope, read `docs/agents/testing.md`.
+
 ### Issue tracker
 
 Specs and tickets live in `.scratch/<feature>/`. Before publishing, fetching, or updating issues, read `docs/agents/issue-tracker.md`.

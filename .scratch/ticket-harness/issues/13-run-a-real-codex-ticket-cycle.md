@@ -10,7 +10,7 @@
 
 **Agent context limit:** 250,000 tokens of active context. Use the [agent context policy](../README.md#agent-context-policy).
 
-**Context:** [Codex execution](../spec.md#codex-execution); [Agent contracts and access](../spec.md#agent-contracts-and-access); [Public interface and approval](../spec.md#public-interface-and-approval).
+**Context:** [Codex execution](../spec.md#codex-execution); [Skill selection and delivery](../spec.md#skill-selection-and-delivery); [Agent contracts and access](../spec.md#agent-contracts-and-access); [Public interface and approval](../spec.md#public-interface-and-approval).
 
 **Scope:** Replace the scripted process at the existing external seam with the installed Codex CLI; preserve all current gate and role contracts.
 
@@ -19,13 +19,13 @@
 - [ ] Verify the installed CLI invocation and launch fresh assignments without resuming or inheriting the parent development conversation.
 - [ ] Apply explicit working directory, role-specific model/reasoning settings, sandbox, timeout, and output contract without silently substituting a different configured model.
 - [ ] Capture machine-readable events and schema-validated final results as run artifacts.
-- [ ] Explicitly deliver the custom implementation, Spec-review, Standards-review, and applicable design instructions across the repository boundary.
+- [ ] Explicitly deliver captured custom implementation, Spec-review, Standards-review, and applicable design instructions across the repository boundary, including a project-default custom skill and a ticket-specific addition for its selected role; record source/content identities and actual delivered instructions.
 - [ ] Demonstrate a small actual Codex implementation followed by separate actual reviews and successful exact-candidate integration.
 - [ ] Keep routine tests scripted and offline; make the authenticated real-Codex check explicit and record actual evidence or a concrete environment blocker rather than counting a skipped check as success.
 
 ## Verification
 
-Run existing deterministic checks and the separate tiny real-Codex fixture. Report the CLI version/settings, supplied skill identities, check outcomes, reviewed/candidate revisions, and observed final integration.
+Run existing deterministic checks and the separate tiny real-Codex fixture. Report the CLI version/settings, approved role selections and actual supplied content identities, check outcomes, reviewed/candidate revisions, and observed final integration. Use the small live cycle to demonstrate availability and an observable response to task-relevant selected guidance; retain captured instructions and reports. Keep exhaustive missing-reference, source-edit, and repair variations in deterministic coverage from issues 11–12 rather than multiplying live runs.
 
 ## Handoff
 

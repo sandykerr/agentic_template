@@ -22,14 +22,20 @@ Select issues 01–16 for the first usable release. Each issue delivers a bounde
 | [08](issues/08-stop-timed-out-process-trees.md) | Stop stalled assignments and check processes | 05 |
 | [09](issues/09-execute-dependencies-sequentially.md) | Execute verified dependencies in a stable order | 02 |
 | [10](issues/10-continue-independent-work-after-blocks.md) | Continue unrelated tickets after a blocked prerequisite | 06, 09 |
-| [11](issues/11-supply-combined-design-guidance-to-standards-review.md) | Supply combined Python design guidance to Standards review | 03 |
-| [12](issues/12-deliver-focused-implementation-and-spec-review-contexts.md) | Deliver focused implementation and Spec-review skills | 11 |
+| [11](issues/11-supply-combined-design-guidance-to-standards-review.md) | Capture additive skill selections and deliver combined design/Standards guidance | 03 |
+| [12](issues/12-deliver-focused-implementation-and-spec-review-contexts.md) | Deliver focused implementation, repair, and Spec guidance from captured selections | 11 |
 | [13](issues/13-run-a-real-codex-ticket-cycle.md) | Complete one real Codex ticket with configured role profiles | 08, 12 |
 | [14](issues/14-verify-role-write-boundaries.md) | Verify implementation and review access boundaries | 13 |
 | [15](issues/15-produce-approved-harness-inputs-with-planning-skill.md) | Produce executable Markdown requirements with a planning skill | 09, 11 |
 | [16](issues/16-demonstrate-the-first-usable-release.md) | Demonstrate the first usable release from a clean checkout | 07, 10, 14, 15 |
 
 Dependencies express actual required behavior/contracts, not preferred work order. Several implementation branches can become ready together, although the harness's first version still executes target tickets sequentially.
+
+## Approved skill integration
+
+The [skill-selection contract](spec.md#skill-selection-and-delivery) combines required role guidance, project-default skills, and optional ticket additions. Explicit local selections and required references are captured for the run and delivered by role. The [initial role mapping](spec.md#custom-skills-and-design-policy) reuses applicable custom guidance alongside the upstream references while preserving harness-owned responsibilities.
+
+Issue 11 establishes shared selection/capture and Standards delivery; 12 applies it to implementation, repair, and Spec review; 13 proves real Codex delivery; 15 produces approved planning inputs with skill additions; 16 documents and demonstrates the release. These are planned requirements, not claims that runtime skill selection is already implemented. Existing dependencies and completion evidence are unchanged.
 
 ## Agent context policy
 

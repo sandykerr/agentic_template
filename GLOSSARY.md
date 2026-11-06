@@ -11,6 +11,9 @@ _Avoid_: Plan (when referring to required outcomes)
 **Ticket**:
 A bounded piece of work under an approved spec, with its own acceptance requirements and declared dependencies on other tickets.
 
+**Skill selection**:
+The skills approved for a role's work, combining its required role skills, project defaults, and any applicable ticket additions.
+
 **Run**:
 An execution of the harness against an approved spec and selected tickets, together with its recorded outcomes.
 
