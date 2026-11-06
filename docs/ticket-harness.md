@@ -94,7 +94,9 @@ Executable availability is checked without invoking it: names resolve on `PATH`;
 absolute paths must name executable files. Relative executable paths must name
 regular files tracked with executable mode (`100755`) in the approved base tree;
 untracked files, caller-only permission changes, symlinks, and paths escaping the
-worktree cannot supply a relative executable.
+worktree cannot supply a relative executable. Relative executable paths must not
+contain `..` segments or end in `/` or `/.`. A bare name resolving through a relative
+`PATH` entry is rejected; use an absolute executable path or a tracked `./path`.
 Commands execute directly, without a shell, in their assigned detached worktree.
 Relative executable/script arguments must also be available at the approved base
 revision; preflight does not interpret arbitrary executable arguments or predict

@@ -36,18 +36,24 @@ def command(value: Any, field: str, repository: Path, base: str) -> None:
     ):
         raise GateFailure(f"{field}: expected a nonempty argument array of nonempty strings")
     if "/" in value[0] and not Path(value[0]).is_absolute():
+        if ".." in Path(value[0]).parts or value[0].endswith(("/", "/.")):
+            raise GateFailure(
+                f"{field}: relative executable path must not contain '..' or end with '/' or '/.'"
+            )
         relative = os.path.normpath(value[0])
-        entry = (
-            git(repository, "--literal-pathspecs", "ls-tree", "-z", base, "--", relative)
-            if relative != ".." and not relative.startswith("../")
-            else ""
-        )
+        entry = git(repository, "--literal-pathspecs", "ls-tree", "-z", base, "--", relative)
         if not entry.startswith("100755 blob "):
             raise GateFailure(
                 f"{field}: relative executable unavailable or not executable at base: {value[0]!r}"
             )
-    elif not shutil.which(value[0]):
-        raise GateFailure(f"{field}: executable unavailable: {value[0]!r}")
+    else:
+        resolved = shutil.which(value[0])
+        if not resolved:
+            raise GateFailure(f"{field}: executable unavailable: {value[0]!r}")
+        if not Path(resolved).is_absolute():
+            raise GateFailure(
+                f"{field}: executable resolved through a relative PATH entry; use an absolute path"
+            )
 
 
 def configuration(value: Any) -> dict[str, Any]:

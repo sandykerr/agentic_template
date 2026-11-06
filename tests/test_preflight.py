@@ -1,6 +1,7 @@
 """Input eligibility through the public CLI in real temporary repositories."""
 
 import json
+import os
 import sys
 from pathlib import Path
 
@@ -433,3 +434,25 @@ def test_tracked_relative_executable_can_run_when_missing_from_dirty_caller_chec
     assert record["ticket"]["state"] == "Done"
     assert case.git("rev-parse", "integration") == record["ticket"]["done_revision"]
     assert case.git("status", "--porcelain=v1") == before
+
+
+def test_caller_relative_path_search_cannot_supply_a_worktree_executable(case, monkeypatch):
+    executable = case.repo / "local-check"
+    executable.write_text("#!/bin/sh\nexit 0\n")
+    executable.chmod(0o755)
+    relative = os.path.relpath(case.repo, test_cli.ROOT)
+    monkeypatch.setenv("PATH", relative + os.pathsep + os.environ["PATH"])
+    case.config["checks"]["ticket"] = ["local-check"]
+    reject(case, "checks.ticket: executable resolved through a relative PATH entry")
+
+
+@pytest.mark.parametrize("argv0", ["./missing/../local-check", "./local-check/", "./local-check/."])
+def test_normalizing_a_relative_executable_cannot_hide_an_unusable_runtime_path(case, argv0):
+    executable = case.repo / "local-check"
+    executable.write_text("#!/bin/sh\nexit 0\n")
+    executable.chmod(0o755)
+    case.git("add", "local-check")
+    case.git("commit", "-m", "Executable check at approved base")
+    case.git("update-ref", "refs/heads/integration", case.git("rev-parse", "HEAD"))
+    case.config["checks"]["ticket"] = [argv0]
+    reject(case, "checks.ticket: relative executable path must not contain '..' or end with '/'")
