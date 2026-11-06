@@ -1,0 +1,1712 @@
+{
+  "implementation_revision": "8d345bddabd3d7fdc9cfb049e3cc7ce70f66e54a",
+  "scenarios": {
+    "passing": {
+      "exit_code": 0,
+      "run_record": "/tmp/ticket-harness-test-cilqc2e2/run/run.json",
+      "outcome": "completed",
+      "failure": null,
+      "base_revision": "ece9e9e5acf1c825dedd668416d9afb85dcf54fe",
+      "integration_revision": "8b159c9b4100c2dc2c0c59f1eef126f4fb6b1c3c",
+      "ticket": {
+        "state": "Done",
+        "attempt": 1,
+        "id": "01",
+        "submitted_revision": "9d094122e07fd201a852d342970dc771c7ac942e",
+        "changed_files": [
+          "value.txt"
+        ],
+        "candidate_revision": "8b159c9b4100c2dc2c0c59f1eef126f4fb6b1c3c",
+        "done_revision": "8b159c9b4100c2dc2c0c59f1eef126f4fb6b1c3c"
+      },
+      "gates": [
+        {
+          "stage": "baseline",
+          "revision": "ece9e9e5acf1c825dedd668416d9afb85dcf54fe",
+          "passed": true,
+          "exit_code": 0,
+          "stdout": "/tmp/ticket-harness-test-cilqc2e2/run/artifacts/baseline.stdout",
+          "stderr": "/tmp/ticket-harness-test-cilqc2e2/run/artifacts/baseline.stderr"
+        },
+        {
+          "stage": "implementation",
+          "revision": "ece9e9e5acf1c825dedd668416d9afb85dcf54fe",
+          "passed": true,
+          "exit_code": 0,
+          "report_status": "valid",
+          "stdout": "/tmp/ticket-harness-test-cilqc2e2/run/artifacts/implementation.stdout",
+          "stderr": "/tmp/ticket-harness-test-cilqc2e2/run/artifacts/implementation.stderr",
+          "assignment": "/tmp/ticket-harness-test-cilqc2e2/run/artifacts/implementation.assignment.json"
+        },
+        {
+          "stage": "check-ticket",
+          "revision": "9d094122e07fd201a852d342970dc771c7ac942e",
+          "passed": true,
+          "exit_code": 0,
+          "stdout": "/tmp/ticket-harness-test-cilqc2e2/run/artifacts/check-ticket.stdout",
+          "stderr": "/tmp/ticket-harness-test-cilqc2e2/run/artifacts/check-ticket.stderr"
+        },
+        {
+          "stage": "spec",
+          "revision": "9d094122e07fd201a852d342970dc771c7ac942e",
+          "passed": true,
+          "exit_code": 0,
+          "report_status": "valid",
+          "stdout": "/tmp/ticket-harness-test-cilqc2e2/run/artifacts/spec.stdout",
+          "stderr": "/tmp/ticket-harness-test-cilqc2e2/run/artifacts/spec.stderr",
+          "assignment": "/tmp/ticket-harness-test-cilqc2e2/run/artifacts/spec.assignment.json"
+        },
+        {
+          "stage": "standards",
+          "revision": "9d094122e07fd201a852d342970dc771c7ac942e",
+          "passed": true,
+          "exit_code": 0,
+          "report_status": "valid",
+          "stdout": "/tmp/ticket-harness-test-cilqc2e2/run/artifacts/standards.stdout",
+          "stderr": "/tmp/ticket-harness-test-cilqc2e2/run/artifacts/standards.stderr",
+          "assignment": "/tmp/ticket-harness-test-cilqc2e2/run/artifacts/standards.assignment.json"
+        },
+        {
+          "stage": "candidate",
+          "revision": "8b159c9b4100c2dc2c0c59f1eef126f4fb6b1c3c",
+          "passed": true,
+          "exit_code": 0,
+          "stdout": "/tmp/ticket-harness-test-cilqc2e2/run/artifacts/candidate.stdout",
+          "stderr": "/tmp/ticket-harness-test-cilqc2e2/run/artifacts/candidate.stderr"
+        }
+      ],
+      "operations": [
+        {
+          "stage": "baseline-worktree",
+          "passed": true
+        },
+        {
+          "stage": "implementation-worktree",
+          "passed": true
+        },
+        {
+          "stage": "submission",
+          "passed": true
+        },
+        {
+          "stage": "spec-worktree",
+          "passed": true
+        },
+        {
+          "stage": "standards-worktree",
+          "passed": true
+        },
+        {
+          "stage": "candidate-merge",
+          "passed": true
+        }
+      ],
+      "approved_inputs": {
+        "configuration": {
+          "source": "/tmp/ticket-harness-test-cilqc2e2/project.json",
+          "artifact": "/tmp/ticket-harness-test-cilqc2e2/run/inputs/configuration.json",
+          "sha256": "eaeffb621c8f0e93584976c5d33634fee58eba35e89b6ca137810426bbac0279"
+        },
+        "spec": {
+          "source": "/tmp/ticket-harness-test-cilqc2e2/target/spec.md",
+          "artifact": "/tmp/ticket-harness-test-cilqc2e2/run/inputs/spec.md",
+          "sha256": "70fc083432bac5b804dc291e318b27ed5ed439bc44fb6d81f98e39b808c3c363"
+        },
+        "ticket": {
+          "source": "/tmp/ticket-harness-test-cilqc2e2/target/01-value.md",
+          "artifact": "/tmp/ticket-harness-test-cilqc2e2/run/inputs/ticket.md",
+          "sha256": "f6b0b71fb8923adc649d922cd69ebdbb51e1635b766b5e9d666b781101a80bb3"
+        },
+        "standards-0": {
+          "source": "/tmp/ticket-harness-test-cilqc2e2/target/STANDARDS.md",
+          "artifact": "/tmp/ticket-harness-test-cilqc2e2/run/inputs/standards-0.md",
+          "sha256": "8a5efa5017f12574ff43bab7d9a487d9216a65b74d2e4709ec0dba7d141682d2"
+        }
+      },
+      "caller_preserved": true,
+      "status_equals_record": true
+    },
+    "snapshot-tamper": {
+      "exit_code": 1,
+      "run_record": "/tmp/ticket-harness-test-o71pj11d/run/run.json",
+      "outcome": "incomplete",
+      "failure": {
+        "stage": "implementation",
+        "message": "Required gate failed: implementation; Integrity violation: protected files changed"
+      },
+      "base_revision": "2e076a7e3c04438366c08e3e0016d0044c7cc76c",
+      "integration_revision": "2e076a7e3c04438366c08e3e0016d0044c7cc76c",
+      "ticket": {
+        "state": "Blocked",
+        "attempt": 1,
+        "id": "01"
+      },
+      "gates": [
+        {
+          "stage": "baseline",
+          "revision": "2e076a7e3c04438366c08e3e0016d0044c7cc76c",
+          "passed": true,
+          "exit_code": 0,
+          "stdout": "/tmp/ticket-harness-test-o71pj11d/run/artifacts/baseline.stdout",
+          "stderr": "/tmp/ticket-harness-test-o71pj11d/run/artifacts/baseline.stderr"
+        },
+        {
+          "stage": "implementation",
+          "revision": "2e076a7e3c04438366c08e3e0016d0044c7cc76c",
+          "passed": false,
+          "exit_code": 0,
+          "report_status": "valid",
+          "diagnostic": "Integrity violation: protected files changed",
+          "integrity": [
+            {
+              "path": "/tmp/ticket-harness-test-o71pj11d/run/inputs/ticket.md",
+              "expected_sha256": "f6b0b71fb8923adc649d922cd69ebdbb51e1635b766b5e9d666b781101a80bb3",
+              "observed_sha256": "d121be3103007b41edf96f8262925f8c7d61894afe9a041843b631f69445bc57",
+              "artifact": "/tmp/ticket-harness-test-o71pj11d/run/artifacts/implementation.integrity-0"
+            }
+          ],
+          "stdout": "/tmp/ticket-harness-test-o71pj11d/run/artifacts/implementation.stdout",
+          "stderr": "/tmp/ticket-harness-test-o71pj11d/run/artifacts/implementation.stderr",
+          "assignment": "/tmp/ticket-harness-test-o71pj11d/run/artifacts/implementation.assignment.json"
+        }
+      ],
+      "operations": [
+        {
+          "stage": "baseline-worktree",
+          "passed": true
+        },
+        {
+          "stage": "implementation-worktree",
+          "passed": true
+        }
+      ],
+      "approved_inputs": {
+        "configuration": {
+          "source": "/tmp/ticket-harness-test-o71pj11d/project.json",
+          "artifact": "/tmp/ticket-harness-test-o71pj11d/run/inputs/configuration.json",
+          "sha256": "af46a13513da18fa83bd88cc4b7e08c2ba83edb0f1fbc1c265c8f01d5ecac2c2"
+        },
+        "spec": {
+          "source": "/tmp/ticket-harness-test-o71pj11d/target/spec.md",
+          "artifact": "/tmp/ticket-harness-test-o71pj11d/run/inputs/spec.md",
+          "sha256": "70fc083432bac5b804dc291e318b27ed5ed439bc44fb6d81f98e39b808c3c363"
+        },
+        "ticket": {
+          "source": "/tmp/ticket-harness-test-o71pj11d/target/01-value.md",
+          "artifact": "/tmp/ticket-harness-test-o71pj11d/run/inputs/ticket.md",
+          "sha256": "f6b0b71fb8923adc649d922cd69ebdbb51e1635b766b5e9d666b781101a80bb3"
+        },
+        "standards-0": {
+          "source": "/tmp/ticket-harness-test-o71pj11d/target/STANDARDS.md",
+          "artifact": "/tmp/ticket-harness-test-o71pj11d/run/inputs/standards-0.md",
+          "sha256": "8a5efa5017f12574ff43bab7d9a487d9216a65b74d2e4709ec0dba7d141682d2"
+        }
+      },
+      "caller_preserved": true,
+      "status_equals_record": true
+    },
+    "record-tamper": {
+      "exit_code": 1,
+      "run_record": "/tmp/ticket-harness-test-83xcp0p9/run/run.json",
+      "outcome": "incomplete",
+      "failure": {
+        "stage": "implementation",
+        "message": "Required gate failed: implementation; Integrity violation: protected files changed"
+      },
+      "base_revision": "2e076a7e3c04438366c08e3e0016d0044c7cc76c",
+      "integration_revision": "2e076a7e3c04438366c08e3e0016d0044c7cc76c",
+      "ticket": {
+        "state": "Blocked",
+        "attempt": 1,
+        "id": "01"
+      },
+      "gates": [
+        {
+          "stage": "baseline",
+          "revision": "2e076a7e3c04438366c08e3e0016d0044c7cc76c",
+          "passed": true,
+          "exit_code": 0,
+          "stdout": "/tmp/ticket-harness-test-83xcp0p9/run/artifacts/baseline.stdout",
+          "stderr": "/tmp/ticket-harness-test-83xcp0p9/run/artifacts/baseline.stderr"
+        },
+        {
+          "stage": "implementation",
+          "revision": "2e076a7e3c04438366c08e3e0016d0044c7cc76c",
+          "passed": false,
+          "exit_code": 0,
+          "report_status": "valid",
+          "diagnostic": "Integrity violation: protected files changed",
+          "integrity": [
+            {
+              "path": "/tmp/ticket-harness-test-83xcp0p9/run/run.json",
+              "expected_sha256": "e0ad0c6a4893cd6f1624f1069f3c945358ec14fff6bbd4ac367b6c6da73337a3",
+              "observed_sha256": "d121be3103007b41edf96f8262925f8c7d61894afe9a041843b631f69445bc57",
+              "artifact": "/tmp/ticket-harness-test-83xcp0p9/run/artifacts/implementation.integrity-0"
+            }
+          ],
+          "stdout": "/tmp/ticket-harness-test-83xcp0p9/run/artifacts/implementation.stdout",
+          "stderr": "/tmp/ticket-harness-test-83xcp0p9/run/artifacts/implementation.stderr",
+          "assignment": "/tmp/ticket-harness-test-83xcp0p9/run/artifacts/implementation.assignment.json"
+        }
+      ],
+      "operations": [
+        {
+          "stage": "baseline-worktree",
+          "passed": true
+        },
+        {
+          "stage": "implementation-worktree",
+          "passed": true
+        }
+      ],
+      "approved_inputs": {
+        "configuration": {
+          "source": "/tmp/ticket-harness-test-83xcp0p9/project.json",
+          "artifact": "/tmp/ticket-harness-test-83xcp0p9/run/inputs/configuration.json",
+          "sha256": "b70a7d415708ccd40df85cad54f740db513f1e986272b37ef08d95e350e7da37"
+        },
+        "spec": {
+          "source": "/tmp/ticket-harness-test-83xcp0p9/target/spec.md",
+          "artifact": "/tmp/ticket-harness-test-83xcp0p9/run/inputs/spec.md",
+          "sha256": "70fc083432bac5b804dc291e318b27ed5ed439bc44fb6d81f98e39b808c3c363"
+        },
+        "ticket": {
+          "source": "/tmp/ticket-harness-test-83xcp0p9/target/01-value.md",
+          "artifact": "/tmp/ticket-harness-test-83xcp0p9/run/inputs/ticket.md",
+          "sha256": "f6b0b71fb8923adc649d922cd69ebdbb51e1635b766b5e9d666b781101a80bb3"
+        },
+        "standards-0": {
+          "source": "/tmp/ticket-harness-test-83xcp0p9/target/STANDARDS.md",
+          "artifact": "/tmp/ticket-harness-test-83xcp0p9/run/inputs/standards-0.md",
+          "sha256": "8a5efa5017f12574ff43bab7d9a487d9216a65b74d2e4709ec0dba7d141682d2"
+        }
+      },
+      "caller_preserved": true,
+      "status_equals_record": true
+    },
+    "late-review-edit": {
+      "exit_code": 1,
+      "run_record": "/tmp/ticket-harness-test-7tob6xhn/run/run.json",
+      "outcome": "incomplete",
+      "failure": {
+        "stage": "standards",
+        "message": "Verified source changed at /tmp/ticket-harness-test-7tob6xhn/run/worktrees/spec"
+      },
+      "base_revision": "091ba1dd2dac8b0a4985aa1baac72c3a245e1e69",
+      "integration_revision": "091ba1dd2dac8b0a4985aa1baac72c3a245e1e69",
+      "ticket": {
+        "state": "Blocked",
+        "attempt": 1,
+        "id": "01",
+        "submitted_revision": "8d9c88c53f9ad19f6008ce9a409a8f88c4bf2dd6",
+        "changed_files": [
+          "value.txt"
+        ]
+      },
+      "gates": [
+        {
+          "stage": "baseline",
+          "revision": "091ba1dd2dac8b0a4985aa1baac72c3a245e1e69",
+          "passed": true,
+          "exit_code": 0,
+          "stdout": "/tmp/ticket-harness-test-7tob6xhn/run/artifacts/baseline.stdout",
+          "stderr": "/tmp/ticket-harness-test-7tob6xhn/run/artifacts/baseline.stderr"
+        },
+        {
+          "stage": "implementation",
+          "revision": "091ba1dd2dac8b0a4985aa1baac72c3a245e1e69",
+          "passed": true,
+          "exit_code": 0,
+          "report_status": "valid",
+          "stdout": "/tmp/ticket-harness-test-7tob6xhn/run/artifacts/implementation.stdout",
+          "stderr": "/tmp/ticket-harness-test-7tob6xhn/run/artifacts/implementation.stderr",
+          "assignment": "/tmp/ticket-harness-test-7tob6xhn/run/artifacts/implementation.assignment.json"
+        },
+        {
+          "stage": "check-ticket",
+          "revision": "8d9c88c53f9ad19f6008ce9a409a8f88c4bf2dd6",
+          "passed": true,
+          "exit_code": 0,
+          "stdout": "/tmp/ticket-harness-test-7tob6xhn/run/artifacts/check-ticket.stdout",
+          "stderr": "/tmp/ticket-harness-test-7tob6xhn/run/artifacts/check-ticket.stderr"
+        },
+        {
+          "stage": "spec",
+          "revision": "8d9c88c53f9ad19f6008ce9a409a8f88c4bf2dd6",
+          "passed": false,
+          "exit_code": 0,
+          "report_status": "valid",
+          "verification_status": "invalidated",
+          "diagnostic": "Verified source changed at /tmp/ticket-harness-test-7tob6xhn/run/worktrees/spec",
+          "stdout": "/tmp/ticket-harness-test-7tob6xhn/run/artifacts/spec.stdout",
+          "stderr": "/tmp/ticket-harness-test-7tob6xhn/run/artifacts/spec.stderr",
+          "assignment": "/tmp/ticket-harness-test-7tob6xhn/run/artifacts/spec.assignment.json"
+        },
+        {
+          "stage": "standards",
+          "revision": "8d9c88c53f9ad19f6008ce9a409a8f88c4bf2dd6",
+          "passed": false,
+          "exit_code": 0,
+          "report_status": "valid",
+          "diagnostic": "Verified source changed at /tmp/ticket-harness-test-7tob6xhn/run/worktrees/spec",
+          "stdout": "/tmp/ticket-harness-test-7tob6xhn/run/artifacts/standards.stdout",
+          "stderr": "/tmp/ticket-harness-test-7tob6xhn/run/artifacts/standards.stderr",
+          "assignment": "/tmp/ticket-harness-test-7tob6xhn/run/artifacts/standards.assignment.json"
+        }
+      ],
+      "operations": [
+        {
+          "stage": "baseline-worktree",
+          "passed": true
+        },
+        {
+          "stage": "implementation-worktree",
+          "passed": true
+        },
+        {
+          "stage": "submission",
+          "passed": true
+        },
+        {
+          "stage": "spec-worktree",
+          "passed": true
+        },
+        {
+          "stage": "standards-worktree",
+          "passed": true
+        }
+      ],
+      "approved_inputs": {
+        "configuration": {
+          "source": "/tmp/ticket-harness-test-7tob6xhn/project.json",
+          "artifact": "/tmp/ticket-harness-test-7tob6xhn/run/inputs/configuration.json",
+          "sha256": "5fa7a544ee8c9ebe1b6c7377e1f60fe55134250a27fba06295a3f769f86a3433"
+        },
+        "spec": {
+          "source": "/tmp/ticket-harness-test-7tob6xhn/target/spec.md",
+          "artifact": "/tmp/ticket-harness-test-7tob6xhn/run/inputs/spec.md",
+          "sha256": "70fc083432bac5b804dc291e318b27ed5ed439bc44fb6d81f98e39b808c3c363"
+        },
+        "ticket": {
+          "source": "/tmp/ticket-harness-test-7tob6xhn/target/01-value.md",
+          "artifact": "/tmp/ticket-harness-test-7tob6xhn/run/inputs/ticket.md",
+          "sha256": "f6b0b71fb8923adc649d922cd69ebdbb51e1635b766b5e9d666b781101a80bb3"
+        },
+        "standards-0": {
+          "source": "/tmp/ticket-harness-test-7tob6xhn/target/STANDARDS.md",
+          "artifact": "/tmp/ticket-harness-test-7tob6xhn/run/inputs/standards-0.md",
+          "sha256": "8a5efa5017f12574ff43bab7d9a487d9216a65b74d2e4709ec0dba7d141682d2"
+        }
+      },
+      "caller_preserved": true,
+      "status_equals_record": true
+    },
+    "external-movement": {
+      "exit_code": 1,
+      "run_record": "/tmp/ticket-harness-test-b_smmv1s/run/run.json",
+      "outcome": "incomplete",
+      "failure": {
+        "stage": "integration",
+        "message": "git -c core.hooksPath=/dev/null update-ref refs/heads/integration cc373475b14723d3acc7c1fbd1519d3ccd97565a 9905ca0e7989396cc84ddd4f52a880336184e5dd: fatal: update_ref failed for ref 'refs/heads/integration': cannot lock ref 'refs/heads/integration': is at 68498a10328a7749a76c722c1b46b41c9b0a2df3 but expected 9905ca0e7989396cc84ddd4f52a880336184e5dd"
+      },
+      "base_revision": "9905ca0e7989396cc84ddd4f52a880336184e5dd",
+      "integration_revision": "68498a10328a7749a76c722c1b46b41c9b0a2df3",
+      "ticket": {
+        "state": "Blocked",
+        "attempt": 1,
+        "id": "01",
+        "submitted_revision": "691baa57179da1c83f9534068dc4a6c0cb4d4b67",
+        "changed_files": [
+          "value.txt"
+        ],
+        "candidate_revision": "cc373475b14723d3acc7c1fbd1519d3ccd97565a"
+      },
+      "gates": [
+        {
+          "stage": "baseline",
+          "revision": "9905ca0e7989396cc84ddd4f52a880336184e5dd",
+          "passed": true,
+          "exit_code": 0,
+          "stdout": "/tmp/ticket-harness-test-b_smmv1s/run/artifacts/baseline.stdout",
+          "stderr": "/tmp/ticket-harness-test-b_smmv1s/run/artifacts/baseline.stderr"
+        },
+        {
+          "stage": "implementation",
+          "revision": "9905ca0e7989396cc84ddd4f52a880336184e5dd",
+          "passed": true,
+          "exit_code": 0,
+          "report_status": "valid",
+          "stdout": "/tmp/ticket-harness-test-b_smmv1s/run/artifacts/implementation.stdout",
+          "stderr": "/tmp/ticket-harness-test-b_smmv1s/run/artifacts/implementation.stderr",
+          "assignment": "/tmp/ticket-harness-test-b_smmv1s/run/artifacts/implementation.assignment.json"
+        },
+        {
+          "stage": "check-ticket",
+          "revision": "691baa57179da1c83f9534068dc4a6c0cb4d4b67",
+          "passed": true,
+          "exit_code": 0,
+          "stdout": "/tmp/ticket-harness-test-b_smmv1s/run/artifacts/check-ticket.stdout",
+          "stderr": "/tmp/ticket-harness-test-b_smmv1s/run/artifacts/check-ticket.stderr"
+        },
+        {
+          "stage": "spec",
+          "revision": "691baa57179da1c83f9534068dc4a6c0cb4d4b67",
+          "passed": true,
+          "exit_code": 0,
+          "report_status": "valid",
+          "stdout": "/tmp/ticket-harness-test-b_smmv1s/run/artifacts/spec.stdout",
+          "stderr": "/tmp/ticket-harness-test-b_smmv1s/run/artifacts/spec.stderr",
+          "assignment": "/tmp/ticket-harness-test-b_smmv1s/run/artifacts/spec.assignment.json"
+        },
+        {
+          "stage": "standards",
+          "revision": "691baa57179da1c83f9534068dc4a6c0cb4d4b67",
+          "passed": true,
+          "exit_code": 0,
+          "report_status": "valid",
+          "stdout": "/tmp/ticket-harness-test-b_smmv1s/run/artifacts/standards.stdout",
+          "stderr": "/tmp/ticket-harness-test-b_smmv1s/run/artifacts/standards.stderr",
+          "assignment": "/tmp/ticket-harness-test-b_smmv1s/run/artifacts/standards.assignment.json"
+        },
+        {
+          "stage": "candidate",
+          "revision": "cc373475b14723d3acc7c1fbd1519d3ccd97565a",
+          "passed": true,
+          "exit_code": 0,
+          "stdout": "/tmp/ticket-harness-test-b_smmv1s/run/artifacts/candidate.stdout",
+          "stderr": "/tmp/ticket-harness-test-b_smmv1s/run/artifacts/candidate.stderr"
+        }
+      ],
+      "operations": [
+        {
+          "stage": "baseline-worktree",
+          "passed": true
+        },
+        {
+          "stage": "implementation-worktree",
+          "passed": true
+        },
+        {
+          "stage": "submission",
+          "passed": true
+        },
+        {
+          "stage": "spec-worktree",
+          "passed": true
+        },
+        {
+          "stage": "standards-worktree",
+          "passed": true
+        },
+        {
+          "stage": "candidate-merge",
+          "passed": true
+        }
+      ],
+      "approved_inputs": {
+        "configuration": {
+          "source": "/tmp/ticket-harness-test-b_smmv1s/project.json",
+          "artifact": "/tmp/ticket-harness-test-b_smmv1s/run/inputs/configuration.json",
+          "sha256": "9caaccfc24b7a039def7bf4419189e77a826325a1c9c57aed18a09630af3084b"
+        },
+        "spec": {
+          "source": "/tmp/ticket-harness-test-b_smmv1s/target/spec.md",
+          "artifact": "/tmp/ticket-harness-test-b_smmv1s/run/inputs/spec.md",
+          "sha256": "70fc083432bac5b804dc291e318b27ed5ed439bc44fb6d81f98e39b808c3c363"
+        },
+        "ticket": {
+          "source": "/tmp/ticket-harness-test-b_smmv1s/target/01-value.md",
+          "artifact": "/tmp/ticket-harness-test-b_smmv1s/run/inputs/ticket.md",
+          "sha256": "f6b0b71fb8923adc649d922cd69ebdbb51e1635b766b5e9d666b781101a80bb3"
+        },
+        "standards-0": {
+          "source": "/tmp/ticket-harness-test-b_smmv1s/target/STANDARDS.md",
+          "artifact": "/tmp/ticket-harness-test-b_smmv1s/run/inputs/standards-0.md",
+          "sha256": "8a5efa5017f12574ff43bab7d9a487d9216a65b74d2e4709ec0dba7d141682d2"
+        }
+      },
+      "caller_preserved": true,
+      "status_equals_record": true
+    },
+    "failed-merge": {
+      "exit_code": 1,
+      "run_record": "/tmp/ticket-harness-test-hye8x_ji/run/run.json",
+      "outcome": "incomplete",
+      "failure": {
+        "stage": "candidate",
+        "message": "git -c user.name=Ticket Harness -c user.email=harness@example.invalid merge --no-ff -m Verified ticket candidate fa4ba39f34c5b901946c4d2951ca7ad8b938296c: Controlled merge failure\nNot committing merge; use 'git commit' to complete the merge."
+      },
+      "base_revision": "ba1dcdba0e33bf557df3fdfbcdd71066a49f91e3",
+      "integration_revision": "ba1dcdba0e33bf557df3fdfbcdd71066a49f91e3",
+      "ticket": {
+        "state": "Blocked",
+        "attempt": 1,
+        "id": "01",
+        "submitted_revision": "fa4ba39f34c5b901946c4d2951ca7ad8b938296c",
+        "changed_files": [
+          "value.txt"
+        ]
+      },
+      "gates": [
+        {
+          "stage": "baseline",
+          "revision": "ba1dcdba0e33bf557df3fdfbcdd71066a49f91e3",
+          "passed": true,
+          "exit_code": 0,
+          "stdout": "/tmp/ticket-harness-test-hye8x_ji/run/artifacts/baseline.stdout",
+          "stderr": "/tmp/ticket-harness-test-hye8x_ji/run/artifacts/baseline.stderr"
+        },
+        {
+          "stage": "implementation",
+          "revision": "ba1dcdba0e33bf557df3fdfbcdd71066a49f91e3",
+          "passed": true,
+          "exit_code": 0,
+          "report_status": "valid",
+          "stdout": "/tmp/ticket-harness-test-hye8x_ji/run/artifacts/implementation.stdout",
+          "stderr": "/tmp/ticket-harness-test-hye8x_ji/run/artifacts/implementation.stderr",
+          "assignment": "/tmp/ticket-harness-test-hye8x_ji/run/artifacts/implementation.assignment.json"
+        },
+        {
+          "stage": "check-ticket",
+          "revision": "fa4ba39f34c5b901946c4d2951ca7ad8b938296c",
+          "passed": true,
+          "exit_code": 0,
+          "stdout": "/tmp/ticket-harness-test-hye8x_ji/run/artifacts/check-ticket.stdout",
+          "stderr": "/tmp/ticket-harness-test-hye8x_ji/run/artifacts/check-ticket.stderr"
+        },
+        {
+          "stage": "spec",
+          "revision": "fa4ba39f34c5b901946c4d2951ca7ad8b938296c",
+          "passed": true,
+          "exit_code": 0,
+          "report_status": "valid",
+          "stdout": "/tmp/ticket-harness-test-hye8x_ji/run/artifacts/spec.stdout",
+          "stderr": "/tmp/ticket-harness-test-hye8x_ji/run/artifacts/spec.stderr",
+          "assignment": "/tmp/ticket-harness-test-hye8x_ji/run/artifacts/spec.assignment.json"
+        },
+        {
+          "stage": "standards",
+          "revision": "fa4ba39f34c5b901946c4d2951ca7ad8b938296c",
+          "passed": true,
+          "exit_code": 0,
+          "report_status": "valid",
+          "stdout": "/tmp/ticket-harness-test-hye8x_ji/run/artifacts/standards.stdout",
+          "stderr": "/tmp/ticket-harness-test-hye8x_ji/run/artifacts/standards.stderr",
+          "assignment": "/tmp/ticket-harness-test-hye8x_ji/run/artifacts/standards.assignment.json"
+        }
+      ],
+      "operations": [
+        {
+          "stage": "baseline-worktree",
+          "passed": true
+        },
+        {
+          "stage": "implementation-worktree",
+          "passed": true
+        },
+        {
+          "stage": "submission",
+          "passed": true
+        },
+        {
+          "stage": "spec-worktree",
+          "passed": true
+        },
+        {
+          "stage": "standards-worktree",
+          "passed": true
+        },
+        {
+          "stage": "candidate-merge",
+          "passed": false
+        }
+      ],
+      "approved_inputs": {
+        "configuration": {
+          "source": "/tmp/ticket-harness-test-hye8x_ji/project.json",
+          "artifact": "/tmp/ticket-harness-test-hye8x_ji/run/inputs/configuration.json",
+          "sha256": "35b64d1927b6c81dd57a837c7f988fe3592193948afffd6fe99837ac54993278"
+        },
+        "spec": {
+          "source": "/tmp/ticket-harness-test-hye8x_ji/target/spec.md",
+          "artifact": "/tmp/ticket-harness-test-hye8x_ji/run/inputs/spec.md",
+          "sha256": "70fc083432bac5b804dc291e318b27ed5ed439bc44fb6d81f98e39b808c3c363"
+        },
+        "ticket": {
+          "source": "/tmp/ticket-harness-test-hye8x_ji/target/01-value.md",
+          "artifact": "/tmp/ticket-harness-test-hye8x_ji/run/inputs/ticket.md",
+          "sha256": "f6b0b71fb8923adc649d922cd69ebdbb51e1635b766b5e9d666b781101a80bb3"
+        },
+        "standards-0": {
+          "source": "/tmp/ticket-harness-test-hye8x_ji/target/STANDARDS.md",
+          "artifact": "/tmp/ticket-harness-test-hye8x_ji/run/inputs/standards-0.md",
+          "sha256": "8a5efa5017f12574ff43bab7d9a487d9216a65b74d2e4709ec0dba7d141682d2"
+        }
+      },
+      "caller_preserved": true,
+      "status_equals_record": true
+    },
+    "merge-resolution": {
+      "exit_code": 1,
+      "run_record": "/tmp/ticket-harness-test-00dltbw7/run/run.json",
+      "outcome": "incomplete",
+      "failure": {
+        "stage": "candidate",
+        "message": "Candidate 156a376da4e0eaf358b1f48d41ef45411a624c96 differs from reviewed source; renewed review required"
+      },
+      "base_revision": "ba1dcdba0e33bf557df3fdfbcdd71066a49f91e3",
+      "integration_revision": "ba1dcdba0e33bf557df3fdfbcdd71066a49f91e3",
+      "ticket": {
+        "state": "Blocked",
+        "attempt": 1,
+        "id": "01",
+        "submitted_revision": "1aa27fa7166775594c6e95ee84bd62b41af75eaf",
+        "changed_files": [
+          "value.txt"
+        ],
+        "candidate_revision": "156a376da4e0eaf358b1f48d41ef45411a624c96"
+      },
+      "gates": [
+        {
+          "stage": "baseline",
+          "revision": "ba1dcdba0e33bf557df3fdfbcdd71066a49f91e3",
+          "passed": true,
+          "exit_code": 0,
+          "stdout": "/tmp/ticket-harness-test-00dltbw7/run/artifacts/baseline.stdout",
+          "stderr": "/tmp/ticket-harness-test-00dltbw7/run/artifacts/baseline.stderr"
+        },
+        {
+          "stage": "implementation",
+          "revision": "ba1dcdba0e33bf557df3fdfbcdd71066a49f91e3",
+          "passed": true,
+          "exit_code": 0,
+          "report_status": "valid",
+          "stdout": "/tmp/ticket-harness-test-00dltbw7/run/artifacts/implementation.stdout",
+          "stderr": "/tmp/ticket-harness-test-00dltbw7/run/artifacts/implementation.stderr",
+          "assignment": "/tmp/ticket-harness-test-00dltbw7/run/artifacts/implementation.assignment.json"
+        },
+        {
+          "stage": "check-ticket",
+          "revision": "1aa27fa7166775594c6e95ee84bd62b41af75eaf",
+          "passed": true,
+          "exit_code": 0,
+          "stdout": "/tmp/ticket-harness-test-00dltbw7/run/artifacts/check-ticket.stdout",
+          "stderr": "/tmp/ticket-harness-test-00dltbw7/run/artifacts/check-ticket.stderr"
+        },
+        {
+          "stage": "spec",
+          "revision": "1aa27fa7166775594c6e95ee84bd62b41af75eaf",
+          "passed": true,
+          "exit_code": 0,
+          "report_status": "valid",
+          "stdout": "/tmp/ticket-harness-test-00dltbw7/run/artifacts/spec.stdout",
+          "stderr": "/tmp/ticket-harness-test-00dltbw7/run/artifacts/spec.stderr",
+          "assignment": "/tmp/ticket-harness-test-00dltbw7/run/artifacts/spec.assignment.json"
+        },
+        {
+          "stage": "standards",
+          "revision": "1aa27fa7166775594c6e95ee84bd62b41af75eaf",
+          "passed": true,
+          "exit_code": 0,
+          "report_status": "valid",
+          "stdout": "/tmp/ticket-harness-test-00dltbw7/run/artifacts/standards.stdout",
+          "stderr": "/tmp/ticket-harness-test-00dltbw7/run/artifacts/standards.stderr",
+          "assignment": "/tmp/ticket-harness-test-00dltbw7/run/artifacts/standards.assignment.json"
+        }
+      ],
+      "operations": [
+        {
+          "stage": "baseline-worktree",
+          "passed": true
+        },
+        {
+          "stage": "implementation-worktree",
+          "passed": true
+        },
+        {
+          "stage": "submission",
+          "passed": true
+        },
+        {
+          "stage": "spec-worktree",
+          "passed": true
+        },
+        {
+          "stage": "standards-worktree",
+          "passed": true
+        },
+        {
+          "stage": "candidate-merge",
+          "passed": true
+        }
+      ],
+      "approved_inputs": {
+        "configuration": {
+          "source": "/tmp/ticket-harness-test-00dltbw7/project.json",
+          "artifact": "/tmp/ticket-harness-test-00dltbw7/run/inputs/configuration.json",
+          "sha256": "0bdc70c40865990630436c988c273cbeaf294a962fe6d4179ddc3b6d5707038f"
+        },
+        "spec": {
+          "source": "/tmp/ticket-harness-test-00dltbw7/target/spec.md",
+          "artifact": "/tmp/ticket-harness-test-00dltbw7/run/inputs/spec.md",
+          "sha256": "70fc083432bac5b804dc291e318b27ed5ed439bc44fb6d81f98e39b808c3c363"
+        },
+        "ticket": {
+          "source": "/tmp/ticket-harness-test-00dltbw7/target/01-value.md",
+          "artifact": "/tmp/ticket-harness-test-00dltbw7/run/inputs/ticket.md",
+          "sha256": "f6b0b71fb8923adc649d922cd69ebdbb51e1635b766b5e9d666b781101a80bb3"
+        },
+        "standards-0": {
+          "source": "/tmp/ticket-harness-test-00dltbw7/target/STANDARDS.md",
+          "artifact": "/tmp/ticket-harness-test-00dltbw7/run/inputs/standards-0.md",
+          "sha256": "8a5efa5017f12574ff43bab7d9a487d9216a65b74d2e4709ec0dba7d141682d2"
+        }
+      },
+      "caller_preserved": true,
+      "status_equals_record": true
+    },
+    "failed-candidate": {
+      "exit_code": 1,
+      "run_record": "/tmp/ticket-harness-test-ij3i4q7_/run/run.json",
+      "outcome": "incomplete",
+      "failure": {
+        "stage": "candidate",
+        "message": "Required gate failed: candidate; see /tmp/ticket-harness-test-ij3i4q7_/run/artifacts/candidate.stderr"
+      },
+      "base_revision": "569511b57672a07ba01c0d1758b15b919efdf210",
+      "integration_revision": "569511b57672a07ba01c0d1758b15b919efdf210",
+      "ticket": {
+        "state": "Blocked",
+        "attempt": 1,
+        "id": "01",
+        "submitted_revision": "de110d9191a056665a2338cf6ec114fcea9753d7",
+        "changed_files": [
+          "value.txt"
+        ],
+        "candidate_revision": "bd5a771bf4fcdcd1bffdcb6c368db91787dadfd8"
+      },
+      "gates": [
+        {
+          "stage": "baseline",
+          "revision": "569511b57672a07ba01c0d1758b15b919efdf210",
+          "passed": true,
+          "exit_code": 0,
+          "stdout": "/tmp/ticket-harness-test-ij3i4q7_/run/artifacts/baseline.stdout",
+          "stderr": "/tmp/ticket-harness-test-ij3i4q7_/run/artifacts/baseline.stderr"
+        },
+        {
+          "stage": "implementation",
+          "revision": "569511b57672a07ba01c0d1758b15b919efdf210",
+          "passed": true,
+          "exit_code": 0,
+          "report_status": "valid",
+          "stdout": "/tmp/ticket-harness-test-ij3i4q7_/run/artifacts/implementation.stdout",
+          "stderr": "/tmp/ticket-harness-test-ij3i4q7_/run/artifacts/implementation.stderr",
+          "assignment": "/tmp/ticket-harness-test-ij3i4q7_/run/artifacts/implementation.assignment.json"
+        },
+        {
+          "stage": "check-ticket",
+          "revision": "de110d9191a056665a2338cf6ec114fcea9753d7",
+          "passed": true,
+          "exit_code": 0,
+          "stdout": "/tmp/ticket-harness-test-ij3i4q7_/run/artifacts/check-ticket.stdout",
+          "stderr": "/tmp/ticket-harness-test-ij3i4q7_/run/artifacts/check-ticket.stderr"
+        },
+        {
+          "stage": "spec",
+          "revision": "de110d9191a056665a2338cf6ec114fcea9753d7",
+          "passed": true,
+          "exit_code": 0,
+          "report_status": "valid",
+          "stdout": "/tmp/ticket-harness-test-ij3i4q7_/run/artifacts/spec.stdout",
+          "stderr": "/tmp/ticket-harness-test-ij3i4q7_/run/artifacts/spec.stderr",
+          "assignment": "/tmp/ticket-harness-test-ij3i4q7_/run/artifacts/spec.assignment.json"
+        },
+        {
+          "stage": "standards",
+          "revision": "de110d9191a056665a2338cf6ec114fcea9753d7",
+          "passed": true,
+          "exit_code": 0,
+          "report_status": "valid",
+          "stdout": "/tmp/ticket-harness-test-ij3i4q7_/run/artifacts/standards.stdout",
+          "stderr": "/tmp/ticket-harness-test-ij3i4q7_/run/artifacts/standards.stderr",
+          "assignment": "/tmp/ticket-harness-test-ij3i4q7_/run/artifacts/standards.assignment.json"
+        },
+        {
+          "stage": "candidate",
+          "revision": "bd5a771bf4fcdcd1bffdcb6c368db91787dadfd8",
+          "passed": false,
+          "exit_code": 1,
+          "stdout": "/tmp/ticket-harness-test-ij3i4q7_/run/artifacts/candidate.stdout",
+          "stderr": "/tmp/ticket-harness-test-ij3i4q7_/run/artifacts/candidate.stderr"
+        }
+      ],
+      "operations": [
+        {
+          "stage": "baseline-worktree",
+          "passed": true
+        },
+        {
+          "stage": "implementation-worktree",
+          "passed": true
+        },
+        {
+          "stage": "submission",
+          "passed": true
+        },
+        {
+          "stage": "spec-worktree",
+          "passed": true
+        },
+        {
+          "stage": "standards-worktree",
+          "passed": true
+        },
+        {
+          "stage": "candidate-merge",
+          "passed": true
+        }
+      ],
+      "approved_inputs": {
+        "configuration": {
+          "source": "/tmp/ticket-harness-test-ij3i4q7_/project.json",
+          "artifact": "/tmp/ticket-harness-test-ij3i4q7_/run/inputs/configuration.json",
+          "sha256": "c68f99a00af50c85f38fa2c1ec46c1f8ba53f05abd4067eaba61aab44a13671a"
+        },
+        "spec": {
+          "source": "/tmp/ticket-harness-test-ij3i4q7_/target/spec.md",
+          "artifact": "/tmp/ticket-harness-test-ij3i4q7_/run/inputs/spec.md",
+          "sha256": "70fc083432bac5b804dc291e318b27ed5ed439bc44fb6d81f98e39b808c3c363"
+        },
+        "ticket": {
+          "source": "/tmp/ticket-harness-test-ij3i4q7_/target/01-value.md",
+          "artifact": "/tmp/ticket-harness-test-ij3i4q7_/run/inputs/ticket.md",
+          "sha256": "f6b0b71fb8923adc649d922cd69ebdbb51e1635b766b5e9d666b781101a80bb3"
+        },
+        "standards-0": {
+          "source": "/tmp/ticket-harness-test-ij3i4q7_/target/STANDARDS.md",
+          "artifact": "/tmp/ticket-harness-test-ij3i4q7_/run/inputs/standards-0.md",
+          "sha256": "8a5efa5017f12574ff43bab7d9a487d9216a65b74d2e4709ec0dba7d141682d2"
+        }
+      },
+      "caller_preserved": true,
+      "status_equals_record": true
+    },
+    "submission-hook": {
+      "exit_code": 1,
+      "run_record": "/tmp/ticket-harness-test-f_yoc4r2/run/run.json",
+      "outcome": "incomplete",
+      "failure": {
+        "stage": "implementation",
+        "message": "Integrity violation: protected files changed"
+      },
+      "base_revision": "4e5a272626f17c363140f6f7157350a650fdc861",
+      "integration_revision": "4e5a272626f17c363140f6f7157350a650fdc861",
+      "ticket": {
+        "state": "Blocked",
+        "attempt": 1,
+        "id": "01",
+        "submitted_revision": "c2fcd1c02dff5c033d56421a559601e6450b4d3c",
+        "changed_files": [
+          "01-value.md",
+          "value.txt"
+        ]
+      },
+      "gates": [
+        {
+          "stage": "baseline",
+          "revision": "4e5a272626f17c363140f6f7157350a650fdc861",
+          "passed": true,
+          "exit_code": 0,
+          "stdout": "/tmp/ticket-harness-test-f_yoc4r2/run/artifacts/baseline.stdout",
+          "stderr": "/tmp/ticket-harness-test-f_yoc4r2/run/artifacts/baseline.stderr"
+        },
+        {
+          "stage": "implementation",
+          "revision": "4e5a272626f17c363140f6f7157350a650fdc861",
+          "passed": true,
+          "exit_code": 0,
+          "report_status": "valid",
+          "stdout": "/tmp/ticket-harness-test-f_yoc4r2/run/artifacts/implementation.stdout",
+          "stderr": "/tmp/ticket-harness-test-f_yoc4r2/run/artifacts/implementation.stderr",
+          "assignment": "/tmp/ticket-harness-test-f_yoc4r2/run/artifacts/implementation.assignment.json"
+        }
+      ],
+      "operations": [
+        {
+          "stage": "baseline-worktree",
+          "passed": true
+        },
+        {
+          "stage": "implementation-worktree",
+          "passed": true
+        },
+        {
+          "stage": "submission",
+          "passed": false,
+          "integrity": [
+            {
+              "path": "/tmp/ticket-harness-test-f_yoc4r2/run/worktrees/implementation/01-value.md",
+              "expected_sha256": "f6b0b71fb8923adc649d922cd69ebdbb51e1635b766b5e9d666b781101a80bb3",
+              "observed_sha256": "e1e40e186ec8aecb55c2d6548fbb668a34a55daa3cd645eceb57c2faa0cb56d8",
+              "artifact": "/tmp/ticket-harness-test-f_yoc4r2/run/artifacts/submission.integrity-0"
+            }
+          ],
+          "diagnostic": "Integrity violation: protected files changed"
+        }
+      ],
+      "approved_inputs": {
+        "configuration": {
+          "source": "/tmp/ticket-harness-test-f_yoc4r2/project.json",
+          "artifact": "/tmp/ticket-harness-test-f_yoc4r2/run/inputs/configuration.json",
+          "sha256": "bf3a6cb34077087dedb97774398b60956289c3000497d4027bf7941328296be0"
+        },
+        "spec": {
+          "source": "/tmp/ticket-harness-test-f_yoc4r2/target/spec.md",
+          "artifact": "/tmp/ticket-harness-test-f_yoc4r2/run/inputs/spec.md",
+          "sha256": "70fc083432bac5b804dc291e318b27ed5ed439bc44fb6d81f98e39b808c3c363"
+        },
+        "ticket": {
+          "source": "/tmp/ticket-harness-test-f_yoc4r2/target/01-value.md",
+          "artifact": "/tmp/ticket-harness-test-f_yoc4r2/run/inputs/ticket.md",
+          "sha256": "f6b0b71fb8923adc649d922cd69ebdbb51e1635b766b5e9d666b781101a80bb3"
+        },
+        "standards-0": {
+          "source": "/tmp/ticket-harness-test-f_yoc4r2/target/STANDARDS.md",
+          "artifact": "/tmp/ticket-harness-test-f_yoc4r2/run/inputs/standards-0.md",
+          "sha256": "8a5efa5017f12574ff43bab7d9a487d9216a65b74d2e4709ec0dba7d141682d2"
+        }
+      },
+      "caller_preserved": true,
+      "status_equals_record": true
+    },
+    "hidden-assume-unchanged": {
+      "exit_code": 1,
+      "run_record": "/tmp/ticket-harness-test-oc6_k78v/run/run.json",
+      "outcome": "incomplete",
+      "failure": {
+        "stage": "spec",
+        "message": "Verified source changed index visibility flags at /tmp/ticket-harness-test-oc6_k78v/run/worktrees/spec"
+      },
+      "base_revision": "07397fcae3169b9f4efa4d2e10f1e8a129099ed3",
+      "integration_revision": "07397fcae3169b9f4efa4d2e10f1e8a129099ed3",
+      "ticket": {
+        "state": "Blocked",
+        "attempt": 1,
+        "id": "01",
+        "submitted_revision": "a337e8496a21c1b2d0d1c32cc2941a479a3e868f",
+        "changed_files": [
+          "value.txt"
+        ]
+      },
+      "gates": [
+        {
+          "stage": "baseline",
+          "revision": "07397fcae3169b9f4efa4d2e10f1e8a129099ed3",
+          "passed": true,
+          "exit_code": 0,
+          "stdout": "/tmp/ticket-harness-test-oc6_k78v/run/artifacts/baseline.stdout",
+          "stderr": "/tmp/ticket-harness-test-oc6_k78v/run/artifacts/baseline.stderr"
+        },
+        {
+          "stage": "implementation",
+          "revision": "07397fcae3169b9f4efa4d2e10f1e8a129099ed3",
+          "passed": true,
+          "exit_code": 0,
+          "report_status": "valid",
+          "stdout": "/tmp/ticket-harness-test-oc6_k78v/run/artifacts/implementation.stdout",
+          "stderr": "/tmp/ticket-harness-test-oc6_k78v/run/artifacts/implementation.stderr",
+          "assignment": "/tmp/ticket-harness-test-oc6_k78v/run/artifacts/implementation.assignment.json"
+        },
+        {
+          "stage": "check-ticket",
+          "revision": "a337e8496a21c1b2d0d1c32cc2941a479a3e868f",
+          "passed": true,
+          "exit_code": 0,
+          "stdout": "/tmp/ticket-harness-test-oc6_k78v/run/artifacts/check-ticket.stdout",
+          "stderr": "/tmp/ticket-harness-test-oc6_k78v/run/artifacts/check-ticket.stderr"
+        },
+        {
+          "stage": "spec",
+          "revision": "a337e8496a21c1b2d0d1c32cc2941a479a3e868f",
+          "passed": false,
+          "exit_code": 0,
+          "report_status": "valid",
+          "verification_status": "invalidated",
+          "diagnostic": "Verified source changed index visibility flags at /tmp/ticket-harness-test-oc6_k78v/run/worktrees/spec",
+          "stdout": "/tmp/ticket-harness-test-oc6_k78v/run/artifacts/spec.stdout",
+          "stderr": "/tmp/ticket-harness-test-oc6_k78v/run/artifacts/spec.stderr",
+          "assignment": "/tmp/ticket-harness-test-oc6_k78v/run/artifacts/spec.assignment.json"
+        }
+      ],
+      "operations": [
+        {
+          "stage": "baseline-worktree",
+          "passed": true
+        },
+        {
+          "stage": "implementation-worktree",
+          "passed": true
+        },
+        {
+          "stage": "submission",
+          "passed": true
+        },
+        {
+          "stage": "spec-worktree",
+          "passed": true
+        }
+      ],
+      "approved_inputs": {
+        "configuration": {
+          "source": "/tmp/ticket-harness-test-oc6_k78v/project.json",
+          "artifact": "/tmp/ticket-harness-test-oc6_k78v/run/inputs/configuration.json",
+          "sha256": "d9b88c7a9f2b0228de17827e351292f5f65b2149b2df640dc1c248b9dbd650bd"
+        },
+        "spec": {
+          "source": "/tmp/ticket-harness-test-oc6_k78v/target/spec.md",
+          "artifact": "/tmp/ticket-harness-test-oc6_k78v/run/inputs/spec.md",
+          "sha256": "70fc083432bac5b804dc291e318b27ed5ed439bc44fb6d81f98e39b808c3c363"
+        },
+        "ticket": {
+          "source": "/tmp/ticket-harness-test-oc6_k78v/target/01-value.md",
+          "artifact": "/tmp/ticket-harness-test-oc6_k78v/run/inputs/ticket.md",
+          "sha256": "f6b0b71fb8923adc649d922cd69ebdbb51e1635b766b5e9d666b781101a80bb3"
+        },
+        "standards-0": {
+          "source": "/tmp/ticket-harness-test-oc6_k78v/target/STANDARDS.md",
+          "artifact": "/tmp/ticket-harness-test-oc6_k78v/run/inputs/standards-0.md",
+          "sha256": "8a5efa5017f12574ff43bab7d9a487d9216a65b74d2e4709ec0dba7d141682d2"
+        }
+      },
+      "caller_preserved": true,
+      "status_equals_record": true
+    },
+    "hidden-skip-worktree": {
+      "exit_code": 1,
+      "run_record": "/tmp/ticket-harness-test-04z4w7ex/run/run.json",
+      "outcome": "incomplete",
+      "failure": {
+        "stage": "spec",
+        "message": "Verified source changed index visibility flags at /tmp/ticket-harness-test-04z4w7ex/run/worktrees/spec"
+      },
+      "base_revision": "07397fcae3169b9f4efa4d2e10f1e8a129099ed3",
+      "integration_revision": "07397fcae3169b9f4efa4d2e10f1e8a129099ed3",
+      "ticket": {
+        "state": "Blocked",
+        "attempt": 1,
+        "id": "01",
+        "submitted_revision": "754bd23e4eba7cdd90c948335ad25563f87a320f",
+        "changed_files": [
+          "value.txt"
+        ]
+      },
+      "gates": [
+        {
+          "stage": "baseline",
+          "revision": "07397fcae3169b9f4efa4d2e10f1e8a129099ed3",
+          "passed": true,
+          "exit_code": 0,
+          "stdout": "/tmp/ticket-harness-test-04z4w7ex/run/artifacts/baseline.stdout",
+          "stderr": "/tmp/ticket-harness-test-04z4w7ex/run/artifacts/baseline.stderr"
+        },
+        {
+          "stage": "implementation",
+          "revision": "07397fcae3169b9f4efa4d2e10f1e8a129099ed3",
+          "passed": true,
+          "exit_code": 0,
+          "report_status": "valid",
+          "stdout": "/tmp/ticket-harness-test-04z4w7ex/run/artifacts/implementation.stdout",
+          "stderr": "/tmp/ticket-harness-test-04z4w7ex/run/artifacts/implementation.stderr",
+          "assignment": "/tmp/ticket-harness-test-04z4w7ex/run/artifacts/implementation.assignment.json"
+        },
+        {
+          "stage": "check-ticket",
+          "revision": "754bd23e4eba7cdd90c948335ad25563f87a320f",
+          "passed": true,
+          "exit_code": 0,
+          "stdout": "/tmp/ticket-harness-test-04z4w7ex/run/artifacts/check-ticket.stdout",
+          "stderr": "/tmp/ticket-harness-test-04z4w7ex/run/artifacts/check-ticket.stderr"
+        },
+        {
+          "stage": "spec",
+          "revision": "754bd23e4eba7cdd90c948335ad25563f87a320f",
+          "passed": false,
+          "exit_code": 0,
+          "report_status": "valid",
+          "verification_status": "invalidated",
+          "diagnostic": "Verified source changed index visibility flags at /tmp/ticket-harness-test-04z4w7ex/run/worktrees/spec",
+          "stdout": "/tmp/ticket-harness-test-04z4w7ex/run/artifacts/spec.stdout",
+          "stderr": "/tmp/ticket-harness-test-04z4w7ex/run/artifacts/spec.stderr",
+          "assignment": "/tmp/ticket-harness-test-04z4w7ex/run/artifacts/spec.assignment.json"
+        }
+      ],
+      "operations": [
+        {
+          "stage": "baseline-worktree",
+          "passed": true
+        },
+        {
+          "stage": "implementation-worktree",
+          "passed": true
+        },
+        {
+          "stage": "submission",
+          "passed": true
+        },
+        {
+          "stage": "spec-worktree",
+          "passed": true
+        }
+      ],
+      "approved_inputs": {
+        "configuration": {
+          "source": "/tmp/ticket-harness-test-04z4w7ex/project.json",
+          "artifact": "/tmp/ticket-harness-test-04z4w7ex/run/inputs/configuration.json",
+          "sha256": "2be35c53a0a93577f65098e914791234c23794ea99d48acb8da3dce10aee345e"
+        },
+        "spec": {
+          "source": "/tmp/ticket-harness-test-04z4w7ex/target/spec.md",
+          "artifact": "/tmp/ticket-harness-test-04z4w7ex/run/inputs/spec.md",
+          "sha256": "70fc083432bac5b804dc291e318b27ed5ed439bc44fb6d81f98e39b808c3c363"
+        },
+        "ticket": {
+          "source": "/tmp/ticket-harness-test-04z4w7ex/target/01-value.md",
+          "artifact": "/tmp/ticket-harness-test-04z4w7ex/run/inputs/ticket.md",
+          "sha256": "f6b0b71fb8923adc649d922cd69ebdbb51e1635b766b5e9d666b781101a80bb3"
+        },
+        "standards-0": {
+          "source": "/tmp/ticket-harness-test-04z4w7ex/target/STANDARDS.md",
+          "artifact": "/tmp/ticket-harness-test-04z4w7ex/run/inputs/standards-0.md",
+          "sha256": "8a5efa5017f12574ff43bab7d9a487d9216a65b74d2e4709ec0dba7d141682d2"
+        }
+      },
+      "caller_preserved": true,
+      "status_equals_record": true
+    },
+    "hook-evidence": {
+      "exit_code": 1,
+      "run_record": "/tmp/ticket-harness-test-4u19otbu/run/run.json",
+      "outcome": "incomplete",
+      "failure": {
+        "stage": "candidate",
+        "message": "Integrity violation: protected files changed"
+      },
+      "base_revision": "3728376414e59926cb90a3943945b9639f393467",
+      "integration_revision": "3728376414e59926cb90a3943945b9639f393467",
+      "ticket": {
+        "state": "Blocked",
+        "attempt": 1,
+        "id": "01",
+        "submitted_revision": "b02b20dbfa60465b744fc5ad7477cb936bfa66a9",
+        "changed_files": [
+          "value.txt"
+        ],
+        "candidate_revision": "4cdb389ab83b2e5005d77185bae2d7b862c11104"
+      },
+      "gates": [
+        {
+          "stage": "baseline",
+          "revision": "3728376414e59926cb90a3943945b9639f393467",
+          "passed": true,
+          "exit_code": 0,
+          "stdout": "/tmp/ticket-harness-test-4u19otbu/run/artifacts/baseline.stdout",
+          "stderr": "/tmp/ticket-harness-test-4u19otbu/run/artifacts/baseline.stderr"
+        },
+        {
+          "stage": "implementation",
+          "revision": "3728376414e59926cb90a3943945b9639f393467",
+          "passed": true,
+          "exit_code": 0,
+          "report_status": "valid",
+          "stdout": "/tmp/ticket-harness-test-4u19otbu/run/artifacts/implementation.stdout",
+          "stderr": "/tmp/ticket-harness-test-4u19otbu/run/artifacts/implementation.stderr",
+          "assignment": "/tmp/ticket-harness-test-4u19otbu/run/artifacts/implementation.assignment.json"
+        },
+        {
+          "stage": "check-ticket",
+          "revision": "b02b20dbfa60465b744fc5ad7477cb936bfa66a9",
+          "passed": true,
+          "exit_code": 0,
+          "stdout": "/tmp/ticket-harness-test-4u19otbu/run/artifacts/check-ticket.stdout",
+          "stderr": "/tmp/ticket-harness-test-4u19otbu/run/artifacts/check-ticket.stderr"
+        },
+        {
+          "stage": "spec",
+          "revision": "b02b20dbfa60465b744fc5ad7477cb936bfa66a9",
+          "passed": true,
+          "exit_code": 0,
+          "report_status": "valid",
+          "stdout": "/tmp/ticket-harness-test-4u19otbu/run/artifacts/spec.stdout",
+          "stderr": "/tmp/ticket-harness-test-4u19otbu/run/artifacts/spec.stderr",
+          "assignment": "/tmp/ticket-harness-test-4u19otbu/run/artifacts/spec.assignment.json"
+        },
+        {
+          "stage": "standards",
+          "revision": "b02b20dbfa60465b744fc5ad7477cb936bfa66a9",
+          "passed": true,
+          "exit_code": 0,
+          "report_status": "valid",
+          "stdout": "/tmp/ticket-harness-test-4u19otbu/run/artifacts/standards.stdout",
+          "stderr": "/tmp/ticket-harness-test-4u19otbu/run/artifacts/standards.stderr",
+          "assignment": "/tmp/ticket-harness-test-4u19otbu/run/artifacts/standards.assignment.json"
+        }
+      ],
+      "operations": [
+        {
+          "stage": "baseline-worktree",
+          "passed": true
+        },
+        {
+          "stage": "implementation-worktree",
+          "passed": true
+        },
+        {
+          "stage": "submission",
+          "passed": true
+        },
+        {
+          "stage": "spec-worktree",
+          "passed": true
+        },
+        {
+          "stage": "standards-worktree",
+          "passed": true
+        },
+        {
+          "stage": "candidate-merge",
+          "passed": false,
+          "integrity": [
+            {
+              "path": "/tmp/ticket-harness-test-4u19otbu/run/artifacts/spec.stdout",
+              "expected_sha256": "b69f4e7ef6ee2b10fd15d7c49171807b53fb3c21dc6b328c7715cdb7ef37f56a",
+              "observed_sha256": "47b4c25eeb4c30d568df90e4af50b7816c6aa5f18b30430bef189be50ca27b9c",
+              "artifact": "/tmp/ticket-harness-test-4u19otbu/run/artifacts/candidate-merge.integrity-0"
+            }
+          ],
+          "diagnostic": "Integrity violation: protected files changed"
+        }
+      ],
+      "approved_inputs": {
+        "configuration": {
+          "source": "/tmp/ticket-harness-test-4u19otbu/project.json",
+          "artifact": "/tmp/ticket-harness-test-4u19otbu/run/inputs/configuration.json",
+          "sha256": "090d03dbcbf1af03170c887538a2538b2d77bf944f1e4bc9b78005018d4b71f5"
+        },
+        "spec": {
+          "source": "/tmp/ticket-harness-test-4u19otbu/target/spec.md",
+          "artifact": "/tmp/ticket-harness-test-4u19otbu/run/inputs/spec.md",
+          "sha256": "70fc083432bac5b804dc291e318b27ed5ed439bc44fb6d81f98e39b808c3c363"
+        },
+        "ticket": {
+          "source": "/tmp/ticket-harness-test-4u19otbu/target/01-value.md",
+          "artifact": "/tmp/ticket-harness-test-4u19otbu/run/inputs/ticket.md",
+          "sha256": "f6b0b71fb8923adc649d922cd69ebdbb51e1635b766b5e9d666b781101a80bb3"
+        },
+        "standards-0": {
+          "source": "/tmp/ticket-harness-test-4u19otbu/target/STANDARDS.md",
+          "artifact": "/tmp/ticket-harness-test-4u19otbu/run/inputs/standards-0.md",
+          "sha256": "8a5efa5017f12574ff43bab7d9a487d9216a65b74d2e4709ec0dba7d141682d2"
+        }
+      },
+      "caller_preserved": true,
+      "status_equals_record": true
+    },
+    "checkout-hook": {
+      "exit_code": 1,
+      "run_record": "/tmp/ticket-harness-test-4r8fsdvv/run/run.json",
+      "outcome": "incomplete",
+      "failure": {
+        "stage": "standards",
+        "message": "Integrity violation: protected files changed"
+      },
+      "base_revision": "4cc8d94fb5349ebe64d5a6f157889fdab87b8c48",
+      "integration_revision": "4cc8d94fb5349ebe64d5a6f157889fdab87b8c48",
+      "ticket": {
+        "state": "Blocked",
+        "attempt": 1,
+        "id": "01",
+        "submitted_revision": "d36123c9e6167fa70da6b6855d7fac9fabf65863",
+        "changed_files": [
+          "value.txt"
+        ]
+      },
+      "gates": [
+        {
+          "stage": "baseline",
+          "revision": "4cc8d94fb5349ebe64d5a6f157889fdab87b8c48",
+          "passed": true,
+          "exit_code": 0,
+          "stdout": "/tmp/ticket-harness-test-4r8fsdvv/run/artifacts/baseline.stdout",
+          "stderr": "/tmp/ticket-harness-test-4r8fsdvv/run/artifacts/baseline.stderr"
+        },
+        {
+          "stage": "implementation",
+          "revision": "4cc8d94fb5349ebe64d5a6f157889fdab87b8c48",
+          "passed": true,
+          "exit_code": 0,
+          "report_status": "valid",
+          "stdout": "/tmp/ticket-harness-test-4r8fsdvv/run/artifacts/implementation.stdout",
+          "stderr": "/tmp/ticket-harness-test-4r8fsdvv/run/artifacts/implementation.stderr",
+          "assignment": "/tmp/ticket-harness-test-4r8fsdvv/run/artifacts/implementation.assignment.json"
+        },
+        {
+          "stage": "check-ticket",
+          "revision": "d36123c9e6167fa70da6b6855d7fac9fabf65863",
+          "passed": true,
+          "exit_code": 0,
+          "stdout": "/tmp/ticket-harness-test-4r8fsdvv/run/artifacts/check-ticket.stdout",
+          "stderr": "/tmp/ticket-harness-test-4r8fsdvv/run/artifacts/check-ticket.stderr"
+        },
+        {
+          "stage": "spec",
+          "revision": "d36123c9e6167fa70da6b6855d7fac9fabf65863",
+          "passed": true,
+          "exit_code": 0,
+          "report_status": "valid",
+          "stdout": "/tmp/ticket-harness-test-4r8fsdvv/run/artifacts/spec.stdout",
+          "stderr": "/tmp/ticket-harness-test-4r8fsdvv/run/artifacts/spec.stderr",
+          "assignment": "/tmp/ticket-harness-test-4r8fsdvv/run/artifacts/spec.assignment.json"
+        }
+      ],
+      "operations": [
+        {
+          "stage": "baseline-worktree",
+          "passed": true
+        },
+        {
+          "stage": "implementation-worktree",
+          "passed": true
+        },
+        {
+          "stage": "submission",
+          "passed": true
+        },
+        {
+          "stage": "spec-worktree",
+          "passed": true
+        },
+        {
+          "stage": "standards-worktree",
+          "passed": false,
+          "integrity": [
+            {
+              "path": "/tmp/ticket-harness-test-4r8fsdvv/run/artifacts/spec.stdout",
+              "expected_sha256": "cb30c66369cbd62463a2a8fa9dbf83a4e5a9d15da7a95fb89b44e87c6b712cd7",
+              "observed_sha256": "47b4c25eeb4c30d568df90e4af50b7816c6aa5f18b30430bef189be50ca27b9c",
+              "artifact": "/tmp/ticket-harness-test-4r8fsdvv/run/artifacts/standards-worktree.integrity-0"
+            }
+          ],
+          "diagnostic": "Integrity violation: protected files changed"
+        }
+      ],
+      "approved_inputs": {
+        "configuration": {
+          "source": "/tmp/ticket-harness-test-4r8fsdvv/project.json",
+          "artifact": "/tmp/ticket-harness-test-4r8fsdvv/run/inputs/configuration.json",
+          "sha256": "da284a98379964a389744f7466e9c7afaf9a6d369799d981c7650e49781e4c4b"
+        },
+        "spec": {
+          "source": "/tmp/ticket-harness-test-4r8fsdvv/target/spec.md",
+          "artifact": "/tmp/ticket-harness-test-4r8fsdvv/run/inputs/spec.md",
+          "sha256": "70fc083432bac5b804dc291e318b27ed5ed439bc44fb6d81f98e39b808c3c363"
+        },
+        "ticket": {
+          "source": "/tmp/ticket-harness-test-4r8fsdvv/target/01-value.md",
+          "artifact": "/tmp/ticket-harness-test-4r8fsdvv/run/inputs/ticket.md",
+          "sha256": "f6b0b71fb8923adc649d922cd69ebdbb51e1635b766b5e9d666b781101a80bb3"
+        },
+        "standards-0": {
+          "source": "/tmp/ticket-harness-test-4r8fsdvv/target/STANDARDS.md",
+          "artifact": "/tmp/ticket-harness-test-4r8fsdvv/run/inputs/standards-0.md",
+          "sha256": "8a5efa5017f12574ff43bab7d9a487d9216a65b74d2e4709ec0dba7d141682d2"
+        }
+      },
+      "caller_preserved": true,
+      "status_equals_record": true
+    },
+    "final-ref-hook": {
+      "exit_code": 0,
+      "run_record": "/tmp/ticket-harness-test-gwtxppe4/run/run.json",
+      "outcome": "completed",
+      "failure": null,
+      "base_revision": "9c41e65eaba4c206656dfe48c872816d0b43964a",
+      "integration_revision": "dc6ed9204a430dd1619e123fdf7b085b169aeef2",
+      "ticket": {
+        "state": "Done",
+        "attempt": 1,
+        "id": "01",
+        "submitted_revision": "8b58abfdfd088fd7611bcafc733468cb929c0c80",
+        "changed_files": [
+          "value.txt"
+        ],
+        "candidate_revision": "dc6ed9204a430dd1619e123fdf7b085b169aeef2",
+        "done_revision": "dc6ed9204a430dd1619e123fdf7b085b169aeef2"
+      },
+      "gates": [
+        {
+          "stage": "baseline",
+          "revision": "9c41e65eaba4c206656dfe48c872816d0b43964a",
+          "passed": true,
+          "exit_code": 0,
+          "stdout": "/tmp/ticket-harness-test-gwtxppe4/run/artifacts/baseline.stdout",
+          "stderr": "/tmp/ticket-harness-test-gwtxppe4/run/artifacts/baseline.stderr"
+        },
+        {
+          "stage": "implementation",
+          "revision": "9c41e65eaba4c206656dfe48c872816d0b43964a",
+          "passed": true,
+          "exit_code": 0,
+          "report_status": "valid",
+          "stdout": "/tmp/ticket-harness-test-gwtxppe4/run/artifacts/implementation.stdout",
+          "stderr": "/tmp/ticket-harness-test-gwtxppe4/run/artifacts/implementation.stderr",
+          "assignment": "/tmp/ticket-harness-test-gwtxppe4/run/artifacts/implementation.assignment.json"
+        },
+        {
+          "stage": "check-ticket",
+          "revision": "8b58abfdfd088fd7611bcafc733468cb929c0c80",
+          "passed": true,
+          "exit_code": 0,
+          "stdout": "/tmp/ticket-harness-test-gwtxppe4/run/artifacts/check-ticket.stdout",
+          "stderr": "/tmp/ticket-harness-test-gwtxppe4/run/artifacts/check-ticket.stderr"
+        },
+        {
+          "stage": "spec",
+          "revision": "8b58abfdfd088fd7611bcafc733468cb929c0c80",
+          "passed": true,
+          "exit_code": 0,
+          "report_status": "valid",
+          "stdout": "/tmp/ticket-harness-test-gwtxppe4/run/artifacts/spec.stdout",
+          "stderr": "/tmp/ticket-harness-test-gwtxppe4/run/artifacts/spec.stderr",
+          "assignment": "/tmp/ticket-harness-test-gwtxppe4/run/artifacts/spec.assignment.json"
+        },
+        {
+          "stage": "standards",
+          "revision": "8b58abfdfd088fd7611bcafc733468cb929c0c80",
+          "passed": true,
+          "exit_code": 0,
+          "report_status": "valid",
+          "stdout": "/tmp/ticket-harness-test-gwtxppe4/run/artifacts/standards.stdout",
+          "stderr": "/tmp/ticket-harness-test-gwtxppe4/run/artifacts/standards.stderr",
+          "assignment": "/tmp/ticket-harness-test-gwtxppe4/run/artifacts/standards.assignment.json"
+        },
+        {
+          "stage": "candidate",
+          "revision": "dc6ed9204a430dd1619e123fdf7b085b169aeef2",
+          "passed": true,
+          "exit_code": 0,
+          "stdout": "/tmp/ticket-harness-test-gwtxppe4/run/artifacts/candidate.stdout",
+          "stderr": "/tmp/ticket-harness-test-gwtxppe4/run/artifacts/candidate.stderr"
+        }
+      ],
+      "operations": [
+        {
+          "stage": "baseline-worktree",
+          "passed": true
+        },
+        {
+          "stage": "implementation-worktree",
+          "passed": true
+        },
+        {
+          "stage": "submission",
+          "passed": true
+        },
+        {
+          "stage": "spec-worktree",
+          "passed": true
+        },
+        {
+          "stage": "standards-worktree",
+          "passed": true
+        },
+        {
+          "stage": "candidate-merge",
+          "passed": true
+        }
+      ],
+      "approved_inputs": {
+        "configuration": {
+          "source": "/tmp/ticket-harness-test-gwtxppe4/project.json",
+          "artifact": "/tmp/ticket-harness-test-gwtxppe4/run/inputs/configuration.json",
+          "sha256": "c2b404861aa66d342b56352d2f5125fc7660f99c6e4f7f457f9588a67dd3fde3"
+        },
+        "spec": {
+          "source": "/tmp/ticket-harness-test-gwtxppe4/target/spec.md",
+          "artifact": "/tmp/ticket-harness-test-gwtxppe4/run/inputs/spec.md",
+          "sha256": "70fc083432bac5b804dc291e318b27ed5ed439bc44fb6d81f98e39b808c3c363"
+        },
+        "ticket": {
+          "source": "/tmp/ticket-harness-test-gwtxppe4/target/01-value.md",
+          "artifact": "/tmp/ticket-harness-test-gwtxppe4/run/inputs/ticket.md",
+          "sha256": "f6b0b71fb8923adc649d922cd69ebdbb51e1635b766b5e9d666b781101a80bb3"
+        },
+        "standards-0": {
+          "source": "/tmp/ticket-harness-test-gwtxppe4/target/STANDARDS.md",
+          "artifact": "/tmp/ticket-harness-test-gwtxppe4/run/inputs/standards-0.md",
+          "sha256": "8a5efa5017f12574ff43bab7d9a487d9216a65b74d2e4709ec0dba7d141682d2"
+        }
+      },
+      "caller_preserved": true,
+      "status_equals_record": true
+    },
+    "deleted-snapshot": {
+      "exit_code": 1,
+      "run_record": "/tmp/ticket-harness-test-5boqir5d/run/run.json",
+      "outcome": "incomplete",
+      "failure": {
+        "stage": "implementation",
+        "message": "Required gate failed: implementation; Integrity violation: protected files changed"
+      },
+      "base_revision": "071c305ffe1356e63e4e0945ac913105399790bb",
+      "integration_revision": "071c305ffe1356e63e4e0945ac913105399790bb",
+      "ticket": {
+        "state": "Blocked",
+        "attempt": 1,
+        "id": "01"
+      },
+      "gates": [
+        {
+          "stage": "baseline",
+          "revision": "071c305ffe1356e63e4e0945ac913105399790bb",
+          "passed": true,
+          "exit_code": 0,
+          "stdout": "/tmp/ticket-harness-test-5boqir5d/run/artifacts/baseline.stdout",
+          "stderr": "/tmp/ticket-harness-test-5boqir5d/run/artifacts/baseline.stderr"
+        },
+        {
+          "stage": "implementation",
+          "revision": "071c305ffe1356e63e4e0945ac913105399790bb",
+          "passed": false,
+          "exit_code": 0,
+          "report_status": "valid",
+          "diagnostic": "Integrity violation: protected files changed",
+          "integrity": [
+            {
+              "path": "/tmp/ticket-harness-test-5boqir5d/run/inputs/ticket.md",
+              "expected_sha256": "f6b0b71fb8923adc649d922cd69ebdbb51e1635b766b5e9d666b781101a80bb3",
+              "observed_sha256": null,
+              "artifact": null
+            }
+          ],
+          "stdout": "/tmp/ticket-harness-test-5boqir5d/run/artifacts/implementation.stdout",
+          "stderr": "/tmp/ticket-harness-test-5boqir5d/run/artifacts/implementation.stderr",
+          "assignment": "/tmp/ticket-harness-test-5boqir5d/run/artifacts/implementation.assignment.json"
+        }
+      ],
+      "operations": [
+        {
+          "stage": "baseline-worktree",
+          "passed": true
+        },
+        {
+          "stage": "implementation-worktree",
+          "passed": true
+        }
+      ],
+      "approved_inputs": {
+        "configuration": {
+          "source": "/tmp/ticket-harness-test-5boqir5d/project.json",
+          "artifact": "/tmp/ticket-harness-test-5boqir5d/run/inputs/configuration.json",
+          "sha256": "50636f069b79ccf625db4070c07eb4ecff64ece3aafeae0dcc1e3af7bb7dca9c"
+        },
+        "spec": {
+          "source": "/tmp/ticket-harness-test-5boqir5d/target/spec.md",
+          "artifact": "/tmp/ticket-harness-test-5boqir5d/run/inputs/spec.md",
+          "sha256": "70fc083432bac5b804dc291e318b27ed5ed439bc44fb6d81f98e39b808c3c363"
+        },
+        "ticket": {
+          "source": "/tmp/ticket-harness-test-5boqir5d/target/01-value.md",
+          "artifact": "/tmp/ticket-harness-test-5boqir5d/run/inputs/ticket.md",
+          "sha256": "f6b0b71fb8923adc649d922cd69ebdbb51e1635b766b5e9d666b781101a80bb3"
+        },
+        "standards-0": {
+          "source": "/tmp/ticket-harness-test-5boqir5d/target/STANDARDS.md",
+          "artifact": "/tmp/ticket-harness-test-5boqir5d/run/inputs/standards-0.md",
+          "sha256": "8a5efa5017f12574ff43bab7d9a487d9216a65b74d2e4709ec0dba7d141682d2"
+        }
+      },
+      "caller_preserved": true,
+      "status_equals_record": true
+    },
+    "directory-snapshot": {
+      "exit_code": 1,
+      "run_record": "/tmp/ticket-harness-test-r31q9rr0/run/run.json",
+      "outcome": "incomplete",
+      "failure": {
+        "stage": "implementation",
+        "message": "Required gate failed: implementation; Integrity violation: protected files changed"
+      },
+      "base_revision": "e132dabcca10bff7e68b907f6154fd2d6bcd49b6",
+      "integration_revision": "e132dabcca10bff7e68b907f6154fd2d6bcd49b6",
+      "ticket": {
+        "state": "Blocked",
+        "attempt": 1,
+        "id": "01"
+      },
+      "gates": [
+        {
+          "stage": "baseline",
+          "revision": "e132dabcca10bff7e68b907f6154fd2d6bcd49b6",
+          "passed": true,
+          "exit_code": 0,
+          "stdout": "/tmp/ticket-harness-test-r31q9rr0/run/artifacts/baseline.stdout",
+          "stderr": "/tmp/ticket-harness-test-r31q9rr0/run/artifacts/baseline.stderr"
+        },
+        {
+          "stage": "implementation",
+          "revision": "e132dabcca10bff7e68b907f6154fd2d6bcd49b6",
+          "passed": false,
+          "exit_code": 0,
+          "report_status": "valid",
+          "diagnostic": "Integrity violation: protected files changed",
+          "integrity": [
+            {
+              "path": "/tmp/ticket-harness-test-r31q9rr0/run/inputs/ticket.md",
+              "expected_sha256": "f6b0b71fb8923adc649d922cd69ebdbb51e1635b766b5e9d666b781101a80bb3",
+              "observed_sha256": null,
+              "artifact": "/tmp/ticket-harness-test-r31q9rr0/run/artifacts/implementation.integrity-0"
+            }
+          ],
+          "stdout": "/tmp/ticket-harness-test-r31q9rr0/run/artifacts/implementation.stdout",
+          "stderr": "/tmp/ticket-harness-test-r31q9rr0/run/artifacts/implementation.stderr",
+          "assignment": "/tmp/ticket-harness-test-r31q9rr0/run/artifacts/implementation.assignment.json"
+        }
+      ],
+      "operations": [
+        {
+          "stage": "baseline-worktree",
+          "passed": true
+        },
+        {
+          "stage": "implementation-worktree",
+          "passed": true
+        }
+      ],
+      "approved_inputs": {
+        "configuration": {
+          "source": "/tmp/ticket-harness-test-r31q9rr0/project.json",
+          "artifact": "/tmp/ticket-harness-test-r31q9rr0/run/inputs/configuration.json",
+          "sha256": "2614bb05627c1e9749df81bf6cef0181c6038fc35aa7d2c8a33cf7f3beefe1e8"
+        },
+        "spec": {
+          "source": "/tmp/ticket-harness-test-r31q9rr0/target/spec.md",
+          "artifact": "/tmp/ticket-harness-test-r31q9rr0/run/inputs/spec.md",
+          "sha256": "70fc083432bac5b804dc291e318b27ed5ed439bc44fb6d81f98e39b808c3c363"
+        },
+        "ticket": {
+          "source": "/tmp/ticket-harness-test-r31q9rr0/target/01-value.md",
+          "artifact": "/tmp/ticket-harness-test-r31q9rr0/run/inputs/ticket.md",
+          "sha256": "f6b0b71fb8923adc649d922cd69ebdbb51e1635b766b5e9d666b781101a80bb3"
+        },
+        "standards-0": {
+          "source": "/tmp/ticket-harness-test-r31q9rr0/target/STANDARDS.md",
+          "artifact": "/tmp/ticket-harness-test-r31q9rr0/run/inputs/standards-0.md",
+          "sha256": "8a5efa5017f12574ff43bab7d9a487d9216a65b74d2e4709ec0dba7d141682d2"
+        }
+      },
+      "caller_preserved": true,
+      "status_equals_record": true
+    }
+  }
+}
