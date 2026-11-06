@@ -1,10 +1,10 @@
 # Scripted single-ticket harness
 
-Tickets 01–02 execute one selected approved ticket with scripted external agents
-and validate its requirements bundle before execution. Repairs, dependency
-scheduling, timeouts, live Codex, comprehensive agent-report validation, transaction
-hardening, and an operating-system sandbox remain later numbered tickets. Run only
-trusted scripted processes and project commands.
+Tickets 01–03 execute one selected approved ticket with scripted external agents
+and validate its requirements bundle and assignment reports. Repairs, dependency
+scheduling, timeouts, live Codex, transaction hardening, and an operating-system
+sandbox remain later numbered tickets. Run only trusted scripted processes and
+project commands.
 
 ## Python and checks
 
@@ -199,22 +199,63 @@ input is one JSON object containing `role` (`implementation`, `spec`, or
 `check_results` with artifact paths, and a `report_contract`. The full assignment
 is saved before invocation. Reviewers can inspect `git diff BASE REVISION`.
 
-Standard output must contain one JSON report, with diagnostics on standard
-error. Every report copies the five identity fields from the assignment:
-`role`, `ticket`, `attempt`, `base_revision`, and `revision`.
+Standard output must contain exactly one JSON object, with diagnostics on
+standard error. Missing output, malformed JSON, duplicate keys (at any depth),
+nonfinite numbers, extra JSON documents, and incorrect field types are rejected.
+Extra diagnostic metadata such as `pid` is allowed but has no authority.
+The assignment's `report_contract` lists required fields, field types, permitted
+outcomes, and finding requirements. Existing complete scripted reports remain valid.
 
-Implementation reports use `result: "submitted"` and include `summary`, claimed
-`changed_files`, claimed `checks`, `acceptance_evidence`, and
-`unresolved_questions`. Workers edit their source worktree and leave committing
-to the harness. A report cannot declare Done; the harness derives changed files
-and the submission revision from Git.
+Every report copies these identity fields **exactly**, including JSON types:
 
-Review reports contain a `findings` array. An empty list approves that exact
-revision. A finding carries `id`, `classification` (`blocking` or `optional`),
-`location`, `requirement`, `consequence`, `evidence`, `resolution`, and
-`human_decision_needed`. The initial parser verifies assignment identity,
-submitted result, and review classification; comprehensive required-field and
-finding-evidence validation is ticket 03. Nonzero process exit always fails.
+| Field | Required value/type |
+| --- | --- |
+| `role` | Assignment string: `implementation`, `spec`, or `standards`. For reviews this is the axis; no separate `axis` field is required. |
+| `ticket` | Assignment string, including leading zeros (for example `"01"`). |
+| `attempt` | Assignment integer (currently 1); boolean `true`, float `1.0`, and string `"1"` are invalid. |
+| `base_revision` | Assignment's Git base commit string. |
+| `revision` | Assignment's current source commit string: base for implementation, captured submission for reviews. |
+
+Implementation reports additionally require all of these fields:
+
+| Field | Required value/type |
+| --- | --- |
+| `result` | `"submitted"` or `"human-decision-needed"`; `"Done"` and other outcomes are invalid. |
+| `summary` | Nonempty string. |
+| `changed_files` | Array of nonempty strings describing claimed changes; may be empty. |
+| `checks` | Array of nonempty strings describing claimed checks; may be empty. |
+| `acceptance_evidence` | Array of nonempty strings; at least one entry for `submitted`. May be empty for `human-decision-needed`. |
+| `unresolved_questions` | Array of nonempty strings; at least one question for `human-decision-needed`. May be empty for `submitted`. |
+
+Whitespace-only strings are empty for validation purposes. Evidence is descriptive
+text; the harness validates its shape and independently establishes Git changes
+and check results. It does not treat claims as verified facts. Workers edit their
+source worktree and leave committing to the harness. Claimed revisions, file
+lists, checks, or execution state never override harness-owned observations.
+
+A complete `human-decision-needed` report is recognized as valid but stops this
+attempt with an incomplete outcome and a diagnostic containing its questions.
+It does not capture a submission, run checks/reviews, integrate, or start repair.
+Broader human-decision lifecycle handling belongs to ticket 06.
+
+Review reports require a `findings` array, in addition to every identity field.
+An empty array passes review only for the correct assignment and revision.
+Every finding requires all of these fields, including optional suggestions:
+
+| Field | Required value/type |
+| --- | --- |
+| `id` | Nonempty stable string, unique within this review. |
+| `classification` | `"blocking"` or `"optional"`. |
+| `location` | Nonempty string identifying code or the closest location for missing behavior. |
+| `requirement` | Nonempty string identifying the requirement, project rule, or concrete design risk. |
+| `consequence` | Nonempty string describing the impact. |
+| `evidence` | Nonempty string supporting the finding. |
+| `resolution` | Nonempty string suggesting a proportionate resolution. |
+| `human_decision_needed` | JSON boolean (`true` or `false`), never an integer or string. |
+
+A complete blocking finding fails the gate while remaining a valid report.
+Optional findings are preserved and allow the gate to pass. Nonzero process exit
+fails even with a complete success report; zero exit cannot replace a valid report.
 
 The harness captures the submission, independently runs lightweight checks, and
 uses separate detached worktrees and processes for the two review axes. A failed
@@ -238,6 +279,13 @@ success. This does not provide crash recovery or resume.
 
 `artifacts/` holds each full assignment, standard output, and standard error;
 gates record command arguments, working directory, revision, and exit code.
+Agent gates also record the parsed `report` whenever JSON decoding succeeded,
+`report_status` (`valid` or `invalid`), and a `diagnostic` on rejection. Report
+validity is separate from gate success: a valid report with a nonzero process
+exit, blocking finding, or human-decision outcome cannot pass. Invalid reports
+set `passed: false`; undecodable output is available verbatim through `stdout`.
+`failure` identifies the stage and reason. Run and status expose the same durable
+record, including rejected implementation evidence and both review axes.
 Worktrees and rejected Git commits remain available for inspection. To remove a
 run after inspection, remove its worktrees with `git worktree remove` (use
 `--force` only for disposable rejected changes), then delete its output folder.

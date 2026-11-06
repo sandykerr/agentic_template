@@ -11,7 +11,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 
 
-class TicketCycleTests(unittest.TestCase):
+class TicketFixture(unittest.TestCase):
     def setUp(self):
         self.temp = tempfile.TemporaryDirectory(prefix="ticket-harness-test-")
         self.addCleanup(self.temp.cleanup)
@@ -52,6 +52,28 @@ class TicketCycleTests(unittest.TestCase):
     def record(self):
         return json.loads((self.output / "run.json").read_text())
 
+    def assert_rejected_gate(self, stage, outcome="incomplete", attempt=1):
+        before = self.git("status", "--porcelain=v1")
+        result = self.run_ticket()
+        self.assertNotEqual(result.returncode, 0)
+        record = self.record()
+        self.assertEqual(record["outcome"], outcome)
+        self.assertEqual(record["failure"]["stage"], stage)
+        self.assertEqual(record["ticket"]["state"], "Blocked")
+        self.assertEqual(record["ticket"]["attempt"], attempt)
+        self.assertNotIn("done_revision", record["ticket"])
+        self.assertEqual(self.git("rev-parse", "integration"), self.base)
+        self.assertEqual(self.git("status", "--porcelain=v1"), before)
+        gate = record["gates"][-1]
+        self.assertEqual(gate["stage"], stage)
+        self.assertFalse(gate["passed"])
+        self.assertTrue(Path(gate["stdout"]).is_file())
+        self.assertTrue(Path(gate["stderr"]).is_file())
+        self.assertEqual(json.loads(self.cli("status", self.output).stdout), record)
+        return record
+
+
+class TicketCycleTests(TicketFixture):
     def test_one_ticket_passes_every_gate_and_status_reads_its_exact_revision(self):
         # Caller work, including staged changes, must survive the whole cycle.
         (self.repo / "value.txt").write_text("caller edit\n")
@@ -131,26 +153,6 @@ class TicketCycleTests(unittest.TestCase):
         self.assertFalse(record["gates"][-1]["passed"])
         self.assertIn("blocking", record["failure"]["message"])
         self.assertEqual(json.loads(self.cli("status", self.output).stdout), record)
-
-    def assert_rejected_gate(self, stage, outcome="incomplete", attempt=1):
-        before = self.git("status", "--porcelain=v1")
-        result = self.run_ticket()
-        self.assertNotEqual(result.returncode, 0)
-        record = self.record()
-        self.assertEqual(record["outcome"], outcome)
-        self.assertEqual(record["failure"]["stage"], stage)
-        self.assertEqual(record["ticket"]["state"], "Blocked")
-        self.assertEqual(record["ticket"]["attempt"], attempt)
-        self.assertNotIn("done_revision", record["ticket"])
-        self.assertEqual(self.git("rev-parse", "integration"), self.base)
-        self.assertEqual(self.git("status", "--porcelain=v1"), before)
-        gate = record["gates"][-1]
-        self.assertEqual(gate["stage"], stage)
-        self.assertFalse(gate["passed"])
-        self.assertTrue(Path(gate["stdout"]).is_file())
-        self.assertTrue(Path(gate["stderr"]).is_file())
-        self.assertEqual(json.loads(self.cli("status", self.output).stdout), record)
-        return record
 
     def test_failed_baseline_is_environment_failure_without_an_assignment(self):
         self.config["suite"].append("baseline")

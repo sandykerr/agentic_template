@@ -37,8 +37,29 @@ def run(config_path: Path, output: Path) -> tuple[dict[str, Any], int]:
         result = execute(argv, source, artifacts, stage, revision, prompt)
         record["gates"].append(result)
         save()
+        if prompt is not None:
+            report = agents.report(result, prompt)
+            if result["exit_code"] != 0:
+                result.update(
+                    passed=False,
+                    diagnostic=f"process exit {result['exit_code']}; see {result['stderr']}",
+                )
+            elif stage == "implementation" and report["result"] == "human-decision-needed":
+                result.update(
+                    passed=False,
+                    diagnostic="human decision needed: "
+                    + "; ".join(report["unresolved_questions"]),
+                )
+            elif stage in ("spec", "standards") and any(
+                finding["classification"] == "blocking" for finding in report["findings"]
+            ):
+                result.update(passed=False, diagnostic="blocking review finding; see report")
+            save()
         if not result["passed"]:
-            raise GateFailure(f"Required gate failed: {stage}; see {result['stderr']}")
+            raise GateFailure(
+                f"Required gate failed: {stage}; "
+                + result.get("diagnostic", f"see {result['stderr']}")
+            )
         return result
 
     stage = "inputs"
@@ -74,8 +95,7 @@ def run(config_path: Path, output: Path) -> tuple[dict[str, Any], int]:
         prompt = agents.assignment(
             stage, ticket, base, base, snapshots, record["gates"][:], config["checks"]
         )
-        result = gate(stage, config["agent"], source, base, prompt)
-        agents.report(result, prompt)
+        gate(stage, config["agent"], source, base, prompt)
         submitted, changed = capture(source, base, ticket)
         record["ticket"].update(
             state="Verifying", submitted_revision=submitted, changed_files=changed
@@ -91,8 +111,7 @@ def run(config_path: Path, output: Path) -> tuple[dict[str, Any], int]:
             prompt = agents.assignment(
                 role, ticket, base, submitted, snapshots, record["gates"][:], config["checks"]
             )
-            result = gate(role, config["agent"], review_source, submitted, prompt)
-            result["report"] = agents.report(result, prompt)
+            gate(role, config["agent"], review_source, submitted, prompt)
             require_unchanged(review_source, submitted)
             save()
         stage = "candidate"

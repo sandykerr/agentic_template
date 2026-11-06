@@ -1,4 +1,4 @@
-"""Fresh scripted process assignments and the initial report contract."""
+"""Fresh process assignments and complete report validation; no integration authority."""
 
 import json
 from pathlib import Path
@@ -8,7 +8,7 @@ from ticket_harness.records import GateFailure
 
 INSTRUCTIONS = {
     "implementation": "Implement only the approved ticket in this worktree. Do not commit. "
-    "Return a submitted report; only the harness can declare Done.",
+    "Return submitted or human-decision-needed; only the harness can declare Done.",
     "spec": "Review the exact revision against the approved ticket/spec and actual check results. "
     "Do not edit source. Return findings classified as blocking or optional.",
     "standards": "Review the exact revision against the supplied project standards and instructions. "
@@ -41,7 +41,9 @@ def assignment(
         "required_checks": checks,
         "report_contract": {
             "identity_fields": ["role", "ticket", "attempt", "base_revision", "revision"],
-            "result": "submitted" if role == "implementation" else "findings list",
+            "result": ["submitted", "human-decision-needed"]
+            if role == "implementation"
+            else "findings list",
             "fields": [
                 "result",
                 "summary",
@@ -62,30 +64,114 @@ def assignment(
                 "resolution",
                 "human_decision_needed",
             ],
+            "field_types": {
+                "role": "string: copy assignment role; spec/standards is the review axis",
+                "ticket": "string: copy assignment ticket, including leading zeros",
+                "attempt": "integer: copy assignment attempt; booleans/floats are invalid",
+                "base_revision": "string: copy assignment base_revision",
+                "revision": "string: copy assignment revision (base for implementation)",
+                "result": "string: submitted or human-decision-needed; never Done",
+                "summary": "nonempty string",
+                "changed_files": "list of nonempty strings; claims only, may be empty",
+                "checks": "list of nonempty strings; claims only, may be empty",
+                "acceptance_evidence": "list of nonempty strings; nonempty for submitted",
+                "unresolved_questions": "list of nonempty strings; nonempty for human-decision-needed",
+                "findings": "list of complete finding objects; may be empty",
+            },
+            "finding_field_types": {
+                "id": "nonempty string; stable and unique within this review",
+                "classification": "blocking or optional",
+                "location": "nonempty string",
+                "requirement": "nonempty string",
+                "consequence": "nonempty string",
+                "evidence": "nonempty string",
+                "resolution": "nonempty string",
+                "human_decision_needed": "boolean",
+            },
             "instructions": "Emit one JSON object to stdout; diagnostics go to stderr. "
-            "Copy assignment identity fields exactly.",
+            "Copy assignment identity fields exactly, including their JSON types. "
+            "Identity fields and fields listed in fields are required. "
+            "Every finding requires finding_fields. No duplicate keys or nonfinite "
+            "numbers. Extra diagnostic metadata is allowed but has no authority.",
         },
     }
 
 
+def text_list(value: Any, field: str) -> None:
+    if not isinstance(value, list) or any(
+        not isinstance(item, str) or not item.strip() for item in value
+    ):
+        raise ValueError(f"{field} must be a list of nonempty strings")
+
+
+def implementation(value: dict[str, Any]) -> None:
+    if not isinstance(value.get("summary"), str) or not value["summary"].strip():
+        raise ValueError("summary must be a nonempty string")
+    for field in ("changed_files", "checks", "acceptance_evidence", "unresolved_questions"):
+        text_list(value[field], field)
+    if value["result"] == "submitted" and not value["acceptance_evidence"]:
+        raise ValueError("acceptance_evidence must not be empty for submitted implementations")
+
+    if value["result"] == "human-decision-needed" and not value["unresolved_questions"]:
+        raise ValueError("unresolved_questions must describe the required human decision")
+
+
+def review(value: dict[str, Any]) -> None:
+    if not isinstance(value["findings"], list):
+        raise ValueError("findings must be a list")
+    identifiers = set()
+    for index, finding in enumerate(value["findings"]):
+        prefix = f"findings[{index}]"
+        if not isinstance(finding, dict):
+            raise ValueError(f"{prefix} must be an object")
+        for field in ("id", "location", "requirement", "consequence", "evidence", "resolution"):
+            if not isinstance(finding.get(field), str) or not finding[field].strip():
+                raise ValueError(f"{prefix}.{field} must be a nonempty string")
+        if finding["id"] in identifiers:
+            raise ValueError(f"{prefix}.id must be unique within the review")
+        identifiers.add(finding["id"])
+        if finding.get("classification") not in ("blocking", "optional"):
+            raise ValueError(f"{prefix}.classification must be blocking or optional")
+        if type(finding.get("human_decision_needed")) is not bool:
+            raise ValueError(f"{prefix}.human_decision_needed must be a boolean")
+
+
+def report_object(pairs: list[tuple[str, Any]]) -> dict[str, Any]:
+    value: dict[str, Any] = {}
+    for key, item in pairs:
+        if key in value:
+            raise ValueError(f"duplicate report key {key!r}")
+        value[key] = item
+    return value
+
+
+def invalid_constant(value: str) -> None:
+    raise ValueError(f"invalid JSON constant {value}")
+
+
 def report(gate: dict[str, Any], expected: dict[str, Any]) -> dict[str, Any]:
     try:
-        value = json.loads(Path(gate["stdout"]).read_text())
+        value = json.loads(
+            Path(gate["stdout"]).read_text(),
+            object_pairs_hook=report_object,
+            parse_constant=invalid_constant,
+        )
+        gate["report"] = value
         if not isinstance(value, dict):
             raise ValueError("report must be an object")
         for key in ("role", "ticket", "attempt", "base_revision", "revision"):
-            if value[key] != expected[key]:
+            if type(value[key]) is not type(expected[key]) or value[key] != expected[key]:
                 raise ValueError(f"mismatched {key}")
         if expected["role"] == "implementation":
-            if value["result"] != "submitted":
-                raise ValueError("implementation did not submit")
+            if value["result"] not in ("submitted", "human-decision-needed"):
+                raise ValueError(
+                    "result must be submitted or human-decision-needed; agents cannot declare Done"
+                )
+            implementation(value)
         else:
-            if not isinstance(value["findings"], list):
-                raise ValueError("findings must be a list")
-            for finding in value["findings"]:
-                if finding["classification"] != "optional":
-                    raise ValueError("blocking or invalid review finding")
-    except (ValueError, KeyError, TypeError) as error:
-        gate["passed"] = False
+            review(value)
+    except (ValueError, KeyError, TypeError, RecursionError) as error:
+        gate.update(passed=False, report_status="invalid", diagnostic=str(error))
         raise GateFailure(f"{gate['stage']} report rejected: {error}") from error
+    gate["report_status"] = "valid"
     return value
