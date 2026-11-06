@@ -307,3 +307,33 @@ def test_implementation_cannot_omit_result(harness):
     harness.agent_report("implementation", "del report['result']")
     record = harness.assert_rejected_gate("implementation")
     assert "result" in record["failure"]["message"]
+
+
+@pytest.mark.parametrize("role", ["implementation", "spec", "standards"])
+@pytest.mark.parametrize("mismatched_ticket", [False, True])
+def test_excessive_nesting_preserves_a_durable_rejection(harness, role, mismatched_ticket):
+    mutation = "report['ticket'] = '99'\n" if mismatched_ticket else ""
+    mutation += (
+        "print(json.dumps(report)[:-1] + ',\"extra\":' + '[' * 990 + '0' + ']' * 990 + '}')\n"
+        "sys.exit(0)"
+    )
+    harness.agent_report(role, mutation)
+    record = harness.assert_rejected_gate(role)
+    gate = record["gates"][-1]
+    assert gate["exit_code"] == 0
+    assert gate["report_status"] == "invalid"
+    assert "nesting" in gate["diagnostic"]
+    assert "report" not in gate
+
+
+@pytest.mark.parametrize("role", ["implementation", "spec", "standards"])
+def test_supported_diagnostic_nesting_can_complete(harness, role):
+    # Report object plus 99 arrays is the documented 100-container boundary.
+    harness.agent_report(
+        role,
+        "print(json.dumps(report)[:-1] + ',\"extra\":' + '[' * 99 + '0' + ']' * 99 + '}')\n"
+        "sys.exit(0)",
+    )
+    result = harness.run_ticket()
+    assert result.returncode == 0, result.stdout + result.stderr
+    assert harness.record()["outcome"] == "completed"

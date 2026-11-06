@@ -92,7 +92,8 @@ def assignment(
             "instructions": "Emit one JSON object to stdout; diagnostics go to stderr. "
             "Copy assignment identity fields exactly, including their JSON types. "
             "Identity fields and fields listed in fields are required. "
-            "Every finding requires finding_fields. No duplicate keys or nonfinite "
+            "Every finding requires finding_fields. Maximum object/array nesting: 100 levels. "
+            "No duplicate keys or nonfinite "
             "numbers. Extra diagnostic metadata is allowed but has no authority.",
         },
     }
@@ -157,6 +158,19 @@ def finite_number(value: str) -> float:
     return number
 
 
+def require_bounded_nesting(value: Any) -> None:
+    # Leave headroom for the enclosing run record and later assignment check results.
+    pending = [(value, 1)]
+    while pending:
+        item, depth = pending.pop()
+        if not isinstance(item, (dict, list)):
+            continue
+        if depth > 100:
+            raise ValueError("report nesting exceeds 100 object/array levels; see stdout")
+        children = item.values() if isinstance(item, dict) else item
+        pending.extend((child, depth + 1) for child in children)
+
+
 def report(gate: dict[str, Any], expected: dict[str, Any]) -> dict[str, Any]:
     try:
         value = json.loads(
@@ -165,6 +179,7 @@ def report(gate: dict[str, Any], expected: dict[str, Any]) -> dict[str, Any]:
             parse_constant=invalid_constant,
             parse_float=finite_number,
         )
+        require_bounded_nesting(value)
         gate["report"] = value
         if not isinstance(value, dict):
             raise ValueError("report must be an object")

@@ -203,6 +203,8 @@ Standard output must contain exactly one JSON object, with diagnostics on
 standard error. Missing output, malformed JSON, duplicate keys (at any depth),
 nonfinite numbers, extra JSON documents, and incorrect field types are rejected.
 Extra diagnostic metadata such as `pid` is allowed but has no authority.
+Object/array nesting is limited to 100 levels (the report object is level 1)
+to leave serialization headroom for durable records and subsequent assignments.
 The assignment's `report_contract` lists required fields, field types, permitted
 outcomes, and finding requirements. Existing complete scripted reports remain valid.
 
@@ -279,11 +281,12 @@ success. This does not provide crash recovery or resume.
 
 `artifacts/` holds each full assignment, standard output, and standard error;
 gates record command arguments, working directory, revision, and exit code.
-Agent gates also record the parsed `report` whenever JSON decoding succeeded,
+Agent gates also record the parsed `report` when JSON decoding and the nesting
+limit check succeed,
 `report_status` (`valid` or `invalid`), and a `diagnostic` on rejection. Report
 validity is separate from gate success: a valid report with a nonzero process
 exit, blocking finding, or human-decision outcome cannot pass. Invalid reports
-set `passed: false`; undecodable output is available verbatim through `stdout`.
+set `passed: false`; undecodable or excessively nested output is available verbatim through `stdout`.
 `failure` identifies the stage and reason. Run and status expose the same durable
 record, including rejected implementation evidence and both review axes.
 Worktrees and rejected Git commits remain available for inspection. To remove a
