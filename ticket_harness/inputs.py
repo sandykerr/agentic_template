@@ -109,7 +109,9 @@ def configuration(value: Any) -> dict[str, Any]:
         if field not in value:
             raise GateFailure(f"configuration: missing required field {field!r}")
     for field in sorted(
-        value.keys() - required - {"tickets", "completed_runs", "max_repairs", "timeouts"}
+        value.keys()
+        - required
+        - {"tickets", "selected_tickets", "completed_runs", "max_repairs", "timeouts"}
     ):
         raise GateFailure(f"configuration: unsupported field {field!r}; see the input contract")
     value["timeouts"] = timeouts(value.get("timeouts", {}))
@@ -119,7 +121,7 @@ def configuration(value: Any) -> dict[str, Any]:
     for field in ("repository", "base", "integration", "spec", "ticket"):
         if not isinstance(value[field], str) or not value[field].strip() or "\0" in value[field]:
             raise GateFailure(f"configuration.{field}: expected a nonempty string")
-    for field in ("standards", "tickets", "completed_runs"):
+    for field in ("standards", "tickets", "selected_tickets", "completed_runs"):
         if field not in value:
             continue
         if not isinstance(value[field], list) or any(
@@ -299,24 +301,37 @@ def completed_tickets(
             continue
         record = json.loads(Path(snapshot["artifact"]).read_text(), object_pairs_hook=unique_object)
         try:
-            ticket = record["ticket"]
-            ticket_id = identifier(ticket["id"])
-            revision = ticket["done_revision"]
-            approved = record["inputs"]["ticket"]
-            source = Path(requirements[ticket_id]["source"])
-            if (
-                record["outcome"] != "completed"
-                or ticket["state"] != "Done"
-                or not isinstance(revision, str)
-                or not re.fullmatch(r"[0-9a-f]{40,64}", revision)
-                or Path(approved["source"]).resolve() != source
-                or approved["sha256"] != hashlib.sha256(source.read_bytes()).hexdigest()
-            ):
-                raise ValueError("expected Done for the current approved ticket")
-            git(repository, "merge-base", "--is-ancestor", revision, base)
-            if ticket_id in completed:
-                raise ValueError(f"duplicate completion evidence for ticket {ticket_id}")
-            completed.add(ticket_id)
+            if not isinstance(record, dict):
+                raise ValueError("expected a completed run object")
+            if not isinstance(record.get("inputs"), dict):
+                raise ValueError("expected approved input snapshots")
+            entries = record.get("tickets", {record["ticket"]["id"]: record["ticket"]})
+            if not isinstance(entries, dict) or not entries or record["outcome"] != "completed":
+                raise ValueError("expected a completed run with Done tickets")
+            for key, ticket in entries.items():
+                ticket_id = identifier(ticket["id"])
+                if "tickets" in record and key != ticket_id:
+                    raise ValueError("completion ticket key conflicts with its ID")
+                revision = ticket["done_revision"]
+                source = Path(requirements[ticket_id]["source"])
+                approved = [
+                    item
+                    for name, item in record["inputs"].items()
+                    if (name == "ticket" or name.startswith("ticket-"))
+                    and Path(item["source"]).resolve() == source
+                ]
+                if (
+                    ticket["state"] != "Done"
+                    or not isinstance(revision, str)
+                    or not re.fullmatch(r"[0-9a-f]{40,64}", revision)
+                    or len(approved) != 1
+                    or approved[0]["sha256"] != hashlib.sha256(source.read_bytes()).hexdigest()
+                ):
+                    raise ValueError("expected Done for the current approved ticket")
+                git(repository, "merge-base", "--is-ancestor", revision, base)
+                if ticket_id in completed:
+                    raise ValueError(f"duplicate completion evidence for ticket {ticket_id}")
+                completed.add(ticket_id)
         except (KeyError, TypeError, ValueError, GateFailure) as error:
             raise GateFailure(
                 f"{snapshot['source']}: invalid prerequisite completion evidence: {error}"
@@ -355,6 +370,15 @@ def load(config_path: Path, output: Path) -> tuple[dict[str, Any], dict[str, Any
         raise GateFailure("configuration.tickets must include the selected ticket path")
     if len(set(bundle)) != len(bundle):
         raise GateFailure("configuration.tickets contains duplicate ticket paths")
+    selection = [
+        (repository / path).resolve() for path in config.get("selected_tickets", [config["ticket"]])
+    ]
+    if not selection or selected_path not in selection:
+        raise GateFailure("configuration.selected_tickets must be nonempty and include ticket")
+    if len(set(selection)) != len(selection):
+        raise GateFailure("configuration.selected_tickets contains duplicate ticket paths")
+    if any(path not in bundle for path in selection):
+        raise GateFailure("configuration.selected_tickets must be a subset of tickets")
     for index, path in enumerate(bundle):
         if path != selected_path:
             paths[f"ticket-{index}"] = path
@@ -393,18 +417,30 @@ def load(config_path: Path, output: Path) -> tuple[dict[str, Any], dict[str, Any
                 ticket = normalized
     config["requirements"] = requirements
     validate_graph(requirements, references)
-    if ticket["readiness"] != "ready-for-agent":
-        raise GateFailure(
-            f"ticket {ticket['id']}: selected Status must be ready-for-agent; found {ticket['readiness']!r}"
-        )
+    selected = sorted(
+        (item["id"] for item in requirements.values() if Path(item["source"]) in selection),
+        key=int,
+    )
     completed = completed_tickets(snapshots, requirements, repository, config["base"])
-    missing = [dependency for dependency in ticket["dependencies"] if dependency not in completed]
-    if missing:
-        raise GateFailure(
-            f"ticket {ticket['id']}: unsatisfied prerequisites {missing}; "
-            "supply completed_runs with integrated Done evidence"
-        )
-    if not config["checks"] or not config["suite"] or not config["agent"]:
-        raise GateFailure("Configure an agent, suite, and at least one ticket check")
-    config["checks"] = {name: config["checks"][name] for name in ticket["checks"]}
+    # A selected prerequisite must be verified again by this run before it can unlock work.
+    completed.difference_update(selected)
+    for ticket_id in selected:
+        item = requirements[ticket_id]
+        if item["readiness"] != "ready-for-agent":
+            raise GateFailure(
+                f"ticket {ticket_id}: selected Status must be ready-for-agent; "
+                f"found {item['readiness']!r}"
+            )
+        missing = [
+            dependency
+            for dependency in item["dependencies"]
+            if dependency not in completed and dependency not in selected
+        ]
+        if missing:
+            raise GateFailure(
+                f"ticket {ticket_id}: unsatisfied prerequisites {missing}; "
+                "select prerequisites or supply completed_runs with integrated Done evidence"
+            )
+    config["selected_tickets"] = selected
+    config["completed_tickets"] = sorted(completed, key=int)
     return config, snapshots, ticket["id"]

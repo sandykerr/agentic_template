@@ -1,12 +1,12 @@
-# Scripted single-ticket harness
+# Scripted sequential ticket harness
 
-Tickets 01–08 execute one selected approved ticket with scripted external agents,
+Tickets 01–09 execute explicitly selected approved tickets sequentially with scripted external agents,
 validate its requirements and reports, bind verification to exact revisions, and
 repair rejected submissions within a configured allowance, stopping immediately
 when a valid report requires a human decision outside approved contracts.
 Optional review suggestions remain visible without requiring repair or delaying integration.
 Stage timeouts stop stalled processes and their process-group descendants.
-Dependency scheduling, live Codex, and an operating-system
+Continuing unrelated work after a blocked ticket, live Codex, and an operating-system
 sandbox remain later numbered tickets. Run only trusted scripted processes and
 project commands.
 
@@ -86,6 +86,7 @@ a JSON object with the following fields. Unknown fields and duplicate keys
 | `integration` | Existing local destination branch, not checked out in any worktree. |
 | `spec`, `ticket` | Approved Markdown paths, relative to the target or absolute. |
 | `tickets` | Optional nonempty array of all Markdown ticket paths in this requirements bundle, including `ticket`. Defaults to `[ticket]`. It provides dependency context, not a multi-ticket execution selection. Paths must be distinct after resolution. |
+| `selected_tickets` | Optional nonempty array of ticket paths to execute, relative to the target or absolute. Defaults to `[ticket]`; must include `ticket` and be a subset of `tickets`, with distinct resolved paths. Bundle context alone never selects work. |
 | `completed_runs` | Optional array of earlier harness `run.json` paths, relative to the configuration file or absolute; defaults to `[]`. These provide prerequisite completion evidence, described below. |
 | `standards` | Paths for applicable project rules, AGENTS instructions, ADRs, and policy; list them explicitly. |
 | `agent` | Argument array for the trusted scripted executable, used freshly for each role. |
@@ -94,7 +95,7 @@ a JSON object with the following fields. Unknown fields and duplicate keys
 | `max_repairs` | Optional nonnegative integer; defaults to `2` repairs after the initial assignment. `0` stops on the first rejection. Booleans, floats, strings, and null are invalid. |
 | `timeouts` | Optional object overriding stage allowances in seconds; omitted keys use the defaults below. Every supplied value must be a positive finite JSON number no greater than `604800` (one week). Booleans, strings, null, unknown stages, and unsafe numeric ranges are rejected before any worker/check starts. |
 
-All fields except `tickets`, `completed_runs`, `max_repairs`, and `timeouts` are required. Paths, refs, and
+All fields except `tickets`, `selected_tickets`, `completed_runs`, `max_repairs`, and `timeouts` are required. Paths, refs, and
 branch names must be nonempty strings; `standards` is an array of nonempty paths
 (it may be empty). Approved files must exist and be readable. `checks` is a
 nonempty mapping. Check names match `[A-Za-z0-9]+(?:-[A-Za-z0-9]+)*`.
@@ -137,7 +138,7 @@ Markdown uses the existing local tracker conventions:
   agree. Other descriptive header fields such as `Scope:` remain prose.
   YAML front matter is unsupported and rejected; it cannot override the header.
 - `Status:` must use a configured local readiness label: `needs-triage`,
-  `needs-info`, `ready-for-agent`, `ready-for-human`, or `wontfix`. Only the
+  `needs-info`, `ready-for-agent`, `ready-for-human`, or `wontfix`. Every
   selected ticket must be `ready-for-agent`. These are triage labels, never
   execution states or proof of prerequisite completion.
 - `Blocked by:` is required. No dependencies may be written as `None`, `None.`,
@@ -163,16 +164,19 @@ Each entry has `id`, `title`, `readiness`, `dependencies` (canonical IDs),
 `acceptance` (checklist text), `checks` (names), and `source` (absolute path).
 Original Markdown/configuration bytes remain the approved snapshots.
 
-Readiness and prerequisite satisfaction are independent. To select a dependent
-ticket, include its prerequisites in `tickets` and provide their earlier
-`run.json` records in `completed_runs`. Each record must report `outcome:
-"completed"`, ticket `state: "Done"`, and a `done_revision` already ancestral to
-the configured base in the target repository. Its approved ticket source and
-SHA-256 must match the current approved prerequisite file. Missing, incomplete,
-stale, duplicate, or unintegrated completion evidence rejects the run. A changed
-prerequisite file requires fresh completion evidence; checked acceptance boxes
-alone never suffice. Completion records are trusted local harness artifacts,
-not an authenticated provenance system.
+Readiness and prerequisite satisfaction are independent. Include every prerequisite
+in `tickets`. Select prerequisites for execution in this run or provide their
+earlier `run.json` records in `completed_runs`. Each completion record must report
+`outcome: "completed"`; every entry in its `tickets` mapping must be `Done`,
+with a `done_revision` already ancestral to the configured base. Legacy records
+without `tickets` use their single `ticket` entry. Every completed ticket must
+exist in the current bundle, and its approved source path and SHA-256 must match
+the current prerequisite file. Missing, incomplete, stale, duplicate, or
+unintegrated completion evidence rejects the run. A changed prerequisite file
+requires fresh completion evidence; checked acceptance boxes alone never suffice.
+Completion records are trusted local harness artifacts, not an authenticated
+provenance system. Explicitly selected prerequisites must reach Done again in
+this run; external evidence cannot unlock their dependents early.
 
 For example, add these fields to select the follow-up above after the earlier
 fixture run completed (and use `base: "integration"`):
@@ -185,9 +189,42 @@ fixture run completed (and use `base: "integration"`):
 }
 ```
 
-This is eligibility validation only: the harness executes exactly the selected
-ticket, never queues or automatically runs its prerequisites. A preflight
-rejection returns nonzero with `outcome: "invalid-input"`, an `inputs` failure
+To execute a dependency graph in one run, explicitly select its tickets:
+
+```json
+{
+  "ticket": "02-follow-up.md",
+  "tickets": ["01-value.md", "02-follow-up.md", "03-independent.md", "04-human-context.md"],
+  "selected_tickets": ["02-follow-up.md", "03-independent.md", "01-value.md"]
+}
+```
+
+After preflight validates the entire bundle and all commands, the broader starting
+baseline runs once. At each selection, the harness chooses the lowest **numeric**
+canonical ID among Ready selected tickets, independently of configuration order.
+Unselected agent-ready and human-ready context never executes automatically.
+A ticket is Pending until all its prerequisites are either externally verified
+at the starting base or Done in this run. Integration promotion precedes Done and
+unlocking. There is at most one active implementation ticket, including repairs;
+its checks, both reviews and exact-candidate broader suite complete before the
+next selection. Every new ticket starts at the latest verified integration tip,
+including already completed independent changes. Its assignment `base_revision`
+is fixed to that tip across its own repairs. Each assignment's `inputs.ticket`
+is the active ticket's approved content; other bundle snapshots remain context.
+`required_checks` and `check_results` contain that ticket's checks and reports,
+plus the shared baseline, without transferring earlier tickets' findings or approvals.
+The durable record retains all earlier evidence.
+
+Success requires every selection to reach Done. This slice stops the run on the
+first blocked ticket or shared environment failure; selected dependents remain
+Pending and unrelated selections retain their observed Ready state. Continuing
+unrelated work after a block belongs to ticket 10. A shared baseline failure
+launches no workers and consumes no repairs; the compatibility `ticket` entry
+(the configured primary before execution) becomes Blocked and other selections
+retain their pre-baseline states. Integration changes made outside the harness
+are never overwritten by candidate promotion.
+
+A preflight rejection returns nonzero with `outcome: "invalid-input"`, an `inputs` failure
 message naming the offending field/ticket, no gates or assignments, and attempt
 0. No worker/check processes start, no Git worktrees are added, and integration
 references remain unchanged. The new output directory may contain diagnostic
@@ -461,7 +498,7 @@ record, output text, integration revision, and caller status before fixture clea
 
 ## Records and artifacts
 
-`run.json` records execution state (`Ready`, `Running`, `Verifying`, `Done`, or
+`run.json` records execution state (`Pending`, `Ready`, `Running`, `Verifying`, `Done`, or
 `Blocked`), attempt number, inputs, base/submission/candidate/Done identities,
 changed files, gates and findings, final outcome, failures, and artifact paths.
 `max_repairs` records the normalized repair allowance; `timeouts` records all
@@ -472,8 +509,17 @@ and candidate when available, and a failure stage/message on rejection.
 `gate_start` (inclusive) and `gate_end` (exclusive, set when the attempt ends)
 index that attempt's gates in the complete top-level `gates` array. Gate and
 operation `attempt` is zero for baseline work and positive for ticket attempts.
-The top-level `ticket` exposes the latest attempt and its observed revisions;
-earlier identities remain in `attempts`. A successful repair retains rejected
+`selected_tickets` lists selected canonical IDs in numeric order; `tickets` maps
+each to its observed state, attempt and available submitted/candidate/Done identities.
+Context-only tickets appear in `requirements`, never in this execution mapping.
+`integration_revision` records the last tip verified/promoted by this run; it is
+historical evidence if an external process later moves the branch. `base_revision`
+remains the run's starting base. The top-level `ticket` mirrors the active or last
+attempted ticket for compatibility (the configured primary before assignments).
+Earlier identities remain in `attempts`. Every attempt, gate and Git operation
+carries `ticket` as its canonical ID; shared baseline gates/operations use null.
+Gate ranges still index the complete run-wide `gates` array, and each ticket's
+attempt numbering and repair allowance start afresh. A successful repair retains rejected
 failure evidence there while the run's final outcome is completed.
 When a valid report requests a human decision, the latest `ticket` and affected
 `attempts` entry also expose `human_decision`: the `role`, actual `attempt` and
@@ -498,6 +544,10 @@ success. This does not provide crash recovery or resume.
 initial names remain `implementation`, `spec`, `standards`, `check-NAME`, and
 `candidate`; later attempts prefix artifact/worktree/operation names with
 `attempt-2-`, `attempt-3-`, etc. This cannot collide with configured check names.
+For multi-ticket selections, all ticket-specific artifact/worktree/operation
+names additionally begin `ticket-ID-` (for example `ticket-03-attempt-2-spec`);
+the shared baseline stays `baseline`. Single-ticket selections retain the existing
+names. Earlier ticket evidence remains protected during later tickets and repairs.
 Stage names and `TICKET_HARNESS_STAGE` retain their original role/check
 values. Prior artifacts are protected against overwrite by later processes and
 Git hooks. No attempt reuses a previous worktree or assignment process.

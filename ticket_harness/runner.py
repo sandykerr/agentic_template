@@ -41,9 +41,13 @@ def run(config_path: Path, output: Path) -> tuple[dict[str, Any], int]:
 
     attempt = 0
     repairable = False
+    ticket: str | None = None
 
     def attempt_name(stage: str) -> str:
-        return stage if attempt <= 1 else f"attempt-{attempt}-{stage}"
+        name = stage if attempt <= 1 else f"attempt-{attempt}-{stage}"
+        if attempt and len(config["selected_tickets"]) > 1:
+            name = f"ticket-{ticket}-{name}"
+        return name
 
     verified: list[tuple[dict[str, Any], Path, str]] = []
 
@@ -59,7 +63,12 @@ def run(config_path: Path, output: Path) -> tuple[dict[str, Any], int]:
     @contextmanager
     def git_operation(name: str) -> Iterator[None]:
         nonlocal repairable
-        operation: dict[str, Any] = {"stage": name, "attempt": attempt, "passed": False}
+        operation: dict[str, Any] = {
+            "stage": name,
+            "ticket": ticket if attempt else None,
+            "attempt": attempt,
+            "passed": False,
+        }
         record.setdefault("operations", []).append(operation)
         save()
         try:
@@ -119,6 +128,7 @@ def run(config_path: Path, output: Path) -> tuple[dict[str, Any], int]:
             protected_paths(),
             attempt_name(stage),
         )
+        result["ticket"] = ticket if attempt else None
         result["attempt"] = attempt
         result["timeout_category"] = timeout_category
         if result.get("integrity"):
@@ -199,7 +209,19 @@ def run(config_path: Path, output: Path) -> tuple[dict[str, Any], int]:
         record["requirements"] = config["requirements"]
         record["max_repairs"] = config["max_repairs"]
         record["timeouts"] = config["timeouts"]
-        record["ticket"]["id"] = ticket
+        record["selected_tickets"] = config["selected_tickets"]
+        completed = set(config["completed_tickets"])
+        record["tickets"] = {
+            ticket_id: {
+                "id": ticket_id,
+                "state": "Ready"
+                if set(config["requirements"][ticket_id]["dependencies"]) <= completed
+                else "Pending",
+                "attempt": 0,
+            }
+            for ticket_id in config["selected_tickets"]
+        }
+        record["ticket"] = record["tickets"][ticket]
         repository = Path(config["repository"])
         approved_source = set()
         for snapshot in snapshots.values():
@@ -220,140 +242,182 @@ def run(config_path: Path, output: Path) -> tuple[dict[str, Any], int]:
         if previous != base:
             raise GateFailure("This slice requires base and integration to name the same commit")
         record["base_revision"] = base
+        record["integration_revision"] = base
         record["integration_branch"] = integration
         stage = "baseline"
         with git_operation("baseline-worktree"):
             baseline = worktree(repository, trees / "baseline", base)
         gate(stage, config["suite"], baseline, base)
         require_unchanged(baseline, base)
-        start_revision = base
-        repair_context = None
-        previous_source = None
-        for attempt in range(1, config["max_repairs"] + 2):
-            repairable = True
-            current: dict[str, Any] = {
-                "attempt": attempt,
-                "state": "Running",
-                "starting_revision": start_revision,
-                "gate_start": len(record["gates"]),
+        while any(state["state"] != "Done" for state in record["tickets"].values()):
+            ready = [key for key, state in record["tickets"].items() if state["state"] == "Ready"]
+            if not ready:
+                raise GateFailure("No selected ticket has verified prerequisites")
+            ticket = min(ready, key=int)
+            record["ticket"] = record["tickets"][ticket]
+            base = previous
+            checks = {
+                name: config["checks"][name] for name in config["requirements"][ticket]["checks"]
             }
-            record["attempts"].append(current)
-            try:
-                stage = "implementation"
-                record["ticket"] = {"id": ticket, "state": "Running", "attempt": attempt}
-                save()
-                with git_operation(attempt_name("implementation-worktree")):
-                    source = worktree(
-                        repository, trees / attempt_name("implementation"), start_revision
-                    )
-                    if previous_source is not None:
-                        carry_changes(previous_source, source)
-                    current["source"] = str(source)
-                prompt = agents.assignment(
-                    stage,
-                    ticket,
-                    base,
-                    start_revision,
-                    snapshots,
-                    record["gates"][:],
-                    config["checks"],
-                    attempt,
-                    repair_context,
-                )
-                gate(stage, config["agent"], source, start_revision, prompt)
-                with git_operation(attempt_name("submission")):
-                    submitted, changed = capture(
-                        source, start_revision, ticket, base if attempt > 1 else None
-                    )
-                    current.update(
-                        state="Verifying", submitted_revision=submitted, changed_files=changed
-                    )
-                    record["ticket"].update(current)
-                save()
-                if approved_source.intersection(changed):
-                    repairable = False
-                    raise GateFailure(
-                        "Submission changed approved input source; human decision required"
-                    )
-                for name, argv in config["checks"].items():
-                    stage = f"check-{name}"
-                    gate(stage, argv, source, submitted)
-                    require_unchanged(source, submitted)
-                for role in ("spec", "standards"):
-                    stage = role
-                    with git_operation(attempt_name(f"{role}-worktree")):
-                        review_source = worktree(repository, trees / attempt_name(role), submitted)
+            assignment_snapshots = dict(snapshots)
+            active_input = next(
+                name
+                for name, snapshot in snapshots.items()
+                if snapshot["source"] == config["requirements"][ticket]["source"]
+                and (name == "ticket" or name.startswith("ticket-"))
+            )
+            assignment_snapshots["ticket"], assignment_snapshots[active_input] = (
+                assignment_snapshots[active_input],
+                assignment_snapshots["ticket"],
+            )
+
+            def ticket_gates() -> list[dict[str, Any]]:
+                # Earlier ticket reports stay inspectable without authorizing this assignment.
+                return [g for g in record["gates"] if g["ticket"] in (None, ticket)]
+
+            start_revision = base
+            repair_context = None
+            previous_source = None
+            for attempt in range(1, config["max_repairs"] + 2):
+                repairable = True
+                current: dict[str, Any] = {
+                    "ticket": ticket,
+                    "attempt": attempt,
+                    "state": "Running",
+                    "starting_revision": start_revision,
+                    "gate_start": len(record["gates"]),
+                }
+                record["attempts"].append(current)
+                try:
+                    stage = "implementation"
+                    record["ticket"].clear()
+                    record["ticket"].update(id=ticket, state="Running", attempt=attempt)
+                    save()
+                    with git_operation(attempt_name("implementation-worktree")):
+                        source = worktree(
+                            repository, trees / attempt_name("implementation"), start_revision
+                        )
+                        if previous_source is not None:
+                            carry_changes(previous_source, source)
+                        current["source"] = str(source)
                     prompt = agents.assignment(
-                        role,
+                        stage,
                         ticket,
                         base,
-                        submitted,
-                        snapshots,
-                        record["gates"][:],
-                        config["checks"],
+                        start_revision,
+                        assignment_snapshots,
+                        ticket_gates(),
+                        checks,
                         attempt,
+                        repair_context,
                     )
-                    gate(role, config["agent"], review_source, submitted, prompt)
-                    require_unchanged(review_source, submitted)
+                    gate(stage, config["agent"], source, start_revision, prompt)
+                    with git_operation(attempt_name("submission")):
+                        submitted, changed = capture(
+                            source, start_revision, ticket, base if attempt > 1 else None
+                        )
+                        current.update(
+                            state="Verifying", submitted_revision=submitted, changed_files=changed
+                        )
+                        record["ticket"].update(current)
                     save()
-                stage = "candidate"
-                candidate_source = trees / attempt_name("candidate")
-                with git_operation(attempt_name("candidate-merge")):
-                    revision = candidate(repository, candidate_source, base, submitted)
-                    record["ticket"]["candidate_revision"] = revision
-                    current["candidate_revision"] = revision
-                save()
-                require_reviewed_candidate(candidate_source, revision, base, submitted)
-                gate(stage, config["suite"], candidate_source, revision)
-                require_unchanged(candidate_source, revision)
-                stage = "integration"
-                inputs.require_approved(snapshots)
-                validate_sources()
-                promote(repository, integration, revision, previous)
-                current.update(state="Done", done_revision=revision)
-                record["ticket"].update(state="Done", done_revision=revision)
-                current["gate_end"] = len(record["gates"])
-                record["outcome"] = "completed"
-                save()
-                return record, 0
-            except (GateFailure, OSError, ValueError, KeyError, TypeError) as error:
-                current.update(
-                    state="Rejected",
-                    failure={"stage": stage, "message": str(error)},
-                    gate_end=len(record["gates"]),
-                )
-                save()
-                if not repairable or stage == "integration" or attempt > config["max_repairs"]:
-                    raise
-                inputs.require_approved(snapshots)
-                # Rejected approvals cannot authorize the next submission. Baseline stays shared.
-                verified[:] = [entry for entry in verified if entry[0]["stage"] == "baseline"]
-                validate_sources()
-                if git(repository, "rev-parse", f"refs/heads/{integration}") != previous:
-                    raise GateFailure(
-                        "Integration branch changed externally; repair stopped"
-                    ) from error
-                start_revision = current.get("submitted_revision", start_revision)
-                previous_source = (
-                    Path(current["source"]) if "source" in current else previous_source
-                )
-                if (
-                    previous_source is not None
-                    and git(previous_source, "rev-parse", "HEAD") != start_revision
-                ):
-                    raise GateFailure(
-                        "Rejected implementation changed HEAD; repair stopped"
-                    ) from error
-                repair_context = {
-                    "failure": current["failure"],
-                    "rejected_revisions": [
-                        item[key]
-                        for item in record["attempts"]
-                        for key in ("submitted_revision", "candidate_revision")
-                        if key in item
-                    ],
-                }
-        raise GateFailure("Repair allowance exhausted")
+                    if approved_source.intersection(changed):
+                        repairable = False
+                        raise GateFailure(
+                            "Submission changed approved input source; human decision required"
+                        )
+                    for name, argv in checks.items():
+                        stage = f"check-{name}"
+                        gate(stage, argv, source, submitted)
+                        require_unchanged(source, submitted)
+                    for role in ("spec", "standards"):
+                        stage = role
+                        with git_operation(attempt_name(f"{role}-worktree")):
+                            review_source = worktree(
+                                repository, trees / attempt_name(role), submitted
+                            )
+                        prompt = agents.assignment(
+                            role,
+                            ticket,
+                            base,
+                            submitted,
+                            assignment_snapshots,
+                            ticket_gates(),
+                            checks,
+                            attempt,
+                        )
+                        gate(role, config["agent"], review_source, submitted, prompt)
+                        require_unchanged(review_source, submitted)
+                        save()
+                    stage = "candidate"
+                    candidate_source = trees / attempt_name("candidate")
+                    with git_operation(attempt_name("candidate-merge")):
+                        revision = candidate(repository, candidate_source, base, submitted)
+                        record["ticket"]["candidate_revision"] = revision
+                        current["candidate_revision"] = revision
+                    save()
+                    require_reviewed_candidate(candidate_source, revision, base, submitted)
+                    gate(stage, config["suite"], candidate_source, revision)
+                    require_unchanged(candidate_source, revision)
+                    stage = "integration"
+                    inputs.require_approved(snapshots)
+                    validate_sources()
+                    promote(repository, integration, revision, previous)
+                    current.update(state="Done", done_revision=revision)
+                    record["ticket"].update(state="Done", done_revision=revision)
+                    current["gate_end"] = len(record["gates"])
+                    previous = revision
+                    record["integration_revision"] = revision
+                    completed.add(ticket)
+                    for ticket_id, state in record["tickets"].items():
+                        if (
+                            state["state"] == "Pending"
+                            and set(config["requirements"][ticket_id]["dependencies"]) <= completed
+                        ):
+                            state["state"] = "Ready"
+                    save()
+                    break
+                except (GateFailure, OSError, ValueError, KeyError, TypeError) as error:
+                    current.update(
+                        state="Rejected",
+                        failure={"stage": stage, "message": str(error)},
+                        gate_end=len(record["gates"]),
+                    )
+                    save()
+                    if not repairable or stage == "integration" or attempt > config["max_repairs"]:
+                        raise
+                    inputs.require_approved(snapshots)
+                    # Rejected approvals cannot authorize the next submission. Baseline stays shared.
+                    verified[:] = [entry for entry in verified if entry[0].get("ticket") != ticket]
+                    validate_sources()
+                    if git(repository, "rev-parse", f"refs/heads/{integration}") != previous:
+                        raise GateFailure(
+                            "Integration branch changed externally; repair stopped"
+                        ) from error
+                    start_revision = current.get("submitted_revision", start_revision)
+                    previous_source = (
+                        Path(current["source"]) if "source" in current else previous_source
+                    )
+                    if (
+                        previous_source is not None
+                        and git(previous_source, "rev-parse", "HEAD") != start_revision
+                    ):
+                        raise GateFailure(
+                            "Rejected implementation changed HEAD; repair stopped"
+                        ) from error
+                    repair_context = {
+                        "failure": current["failure"],
+                        "rejected_revisions": [
+                            item[key]
+                            for item in record["attempts"]
+                            if item["ticket"] == ticket
+                            for key in ("submitted_revision", "candidate_revision")
+                            if key in item
+                        ],
+                    }
+        record["outcome"] = "completed"
+        save()
+        return record, 0
     except (GateFailure, OSError, ValueError, KeyError, TypeError) as error:
         outcome = (
             "invalid-input"
