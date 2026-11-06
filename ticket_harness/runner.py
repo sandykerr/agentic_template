@@ -46,6 +46,7 @@ def run(config_path: Path, output: Path) -> tuple[dict[str, Any], int]:
     try:
         config, snapshots, ticket = inputs.load(config_path, output)
         record["inputs"] = snapshots
+        record["requirements"] = config["requirements"]
         record["ticket"]["id"] = ticket
         repository = Path(config["repository"])
         integration = config["integration"]
@@ -70,7 +71,9 @@ def run(config_path: Path, output: Path) -> tuple[dict[str, Any], int]:
         record["ticket"].update(state="Running", attempt=1)
         save()
         source = worktree(repository, trees / "implementation", base)
-        prompt = agents.assignment(stage, ticket, base, base, snapshots, record["gates"][:])
+        prompt = agents.assignment(
+            stage, ticket, base, base, snapshots, record["gates"][:], config["checks"]
+        )
         result = gate(stage, config["agent"], source, base, prompt)
         agents.report(result, prompt)
         submitted, changed = capture(source, base, ticket)
@@ -79,15 +82,15 @@ def run(config_path: Path, output: Path) -> tuple[dict[str, Any], int]:
         )
         save()
         for name, argv in config["checks"].items():
-            if not name.replace("-", "").isalnum():
-                raise GateFailure("Check names must contain letters, numbers, or hyphens")
             stage = f"check-{name}"
             gate(stage, argv, source, submitted)
             require_unchanged(source, submitted)
         for role in ("spec", "standards"):
             stage = role
             review_source = worktree(repository, trees / role, submitted)
-            prompt = agents.assignment(role, ticket, base, submitted, snapshots, record["gates"][:])
+            prompt = agents.assignment(
+                role, ticket, base, submitted, snapshots, record["gates"][:], config["checks"]
+            )
             result = gate(role, config["agent"], review_source, submitted, prompt)
             result["report"] = agents.report(result, prompt)
             require_unchanged(review_source, submitted)

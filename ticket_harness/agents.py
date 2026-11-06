@@ -23,6 +23,7 @@ def assignment(
     revision: str,
     snapshots: dict[str, Any],
     gates: list[dict[str, Any]],
+    checks: dict[str, Any],
 ) -> dict[str, Any]:
     return {
         "role": role,
@@ -37,9 +38,7 @@ def assignment(
             if name != "configuration"
         },
         "check_results": gates,
-        "required_checks": json.loads(Path(snapshots["configuration"]["artifact"]).read_text())[
-            "checks"
-        ],
+        "required_checks": checks,
         "report_contract": {
             "identity_fields": ["role", "ticket", "attempt", "base_revision", "revision"],
             "result": "submitted" if role == "implementation" else "findings list",

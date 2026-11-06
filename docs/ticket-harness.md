@@ -1,9 +1,10 @@
 # Scripted single-ticket harness
 
-Ticket 01 implements one approved, dependency-free ticket with scripted external
-agents. It does not implement repairs, scheduling, timeouts, live Codex, complete
-input/report validation, or an operating-system sandbox. Those remain later
-numbered tickets. Run only trusted scripted processes and project commands.
+Tickets 01–02 execute one selected approved ticket with scripted external agents
+and validate its requirements bundle before execution. Repairs, dependency
+scheduling, timeouts, live Codex, comprehensive agent-report validation, transaction
+hardening, and an operating-system sandbox remain later numbered tickets. Run only
+trusted scripted processes and project commands.
 
 ## Python and checks
 
@@ -64,9 +65,11 @@ baseline, and the submitted/candidate revisions and logs remain inspectable.
 Alternatively, append `["--reject", "spec"]` or `["--reject", "standards"]` to
 `agent` for a blocking review.
 
-## Minimal input contract
+## Canonical input contract
 
-`examples/scripted/project.json` is the canonical ticket-01 example:
+`examples/scripted/project.json` remains a valid minimal example. Configuration is
+a JSON object with the following fields. Unknown fields and duplicate keys
+(including inside nested objects) are rejected instead of silently ignored.
 
 | Field | Meaning |
 | --- | --- |
@@ -74,26 +77,112 @@ Alternatively, append `["--reject", "spec"]` or `["--reject", "standards"]` to
 | `base` | Starting commit/ref; must equal the existing integration branch tip. |
 | `integration` | Existing local destination branch, not checked out in any worktree. |
 | `spec`, `ticket` | Approved Markdown paths, relative to the target or absolute. |
+| `tickets` | Optional nonempty array of all Markdown ticket paths in this requirements bundle, including `ticket`. Defaults to `[ticket]`. It provides dependency context, not a multi-ticket execution selection. Paths must be distinct after resolution. |
+| `completed_runs` | Optional array of earlier harness `run.json` paths, relative to the configuration file or absolute; defaults to `[]`. These provide prerequisite completion evidence, described below. |
 | `standards` | Paths for applicable project rules, AGENTS instructions, ADRs, and policy; list them explicitly. |
 | `agent` | Argument array for the trusted scripted executable, used freshly for each role. |
 | `suite` | Argument array for broader baseline and candidate checks. |
 | `checks` | Nonempty mapping of named lightweight checks to argument arrays. |
 
-Check names contain letters, numbers, or hyphens. Commands execute directly,
-without a shell, in their assigned detached worktree. Use absolute executable
-paths or executables available on `PATH`; relative script arguments resolve in
-the worktree. `TICKET_HARNESS_STAGE` identifies the stage for commands.
+All fields except `tickets` and `completed_runs` are required. Paths, refs, and
+branch names must be nonempty strings; `standards` is an array of nonempty paths
+(it may be empty). Approved files must exist and be readable. `checks` is a
+nonempty mapping. Check names match `[A-Za-z0-9]+(?:-[A-Za-z0-9]+)*`.
+Every command, including unused named checks, must be a nonempty argument array
+of nonempty strings without NUL characters, with an available executable.
+Executable availability is checked without invoking it: names resolve on `PATH`;
+paths must name executable files (relative paths resolve in the target).
+Commands execute directly, without a shell, in their assigned detached worktree.
+Relative executable/script arguments must also be available at the approved base
+revision; preflight does not interpret arbitrary executable arguments or predict
+runtime check success. `TICKET_HARNESS_STAGE` identifies the stage for commands.
 
-The ticket starts with `# NN: Title`, retains the authoring readiness line
-`**Status:** ready-for-agent`, declares `**Blocked by:** None`, and contains
-`## Acceptance criteria` with Markdown checklist items. The numeric heading is
-the stable identifier. This slice accepts one dependency-free ticket; it does not
-silently execute prerequisites or interpret other readiness labels as execution
-states. General Markdown normalization and comprehensive validation are ticket 02.
+Markdown uses the existing local tracker conventions:
+
+```markdown
+# 02: Follow-up
+
+**Status:** ready-for-agent
+**Blocked by:** [01: Change value](01-value.md)
+**Checks:** ticket
+
+## Acceptance criteria
+
+- [ ] The follow-up has an observable result.
+```
+
+- The header has exactly one `# NN: Title`, with a nonempty title and positive
+  decimal numeric ID. Leading zeroes normalize to at least two digits (`1`, `01`,
+  and `001` all mean `01`). IDs must be unique across the bundle. A numeric
+  `NN-` filename prefix must agree with the heading. Optional `ID:` and `Title:`
+  metadata must agree too.
+- Header metadata precedes the first `##` section. Both `Status: value` and
+  `**Status:** value` forms work (likewise other fields). Whitespace around
+  values is trimmed. Duplicate fields are rejected, even when repeated values
+  agree. Other descriptive header fields such as `Scope:` remain prose.
+  YAML front matter is unsupported and rejected; it cannot override the header.
+- `Status:` must use a configured local readiness label: `needs-triage`,
+  `needs-info`, `ready-for-agent`, `ready-for-human`, or `wontfix`. Only the
+  selected ticket must be `ready-for-agent`. These are triage labels, never
+  execution states or proof of prerequisite completion.
+- `Blocked by:` is required. No dependencies may be written as `None`, `None.`,
+  or the established `None (can start immediately).` form (the final period is
+  optional). Otherwise use comma-separated IDs, `NN: Title` references, or
+  `[NN: Title](relative-ticket-path.md)` links; a numeric-only link label also
+  works. Titles containing commas can be referenced by ID alone. Supplied
+  titles and resolved links must agree with the referenced ticket. Every
+  dependency must exist in `tickets`; cycles, including self-cycles and cycles
+  in unselected work, invalidate the bundle.
+- Exactly one `## Acceptance criteria` section must contain at least one
+  nonempty `- [ ]`, `- [x]`, or `* [ ]` checklist item (`X` also works). Empty
+  checklist items are rejected even beside valid ones. Checked boxes carry
+  acceptance text, never harness Done state. Fenced code examples and appended
+  `## Comments` history do not supply requirements or metadata.
+- Optional `Checks:` lists comma-separated configured check names with no
+  duplicates. Omission means all configured checks. Empty or unknown references
+  are rejected. Only referenced checks execute and appear in each assignment's
+  `required_checks`; the broader `suite` always runs at baseline and candidate.
+
+`run.json.requirements` records the normalized bundle, keyed by canonical ID.
+Each entry has `id`, `title`, `readiness`, `dependencies` (canonical IDs),
+`acceptance` (checklist text), `checks` (names), and `source` (absolute path).
+Original Markdown/configuration bytes remain the approved snapshots.
+
+Readiness and prerequisite satisfaction are independent. To select a dependent
+ticket, include its prerequisites in `tickets` and provide their earlier
+`run.json` records in `completed_runs`. Each record must report `outcome:
+"completed"`, ticket `state: "Done"`, and a `done_revision` already ancestral to
+the configured base in the target repository. Its approved ticket source and
+SHA-256 must match the current approved prerequisite file. Missing, incomplete,
+stale, duplicate, or unintegrated completion evidence rejects the run. A changed
+prerequisite file requires fresh completion evidence; checked acceptance boxes
+alone never suffice. Completion records are trusted local harness artifacts,
+not an authenticated provenance system.
+
+For example, add these fields to select the follow-up above after the earlier
+fixture run completed (and use `base: "integration"`):
+
+```json
+{
+  "ticket": "02-follow-up.md",
+  "tickets": ["01-value.md", "02-follow-up.md"],
+  "completed_runs": ["../passing-run/run.json"]
+}
+```
+
+This is eligibility validation only: the harness executes exactly the selected
+ticket, never queues or automatically runs its prerequisites. A preflight
+rejection returns nonzero with `outcome: "invalid-input"`, an `inputs` failure
+message naming the offending field/ticket, no gates or assignments, and attempt
+0. No worker/check processes start, no Git worktrees are added, and integration
+references remain unchanged. The new output directory may contain diagnostic
+records and snapshots. Git/environment preflight also retains the original
+base/integration/ref checks before execution.
 
 The output must be a new directory outside the target repository and separate
-from approved input files. Each approved file, including configuration and
-standards, is copied verbatim to `inputs/`; `run.json` stores its SHA-256 and
+from approved input files. Each approved file, including configuration, bundle
+tickets, completion records, and standards, is copied verbatim to `inputs/`;
+`run.json` stores its SHA-256 and
 original path. Agent-editable source lives separately under `worktrees/`.
 
 ## Assignment and report contracts
