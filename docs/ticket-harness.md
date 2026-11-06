@@ -1,8 +1,9 @@
 # Scripted single-ticket harness
 
-Tickets 01–04 execute one selected approved ticket with scripted external agents,
-validate its requirements and reports, and bind verification to exact revisions.
-Repairs, dependency scheduling, timeouts, live Codex, and an operating-system
+Tickets 01–05 execute one selected approved ticket with scripted external agents,
+validate its requirements and reports, bind verification to exact revisions, and
+repair rejected submissions within a configured allowance.
+Dependency scheduling, timeouts, live Codex, and an operating-system
 sandbox remain later numbered tickets. Run only trusted scripted processes and
 project commands.
 
@@ -83,8 +84,9 @@ a JSON object with the following fields. Unknown fields and duplicate keys
 | `agent` | Argument array for the trusted scripted executable, used freshly for each role. |
 | `suite` | Argument array for broader baseline and candidate checks. |
 | `checks` | Nonempty mapping of named lightweight checks to argument arrays. |
+| `max_repairs` | Optional nonnegative integer; defaults to `2` repairs after the initial assignment. `0` stops on the first rejection. Booleans, floats, strings, and null are invalid. |
 
-All fields except `tickets` and `completed_runs` are required. Paths, refs, and
+All fields except `tickets`, `completed_runs`, and `max_repairs` are required. Paths, refs, and
 branch names must be nonempty strings; `standards` is an array of nonempty paths
 (it may be empty). Approved files must exist and be readable. `checks` is a
 nonempty mapping. Check names match `[A-Za-z0-9]+(?:-[A-Za-z0-9]+)*`.
@@ -194,10 +196,20 @@ original path. Agent-editable source lives separately under `worktrees/`.
 
 Each assignment starts a fresh process with no conversation history. Standard
 input is one JSON object containing `role` (`implementation`, `spec`, or
-`standards`), `ticket`, `attempt` (1), `base_revision`, `revision`, role
+`standards`), `ticket`, `attempt` (1 for the initial assignment, then 2, 3, ...), `base_revision`, `revision`, role
 `instructions`, approved `inputs` as text, `required_checks`, actual
 `check_results` with artifact paths, and a `report_contract`. The full assignment
 is saved before invocation. Reviewers can inspect `git diff BASE REVISION`.
+Repairs retain role `implementation`. Their `revision` is the starting source
+commit, while `base_revision` remains the original approved integration revision.
+`repair_context` is null for the initial assignment and reviews; for repairs it
+contains the previous `failure` (stage/message) and all recorded
+`rejected_revisions` (submission and candidate identities). `check_results`
+contains the complete prior gate history, including parsed findings, diagnostics,
+and readable stdout/stderr paths. Failed Git operations include their diagnostic
+in the failure message. Workers receive current working contents in a fresh
+detached worktree, including uncommitted edits after invalid reports; previous
+worktrees remain inspectable. Reports must copy the new attempt identity exactly.
 
 Standard output must contain exactly one JSON object, with diagnostics on
 standard error. Missing output, malformed JSON, duplicate keys (at any depth),
@@ -214,9 +226,9 @@ Every report copies these identity fields **exactly**, including JSON types:
 | --- | --- |
 | `role` | Assignment string: `implementation`, `spec`, or `standards`. For reviews this is the axis; no separate `axis` field is required. |
 | `ticket` | Assignment string, including leading zeros (for example `"01"`). |
-| `attempt` | Assignment integer (currently 1); boolean `true`, float `1.0`, and string `"1"` are invalid. |
+| `attempt` | Assignment integer; stale attempts, booleans, floats, and strings are invalid. |
 | `base_revision` | Assignment's Git base commit string. |
-| `revision` | Assignment's current source commit string: base for implementation, captured submission for reviews. |
+| `revision` | Assignment's current source commit string: starting source for implementation/repair, captured submission for reviews. |
 
 Implementation reports additionally require all of these fields:
 
@@ -261,7 +273,24 @@ fails even with a complete success report; zero exit cannot replace a valid repo
 
 The harness captures the submission, independently runs lightweight checks, and
 uses separate detached worktrees and processes for the two review axes. A failed
-gate stops this single attempt with preserved evidence; no repairs run.
+gate rejects the attempt with preserved evidence and enters the remaining repair
+allowance. Lightweight-check failures, either blocking review axis, failed merges,
+and failed candidate suites can request repair. Missing/invalid reports and process
+failures use this same allowance, with no secondary retries. Worker-internal
+editing/testing iterations consume only their single assignment.
+
+Every repaired submission is captured as a new commit (even if a repair only
+requires rerunning verification), with changed paths derived against the original
+base. Applicable lightweight checks, both fresh reviews, and a new exact candidate
+suite must pass. Rejected attempts' approvals never authorize the new source;
+source validation starts again for the new attempt while retaining the shared
+baseline check. Exhaustion leaves the ticket Blocked with an incomplete outcome,
+all rejected revisions/worktrees and full history intact. Baseline and preflight
+failures start no attempts. Valid worker human-decision reports, approved-input
+or evidence integrity violations, worker-owned HEAD changes, and external
+integration movement stop without authorizing more repairs. Repairs cannot change
+the approved baseline or requirements. Broader human-decision handling and
+timeouts remain separate tickets.
 Check and review worktrees must remain clean and on the submitted revision.
 Assume-unchanged and skip-worktree index flags are rejected so tracked edits
 cannot be concealed from source validation.
@@ -270,8 +299,8 @@ promotion. Changed HEAD, index, or working files invalidate the affected gate:
 `passed` becomes false, `verification_status` is `invalidated`, and `diagnostic`
 identifies the changed source. A structurally valid review report retains
 `report_status: "valid"`; it cannot approve changed source. This attempt stops;
-renewed checks and reviews are required before integration. Automatic repair is
-ticket 05. These observations are not an enforced process sandbox (ticket 14).
+renewed checks and reviews are required before integration. These observations
+are not an enforced process sandbox (ticket 14).
 
 The harness creates a real merge candidate with the starting integration
 revision as first parent, tests it, and atomically updates the integration ref
@@ -311,6 +340,16 @@ only trusted commands until role access enforcement is supplied by ticket 14.
 `run.json` records execution state (`Ready`, `Running`, `Verifying`, `Done`, or
 `Blocked`), attempt number, inputs, base/submission/candidate/Done identities,
 changed files, gates and findings, final outcome, failures, and artifact paths.
+`max_repairs` records the normalized allowance. `attempts` is ordered and records
+each assignment's `attempt`, `starting_revision`, source worktree path, state
+(`Running`, `Verifying`, `Rejected`, or `Done`), observed submission/changed files
+and candidate when available, and a failure stage/message on rejection.
+`gate_start` (inclusive) and `gate_end` (exclusive, set when the attempt ends)
+index that attempt's gates in the complete top-level `gates` array. Gate and
+operation `attempt` is zero for baseline work and positive for ticket attempts.
+The top-level `ticket` exposes the latest attempt and its observed revisions;
+earlier identities remain in `attempts`. A successful repair retains rejected
+failure evidence there while the run's final outcome is completed.
 `operations` records Git worktree preparation, submission capture, and candidate
 merge stages, with `passed` and integrity diagnostics when applicable. These are
 separate from check/agent gates; rejected observed revisions remain on the ticket
@@ -319,6 +358,12 @@ Records are replaced atomically so status does not read a partially written
 success. This does not provide crash recovery or resume.
 
 `artifacts/` holds each full assignment, standard output, and standard error;
+initial names remain `implementation`, `spec`, `standards`, `check-NAME`, and
+`candidate`; later attempts prefix artifact/worktree/operation names with
+`attempt-2-`, `attempt-3-`, etc. This cannot collide with configured check names.
+Stage names and `TICKET_HARNESS_STAGE` retain their original role/check
+values. Prior artifacts are protected against overwrite by later processes and
+Git hooks. No attempt reuses a previous worktree or assignment process.
 gates record command arguments, working directory, revision, and exit code.
 Agent gates also record the parsed `report` when JSON decoding and the nesting
 limit check succeed,

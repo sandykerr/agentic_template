@@ -9,6 +9,8 @@ from ticket_harness.records import GateFailure
 
 INSTRUCTIONS = {
     "implementation": "Implement only the approved ticket in this worktree. Do not commit. "
+    "When repair_context is present, repair the current changes using its rejected revisions, "
+    "failure diagnostic, and the check_results reports and output artifacts. "
     "Return submitted or human-decision-needed; only the harness can declare Done.",
     "spec": "Review the exact revision against the approved ticket/spec and actual check results. "
     "Do not edit source. Return findings classified as blocking or optional.",
@@ -25,11 +27,14 @@ def assignment(
     snapshots: dict[str, Any],
     gates: list[dict[str, Any]],
     checks: dict[str, Any],
+    attempt: int = 1,
+    repair_context: dict[str, Any] | None = None,
 ) -> dict[str, Any]:
     return {
         "role": role,
         "ticket": ticket,
-        "attempt": 1,
+        "attempt": attempt,
+        "repair_context": repair_context,
         "base_revision": base,
         "revision": revision,
         "instructions": INSTRUCTIONS[role],
@@ -70,7 +75,7 @@ def assignment(
                 "ticket": "string: copy assignment ticket, including leading zeros",
                 "attempt": "integer: copy assignment attempt; booleans/floats are invalid",
                 "base_revision": "string: copy assignment base_revision",
-                "revision": "string: copy assignment revision (base for implementation)",
+                "revision": "string: copy assignment revision (starting source for implementation)",
                 "result": "string: submitted or human-decision-needed; never Done",
                 "summary": "nonempty string",
                 "changed_files": "list of nonempty strings; claims only, may be empty",

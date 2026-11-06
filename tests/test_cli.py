@@ -27,6 +27,8 @@ class TicketFixture(unittest.TestCase):
         self.git("branch", "integration")
         self.output = self.home / "run"
         self.config = json.loads((self.repo / "project.json").read_text())
+        # These prerequisite scenarios exercise rejection with repair disabled.
+        self.config["max_repairs"] = 0
         self.config["repository"] = str(self.repo)
         self.config["agent"] = [sys.executable, str(self.repo / "agent.py")]
         self.config["suite"] = [sys.executable, "check.py", "suite"]

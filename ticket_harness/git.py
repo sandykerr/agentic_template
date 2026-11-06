@@ -1,5 +1,6 @@
 """Git ownership: detached worktrees, submission capture, and candidate promotion."""
 
+import shutil
 import subprocess
 from pathlib import Path
 
@@ -22,6 +23,25 @@ def worktree(repository: Path, path: Path, revision: str) -> Path:
     return path
 
 
+def carry_changes(previous: Path, source: Path) -> None:
+    """Copy current working contents without altering the rejected tree or Git identity."""
+    for path in source.iterdir():
+        if path.name == ".git":
+            continue
+        if path.is_dir() and not path.is_symlink():
+            shutil.rmtree(path)
+        else:
+            path.unlink()
+    for path in previous.iterdir():
+        if path.name == ".git":
+            continue
+        target = source / path.name
+        if path.is_dir() and not path.is_symlink():
+            shutil.copytree(path, target, symlinks=True)
+        else:
+            shutil.copy2(path, target, follow_symlinks=False)
+
+
 def require_unchanged(source: Path, revision: str) -> None:
     flags = git(source, "ls-files", "-v", "-z").split("\0")
     if any(entry and (entry[0].islower() or entry[0] == "S") for entry in flags):
@@ -30,16 +50,19 @@ def require_unchanged(source: Path, revision: str) -> None:
         raise GateFailure(f"Verified source changed at {source}")
 
 
-def capture(source: Path, base: str, ticket: str) -> tuple[str, list[str]]:
-    if git(source, "rev-parse", "HEAD") != base:
+def capture(
+    source: Path, start: str, ticket: str, base: str | None = None
+) -> tuple[str, list[str]]:
+    if git(source, "rev-parse", "HEAD") != start:
         raise GateFailure("Implementation changed HEAD; the harness owns submission commits")
     git(source, "add", "--all")
-    if not git(source, "diff", "--cached", "--name-only"):
+    if base is None and not git(source, "diff", "--cached", "--name-only"):
         raise GateFailure("Implementation submitted no changes")
-    git(source, *IDENTITY, "commit", "-m", f"Implement ticket {ticket}")
+    git(source, *IDENTITY, "commit", "--allow-empty", "-m", f"Implement ticket {ticket}")
     revision = git(source, "rev-parse", "HEAD")
     # NUL delimiters preserve filenames containing whitespace or newlines.
-    changed = git(source, "diff", "--name-only", "-z", base, revision).rstrip("\0").split("\0")
+    changed = git(source, "diff", "--name-only", "-z", base or start, revision).split("\0")
+    changed = [path for path in changed if path]
     return revision, changed
 
 

@@ -73,8 +73,11 @@ def configuration(value: Any) -> dict[str, Any]:
     for field in sorted(required):
         if field not in value:
             raise GateFailure(f"configuration: missing required field {field!r}")
-    for field in sorted(value.keys() - required - {"tickets", "completed_runs"}):
+    for field in sorted(value.keys() - required - {"tickets", "completed_runs", "max_repairs"}):
         raise GateFailure(f"configuration: unsupported field {field!r}; see the input contract")
+    allowance = value.setdefault("max_repairs", 2)
+    if type(allowance) is not int or allowance < 0:
+        raise GateFailure("configuration.max_repairs: expected a nonnegative integer")
     for field in ("repository", "base", "integration", "spec", "ticket"):
         if not isinstance(value[field], str) or not value[field].strip() or "\0" in value[field]:
             raise GateFailure(f"configuration.{field}: expected a nonempty string")

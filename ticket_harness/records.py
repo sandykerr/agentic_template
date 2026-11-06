@@ -81,9 +81,11 @@ def execute(
     revision: str,
     assignment: dict[str, Any] | None = None,
     restore_on_violation_by_path: dict[Path, bool] | None = None,
+    artifact_name: str | None = None,
 ) -> dict[str, Any]:
-    stdout = artifacts / f"{stage}.stdout"
-    stderr = artifacts / f"{stage}.stderr"
+    artifact_name = artifact_name or stage
+    stdout = artifacts / f"{artifact_name}.stdout"
+    stderr = artifacts / f"{artifact_name}.stderr"
     gate: dict[str, Any] = {
         "stage": stage,
         "revision": revision,
@@ -95,12 +97,12 @@ def execute(
     }
     payload = None
     if assignment is not None:
-        prompt = artifacts / f"{stage}.assignment.json"
+        prompt = artifacts / f"{artifact_name}.assignment.json"
         write_json(prompt, assignment)
         gate["assignment"] = str(prompt)
         payload = json.dumps(assignment)
     with (
-        protect(restore_on_violation_by_path or {}, artifacts, stage, gate),
+        protect(restore_on_violation_by_path or {}, artifacts, artifact_name, gate),
         stdout.open("w") as out,
         stderr.open("w") as err,
     ):
