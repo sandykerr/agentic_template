@@ -91,7 +91,10 @@ nonempty mapping. Check names match `[A-Za-z0-9]+(?:-[A-Za-z0-9]+)*`.
 Every command, including unused named checks, must be a nonempty argument array
 of nonempty strings without NUL characters, with an available executable.
 Executable availability is checked without invoking it: names resolve on `PATH`;
-paths must name executable files (relative paths resolve in the target).
+absolute paths must name executable files. Relative executable paths must name
+regular files tracked with executable mode (`100755`) in the approved base tree;
+untracked files, caller-only permission changes, symlinks, and paths escaping the
+worktree cannot supply a relative executable.
 Commands execute directly, without a shell, in their assigned detached worktree.
 Relative executable/script arguments must also be available at the approved base
 revision; preflight does not interpret arbitrary executable arguments or predict

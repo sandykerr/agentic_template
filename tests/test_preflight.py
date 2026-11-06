@@ -395,3 +395,41 @@ def test_second_heading_after_acceptance_is_still_conflicting_metadata(case):
     path = case.repo / "01-value.md"
     path.write_text(path.read_text() + "\n# 02: Hidden second ticket\n")
     reject(case, "expected exactly one ticket heading")
+
+
+def test_untracked_relative_check_executable_is_not_available_at_the_approved_base(case):
+    executable = case.repo / "local-check"
+    executable.write_text("#!/bin/sh\nexit 0\n")
+    executable.chmod(0o755)
+    case.config["checks"]["ticket"] = ["./local-check"]
+    reject(case, "checks.ticket: relative executable unavailable or not executable at base")
+
+
+def test_tracked_relative_executable_uses_base_permissions_instead_of_caller_permissions(case):
+    executable = case.repo / "local-check"
+    executable.write_text("#!/bin/sh\nexit 0\n")
+    executable.chmod(0o644)
+    case.git("add", "local-check")
+    case.git("commit", "-m", "Check without executable permission")
+    case.git("update-ref", "refs/heads/integration", case.git("rev-parse", "HEAD"))
+    executable.chmod(0o755)
+    case.config["checks"]["ticket"] = ["./local-check"]
+    reject(case, "checks.ticket: relative executable unavailable or not executable at base")
+
+
+def test_tracked_relative_executable_can_run_when_missing_from_dirty_caller_checkout(case):
+    executable = case.repo / "local-check"
+    executable.write_text("#!/bin/sh\nexit 0\n")
+    executable.chmod(0o755)
+    case.git("add", "local-check")
+    case.git("commit", "-m", "Executable check at approved base")
+    case.git("update-ref", "refs/heads/integration", case.git("rev-parse", "HEAD"))
+    executable.unlink()
+    before = case.git("status", "--porcelain=v1")
+    case.config["checks"]["ticket"] = ["./local-check"]
+    result = case.run_ticket()
+    assert result.returncode == 0, result.stdout + result.stderr
+    record = json.loads(result.stdout)
+    assert record["ticket"]["state"] == "Done"
+    assert case.git("rev-parse", "integration") == record["ticket"]["done_revision"]
+    assert case.git("status", "--porcelain=v1") == before

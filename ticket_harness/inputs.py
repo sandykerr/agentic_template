@@ -2,6 +2,7 @@
 
 import hashlib
 import json
+import os.path
 import re
 import shutil
 from dataclasses import dataclass
@@ -27,15 +28,25 @@ def identifier(value: str) -> str:
     return str(int(value)).zfill(2)
 
 
-def command(value: Any, field: str, repository: Path) -> None:
+def command(value: Any, field: str, repository: Path, base: str) -> None:
     if (
         not isinstance(value, list)
         or not value
         or any(not isinstance(arg, str) or not arg.strip() or "\0" in arg for arg in value)
     ):
         raise GateFailure(f"{field}: expected a nonempty argument array of nonempty strings")
-    executable = str(repository / value[0]) if "/" in value[0] else value[0]
-    if not shutil.which(executable):
+    if "/" in value[0] and not Path(value[0]).is_absolute():
+        relative = os.path.normpath(value[0])
+        entry = (
+            git(repository, "--literal-pathspecs", "ls-tree", "-z", base, "--", relative)
+            if relative != ".." and not relative.startswith("../")
+            else ""
+        )
+        if not entry.startswith("100755 blob "):
+            raise GateFailure(
+                f"{field}: relative executable unavailable or not executable at base: {value[0]!r}"
+            )
+    elif not shutil.which(value[0]):
         raise GateFailure(f"{field}: executable unavailable: {value[0]!r}")
 
 
@@ -272,9 +283,9 @@ def load(config_path: Path, output: Path) -> tuple[dict[str, Any], dict[str, Any
     for name in config["checks"]:
         if not re.fullmatch(r"[A-Za-z0-9]+(?:-[A-Za-z0-9]+)*", name):
             raise GateFailure(f"checks.{name}: invalid check name; use letters, numbers, hyphens")
-        command(config["checks"][name], f"checks.{name}", repository)
-    command(config["agent"], "agent", repository)
-    command(config["suite"], "suite", repository)
+        command(config["checks"][name], f"checks.{name}", repository, config["base"])
+    command(config["agent"], "agent", repository, config["base"])
+    command(config["suite"], "suite", repository, config["base"])
     config["repository"] = str(repository)
     if output == repository or repository in output.parents:
         raise GateFailure("Run output must be outside the target repository")
