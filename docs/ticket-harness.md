@@ -1,11 +1,12 @@
 # Scripted single-ticket harness
 
-Tickets 01–07 execute one selected approved ticket with scripted external agents,
+Tickets 01–08 execute one selected approved ticket with scripted external agents,
 validate its requirements and reports, bind verification to exact revisions, and
 repair rejected submissions within a configured allowance, stopping immediately
 when a valid report requires a human decision outside approved contracts.
 Optional review suggestions remain visible without requiring repair or delaying integration.
-Dependency scheduling, timeouts, live Codex, and an operating-system
+Stage timeouts stop stalled processes and their process-group descendants.
+Dependency scheduling, live Codex, and an operating-system
 sandbox remain later numbered tickets. Run only trusted scripted processes and
 project commands.
 
@@ -16,7 +17,8 @@ preserve the full-suite completion gate, and capture evidence without redundant 
 
 Use the reusable micromamba Python environment described in
 [Python environment guidance](agents/python-environment.md). The runtime uses only
-Python 3.12+ and Git. From this checkout, `python -m ticket_harness` requires no
+Python 3.12+, Git, and POSIX process groups (the fixtures also use Linux `/proc`
+to observe child termination). From this checkout, `python -m ticket_harness` requires no
 installation. For an installed `ticket-harness` command, install the project with
 `python -m pip install '.[dev]'`. The `dev` extra pins pytest, mypy, and Ruff;
 packaging uses a pinned setuptools build backend.
@@ -90,8 +92,9 @@ a JSON object with the following fields. Unknown fields and duplicate keys
 | `suite` | Argument array for broader baseline and candidate checks. |
 | `checks` | Nonempty mapping of named lightweight checks to argument arrays. |
 | `max_repairs` | Optional nonnegative integer; defaults to `2` repairs after the initial assignment. `0` stops on the first rejection. Booleans, floats, strings, and null are invalid. |
+| `timeouts` | Optional object overriding stage allowances in seconds; omitted keys use the defaults below. Every supplied value must be a positive finite JSON number no greater than `604800` (one week). Booleans, strings, null, unknown stages, and unsafe numeric ranges are rejected before any worker/check starts. |
 
-All fields except `tickets`, `completed_runs`, and `max_repairs` are required. Paths, refs, and
+All fields except `tickets`, `completed_runs`, `max_repairs`, and `timeouts` are required. Paths, refs, and
 branch names must be nonempty strings; `standards` is an array of nonempty paths
 (it may be empty). Approved files must exist and be readable. `checks` is a
 nonempty mapping. Check names match `[A-Za-z0-9]+(?:-[A-Za-z0-9]+)*`.
@@ -316,7 +319,7 @@ all rejected revisions/worktrees and full history intact. Baseline and preflight
 failures start no attempts. Valid human-decision reports, approved-input
 or evidence integrity violations, worker-owned HEAD changes, and external
 integration movement stop without authorizing more repairs. Repairs cannot change
-the approved baseline or requirements. Timeouts remain a separate ticket.
+the approved baseline or requirements. Timeouts share this same repair allowance.
 Check and review worktrees must remain clean and on the submitted revision.
 Assume-unchanged and skip-worktree index flags are rejected so tracked edits
 cannot be concealed from source validation.
@@ -395,12 +398,74 @@ latest review. No earlier finding or approval is transferred to a later revision
 and retained history does not assert that a disappeared suggestion was resolved.
 Status only reads these durable observations and launches no agents.
 
+## Stage timeouts and cleanup
+
+Timeouts are wall-clock process allowances, including assignment input delivery
+and output collection. Configure independent allowances with `timeouts`:
+
+| Key | Default seconds | Invocation |
+| --- | --- | --- |
+| `implementation` | 1800 | Initial implementation assignment. |
+| `repair` | 1800 | Each later implementation assignment; role remains `implementation`. |
+| `spec` | 900 | Spec review on every attempt. |
+| `standards` | 900 | Standards review on every attempt. |
+| `checks` | 300 | Each configured lightweight check, separately. |
+| `baseline` | 1800 | Starting broader suite, attempt 0. |
+| `candidate` | 1800 | Exact candidate suite on every attempt. |
+
+For example, `"timeouts": {"checks": 60, "baseline": 1200, "candidate": 2400}`
+uses defaults for all agent roles. Fractional seconds are allowed. The one-week
+upper bound avoids platform pipe-wait overflow; no timeout is disabled or infinite.
+Existing command arrays, assignment identities and report schemas are unchanged.
+
+Each invocation starts a new POSIX session/process group. At timeout the harness
+sends SIGKILL to that group, stopping the command and inherited descendants,
+including children that ignore SIGTERM. It collects available stdout/stderr as
+bytes into their artifacts. Output pipes also keep the deadline active if the
+leader exits while children retain output handles. Even a complete report and a
+zero leader exit cannot approve that timed-out stage or request a trusted human
+decision: `report_status` is `not-evaluated`, with raw output retained for inspection.
+Completed, non-timed-out reports retain whole-report validation and the existing
+human-decision precedence, including nonzero exits.
+
+Final output draining and leader reaping each have a separate five-second cleanup
+bound. Failure to drain/reap or an unavailable executable is a shared execution
+environment failure: `outcome: "environment"`, no further repairs, and an
+`execution_error` on the gate. Ordinary stage timeouts enter the existing repair
+allowance or finish Blocked/incomplete when exhausted. A baseline timeout is an
+environment outcome with attempt 0 and no worker assignment. Cleanup runs before
+integrity checks and repair copying, preserving stopped work and earlier evidence.
+The group is also killed at normal command completion to stop leftover background
+children. Commands are trusted and must keep descendants in their inherited
+process group; this mechanism does not supply an OS sandbox or contain a process
+that deliberately detaches into another session/group. Git operations/hooks are
+still governed by the existing integrity checks; this ticket adds deadlines to
+configured worker/reviewer/check invocations, not arbitrary Git plumbing.
+
+Each gate records `timeout_category`, `timeout_seconds`, and `timed_out`, alongside
+its unchanged stage, actual attempt, revision, argv, output paths and exit code.
+`cleanup` identifies the `process_group`, `signal` (`SIGKILL`), and whether a signal
+was `sent`. A timed-out leader may already have exit code 0; `timed_out: true`
+always fails. The diagnostic names the stage and allowance. Attempts retain the
+failure and gate range; run/status expose the resulting outcome and latest ticket
+state. Repairs receive this complete gate/output evidence through `check_results`
+and the previous failure through `repair_context`; no timeout-specific retry loop
+or reuse of an earlier approval exists.
+
+`tests/test_timeouts.py` drives controlled finite scripted processes with a generous
+external CLI watchdog, asserting process/child termination through Linux `/proc`,
+partial output, report precedence, fresh repairs and exact candidate integration,
+exhaustion, preflight/baseline/environment failures, and evidence protection.
+Setting `TICKET_HARNESS_TEST_OBSERVATIONS` to a directory retains each case's actual
+record, output text, integration revision, and caller status before fixture cleanup.
+
 ## Records and artifacts
 
 `run.json` records execution state (`Ready`, `Running`, `Verifying`, `Done`, or
 `Blocked`), attempt number, inputs, base/submission/candidate/Done identities,
 changed files, gates and findings, final outcome, failures, and artifact paths.
-`max_repairs` records the normalized allowance. `attempts` is ordered and records
+`max_repairs` records the normalized repair allowance; `timeouts` records all
+normalized stage allowances in seconds. `attempts` is ordered and records
 each assignment's `attempt`, `starting_revision`, source worktree path, state
 (`Running`, `Verifying`, `Rejected`, or `Done`), observed submission/changed files
 and candidate when available, and a failure stage/message on rejection.

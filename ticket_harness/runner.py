@@ -101,15 +101,38 @@ def run(config_path: Path, output: Path) -> tuple[dict[str, Any], int]:
         nonlocal repairable
         inputs.require_approved(record["inputs"])
         validate_sources()
+        timeout_category = (
+            "repair"
+            if stage == "implementation" and attempt > 1
+            else "checks"
+            if stage.startswith("check-")
+            else stage
+        )
         result = execute(
-            argv, source, artifacts, stage, revision, prompt, protected_paths(), attempt_name(stage)
+            argv,
+            source,
+            artifacts,
+            stage,
+            revision,
+            config["timeouts"][timeout_category],
+            prompt,
+            protected_paths(),
+            attempt_name(stage),
         )
         result["attempt"] = attempt
+        result["timeout_category"] = timeout_category
         if result.get("integrity"):
             repairable = False
         record["gates"].append(result)
         save()
-        if prompt is not None:
+        if result.get("execution_error"):
+            repairable = False
+            record["environment_failure"] = True
+            raise GateFailure(f"Execution environment failure: {result['execution_error']}")
+        if prompt is not None and result["timed_out"]:
+            result["report_status"] = "not-evaluated"
+            save()
+        if prompt is not None and not result["timed_out"]:
             report = agents.report(result, prompt)
             questions = []
             if stage == "implementation" and report["result"] == "human-decision-needed":
@@ -175,6 +198,7 @@ def run(config_path: Path, output: Path) -> tuple[dict[str, Any], int]:
         record["inputs"] = snapshots
         record["requirements"] = config["requirements"]
         record["max_repairs"] = config["max_repairs"]
+        record["timeouts"] = config["timeouts"]
         record["ticket"]["id"] = ticket
         repository = Path(config["repository"])
         approved_source = set()
@@ -335,7 +359,7 @@ def run(config_path: Path, output: Path) -> tuple[dict[str, Any], int]:
             "invalid-input"
             if stage == "inputs"
             else "environment"
-            if stage == "baseline"
+            if stage == "baseline" or record.get("environment_failure")
             else "incomplete"
         )
         record.update(outcome=outcome, failure={"stage": stage, "message": str(error)})

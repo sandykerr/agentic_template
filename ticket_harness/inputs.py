@@ -6,11 +6,46 @@ import os.path
 import re
 import shutil
 from dataclasses import dataclass
+from math import isfinite
 from pathlib import Path
 from typing import Any
 
 from ticket_harness.git import git
 from ticket_harness.records import GateFailure
+
+DEFAULT_TIMEOUTS: dict[str, int | float] = {
+    "implementation": 1800,
+    "repair": 1800,
+    "spec": 900,
+    "standards": 900,
+    "checks": 300,
+    "baseline": 1800,
+    "candidate": 1800,
+}
+# Keep each value within the platform's bounded pipe-wait range (one week).
+MAX_TIMEOUT_SECONDS = 604800
+
+
+def timeouts(value: Any) -> dict[str, int | float]:
+    if not isinstance(value, dict):
+        raise GateFailure("configuration.timeouts: expected an object of stage seconds")
+    for name, seconds in value.items():
+        if name not in DEFAULT_TIMEOUTS:
+            raise GateFailure(f"configuration.timeouts.{name}: unsupported timeout stage")
+        try:
+            valid = (
+                type(seconds) in (int, float)
+                and isfinite(seconds)
+                and 0 < seconds <= MAX_TIMEOUT_SECONDS
+            )
+        except OverflowError:
+            valid = False
+        if not valid:
+            raise GateFailure(
+                f"configuration.timeouts.{name}: expected positive finite seconds <= "
+                f"{MAX_TIMEOUT_SECONDS}"
+            )
+    return DEFAULT_TIMEOUTS | value
 
 
 def unique_object(pairs: list[tuple[str, Any]]) -> dict[str, Any]:
@@ -73,8 +108,11 @@ def configuration(value: Any) -> dict[str, Any]:
     for field in sorted(required):
         if field not in value:
             raise GateFailure(f"configuration: missing required field {field!r}")
-    for field in sorted(value.keys() - required - {"tickets", "completed_runs", "max_repairs"}):
+    for field in sorted(
+        value.keys() - required - {"tickets", "completed_runs", "max_repairs", "timeouts"}
+    ):
         raise GateFailure(f"configuration: unsupported field {field!r}; see the input contract")
+    value["timeouts"] = timeouts(value.get("timeouts", {}))
     allowance = value.setdefault("max_repairs", 2)
     if type(allowance) is not int or allowance < 0:
         raise GateFailure("configuration.max_repairs: expected a nonnegative integer")

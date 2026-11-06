@@ -3,6 +3,7 @@
 import hashlib
 import json
 import os
+import signal
 import subprocess
 from collections.abc import Iterator
 from contextlib import contextmanager
@@ -79,6 +80,7 @@ def execute(
     artifacts: Path,
     stage: str,
     revision: str,
+    timeout_seconds: int | float,
     assignment: dict[str, Any] | None = None,
     restore_on_violation_by_path: dict[Path, bool] | None = None,
     artifact_name: str | None = None,
@@ -94,6 +96,8 @@ def execute(
         "stdout": str(stdout),
         "stderr": str(stderr),
         "passed": False,
+        "timeout_seconds": timeout_seconds,
+        "timed_out": False,
     }
     payload = None
     if assignment is not None:
@@ -103,23 +107,67 @@ def execute(
         payload = json.dumps(assignment)
     with (
         protect(restore_on_violation_by_path or {}, artifacts, artifact_name, gate),
-        stdout.open("w") as out,
-        stderr.open("w") as err,
+        stdout.open("wb") as out,
+        stderr.open("wb") as err,
     ):
+        process = None
         try:
-            process = subprocess.run(
+            process = subprocess.Popen(
                 argv,
                 cwd=cwd,
-                input=payload,
-                text=True,
-                stdout=out,
-                stderr=err,
+                stdin=subprocess.PIPE if payload is not None else subprocess.DEVNULL,
+                stdout=subprocess.PIPE,
+                stderr=subprocess.PIPE,
                 env={**os.environ, "TICKET_HARNESS_STAGE": stage},
-                check=False,
+                start_new_session=True,
             )
+            try:
+                captured_out, captured_err = process.communicate(
+                    payload.encode() if payload is not None else None, timeout=timeout_seconds
+                )
+            except subprocess.TimeoutExpired:
+                gate.update(
+                    timed_out=True,
+                    diagnostic=f"{stage} timed out after {timeout_seconds} seconds",
+                )
+                stop_group(process, gate)
+                try:
+                    # A dead leader can leave children holding the output pipes open.
+                    # Bound the final drain too; never wait indefinitely for EOF.
+                    captured_out, captured_err = process.communicate(timeout=5)
+                except subprocess.TimeoutExpired as error:
+                    captured_out, captured_err = error.output or b"", error.stderr or b""
+                    gate["execution_error"] = "process cleanup/output drain did not finish"
+            out.write(captured_out)
+            err.write(captured_err)
             gate["exit_code"] = process.returncode
-            gate["passed"] = process.returncode == 0
+            gate["passed"] = process.returncode == 0 and not gate["timed_out"]
         except OSError as error:
-            err.write(str(error))
+            err.write(str(error).encode())
             gate["exit_code"] = None
+            gate["execution_error"] = str(error)
+        finally:
+            if process is not None:
+                # Also stop background children of an otherwise completed command.
+                stop_group(process, gate)
+                try:
+                    process.wait(timeout=5)
+                except subprocess.TimeoutExpired:
+                    gate["execution_error"] = "process did not stop after SIGKILL"
+                for stream in (process.stdin, process.stdout, process.stderr):
+                    if stream is not None:
+                        stream.close()
+                gate["exit_code"] = process.returncode
     return gate
+
+
+def stop_group(process: subprocess.Popen[bytes], gate: dict[str, Any]) -> None:
+    """Kill the entire assignment's POSIX process group, including an exited leader's children."""
+    cleanup = gate.setdefault(
+        "cleanup", {"process_group": process.pid, "signal": "SIGKILL", "sent": False}
+    )
+    try:
+        os.killpg(process.pid, signal.SIGKILL)
+        cleanup["sent"] = True
+    except ProcessLookupError:
+        pass
