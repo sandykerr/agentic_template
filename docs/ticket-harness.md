@@ -61,7 +61,7 @@ python -m ticket_harness status "$fixture/passing-run"
 ```
 
 `run` intentionally approves the chosen requirements and commands. Exit 0 means
-Done in the legacy selection mode, or a deliberate `preparation_pending` stop in milestone mode; nonzero means invalid inputs, environment failure, or incomplete work, as
+Done in the legacy selection mode, or a deliberate `awaiting_human_qa` stop in milestone mode; nonzero means invalid inputs, environment failure, or incomplete work, as
 recorded in `outcome` and `failure`. `status RUN_DIRECTORY` prints `run.json`
 without running processes or modifying source or records; exit 0 means the
 record was read, including for an incomplete run.
@@ -164,22 +164,57 @@ mandatory. Validation completes before worktrees, checks, agents or ref changes.
 `development` must name an existing local branch distinct from `integration`;
 its starting revision is recorded and this workflow never advances it.
 
-After the current group's tickets become Done, exit 0 records
-`outcome: "preparation_pending"`, `feature_complete: false` and a `milestone` object
-with `id`, `state: "preparation_pending"`, and the exact `feature_revision`.
-The `tickets` mapping includes all required tickets; later groups remain `Pending`
-with attempt zero, including independent tickets. `selected_tickets` contains only
-this run's current group in numeric order. A failing current gate retains the
-existing failure outcome and does not claim preparation is pending.
+After the current group's tickets become Done, the harness prepares a milestone
+candidate combining the exact feature tip and the **current** development tip.
+The starting development revision remains recorded separately. During preparation,
+`outcome: "preparing_milestone"` and milestone state `preparing` remain observable.
+It runs `suite`
+again against that exact candidate with `TICKET_HARNESS_STAGE=milestone-regression`,
+using the configured `candidate` timeout. This is separate from each ticket's
+required `candidate` suite; none of the ticket gates are skipped or reused as
+milestone regression evidence.
 
-This stop creates no feature-to-development candidate, QA request or decision,
-and claims no QA readiness, acceptance, promotion or feature completion. Even a
-single final group with all tickets Done stops for preparation. Candidate
-preparation/testing, human approval/promotion and planned continuation are separate
-later workflows; a new `run` cannot use recorded ticket completion to skip the
-first group's QA gate. `status` reads the same durable record without launching
-work. The development checkpoints for building this harness are separate from
-these target-repository runtime plans.
+Successful preparation exits 0 with `outcome: "awaiting_human_qa"`,
+`feature_complete: false`, and a `milestone` object containing `id`,
+`state: "awaiting_human_qa"`, `feature_revision`, `development_revision` and
+`candidate_revision`. The `tickets` mapping includes all required tickets; later
+groups remain `Pending` with attempt zero. `selected_tickets` contains only the
+current group in numeric order. Even a single final group with all tickets Done
+waits for human acceptance.
+
+`qa_request` points to `qa-request.json` in the run directory, outside source
+worktrees. It records unique request/run identities, the run directory, approved
+plan version/approval and captured plan identity, milestone, feature/development
+branches and revisions, exact candidate/worktree, planned human setup/actions/pass
+conditions, and the actual passing regression gate with command, revision,
+exit/timeout result and output artifact paths. This request supplies no human
+decision. Candidate preparation never advances development or starts later work.
+
+Before issuing the request the harness revalidates approved inputs, all verified
+sources and both branch tips. Regression failure, candidate/source mutation, or
+external branch movement stops preparation with `outcome: "incomplete"` and
+milestone state `preparation_failed`, retaining candidate/source/gate evidence and
+external refs. Completed tickets remain Done. No QA request is issued. Preparation
+has no automatic repair budget and does not consume ticket attempts.
+
+Clean automatic merges, including nonoverlapping edits in the same file, are
+supported. An independent plain merge in an isolated bare Git directory ignores
+project hooks, configuration and attributes to detect source-changing conflict
+resolutions. Git must support `merge-tree --write-tree` and the global
+`--attr-source` option; unavailable support fails preparation closed. An unresolved
+conflict or a candidate differing from the clean merge stops with preserved source.
+Custom merge-driver resolutions and merge-hook edits require renewed applicable
+checks and reviews before QA; existing ticket approvals cannot authorize them.
+This slice stops for that renewal rather than launching conflict-repair workers.
+Automatic conflict repair/renewal orchestration is not provided.
+
+Human approval consumption/promotion and planned continuation remain separate
+workflows. A new `run` cannot use recorded ticket completion to skip the first
+group's QA gate. `status` reads the same durable record without launching work;
+it is observational and does not revalidate a candidate after the run has stopped.
+Later approval consumption must revalidate the exact request and current refs.
+Development checkpoints for building this harness are separate from these
+target-repository runtime plans.
 
 ## Canonical input contract
 

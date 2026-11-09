@@ -4,6 +4,7 @@ from collections.abc import Iterator
 from contextlib import contextmanager
 from pathlib import Path
 from typing import Any
+from uuid import uuid4
 
 from ticket_harness import agents, inputs
 from ticket_harness.git import (
@@ -12,6 +13,7 @@ from ticket_harness.git import (
     carry_changes,
     git,
     promote,
+    require_clean_milestone_candidate,
     require_reviewed_candidate,
     require_unchanged,
     worktree,
@@ -113,6 +115,8 @@ def run(config_path: Path, output: Path) -> tuple[dict[str, Any], int]:
         timeout_category = (
             "repair"
             if stage == "implementation" and attempt > 1
+            else "candidate"
+            if stage == "milestone-regression"
             else "checks"
             if stage.startswith("check-")
             else stage
@@ -213,6 +217,7 @@ def run(config_path: Path, output: Path) -> tuple[dict[str, Any], int]:
         active_tickets = config["selected_tickets"]
         planned = "plan" in config
         if planned:
+            record["run_id"] = uuid4().hex
             record["plan"] = config["plan"]
             record["worker_settings"] = config["worker_settings"]
             record["feature_complete"] = False
@@ -438,9 +443,63 @@ def run(config_path: Path, output: Path) -> tuple[dict[str, Any], int]:
                             if key in item
                         ],
                     }
-        record["outcome"] = "preparation_pending" if planned else "completed"
+        record["outcome"] = "preparing_milestone" if planned else "completed"
         if planned:
-            record["milestone"].update(state="preparation_pending", feature_revision=previous)
+            # Milestone preparation has no ticket repair budget and never changes refs.
+            ticket = None
+            attempt = 0
+            repairable = False
+            stage = "milestone-candidate"
+            milestone = record["milestone"]
+            milestone.update(state="preparing", feature_revision=previous)
+            development_base = git(repository, "rev-parse", f"refs/heads/{development}")
+            record["starting_development_revision"] = record["development_revision"]
+            record["development_revision"] = development_base
+            milestone["development_revision"] = development_base
+            save()
+            candidate_source = trees / "milestone-candidate"
+            try:
+                with git_operation("milestone-candidate-merge"):
+                    revision = candidate(repository, candidate_source, development_base, previous)
+                    milestone["candidate_revision"] = revision
+            except GateFailure as error:
+                raise GateFailure(
+                    f"Milestone merge failed; renewed checks and reviews required: {error}"
+                ) from error
+            with git_operation("milestone-candidate-validation"):
+                require_clean_milestone_candidate(
+                    repository, candidate_source, revision, development_base, previous
+                )
+            stage = "milestone-regression"
+            regression = gate(stage, config["suite"], candidate_source, revision)
+            stage = "milestone-readiness"
+            inputs.require_approved(snapshots)
+            validate_sources()
+            for branch, expected in ((integration, previous), (development, development_base)):
+                if git(repository, "rev-parse", f"refs/heads/{branch}") != expected:
+                    raise GateFailure(f"Branch {branch} changed externally; candidate invalidated")
+            request = {
+                "request_id": uuid4().hex,
+                "run_id": record["run_id"],
+                "run_directory": str(output),
+                "plan_version": config["plan"]["version"],
+                "plan_approval": config["plan"]["approval"],
+                "plan_input": snapshots["plan"],
+                "milestone": milestone["id"],
+                "feature_branch": integration,
+                "feature_revision": previous,
+                "development_branch": development,
+                "development_revision": development_base,
+                "candidate_revision": revision,
+                "candidate_worktree": str(candidate_source),
+                "human_checks": config["plan"]["milestones"][0]["qa"],
+                "regression_evidence": [regression],
+            }
+            request_path = output / "qa-request.json"
+            write_json(request_path, request)
+            record["qa_request"] = str(request_path)
+            record["outcome"] = "awaiting_human_qa"
+            milestone["state"] = "awaiting_human_qa"
         save()
         return record, 0
     except (GateFailure, OSError, ValueError, KeyError, TypeError) as error:
@@ -452,6 +511,9 @@ def run(config_path: Path, output: Path) -> tuple[dict[str, Any], int]:
             else "incomplete"
         )
         record.update(outcome=outcome, failure={"stage": stage, "message": str(error)})
-        record["ticket"]["state"] = "Blocked"
+        if record["ticket"]["state"] != "Done":
+            record["ticket"]["state"] = "Blocked"
+        if stage.startswith("milestone-") and "milestone" in record:
+            record["milestone"]["state"] = "preparation_failed"
         save()
         return record, 1

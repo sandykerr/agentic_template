@@ -59,7 +59,7 @@ def write_plan(graph, plan):
     (graph.repo / "plan.json").write_text(json.dumps(plan))
 
 
-def test_two_group_plan_stops_before_preparation_without_starting_later_work(graph):
+def test_two_group_plan_presents_tested_qa_without_starting_later_work(graph):
     plan = configure_plan(graph)
     (graph.repo / "value.txt").write_text("caller staged\n")
     graph.git("add", "value.txt")
@@ -70,13 +70,11 @@ def test_two_group_plan_stops_before_preparation_without_starting_later_work(gra
     result = graph.run_ticket()
     assert result.returncode == 0, result.stdout + result.stderr
     record = graph.record()
-    assert record["outcome"] == "preparation_pending"
+    assert record["outcome"] == "awaiting_human_qa"
     assert record["feature_complete"] is False
-    assert record["milestone"] == {
-        "id": "M1",
-        "state": "preparation_pending",
-        "feature_revision": record["integration_revision"],
-    }
+    assert record["milestone"]["id"] == "M1"
+    assert record["milestone"]["state"] == "awaiting_human_qa"
+    assert record["milestone"]["feature_revision"] == record["integration_revision"]
     assert record["plan"]["version"] == "v1"
     assert record["plan"]["approval"] == plan["approval"]
     assert record["plan"]["milestones"] == plan["milestones"]
@@ -137,8 +135,45 @@ def test_two_group_plan_stops_before_preparation_without_starting_later_work(gra
         data = Path(snapshot["artifact"]).read_bytes()
         assert data == Path(snapshot["source"]).read_bytes()
         assert snapshot["sha256"] == hashlib.sha256(data).hexdigest()
-    assert "candidate_revision" not in record["milestone"]
-    assert "qa_request" not in record
+    assert record["milestone"]["candidate_revision"]
+    assert Path(record["qa_request"]).exists()
+    assert graph.cli("status", graph.output).stdout == result.stdout
+
+    milestone = record["milestone"]
+    candidate = milestone["candidate_revision"]
+    assert milestone["state"] == "awaiting_human_qa"
+    request = json.loads(Path(record["qa_request"]).read_text())
+    assert request["request_id"] and request["request_id"] != request["run_id"]
+    assert request["run_id"] == record["run_id"]
+    assert request["plan_input"] == record["inputs"]["plan"]
+    assert request["candidate_worktree"] == str(graph.output / "worktrees/milestone-candidate")
+    assert request["run_directory"] == str(graph.output)
+    assert request["plan_version"] == "v1"
+    assert request["plan_approval"] == plan["approval"]
+    assert request["milestone"] == "M1"
+    assert request["feature_branch"] == "integration"
+    assert request["feature_revision"] == graph.git("rev-parse", "integration")
+    assert request["development_branch"] == "dev"
+    assert request["development_revision"] == graph.git("rev-parse", "dev") == graph.base
+    assert request["candidate_revision"] == candidate
+    assert request["human_checks"] == plan["milestones"][0]["qa"]
+    assert graph.git("show", "-s", "--format=%P", candidate).split() == [
+        graph.base,
+        request["feature_revision"],
+    ]
+    assert graph.git("show", candidate + ":work-01") == "delivered 01"
+    assert graph.git("show", candidate + ":work-03") == "delivered 03"
+    regression = record["gates"][-1]
+    assert regression["stage"] == "milestone-regression"
+    assert regression["revision"] == candidate
+    assert regression["ticket"] is None
+    assert regression["passed"]
+    assert request["regression_evidence"] == [regression]
+    assert Path(regression["stdout"]).read_text() == f"milestone-regression {candidate}\n"
+    assert len([g for g in record["gates"] if g["stage"] == "candidate"]) == 2
+    assert all(record["tickets"][t]["state"] == "Done" for t in ("01", "03"))
+    assert all(record["tickets"][t]["attempt"] == 0 for t in ("02", "04"))
+    assert record["feature_complete"] is False
     assert graph.cli("status", graph.output).stdout == result.stdout
 
 
@@ -228,7 +263,7 @@ def test_invalid_plans_reject_before_processes_or_branch_changes(graph, mutation
     assert launches(graph) == []
 
 
-def test_single_final_group_still_requires_preparation_and_captures_matching_metadata(graph):
+def test_single_final_group_still_requires_human_qa_and_captures_matching_metadata(graph):
     plan = configure_plan(graph)
     plan["milestones"] = [plan["milestones"][0]]
     plan["milestones"][0]["tickets"] = ["03", "01", "04", "02"]
@@ -245,7 +280,7 @@ def test_single_final_group_still_requires_preparation_and_captures_matching_met
     result = graph.run_ticket()
     assert result.returncode == 0, result.stdout + result.stderr
     record = graph.record()
-    assert record["outcome"] == "preparation_pending"
+    assert record["outcome"] == "awaiting_human_qa"
     assert record["feature_complete"] is False
     assert all(t["state"] == "Done" for t in record["tickets"].values())
     assert record["worker_settings"]["03"] == {
@@ -325,3 +360,245 @@ def test_plan_mutation_stops_execution_and_preserves_the_approved_snapshot(graph
     assert Path(record["inputs"]["plan"]["artifact"]).read_bytes() == approved
     assert graph.git("rev-parse", "integration") == graph.git("rev-parse", "dev") == graph.base
     assert all(t["attempt"] == 0 for k, t in record["tickets"].items() if k != "03")
+
+
+def test_milestone_merge_hook_cannot_present_changed_source_without_renewed_reviews(graph):
+    configure_plan(graph)
+    hook = graph.repo / ".git/hooks/post-merge"
+    hook.write_text(
+        "#!/bin/sh\n"
+        'if [ "$(basename "$PWD")" = milestone-candidate ]; then\n'
+        "  printf 'unreviewed resolution\\n' > value.txt\n"
+        "  git add value.txt\n"
+        "  git commit --no-edit >/dev/null\n"
+        "fi\n"
+    )
+    hook.chmod(0o755)
+    result = graph.run_ticket()
+    assert result.returncode == 1
+    record = graph.record()
+    assert record["failure"]["stage"] == "milestone-candidate"
+    assert "renewed checks and reviews required" in record["failure"]["message"]
+    assert record["milestone"]["state"] == "preparation_failed"
+    assert "qa_request" not in record
+    assert not (graph.output / "qa-request.json").exists()
+    assert graph.git("rev-parse", "dev") == graph.base
+    assert graph.git("rev-parse", "integration") == record["milestone"]["feature_revision"]
+    assert all(record["tickets"][t]["state"] == "Done" for t in ("01", "03"))
+    assert (
+        graph.output / "worktrees/milestone-candidate/value.txt"
+    ).read_text() == "unreviewed resolution\n"
+
+
+def test_failed_milestone_regression_retains_done_tickets_without_a_qa_request(graph):
+    configure_plan(graph)
+    graph.config["suite"] = [
+        graph.config["agent"][0],
+        "-c",
+        "import os; print('actual regression output'); "
+        "raise SystemExit(7 if os.environ['TICKET_HARNESS_STAGE'] == 'milestone-regression' else 0)",
+    ]
+    result = graph.run_ticket()
+    assert result.returncode == 1
+    record = graph.record()
+    assert record["failure"]["stage"] == "milestone-regression"
+    assert record["milestone"]["state"] == "preparation_failed"
+    assert record["outcome"] == "incomplete"
+    assert "qa_request" not in record
+    assert not (graph.output / "qa-request.json").exists()
+    regression = record["gates"][-1]
+    assert regression["stage"] == "milestone-regression"
+    assert regression["exit_code"] == 7
+    assert not regression["passed"]
+    assert regression["revision"] == record["milestone"]["candidate_revision"]
+    assert Path(regression["stdout"]).read_text() == "actual regression output\n"
+    assert all(g["passed"] for g in record["gates"] if g["stage"] == "candidate")
+    assert all(record["tickets"][t]["state"] == "Done" for t in ("01", "03"))
+    assert all(record["tickets"][t]["attempt"] == 0 for t in ("02", "04"))
+    assert graph.git("rev-parse", "integration") == record["milestone"]["feature_revision"]
+    assert graph.git("rev-parse", "dev") == graph.base
+    assert record["feature_complete"] is False
+    assert graph.cli("status", graph.output).stdout == result.stdout
+
+
+def milestone_suite(graph, action):
+    script = graph.home / "milestone-suite.py"
+    script.write_text(
+        "import os, subprocess\nfrom pathlib import Path\n"
+        "if os.environ['TICKET_HARNESS_STAGE'] == 'milestone-regression':\n"
+        + "\n".join("    " + line for line in action.splitlines())
+        + "\n"
+    )
+    graph.config["suite"] = [graph.config["agent"][0], str(script)]
+
+
+@pytest.mark.parametrize("branch", ["dev", "integration"])
+def test_external_milestone_input_movement_preserves_refs_and_rejects_readiness(graph, branch):
+    configure_plan(graph)
+    milestone_suite(
+        graph,
+        "external = subprocess.check_output(['git', 'commit-tree', 'HEAD^{tree}', '-p', 'HEAD', "
+        "'-m', 'External movement'], text=True).strip()\n"
+        f"subprocess.run(['git', 'update-ref', 'refs/heads/{branch}', external], check=True)",
+    )
+    result = graph.run_ticket()
+    assert result.returncode == 1
+    record = graph.record()
+    assert record["failure"]["stage"] == "milestone-readiness"
+    assert f"Branch {branch} changed externally" in record["failure"]["message"]
+    assert record["milestone"]["state"] == "preparation_failed"
+    assert "qa_request" not in record
+    assert not (graph.output / "qa-request.json").exists()
+    external = graph.git("rev-parse", branch)
+    assert graph.git("show", "-s", "--format=%s", external) == "External movement"
+    assert external not in (record["milestone"]["candidate_revision"], graph.base)
+    assert graph.git("rev-parse", "dev" if branch == "integration" else "integration") == (
+        graph.base if branch == "integration" else record["milestone"]["feature_revision"]
+    )
+    assert all(record["tickets"][t]["state"] == "Done" for t in ("01", "03"))
+    assert record["gates"][-1]["passed"]
+    assert graph.cli("status", graph.output).stdout == result.stdout
+
+
+@pytest.mark.parametrize("target", ["milestone-candidate", "baseline"])
+def test_milestone_regression_source_mutation_invalidates_evidence_and_stops_qa(graph, target):
+    configure_plan(graph)
+    milestone_suite(
+        graph, f"(Path.cwd().parent / {target!r} / 'value.txt').write_text('invalidated source')"
+    )
+    result = graph.run_ticket()
+    assert result.returncode == 1
+    record = graph.record()
+    assert record["failure"]["stage"] == "milestone-regression"
+    assert record["milestone"]["state"] == "preparation_failed"
+    assert "qa_request" not in record
+    invalidated = [g for g in record["gates"] if g.get("verification_status") == "invalidated"]
+    assert invalidated and all(not g["passed"] for g in invalidated)
+    assert (graph.output / "worktrees" / target / "value.txt").read_text() == "invalidated source"
+    assert graph.git("rev-parse", "dev") == graph.base
+    assert graph.git("rev-parse", "integration") == record["milestone"]["feature_revision"]
+
+
+def test_changed_development_base_is_combined_with_feature_using_a_clean_same_file_merge(graph):
+    from test_dependencies import extend_agent
+
+    original = "one\ntwo\nthree\nfour\nfive\nsix\n"
+    (graph.repo / "value.txt").write_text(original)
+    graph.git("add", "value.txt")
+    graph.git("commit", "-m", "Shared source")
+    graph.base = graph.git("rev-parse", "HEAD")
+    graph.git("update-ref", "refs/heads/integration", graph.base)
+    configure_plan(graph)
+    # Development changes while ticket work is underway; preparation must use its
+    # current tip rather than the starting development identity.
+    external_tree = graph.home / "development"
+    graph.git("worktree", "add", "--detach", str(external_tree), graph.base)
+    (external_tree / "value.txt").write_text(original.replace("six", "development six"))
+    import subprocess
+
+    subprocess.run(
+        ["git", "-C", str(external_tree), "commit", "-am", "Development change"],
+        check=True,
+        capture_output=True,
+    )
+    external = graph.git("-C", str(external_tree), "rev-parse", "HEAD")
+    extend_agent(
+        graph,
+        "if a['role'] == 'implementation' and a['ticket'] == '01':\n"
+        "    Path('value.txt').write_text(Path('value.txt').read_text().replace('one', 'feature one'))\n"
+        f"    git('update-ref', 'refs/heads/dev', {external!r})",
+    )
+    result = graph.run_ticket()
+    assert result.returncode == 0, result.stdout + result.stderr
+    record = graph.record()
+    assert record["starting_development_revision"] == graph.base
+    assert record["development_revision"] == graph.git("rev-parse", "dev") == external
+    candidate = record["milestone"]["candidate_revision"]
+    assert graph.git("show", "-s", "--format=%P", candidate).split() == [
+        external,
+        record["milestone"]["feature_revision"],
+    ]
+    assert (
+        graph.git("show", candidate + ":value.txt")
+        == "feature one\ntwo\nthree\nfour\nfive\ndevelopment six"
+    )
+    request = json.loads(Path(record["qa_request"]).read_text())
+    assert request["development_revision"] == external
+    assert request["candidate_revision"] == candidate
+    assert all(record["tickets"][t]["attempt"] == 0 for t in ("02", "04"))
+
+
+@pytest.mark.parametrize("resolved", [False, True])
+def test_conflicting_development_preserves_resolution_and_requires_renewed_reviews(graph, resolved):
+    import subprocess
+
+    from test_dependencies import extend_agent
+
+    configure_plan(graph)
+    external_tree = graph.home / "development"
+    graph.git("worktree", "add", "--detach", str(external_tree), graph.base)
+    (external_tree / "value.txt").write_text("development conflict\n")
+    subprocess.run(
+        ["git", "-C", str(external_tree), "commit", "-am", "Conflicting development"],
+        check=True,
+        capture_output=True,
+    )
+    external = graph.git("-C", str(external_tree), "rev-parse", "HEAD")
+    graph.git("update-ref", "refs/heads/dev", external)
+    extend_agent(
+        graph,
+        "if a['role'] == 'implementation' and a['ticket'] == '01':\n"
+        "    Path('value.txt').write_text('feature conflict\\n')",
+    )
+    if resolved:
+        # Real target configuration resolves the conflict; the independent plain
+        # merge must still detect that this source has no applicable approvals.
+        (graph.repo / ".git/info/attributes").write_text("value.txt merge=fixture\n")
+        graph.git("config", "merge.fixture.driver", "printf 'unreviewed resolution\\n' > %A")
+    result = graph.run_ticket()
+    assert result.returncode == 1
+    record = graph.record()
+    assert record["failure"]["stage"] == "milestone-candidate"
+    assert record["milestone"]["state"] == "preparation_failed"
+    assert "qa_request" not in record
+    assert not (graph.output / "qa-request.json").exists()
+    assert graph.git("rev-parse", "dev") == external
+    assert graph.git("rev-parse", "integration") == record["milestone"]["feature_revision"]
+    assert all(record["tickets"][t]["state"] == "Done" for t in ("01", "03"))
+    assert all(record["tickets"][t]["attempt"] == 0 for t in ("02", "04"))
+    source = graph.output / "worktrees/milestone-candidate/value.txt"
+    if resolved:
+        assert source.read_text() == "unreviewed resolution\n"
+        assert "renewed checks and reviews required" in record["failure"]["message"]
+        assert "CONFLICT" in record["failure"]["message"]
+        assert record["milestone"]["candidate_revision"]
+    else:
+        assert "<<<<<<<" in source.read_text()
+        assert "CONFLICT" in record["failure"]["message"]
+    assert record["gates"][-1]["stage"] == "candidate"
+
+
+def test_development_already_containing_the_feature_still_runs_exact_milestone_regression(graph):
+    configure_plan(graph)
+    script = graph.home / "suite.py"
+    script.write_text(
+        "import json, os, subprocess\nfrom pathlib import Path\n"
+        "if os.environ['TICKET_HARNESS_STAGE'] == 'milestone-regression':\n"
+        "    record = json.loads((Path.cwd().parents[1] / 'run.json').read_text())\n"
+        "    assert record['outcome'] == 'preparing_milestone', record['outcome']\n"
+        "    assert record['milestone']['state'] == 'preparing'\n"
+        "if os.environ['TICKET_HARNESS_STAGE'] == 'candidate' and Path('last-ticket').read_text() == '01':\n"
+        "    subprocess.run(['git', 'update-ref', 'refs/heads/dev', 'HEAD'], check=True)\n"
+    )
+    graph.config["suite"] = [graph.config["agent"][0], str(script)]
+    result = graph.run_ticket()
+    assert result.returncode == 0, result.stdout + result.stderr
+    record = graph.record()
+    feature = record["milestone"]["feature_revision"]
+    assert record["milestone"]["candidate_revision"] == record["development_revision"] == feature
+    assert graph.git("rev-parse", "dev") == graph.git("rev-parse", "integration") == feature
+    assert record["gates"][-1]["stage"] == "milestone-regression"
+    assert record["gates"][-1]["revision"] == feature
+    assert record["gates"][-1]["passed"]
+    assert json.loads(Path(record["qa_request"]).read_text())["candidate_revision"] == feature
+    assert record["feature_complete"] is False

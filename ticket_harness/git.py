@@ -1,7 +1,9 @@
 """Git ownership: detached worktrees, submission capture, and candidate promotion."""
 
+import os
 import shutil
 import subprocess
+import tempfile
 from pathlib import Path
 
 from ticket_harness.records import GateFailure
@@ -14,7 +16,10 @@ def git(repository: Path, *args: str) -> str:
         ["git", "-C", str(repository), *args], capture_output=True, text=True, check=False
     )
     if result.returncode:
-        raise GateFailure(f"git {' '.join(args)}: {result.stderr.strip()}")
+        diagnostic = "\n".join(
+            part.strip() for part in (result.stderr, result.stdout) if part.strip()
+        )
+        raise GateFailure(f"git {' '.join(args)}: {diagnostic}")
     return result.stdout.strip()
 
 
@@ -96,3 +101,62 @@ def promote(repository: Path, branch: str, revision: str, previous: str) -> None
         revision,
         previous,
     )
+
+
+def require_clean_milestone_candidate(
+    repository: Path, source: Path, revision: str, base: str, feature: str
+) -> None:
+    """Compare with a plain Git merge; resolution source needs fresh approval.
+
+    An isolated bare Git directory avoids target hooks, config and info attributes.
+    Empty attributes disable custom/union drivers and normalization when computing
+    the comparison tree, so conflict resolutions cannot inherit ticket approvals.
+    The real candidate remains available for diagnosis, including resolved source.
+    """
+    empty = git(repository, "hash-object", "-w", "-t", "tree", "/dev/null")
+    objects = git(repository, "rev-parse", "--path-format=absolute", "--git-path", "objects")
+    object_format = git(repository, "rev-parse", "--show-object-format")
+    with tempfile.TemporaryDirectory(prefix="ticket-harness-merge-") as directory:
+        isolated = Path(directory)
+        git(isolated, "init", "--bare", "--template=", f"--object-format={object_format}")
+        environment = {
+            key: value for key, value in os.environ.items() if not key.startswith("GIT_")
+        }
+        environment.update(
+            GIT_OBJECT_DIRECTORY=objects,
+            GIT_CONFIG_GLOBAL="/dev/null",
+            GIT_CONFIG_NOSYSTEM="1",
+            GIT_ATTR_NOSYSTEM="1",
+        )
+        result = subprocess.run(
+            [
+                "git",
+                f"--git-dir={isolated}",
+                f"--attr-source={empty}",
+                "-c",
+                "core.attributesFile=/dev/null",
+                "merge-tree",
+                "--write-tree",
+                base,
+                feature,
+            ],
+            env=environment,
+            capture_output=True,
+            text=True,
+            check=False,
+        )
+    if result.returncode:
+        raise GateFailure(
+            "Milestone merge needs resolution; renewed checks and reviews required: "
+            + result.stdout.strip()
+            + result.stderr.strip()
+        )
+    expected_tree = result.stdout.splitlines()[0]
+    parents = git(source, "show", "-s", "--format=%P", revision).split()
+    if git(source, "rev-parse", f"{revision}^{{tree}}") != expected_tree or (
+        revision != base and parents != [base, feature]
+    ):
+        raise GateFailure(
+            "Milestone candidate differs from clean merge; renewed checks and reviews required"
+        )
+    require_unchanged(source, revision)

@@ -127,6 +127,34 @@ def graph(request):
                     for g in record["gates"]
                     if "assignment" in g
                 },
+                "qa_request": json.loads(Path(record["qa_request"]).read_text())
+                if "qa_request" in record
+                else None,
+                "milestone_candidate": {
+                    "head": fixture.git(
+                        "-C",
+                        str(fixture.output / "worktrees/milestone-candidate"),
+                        "rev-parse",
+                        "HEAD",
+                    ),
+                    "status": fixture.git(
+                        "-C",
+                        str(fixture.output / "worktrees/milestone-candidate"),
+                        "status",
+                        "--porcelain",
+                    ),
+                    "value": (
+                        fixture.output / "worktrees/milestone-candidate/value.txt"
+                    ).read_text(),
+                    "history": fixture.git(
+                        "-C",
+                        str(fixture.output / "worktrees/milestone-candidate"),
+                        "log",
+                        "--format=%H %P %s",
+                    ),
+                }
+                if (fixture.output / "worktrees/milestone-candidate").exists()
+                else None,
                 "development": fixture.git("rev-parse", "dev")
                 if "plan" in fixture.config
                 else None,
