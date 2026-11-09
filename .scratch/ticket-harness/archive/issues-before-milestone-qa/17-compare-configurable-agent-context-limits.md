@@ -1,6 +1,6 @@
 # Historical ticket definition
 
-Superseded by the approved QA-first plan. This is the previous unimplemented definition of ticket 17; use the [current ticket](../../issues/25-compare-configurable-agent-context-limits.md) for work. Source: `84982495be5d4943301e165f8419421391e75d18:.scratch/ticket-harness/issues/17-compare-configurable-agent-context-limits.md`. Relative links were adjusted for this archive location.
+Superseded by the approved QA-first plan. This is the previous unimplemented definition of ticket 17; use the [current ticket](../../issues/35-compare-configurable-agent-context-limits.md) for work. Source: `84982495be5d4943301e165f8419421391e75d18:.scratch/ticket-harness/issues/17-compare-configurable-agent-context-limits.md`. Relative links were adjusted for this archive location.
 
 # 17: Compare configurable 100K–250K agent context limits
 

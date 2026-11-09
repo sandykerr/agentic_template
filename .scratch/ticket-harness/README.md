@@ -1,38 +1,65 @@
-# Ticket harness
+# Ticket harness — ownership and review amendment
 
-Start here. The human approved the milestone-QA realignment; its requirements and delivery plan now live together in this directory.
+**Approved plan version:** oop-v2. **Revision:** review-process-1.
 
-| Document | Authority |
-| --- | --- |
-| [spec.md](spec.md) | Current approved behavior, execution boundaries, QA contract, and release scope. |
-| [ticket-proposal.md](ticket-proposal.md) | Approved remaining slices, skill refactors, development milestones, dependencies, and mapping to current ticket IDs. |
-| [milestones.md](milestones.md) | Current milestone membership, QA instructions, acceptance state, and eligibility. |
-| [issues/](issues/) and [completion evidence](#completion-evidence) | Individual published tickets and actual implementation evidence. |
+**Publication approval:** [Human decision and scope](approval.md).
+
+Review the [spec](spec.md), [complete ticket bodies/dependencies](ticket-proposal.md), [milestones](milestones.md), [numbering map](archive/oop-numbering-history.md), domain additions and supporting updates together. The human approved this complete expansion for local publication; the approval record identifies its scope and reviewed source.
 
 ## Implementation status
 
-Tickets **01–09 are complete**. They were assessed against the [previous spec](archive/spec-before-milestone-qa.md), which is retained for provenance. Their completion does not imply the newly approved QA, background, or feature-to-dev workflow is implemented.
+Completed 01–15 retain their IDs and evidence. New development review work 16–19 precedes five refactors 20–24 in M1; new runtime review enforcement 33 precedes real-agent work 34 in M3. Thirteen inherited open tickets are renumbered coherently, yielding 23 open tickets 16–38. M1 contains six completed 10–15 and nine new 16–24. Human M1 QA is not requested/accepted, and later milestones remain gated.
 
-The QA-first definitions are published as tickets **10–28**. [Ticket 10](evidence/10-completion.md), [ticket 11](evidence/11-completion.md), [ticket 12](evidence/12-completion.md), [ticket 13](evidence/13-completion.md), [ticket 14](evidence/14-completion.md), and [ticket 15](evidence/15-completion.md) are complete; **13 open tickets (16–28)** remain. The old unfinished product-first roadmap is superseded; [previous definitions](archive/issues-before-milestone-qa/) are historical only. **M1 required work is complete; awaiting M1 QA preparation and explicit human acceptance.** No next implementation ticket is eligible: M2, including ticket 16, remains gated. M1 has not been requested or accepted for human QA.
+The next eligible implementation ticket is 16, backed by completed 10/11. Prefer ascending prerequisite-ready work, respecting human milestone acceptance. Publication launches no review evaluation, implementation or harness run.
 
-At publication, at the human's request, the 19 then-open tickets were numbered in preferred execution order. Completed tickets 01–09 and their evidence remain unchanged; the [numbering history](archive/ticket-numbering-history.md) maps earlier QA-first IDs to current IDs. Its R01–R19 references map to actual tickets in the [published mapping](ticket-proposal.md#published-slice-to-ticket-mapping). Plan approval and publication do not start implementation or a harness run.
+## Complete ticket index
 
-## QA-first execution order
+| ID and title | Prerequisites | Readiness/completion | Milestone |
+| --- | --- | --- | --- |
+| [01: Complete one scripted ticket through every gate](issues/01-complete-one-scripted-ticket-cycle.md) | None | completed | Completed baseline |
+| [02: Reject invalid requirements before starting work](issues/02-reject-invalid-inputs-before-execution.md) | 01 | completed | Completed baseline |
+| [03: Reject invalid agent reports and review evidence](issues/03-validate-agent-reports-and-review-evidence.md) | 01 | completed | Completed baseline |
+| [04: Promote only the exact verified candidate](issues/04-promote-only-the-verified-candidate.md) | 01 | completed | Completed baseline |
+| [05: Repair rejected submissions within a bounded allowance](issues/05-repair-rejected-submissions-within-budget.md) | 03, 04 | completed | Completed baseline |
+| [06: Stop for decisions outside approved contracts](issues/06-surface-human-decisions-without-retrying.md) | 05 | completed | Completed baseline |
+| [07: Report optional review suggestions without rework](issues/07-report-optional-suggestions-without-repair.md) | 05 | completed | Completed baseline |
+| [08: Stop stalled assignments and check processes](issues/08-stop-timed-out-process-trees.md) | 05 | completed | Completed baseline |
+| [09: Execute verified dependencies in a stable order](issues/09-execute-dependencies-sequentially.md) | 02 | completed | Completed baseline |
+| [10: Turn one grilling session into an approved plan](issues/10-produce-approved-harness-inputs-with-planning-skill.md) | 09 | completed | M1 |
+| [11: Stop development handoffs at human checkpoints](issues/11-stop-development-handoffs-at-qa-milestones.md) | 10 | completed | M1 |
+| [12: Execute only the first eligible milestone](issues/12-execute-only-the-current-qa-milestone.md) | 10 | completed | M1 |
+| [13: Present a tested feature-to-dev candidate](issues/13-prepare-a-tested-feature-to-dev-candidate.md) | 12 | completed | M1 |
+| [14: Consume approval, promote, and continue](issues/14-promote-only-the-human-approved-milestone.md) | 13 | completed | M1 |
+| [15: Continue after a deliberate QA stop](issues/15-continue-from-a-planned-qa-checkpoint.md) | 14 | completed | M1 |
+| [16: Record review work, findings and decisions](issues/16-record-review-work-findings-and-decisions.md) | 10, 11 | ready-for-agent | M1 |
+| [17: Review ownership across affected modules](issues/17-review-ownership-across-affected-modules.md) | 16 | ready-for-agent | M1 |
+| [18: Gate development on cumulative architecture review](issues/18-gate-development-on-cumulative-architecture-review.md) | 16, 17 | ready-for-agent | M1 |
+| [19: Evaluate reviewers on known and acceptable designs](issues/19-evaluate-reviewers-on-known-and-acceptable-designs.md) | 17, 18 | ready-for-agent | M1 |
+| [20: Own implementation-attempt transitions](issues/20-own-implementation-attempt-transitions.md) | 05, 06, 19 | ready-for-agent | M1 |
+| [21: Own ticket execution and bounded repairs](issues/21-own-ticket-execution-and-bounded-repairs.md) | 20 | ready-for-agent | M1 |
+| [22: Return clearly prepared inputs](issues/22-return-clearly-prepared-inputs.md) | 02, 12, 19 | ready-for-agent | M1 |
+| [23: Own the complete run lifecycle](issues/23-own-the-complete-run-lifecycle.md) | 15, 21, 22 | ready-for-agent | M1 |
+| [24: Own milestone review and checkpoint continuation](issues/24-own-milestone-review-and-checkpoint-continuation.md) | 15, 23 | ready-for-agent | M1 |
+| [25: Guide a human through milestone QA](issues/25-guide-and-record-human-milestone-qa.md) | 10, 14 | ready-for-agent | M2 |
+| [26: Propose a versioned correction plan](issues/26-propose-versioned-qa-corrections.md) | 10, 25 | ready-for-agent | M2 |
+| [27: Execute approved QA corrections](issues/27-execute-approved-qa-corrections.md) | 15, 26 | ready-for-agent | M2 |
+| [28: Operate the orchestrator in the background](issues/28-operate-the-harness-in-the-background.md) | 15 | ready-for-agent | M2 |
+| [29: Continue independent work inside the current milestone](issues/29-continue-independent-work-after-blocks.md) | 12, 06 | ready-for-agent | M2 |
+| [30: Supply coherent design guidance to Standards review](issues/30-supply-combined-design-guidance-to-standards-review.md) | 03, 19 | ready-for-agent | M3 |
+| [31: Capture and deliver selected local skills](issues/31-capture-and-deliver-selected-local-skills.md) | 10, 30 | ready-for-agent | M3 |
+| [32: Deliver focused implementation and Spec contexts](issues/32-deliver-focused-implementation-and-spec-review-contexts.md) | 31, 19 | ready-for-agent | M3 |
+| [33: Enforce traceable runtime review checkpoints](issues/33-enforce-traceable-runtime-review-checkpoints.md) | 19, 24, 30, 31, 32 | ready-for-agent | M3 |
+| [34: Complete the workflow with real Codex roles](issues/34-run-a-real-codex-ticket-cycle.md) | 15, 32, 08, 33 | ready-for-agent | M3 |
+| [35: Run the early context-budget comparison](issues/35-compare-configurable-agent-context-limits.md) | 34 | ready-for-agent | E1 |
+| [36: Verify runtime write and approval boundaries](issues/36-verify-role-write-boundaries.md) | 25, 34 | ready-for-agent | M4 |
+| [37: Run a generated approved plan through the runtime](issues/37-run-a-generated-plan-through-the-runtime.md) | 10, 27, 31 | ready-for-agent | M4 |
+| [38: Demonstrate the revised first usable release](issues/38-demonstrate-the-first-usable-release.md) | 11, 28, 29, 36, 37, 07 | ready-for-agent | M4 |
 
-Use [milestones.md](milestones.md) for ticket membership and QA state. Complete M1's scripted feature-to-dev approval and safe-continuation cycle before the later operator, live-backend, or release milestones. No completed-ticket record or plan approval counts as milestone QA acceptance.
-
-| Milestone | Tickets in preferred plan order | Delivery |
-| --- | --- | --- |
-| M1 | [10](issues/10-produce-approved-harness-inputs-with-planning-skill.md), [11](issues/11-stop-development-handoffs-at-qa-milestones.md), [12](issues/12-execute-only-the-current-qa-milestone.md), [13](issues/13-prepare-a-tested-feature-to-dev-candidate.md), [14](issues/14-promote-only-the-human-approved-milestone.md), [15](issues/15-continue-from-a-planned-qa-checkpoint.md) | A complete QA-controlled Git cycle |
-| M2 | [16](issues/16-guide-and-record-human-milestone-qa.md), [17](issues/17-propose-versioned-qa-corrections.md), [18](issues/18-execute-approved-qa-corrections.md), [19](issues/19-operate-the-harness-in-the-background.md), [20](issues/20-continue-independent-work-after-blocks.md) | An unattended operator workflow |
-| M3 | [21](issues/21-supply-combined-design-guidance-to-standards-review.md), [22](issues/22-capture-and-deliver-selected-local-skills.md), [23](issues/23-deliver-focused-implementation-and-spec-review-contexts.md), [24](issues/24-run-a-real-codex-ticket-cycle.md) | Real agents with explicit guidance |
-| M4 | [26](issues/26-verify-role-write-boundaries.md), [27](issues/27-run-a-generated-plan-through-the-runtime.md), [28](issues/28-demonstrate-the-first-usable-release.md) | First usable release and final acceptance |
-
-E1 contains [25](issues/25-compare-configurable-agent-context-limits.md) only: run it immediately after 24 becomes verified, separately from release acceptance. Within the current milestone select ready work in this plan order. At its end generate a QA handoff or waiting status, never a next-milestone implementation assignment before human acceptance.
+Preferred groups: M1 10–24, M2 25–29, M3 30–34, independent E1 35 immediately after verified 34, final M4 36–38 after M3 acceptance. Review work completion, findings dispositioned, implementation Done and human QA acceptance remain distinct. Review work-item IDs are separate from this implementation-ticket sequence. E1 never gates release.
 
 ## History
 
-The [archive](archive/README.md) holds the superseded spec and original seven-ticket proposal. It is historical context, not the current execution plan. The former `qa-realignment/` staging directory has been consolidated into the two current documents above. [Design rationale](../../docs/adr/0002-human-qa-gates-feature-promotion.md) remains in the repository's ADR context; [runtime usage](../../docs/ticket-harness.md) describes capabilities actually implemented.
+Preserve the [prior approved authoring bundle](archive/before-oop-v2/README.md), original open issues and old root handoff before replacing live authoring files. The [mapping](archive/oop-numbering-history.md) records published and previous-draft identities. The earlier unapproved oop-v2 snapshot is retained under `drafts/oop-v2-before-review-process/`; oop-v1 remains prior planning history. Historical completion evidence below remains verbatim, with its original next-ticket/milestone statements scoped to that time.
 
 ## Agent context policy
 
@@ -55,7 +82,7 @@ During approved harness execution, source specs and tickets remain unchanged and
 
 ## Early context-budget experiment
 
-[25: Compare configurable 100K–250K agent context limits](issues/25-compare-configurable-agent-context-limits.md) is ready for execution immediately after issue 24 supplies the verified real Codex cycle, configured roles, and usage artifacts. Prioritize it then; it does not require the final release demonstration, multi-ticket scheduling, the planning skill, or the later access-boundary probes. It is a separate early experiment, not an additional first-release completion gate.
+[35: Compare configurable 100K–250K agent context limits](issues/35-compare-configurable-agent-context-limits.md) is ready for execution immediately after issue 34 supplies the verified real Codex cycle, configured roles, and usage artifacts. Prioritize it then; it does not require the final release demonstration, multi-ticket scheduling, the planning skill, or the later access-boundary probes. It is a separate early experiment, not an additional first-release completion gate.
 
 The user requested configurable per-agent limits of **100K, 150K, 200K, and 250K**. Compare the same workload, model, role reasoning settings, and acceptance checks at each setting. Record verified results, repair behavior, observed active context, compaction/handoff behavior, elapsed time, and cumulative/cached usage separately.
 

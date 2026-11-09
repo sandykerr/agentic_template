@@ -1,6 +1,6 @@
 # Historical ticket definition
 
-Superseded by the approved QA-first plan. This is the previous unimplemented definition of ticket 12; use the [current ticket](../../issues/23-deliver-focused-implementation-and-spec-review-contexts.md) for work. Source: `84982495be5d4943301e165f8419421391e75d18:.scratch/ticket-harness/issues/12-deliver-focused-implementation-and-spec-review-contexts.md`. Relative links were adjusted for this archive location.
+Superseded by the approved QA-first plan. This is the previous unimplemented definition of ticket 12; use the [current ticket](../../issues/32-deliver-focused-implementation-and-spec-review-contexts.md) for work. Source: `84982495be5d4943301e165f8419421391e75d18:.scratch/ticket-harness/issues/12-deliver-focused-implementation-and-spec-review-contexts.md`. Relative links were adjusted for this archive location.
 
 # 12: Deliver focused implementation and Spec-review skills
 

@@ -285,4 +285,4 @@ approval reference without inventing a decision or timestamp. Report paths and
 any remaining execution prerequisites. This workflow authors approved inputs;
 it does not implement scheduling, branch promotion, approval watching, restart,
 QA execution, background launch, or runtime skill selection. Generated-bundle
-runtime and skill-metadata proof remains ticket 27 in the harness project.
+runtime and skill-metadata proof remains ticket 37 in the harness project.

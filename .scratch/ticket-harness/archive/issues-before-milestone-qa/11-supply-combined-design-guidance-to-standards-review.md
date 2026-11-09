@@ -1,6 +1,6 @@
 # Historical ticket definition
 
-Superseded by the approved QA-first plan. This is the previous unimplemented definition of ticket 11; use the [current ticket](../../issues/21-supply-combined-design-guidance-to-standards-review.md) for work. Source: `84982495be5d4943301e165f8419421391e75d18:.scratch/ticket-harness/issues/11-supply-combined-design-guidance-to-standards-review.md`. Relative links were adjusted for this archive location.
+Superseded by the approved QA-first plan. This is the previous unimplemented definition of ticket 11; use the [current ticket](../../issues/30-supply-combined-design-guidance-to-standards-review.md) for work. Source: `84982495be5d4943301e165f8419421391e75d18:.scratch/ticket-harness/issues/11-supply-combined-design-guidance-to-standards-review.md`. Relative links were adjusted for this archive location.
 
 # 11: Supply combined Python design guidance to Standards review
 

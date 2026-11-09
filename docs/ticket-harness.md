@@ -461,7 +461,7 @@ The durable record retains all earlier evidence.
 Success requires every selection to reach Done. This slice stops the run on the
 first blocked ticket or shared environment failure; selected dependents remain
 Pending and unrelated selections retain their observed Ready state. Continuing
-unrelated work after a block belongs to ticket 20. A shared baseline failure
+unrelated work after a block belongs to ticket 29. A shared baseline failure
 launches no workers and consumes no repairs; the compatibility `ticket` entry
 (the configured primary before execution) becomes Blocked and other selections
 retain their pre-baseline states. Integration changes made outside the harness
@@ -609,7 +609,7 @@ promotion. Changed HEAD, index, or working files invalidate the affected gate:
 identifies the changed source. A structurally valid review report retains
 `report_status: "valid"`; it cannot approve changed source. This attempt stops;
 renewed checks and reviews are required before integration. These observations
-are not an enforced process sandbox (ticket 26).
+are not an enforced process sandbox (ticket 36).
 
 The harness creates a real merge candidate with the starting integration
 revision as first parent, tests it, and atomically updates the integration ref
@@ -642,7 +642,7 @@ requirements before starting a newly approved run.
 Integrity checks observe process boundaries. They do not detect a transient edit
 restored before the process returns, authenticate local artifacts, or prevent a
 process with unrestricted filesystem/Git access from racing observations. Run
-only trusted commands until role access enforcement is supplied by ticket 26.
+only trusted commands until role access enforcement is supplied by ticket 36.
 
 ## Optional review suggestions
 

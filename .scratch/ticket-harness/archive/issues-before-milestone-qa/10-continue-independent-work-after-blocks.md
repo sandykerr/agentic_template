@@ -1,6 +1,6 @@
 # Historical ticket definition
 
-Superseded by the approved QA-first plan. This is the previous unimplemented definition of ticket 10; use the [current ticket](../../issues/20-continue-independent-work-after-blocks.md) for work. Source: `84982495be5d4943301e165f8419421391e75d18:.scratch/ticket-harness/issues/10-continue-independent-work-after-blocks.md`. Relative links were adjusted for this archive location.
+Superseded by the approved QA-first plan. This is the previous unimplemented definition of ticket 10; use the [current ticket](../../issues/29-continue-independent-work-after-blocks.md) for work. Source: `84982495be5d4943301e165f8419421391e75d18:.scratch/ticket-harness/issues/10-continue-independent-work-after-blocks.md`. Relative links were adjusted for this archive location.
 
 # 10: Continue unrelated tickets after a blocked prerequisite
 

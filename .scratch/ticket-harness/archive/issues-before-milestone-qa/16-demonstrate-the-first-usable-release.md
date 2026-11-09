@@ -1,6 +1,6 @@
 # Historical ticket definition
 
-Superseded by the approved QA-first plan. This is the previous unimplemented definition of ticket 16; use the [current ticket](../../issues/28-demonstrate-the-first-usable-release.md) for work. Source: `84982495be5d4943301e165f8419421391e75d18:.scratch/ticket-harness/issues/16-demonstrate-the-first-usable-release.md`. Relative links were adjusted for this archive location.
+Superseded by the approved QA-first plan. This is the previous unimplemented definition of ticket 16; use the [current ticket](../../issues/38-demonstrate-the-first-usable-release.md) for work. Source: `84982495be5d4943301e165f8419421391e75d18:.scratch/ticket-harness/issues/16-demonstrate-the-first-usable-release.md`. Relative links were adjusted for this archive location.
 
 # 16: Demonstrate the first usable release from a clean checkout
 

@@ -1,16 +1,22 @@
-# Reusable ticket-execution harness with milestone QA
+# Reusable ticket-execution harness with traceable review and milestone QA
 
-**Status:** ready-for-agent
+**Approved plan version:** oop-v2. **Revision:** review-process-1.
 
-**Plan approval:** The human approved the milestone-QA realignment. This is the canonical current spec; the [implementation plan](ticket-proposal.md) contains its approved decomposition and milestones.
+**Publication approval:** [Human decision and scope](approval.md).
 
-**Implementation status:** Tickets 01–09 are complete under the [previous spec](archive/spec-before-milestone-qa.md). Their evidence remains valid for that scope. The QA-first remaining definitions are published as 10–28 and gated by the milestone plan; publication does not claim the new QA/background capabilities exist. Start from the [feature index](README.md) for execution status.
+**Relationship to prior work:** Amendment to the approved milestone-QA realignment at source `152b0c4577269789a419079c6261c69f9a0695fd`, which had no explicit version identifier. The earlier five-refactor-only oop-v2 draft is preserved under `drafts/oop-v2-before-review-process/`; oop-v1 remains unapproved planning history. The human approved this complete coherent bundle for local publication; see the approval record above.
+
+**Confirmed direction:** The human confirmed the five ownership refactors and sequential open-ticket renumbering, then agreed to the five review-process improvements, traceable review tracking in the existing tracker and human decision history, and requested their incorporation into this spec/ticket/milestone draft. The approved criteria and sequencing below are part of that publication decision.
+
+**Implementation status:** Completed 01–15 retain IDs, criteria and evidence. New M1 review work 16–19 precedes ownership refactors 20–24; nine new M1 tickets remain unimplemented. Existing open work is renumbered as shown in the [mapping](archive/oop-numbering-history.md), with new runtime review enforcement 33 before real agents 34. M1 QA is not requested/accepted, and later groups remain gated. Publication starts no implementation, review evaluation, run or human QA acceptance.
 
 ## Problem Statement
 
 The developer wants agents to implement approved software changes unattended without relying on a long-lived coordinating conversation. Existing skills provide useful planning, testing, and design practices, but agent-directed scheduling and integration do not provide the deterministic ownership, verification gates, and inspectable outcomes required for this workflow.
 
 The developer also wants reusable repo-owned guidance that incorporates applicable custom skills alongside Matt Pocock's planning, testing, and deep-module practices and Microsoft's OOP guidance. The resulting design policy must support Pythonic combinations of functions and objects, with concrete project decisions taking precedence over general design heuristics.
+
+The developer must also be able to inspect why code changed: which review raised a concern, what evidence supported it, who chose its disposition, which revision fixed it, and how the result was independently verified. Ticket-local correctness reviews must be complemented by ownership assessment and cumulative architecture review.
 
 ## Solution
 
@@ -19,6 +25,8 @@ Build a reusable Python command-line harness that executes an approved versioned
 Completed tickets 01–09 establish the scripted execution, validation, bounded repairs, timeouts, and sequential dependency foundation. Extend that work rather than rebuilding it. The next demonstration uses foreground scripted workers and two milestones in a disposable repository, including approval waiting, stale-approval rejection, tested local promotion, and deliberate continuation from a QA checkpoint. The first usable release adds the unified planning skill, QA-session guidance, approved corrections, background operation, blocked-work isolation, real Codex roles, and access validation.
 
 Concurrency, recovery from arbitrary execution interruptions, hosted PR/GitHub workflow integration, and failure emails are later slices. Deliberate stop and continuation at planned QA checkpoints are in scope.
+
+Add a shared development/runtime review contract, navigable review/finding/decision history in the existing tracker, cross-module ownership assessment, risk-triggered and milestone architecture checkpoints, and actual reviewer evaluation. Apply the stronger development workflow before the five refactors; implement runtime enforcement before proving real-agent execution.
 
 ## User Stories
 
@@ -68,11 +76,28 @@ Concurrency, recovery from arbitrary execution interruptions, hosted PR/GitHub w
 44. As a developer, I want ticket Done, milestone accepted/promoted, and feature complete to be reported distinctly.
 45. As a developer, I want the context-budget experiment prioritized immediately after real Codex becomes available without waiting for final release packaging.
 
+46. As a harness maintainer, I want each implementation attempt to own its transitions and related observations so ticket and attempt records remain consistent.
+47. As a harness maintainer, I want each ticket execution to own its fixed base and bounded repairs so rejected work is repaired against the correct history.
+48. As a harness maintainer, I want one explicit prepared-input result so run setup does not depend on scattered enrichment of raw settings or mutation of an unchecked plan.
+49. As a harness maintainer, I want the run to own start, continuation, milestone progression and finalization so callers do not need a sequence of shared-record edits.
+50. As an operator, I want restored check evidence connected to the saved run so later invalidation remains visible and authoritative.
+51. As a harness maintainer, I want one milestone review to own candidate, request, evidence and decision identities so fresh and continued reviews enforce the same acceptance rules.
+52. As an operator, I want the refactor to preserve commands, records and old deliberate checkpoints so upgrades preserve completed work and exact-candidate human acceptance.
+
+53. As a developer, I want review work and its exact assessed source recorded so a clean review has an inspectable scope.
+54. As a developer, I want immutable original reports and append-only decisions so I can understand why code changed without losing earlier reasoning.
+55. As a reviewer, I want explicit state ownership and relevant callers/writers/persistence paths so changes outside the diff can be assessed.
+56. As a developer, I want cumulative architecture checkpoints and early risk triggers so individually passing tickets cannot silently accumulate ownership problems.
+57. As a developer, I want findings linked to fixes, deferrals, human risk decisions, commits and verification so unresolved concerns remain visible across fresh agent sessions.
+58. As a human decision maker, I want consequential review decisions kept separate from candidate QA acceptance so agents preserve my authority without asking me to approve every routine fix.
+59. As a maintainer, I want actual reviewer evaluation against known concerns and acceptable designs so prompt quality is measured and missed/false findings remain inspectable.
+60. As an operator, I want real runtime reviewers to receive and enforce the evaluated contract so scripted harness success is not mistaken for effective live-agent review.
+
 ## Implementation Decisions
 
 ### Public interface and approval
 
-The CLI provides two public operations:
+The CLI provides the following public operations:
 
 | Operation | Inputs | Observable result |
 | --- | --- | --- |
@@ -116,6 +141,65 @@ Keep the public CLI as the main caller-facing seam. Behind it, use cohesive modu
 - Check execution and artifact recording.
 
 These are responsibilities, not a requirement for one class, interface, or source file per item. Group what changes together; create internal seams only where actual variation or external dependencies justify them. Use functions and classes together where that is the simpler Python design.
+
+### State and decision ownership
+
+The five-ticket ownership amendment changes internal responsibility, preserving implemented behavior and saved contracts. It must land as independently verified, usable slices. Do not implement later release features while refactoring their future extension points.
+
+- An implementation attempt owns transitions and their associated observations: starting, submission, verification, rejection, completion, gate ranges, and attaching a validated human-decision handoff. It keeps attempt and current-ticket observations consistent through operations rather than externally ordered field edits.
+- A ticket execution owns one ticket's complete cycle and bounded repair policy: original approved base, current attempt, repair starting revision, previous source worktree and repair context. The original base stays fixed even when the next attempt starts from rejected work. Repair attempts remain distinct from human-approved QA correction tickets.
+- Input preparation returns one complete, explicit prepared result, keeping raw configuration separate from derived execution values. Callers use the checked plan returned by validation; normalized membership and worker-setting rules remain in that validation operation. Internal result types are worker choices, while persisted checkpoint/configuration schemas remain compatible.
+- The run owns setup, branch/baseline establishment, deliberate continuation, milestone coordination, failure classification and finalization. It consumes prepared inputs and asks ticket executions/reviews for outcomes through cohesive operations rather than exposing their records for callers to patch.
+- The run owns exporting and rebuilding verified-check references in the existing checkpoint shape. QA uses that operation without knowing the runner's internal list/tuple representation; restored references point at the canonical durable gates.
+- A milestone review owns the exact tested candidate and its feature/development inputs, request and content identity, frozen evidence, decision observations and deliberate checkpoint lifecycle. Fresh construction and checkpoint restoration use the same review rules. The coordinating caller can distinguish a deliberate stop from successful promotion through an explicit outcome.
+- Checking stays runner-owned: command execution, report validation, timeout/report/finding precedence, check evidence registration and source invalidation. A validated human-decision handoff crosses to its owning attempt without checking selecting or mutating an attempt by shared-history position. Report validation returns report/failure information without editing canonical gate records; the runner alone records the check result and preserves existing process/report/timeout/decision precedence. Preserve current error classification, immediate stopping and durable evidence.
+- Collaborators receive the concrete data and operations their role needs. Moving a function into a class while retaining unrestricted runner access or exposed shared dictionaries is insufficient. Do not replace that coupling with a large bag of forwarding methods or callbacks.
+- Persist the existing JSON schemas, keys, values, artifact naming, checkpoint version and command behavior. Domain objects may privately work with existing records, but ownership rules control mutations. Restored verification references must resolve to the canonical durable gate records so later invalidation remains visible.
+- Leave pure readiness calculations, transformations, parsing, Git primitives, filesystem context managers and atomic writes as functions where objects would add no state or decisions. No inheritance hierarchy, registry, general state-machine framework or separate checker object is required. Exact private class names, methods, file layout and failure-payload representation remain worker choices.
+
+### Review work, findings and decisions
+
+Review tracking belongs to the existing local feature tracker, not a separate issue system. A review work item identifies an assessment scope and links originating implementation work, exact assessed source/baseline, purpose, reviewer axes/settings/instruction identities, reports, inspected/omitted scope and outstanding findings. Routine Spec/Standards reports attach to their implementation-ticket assessment; a cross-ticket architecture assessment has its own work item. Review work items use review-specific lifecycle fields (planned, in progress, completed) and do not consume implementation ticket IDs or imply implementation readiness.
+
+Preserve original source-identified reports/evidence snapshots. A finding is keyed by review/report identity plus its report-local ID. Keep an append-only disposition history recording actor, reason, evidence, affected revision and links to a repair or implementation ticket, commit, independent verification and eventual milestone assessment. Dispositions are open, fixed, deferred to a linked ticket, accepted with a reason, or awaiting a human decision. Fixed requires independent verification of the exact repair revision; changed source requires relevant revalidation. Assessment completed and findings resolved/dispositioned are separate observations.
+
+Agents can carry out authorized repairs and record evidence/proposals. An explicit human decision owns consequential risk acceptance, blocker deferral, changed ownership contracts and scope expansion, with an approved amendment where required. A blocker remains integration-blocking until resolved under the approved contract or superseded by an explicitly approved amendment; a disposition label alone grants no authority. Human review decisions and QA decisions remain separate: neither a completed review nor accepted risk is approval to promote an unaccepted candidate.
+
+Development records remain navigable from the existing feature index/issues/evidence; a review-record subdirectory is acceptable without a new readiness vocabulary or implementation scheduler. During a harness run, write new review artifacts to harness-owned output outside approved requirements and worker-editable source. Link them into authoring tracker history only outside active-run input immutability. Actor attribution and content identity preserve provenance; this scope does not add cryptographic signing or identity infrastructure.
+
+### Ownership contracts and cross-module review
+
+For consequential state, planning states its owner, permitted writers, invariant-preserving operations, persistence/restoration rules and observable failures. Workers explain the ownership change or why existing ownership remains correct. Important unresolved ownership/scope choices go to the human; internal class/file/method choices remain worker decisions.
+
+Keep separate fresh Spec and Standards review assignments against the original fixed ticket baseline and current implementation revision. Spec checks approved behavior/ownership requirements. Standards follows the affected workflow through relevant unchanged callers/consumers, state writers and persistence/restoration/invalidation paths, rather than limiting review to changed lines. Each report records inspected files/flows, omitted scope and unresolved assumptions, alongside evidence-based findings and a proportionate remedy. Long code or preference for objects is not a finding without a consequence. No universal short-output cap may hide required scope/evidence; use a concise summary with linked detailed reports.
+
+Prior findings and dispositions travel into scoped review/repair context. Preserve initial axis independence; aggregate only after each assessment is recorded. Separate substantive review reasoning from mechanical evidence auditing. A passing test or matching source hash establishes its own fact, not an ownership/design conclusion. Put project requirements in repo-owned wrappers/shared references and reuse upstream skills unchanged.
+
+Bootstrap review work 16–19 under the existing independent implementation reviews, applying stronger record/scope/checkpoint requirements as their owning tickets land and validating them through isolated examples. Calibration 19 must complete before refactors 20–24; runtime adoption waits for 33. Preserve the original scope of completed 01–15 rather than creating retrospective review attestations or reopening them.
+
+### Cumulative architecture checkpoints
+
+Require a cumulative assessment before each development milestone QA request, with baseline at the prior accepted milestone or feature starting revision for the first, exact assessed source, scope inventory and carried unresolved findings. For this small package review all ticket_harness Python files; larger targets identify the complete affected workflow and its collaborators. Reuse prior audit evidence only when source, coverage and dispositions still match.
+
+At ticket start and after implementation, flag introduction of a new lifecycle, persistence/restoration path, shared mutable state or another writer of existing state. A triggered assessment covers the affected workflow before that ticket integrates. A fresh High Standards assignment performs that cumulative scope; this is not a third unconditional reviewer for every ticket. Ask how a plausible change (for example another review stage or repair-policy change) propagates through owners and callers.
+
+Missing/incomplete or stale required assessments prevent affected integration/readiness. In-scope blockers require a repair or an explicit human decision and approved contract change; optional suggestions remain optional. Human disposition is required for consequential risk acceptance, blocker deferral or changed ownership/scope, while clean reviews and authorized fixes can progress autonomously. Review completion, findings dispositioned, readiness for human QA, candidate acceptance and milestone promotion remain distinct. Source changes renew the relevant assessment before its old findings/approval can authorize readiness.
+
+### Reviewer evaluation
+
+M1 evaluates actual development reviewers before the five ownership refactors. Prepare at least four declared concern cases and four acceptable controls, with source identities and expected relevant axes/rationales fixed before evaluation. Required concerns include detached restored evidence, positional attempt selection, duplicate lifecycle-record edits and externally coordinated initialization. Controls include cohesive Git validation, pure plan/parsing transformations, atomic file/process primitives and explicit owned transitions.
+
+Use actual fresh development reviewer assignments with the agreed model/settings/guidance identities, scoped cases/contracts and no evaluator answer key in their supplied context. Retain raw reports and evaluator reasoning. Detect every seeded required concern with concrete evidence and a proportionate classification/remedy; controls must not receive unsupported blocking findings. Optional evidence-based suggestions are not false positives by definition. Preserve all failed trials, misses and guidance revisions; a required miss/false blocker prevents completion until corrected and the final guidance is evaluated on the complete declared corpus. Record the finite corpus and actual repetitions without claiming guaranteed future detection. Apply this evaluated workflow to the subsequent five refactors and retain practical review history.
+
+This establishes development-review evidence. It does not prove a harness live backend exists or receives the same instructions; later runtime work must prove actual delivery/enforcement separately.
+
+### Runtime review adoption
+
+Existing later guidance/capture/context tickets consume this shared contract. New runtime ticket 33 enforces source-identified review work, finding history, scoped cumulative assessments and human review decisions with scripted processes at the existing CLI/real-Git seam, before real-agent ticket 34 proves actual delivery and behavior. Use Standards for explicitly identified cumulative review scope, with independent ticket Spec/Standards reviews retained; cumulative work must not masquerade as an ordinary ticket attempt.
+
+Ordinary in-scope ticket blockers retain existing bounded repairs; a cumulative blocker outside that policy or a scope/ownership/risk decision preserves work and stops incomplete with a human-decision handoff. Its resolution uses an explicitly authorized amendment/fresh run linked to prior evidence; a review disposition alone never resumes a stopped run. Planned continue remains restricted to deliberately saved QA checkpoints, preserving the exclusion of arbitrary interrupted-stage recovery. Missing/incomplete/stale required review work cannot authorize affected integration or a consumable QA request. Optional findings alone cause no repair cycle. Expose pending review work, inspected scope, findings/dispositions and decision links observationally.
+
+Review state is additive in harness-owned artifacts; preserve existing report identity/finding fields, saved report history, checkpoint version 1 and legacy record/artifact contracts. Absence of new metadata in old records never fabricates a historical review attestation. Create required review artifacts before freezing QA evidence; changes to frozen evidence invalidate readiness, while new proposals can be kept outside it pending a renewed assessment/request. Planned continuation preserves review/finding/decision history without redoing completed assignments; it does not become arbitrary interruption recovery.
 
 ### Ticket lifecycle
 
@@ -285,13 +369,41 @@ Acceptance scenarios include:
 
 Tickets 01–09 already establish a verified implementation and regression suite; preserve their [completion evidence](README.md#completion-evidence). Extend the existing public CLI/process/Git/report seam rather than rebuilding the foundation. Add two-milestone foreground tests for approval waiting, rejection of stale/malformed/replayed decisions, exact feature-to-development promotion, externally moved development, source-changing conflict resolution, safe checkpoint continuation, approved corrections, and feature-versus-ticket completion. Validate planning/QA/development skills and handoff eligibility separately; test background lifecycle without live model calls. Exercise the real backend explicitly and keep the context-limit comparison immediately after its availability.
 
+### OOP refactor verification
+
+Keep the existing public CLI/scripted external-process/real temporary Git/observable record seam. The refactor does not approve a new private testing seam, class-shape tests, or routine live-model execution. Review ownership and encapsulation through the implementation diff; behavioral coverage establishes preservation of the public contract.
+
+Before adding cases, map criteria to existing scenarios: report/decision and attempt history for 20; fixed bases, bounded repairs and exact integration for 21; preflight/selection/plan normalization for 22; baseline/progression/finalization and canonical verification restoration for 23; exact QA and checkpoint identity for 24. Reuse covered behavior and add only distinct missing cases. Continue a genuine pre-refactor deliberate checkpoint with the final source, retaining producer/source provenance; a newly fabricated checkpoint alone is insufficient. Apply review work 16–19 and preserve the resulting ownership, report, disposition and cumulative-assessment history for all five refactors.
+
+Follow the [testing policy](../../docs/agents/testing.md) and [Python environment](../../docs/agents/python-environment.md). Focus development checks on changed behavior, then run `python -m pytest`, `python -m mypy`, `python -m ruff check ticket_harness tests examples`, `python -m ruff format --check ticket_harness tests examples`, and `git diff --check` on each final implementation ticket. Renew the final-source full-suite result after further executable changes. Packaging/installed CLI checks apply when packaging/entry points change or an explicit ticket requirement/concrete compatibility uncertainty requires them; this amendment does not require duplicating the full behavioral matrix in an installation.
+
+Retain command/exit results, final source and test identity, relevant uncommitted changes, logs and necessary CLI/Git/record artifacts. Separate fresh Spec and Standards reviews use the criteria-to-coverage map and existing testing policy; worker/repair reasoning and reviewer settings follow Role Configuration. No historical passing result is relabeled as verification of a future source.
+
+### Review-process verification
+
+Review guidance/record development uses standalone document/skill validation, source/link/metadata checks and isolated workflow observations, following completed planning/handoff prior art. M1 reviewer evaluation is an explicit actual-development-agent requirement with a declared corpus, raw reports and evaluator reasoning; scripted reports cannot satisfy it. No evaluation or review gate is executed merely by publishing this plan.
+
+Runtime enforcement is verified through the existing public CLI, scripted external processes, real isolated Git repositories and observable records/refs. Cover distinct review identity/history, required scope, missing/stale assessments, in-scope repairs, human disposition authority, optional findings, QA readiness/frozen evidence and deliberate continuation, mapping existing report/decision/repair/milestone tests first. Executable changes retain the full final-source suite and static gates under the testing policy; guidance-only changes receive their documented validations. Existing report/QA/checkpoint compatibility remains required. Actual real-agent delivery/effectiveness is demonstrated in the real-backend slice, separate from M1 development evaluation and scripted runtime tests.
+
+## Role Configuration
+
+Preserve the existing development defaults: GPT-6.1 Sol for implementation, repair and each fresh independent review assignment; Medium for implementation/repair; High for Spec and Standards separately; at most 250,000 active-context tokens per assignment. Existing ticket-specific overrides, where explicit, remain in force; no new ticket overrides are proposed. This records the already-agreed configuration rather than asserting current backend availability or introducing runtime enforcement.
+
+Development assignments follow project AGENTS/domain/ADR/testing guidance, the implementation and completion workflow, and independent Spec/Standards review requirements. Refactors 20–24 add the existing [object-oriented design](../../.agents/skills/microsoft/microsoft_oop/SKILL.md), [codebase design](../../.agents/skills/matt-pocock/codebase-design/SKILL.md) and [test strategy](../../.agents/skills/custom/test-strategy/SKILL.md) guidance for worker, repair and Standards. Apply [TDD](../../.agents/skills/matt-pocock/tdd/SKILL.md) to a distinct missing behavior/regression when necessary, without manufacturing new behavior tests for an already-covered refactor. Spec reviewers use the approved behavior and coverage contracts. Unchanged future runtime role-skill requirements remain with their renumbered tickets; installed skills are not automatically selected run inputs.
+
+Review work 16–19 adds repo-owned review/record/architecture/evaluation guidance to development assignments and handoffs. Use fresh High Standards assignments for cumulative assessments with the same agreed model/context target; no additional unconditional per-ticket reviewer or model override is introduced. Relevant authoring assignments use writing-for-agents/skill-creator and existing design/test guidance. Runtime guidance capture/delivery stays explicit and versioned; installed skills are not automatically selected.
+
+## Milestone Contract
+
+See [milestones.md](milestones.md). M1 is 10–24: completed 10–15, review workflow/evaluation 16–19, and ownership refactors 20–24. M2 is 25–29. M3 is 30–34, including scripted runtime review enforcement 33 before real agents 34. E1 is 35 immediately after verified 34 and never gates release. Final M4 is 36–38 and cumulatively accepts all required release work. Each required milestone has a cumulative architecture assessment before human QA readiness; early risk-trigger assessments apply within milestones. Plan approval is separate from review decisions, execution and exact-candidate QA acceptance.
+
 ## Out of Scope
 
 - Concurrent ticket execution.
 - Recovery from arbitrary interrupted execution or automatic crash recovery; deliberate continuation at planned QA checkpoints is in scope.
 - Hosted PR creation/approval and required GitHub workflow integration; initial milestone regressions execute locally.
 - Automated failure emails and notification-provider setup.
-- Additional agent backends, issue-tracker connectors, dashboards, and automatic model-selection algorithms.
+- Additional agent backends, external issue-tracker connectors, a separate review ticketing platform, dashboards, cryptographic report signing and automatic model-selection algorithms.
 - Automatic changes to approved scope, interfaces, requirements, or project standards.
 - Publishing, pushing, production deployment, or external side effects beyond the approved project checks.
 - A general actor framework, plugin framework, or class hierarchy without a present requirement.
@@ -301,6 +413,6 @@ Tickets 01–09 already establish a verified implementation and regression suite
 
 The [domain glossary](../../GLOSSARY.md), [ADR-0001](../../docs/adr/0001-reusable-harness-and-local-integration.md), and [ADR-0002](../../docs/adr/0002-human-qa-gates-feature-promotion.md) supply vocabulary and architectural rationale. This spec is the requirements authority; the former design summary now points here.
 
-The [approved implementation plan](ticket-proposal.md) records the skill/ticket/milestone mapping. Reconcile issue files against it while preserving existing IDs and completed evidence. This bundle's approval does not start execution or authorize external publishing. Runtime schemas, exact CLI names, file encoding, and polling details are implementation choices to document and verify.
+The [approved implementation plan](ticket-proposal.md) records the skill/ticket/milestone mapping; its local publication approval is linked above. At publication reconcile issue files and live references using the authorized open-ticket numbering map, preserving completed-ticket IDs, historical identities, evidence and captured inputs. This bundle's approval does not start execution or authorize external publishing. Preserve implemented CLI names, runtime schemas, file encodings and observable behavior; choices for later unimplemented features remain with their owning tickets.
 
-Numeric timeout defaults, physical record encoding, internal source layout, and the installed CLI's exact invocation details are implementation choices to document and verify against the fixture. They must preserve the observable contracts above.
+Internal class names, source layout and method structure remain worker choices within the agreed ownership contracts. Implemented timeout defaults, record encoding, installed CLI invocation and deliberately saved checkpoint compatibility retain their existing behavior during these refactors.

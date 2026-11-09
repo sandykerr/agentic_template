@@ -1,6 +1,6 @@
 # Historical ticket definition
 
-Superseded by the approved QA-first plan. This is the previous unimplemented definition of ticket 13; use the [current ticket](../../issues/24-run-a-real-codex-ticket-cycle.md) for work. Source: `84982495be5d4943301e165f8419421391e75d18:.scratch/ticket-harness/issues/13-run-a-real-codex-ticket-cycle.md`. Relative links were adjusted for this archive location.
+Superseded by the approved QA-first plan. This is the previous unimplemented definition of ticket 13; use the [current ticket](../../issues/34-run-a-real-codex-ticket-cycle.md) for work. Source: `84982495be5d4943301e165f8419421391e75d18:.scratch/ticket-harness/issues/13-run-a-real-codex-ticket-cycle.md`. Relative links were adjusted for this archive location.
 
 # 13: Complete one real Codex ticket with configured role profiles
 

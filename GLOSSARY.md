@@ -61,3 +61,17 @@ The advancement of the development branch to a verified milestone candidate acce
 **Candidate merge**:
 The proposed combination of source changes and a destination branch, evaluated before that destination advances. A ticket candidate targets the feature branch; a milestone candidate targets the development branch.
 
+**Review work item**:
+An identified assessment of a defined source revision and scope, linked to its reports and outstanding findings. Completing the assessment does not itself resolve its findings or accept a milestone.
+
+**Review report**:
+The preserved result of one reviewer assignment against an identified source and scope, including inspected coverage, findings and unresolved assumptions.
+
+**Finding disposition**:
+The recorded treatment of a review finding, with its reason, authority and supporting evidence. Its history connects the original concern to a verified fix, linked deferral or explicit human decision.
+
+**Review decision**:
+A human's recorded choice about consequential review risk, scope, ownership or deferral. It is separate from a QA decision accepting an exact milestone candidate.
+
+**Architecture checkpoint**:
+A required cumulative assessment of responsibility and invariant ownership across an affected workflow before specified integration or milestone-readiness progression.
