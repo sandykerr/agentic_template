@@ -1,0 +1,39 @@
+F                                                                        [100%]
+=================================== FAILURES ===================================
+___ test_two_group_plan_stops_before_preparation_without_starting_later_work ___
+
+graph = <test_dependencies.DependencyFixture testMethod=runTest>
+
+    def test_two_group_plan_stops_before_preparation_without_starting_later_work(graph):
+        plan = configure_plan(graph)
+        (graph.repo / "value.txt").write_text("caller staged\n")
+        graph.git("add", "value.txt")
+        (graph.repo / "value.txt").write_text("caller unstaged\n")
+        (graph.repo / "untracked").write_text("caller untracked\n")
+        caller = graph.git("status", "--porcelain")
+        plan_bytes = (graph.repo / "plan.json").read_bytes()
+        result = graph.run_ticket()
+>       assert result.returncode == 0, result.stdout + result.stderr
+E       AssertionError: {
+E           "outcome": "invalid-input",
+E           "artifacts": "/tmp/ticket-harness-test-2rlzrwyx/run/artifacts",
+E           "inputs": {},
+E           "ticket": {
+E             "state": "Blocked",
+E             "attempt": 0
+E           },
+E           "gates": [],
+E           "attempts": [],
+E           "failure": {
+E             "stage": "inputs",
+E             "message": "configuration: unsupported field 'plan'; see the input contract"
+E           }
+E         }
+E
+E       assert 1 == 0
+E        +  where 1 = CompletedProcess(args=['/home/ajkerr1/development/agentic_template/.micromamba/envs/dev/bin/python', '-m', 'ticket_har...": "inputs",\n    "message": "configuration: unsupported field \'plan\'; see the input contract"\n  }\n}\n', stderr='').returncode
+
+tests/test_milestones.py:60: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_milestones.py::test_two_group_plan_stops_before_preparation_without_starting_later_work
+1 failed in 0.20s

@@ -1,0 +1,75 @@
+Final source/test identities: 12-final-source-identity.json
+Historical development iterations: see 12-red-1/2/3.log, 12-green-1/2/3.log, 12-focused.log and 12-focused-final.log. These are pre-final worktree results.
+Tool setup: reusable Python lacks mypy/Ruff; default-network pip exited 1 (DNS); scoped escalated pip install --target /tmp/ticket12-tools mypy==1.19.1 ruff==0.14.10 --cache-dir /tmp/ticket12-pip-cache exited 0. Shared environment unchanged.
+Final environment: PYTHONPATH=/tmp/ticket12-tools; TICKET_HARNESS_TEST_OBSERVATIONS=/home/ajkerr1/development/agentic_template/.scratch/ticket-harness/evidence/12-observations-final
+
+Command: ["/home/ajkerr1/development/agentic_template/.micromamba/envs/dev/bin/python", "-m", "pytest", "-q", "--durations=20"]
+........................................................................ [ 14%]
+........................................................................ [ 28%]
+........................................................................ [ 43%]
+........................................................................ [ 57%]
+........................................................................ [ 72%]
+........................................................................ [ 86%]
+...................................................................      [100%]
+============================= slowest 20 durations =============================
+8.74s call     tests/test_dependencies.py::test_repairs_keep_ticket_local_attempts_fixed_bases_and_all_earlier_evidence
+7.71s call     tests/test_dependencies.py::test_dependency_chain_and_independent_work_use_verified_integration_in_stable_order
+7.67s call     tests/test_dependencies.py::test_multi_ticket_completion_evidence_unlocks_only_explicit_follow_up_selection
+5.25s call     tests/test_milestones.py::test_single_final_group_still_requires_preparation_and_captures_matching_metadata
+4.63s call     tests/test_human_decisions.py::test_invalid_decision_like_output_is_untrusted_and_uses_bounded_repairs[stale-spec]
+4.47s call     tests/test_human_decisions.py::test_invalid_decision_like_output_is_untrusted_and_uses_bounded_repairs[stale-standards]
+4.24s call     tests/test_timeouts.py::test_timeout_exhaustion_uses_repair_deadline_and_preserves_all_attempts
+3.82s call     tests/test_repairs.py::test_report_and_process_failures_share_the_repair_allowance[missing-standards]
+3.21s call     tests/test_optional_suggestions.py::test_suggestions_appear_and_disappear_without_transferring_approval_between_revisions
+3.16s call     tests/test_human_decisions.py::test_invalid_decision_like_output_is_untrusted_and_uses_bounded_repairs[deep-standards]
+3.13s call     tests/test_human_decisions.py::test_invalid_decision_like_output_is_untrusted_and_uses_bounded_repairs[mistyped-identity-spec]
+2.94s call     tests/test_repairs.py::test_each_rejection_can_repair_with_fresh_revision_bound_verification[merge]
+2.76s call     tests/test_repairs.py::test_exhaustion_is_bounded_and_preserves_complete_attempt_history[2-standards]
+2.69s call     tests/test_optional_suggestions.py::test_optional_evidence_never_hides_invalid_reports_or_process_failures[nonzero-standards]
+2.64s call     tests/test_repairs.py::test_each_rejection_can_repair_with_fresh_revision_bound_verification[standards]
+2.62s call     tests/test_human_decisions.py::test_invalid_decision_like_output_is_untrusted_and_uses_bounded_repairs[mistyped-identity-standards]
+2.49s call     tests/test_milestones.py::test_two_group_plan_stops_before_preparation_without_starting_later_work
+2.46s call     tests/test_repairs.py::test_each_rejection_can_repair_with_fresh_revision_bound_verification[candidate]
+2.41s call     tests/test_repairs.py::test_exhaustion_is_bounded_and_preserves_complete_attempt_history[0-merge]
+2.31s call     tests/test_repairs.py::test_exhaustion_is_bounded_and_preserves_complete_attempt_history[2-candidate]
+499 passed in 400.57s (0:06:40)
+Exit: 0; elapsed seconds: 400.911
+
+Command: ["/home/ajkerr1/development/agentic_template/.micromamba/envs/dev/bin/python", "-m", "mypy"]
+Success: no issues found in 8 source files
+Exit: 0; elapsed seconds: 0.111
+
+Command: ["/home/ajkerr1/development/agentic_template/.micromamba/envs/dev/bin/python", "-m", "ruff", "check", "ticket_harness", "tests", "examples"]
+All checks passed!
+Exit: 0; elapsed seconds: 0.024
+
+Command: ["/home/ajkerr1/development/agentic_template/.micromamba/envs/dev/bin/python", "-m", "ruff", "format", "--check", "ticket_harness", "tests", "examples"]
+20 files already formatted
+Exit: 0; elapsed seconds: 0.02
+
+Command: ["git", "diff", "--check"]
+Exit: 0; elapsed seconds: 0.004
+
+
+Implementation checkpoint after passing checks: 14cafef40726eba80d8648d98d9c263fde3a5d0b.
+Original fixed review baseline: 2e15004338b45d61719656de113c2cbfdea56345.
+Only six runtime/test/public-documentation files committed; unrelated tracker edit excluded.
+
+Independent Spec: fresh GPT-6.1 Sol High /root/review_spec_12; zero blockers/optional suggestions.
+Command: reusable Python -m pytest -q -p no:cacheprovider tests/test_milestones.py -k 'two_group_plan or context_dependency or single_final or failed_current'
+Exit: 0; 4 passed, 26 deselected in 5.34s. All 20 hashes/78 raw observations verified; baseline diff whitespace exit 0.
+Report: 12-review-spec.md.
+
+Independent Standards: separate fresh GPT-6.1 Sol High /root/review_standards_12; zero blockers/optional findings.
+Command: reusable Python -m pytest -q tests/test_milestones.py
+Exit: 0; 30 passed in 7.90s. All 20 hashes/78 distinct scenarios verified.
+Report: 12-review-standards.md.
+No implementation changes followed either review; neither reviewer read the other's report.
+
+Root evidence consolidation audit: all 78 raw final scenarios match consolidated contents after excluding the added retained_file provenance annotation. An initial equality comparison included that annotation and failed; correcting the comparison passed with no product/evidence-content change.
+Raw iteration/interrupted/final directories moved to /tmp/ticket12-checks/archived-observations after reviews; the final consolidated JSON retains all observations. Five historical display logs had trailing whitespace normalized; exact original strings are retained in 12-log-originals.json. The final check log was already whitespace-clean.
+
+Command: /home/ajkerr1/development/agentic_template/.micromamba/envs/dev/bin/python .scratch/ticket-harness/evidence/12-bookkeeping-check.py
+Exit: 0; five exact criteria, completed/prior-readiness/dependency/comment/index agreement, 20 committed/current hashes, 78 final scenarios, separate reviews, unchanged milestone/tracker, 100 local links/anchors, whitespace.
+
+Initial staged bookkeeping whitespace check exited 2 for an extra blank line at the end of 12-checks-interrupted.log; root committed before stopping on that result. Removed only that historical display blank line (exact original already in 12-log-originals.json), reran record/staged checks, and amended the root-owned bookkeeping commit. No implementation/test/evidence outcome changed.

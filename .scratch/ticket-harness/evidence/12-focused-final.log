@@ -1,0 +1,33 @@
+.............................F                                           [100%]
+=================================== FAILURES ===================================
+_________ test_worker_cannot_rewrite_the_approved_plan_or_its_snapshot _________
+
+graph = <test_dependencies.DependencyFixture testMethod=runTest>
+
+    def test_worker_cannot_rewrite_the_approved_plan_or_its_snapshot(graph):
+        configure_plan(graph)
+        from test_dependencies import extend_agent
+
+        approved = (graph.repo / "plan.json").read_bytes()
+        extend_agent(
+            graph,
+            "if a['role'] == 'implementation':\n"
+            f"    Path({str(graph.repo / 'plan.json')!r}).write_text('rewritten approval')\n"
+            "    p = Path.cwd().parents[1] / 'inputs' / 'plan.json'\n"
+            "    p.write_text('rewritten snapshot')",
+        )
+        result = graph.run_ticket()
+        assert result.returncode == 1
+        record = graph.record()
+        assert record["outcome"] == "incomplete"
+        assert "Integrity violation" in record["failure"]["message"]
+>       assert (graph.repo / "plan.json").read_bytes() == approved
+E       assert b'rewritten approval' == b'{"version":... override"}}}'
+E
+E         At index 0 diff: b'r' != b'{'
+E         Use -v to get more diff
+
+tests/test_milestones.py:315: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_milestones.py::test_worker_cannot_rewrite_the_approved_plan_or_its_snapshot
+1 failed, 29 passed in 23.38s

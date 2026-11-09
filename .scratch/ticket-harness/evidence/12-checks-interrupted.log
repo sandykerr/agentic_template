@@ -1,0 +1,80 @@
+Final source/test identities: 12-final-source-identity.json
+Historical development iterations: see 12-red-1/2/3.log, 12-green-1/2/3.log, 12-focused.log and 12-focused-final.log. These are pre-final worktree results.
+Tool setup: reusable Python lacks mypy/Ruff; default-network pip exited 1 (DNS); scoped escalated pip install --target /tmp/ticket12-tools mypy==1.19.1 ruff==0.14.10 --cache-dir /tmp/ticket12-pip-cache exited 0. Shared environment unchanged.
+Final environment: PYTHONPATH=/tmp/ticket12-tools; TICKET_HARNESS_TEST_OBSERVATIONS=/home/ajkerr1/development/agentic_template/.scratch/ticket-harness/evidence/12-observations-final
+
+Command: ["/home/ajkerr1/development/agentic_template/.micromamba/envs/dev/bin/python", "-m", "pytest", "-q", "--durations=20"]
+........................................................................ [ 14%]
+.......................F......
+=================================== FAILURES ===================================
+_________ test_worker_cannot_rewrite_the_approved_plan_or_its_snapshot _________
+
+graph = <test_dependencies.DependencyFixture testMethod=runTest>
+
+    def test_worker_cannot_rewrite_the_approved_plan_or_its_snapshot(graph):
+        configure_plan(graph)
+        from test_dependencies import extend_agent
+
+        approved = (graph.repo / "plan.json").read_bytes()
+        extend_agent(
+            graph,
+            "if a['role'] == 'implementation':\n"
+            f"    Path({str(graph.repo / 'plan.json')!r}).write_text('rewritten approval')\n"
+            "    p = Path.cwd().parents[1] / 'inputs' / 'plan.json'\n"
+            "    p.write_text('rewritten snapshot')",
+        )
+        result = graph.run_ticket()
+        assert result.returncode == 1
+        record = graph.record()
+        assert record["outcome"] == "incomplete"
+        assert "Integrity violation" in record["failure"]["message"]
+>       assert (graph.repo / "plan.json").read_bytes() == approved
+E       assert b'rewritten approval' == b'{"version":... override"}}}'
+E
+E         At index 0 diff: b'r' != b'{'
+E         Use -v to get more diff
+
+tests/test_milestones.py:319: AssertionError
+============================= slowest 20 durations =============================
+7.46s call     tests/test_dependencies.py::test_multi_ticket_completion_evidence_unlocks_only_explicit_follow_up_selection
+6.44s call     tests/test_dependencies.py::test_repairs_keep_ticket_local_attempts_fixed_bases_and_all_earlier_evidence
+5.67s call     tests/test_dependencies.py::test_dependency_chain_and_independent_work_use_verified_integration_in_stable_order
+5.45s call     tests/test_milestones.py::test_single_final_group_still_requires_preparation_and_captures_matching_metadata
+2.39s call     tests/test_milestones.py::test_two_group_plan_stops_before_preparation_without_starting_later_work
+2.34s call     tests/test_dependencies.py::test_later_candidate_cannot_overwrite_external_integration_movement
+2.17s call     tests/test_human_decisions.py::test_invalid_decision_like_output_is_untrusted_and_uses_bounded_repairs[stale-standards]
+2.09s call     tests/test_human_decisions.py::test_invalid_decision_like_output_is_untrusted_and_uses_bounded_repairs[mistyped-identity-standards]
+2.04s call     tests/test_human_decisions.py::test_invalid_decision_like_output_is_untrusted_and_uses_bounded_repairs[overflow-standards]
+1.98s call     tests/test_human_decisions.py::test_invalid_decision_like_output_is_untrusted_and_uses_bounded_repairs[stale-spec]
+1.88s call     tests/test_human_decisions.py::test_invalid_decision_like_output_is_untrusted_and_uses_bounded_repairs[mistyped-identity-spec]
+1.84s call     tests/test_human_decisions.py::test_invalid_decision_like_output_is_untrusted_and_uses_bounded_repairs[deep-standards]
+1.79s call     tests/test_dependencies.py::test_legacy_completion_evidence_without_ticket_mapping_still_accepts_normalized_id
+1.65s call     tests/test_optional_suggestions.py::test_optional_only_integrates_without_spending_available_repairs[True-roles2]
+1.64s call     tests/test_optional_suggestions.py::test_optional_only_integrates_without_spending_available_repairs[False-roles1]
+1.62s call     tests/test_human_decisions.py::test_invalid_decision_like_output_is_untrusted_and_uses_bounded_repairs[incomplete-standards]
+1.62s call     tests/test_optional_suggestions.py::test_optional_only_integrates_without_spending_available_repairs[False-roles0]
+1.56s call     tests/test_human_decisions.py::test_invalid_decision_like_output_is_untrusted_and_uses_bounded_repairs[mistyped-evidence-standards]
+1.55s call     tests/test_human_decisions.py::test_invalid_decision_like_output_is_untrusted_and_uses_bounded_repairs[deep-spec]
+1.53s call     tests/test_human_decisions.py::test_invalid_decision_like_output_is_untrusted_and_uses_bounded_repairs[duplicate-standards]
+=========================== short test summary info ============================
+FAILED tests/test_milestones.py::test_worker_cannot_rewrite_the_approved_plan_or_its_snapshot
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! KeyboardInterrupt !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+/home/ajkerr1/development/agentic_template/.micromamba/envs/dev/lib/python3.12/selectors.py:415: KeyboardInterrupt
+(to show a full traceback on KeyboardInterrupt use --full-trace)
+1 failed, 101 passed in 105.69s (0:01:45)
+Exit: 2; elapsed seconds: 106.069
+
+Command: ["/home/ajkerr1/development/agentic_template/.micromamba/envs/dev/bin/python", "-m", "mypy"]
+Success: no issues found in 8 source files
+Exit: 0; elapsed seconds: 0.349
+
+Command: ["/home/ajkerr1/development/agentic_template/.micromamba/envs/dev/bin/python", "-m", "ruff", "check", "ticket_harness", "tests", "examples"]
+All checks passed!
+Exit: 0; elapsed seconds: 0.055
+
+Command: ["/home/ajkerr1/development/agentic_template/.micromamba/envs/dev/bin/python", "-m", "ruff", "format", "--check", "ticket_harness", "tests", "examples"]
+20 files already formatted
+Exit: 0; elapsed seconds: 0.055
+
+Command: ["git", "diff", "--check"]
+Exit: 0; elapsed seconds: 0.007

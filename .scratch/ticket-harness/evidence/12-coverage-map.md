@@ -1,0 +1,18 @@
+# Ticket 12 implementation coverage plan
+
+Starting baseline: 2e15004338b45d61719656de113c2cbfdea56345.
+Approved seam: public CLI, scripted external processes, real isolated temporary Git repositories, observable records/Git/artifacts.
+
+Existing coverage: tests/test_dependencies.py covers stable topological execution, latest verified integration bases, per-ticket checks, fresh separate reviewers, exact candidate parent/tree checks, caller staged/unstaged/untracked preservation, immutable snapshots, local repairs, invalid graph/selection preflight, integrity rejection, and compare-and-swap integration. tests/test_cli.py covers read-only status and baseline/check/review/candidate failures. These remain regression coverage without duplication.
+
+Missing slices, added vertically:
+1. A two-group plan executes only first-group tickets using latest verified feature bases and persists preparation_pending; later-group attempt zero, dev unchanged, no milestone candidate/request/completion. Capture normalized version/approval/membership/final coverage/QA/settings, immutable plan snapshot, caller work and actual gate identities. Extend DependencyFixture rather than repeat process builders.
+2. Preflight malformed plans: membership missing/duplicate, final coverage missing, later-group dependencies, metadata conflict; assert no launched process/check/worktree/ref movement. Representative structural/settings invalid inputs catch distinct validation decisions without a full Cartesian product.
+3. Single final group remains preparation_pending; default worker settings and explicit override captured for worker+repair without changing reviewers. Existing repair tests own lifecycle regression; runtime model enforcement is deferred.
+4. Failed current-group candidate retains incomplete/Blocked and no preparation-pending claim; later tickets stay unstarted.
+
+Evidence is captured before checks with TICKET_HARNESS_TEST_OBSERVATIONS, retained CLI/Git/assignment outputs and command/exit/source+test hashes in 12-checks.log. Focused red/green iterations precede final full pytest, strict mypy, Ruff check/format and git diff --check. No packaging/entrypoint changes planned; installed packaging checks are unnecessary.
+
+Implemented mapping (before final completion checks): tests/test_milestones.py adds 30 CLI scenarios: two-group success; 22 parameterized invalid-plan cases; single-final-group stop with matching bold metadata/context target; current-candidate failure; three duplicate-metadata cases; transitive later dependency through context; plan/source mutation rejection with restored approved snapshot and retained caller-owned source evidence. Valid behavior inherited from existing protection did not need artificial implementation changes. Plan profiles are normalized/captured, not live model enforcement. The common DependencyFixture observation hook now additionally retains full assignments and observed dev tip so the full-suite run supplies CLI/Git/approval evidence without replaying the matrix.
+
+Iteration outcomes: initial missing-plan behavior failed then two-group success passed; invalid-plan matrix failed before validation then 23 cases passed; focused milestone/dependency/preflight checks passed 114; transitive edge failed then passed. A later integrity case initially asserted source restoration contrary to the established contract; its corrected assertion passed (snapshot restored/source evidence retained). The prematurely started full run was deliberately interrupted with pytest exit 2 after 106.069 seconds and is preserved separately as *-interrupted; it is not completion evidence. The renewed final full run uses 12-final-source-identity.json and 12-checks.log.

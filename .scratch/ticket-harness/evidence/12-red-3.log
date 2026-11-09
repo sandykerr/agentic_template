@@ -1,0 +1,41 @@
+F                                                                        [100%]
+=================================== FAILURES ===================================
+__________ test_context_dependency_cannot_hide_a_later_milestone_edge __________
+
+graph = <test_dependencies.DependencyFixture testMethod=runTest>
+
+    def test_context_dependency_cannot_hide_a_later_milestone_edge(graph):
+        plan = configure_plan(graph)
+        for name, old, new in (
+            ("01-value.md", "Blocked by: None", "Blocked by: 05"),
+            ("05-context.md", "Blocked by: None", "Blocked by: 02"),
+            ("04-work.md", "Blocked by: 01", "Blocked by: None"),
+        ):
+            path = graph.repo / name
+            path.write_text(path.read_text().replace(old, new))
+        write_plan(graph, plan)
+>       reject(graph, "later milestone")
+
+tests/test_milestones.py:262:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+case = <test_dependencies.DependencyFixture testMethod=runTest>
+diagnostic = 'later milestone'
+
+    def reject(case, diagnostic):
+        references = case.git("show-ref")
+        worktrees = case.git("worktree", "list", "--porcelain")
+        status = case.git("status", "--porcelain=v1")
+        result = case.run_ticket()
+        assert result.returncode != 0, result.stdout + result.stderr
+        record = json.loads(result.stdout)
+        assert record["outcome"] == "invalid-input", record
+        assert record["failure"]["stage"] == "inputs"
+>       assert diagnostic in record["failure"]["message"], record
+E       AssertionError: {'outcome': 'invalid-input', 'artifacts': '/tmp/ticket-harness-test-gmavdsb2/run/artifacts', 'inputs': {}, 'ticket': {'state': 'Blocked', 'attempt': 0}, ...}
+E       assert 'later milestone' in "ticket 01: unsatisfied prerequisites ['05']; select prerequisites or supply completed_runs with integrated Done evidence"
+
+tests/test_preflight.py:37: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_milestones.py::test_context_dependency_cannot_hide_a_later_milestone_edge
+1 failed, 28 deselected in 0.48s

@@ -1,0 +1,58 @@
+[
+  {
+    "command": [
+      "/home/ajkerr1/development/agentic_template/.micromamba/envs/dev/bin/python",
+      "-m",
+      "pytest",
+      "-q",
+      "--durations=20"
+    ],
+    "exit_code": 0,
+    "seconds": 400.911
+  },
+  {
+    "command": [
+      "/home/ajkerr1/development/agentic_template/.micromamba/envs/dev/bin/python",
+      "-m",
+      "mypy"
+    ],
+    "exit_code": 0,
+    "seconds": 0.111
+  },
+  {
+    "command": [
+      "/home/ajkerr1/development/agentic_template/.micromamba/envs/dev/bin/python",
+      "-m",
+      "ruff",
+      "check",
+      "ticket_harness",
+      "tests",
+      "examples"
+    ],
+    "exit_code": 0,
+    "seconds": 0.024
+  },
+  {
+    "command": [
+      "/home/ajkerr1/development/agentic_template/.micromamba/envs/dev/bin/python",
+      "-m",
+      "ruff",
+      "format",
+      "--check",
+      "ticket_harness",
+      "tests",
+      "examples"
+    ],
+    "exit_code": 0,
+    "seconds": 0.02
+  },
+  {
+    "command": [
+      "git",
+      "diff",
+      "--check"
+    ],
+    "exit_code": 0,
+    "seconds": 0.004
+  }
+]

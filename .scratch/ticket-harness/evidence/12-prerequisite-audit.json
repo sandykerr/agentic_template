@@ -1,0 +1,43 @@
+{
+  "baseline": "2e15004338b45d61719656de113c2cbfdea56345",
+  "commits": {
+    "7f4eac0": "7f4eac025cfccd0912f25e3bdd602c1e2b3e516f",
+    "a45dac0": "a45dac0e6d164a788c0dbf0379a0417b4dc3d48e",
+    "70a0122": "70a01220dfac353ebea639ae85daac08d5eed8b2",
+    "fe036e3": "fe036e320508f5d5f461bfff344bc3f0061d154e",
+    "552fcd6": "552fcd6b87909b96ac7bcd6a878d0db6bbbd2869",
+    "bb982c0": "bb982c0e2b9a44493405fb1c5dca6b985d80cd43"
+  },
+  "tickets": {
+    "09": {
+      "path": ".scratch/ticket-harness/issues/09-execute-dependencies-sequentially.md",
+      "checked": 6,
+      "completion_sha256": "660c534ae65963af829567dba0a294d3dadf193b10f12df20a7e62b9ba3c723c",
+      "checks_sha256": "c3aa1a5bafda6624f3c1b972d07f1926296946778f6b2c563efa0b715eef734c"
+    },
+    "10": {
+      "path": ".scratch/ticket-harness/issues/10-produce-approved-harness-inputs-with-planning-skill.md",
+      "checked": 6,
+      "completion_sha256": "83c40ceb69a1130b8d86e7602f6b35fbcacfc5b442414142e584293eeff98487",
+      "checks_sha256": "282ac5d052d38cd9cb3c14f320c04900873c684b89ffc124c2deafa37aaf6b84"
+    },
+    "11": {
+      "path": ".scratch/ticket-harness/issues/11-stop-development-handoffs-at-qa-milestones.md",
+      "checked": 6,
+      "completion_sha256": "fb2a696acd2e2ef56490869d9e4c1eb24edc7db826e2b918bf127fb48548547b",
+      "checks_sha256": "1b4bdfa4a8f1581d0584ae8d6319b78eac86df14d59cc0134fead7cdc1fc4c0c"
+    }
+  },
+  "09_scenarios": 21,
+  "10_provenance": "Independent synthetic sessions initially read pre-numbering sources. Both agents subsequently reread the final source hashes and audited their existing artifacts against the added numbering rules. Final source hashes identify this subsequent audit, not the original generation. See sessions.",
+  "11_scenarios": [
+    "normal",
+    "waiting",
+    "final"
+  ],
+  "unrelated_tracker_edit_preserved": true,
+  "audit_command": "/home/ajkerr1/development/agentic_template/.micromamba/envs/dev/bin/python /tmp/ticket12-checks/verify_prerequisites.py",
+  "exit_code": 0,
+  "audit_source": "import hashlib,json,re,subprocess\nfrom pathlib import Path\nroot=Path.cwd(); ev=root/'.scratch/ticket-harness/evidence'\ncommits=['7f4eac0','a45dac0','70a0122','fe036e3','552fcd6','bb982c0']\nresult={'baseline':'2e15004338b45d61719656de113c2cbfdea56345','commits':{},'tickets':{}}\nfor sha in commits:\n full=subprocess.check_output(['git','rev-parse',sha],text=True).strip()\n subprocess.run(['git','merge-base','--is-ancestor',full,result['baseline']],check=True)\n result['commits'][sha]=full\nfor num,count in [('09',6),('10',6),('11',6)]:\n ticket=next((root/'.scratch/ticket-harness/issues').glob(f'{num}-*.md'))\n text=ticket.read_text(); ac=text.split('## Acceptance criteria')[1].split('\\n## ')[0]\n assert ac.count('- [x]')==count and '- [ ]' not in ac\n assert '**Status:** completed' in text\n record=(ev/f'{num}-completion.md').read_text()\n assert 'Spec' in record and 'Standards' in record\n result['tickets'][num]={'path':str(ticket.relative_to(root)),'checked':count,'completion_sha256':hashlib.sha256(record.encode()).hexdigest(),'checks_sha256':hashlib.sha256((ev/f'{num}-checks.log').read_bytes()).hexdigest()}\nd=json.loads((ev/'09-fixture-observations.json').read_text())\nassert d['implementation_revision']==result['commits']['7f4eac0'] and len(d['scenarios'])==21\nresult['09_scenarios']=len(d['scenarios'])\nfor file,sha in d['tested_source_identity']['files'].items():\n assert hashlib.sha256(subprocess.check_output(['git','show',f\"7f4eac0:{file}\"])).hexdigest()==sha\nfor num,file in [('10','10-planning-observations.json'),('11','11-handoff-observations.json')]:\n d=json.loads((ev/file).read_text())\n for source,sha in d['source_sha256'].items():\n  revision='70a0122' if num=='10' else '552fcd6'\n  assert hashlib.sha256(subprocess.check_output(['git','show',f'{revision}:{source}'])).hexdigest()==sha\n if num=='10':\n  assert d['feedback_approved_inputs_unchanged'] and d['feedback_new_issues_published']==0\n  result['10_provenance']=d['provenance']\n else:\n  assert set(d['results'])=={'normal','waiting','final'}\n  result['11_scenarios']=list(d['results'])\nassert hashlib.sha256((root/'docs/agents/issue-tracker.md').read_bytes()).hexdigest()=='3803de99e541e60d2e9f733d5c98b009a43e60a9584e3819adffc55eae0214ce'\nresult['unrelated_tracker_edit_preserved']=True\nprint(json.dumps(result,indent=2))\n",
+  "inspection": "Completion/check logs and separate review records read; original implementation/bookkeeping Git histories inspected. No active run.json found in checkout outside evidence; only main repository worktree at initial inspection. Historical prerequisite evidence establishes eligibility, not new ticket verification."
+}
