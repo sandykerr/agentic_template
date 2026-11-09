@@ -19,19 +19,22 @@ graph = test_dependencies.graph
 
 
 @contextmanager
-def foreground(graph):
+def foreground(graph, operation="run"):
     """Own a real foreground runner; bound fixture waits and always reap it."""
-    graph.config_path.write_text(json.dumps(graph.config))
+    if operation == "run":
+        graph.config_path.write_text(json.dumps(graph.config))
     command = [
         sys.executable,
         "-m",
         "ticket_harness",
-        "run",
+        operation,
         "--config",
         str(graph.config_path),
         "--output",
         str(graph.output),
     ]
+    if operation != "run":
+        command = command[:4] + [str(graph.output)]
     stdout_path, stderr_path = graph.home / "foreground.stdout", graph.home / "foreground.stderr"
     with stdout_path.open("w") as stdout, stderr_path.open("w") as stderr:
         process = subprocess.Popen(

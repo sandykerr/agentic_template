@@ -249,11 +249,47 @@ artifacts use distinct milestone names. All required tickets Done still leaves
 `feature_complete: false` until final acceptance promotes. Only then does the run
 exit 0 with `outcome: "completed"` and `feature_complete: true`.
 
-Planned stop/continuation remains future work. Terminating this foreground process
-does not provide a supported restart contract. A new `run` cannot use recorded
-ticket completion to skip the first group's QA gate. `status` reads the durable
-record without launching work; it is observational and does not revalidate a
-candidate after the run has stopped.
+At an active planned QA wait, request a deliberate clean stop from another shell:
+
+```bash
+python -m ticket_harness stop RUN_DIRECTORY
+python -m ticket_harness status RUN_DIRECTORY
+python -m ticket_harness continue RUN_DIRECTORY
+```
+
+The installed command supports the same operations: `ticket-harness stop RUN_DIRECTORY`
+and `ticket-harness continue RUN_DIRECTORY`. `stop` exits 0 after acknowledging
+`outcome: "stop_requested"`; wait for the owning foreground process to exit **2**
+and status to show `outcome: "stopped_at_qa"` before continuing. Exit 2 means a
+successful planned stop, with `feature_complete: false`, rather than completed work.
+Stop is supported only during an active QA wait; it never terminates a worker,
+review, check or merge. An approval racing a stop can win first; the acknowledgement
+alone does not establish a stopped checkpoint. Inspect the actual run outcome.
+
+The durable `qa-checkpoint.json` and immutable `checkpoints/<checkpoint_id>.json`
+archive bind the normalized approved configuration, typed run state, plan/version,
+Done/attempt/consumed-decision identities, every applicable verified source,
+request bytes and original evidence hashes. New decision observations are also
+bound. Prior checkpoints remain archived across repeated stops. `continue` acquires
+exclusive ownership of the run directory, validates captured approved sources and
+snapshots, checkpoint/record/request/evidence identities, clean verified trees,
+and both expected branch tips and checked-out status before changing the run.
+Changed or inconsistent state rejects with exit 1 and a unique diagnostic under
+`rejections/`, preserving prior records, checkpoints, artifacts and refs.
+Do not move the run directory or edit its checkpoint/history to resume it.
+
+Continuation watches the same exact separate QA decision contract, including a
+decision written while stopped. It preserves Done tickets and previous artifacts,
+skips their assignments and baseline, and admits only the approved next group.
+It remains foreground and waits indefinitely at subsequent QA checkpoints; only
+final acceptance exits 0/completed/true. Each run has one active owner, serialized
+by a POSIX lock on the directory inode. Concurrent continuation rejects rather
+than repeating assignments or consuming/promoting acceptance twice. The operating
+system releases ownership on process exit, but this does not make an arbitrary
+interruption recoverable: only deliberately persisted `stopped_at_qa` is eligible.
+No arbitrary mid-stage crash recovery, background launch, or process sandbox is
+provided. A new `run` cannot use recorded ticket completion to skip first-group QA.
+`status` remains observational and does not revalidate stopped candidates.
 Development checkpoints for building this harness are separate from these
 target-repository runtime plans.
 
@@ -521,7 +557,7 @@ last verified revision. Later-repair decisions retain all previous attempts,
 rejected revisions, prompts, and output. The harness hands off the conflict for
 human resolution rather than inferring requirements or changing an approved
 interface. Starting a new run after a decision requires human-approved inputs;
-this slice does not provide continuation or resume.
+QA checkpoint continuation does not resume this blocked decision state.
 
 The harness captures the submission, independently runs lightweight checks, and
 uses separate detached worktrees and processes for the two review axes. A failed

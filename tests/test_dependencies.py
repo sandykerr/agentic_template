@@ -2,6 +2,7 @@
 
 import json
 import os
+import shutil
 import sys
 from pathlib import Path
 
@@ -173,6 +174,17 @@ def graph(request):
             destination = Path(observations)
             destination.mkdir(parents=True, exist_ok=True)
             (destination / (fixture.home.name + ".json")).write_text(json.dumps(evidence, indent=2))
+        if observations and request.node.path.name == "test_continuation.py":
+            retained = Path(observations) / (fixture.home.name + "-files")
+            retained.mkdir(parents=True, exist_ok=True)
+            for path in fixture.output.iterdir():
+                if path.name == "worktrees":
+                    continue
+                target = retained / path.name
+                if path.is_dir():
+                    shutil.copytree(path, target)
+                else:
+                    shutil.copyfile(path, target)
         fixture.doCleanups()
 
 
