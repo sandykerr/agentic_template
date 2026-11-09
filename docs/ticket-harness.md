@@ -61,7 +61,7 @@ python -m ticket_harness status "$fixture/passing-run"
 ```
 
 `run` intentionally approves the chosen requirements and commands. Exit 0 means
-Done in the legacy selection mode, or a deliberate `awaiting_human_qa` stop in milestone mode; nonzero means invalid inputs, environment failure, or incomplete work, as
+Done in legacy selection mode, or final accepted QA promotion in milestone mode; nonzero means invalid inputs, environment failure, or incomplete work, as
 recorded in `outcome` and `failure`. `status RUN_DIRECTORY` prints `run.json`
 without running processes or modifying source or records; exit 0 means the
 record was read, including for an incomplete run.
@@ -75,8 +75,8 @@ Alternatively, append `["--reject", "spec"]` or `["--reject", "standards"]` to
 
 ## Approved milestone plans
 
-Supply `"plan": "plan.json"` in project configuration to execute the first fixed
-milestone into `integration`, which serves as the feature branch. Omission retains
+Supply `"plan": "plan.json"` in project configuration to execute fixed
+milestones into `integration`, which serves as the feature branch. Omission retains
 the earlier explicit ticket-selection contract. A plan is a separate approved JSON
 input, snapshotted and SHA-256 recorded alongside the spec, tickets and configuration.
 Starting `run` approves these exact inputs; the `approval` field records the human
@@ -162,7 +162,9 @@ starts from the latest verified feature revision. Existing baseline, lightweight
 checks, separate reviews, bounded repairs and exact ticket-candidate gates remain
 mandatory. Validation completes before worktrees, checks, agents or ref changes.
 `development` must name an existing local branch distinct from `integration`;
-its starting revision is recorded and this workflow never advances it.
+its starting revision is recorded. Every required ticket must be ready-for-agent,
+and dependencies outside the plan require verified completed-run evidence, including
+for later groups. These checks happen before execution.
 
 After the current group's tickets become Done, the harness prepares a milestone
 candidate combining the exact feature tip and the **current** development tip.
@@ -174,7 +176,8 @@ using the configured `candidate` timeout. This is separate from each ticket's
 required `candidate` suite; none of the ticket gates are skipped or reused as
 milestone regression evidence.
 
-Successful preparation exits 0 with `outcome: "awaiting_human_qa"`,
+Successful preparation keeps the foreground process running indefinitely with
+`outcome: "awaiting_human_qa"`,
 `feature_complete: false`, and a `milestone` object containing `id`,
 `state: "awaiting_human_qa"`, `feature_revision`, `development_revision` and
 `candidate_revision`. The `tickets` mapping includes all required tickets; later
@@ -208,11 +211,49 @@ checks and reviews before QA; existing ticket approvals cannot authorize them.
 This slice stops for that renewal rather than launching conflict-repair workers.
 Automatic conflict repair/renewal orchestration is not provided.
 
-Human approval consumption/promotion and planned continuation remain separate
-workflows. A new `run` cannot use recorded ticket completion to skip the first
-group's QA gate. `status` reads the same durable record without launching work;
-it is observational and does not revalidate a candidate after the run has stopped.
-Later approval consumption must revalidate the exact request and current refs.
+The foreground runner watches separate run-directory `qa-decision.json`. The exact
+JSON contract has two fields: `decision`, the case-sensitive string `"APPROVED"`,
+and `request`, the complete JSON object from the current `qa-request.json`, including
+every identity, human check and regression-evidence field. Object key order and
+whitespace do not matter; field names, value types and values must match. Duplicate
+keys, extra fields, malformed JSON, incidental approval text, missing fields, stale
+requests and replayed approvals cannot promote or unlock work. Write decisions
+atomically (write a temporary sibling file, then rename it) after the human accepts
+that exact request. The human/QA session owns this artifact; agent assignments and
+implementation/repair output cannot authorize QA. Requests, decisions, run records
+and prior evidence are protected across external process boundaries. This is the
+existing trusted-process boundary, not an operating-system sandbox.
+
+`qa_decision` names the watched path. `qa_decision_status` reports `missing`,
+`unreadable`, `rejected` or `consumed`; `qa_observations` retains each distinct read
+decision's actual bytes in an artifact, SHA-256, request identity and validation
+diagnostic. A regular file is required; directories and symlinks remain unreadable
+waits. Invalid or absent decisions leave `awaiting_human_qa` and do not consume
+repairs or use agent/check timeouts. `status RUN_DIRECTORY` observes these waits.
+
+Before consuming exact acceptance, the runner revalidates captured inputs, all
+applicable verified sources, the unchanged request and retained evidence bytes.
+A single Git ref transaction compares both expected feature/development tips and
+advances both to the exact tested candidate. Neither branch may be checked out in
+any caller worktree. External ref movement is preserved; stale source/input/request/
+evidence or branch state stops with `incomplete` and milestone `promotion_failed`,
+requiring renewed candidate checks and acceptance. Ticket Done states remain intact.
+No ref partially advances if either expected tip mismatches.
+
+`qa_decisions` records consumed decision artifact/hash/request identities; `milestones`
+records promoted groups. Requests are archived per group under `artifacts`; the
+current `qa-request.json` is replaced for the next group. Consumption admits only
+that next fixed group, starting workers from the aligned feature revision and
+retaining every per-ticket gate and repair allowance. Later regression and candidate
+artifacts use distinct milestone names. All required tickets Done still leaves
+`feature_complete: false` until final acceptance promotes. Only then does the run
+exit 0 with `outcome: "completed"` and `feature_complete: true`.
+
+Planned stop/continuation remains future work. Terminating this foreground process
+does not provide a supported restart contract. A new `run` cannot use recorded
+ticket completion to skip the first group's QA gate. `status` reads the durable
+record without launching work; it is observational and does not revalidate a
+candidate after the run has stopped.
 Development checkpoints for building this harness are separate from these
 target-repository runtime plans.
 

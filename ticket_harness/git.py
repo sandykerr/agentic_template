@@ -160,3 +160,35 @@ def require_clean_milestone_candidate(
             "Milestone candidate differs from clean merge; renewed checks and reviews required"
         )
     require_unchanged(source, revision)
+
+
+def promote_milestone(
+    repository: Path,
+    feature: str,
+    development: str,
+    revision: str,
+    feature_previous: str,
+    development_previous: str,
+) -> None:
+    """Compare and advance both branches atomically, preserving caller worktrees."""
+    checked_out = git(repository, "worktree", "list", "--porcelain").splitlines()
+    for branch in (feature, development):
+        if f"branch refs/heads/{branch}" in checked_out:
+            raise GateFailure(f"Branch {branch} must not be checked out for promotion")
+    transaction = (
+        "start\n"
+        f"update refs/heads/{development} {revision} {development_previous}\n"
+        f"update refs/heads/{feature} {revision} {feature_previous}\n"
+        "prepare\ncommit\n"
+    )
+    result = subprocess.run(
+        ["git", "-C", str(repository), "-c", "core.hooksPath=/dev/null", "update-ref", "--stdin"],
+        input=transaction,
+        capture_output=True,
+        text=True,
+        check=False,
+    )
+    if result.returncode:
+        raise GateFailure(
+            "Milestone branches changed externally; promotion rejected: " + result.stderr.strip()
+        )

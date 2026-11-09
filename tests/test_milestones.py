@@ -2,6 +2,12 @@
 
 import hashlib
 import json
+import os
+import signal
+import subprocess
+import sys
+import time
+from contextlib import contextmanager
 from pathlib import Path
 
 import pytest
@@ -10,6 +16,96 @@ from test_dependencies import launches
 from test_preflight import reject
 
 graph = test_dependencies.graph
+
+
+@contextmanager
+def foreground(graph):
+    """Own a real foreground runner; bound fixture waits and always reap it."""
+    graph.config_path.write_text(json.dumps(graph.config))
+    command = [
+        sys.executable,
+        "-m",
+        "ticket_harness",
+        "run",
+        "--config",
+        str(graph.config_path),
+        "--output",
+        str(graph.output),
+    ]
+    stdout_path, stderr_path = graph.home / "foreground.stdout", graph.home / "foreground.stderr"
+    with stdout_path.open("w") as stdout, stderr_path.open("w") as stderr:
+        process = subprocess.Popen(
+            command, stdout=stdout, stderr=stderr, text=True, start_new_session=True
+        )
+    try:
+        yield process
+    finally:
+        terminated = process.poll() is None
+        if terminated:
+            # Capture descendants before terminating their parent. Agents/checks own
+            # separate sessions, so killing only the runner would leak active work.
+            owned = {process.pid}
+            pending = [process.pid]
+            while pending:
+                parent = pending.pop()
+                children = Path(f"/proc/{parent}/task/{parent}/children")
+                try:
+                    found = {int(pid) for pid in children.read_text().split()} - owned
+                except FileNotFoundError:
+                    found = set()
+                owned.update(found)
+                pending.extend(found)
+            for pid in owned:
+                try:
+                    group = os.getpgid(pid)
+                    if group in owned:
+                        os.killpg(group, signal.SIGKILL if group != process.pid else signal.SIGTERM)
+                except ProcessLookupError:
+                    pass
+        process.wait(timeout=10)
+        stdout, stderr = stdout_path.read_text(), stderr_path.read_text()
+        graph.foreground_observations = getattr(graph, "foreground_observations", []) + [
+            dict(
+                command=command,
+                exit_code=process.returncode,
+                terminated_by_fixture=terminated,
+                stdout=stdout,
+                stderr=stderr,
+            )
+        ]
+
+
+def wait_for(graph, process, predicate):
+    deadline = time.monotonic() + 45
+    while time.monotonic() < deadline:
+        if (graph.output / "run.json").exists():
+            record = graph.record()
+            if predicate(record):
+                return record
+        if process.poll() is not None:
+            raise AssertionError(
+                f"runner exited {process.returncode}: "
+                + (graph.home / "foreground.stderr").read_text()
+            )
+        time.sleep(0.025)
+    raise AssertionError("fixture deadline exceeded")
+
+
+def run_until_wait(graph):
+    # Preparation scenarios inspect an active wait through the actual status CLI.
+    # A status exit of zero is not an assertion that the terminated run completed.
+    with foreground(graph) as process:
+        deadline = time.monotonic() + 45
+        while time.monotonic() < deadline:
+            if (graph.output / "run.json").exists():
+                if graph.record()["outcome"] == "awaiting_human_qa":
+                    return graph.cli("status", graph.output)
+            if process.poll() is not None:
+                stdout = (graph.home / "foreground.stdout").read_text()
+                stderr = (graph.home / "foreground.stderr").read_text()
+                return subprocess.CompletedProcess(process.args, process.returncode, stdout, stderr)
+            time.sleep(0.025)
+        raise AssertionError("fixture deadline exceeded")
 
 
 def configure_plan(graph):
@@ -67,7 +163,7 @@ def test_two_group_plan_presents_tested_qa_without_starting_later_work(graph):
     (graph.repo / "untracked").write_text("caller untracked\n")
     caller = graph.git("status", "--porcelain")
     plan_bytes = (graph.repo / "plan.json").read_bytes()
-    result = graph.run_ticket()
+    result = run_until_wait(graph)
     assert result.returncode == 0, result.stdout + result.stderr
     record = graph.record()
     assert record["outcome"] == "awaiting_human_qa"
@@ -277,7 +373,7 @@ def test_single_final_group_still_requires_human_qa_and_captures_matching_metada
             "**Plan version:** v1\n**Milestone:** M1\n**Worker reasoning:** High\nStatus:",
         )
     )
-    result = graph.run_ticket()
+    result = run_until_wait(graph)
     assert result.returncode == 0, result.stdout + result.stderr
     record = graph.record()
     assert record["outcome"] == "awaiting_human_qa"
@@ -299,7 +395,7 @@ def test_failed_current_candidate_never_claims_preparation_or_starts_next_group(
         "-c",
         "import os; raise SystemExit(7 if os.environ['TICKET_HARNESS_STAGE'] == 'candidate' else 0)",
     ]
-    result = graph.run_ticket()
+    result = run_until_wait(graph)
     assert result.returncode == 1
     record = graph.record()
     assert record["outcome"] == "incomplete"
@@ -346,7 +442,7 @@ def test_plan_mutation_stops_execution_and_preserves_the_approved_snapshot(graph
         "    p = Path.cwd().parents[1] / 'inputs' / 'plan.json'\n"
         "    p.write_text('rewritten snapshot')",
     )
-    result = graph.run_ticket()
+    result = run_until_wait(graph)
     assert result.returncode == 1
     record = graph.record()
     assert record["outcome"] == "incomplete"
@@ -374,7 +470,7 @@ def test_milestone_merge_hook_cannot_present_changed_source_without_renewed_revi
         "fi\n"
     )
     hook.chmod(0o755)
-    result = graph.run_ticket()
+    result = run_until_wait(graph)
     assert result.returncode == 1
     record = graph.record()
     assert record["failure"]["stage"] == "milestone-candidate"
@@ -398,7 +494,7 @@ def test_failed_milestone_regression_retains_done_tickets_without_a_qa_request(g
         "import os; print('actual regression output'); "
         "raise SystemExit(7 if os.environ['TICKET_HARNESS_STAGE'] == 'milestone-regression' else 0)",
     ]
-    result = graph.run_ticket()
+    result = run_until_wait(graph)
     assert result.returncode == 1
     record = graph.record()
     assert record["failure"]["stage"] == "milestone-regression"
@@ -441,7 +537,7 @@ def test_external_milestone_input_movement_preserves_refs_and_rejects_readiness(
         "'-m', 'External movement'], text=True).strip()\n"
         f"subprocess.run(['git', 'update-ref', 'refs/heads/{branch}', external], check=True)",
     )
-    result = graph.run_ticket()
+    result = run_until_wait(graph)
     assert result.returncode == 1
     record = graph.record()
     assert record["failure"]["stage"] == "milestone-readiness"
@@ -466,7 +562,7 @@ def test_milestone_regression_source_mutation_invalidates_evidence_and_stops_qa(
     milestone_suite(
         graph, f"(Path.cwd().parent / {target!r} / 'value.txt').write_text('invalidated source')"
     )
-    result = graph.run_ticket()
+    result = run_until_wait(graph)
     assert result.returncode == 1
     record = graph.record()
     assert record["failure"]["stage"] == "milestone-regression"
@@ -508,7 +604,7 @@ def test_changed_development_base_is_combined_with_feature_using_a_clean_same_fi
         "    Path('value.txt').write_text(Path('value.txt').read_text().replace('one', 'feature one'))\n"
         f"    git('update-ref', 'refs/heads/dev', {external!r})",
     )
-    result = graph.run_ticket()
+    result = run_until_wait(graph)
     assert result.returncode == 0, result.stdout + result.stderr
     record = graph.record()
     assert record["starting_development_revision"] == graph.base
@@ -555,7 +651,7 @@ def test_conflicting_development_preserves_resolution_and_requires_renewed_revie
         # merge must still detect that this source has no applicable approvals.
         (graph.repo / ".git/info/attributes").write_text("value.txt merge=fixture\n")
         graph.git("config", "merge.fixture.driver", "printf 'unreviewed resolution\\n' > %A")
-    result = graph.run_ticket()
+    result = run_until_wait(graph)
     assert result.returncode == 1
     record = graph.record()
     assert record["failure"]["stage"] == "milestone-candidate"
@@ -591,7 +687,7 @@ def test_development_already_containing_the_feature_still_runs_exact_milestone_r
         "    subprocess.run(['git', 'update-ref', 'refs/heads/dev', 'HEAD'], check=True)\n"
     )
     graph.config["suite"] = [graph.config["agent"][0], str(script)]
-    result = graph.run_ticket()
+    result = run_until_wait(graph)
     assert result.returncode == 0, result.stdout + result.stderr
     record = graph.record()
     feature = record["milestone"]["feature_revision"]

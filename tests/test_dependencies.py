@@ -118,6 +118,12 @@ def graph(request):
                 "scenario": request.node.name,
                 "record": record,
                 "cli_observations": fixture.cli_observations,
+                "foreground_observations": getattr(fixture, "foreground_observations", []),
+                "qa_artifacts": {
+                    str(p.relative_to(fixture.output)): p.read_text(errors="replace")
+                    for p in fixture.output.rglob("qa-*.json")
+                    if p.is_file()
+                },
                 "integration": fixture.git("rev-parse", "integration"),
                 "history": fixture.git("log", "--format=%H %P %s", "integration"),
                 "caller_status": fixture.git("status", "--porcelain"),

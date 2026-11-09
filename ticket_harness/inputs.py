@@ -443,8 +443,9 @@ def load(config_path: Path, output: Path) -> tuple[dict[str, Any], dict[str, Any
     )
     completed = completed_tickets(snapshots, requirements, repository, config["base"])
     # A selected prerequisite must be verified again by this run before it can unlock work.
-    completed.difference_update(selected)
-    for ticket_id in selected:
+    executable = config["plan"]["required_tickets"] if "plan" in config else selected
+    completed.difference_update(executable)
+    for ticket_id in executable:
         item = requirements[ticket_id]
         if item["readiness"] != "ready-for-agent":
             raise GateFailure(
@@ -454,7 +455,7 @@ def load(config_path: Path, output: Path) -> tuple[dict[str, Any], dict[str, Any
         missing = [
             dependency
             for dependency in item["dependencies"]
-            if dependency not in completed and dependency not in selected
+            if dependency not in completed and dependency not in executable
         ]
         if missing:
             raise GateFailure(

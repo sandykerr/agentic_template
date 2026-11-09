@@ -1,5 +1,9 @@
 """Bounded ticket lifecycle and required gate ownership."""
 
+import hashlib
+import json
+import stat
+import time
 from collections.abc import Iterator
 from contextlib import contextmanager
 from pathlib import Path
@@ -13,6 +17,7 @@ from ticket_harness.git import (
     carry_changes,
     git,
     promote,
+    promote_milestone,
     require_clean_milestone_candidate,
     require_reviewed_candidate,
     require_unchanged,
@@ -45,16 +50,22 @@ def run(config_path: Path, output: Path) -> tuple[dict[str, Any], int]:
     repairable = False
     ticket: str | None = None
 
+    milestone_index = 0
+
     def attempt_name(stage: str) -> str:
         name = stage if attempt <= 1 else f"attempt-{attempt}-{stage}"
-        if attempt and len(config["selected_tickets"]) > 1:
+        if attempt and len(record["tickets"]) > 1:
             name = f"ticket-{ticket}-{name}"
+        if not attempt and milestone_index:
+            name = f"milestone-{milestone_index + 1}-{name}"
         return name
 
     verified: list[tuple[dict[str, Any], Path, str]] = []
 
     def protected_paths() -> dict[Path, bool]:
-        protected = {output / "run.json": True}
+        protected = {
+            output / name: True for name in ("run.json", "qa-request.json", "qa-decision.json")
+        }
         for snapshot in record["inputs"].values():
             protected[Path(snapshot["source"])] = False
             protected[Path(snapshot["artifact"])] = True
@@ -272,234 +283,358 @@ def run(config_path: Path, output: Path) -> tuple[dict[str, Any], int]:
             baseline = worktree(repository, trees / "baseline", base)
         gate(stage, config["suite"], baseline, base)
         require_unchanged(baseline, base)
-        while any(record["tickets"][t]["state"] != "Done" for t in active_tickets):
-            ready = [key for key, state in record["tickets"].items() if state["state"] == "Ready"]
-            if not ready:
-                raise GateFailure("No selected ticket has verified prerequisites")
-            ticket = (
-                next(t for t in config["plan"]["milestones"][0]["tickets"] if t in ready)
-                if planned
-                else min(ready, key=int)
-            )
-            record["ticket"] = record["tickets"][ticket]
-            base = previous
-            checks = {
-                name: config["checks"][name] for name in config["requirements"][ticket]["checks"]
-            }
-            assignment_snapshots = dict(snapshots)
-            active_input = next(
-                name
-                for name, snapshot in snapshots.items()
-                if snapshot["source"] == config["requirements"][ticket]["source"]
-                and (name == "ticket" or name.startswith("ticket-"))
-            )
-            assignment_snapshots["ticket"], assignment_snapshots[active_input] = (
-                assignment_snapshots[active_input],
-                assignment_snapshots["ticket"],
-            )
-
-            def ticket_gates() -> list[dict[str, Any]]:
-                # Earlier ticket reports stay inspectable without authorizing this assignment.
-                return [g for g in record["gates"] if g["ticket"] in (None, ticket)]
-
-            start_revision = base
-            repair_context = None
-            previous_source = None
-            for attempt in range(1, config["max_repairs"] + 2):
-                repairable = True
-                current: dict[str, Any] = {
-                    "ticket": ticket,
-                    "attempt": attempt,
-                    "state": "Running",
-                    "starting_revision": start_revision,
-                    "gate_start": len(record["gates"]),
-                }
-                record["attempts"].append(current)
-                try:
-                    stage = "implementation"
-                    record["ticket"].clear()
-                    record["ticket"].update(id=ticket, state="Running", attempt=attempt)
-                    save()
-                    with git_operation(attempt_name("implementation-worktree")):
-                        source = worktree(
-                            repository, trees / attempt_name("implementation"), start_revision
-                        )
-                        if previous_source is not None:
-                            carry_changes(previous_source, source)
-                        current["source"] = str(source)
-                    prompt = agents.assignment(
-                        stage,
-                        ticket,
-                        base,
-                        start_revision,
-                        assignment_snapshots,
-                        ticket_gates(),
-                        checks,
-                        attempt,
-                        repair_context,
+        for milestone_index in range(len(config["plan"]["milestones"]) if planned else 1):
+            if planned and milestone_index:
+                group = config["plan"]["milestones"][milestone_index]
+                active_tickets = group["tickets"]
+                record["selected_tickets"] = sorted(active_tickets, key=int)
+                record["milestone"] = {"id": group["id"], "state": "executing"}
+                record["outcome"] = "running"
+                for ticket_id in active_tickets:
+                    if set(config["requirements"][ticket_id]["dependencies"]) <= completed:
+                        record["tickets"][ticket_id]["state"] = "Ready"
+                save()
+            while any(record["tickets"][t]["state"] != "Done" for t in active_tickets):
+                ready = [
+                    key for key, state in record["tickets"].items() if state["state"] == "Ready"
+                ]
+                if not ready:
+                    raise GateFailure("No selected ticket has verified prerequisites")
+                ticket = (
+                    next(
+                        t
+                        for t in config["plan"]["milestones"][milestone_index]["tickets"]
+                        if t in ready
                     )
-                    gate(stage, config["agent"], source, start_revision, prompt)
-                    with git_operation(attempt_name("submission")):
-                        submitted, changed = capture(
-                            source, start_revision, ticket, base if attempt > 1 else None
-                        )
-                        current.update(
-                            state="Verifying", submitted_revision=submitted, changed_files=changed
-                        )
-                        record["ticket"].update(current)
-                    save()
-                    if approved_source.intersection(changed):
-                        repairable = False
-                        raise GateFailure(
-                            "Submission changed approved input source; human decision required"
-                        )
-                    for name, argv in checks.items():
-                        stage = f"check-{name}"
-                        gate(stage, argv, source, submitted)
-                        require_unchanged(source, submitted)
-                    for role in ("spec", "standards"):
-                        stage = role
-                        with git_operation(attempt_name(f"{role}-worktree")):
-                            review_source = worktree(
-                                repository, trees / attempt_name(role), submitted
+                    if planned
+                    else min(ready, key=int)
+                )
+                record["ticket"] = record["tickets"][ticket]
+                base = previous
+                checks = {
+                    name: config["checks"][name]
+                    for name in config["requirements"][ticket]["checks"]
+                }
+                assignment_snapshots = dict(snapshots)
+                active_input = next(
+                    name
+                    for name, snapshot in snapshots.items()
+                    if snapshot["source"] == config["requirements"][ticket]["source"]
+                    and (name == "ticket" or name.startswith("ticket-"))
+                )
+                assignment_snapshots["ticket"], assignment_snapshots[active_input] = (
+                    assignment_snapshots[active_input],
+                    assignment_snapshots["ticket"],
+                )
+
+                def ticket_gates() -> list[dict[str, Any]]:
+                    # Earlier ticket reports stay inspectable without authorizing this assignment.
+                    return [g for g in record["gates"] if g["ticket"] in (None, ticket)]
+
+                start_revision = base
+                repair_context = None
+                previous_source = None
+                for attempt in range(1, config["max_repairs"] + 2):
+                    repairable = True
+                    current: dict[str, Any] = {
+                        "ticket": ticket,
+                        "attempt": attempt,
+                        "state": "Running",
+                        "starting_revision": start_revision,
+                        "gate_start": len(record["gates"]),
+                    }
+                    record["attempts"].append(current)
+                    try:
+                        stage = "implementation"
+                        record["ticket"].clear()
+                        record["ticket"].update(id=ticket, state="Running", attempt=attempt)
+                        save()
+                        with git_operation(attempt_name("implementation-worktree")):
+                            source = worktree(
+                                repository, trees / attempt_name("implementation"), start_revision
                             )
+                            if previous_source is not None:
+                                carry_changes(previous_source, source)
+                            current["source"] = str(source)
                         prompt = agents.assignment(
-                            role,
+                            stage,
                             ticket,
                             base,
-                            submitted,
+                            start_revision,
                             assignment_snapshots,
                             ticket_gates(),
                             checks,
                             attempt,
+                            repair_context,
                         )
-                        gate(role, config["agent"], review_source, submitted, prompt)
-                        require_unchanged(review_source, submitted)
+                        gate(stage, config["agent"], source, start_revision, prompt)
+                        with git_operation(attempt_name("submission")):
+                            submitted, changed = capture(
+                                source, start_revision, ticket, base if attempt > 1 else None
+                            )
+                            current.update(
+                                state="Verifying",
+                                submitted_revision=submitted,
+                                changed_files=changed,
+                            )
+                            record["ticket"].update(current)
                         save()
-                    stage = "candidate"
-                    candidate_source = trees / attempt_name("candidate")
-                    with git_operation(attempt_name("candidate-merge")):
-                        revision = candidate(repository, candidate_source, base, submitted)
-                        record["ticket"]["candidate_revision"] = revision
-                        current["candidate_revision"] = revision
-                    save()
-                    require_reviewed_candidate(candidate_source, revision, base, submitted)
-                    gate(stage, config["suite"], candidate_source, revision)
-                    require_unchanged(candidate_source, revision)
-                    stage = "integration"
+                        if approved_source.intersection(changed):
+                            repairable = False
+                            raise GateFailure(
+                                "Submission changed approved input source; human decision required"
+                            )
+                        for name, argv in checks.items():
+                            stage = f"check-{name}"
+                            gate(stage, argv, source, submitted)
+                            require_unchanged(source, submitted)
+                        for role in ("spec", "standards"):
+                            stage = role
+                            with git_operation(attempt_name(f"{role}-worktree")):
+                                review_source = worktree(
+                                    repository, trees / attempt_name(role), submitted
+                                )
+                            prompt = agents.assignment(
+                                role,
+                                ticket,
+                                base,
+                                submitted,
+                                assignment_snapshots,
+                                ticket_gates(),
+                                checks,
+                                attempt,
+                            )
+                            gate(role, config["agent"], review_source, submitted, prompt)
+                            require_unchanged(review_source, submitted)
+                            save()
+                        stage = "candidate"
+                        candidate_source = trees / attempt_name("candidate")
+                        with git_operation(attempt_name("candidate-merge")):
+                            revision = candidate(repository, candidate_source, base, submitted)
+                            record["ticket"]["candidate_revision"] = revision
+                            current["candidate_revision"] = revision
+                        save()
+                        require_reviewed_candidate(candidate_source, revision, base, submitted)
+                        gate(stage, config["suite"], candidate_source, revision)
+                        require_unchanged(candidate_source, revision)
+                        stage = "integration"
+                        inputs.require_approved(snapshots)
+                        validate_sources()
+                        promote(repository, integration, revision, previous)
+                        current.update(state="Done", done_revision=revision)
+                        record["ticket"].update(state="Done", done_revision=revision)
+                        current["gate_end"] = len(record["gates"])
+                        previous = revision
+                        record["integration_revision"] = revision
+                        completed.add(ticket)
+                        for ticket_id, state in record["tickets"].items():
+                            if (
+                                state["state"] == "Pending"
+                                and ticket_id in active_tickets
+                                and set(config["requirements"][ticket_id]["dependencies"])
+                                <= completed
+                            ):
+                                state["state"] = "Ready"
+                        save()
+                        break
+                    except (GateFailure, OSError, ValueError, KeyError, TypeError) as error:
+                        current.update(
+                            state="Rejected",
+                            failure={"stage": stage, "message": str(error)},
+                            gate_end=len(record["gates"]),
+                        )
+                        save()
+                        if (
+                            not repairable
+                            or stage == "integration"
+                            or attempt > config["max_repairs"]
+                        ):
+                            raise
+                        inputs.require_approved(snapshots)
+                        # Rejected approvals cannot authorize the next submission. Baseline stays shared.
+                        verified[:] = [
+                            entry for entry in verified if entry[0].get("ticket") != ticket
+                        ]
+                        validate_sources()
+                        if git(repository, "rev-parse", f"refs/heads/{integration}") != previous:
+                            raise GateFailure(
+                                "Integration branch changed externally; repair stopped"
+                            ) from error
+                        start_revision = current.get("submitted_revision", start_revision)
+                        previous_source = (
+                            Path(current["source"]) if "source" in current else previous_source
+                        )
+                        if (
+                            previous_source is not None
+                            and git(previous_source, "rev-parse", "HEAD") != start_revision
+                        ):
+                            raise GateFailure(
+                                "Rejected implementation changed HEAD; repair stopped"
+                            ) from error
+                        repair_context = {
+                            "failure": current["failure"],
+                            "rejected_revisions": [
+                                item[key]
+                                for item in record["attempts"]
+                                if item["ticket"] == ticket
+                                for key in ("submitted_revision", "candidate_revision")
+                                if key in item
+                            ],
+                        }
+            record["outcome"] = "preparing_milestone" if planned else "completed"
+            if planned:
+                # Milestone preparation has no ticket repair budget and never changes refs.
+                ticket = None
+                attempt = 0
+                repairable = False
+                stage = "milestone-candidate"
+                milestone = record["milestone"]
+                milestone.update(state="preparing", feature_revision=previous)
+                development_base = git(repository, "rev-parse", f"refs/heads/{development}")
+                record.setdefault("starting_development_revision", record["development_revision"])
+                record["development_revision"] = development_base
+                milestone["development_revision"] = development_base
+                save()
+                candidate_source = trees / attempt_name("milestone-candidate")
+                try:
+                    with git_operation(attempt_name("milestone-candidate-merge")):
+                        revision = candidate(
+                            repository, candidate_source, development_base, previous
+                        )
+                        milestone["candidate_revision"] = revision
+                except GateFailure as error:
+                    raise GateFailure(
+                        f"Milestone merge failed; renewed checks and reviews required: {error}"
+                    ) from error
+                with git_operation(attempt_name("milestone-candidate-validation")):
+                    require_clean_milestone_candidate(
+                        repository, candidate_source, revision, development_base, previous
+                    )
+                stage = "milestone-regression"
+                regression = gate(stage, config["suite"], candidate_source, revision)
+                stage = "milestone-readiness"
+                inputs.require_approved(snapshots)
+                validate_sources()
+                for branch, expected in ((integration, previous), (development, development_base)):
+                    if git(repository, "rev-parse", f"refs/heads/{branch}") != expected:
+                        raise GateFailure(
+                            f"Branch {branch} changed externally; candidate invalidated"
+                        )
+                request = {
+                    "request_id": uuid4().hex,
+                    "run_id": record["run_id"],
+                    "run_directory": str(output),
+                    "plan_version": config["plan"]["version"],
+                    "plan_approval": config["plan"]["approval"],
+                    "plan_input": snapshots["plan"],
+                    "milestone": milestone["id"],
+                    "feature_branch": integration,
+                    "feature_revision": previous,
+                    "development_branch": development,
+                    "development_revision": development_base,
+                    "candidate_revision": revision,
+                    "candidate_worktree": str(candidate_source),
+                    "human_checks": config["plan"]["milestones"][milestone_index]["qa"],
+                    "regression_evidence": [regression],
+                }
+                request_path = output / "qa-request.json"
+                write_json(request_path, request)
+                record["qa_request"] = str(request_path)
+                record["outcome"] = "awaiting_human_qa"
+                milestone["state"] = "awaiting_human_qa"
+                write_json(artifacts / attempt_name("qa-request.json"), request)
+                record["qa_decision"] = str(output / "qa-decision.json")
+                record["qa_decision_status"] = "missing"
+                # Freeze the actual evidence bytes while the human assesses this request.
+                evidence_bytes = {path: path.read_bytes() for path in artifacts.iterdir()}
+                request_bytes = request_path.read_bytes()
+                save()
+                observed_decision: bytes | None = None
+                while True:
+                    try:
+                        decision_path = output / "qa-decision.json"
+                        if decision_path.is_symlink() or not stat.S_ISREG(
+                            decision_path.stat().st_mode
+                        ):
+                            raise OSError("QA decision must be a regular file")
+                        raw = decision_path.read_bytes()
+                    except OSError as error:
+                        status = "missing" if isinstance(error, FileNotFoundError) else "unreadable"
+                        if record["qa_decision_status"] != status:
+                            record["qa_decision_status"] = status
+                            record["qa_decision_diagnostic"] = str(error)
+                            save()
+                        observed_decision = None
+                        time.sleep(0.1)
+                        continue
+                    if raw == observed_decision:
+                        time.sleep(0.1)
+                        continue
+                    observed_decision = raw
+                    decision_observation: dict[str, Any] = {
+                        "sha256": hashlib.sha256(raw).hexdigest(),
+                        "milestone": milestone["id"],
+                        "request_id": request["request_id"],
+                        "status": "rejected",
+                    }
+                    observation_path = (
+                        artifacts
+                        / f"qa-decision-{len(record.setdefault('qa_observations', []))}.json"
+                    )
+                    observation_path.write_bytes(raw)
+                    decision_observation["artifact"] = str(observation_path)
+                    record["qa_observations"].append(decision_observation)
+                    try:
+                        decision = json.loads(raw, object_pairs_hook=inputs.unique_object)
+                        if not isinstance(decision, dict) or set(decision) != {
+                            "decision",
+                            "request",
+                        }:
+                            raise GateFailure("Expected exactly decision and request fields")
+                        if decision["decision"] != "APPROVED":
+                            raise GateFailure("Expected exact decision APPROVED")
+                        if json.dumps(decision["request"], sort_keys=True) != json.dumps(
+                            request, sort_keys=True
+                        ):
+                            raise GateFailure("Decision does not match the current request")
+                        if any(
+                            d["request_id"] == request["request_id"]
+                            for d in record.get("qa_decisions", [])
+                        ):
+                            raise GateFailure("Decision request was already consumed")
+                    except (ValueError, GateFailure) as error:
+                        decision_observation["diagnostic"] = str(error)
+                        record["qa_decision_status"] = "rejected"
+                        save()
+                        continue
+                    stage = "milestone-promotion"
                     inputs.require_approved(snapshots)
                     validate_sources()
-                    promote(repository, integration, revision, previous)
-                    current.update(state="Done", done_revision=revision)
-                    record["ticket"].update(state="Done", done_revision=revision)
-                    current["gate_end"] = len(record["gates"])
+                    if request_path.is_symlink() or request_path.read_bytes() != request_bytes:
+                        raise GateFailure(
+                            "QA request changed; renewed candidate acceptance required"
+                        )
+                    for path, expected_bytes in evidence_bytes.items():
+                        if path.is_symlink() or path.read_bytes() != expected_bytes:
+                            raise GateFailure(
+                                f"QA evidence changed: {path}; renewed acceptance required"
+                            )
+                    # The ref transaction validates both expected tips and advances both together.
+                    promote_milestone(
+                        repository, integration, development, revision, previous, development_base
+                    )
+                    decision_observation["status"] = "consumed"
+                    record.setdefault("qa_decisions", []).append(dict(decision_observation))
+                    record["qa_decision_status"] = "consumed"
+                    milestone.update(state="promoted", promoted_revision=revision)
+                    record.setdefault("milestones", []).append(dict(milestone))
                     previous = revision
                     record["integration_revision"] = revision
-                    completed.add(ticket)
-                    for ticket_id, state in record["tickets"].items():
-                        if (
-                            state["state"] == "Pending"
-                            and ticket_id in active_tickets
-                            and set(config["requirements"][ticket_id]["dependencies"]) <= completed
-                        ):
-                            state["state"] = "Ready"
+                    record["development_revision"] = revision
                     save()
                     break
-                except (GateFailure, OSError, ValueError, KeyError, TypeError) as error:
-                    current.update(
-                        state="Rejected",
-                        failure={"stage": stage, "message": str(error)},
-                        gate_end=len(record["gates"]),
-                    )
-                    save()
-                    if not repairable or stage == "integration" or attempt > config["max_repairs"]:
-                        raise
-                    inputs.require_approved(snapshots)
-                    # Rejected approvals cannot authorize the next submission. Baseline stays shared.
-                    verified[:] = [entry for entry in verified if entry[0].get("ticket") != ticket]
-                    validate_sources()
-                    if git(repository, "rev-parse", f"refs/heads/{integration}") != previous:
-                        raise GateFailure(
-                            "Integration branch changed externally; repair stopped"
-                        ) from error
-                    start_revision = current.get("submitted_revision", start_revision)
-                    previous_source = (
-                        Path(current["source"]) if "source" in current else previous_source
-                    )
-                    if (
-                        previous_source is not None
-                        and git(previous_source, "rev-parse", "HEAD") != start_revision
-                    ):
-                        raise GateFailure(
-                            "Rejected implementation changed HEAD; repair stopped"
-                        ) from error
-                    repair_context = {
-                        "failure": current["failure"],
-                        "rejected_revisions": [
-                            item[key]
-                            for item in record["attempts"]
-                            if item["ticket"] == ticket
-                            for key in ("submitted_revision", "candidate_revision")
-                            if key in item
-                        ],
-                    }
-        record["outcome"] = "preparing_milestone" if planned else "completed"
         if planned:
-            # Milestone preparation has no ticket repair budget and never changes refs.
-            ticket = None
-            attempt = 0
-            repairable = False
-            stage = "milestone-candidate"
-            milestone = record["milestone"]
-            milestone.update(state="preparing", feature_revision=previous)
-            development_base = git(repository, "rev-parse", f"refs/heads/{development}")
-            record["starting_development_revision"] = record["development_revision"]
-            record["development_revision"] = development_base
-            milestone["development_revision"] = development_base
-            save()
-            candidate_source = trees / "milestone-candidate"
-            try:
-                with git_operation("milestone-candidate-merge"):
-                    revision = candidate(repository, candidate_source, development_base, previous)
-                    milestone["candidate_revision"] = revision
-            except GateFailure as error:
-                raise GateFailure(
-                    f"Milestone merge failed; renewed checks and reviews required: {error}"
-                ) from error
-            with git_operation("milestone-candidate-validation"):
-                require_clean_milestone_candidate(
-                    repository, candidate_source, revision, development_base, previous
-                )
-            stage = "milestone-regression"
-            regression = gate(stage, config["suite"], candidate_source, revision)
-            stage = "milestone-readiness"
-            inputs.require_approved(snapshots)
-            validate_sources()
-            for branch, expected in ((integration, previous), (development, development_base)):
-                if git(repository, "rev-parse", f"refs/heads/{branch}") != expected:
-                    raise GateFailure(f"Branch {branch} changed externally; candidate invalidated")
-            request = {
-                "request_id": uuid4().hex,
-                "run_id": record["run_id"],
-                "run_directory": str(output),
-                "plan_version": config["plan"]["version"],
-                "plan_approval": config["plan"]["approval"],
-                "plan_input": snapshots["plan"],
-                "milestone": milestone["id"],
-                "feature_branch": integration,
-                "feature_revision": previous,
-                "development_branch": development,
-                "development_revision": development_base,
-                "candidate_revision": revision,
-                "candidate_worktree": str(candidate_source),
-                "human_checks": config["plan"]["milestones"][0]["qa"],
-                "regression_evidence": [regression],
-            }
-            request_path = output / "qa-request.json"
-            write_json(request_path, request)
-            record["qa_request"] = str(request_path)
-            record["outcome"] = "awaiting_human_qa"
-            milestone["state"] = "awaiting_human_qa"
+            record.update(outcome="completed", feature_complete=True)
         save()
         return record, 0
     except (GateFailure, OSError, ValueError, KeyError, TypeError) as error:
@@ -514,6 +649,8 @@ def run(config_path: Path, output: Path) -> tuple[dict[str, Any], int]:
         if record["ticket"]["state"] != "Done":
             record["ticket"]["state"] = "Blocked"
         if stage.startswith("milestone-") and "milestone" in record:
-            record["milestone"]["state"] = "preparation_failed"
+            record["milestone"]["state"] = (
+                "promotion_failed" if stage == "milestone-promotion" else "preparation_failed"
+            )
         save()
         return record, 1
