@@ -1,0 +1,173 @@
+{
+  "scenario": "test_timeout_cannot_hide_evidence_tampering_or_authorize_repair",
+  "record": {
+    "outcome": "incomplete",
+    "artifacts": "/tmp/ticket-harness-test-st5z7x_z/run/artifacts",
+    "inputs": {
+      "configuration": {
+        "source": "/tmp/ticket-harness-test-st5z7x_z/project.json",
+        "artifact": "/tmp/ticket-harness-test-st5z7x_z/run/inputs/configuration.json",
+        "sha256": "dfbd0a39c96168c153ea6286d2a5368626cda4d125c73d6aedb6298fc38af12b"
+      },
+      "spec": {
+        "source": "/tmp/ticket-harness-test-st5z7x_z/target/spec.md",
+        "artifact": "/tmp/ticket-harness-test-st5z7x_z/run/inputs/spec.md",
+        "sha256": "70fc083432bac5b804dc291e318b27ed5ed439bc44fb6d81f98e39b808c3c363"
+      },
+      "ticket": {
+        "source": "/tmp/ticket-harness-test-st5z7x_z/target/01-value.md",
+        "artifact": "/tmp/ticket-harness-test-st5z7x_z/run/inputs/ticket.md",
+        "sha256": "f6b0b71fb8923adc649d922cd69ebdbb51e1635b766b5e9d666b781101a80bb3"
+      },
+      "standards-0": {
+        "source": "/tmp/ticket-harness-test-st5z7x_z/target/STANDARDS.md",
+        "artifact": "/tmp/ticket-harness-test-st5z7x_z/run/inputs/standards-0.md",
+        "sha256": "8a5efa5017f12574ff43bab7d9a487d9216a65b74d2e4709ec0dba7d141682d2"
+      }
+    },
+    "ticket": {
+      "id": "01",
+      "state": "Blocked",
+      "attempt": 1
+    },
+    "gates": [
+      {
+        "stage": "baseline",
+        "revision": "6d4c0663acdd0953e443cd50074b4b3e5e8be6db",
+        "argv": [
+          "/home/ajkerr1/development/agentic_template/.micromamba/envs/dev/bin/python",
+          "check.py",
+          "suite"
+        ],
+        "cwd": "/tmp/ticket-harness-test-st5z7x_z/run/worktrees/baseline",
+        "stdout": "/tmp/ticket-harness-test-st5z7x_z/run/artifacts/baseline.stdout",
+        "stderr": "/tmp/ticket-harness-test-st5z7x_z/run/artifacts/baseline.stderr",
+        "passed": true,
+        "timeout_seconds": 1800,
+        "timed_out": false,
+        "exit_code": 0,
+        "cleanup": {
+          "process_group": 60607,
+          "signal": "SIGKILL",
+          "sent": false
+        },
+        "ticket": null,
+        "attempt": 0,
+        "timeout_category": "baseline"
+      },
+      {
+        "stage": "implementation",
+        "revision": "6d4c0663acdd0953e443cd50074b4b3e5e8be6db",
+        "argv": [
+          "/home/ajkerr1/development/agentic_template/.micromamba/envs/dev/bin/python",
+          "/tmp/ticket-harness-test-st5z7x_z/repair-agent.py"
+        ],
+        "cwd": "/tmp/ticket-harness-test-st5z7x_z/run/worktrees/implementation",
+        "stdout": "/tmp/ticket-harness-test-st5z7x_z/run/artifacts/implementation.stdout",
+        "stderr": "/tmp/ticket-harness-test-st5z7x_z/run/artifacts/implementation.stderr",
+        "passed": false,
+        "timeout_seconds": 1,
+        "timed_out": true,
+        "assignment": "/tmp/ticket-harness-test-st5z7x_z/run/artifacts/implementation.assignment.json",
+        "diagnostic": "Integrity violation: protected files changed",
+        "cleanup": {
+          "process_group": 60620,
+          "signal": "SIGKILL",
+          "sent": true
+        },
+        "exit_code": -9,
+        "integrity": [
+          {
+            "path": "/tmp/ticket-harness-test-st5z7x_z/run/artifacts/baseline.stderr",
+            "expected_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "observed_sha256": "99f83e1fc15225ef063696e0d58f9c1e928c5ec58117a3965c202df548a43ae2",
+            "artifact": "/tmp/ticket-harness-test-st5z7x_z/run/artifacts/implementation.integrity-0"
+          }
+        ],
+        "ticket": "01",
+        "attempt": 1,
+        "timeout_category": "implementation",
+        "report_status": "not-evaluated"
+      }
+    ],
+    "attempts": [
+      {
+        "ticket": "01",
+        "attempt": 1,
+        "state": "Rejected",
+        "starting_revision": "6d4c0663acdd0953e443cd50074b4b3e5e8be6db",
+        "gate_start": 1,
+        "source": "/tmp/ticket-harness-test-st5z7x_z/run/worktrees/implementation",
+        "failure": {
+          "stage": "implementation",
+          "message": "Required gate failed: implementation; Integrity violation: protected files changed"
+        },
+        "gate_end": 2
+      }
+    ],
+    "requirements": {
+      "01": {
+        "id": "01",
+        "title": "Change value",
+        "readiness": "ready-for-agent",
+        "dependencies": [],
+        "acceptance": [
+          "value.txt contains 2."
+        ],
+        "checks": [
+          "ticket"
+        ],
+        "source": "/tmp/ticket-harness-test-st5z7x_z/target/01-value.md"
+      }
+    },
+    "max_repairs": 2,
+    "timeouts": {
+      "implementation": 1,
+      "repair": 1800,
+      "spec": 900,
+      "standards": 900,
+      "checks": 300,
+      "baseline": 1800,
+      "candidate": 1800
+    },
+    "selected_tickets": [
+      "01"
+    ],
+    "tickets": {
+      "01": {
+        "id": "01",
+        "state": "Blocked",
+        "attempt": 1
+      }
+    },
+    "base_revision": "6d4c0663acdd0953e443cd50074b4b3e5e8be6db",
+    "integration_revision": "6d4c0663acdd0953e443cd50074b4b3e5e8be6db",
+    "integration_branch": "integration",
+    "operations": [
+      {
+        "stage": "baseline-worktree",
+        "ticket": null,
+        "attempt": 0,
+        "passed": true
+      },
+      {
+        "stage": "implementation-worktree",
+        "ticket": "01",
+        "attempt": 1,
+        "passed": true
+      }
+    ],
+    "failure": {
+      "stage": "implementation",
+      "message": "Required gate failed: implementation; Integrity violation: protected files changed"
+    }
+  },
+  "integration": "6d4c0663acdd0953e443cd50074b4b3e5e8be6db",
+  "caller_status": "",
+  "outputs": {
+    "baseline.stdout": "baseline 6d4c0663acdd0953e443cd50074b4b3e5e8be6db\n",
+    "baseline.stderr": "",
+    "implementation.stdout": "{\"role\": \"implementation\", \"ticket\": \"01\", \"attempt\": 1, \"base_revision\": \"6d4c0663acdd0953e443cd50074b4b3e5e8be6db\", \"revision\": \"6d4c0663acdd0953e443cd50074b4b3e5e8be6db\", \"pid\": 60620, \"result\": \"submitted\", \"summary\": \"Changed value to 2\", \"changed_files\": [\"value.txt\"], \"checks\": [], \"acceptance_evidence\": [\"value.txt contains 2\"], \"unresolved_questions\": [], \"before\": \"1\\n\"}\n",
+    "implementation.stderr": "partial stdout\npartial stderr\n"
+  }
+}

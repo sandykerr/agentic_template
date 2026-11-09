@@ -1,0 +1,77 @@
+Command: ["/home/ajkerr1/development/agentic_template/.micromamba/envs/dev/bin/python", "-m", "pytest", "-q", "--durations=20"]
+Environment: PYTHONPATH=/tmp/ticket12-tools; reusable Python environment
+Exit: 0
+Seconds: 684.962
+Source: 14-final-suite-source.json
+
+........................................................................ [ 13%]
+........................................................................ [ 27%]
+........................................................................ [ 41%]
+........................................................................ [ 54%]
+........................................................................ [ 68%]
+........................................................................ [ 82%]
+........................................................................ [ 96%]
+....................                                                     [100%]
+============================= slowest 20 durations =============================
+11.83s call     tests/test_qa_promotion.py::test_two_foreground_milestones_require_exact_acceptance_and_consume_each_decision
+8.65s call     tests/test_qa_promotion.py::test_invalid_decisions_keep_waiting_without_repairs_or_authority_from_incidental_text
+8.48s call     tests/test_dependencies.py::test_multi_ticket_completion_evidence_unlocks_only_explicit_follow_up_selection
+8.11s call     tests/test_milestones.py::test_single_final_group_still_requires_human_qa_and_captures_matching_metadata
+7.23s call     tests/test_dependencies.py::test_repairs_keep_ticket_local_attempts_fixed_bases_and_all_earlier_evidence
+6.12s call     tests/test_milestones.py::test_changed_development_base_is_combined_with_feature_using_a_clean_same_file_merge
+5.83s call     tests/test_human_decisions.py::test_invalid_decision_like_output_is_untrusted_and_uses_bounded_repairs[incomplete-spec]
+5.79s call     tests/test_qa_promotion.py::test_acceptance_revalidates_the_exact_candidate_evidence_and_both_refs[evidence]
+5.62s call     tests/test_timeouts.py::test_timed_out_assignment_repairs_current_work_with_fresh_verification[standards]
+5.56s call     tests/test_qa_promotion.py::test_acceptance_revalidates_the_exact_candidate_evidence_and_both_refs[candidate]
+5.49s call     tests/test_qa_promotion.py::test_acceptance_revalidates_the_exact_candidate_evidence_and_both_refs[baseline]
+5.46s call     tests/test_human_decisions.py::test_invalid_decision_like_output_is_untrusted_and_uses_bounded_repairs[incomplete-standards]
+5.04s call     tests/test_qa_promotion.py::test_acceptance_revalidates_the_exact_candidate_evidence_and_both_refs[request]
+5.02s call     tests/test_milestones.py::test_milestone_regression_source_mutation_invalidates_evidence_and_stops_qa[baseline]
+5.01s call     tests/test_human_decisions.py::test_invalid_decision_like_output_is_untrusted_and_uses_bounded_repairs[mistyped-evidence-spec]
+4.89s call     tests/test_qa_promotion.py::test_acceptance_revalidates_the_exact_candidate_evidence_and_both_refs[integration]
+4.81s call     tests/test_timeouts.py::test_check_timeout_can_repair_and_test_the_exact_new_candidate[candidate]
+4.78s call     tests/test_timeouts.py::test_timeout_exhaustion_uses_repair_deadline_and_preserves_all_attempts
+4.66s call     tests/test_human_decisions.py::test_invalid_decision_like_output_is_untrusted_and_uses_bounded_repairs[stale-spec]
+4.59s call     tests/test_timeouts.py::test_exited_worker_with_child_holding_output_cannot_approve_or_request_decision[submitted]
+524 passed in 684.03s (0:11:24)
+
+Command: ["/home/ajkerr1/development/agentic_template/.micromamba/envs/dev/bin/python", "-m", "mypy"]
+Environment: PYTHONPATH=/tmp/ticket12-tools; reusable Python environment
+Exit: 0
+Seconds: 1.377
+Source: 14-final-mypy-source.json
+
+Success: no issues found in 8 source files
+
+Command: ["/home/ajkerr1/development/agentic_template/.micromamba/envs/dev/bin/python", "-m", "ruff", "check", "ticket_harness", "tests", "examples"]
+Environment: PYTHONPATH=/tmp/ticket12-tools; reusable Python environment
+Exit: 0
+Seconds: 0.144
+Source: 14-final-lint-source.json
+
+All checks passed!
+
+Command: ["/home/ajkerr1/development/agentic_template/.micromamba/envs/dev/bin/python", "-m", "ruff", "format", "--check", "ticket_harness", "tests", "examples"]
+Environment: PYTHONPATH=/tmp/ticket12-tools; reusable Python environment
+Exit: 0
+Seconds: 0.109
+Source: 14-final-format-source.json
+
+21 files already formatted
+
+Command: ["git", "diff", "--check"]
+Environment: PYTHONPATH=/tmp/ticket12-tools; reusable Python environment
+Exit: 0
+Seconds: 0.013
+Source: 14-final-whitespace-source.json
+
+
+Additional command: ["git", "diff", "--cached", "--check"]
+Exit: 0
+Source: 14-renewed-staged-whitespace-source.json
+
+Additional command: ["git", "diff", "--check", "d67c12d91495af00557b279d0bf0e1da518e6fcc", "HEAD"]
+Exit: 0
+Source: 14-committed-whitespace-source.json
+
+Initial staging failed because the sandbox mounted .git read-only. Its subsequent staged-whitespace capture inspected an empty index and is not used as implementation verification. Automatic review of narrow git add timed out once, explicitly permitting a retry; retry and authorized checkpoint commit succeeded. The renewed staged and committed whitespace checks above cover all seven implementation paths.

@@ -1,0 +1,61 @@
+{
+  "scenario": "test_later_milestone_eligibility_is_validated_before_execution[external-dependency]",
+  "record": {
+    "outcome": "invalid-input",
+    "artifacts": "/tmp/ticket-harness-test-m5pjiwk_/run/artifacts",
+    "inputs": {},
+    "ticket": {
+      "state": "Blocked",
+      "attempt": 0
+    },
+    "gates": [],
+    "attempts": [],
+    "failure": {
+      "stage": "inputs",
+      "message": "ticket 02: unsatisfied prerequisites ['05']; select prerequisites or supply completed_runs with integrated Done evidence"
+    }
+  },
+  "cli_observations": [
+    {
+      "command": [
+        "/home/ajkerr1/development/agentic_template/.micromamba/envs/dev/bin/python",
+        "-m",
+        "ticket_harness",
+        "run",
+        "--config",
+        "/tmp/ticket-harness-test-m5pjiwk_/project.json",
+        "--output",
+        "/tmp/ticket-harness-test-m5pjiwk_/run"
+      ],
+      "exit_code": 1,
+      "stderr": "",
+      "stdout_matches_record": true,
+      "record": {
+        "outcome": "invalid-input",
+        "artifacts": "/tmp/ticket-harness-test-m5pjiwk_/run/artifacts",
+        "inputs": {},
+        "ticket": {
+          "state": "Blocked",
+          "attempt": 0
+        },
+        "gates": [],
+        "attempts": [],
+        "failure": {
+          "stage": "inputs",
+          "message": "ticket 02: unsatisfied prerequisites ['05']; select prerequisites or supply completed_runs with integrated Done evidence"
+        }
+      }
+    }
+  ],
+  "foreground_observations": [],
+  "qa_artifacts": {},
+  "integration": "3c5df8af669b5b3ef11be1e80a480d5624eb97ba",
+  "history": "3c5df8af669b5b3ef11be1e80a480d5624eb97ba 8e287f07bd094e18cfbb83f2fa96b70514ba7705 Approved dependency graph\n8e287f07bd094e18cfbb83f2fa96b70514ba7705  Fixture baseline",
+  "caller_status": "M 02-work.md\n?? plan.json",
+  "launches": [],
+  "assignments": {},
+  "qa_request": null,
+  "milestone_candidate": null,
+  "development": "3c5df8af669b5b3ef11be1e80a480d5624eb97ba",
+  "outputs": {}
+}

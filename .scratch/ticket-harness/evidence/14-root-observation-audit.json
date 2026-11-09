@@ -1,0 +1,68 @@
+{
+  "scenario": "test_two_foreground_milestones_require_exact_acceptance_and_consume_each_decision",
+  "raw_file": ".scratch/ticket-harness/evidence/14-observations/final-suite/ticket-harness-test-12gxjsps.json",
+  "consumed_decision_count": 2,
+  "decision_artifact_hashes_verified": true,
+  "first_promoted_revision": "e0e6e2e9e10b7fceb1564eb56e6c28fd26f69295",
+  "next_worker_start": "e0e6e2e9e10b7fceb1564eb56e6c28fd26f69295",
+  "final_promoted_revision": "a17eab265beaf053634ba4355edc34a7315cc6f3",
+  "full_suite_final_result": {
+    "command": [
+      "/home/ajkerr1/development/agentic_template/.micromamba/envs/dev/bin/python",
+      "-m",
+      "pytest",
+      "-q",
+      "--durations=20"
+    ],
+    "exit_code": 0,
+    "observed_summary": "524 passed in 684.03s",
+    "wrapper_seconds": 684.962
+  },
+  "qa_time_invalidation_scenarios": [
+    {
+      "scenario": "test_acceptance_revalidates_the_exact_candidate_evidence_and_both_refs[baseline]",
+      "diagnostic": "Verified source changed at /tmp/ticket-harness-test-i_pmay59/run/worktrees/baseline",
+      "raw_file": ".scratch/ticket-harness/evidence/14-observations/final-suite/ticket-harness-test-i_pmay59.json"
+    },
+    {
+      "scenario": "test_acceptance_revalidates_the_exact_candidate_evidence_and_both_refs[candidate]",
+      "diagnostic": "Verified source changed at /tmp/ticket-harness-test-d92sv0ar/run/worktrees/milestone-candidate",
+      "raw_file": ".scratch/ticket-harness/evidence/14-observations/final-suite/ticket-harness-test-d92sv0ar.json"
+    },
+    {
+      "scenario": "test_acceptance_revalidates_the_exact_candidate_evidence_and_both_refs[checked-out-dev]",
+      "diagnostic": "Branch dev must not be checked out for promotion",
+      "raw_file": ".scratch/ticket-harness/evidence/14-observations/final-suite/ticket-harness-test-_6bh_dop.json"
+    },
+    {
+      "scenario": "test_acceptance_revalidates_the_exact_candidate_evidence_and_both_refs[checked-out-feature]",
+      "diagnostic": "Branch integration must not be checked out for promotion",
+      "raw_file": ".scratch/ticket-harness/evidence/14-observations/final-suite/ticket-harness-test-5elodat3.json"
+    },
+    {
+      "scenario": "test_acceptance_revalidates_the_exact_candidate_evidence_and_both_refs[dev]",
+      "diagnostic": "Milestone branches changed externally; promotion rejected: fatal: prepare: cannot lock ref 'refs/heads/dev': is at cc5f0f2dd221e53f5a040ff2f7ac702d74872c80 but expected 701ec2544c145b1fc8765d53fe792b63ce450dd2",
+      "raw_file": ".scratch/ticket-harness/evidence/14-observations/final-suite/ticket-harness-test-zo6f9_hp.json"
+    },
+    {
+      "scenario": "test_acceptance_revalidates_the_exact_candidate_evidence_and_both_refs[evidence]",
+      "diagnostic": "QA evidence changed: /tmp/ticket-harness-test-pt79s833/run/artifacts/milestone-regression.stdout; renewed acceptance required",
+      "raw_file": ".scratch/ticket-harness/evidence/14-observations/final-suite/ticket-harness-test-pt79s833.json"
+    },
+    {
+      "scenario": "test_acceptance_revalidates_the_exact_candidate_evidence_and_both_refs[input]",
+      "diagnostic": "Approved input changed: /tmp/ticket-harness-test-nocww50h/target/plan.json",
+      "raw_file": ".scratch/ticket-harness/evidence/14-observations/final-suite/ticket-harness-test-nocww50h.json"
+    },
+    {
+      "scenario": "test_acceptance_revalidates_the_exact_candidate_evidence_and_both_refs[integration]",
+      "diagnostic": "Milestone branches changed externally; promotion rejected: fatal: prepare: cannot lock ref 'refs/heads/integration': is at c1c937e0be0b0ed187a3498106e829e2eb177450 but expected b0806c5ef3e2fe33dc61390aa3932c9336fc63a4",
+      "raw_file": ".scratch/ticket-harness/evidence/14-observations/final-suite/ticket-harness-test-goyp2paa.json"
+    },
+    {
+      "scenario": "test_acceptance_revalidates_the_exact_candidate_evidence_and_both_refs[request]",
+      "diagnostic": "QA request changed; renewed candidate acceptance required",
+      "raw_file": ".scratch/ticket-harness/evidence/14-observations/final-suite/ticket-harness-test-rjv7otp2.json"
+    }
+  ]
+}

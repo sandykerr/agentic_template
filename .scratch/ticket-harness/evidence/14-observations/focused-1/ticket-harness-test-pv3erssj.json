@@ -1,0 +1,61 @@
+{
+  "scenario": "test_later_milestone_eligibility_is_validated_before_execution[not-ready]",
+  "record": {
+    "outcome": "invalid-input",
+    "artifacts": "/tmp/ticket-harness-test-pv3erssj/run/artifacts",
+    "inputs": {},
+    "ticket": {
+      "state": "Blocked",
+      "attempt": 0
+    },
+    "gates": [],
+    "attempts": [],
+    "failure": {
+      "stage": "inputs",
+      "message": "ticket 02: selected Status must be ready-for-agent; found 'ready-for-human'"
+    }
+  },
+  "cli_observations": [
+    {
+      "command": [
+        "/home/ajkerr1/development/agentic_template/.micromamba/envs/dev/bin/python",
+        "-m",
+        "ticket_harness",
+        "run",
+        "--config",
+        "/tmp/ticket-harness-test-pv3erssj/project.json",
+        "--output",
+        "/tmp/ticket-harness-test-pv3erssj/run"
+      ],
+      "exit_code": 1,
+      "stderr": "",
+      "stdout_matches_record": true,
+      "record": {
+        "outcome": "invalid-input",
+        "artifacts": "/tmp/ticket-harness-test-pv3erssj/run/artifacts",
+        "inputs": {},
+        "ticket": {
+          "state": "Blocked",
+          "attempt": 0
+        },
+        "gates": [],
+        "attempts": [],
+        "failure": {
+          "stage": "inputs",
+          "message": "ticket 02: selected Status must be ready-for-agent; found 'ready-for-human'"
+        }
+      }
+    }
+  ],
+  "foreground_observations": [],
+  "qa_artifacts": {},
+  "integration": "21bd05e29d419c86bb37fc0e2d6f07e92f6f8e26",
+  "history": "21bd05e29d419c86bb37fc0e2d6f07e92f6f8e26 3b34c663f9b35d4d3c34a8dfd67656826d350bcd Approved dependency graph\n3b34c663f9b35d4d3c34a8dfd67656826d350bcd  Fixture baseline",
+  "caller_status": "M 02-work.md\n?? plan.json",
+  "launches": [],
+  "assignments": {},
+  "qa_request": null,
+  "milestone_candidate": null,
+  "development": "21bd05e29d419c86bb37fc0e2d6f07e92f6f8e26",
+  "outputs": {}
+}

@@ -1,0 +1,75 @@
+{
+  "review_baseline": "d67c12d91495af00557b279d0bf0e1da518e6fcc",
+  "prerequisite_implementation": "19ea4f1b0bbdc601653468212aaaa0a7211d5c6f",
+  "prerequisite_bookkeeping": "fb3874a262227399a3ec5e8da06111bf2487bad4",
+  "ancestor_checks_passed": true,
+  "source_hashes_matching_implementation_and_baseline": 20,
+  "passing_final_checks": [
+    {
+      "command": [
+        "/home/ajkerr1/development/agentic_template/.micromamba/envs/dev/bin/python",
+        "-m",
+        "pytest",
+        "-q",
+        "--durations=20"
+      ],
+      "exit_code": 0,
+      "seconds": 796.788,
+      "source_identity": "13-renewed-final-suite-source.json"
+    },
+    {
+      "command": [
+        "/home/ajkerr1/development/agentic_template/.micromamba/envs/dev/bin/python",
+        "-m",
+        "mypy"
+      ],
+      "exit_code": 0,
+      "seconds": 1.742,
+      "source_identity": "13-renewed-final-mypy-source.json"
+    },
+    {
+      "command": [
+        "/home/ajkerr1/development/agentic_template/.micromamba/envs/dev/bin/python",
+        "-m",
+        "ruff",
+        "check",
+        "ticket_harness",
+        "tests",
+        "examples"
+      ],
+      "exit_code": 0,
+      "seconds": 0.152,
+      "source_identity": "13-renewed-final-lint-source.json"
+    },
+    {
+      "command": [
+        "/home/ajkerr1/development/agentic_template/.micromamba/envs/dev/bin/python",
+        "-m",
+        "ruff",
+        "format",
+        "--check",
+        "ticket_harness",
+        "tests",
+        "examples"
+      ],
+      "exit_code": 0,
+      "seconds": 0.166,
+      "source_identity": "13-renewed-final-format-source.json"
+    },
+    {
+      "command": [
+        "git",
+        "diff",
+        "--check"
+      ],
+      "exit_code": 0,
+      "seconds": 0.016,
+      "source_identity": "13-renewed-final-whitespace-source.json"
+    }
+  ],
+  "completion_and_independent_review_reports_read": true,
+  "recorded_final_suite": "509 passed in 795.92s; historical prerequisite evidence only",
+  "unrelated_tracker_sha256": "3803de99e541e60d2e9f733d5c98b009a43e60a9584e3819adffc55eae0214ce",
+  "active_run_audit": "Only main worktree; no run.json found in .scratch outside retained historical evidence. Development plan not observed in an active harness run.",
+  "prerequisite_raw_observations_verified": 88
+}

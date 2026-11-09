@@ -1,0 +1,348 @@
+{
+  "scenario": "test_default_timeouts_are_normalized_and_visible_on_each_successful_gate",
+  "record": {
+    "outcome": "completed",
+    "artifacts": "/tmp/ticket-harness-test-uw3ybykh/run/artifacts",
+    "inputs": {
+      "configuration": {
+        "source": "/tmp/ticket-harness-test-uw3ybykh/project.json",
+        "artifact": "/tmp/ticket-harness-test-uw3ybykh/run/inputs/configuration.json",
+        "sha256": "83df1616fc5f0691fbdf21b42c10caa861c5a3e079d6b3214960c2088c2966fb"
+      },
+      "spec": {
+        "source": "/tmp/ticket-harness-test-uw3ybykh/target/spec.md",
+        "artifact": "/tmp/ticket-harness-test-uw3ybykh/run/inputs/spec.md",
+        "sha256": "70fc083432bac5b804dc291e318b27ed5ed439bc44fb6d81f98e39b808c3c363"
+      },
+      "ticket": {
+        "source": "/tmp/ticket-harness-test-uw3ybykh/target/01-value.md",
+        "artifact": "/tmp/ticket-harness-test-uw3ybykh/run/inputs/ticket.md",
+        "sha256": "f6b0b71fb8923adc649d922cd69ebdbb51e1635b766b5e9d666b781101a80bb3"
+      },
+      "standards-0": {
+        "source": "/tmp/ticket-harness-test-uw3ybykh/target/STANDARDS.md",
+        "artifact": "/tmp/ticket-harness-test-uw3ybykh/run/inputs/standards-0.md",
+        "sha256": "8a5efa5017f12574ff43bab7d9a487d9216a65b74d2e4709ec0dba7d141682d2"
+      }
+    },
+    "ticket": {
+      "id": "01",
+      "state": "Done",
+      "attempt": 1,
+      "ticket": "01",
+      "starting_revision": "c25b5a3a45a1e7abd8d1fc4ecc437f71b4a8799c",
+      "gate_start": 1,
+      "source": "/tmp/ticket-harness-test-uw3ybykh/run/worktrees/implementation",
+      "submitted_revision": "b9042150a716dc3e3d35361f14e345bcab5e47e0",
+      "changed_files": [
+        "value.txt"
+      ],
+      "candidate_revision": "8ce555c9a53f5f8db697d32b20bd42956a9e691c",
+      "done_revision": "8ce555c9a53f5f8db697d32b20bd42956a9e691c"
+    },
+    "gates": [
+      {
+        "stage": "baseline",
+        "revision": "c25b5a3a45a1e7abd8d1fc4ecc437f71b4a8799c",
+        "argv": [
+          "/home/ajkerr1/development/agentic_template/.micromamba/envs/dev/bin/python",
+          "check.py",
+          "suite"
+        ],
+        "cwd": "/tmp/ticket-harness-test-uw3ybykh/run/worktrees/baseline",
+        "stdout": "/tmp/ticket-harness-test-uw3ybykh/run/artifacts/baseline.stdout",
+        "stderr": "/tmp/ticket-harness-test-uw3ybykh/run/artifacts/baseline.stderr",
+        "passed": true,
+        "timeout_seconds": 1800,
+        "timed_out": false,
+        "exit_code": 0,
+        "cleanup": {
+          "process_group": 60440,
+          "signal": "SIGKILL",
+          "sent": false
+        },
+        "ticket": null,
+        "attempt": 0,
+        "timeout_category": "baseline"
+      },
+      {
+        "stage": "implementation",
+        "revision": "c25b5a3a45a1e7abd8d1fc4ecc437f71b4a8799c",
+        "argv": [
+          "/home/ajkerr1/development/agentic_template/.micromamba/envs/dev/bin/python",
+          "/tmp/ticket-harness-test-uw3ybykh/target/agent.py"
+        ],
+        "cwd": "/tmp/ticket-harness-test-uw3ybykh/run/worktrees/implementation",
+        "stdout": "/tmp/ticket-harness-test-uw3ybykh/run/artifacts/implementation.stdout",
+        "stderr": "/tmp/ticket-harness-test-uw3ybykh/run/artifacts/implementation.stderr",
+        "passed": true,
+        "timeout_seconds": 1800,
+        "timed_out": false,
+        "assignment": "/tmp/ticket-harness-test-uw3ybykh/run/artifacts/implementation.assignment.json",
+        "exit_code": 0,
+        "cleanup": {
+          "process_group": 60453,
+          "signal": "SIGKILL",
+          "sent": false
+        },
+        "ticket": "01",
+        "attempt": 1,
+        "timeout_category": "implementation",
+        "report": {
+          "role": "implementation",
+          "ticket": "01",
+          "attempt": 1,
+          "base_revision": "c25b5a3a45a1e7abd8d1fc4ecc437f71b4a8799c",
+          "revision": "c25b5a3a45a1e7abd8d1fc4ecc437f71b4a8799c",
+          "pid": 60453,
+          "result": "submitted",
+          "summary": "Changed value to 2",
+          "changed_files": [
+            "value.txt"
+          ],
+          "checks": [],
+          "acceptance_evidence": [
+            "value.txt contains 2"
+          ],
+          "unresolved_questions": []
+        },
+        "report_status": "valid"
+      },
+      {
+        "stage": "check-ticket",
+        "revision": "b9042150a716dc3e3d35361f14e345bcab5e47e0",
+        "argv": [
+          "/home/ajkerr1/development/agentic_template/.micromamba/envs/dev/bin/python",
+          "check.py",
+          "ticket"
+        ],
+        "cwd": "/tmp/ticket-harness-test-uw3ybykh/run/worktrees/implementation",
+        "stdout": "/tmp/ticket-harness-test-uw3ybykh/run/artifacts/check-ticket.stdout",
+        "stderr": "/tmp/ticket-harness-test-uw3ybykh/run/artifacts/check-ticket.stderr",
+        "passed": true,
+        "timeout_seconds": 300,
+        "timed_out": false,
+        "exit_code": 0,
+        "cleanup": {
+          "process_group": 60468,
+          "signal": "SIGKILL",
+          "sent": false
+        },
+        "ticket": "01",
+        "attempt": 1,
+        "timeout_category": "checks"
+      },
+      {
+        "stage": "spec",
+        "revision": "b9042150a716dc3e3d35361f14e345bcab5e47e0",
+        "argv": [
+          "/home/ajkerr1/development/agentic_template/.micromamba/envs/dev/bin/python",
+          "/tmp/ticket-harness-test-uw3ybykh/target/agent.py"
+        ],
+        "cwd": "/tmp/ticket-harness-test-uw3ybykh/run/worktrees/spec",
+        "stdout": "/tmp/ticket-harness-test-uw3ybykh/run/artifacts/spec.stdout",
+        "stderr": "/tmp/ticket-harness-test-uw3ybykh/run/artifacts/spec.stderr",
+        "passed": true,
+        "timeout_seconds": 900,
+        "timed_out": false,
+        "assignment": "/tmp/ticket-harness-test-uw3ybykh/run/artifacts/spec.assignment.json",
+        "exit_code": 0,
+        "cleanup": {
+          "process_group": 60487,
+          "signal": "SIGKILL",
+          "sent": false
+        },
+        "ticket": "01",
+        "attempt": 1,
+        "timeout_category": "spec",
+        "report": {
+          "role": "spec",
+          "ticket": "01",
+          "attempt": 1,
+          "base_revision": "c25b5a3a45a1e7abd8d1fc4ecc437f71b4a8799c",
+          "revision": "b9042150a716dc3e3d35361f14e345bcab5e47e0",
+          "pid": 60487,
+          "findings": []
+        },
+        "report_status": "valid"
+      },
+      {
+        "stage": "standards",
+        "revision": "b9042150a716dc3e3d35361f14e345bcab5e47e0",
+        "argv": [
+          "/home/ajkerr1/development/agentic_template/.micromamba/envs/dev/bin/python",
+          "/tmp/ticket-harness-test-uw3ybykh/target/agent.py"
+        ],
+        "cwd": "/tmp/ticket-harness-test-uw3ybykh/run/worktrees/standards",
+        "stdout": "/tmp/ticket-harness-test-uw3ybykh/run/artifacts/standards.stdout",
+        "stderr": "/tmp/ticket-harness-test-uw3ybykh/run/artifacts/standards.stderr",
+        "passed": true,
+        "timeout_seconds": 900,
+        "timed_out": false,
+        "assignment": "/tmp/ticket-harness-test-uw3ybykh/run/artifacts/standards.assignment.json",
+        "exit_code": 0,
+        "cleanup": {
+          "process_group": 60511,
+          "signal": "SIGKILL",
+          "sent": false
+        },
+        "ticket": "01",
+        "attempt": 1,
+        "timeout_category": "standards",
+        "report": {
+          "role": "standards",
+          "ticket": "01",
+          "attempt": 1,
+          "base_revision": "c25b5a3a45a1e7abd8d1fc4ecc437f71b4a8799c",
+          "revision": "b9042150a716dc3e3d35361f14e345bcab5e47e0",
+          "pid": 60511,
+          "findings": []
+        },
+        "report_status": "valid"
+      },
+      {
+        "stage": "candidate",
+        "revision": "8ce555c9a53f5f8db697d32b20bd42956a9e691c",
+        "argv": [
+          "/home/ajkerr1/development/agentic_template/.micromamba/envs/dev/bin/python",
+          "check.py",
+          "suite"
+        ],
+        "cwd": "/tmp/ticket-harness-test-uw3ybykh/run/worktrees/candidate",
+        "stdout": "/tmp/ticket-harness-test-uw3ybykh/run/artifacts/candidate.stdout",
+        "stderr": "/tmp/ticket-harness-test-uw3ybykh/run/artifacts/candidate.stderr",
+        "passed": true,
+        "timeout_seconds": 1800,
+        "timed_out": false,
+        "exit_code": 0,
+        "cleanup": {
+          "process_group": 60552,
+          "signal": "SIGKILL",
+          "sent": false
+        },
+        "ticket": "01",
+        "attempt": 1,
+        "timeout_category": "candidate"
+      }
+    ],
+    "attempts": [
+      {
+        "ticket": "01",
+        "attempt": 1,
+        "state": "Done",
+        "starting_revision": "c25b5a3a45a1e7abd8d1fc4ecc437f71b4a8799c",
+        "gate_start": 1,
+        "source": "/tmp/ticket-harness-test-uw3ybykh/run/worktrees/implementation",
+        "submitted_revision": "b9042150a716dc3e3d35361f14e345bcab5e47e0",
+        "changed_files": [
+          "value.txt"
+        ],
+        "candidate_revision": "8ce555c9a53f5f8db697d32b20bd42956a9e691c",
+        "done_revision": "8ce555c9a53f5f8db697d32b20bd42956a9e691c",
+        "gate_end": 6
+      }
+    ],
+    "requirements": {
+      "01": {
+        "id": "01",
+        "title": "Change value",
+        "readiness": "ready-for-agent",
+        "dependencies": [],
+        "acceptance": [
+          "value.txt contains 2."
+        ],
+        "checks": [
+          "ticket"
+        ],
+        "source": "/tmp/ticket-harness-test-uw3ybykh/target/01-value.md"
+      }
+    },
+    "max_repairs": 0,
+    "timeouts": {
+      "implementation": 1800,
+      "repair": 1800,
+      "spec": 900,
+      "standards": 900,
+      "checks": 300,
+      "baseline": 1800,
+      "candidate": 1800
+    },
+    "selected_tickets": [
+      "01"
+    ],
+    "tickets": {
+      "01": {
+        "id": "01",
+        "state": "Done",
+        "attempt": 1,
+        "ticket": "01",
+        "starting_revision": "c25b5a3a45a1e7abd8d1fc4ecc437f71b4a8799c",
+        "gate_start": 1,
+        "source": "/tmp/ticket-harness-test-uw3ybykh/run/worktrees/implementation",
+        "submitted_revision": "b9042150a716dc3e3d35361f14e345bcab5e47e0",
+        "changed_files": [
+          "value.txt"
+        ],
+        "candidate_revision": "8ce555c9a53f5f8db697d32b20bd42956a9e691c",
+        "done_revision": "8ce555c9a53f5f8db697d32b20bd42956a9e691c"
+      }
+    },
+    "base_revision": "c25b5a3a45a1e7abd8d1fc4ecc437f71b4a8799c",
+    "integration_revision": "8ce555c9a53f5f8db697d32b20bd42956a9e691c",
+    "integration_branch": "integration",
+    "operations": [
+      {
+        "stage": "baseline-worktree",
+        "ticket": null,
+        "attempt": 0,
+        "passed": true
+      },
+      {
+        "stage": "implementation-worktree",
+        "ticket": "01",
+        "attempt": 1,
+        "passed": true
+      },
+      {
+        "stage": "submission",
+        "ticket": "01",
+        "attempt": 1,
+        "passed": true
+      },
+      {
+        "stage": "spec-worktree",
+        "ticket": "01",
+        "attempt": 1,
+        "passed": true
+      },
+      {
+        "stage": "standards-worktree",
+        "ticket": "01",
+        "attempt": 1,
+        "passed": true
+      },
+      {
+        "stage": "candidate-merge",
+        "ticket": "01",
+        "attempt": 1,
+        "passed": true
+      }
+    ]
+  },
+  "integration": "8ce555c9a53f5f8db697d32b20bd42956a9e691c",
+  "caller_status": "",
+  "outputs": {
+    "baseline.stdout": "baseline c25b5a3a45a1e7abd8d1fc4ecc437f71b4a8799c\n",
+    "baseline.stderr": "",
+    "implementation.stdout": "{\"role\": \"implementation\", \"ticket\": \"01\", \"attempt\": 1, \"base_revision\": \"c25b5a3a45a1e7abd8d1fc4ecc437f71b4a8799c\", \"revision\": \"c25b5a3a45a1e7abd8d1fc4ecc437f71b4a8799c\", \"pid\": 60453, \"result\": \"submitted\", \"summary\": \"Changed value to 2\", \"changed_files\": [\"value.txt\"], \"checks\": [], \"acceptance_evidence\": [\"value.txt contains 2\"], \"unresolved_questions\": []}\n",
+    "implementation.stderr": "",
+    "check-ticket.stdout": "check-ticket b9042150a716dc3e3d35361f14e345bcab5e47e0\n",
+    "check-ticket.stderr": "",
+    "spec.stdout": "{\"role\": \"spec\", \"ticket\": \"01\", \"attempt\": 1, \"base_revision\": \"c25b5a3a45a1e7abd8d1fc4ecc437f71b4a8799c\", \"revision\": \"b9042150a716dc3e3d35361f14e345bcab5e47e0\", \"pid\": 60487, \"findings\": []}\n",
+    "spec.stderr": "",
+    "standards.stdout": "{\"role\": \"standards\", \"ticket\": \"01\", \"attempt\": 1, \"base_revision\": \"c25b5a3a45a1e7abd8d1fc4ecc437f71b4a8799c\", \"revision\": \"b9042150a716dc3e3d35361f14e345bcab5e47e0\", \"pid\": 60511, \"findings\": []}\n",
+    "standards.stderr": "",
+    "candidate.stdout": "candidate 8ce555c9a53f5f8db697d32b20bd42956a9e691c\n",
+    "candidate.stderr": ""
+  }
+}
