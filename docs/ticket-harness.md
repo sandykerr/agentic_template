@@ -10,6 +10,28 @@ Continuing unrelated work after a blocked ticket, live Codex, and an operating-s
 sandbox remain later numbered tickets. Run only trusted scripted processes and
 project commands.
 
+## Finding the code
+
+The runtime groups code by the work it owns:
+
+- `runner.py` coordinates the run. Its `_Run.check` function runs commands,
+  validates agent reports, and keeps check results tied to the code they assessed.
+  It also protects saved evidence and reconnects restored results to the run record.
+- `tickets.py` chooses eligible tickets and carries out each ticket's complete
+  implementation, verification, and bounded repair cycle.
+- `qa.py` prepares milestone candidates, requests human review, checks decisions,
+  and handles deliberate stop/continuation. Stop, continuation, and promotion use
+  the same check for unchanged review requests and evidence.
+- `git.py` owns worktrees, submission commits, merge validation, and branch updates.
+- `records.py` owns process cleanup, output artifacts, file protection, and atomic
+  record writes. `agents.py` owns assignment content and report formats.
+- `inputs.py` and `plans.py` capture approved inputs and reject invalid requirements,
+  configuration, dependency graphs, and milestone plans before execution.
+
+The public commands and saved record formats remain the caller and test contracts.
+These internal divisions do not change ticket repair limits, milestone approval
+requirements, or which failures stop the run.
+
 ## Python and checks
 
 Use the [testing policy](agents/testing.md) to select focused development checks,

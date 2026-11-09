@@ -15,6 +15,10 @@ class GateFailure(Exception):
     """A required gate did not pass."""
 
 
+class NonRepairableFailure(GateFailure):
+    """A failure that another implementation attempt cannot resolve."""
+
+
 def write_json(path: Path, value: Any) -> None:
     temporary = path.with_suffix(".tmp")
     temporary.write_text(json.dumps(value, indent=2) + "\n")

@@ -5,7 +5,7 @@ import json
 import sys
 from pathlib import Path
 
-from ticket_harness import checkpoints
+from ticket_harness import qa
 from ticket_harness.records import GateFailure
 from ticket_harness.runner import continue_run, run
 
@@ -29,7 +29,7 @@ def main() -> int:
         elif args.operation == "continue":
             record, code = continue_run(args.run.resolve())
         elif args.operation == "stop":
-            record, code = checkpoints.stop(args.run.resolve()), 0
+            record, code = qa.stop(args.run.resolve()), 0
         else:
             record, code = run(args.config.resolve(), args.output.resolve())
         print(json.dumps(record, indent=2))
