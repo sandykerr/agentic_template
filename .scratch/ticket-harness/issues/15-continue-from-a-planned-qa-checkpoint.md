@@ -4,7 +4,7 @@
 
 **Blocked by:** [14: Consume approval, promote, and continue](14-promote-only-the-human-approved-milestone.md).
 
-**Status:** ready-for-agent
+**Status:** completed
 
 **Milestone:** M1. Follow [milestone eligibility](../milestones.md) before selecting work.
 
@@ -18,11 +18,11 @@
 
 ## Acceptance criteria
 
-- [ ] Persist a safe planned QA checkpoint that supports deliberate clean stop and continuation by a new orchestrator process.
-- [ ] Validate captured approved inputs, plan version, branch/candidate identities and relevant evidence before continuation; reject changed or inconsistent state.
-- [ ] Preserve Done tickets and prior artifacts without replaying completed assignments or consuming a QA decision twice.
-- [ ] Serialize ownership of the same run and prevent duplicate continuation/promotion; retain diagnosable outcomes for rejected ownership or state.
-- [ ] Demonstrate stop/restart at the first QA checkpoint, approval consumption, and completion of the next group; explicitly exclude arbitrary mid-stage crash recovery.
+- [x] Persist a safe planned QA checkpoint that supports deliberate clean stop and continuation by a new orchestrator process.
+- [x] Validate captured approved inputs, plan version, branch/candidate identities and relevant evidence before continuation; reject changed or inconsistent state.
+- [x] Preserve Done tickets and prior artifacts without replaying completed assignments or consuming a QA decision twice.
+- [x] Serialize ownership of the same run and prevent duplicate continuation/promotion; retain diagnosable outcomes for rejected ownership or state.
+- [x] Demonstrate stop/restart at the first QA checkpoint, approval consumption, and completion of the next group; explicitly exclude arbitrary mid-stage crash recovery.
 
 ## Verification
 
@@ -33,3 +33,29 @@ Follow the repository's testing policy; document-only skill changes use skill/li
 ## Handoff
 
 Use the [shared worker handoff](../README.md#worker-handoff). Verify and record this ticket's completion without treating it as milestone acceptance. Select further work only through the [published milestone plan](../milestones.md); do not start the next ticket automatically.
+
+## Comments
+
+### Verified completion
+
+Previous readiness: `ready-for-agent`. All five acceptance criteria are verified.
+Implementation `36ed3e72c278cf147c84ae9c282cd2899af23ad0`; review repair/final
+implementation `d11f0bc60a2c11c40683e58581dffa10e36a91be`; original fixed review
+baseline `90255aaf6faf9aedce18f7159093f5dbfde294b7`.
+
+[Completion evidence](../evidence/15-completion.md) maps each criterion to actual
+CLI/Git/checkpoint/request/decision/ownership observations. The renewed final suite
+passed **544 tests**, with strict mypy, Ruff lint/format, working/staged/committed
+whitespace, pinned wheel/isolated install and installed CLI continuation/invalidation.
+All 23 final source identities and 123 retained scenarios agree with final source.
+Separate fresh High [Spec](../evidence/15-review-spec.md) and
+[Standards](../evidence/15-review-standards.md) reviews of the whole implementation
+against the original baseline each report **0 blockers and 0 optional suggestions**.
+Initial Standards blocker STD15-01 was reproduced and fixed by a fresh Medium repair,
+with renewed required gates; initial evidence is retained separately.
+
+No unchecked criteria or unresolved ticket 15 blockers remain. Dependency history
+is preserved. M1 work is complete, but M1 human QA has not been requested or accepted.
+The next handoff is M1 QA preparation/waiting; ticket 16 and M2 remain ineligible
+until recorded human acceptance. Scripted fixture decisions do not accept this
+development milestone. No development QA, next ticket or push was launched.

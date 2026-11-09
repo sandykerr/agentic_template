@@ -1,0 +1,88 @@
+{
+  "scenario": "test_invalid_plans_reject_before_processes_or_branch_changes[later-dependency-later milestone]",
+  "record": {
+    "outcome": "invalid-input",
+    "artifacts": "/tmp/ticket-harness-test-46oudy5w/run/artifacts",
+    "inputs": {},
+    "ticket": {
+      "state": "Blocked",
+      "attempt": 0
+    },
+    "gates": [],
+    "attempts": [],
+    "failure": {
+      "stage": "inputs",
+      "message": "ticket 01: dependency 02 belongs to a later milestone"
+    }
+  },
+  "cli_observations": [
+    {
+      "command": [
+        "/home/ajkerr1/development/agentic_template/.micromamba/envs/dev/bin/python",
+        "-m",
+        "ticket_harness",
+        "run",
+        "--config",
+        "/tmp/ticket-harness-test-46oudy5w/project.json",
+        "--output",
+        "/tmp/ticket-harness-test-46oudy5w/run"
+      ],
+      "exit_code": 1,
+      "stderr": "",
+      "stdout_matches_record": true,
+      "record": {
+        "outcome": "invalid-input",
+        "artifacts": "/tmp/ticket-harness-test-46oudy5w/run/artifacts",
+        "inputs": {},
+        "ticket": {
+          "state": "Blocked",
+          "attempt": 0
+        },
+        "gates": [],
+        "attempts": [],
+        "failure": {
+          "stage": "inputs",
+          "message": "ticket 01: dependency 02 belongs to a later milestone"
+        }
+      }
+    },
+    {
+      "command": [
+        "/home/ajkerr1/development/agentic_template/.micromamba/envs/dev/bin/python",
+        "-m",
+        "ticket_harness",
+        "status",
+        "/tmp/ticket-harness-test-46oudy5w/run"
+      ],
+      "exit_code": 0,
+      "stderr": "",
+      "stdout_matches_record": true,
+      "record": {
+        "outcome": "invalid-input",
+        "artifacts": "/tmp/ticket-harness-test-46oudy5w/run/artifacts",
+        "inputs": {},
+        "ticket": {
+          "state": "Blocked",
+          "attempt": 0
+        },
+        "gates": [],
+        "attempts": [],
+        "failure": {
+          "stage": "inputs",
+          "message": "ticket 01: dependency 02 belongs to a later milestone"
+        }
+      }
+    }
+  ],
+  "foreground_observations": [],
+  "qa_artifacts": {},
+  "integration": "06118a0966c8e835be1484bc31f4cd98dab02593",
+  "history": "06118a0966c8e835be1484bc31f4cd98dab02593 164d393e05ede70772aaf8cf5f04c2cffa56cb8e Approved dependency graph\n164d393e05ede70772aaf8cf5f04c2cffa56cb8e  Fixture baseline",
+  "caller_status": "M 01-value.md\n M 04-work.md\n?? plan.json",
+  "launches": [],
+  "assignments": {},
+  "qa_request": null,
+  "milestone_candidate": null,
+  "development": "06118a0966c8e835be1484bc31f4cd98dab02593",
+  "outputs": {}
+}

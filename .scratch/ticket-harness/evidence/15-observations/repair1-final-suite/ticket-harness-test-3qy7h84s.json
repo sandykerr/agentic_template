@@ -1,0 +1,88 @@
+{
+  "scenario": "test_invalid_plans_reject_before_processes_or_branch_changes[ticket-milestone-conflict-Milestone metadata conflicts]",
+  "record": {
+    "outcome": "invalid-input",
+    "artifacts": "/tmp/ticket-harness-test-3qy7h84s/run/artifacts",
+    "inputs": {},
+    "ticket": {
+      "state": "Blocked",
+      "attempt": 0
+    },
+    "gates": [],
+    "attempts": [],
+    "failure": {
+      "stage": "inputs",
+      "message": "ticket 01: Milestone metadata conflicts with plan"
+    }
+  },
+  "cli_observations": [
+    {
+      "command": [
+        "/home/ajkerr1/development/agentic_template/.micromamba/envs/dev/bin/python",
+        "-m",
+        "ticket_harness",
+        "run",
+        "--config",
+        "/tmp/ticket-harness-test-3qy7h84s/project.json",
+        "--output",
+        "/tmp/ticket-harness-test-3qy7h84s/run"
+      ],
+      "exit_code": 1,
+      "stderr": "",
+      "stdout_matches_record": true,
+      "record": {
+        "outcome": "invalid-input",
+        "artifacts": "/tmp/ticket-harness-test-3qy7h84s/run/artifacts",
+        "inputs": {},
+        "ticket": {
+          "state": "Blocked",
+          "attempt": 0
+        },
+        "gates": [],
+        "attempts": [],
+        "failure": {
+          "stage": "inputs",
+          "message": "ticket 01: Milestone metadata conflicts with plan"
+        }
+      }
+    },
+    {
+      "command": [
+        "/home/ajkerr1/development/agentic_template/.micromamba/envs/dev/bin/python",
+        "-m",
+        "ticket_harness",
+        "status",
+        "/tmp/ticket-harness-test-3qy7h84s/run"
+      ],
+      "exit_code": 0,
+      "stderr": "",
+      "stdout_matches_record": true,
+      "record": {
+        "outcome": "invalid-input",
+        "artifacts": "/tmp/ticket-harness-test-3qy7h84s/run/artifacts",
+        "inputs": {},
+        "ticket": {
+          "state": "Blocked",
+          "attempt": 0
+        },
+        "gates": [],
+        "attempts": [],
+        "failure": {
+          "stage": "inputs",
+          "message": "ticket 01: Milestone metadata conflicts with plan"
+        }
+      }
+    }
+  ],
+  "foreground_observations": [],
+  "qa_artifacts": {},
+  "integration": "7fc0f936c46f3f066100d029b7055e7e0e1087a5",
+  "history": "7fc0f936c46f3f066100d029b7055e7e0e1087a5 d036419f30800b6cd0f7e8d4c76c9a3f2f3a08e8 Approved dependency graph\nd036419f30800b6cd0f7e8d4c76c9a3f2f3a08e8  Fixture baseline",
+  "caller_status": "M 01-value.md\n?? plan.json",
+  "launches": [],
+  "assignments": {},
+  "qa_request": null,
+  "milestone_candidate": null,
+  "development": "7fc0f936c46f3f066100d029b7055e7e0e1087a5",
+  "outputs": {}
+}

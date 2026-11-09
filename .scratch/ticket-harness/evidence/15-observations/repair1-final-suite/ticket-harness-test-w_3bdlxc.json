@@ -1,0 +1,88 @@
+{
+  "scenario": "test_invalid_plans_reject_before_processes_or_branch_changes[later-primary-primary ticket]",
+  "record": {
+    "outcome": "invalid-input",
+    "artifacts": "/tmp/ticket-harness-test-w_3bdlxc/run/artifacts",
+    "inputs": {},
+    "ticket": {
+      "state": "Blocked",
+      "attempt": 0
+    },
+    "gates": [],
+    "attempts": [],
+    "failure": {
+      "stage": "inputs",
+      "message": "plan: primary ticket must belong to the first milestone"
+    }
+  },
+  "cli_observations": [
+    {
+      "command": [
+        "/home/ajkerr1/development/agentic_template/.micromamba/envs/dev/bin/python",
+        "-m",
+        "ticket_harness",
+        "run",
+        "--config",
+        "/tmp/ticket-harness-test-w_3bdlxc/project.json",
+        "--output",
+        "/tmp/ticket-harness-test-w_3bdlxc/run"
+      ],
+      "exit_code": 1,
+      "stderr": "",
+      "stdout_matches_record": true,
+      "record": {
+        "outcome": "invalid-input",
+        "artifacts": "/tmp/ticket-harness-test-w_3bdlxc/run/artifacts",
+        "inputs": {},
+        "ticket": {
+          "state": "Blocked",
+          "attempt": 0
+        },
+        "gates": [],
+        "attempts": [],
+        "failure": {
+          "stage": "inputs",
+          "message": "plan: primary ticket must belong to the first milestone"
+        }
+      }
+    },
+    {
+      "command": [
+        "/home/ajkerr1/development/agentic_template/.micromamba/envs/dev/bin/python",
+        "-m",
+        "ticket_harness",
+        "status",
+        "/tmp/ticket-harness-test-w_3bdlxc/run"
+      ],
+      "exit_code": 0,
+      "stderr": "",
+      "stdout_matches_record": true,
+      "record": {
+        "outcome": "invalid-input",
+        "artifacts": "/tmp/ticket-harness-test-w_3bdlxc/run/artifacts",
+        "inputs": {},
+        "ticket": {
+          "state": "Blocked",
+          "attempt": 0
+        },
+        "gates": [],
+        "attempts": [],
+        "failure": {
+          "stage": "inputs",
+          "message": "plan: primary ticket must belong to the first milestone"
+        }
+      }
+    }
+  ],
+  "foreground_observations": [],
+  "qa_artifacts": {},
+  "integration": "613a920d8259e5cabfa8e1bc3d673e72df818de6",
+  "history": "613a920d8259e5cabfa8e1bc3d673e72df818de6 f7ff2f2e9df3c2ca7659ad371294f0d2099e1e10 Approved dependency graph\nf7ff2f2e9df3c2ca7659ad371294f0d2099e1e10  Fixture baseline",
+  "caller_status": "?? plan.json",
+  "launches": [],
+  "assignments": {},
+  "qa_request": null,
+  "milestone_candidate": null,
+  "development": "613a920d8259e5cabfa8e1bc3d673e72df818de6",
+  "outputs": {}
+}

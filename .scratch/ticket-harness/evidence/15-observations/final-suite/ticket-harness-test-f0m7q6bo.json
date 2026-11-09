@@ -1,0 +1,88 @@
+{
+  "scenario": "test_invalid_selection_rejects_before_workers_checks_or_git_changes[selection6-selected Status must be ready-for-agent]",
+  "record": {
+    "outcome": "invalid-input",
+    "artifacts": "/tmp/ticket-harness-test-f0m7q6bo/run/artifacts",
+    "inputs": {},
+    "ticket": {
+      "state": "Blocked",
+      "attempt": 0
+    },
+    "gates": [],
+    "attempts": [],
+    "failure": {
+      "stage": "inputs",
+      "message": "ticket 05: selected Status must be ready-for-agent; found 'ready-for-human'"
+    }
+  },
+  "cli_observations": [
+    {
+      "command": [
+        "/home/ajkerr1/development/agentic_template/.micromamba/envs/dev/bin/python",
+        "-m",
+        "ticket_harness",
+        "run",
+        "--config",
+        "/tmp/ticket-harness-test-f0m7q6bo/project.json",
+        "--output",
+        "/tmp/ticket-harness-test-f0m7q6bo/run"
+      ],
+      "exit_code": 1,
+      "stderr": "",
+      "stdout_matches_record": true,
+      "record": {
+        "outcome": "invalid-input",
+        "artifacts": "/tmp/ticket-harness-test-f0m7q6bo/run/artifacts",
+        "inputs": {},
+        "ticket": {
+          "state": "Blocked",
+          "attempt": 0
+        },
+        "gates": [],
+        "attempts": [],
+        "failure": {
+          "stage": "inputs",
+          "message": "ticket 05: selected Status must be ready-for-agent; found 'ready-for-human'"
+        }
+      }
+    },
+    {
+      "command": [
+        "/home/ajkerr1/development/agentic_template/.micromamba/envs/dev/bin/python",
+        "-m",
+        "ticket_harness",
+        "status",
+        "/tmp/ticket-harness-test-f0m7q6bo/run"
+      ],
+      "exit_code": 0,
+      "stderr": "",
+      "stdout_matches_record": true,
+      "record": {
+        "outcome": "invalid-input",
+        "artifacts": "/tmp/ticket-harness-test-f0m7q6bo/run/artifacts",
+        "inputs": {},
+        "ticket": {
+          "state": "Blocked",
+          "attempt": 0
+        },
+        "gates": [],
+        "attempts": [],
+        "failure": {
+          "stage": "inputs",
+          "message": "ticket 05: selected Status must be ready-for-agent; found 'ready-for-human'"
+        }
+      }
+    }
+  ],
+  "foreground_observations": [],
+  "qa_artifacts": {},
+  "integration": "0fb981849d4efe0b1a593487d51d3556ff45b24e",
+  "history": "0fb981849d4efe0b1a593487d51d3556ff45b24e 45def45fbddbc65f0c992d767af00cb11c30179e Approved dependency graph\n45def45fbddbc65f0c992d767af00cb11c30179e  Fixture baseline",
+  "caller_status": "",
+  "launches": [],
+  "assignments": {},
+  "qa_request": null,
+  "milestone_candidate": null,
+  "development": null,
+  "outputs": {}
+}

@@ -1,0 +1,53 @@
+{
+  "request_id": "7df7d167a4ee41ffa5f3adc766c77e39",
+  "run_id": "3fa839bb0efc48e8a937e588356b518b",
+  "run_directory": "/tmp/ticket-harness-test-m5bwr6fb/run",
+  "plan_version": "v1",
+  "plan_approval": "human-approved fixture bundle v1",
+  "plan_input": {
+    "source": "/tmp/ticket-harness-test-m5bwr6fb/target/plan.json",
+    "artifact": "/tmp/ticket-harness-test-m5bwr6fb/run/inputs/plan.json",
+    "sha256": "3ee4d5b011078e4d0bdf1d42199935f71d1cff1ee07cb5ad15af38a9dbe8d5fc"
+  },
+  "milestone": "M2",
+  "feature_branch": "integration",
+  "feature_revision": "2b1dfdb586c8a7061136b8c2f551d51138c17d32",
+  "development_branch": "dev",
+  "development_revision": "a3c2986c300d554a9d4949e96a2e548008d6a825",
+  "candidate_revision": "18e75dc0fb3431c429813202ca1b74a9153a422a",
+  "candidate_worktree": "/tmp/ticket-harness-test-m5bwr6fb/run/worktrees/milestone-2-milestone-candidate",
+  "human_checks": {
+    "setup": "Inspect all work",
+    "actions": [
+      "Read all delivered work"
+    ],
+    "pass_conditions": [
+      "All required work exists"
+    ]
+  },
+  "regression_evidence": [
+    {
+      "stage": "milestone-regression",
+      "revision": "18e75dc0fb3431c429813202ca1b74a9153a422a",
+      "argv": [
+        "/home/ajkerr1/development/agentic_template/.micromamba/envs/dev/bin/python",
+        "/tmp/ticket-harness-test-m5bwr6fb/graph-check.py"
+      ],
+      "cwd": "/tmp/ticket-harness-test-m5bwr6fb/run/worktrees/milestone-2-milestone-candidate",
+      "stdout": "/tmp/ticket-harness-test-m5bwr6fb/run/artifacts/milestone-2-milestone-regression.stdout",
+      "stderr": "/tmp/ticket-harness-test-m5bwr6fb/run/artifacts/milestone-2-milestone-regression.stderr",
+      "passed": true,
+      "timeout_seconds": 1800,
+      "timed_out": false,
+      "exit_code": 0,
+      "cleanup": {
+        "process_group": 13659,
+        "signal": "SIGKILL",
+        "sent": false
+      },
+      "ticket": null,
+      "attempt": 0,
+      "timeout_category": "candidate"
+    }
+  ]
+}

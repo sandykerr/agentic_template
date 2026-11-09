@@ -1,0 +1,25 @@
+F                                                                        [100%]
+=================================== FAILURES ===================================
+______ test_continued_run_records_invalidation_of_earlier_verified_source ______
+
+graph = <test_dependencies.DependencyFixture testMethod=runTest>
+
+    def test_continued_run_records_invalidation_of_earlier_verified_source(graph):
+        configure_plan(graph)
+        stop_at_qa(graph)
+        with foreground(graph, operation="continue") as process:
+            waiting(graph, process, "M1")
+            (graph.output / "worktrees/baseline/value.txt").write_text("external post-restore edit")
+            assert graph.cli("stop", graph.output).returncode == 0
+            process.wait(timeout=10)
+            assert process.returncode == 1
+        record = graph.record()
+        assert record["outcome"] == "incomplete"
+        baseline = next(gate for gate in record["gates"] if gate["stage"] == "baseline")
+>       assert baseline["passed"] is False
+E       assert True is False
+
+tests/test_continuation.py:90: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_continuation.py::test_continued_run_records_invalidation_of_earlier_verified_source
+1 failed in 4.18s

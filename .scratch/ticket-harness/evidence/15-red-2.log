@@ -1,0 +1,27 @@
+F                                                                        [100%]
+=================================== FAILURES ===================================
+________ test_new_qa_observation_cannot_be_rewritten_before_clean_stop _________
+
+graph = <test_dependencies.DependencyFixture testMethod=runTest>
+
+    def test_new_qa_observation_cannot_be_rewritten_before_clean_stop(graph):
+        from pathlib import Path
+
+        from test_milestones import wait_for
+
+        configure_plan(graph)
+        with foreground(graph) as process:
+            waiting(graph, process, "M1")
+            approve(graph, {"stale": True})
+            observed = wait_for(graph, process, lambda r: r.get("qa_decision_status") == "rejected")
+            Path(observed["qa_observations"][0]["artifact"]).write_text("rewritten observation")
+            graph.cli("stop", graph.output)
+            process.wait(timeout=10)
+>           assert process.returncode == 1
+E           AssertionError: assert 2 == 1
+E            +  where 2 = <Popen: returncode: 2 args: ['/home/ajkerr1/development/agentic_template/.mi...>.returncode
+
+tests/test_continuation.py:59: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_continuation.py::test_new_qa_observation_cannot_be_rewritten_before_clean_stop
+1 failed, 1 deselected in 2.70s

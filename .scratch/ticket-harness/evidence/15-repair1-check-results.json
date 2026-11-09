@@ -1,0 +1,162 @@
+{
+  "baseline": "90255aaf6faf9aedce18f7159093f5dbfde294b7",
+  "implementation": "d11f0bc60a2c11c40683e58581dffa10e36a91be",
+  "all_final_gate_source_hashes_match_committed": true,
+  "checks": {
+    "suite": {
+      "command": [
+        "/home/ajkerr1/development/agentic_template/.micromamba/envs/dev/bin/python",
+        "-m",
+        "pytest",
+        "-q",
+        "--durations=20"
+      ],
+      "exit_code": 0,
+      "seconds": 910.693,
+      "source_identity": "15-repair1-final-suite-source.json",
+      "log": "15-repair1-final-suite.log",
+      "log_sha256": "f31490b4146d70bb9d36e68d2a423738209b74e28e144fee63ec849df2abdcab"
+    },
+    "mypy": {
+      "command": [
+        "/home/ajkerr1/development/agentic_template/.micromamba/envs/dev/bin/python",
+        "-m",
+        "mypy"
+      ],
+      "exit_code": 0,
+      "seconds": 1.017,
+      "source_identity": "15-repair1-final-mypy-source.json",
+      "log": "15-repair1-final-mypy.log",
+      "log_sha256": "46984ca20bf69f7b14ec1fd9bd82101d56a4e109e68f016fd2a04f22481b09b3"
+    },
+    "lint": {
+      "command": [
+        "/home/ajkerr1/development/agentic_template/.micromamba/envs/dev/bin/python",
+        "-m",
+        "ruff",
+        "check",
+        "ticket_harness",
+        "tests",
+        "examples"
+      ],
+      "exit_code": 0,
+      "seconds": 0.072,
+      "source_identity": "15-repair1-final-lint-source.json",
+      "log": "15-repair1-final-lint.log",
+      "log_sha256": "82b3e6a6c090a57601d22943bd23fca9218d1031dbe5a7b754092f9a156b4f18"
+    },
+    "format": {
+      "command": [
+        "/home/ajkerr1/development/agentic_template/.micromamba/envs/dev/bin/python",
+        "-m",
+        "ruff",
+        "format",
+        "--check",
+        "ticket_harness",
+        "tests",
+        "examples"
+      ],
+      "exit_code": 0,
+      "seconds": 0.072,
+      "source_identity": "15-repair1-final-format-source.json",
+      "log": "15-repair1-final-format.log",
+      "log_sha256": "37c44e3c541f952bfef4bd8a6bef640b548ef20e76674da09517c0dfcb0e512e"
+    },
+    "whitespace": {
+      "command": [
+        "git",
+        "diff",
+        "--check",
+        "--",
+        "ticket_harness/runner.py",
+        "tests/test_continuation.py"
+      ],
+      "exit_code": 0,
+      "seconds": 0.012,
+      "source_identity": "15-repair1-final-whitespace-source.json",
+      "log": "15-repair1-final-whitespace.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "actual-staged-whitespace": {
+      "command": [
+        "git",
+        "diff",
+        "--cached",
+        "--check"
+      ],
+      "exit_code": 0,
+      "seconds": 0.004,
+      "source_identity": "15-repair1-final-actual-staged-whitespace-source.json",
+      "log": "15-repair1-final-actual-staged-whitespace.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "committed-whitespace": {
+      "command": [
+        "git",
+        "diff",
+        "--check",
+        "90255aaf6faf9aedce18f7159093f5dbfde294b7",
+        "HEAD"
+      ],
+      "exit_code": 0,
+      "seconds": 0.005,
+      "source_identity": "15-repair1-final-committed-whitespace-source.json",
+      "log": "15-repair1-final-committed-whitespace.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "wheel": {
+      "command": [
+        "env",
+        "PIP_NO_INDEX=1",
+        "PIP_FIND_LINKS=/tmp/ticket15-build-deps",
+        "/home/ajkerr1/development/agentic_template/.micromamba/envs/dev/bin/python",
+        "-m",
+        "pip",
+        "--cache-dir",
+        "/tmp/ticket15-repair1-pip-cache",
+        "wheel",
+        "--no-deps",
+        "--wheel-dir",
+        "/tmp/ticket15-repair1-wheel",
+        "."
+      ],
+      "exit_code": 0,
+      "seconds": 3.698,
+      "source_identity": "15-repair1-final-wheel-source.json",
+      "log": "15-repair1-final-wheel.log",
+      "log_sha256": "f5b78b014212286877ac5269a6b98a9b9db04e37915fa27dd36c3fcf7f5047bb"
+    },
+    "install": {
+      "command": [
+        "/home/ajkerr1/development/agentic_template/.micromamba/envs/dev/bin/python",
+        "-m",
+        "pip",
+        "--cache-dir",
+        "/tmp/ticket15-repair1-pip-cache",
+        "install",
+        "--no-index",
+        "--no-deps",
+        "--target",
+        "/tmp/ticket15-repair1-installed",
+        "/tmp/ticket15-repair1-wheel/ticket_harness-0.1.0-py3-none-any.whl"
+      ],
+      "exit_code": 0,
+      "seconds": 1.262,
+      "source_identity": "15-repair1-final-install-source.json",
+      "log": "15-repair1-final-install.log",
+      "log_sha256": "829067449efc6989e3f16f73834583b19a8bd942b4eba1c2c043173a576f9f5b"
+    },
+    "installed": {
+      "command": [
+        "/home/ajkerr1/development/agentic_template/.micromamba/envs/dev/bin/python",
+        ".scratch/ticket-harness/evidence/15-repair1-installed-scenario.py"
+      ],
+      "exit_code": 0,
+      "seconds": 18.102,
+      "source_identity": "15-repair1-final-installed-source.json",
+      "log": "15-repair1-final-installed.log",
+      "log_sha256": "f511ebb39a4338c05a7543c8331859a6ab25bbccf7af41fe4561c8f84db2540c"
+    }
+  },
+  "historical_note": "Initial 15-final-* and root audits remain initial-implementation history; only repair1-final captures verify this repair."
+}

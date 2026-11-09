@@ -1,0 +1,1385 @@
+{
+  "version": 1,
+  "run_directory": "/tmp/ticket-harness-test-l1cyhrlg/run",
+  "config": {
+    "repository": "/tmp/ticket-harness-test-l1cyhrlg/target",
+    "base": "main",
+    "integration": "integration",
+    "spec": "spec.md",
+    "ticket": "01-value.md",
+    "standards": [
+      "STANDARDS.md"
+    ],
+    "agent": [
+      "/home/ajkerr1/development/agentic_template/.micromamba/envs/dev/bin/python",
+      "/tmp/ticket-harness-test-l1cyhrlg/graph-agent.py"
+    ],
+    "suite": [
+      "/home/ajkerr1/development/agentic_template/.micromamba/envs/dev/bin/python",
+      "/tmp/ticket-harness-test-l1cyhrlg/graph-check.py"
+    ],
+    "checks": {
+      "ticket": [
+        "/home/ajkerr1/development/agentic_template/.micromamba/envs/dev/bin/python",
+        "/tmp/ticket-harness-test-l1cyhrlg/graph-check.py"
+      ],
+      "other": [
+        "/home/ajkerr1/development/agentic_template/.micromamba/envs/dev/bin/python",
+        "/tmp/ticket-harness-test-l1cyhrlg/graph-check.py"
+      ]
+    },
+    "max_repairs": 0,
+    "tickets": [
+      "04-work.md",
+      "02-work.md",
+      "03-work.md",
+      "01-value.md",
+      "05-context.md",
+      "07-context.md"
+    ],
+    "plan": {
+      "version": "v1",
+      "approval": "human-approved fixture bundle v1",
+      "development": "dev",
+      "required_tickets": [
+        "01",
+        "02",
+        "03",
+        "04"
+      ],
+      "milestones": [
+        {
+          "id": "M1",
+          "tickets": [
+            "03",
+            "01"
+          ],
+          "qa": {
+            "setup": "Inspect disposable feature",
+            "actions": [
+              "Read delivered work"
+            ],
+            "pass_conditions": [
+              "Work 01 and 03 exist"
+            ]
+          }
+        },
+        {
+          "id": "M2",
+          "tickets": [
+            "04",
+            "02"
+          ],
+          "qa": {
+            "setup": "Inspect all work",
+            "actions": [
+              "Read all delivered work"
+            ],
+            "pass_conditions": [
+              "All required work exists"
+            ]
+          }
+        }
+      ],
+      "final_milestone": "M2",
+      "final_coverage": [
+        "01",
+        "02",
+        "03",
+        "04"
+      ],
+      "roles": {
+        "worker": {
+          "model": "scripted-fixture",
+          "reasoning": "Medium"
+        },
+        "spec": {
+          "model": "scripted-spec",
+          "reasoning": "High"
+        },
+        "standards": {
+          "model": "scripted-standards",
+          "reasoning": "High"
+        }
+      },
+      "worker_overrides": {
+        "03": {
+          "reasoning": "High",
+          "reason": "Fixture override"
+        }
+      }
+    },
+    "timeouts": {
+      "implementation": 1800,
+      "repair": 1800,
+      "spec": 900,
+      "standards": 900,
+      "checks": 300,
+      "baseline": 1800,
+      "candidate": 1800
+    },
+    "requirements": {
+      "01": {
+        "id": "01",
+        "title": "Work 01",
+        "readiness": "ready-for-agent",
+        "dependencies": [],
+        "acceptance": [
+          "Deliver work 01."
+        ],
+        "checks": [
+          "ticket"
+        ],
+        "source": "/tmp/ticket-harness-test-l1cyhrlg/target/01-value.md"
+      },
+      "04": {
+        "id": "04",
+        "title": "Work 04",
+        "readiness": "ready-for-agent",
+        "dependencies": [
+          "01"
+        ],
+        "acceptance": [
+          "Deliver work 04."
+        ],
+        "checks": [
+          "ticket"
+        ],
+        "source": "/tmp/ticket-harness-test-l1cyhrlg/target/04-work.md"
+      },
+      "02": {
+        "id": "02",
+        "title": "Work 02",
+        "readiness": "ready-for-agent",
+        "dependencies": [
+          "03",
+          "04"
+        ],
+        "acceptance": [
+          "Deliver work 02."
+        ],
+        "checks": [
+          "ticket"
+        ],
+        "source": "/tmp/ticket-harness-test-l1cyhrlg/target/02-work.md"
+      },
+      "03": {
+        "id": "03",
+        "title": "Work 03",
+        "readiness": "ready-for-agent",
+        "dependencies": [],
+        "acceptance": [
+          "Deliver work 03."
+        ],
+        "checks": [
+          "other"
+        ],
+        "source": "/tmp/ticket-harness-test-l1cyhrlg/target/03-work.md"
+      },
+      "05": {
+        "id": "05",
+        "title": "Human context",
+        "readiness": "ready-for-human",
+        "dependencies": [],
+        "acceptance": [
+          "Human work."
+        ],
+        "checks": [
+          "ticket",
+          "other"
+        ],
+        "source": "/tmp/ticket-harness-test-l1cyhrlg/target/05-context.md"
+      },
+      "07": {
+        "id": "07",
+        "title": "Agent context",
+        "readiness": "ready-for-agent",
+        "dependencies": [
+          "05"
+        ],
+        "acceptance": [
+          "Context work."
+        ],
+        "checks": [
+          "ticket",
+          "other"
+        ],
+        "source": "/tmp/ticket-harness-test-l1cyhrlg/target/07-context.md"
+      }
+    },
+    "worker_settings": {
+      "01": {
+        "model": "scripted-fixture",
+        "reasoning": "Medium"
+      },
+      "02": {
+        "model": "scripted-fixture",
+        "reasoning": "Medium"
+      },
+      "03": {
+        "model": "scripted-fixture",
+        "reasoning": "High"
+      },
+      "04": {
+        "model": "scripted-fixture",
+        "reasoning": "Medium"
+      }
+    },
+    "selected_tickets": [
+      "01",
+      "03"
+    ],
+    "completed_tickets": []
+  },
+  "record": {
+    "outcome": "stopped_at_qa",
+    "artifacts": "/tmp/ticket-harness-test-l1cyhrlg/run/artifacts",
+    "inputs": {
+      "configuration": {
+        "source": "/tmp/ticket-harness-test-l1cyhrlg/project.json",
+        "artifact": "/tmp/ticket-harness-test-l1cyhrlg/run/inputs/configuration.json",
+        "sha256": "03d30aea6f2e1336c1fbe7d22a1cd83a63648984f35d8ba1625c2c725d3a1e64"
+      },
+      "spec": {
+        "source": "/tmp/ticket-harness-test-l1cyhrlg/target/spec.md",
+        "artifact": "/tmp/ticket-harness-test-l1cyhrlg/run/inputs/spec.md",
+        "sha256": "70fc083432bac5b804dc291e318b27ed5ed439bc44fb6d81f98e39b808c3c363"
+      },
+      "ticket": {
+        "source": "/tmp/ticket-harness-test-l1cyhrlg/target/01-value.md",
+        "artifact": "/tmp/ticket-harness-test-l1cyhrlg/run/inputs/ticket.md",
+        "sha256": "c3d58a4513f77911e3c7a915b9d9515fa758f59ff6a4b174233fd7da61b15154"
+      },
+      "plan": {
+        "source": "/tmp/ticket-harness-test-l1cyhrlg/target/plan.json",
+        "artifact": "/tmp/ticket-harness-test-l1cyhrlg/run/inputs/plan.json",
+        "sha256": "3ee4d5b011078e4d0bdf1d42199935f71d1cff1ee07cb5ad15af38a9dbe8d5fc"
+      },
+      "ticket-0": {
+        "source": "/tmp/ticket-harness-test-l1cyhrlg/target/04-work.md",
+        "artifact": "/tmp/ticket-harness-test-l1cyhrlg/run/inputs/ticket-0.md",
+        "sha256": "38e7b671f24b8549595abeef5ce15d5baa030cfaa6b96d623bb6399be9904ddc"
+      },
+      "ticket-1": {
+        "source": "/tmp/ticket-harness-test-l1cyhrlg/target/02-work.md",
+        "artifact": "/tmp/ticket-harness-test-l1cyhrlg/run/inputs/ticket-1.md",
+        "sha256": "308c3c67fa603e2ee190877d9487a58413de51f1b8fc239f728450099e053c4f"
+      },
+      "ticket-2": {
+        "source": "/tmp/ticket-harness-test-l1cyhrlg/target/03-work.md",
+        "artifact": "/tmp/ticket-harness-test-l1cyhrlg/run/inputs/ticket-2.md",
+        "sha256": "3d338f0f67ac51bbb3a3c204a71570ed79ba2cb269582a45cd1d577d5d42c4e7"
+      },
+      "ticket-4": {
+        "source": "/tmp/ticket-harness-test-l1cyhrlg/target/05-context.md",
+        "artifact": "/tmp/ticket-harness-test-l1cyhrlg/run/inputs/ticket-4.md",
+        "sha256": "6f7b730a1ae19cc725876492213fd51fd150b14244b9b01a444d2e5be9607e48"
+      },
+      "ticket-5": {
+        "source": "/tmp/ticket-harness-test-l1cyhrlg/target/07-context.md",
+        "artifact": "/tmp/ticket-harness-test-l1cyhrlg/run/inputs/ticket-5.md",
+        "sha256": "17976a1b7794ab7ea71f3ea60048617568820e11b87d96c8561829766ebd805d"
+      },
+      "standards-0": {
+        "source": "/tmp/ticket-harness-test-l1cyhrlg/target/STANDARDS.md",
+        "artifact": "/tmp/ticket-harness-test-l1cyhrlg/run/inputs/standards-0.md",
+        "sha256": "8a5efa5017f12574ff43bab7d9a487d9216a65b74d2e4709ec0dba7d141682d2"
+      }
+    },
+    "ticket": {
+      "id": "01",
+      "state": "Done",
+      "attempt": 1,
+      "ticket": "01",
+      "starting_revision": "b22d3bea8f7a42ca397cf62d2408c80bea6b46d1",
+      "gate_start": 6,
+      "source": "/tmp/ticket-harness-test-l1cyhrlg/run/worktrees/ticket-01-implementation",
+      "submitted_revision": "48d8730e452ce7fc396f2de8a9162f7bcd0903c6",
+      "changed_files": [
+        "last-ticket",
+        "work-01"
+      ],
+      "candidate_revision": "37a9cca5df53e2f33ea4b6f30db8c7dd238556d2",
+      "done_revision": "37a9cca5df53e2f33ea4b6f30db8c7dd238556d2"
+    },
+    "gates": [
+      {
+        "stage": "baseline",
+        "revision": "ab6bcdcb7fd193cdf15db4ee5dce8cc9afcacfc4",
+        "argv": [
+          "/home/ajkerr1/development/agentic_template/.micromamba/envs/dev/bin/python",
+          "/tmp/ticket-harness-test-l1cyhrlg/graph-check.py"
+        ],
+        "cwd": "/tmp/ticket-harness-test-l1cyhrlg/run/worktrees/baseline",
+        "stdout": "/tmp/ticket-harness-test-l1cyhrlg/run/artifacts/baseline.stdout",
+        "stderr": "/tmp/ticket-harness-test-l1cyhrlg/run/artifacts/baseline.stderr",
+        "passed": true,
+        "timeout_seconds": 1800,
+        "timed_out": false,
+        "exit_code": 0,
+        "cleanup": {
+          "process_group": 12723,
+          "signal": "SIGKILL",
+          "sent": false
+        },
+        "ticket": null,
+        "attempt": 0,
+        "timeout_category": "baseline"
+      },
+      {
+        "stage": "implementation",
+        "revision": "ab6bcdcb7fd193cdf15db4ee5dce8cc9afcacfc4",
+        "argv": [
+          "/home/ajkerr1/development/agentic_template/.micromamba/envs/dev/bin/python",
+          "/tmp/ticket-harness-test-l1cyhrlg/graph-agent.py"
+        ],
+        "cwd": "/tmp/ticket-harness-test-l1cyhrlg/run/worktrees/ticket-03-implementation",
+        "stdout": "/tmp/ticket-harness-test-l1cyhrlg/run/artifacts/ticket-03-implementation.stdout",
+        "stderr": "/tmp/ticket-harness-test-l1cyhrlg/run/artifacts/ticket-03-implementation.stderr",
+        "passed": true,
+        "timeout_seconds": 1800,
+        "timed_out": false,
+        "assignment": "/tmp/ticket-harness-test-l1cyhrlg/run/artifacts/ticket-03-implementation.assignment.json",
+        "exit_code": 0,
+        "cleanup": {
+          "process_group": 12736,
+          "signal": "SIGKILL",
+          "sent": false
+        },
+        "ticket": "03",
+        "attempt": 1,
+        "timeout_category": "implementation",
+        "report": {
+          "role": "implementation",
+          "ticket": "03",
+          "attempt": 1,
+          "base_revision": "ab6bcdcb7fd193cdf15db4ee5dce8cc9afcacfc4",
+          "revision": "ab6bcdcb7fd193cdf15db4ee5dce8cc9afcacfc4",
+          "pid": 12736,
+          "result": "submitted",
+          "summary": "Delivered ticket",
+          "changed_files": [],
+          "checks": [],
+          "acceptance_evidence": [
+            "Delivered cumulative work"
+          ],
+          "unresolved_questions": []
+        },
+        "report_status": "valid"
+      },
+      {
+        "stage": "check-other",
+        "revision": "4dee0e2c21b96b8009a5cc1e25e90401f867b4f5",
+        "argv": [
+          "/home/ajkerr1/development/agentic_template/.micromamba/envs/dev/bin/python",
+          "/tmp/ticket-harness-test-l1cyhrlg/graph-check.py"
+        ],
+        "cwd": "/tmp/ticket-harness-test-l1cyhrlg/run/worktrees/ticket-03-implementation",
+        "stdout": "/tmp/ticket-harness-test-l1cyhrlg/run/artifacts/ticket-03-check-other.stdout",
+        "stderr": "/tmp/ticket-harness-test-l1cyhrlg/run/artifacts/ticket-03-check-other.stderr",
+        "passed": true,
+        "timeout_seconds": 300,
+        "timed_out": false,
+        "exit_code": 0,
+        "cleanup": {
+          "process_group": 12753,
+          "signal": "SIGKILL",
+          "sent": false
+        },
+        "ticket": "03",
+        "attempt": 1,
+        "timeout_category": "checks"
+      },
+      {
+        "stage": "spec",
+        "revision": "4dee0e2c21b96b8009a5cc1e25e90401f867b4f5",
+        "argv": [
+          "/home/ajkerr1/development/agentic_template/.micromamba/envs/dev/bin/python",
+          "/tmp/ticket-harness-test-l1cyhrlg/graph-agent.py"
+        ],
+        "cwd": "/tmp/ticket-harness-test-l1cyhrlg/run/worktrees/ticket-03-spec",
+        "stdout": "/tmp/ticket-harness-test-l1cyhrlg/run/artifacts/ticket-03-spec.stdout",
+        "stderr": "/tmp/ticket-harness-test-l1cyhrlg/run/artifacts/ticket-03-spec.stderr",
+        "passed": true,
+        "timeout_seconds": 900,
+        "timed_out": false,
+        "assignment": "/tmp/ticket-harness-test-l1cyhrlg/run/artifacts/ticket-03-spec.assignment.json",
+        "exit_code": 0,
+        "cleanup": {
+          "process_group": 12772,
+          "signal": "SIGKILL",
+          "sent": false
+        },
+        "ticket": "03",
+        "attempt": 1,
+        "timeout_category": "spec",
+        "report": {
+          "role": "spec",
+          "ticket": "03",
+          "attempt": 1,
+          "base_revision": "ab6bcdcb7fd193cdf15db4ee5dce8cc9afcacfc4",
+          "revision": "4dee0e2c21b96b8009a5cc1e25e90401f867b4f5",
+          "pid": 12772,
+          "findings": []
+        },
+        "report_status": "valid"
+      },
+      {
+        "stage": "standards",
+        "revision": "4dee0e2c21b96b8009a5cc1e25e90401f867b4f5",
+        "argv": [
+          "/home/ajkerr1/development/agentic_template/.micromamba/envs/dev/bin/python",
+          "/tmp/ticket-harness-test-l1cyhrlg/graph-agent.py"
+        ],
+        "cwd": "/tmp/ticket-harness-test-l1cyhrlg/run/worktrees/ticket-03-standards",
+        "stdout": "/tmp/ticket-harness-test-l1cyhrlg/run/artifacts/ticket-03-standards.stdout",
+        "stderr": "/tmp/ticket-harness-test-l1cyhrlg/run/artifacts/ticket-03-standards.stderr",
+        "passed": true,
+        "timeout_seconds": 900,
+        "timed_out": false,
+        "assignment": "/tmp/ticket-harness-test-l1cyhrlg/run/artifacts/ticket-03-standards.assignment.json",
+        "exit_code": 0,
+        "cleanup": {
+          "process_group": 12798,
+          "signal": "SIGKILL",
+          "sent": false
+        },
+        "ticket": "03",
+        "attempt": 1,
+        "timeout_category": "standards",
+        "report": {
+          "role": "standards",
+          "ticket": "03",
+          "attempt": 1,
+          "base_revision": "ab6bcdcb7fd193cdf15db4ee5dce8cc9afcacfc4",
+          "revision": "4dee0e2c21b96b8009a5cc1e25e90401f867b4f5",
+          "pid": 12798,
+          "findings": []
+        },
+        "report_status": "valid"
+      },
+      {
+        "stage": "candidate",
+        "revision": "b22d3bea8f7a42ca397cf62d2408c80bea6b46d1",
+        "argv": [
+          "/home/ajkerr1/development/agentic_template/.micromamba/envs/dev/bin/python",
+          "/tmp/ticket-harness-test-l1cyhrlg/graph-check.py"
+        ],
+        "cwd": "/tmp/ticket-harness-test-l1cyhrlg/run/worktrees/ticket-03-candidate",
+        "stdout": "/tmp/ticket-harness-test-l1cyhrlg/run/artifacts/ticket-03-candidate.stdout",
+        "stderr": "/tmp/ticket-harness-test-l1cyhrlg/run/artifacts/ticket-03-candidate.stderr",
+        "passed": true,
+        "timeout_seconds": 1800,
+        "timed_out": false,
+        "exit_code": 0,
+        "cleanup": {
+          "process_group": 12841,
+          "signal": "SIGKILL",
+          "sent": false
+        },
+        "ticket": "03",
+        "attempt": 1,
+        "timeout_category": "candidate"
+      },
+      {
+        "stage": "implementation",
+        "revision": "b22d3bea8f7a42ca397cf62d2408c80bea6b46d1",
+        "argv": [
+          "/home/ajkerr1/development/agentic_template/.micromamba/envs/dev/bin/python",
+          "/tmp/ticket-harness-test-l1cyhrlg/graph-agent.py"
+        ],
+        "cwd": "/tmp/ticket-harness-test-l1cyhrlg/run/worktrees/ticket-01-implementation",
+        "stdout": "/tmp/ticket-harness-test-l1cyhrlg/run/artifacts/ticket-01-implementation.stdout",
+        "stderr": "/tmp/ticket-harness-test-l1cyhrlg/run/artifacts/ticket-01-implementation.stderr",
+        "passed": true,
+        "timeout_seconds": 1800,
+        "timed_out": false,
+        "assignment": "/tmp/ticket-harness-test-l1cyhrlg/run/artifacts/ticket-01-implementation.assignment.json",
+        "exit_code": 0,
+        "cleanup": {
+          "process_group": 12894,
+          "signal": "SIGKILL",
+          "sent": false
+        },
+        "ticket": "01",
+        "attempt": 1,
+        "timeout_category": "implementation",
+        "report": {
+          "role": "implementation",
+          "ticket": "01",
+          "attempt": 1,
+          "base_revision": "b22d3bea8f7a42ca397cf62d2408c80bea6b46d1",
+          "revision": "b22d3bea8f7a42ca397cf62d2408c80bea6b46d1",
+          "pid": 12894,
+          "result": "submitted",
+          "summary": "Delivered ticket",
+          "changed_files": [],
+          "checks": [],
+          "acceptance_evidence": [
+            "Delivered cumulative work"
+          ],
+          "unresolved_questions": []
+        },
+        "report_status": "valid"
+      },
+      {
+        "stage": "check-ticket",
+        "revision": "48d8730e452ce7fc396f2de8a9162f7bcd0903c6",
+        "argv": [
+          "/home/ajkerr1/development/agentic_template/.micromamba/envs/dev/bin/python",
+          "/tmp/ticket-harness-test-l1cyhrlg/graph-check.py"
+        ],
+        "cwd": "/tmp/ticket-harness-test-l1cyhrlg/run/worktrees/ticket-01-implementation",
+        "stdout": "/tmp/ticket-harness-test-l1cyhrlg/run/artifacts/ticket-01-check-ticket.stdout",
+        "stderr": "/tmp/ticket-harness-test-l1cyhrlg/run/artifacts/ticket-01-check-ticket.stderr",
+        "passed": true,
+        "timeout_seconds": 300,
+        "timed_out": false,
+        "exit_code": 0,
+        "cleanup": {
+          "process_group": 12935,
+          "signal": "SIGKILL",
+          "sent": false
+        },
+        "ticket": "01",
+        "attempt": 1,
+        "timeout_category": "checks"
+      },
+      {
+        "stage": "spec",
+        "revision": "48d8730e452ce7fc396f2de8a9162f7bcd0903c6",
+        "argv": [
+          "/home/ajkerr1/development/agentic_template/.micromamba/envs/dev/bin/python",
+          "/tmp/ticket-harness-test-l1cyhrlg/graph-agent.py"
+        ],
+        "cwd": "/tmp/ticket-harness-test-l1cyhrlg/run/worktrees/ticket-01-spec",
+        "stdout": "/tmp/ticket-harness-test-l1cyhrlg/run/artifacts/ticket-01-spec.stdout",
+        "stderr": "/tmp/ticket-harness-test-l1cyhrlg/run/artifacts/ticket-01-spec.stderr",
+        "passed": true,
+        "timeout_seconds": 900,
+        "timed_out": false,
+        "assignment": "/tmp/ticket-harness-test-l1cyhrlg/run/artifacts/ticket-01-spec.assignment.json",
+        "exit_code": 0,
+        "cleanup": {
+          "process_group": 12978,
+          "signal": "SIGKILL",
+          "sent": false
+        },
+        "ticket": "01",
+        "attempt": 1,
+        "timeout_category": "spec",
+        "report": {
+          "role": "spec",
+          "ticket": "01",
+          "attempt": 1,
+          "base_revision": "b22d3bea8f7a42ca397cf62d2408c80bea6b46d1",
+          "revision": "48d8730e452ce7fc396f2de8a9162f7bcd0903c6",
+          "pid": 12978,
+          "findings": []
+        },
+        "report_status": "valid"
+      },
+      {
+        "stage": "standards",
+        "revision": "48d8730e452ce7fc396f2de8a9162f7bcd0903c6",
+        "argv": [
+          "/home/ajkerr1/development/agentic_template/.micromamba/envs/dev/bin/python",
+          "/tmp/ticket-harness-test-l1cyhrlg/graph-agent.py"
+        ],
+        "cwd": "/tmp/ticket-harness-test-l1cyhrlg/run/worktrees/ticket-01-standards",
+        "stdout": "/tmp/ticket-harness-test-l1cyhrlg/run/artifacts/ticket-01-standards.stdout",
+        "stderr": "/tmp/ticket-harness-test-l1cyhrlg/run/artifacts/ticket-01-standards.stderr",
+        "passed": true,
+        "timeout_seconds": 900,
+        "timed_out": false,
+        "assignment": "/tmp/ticket-harness-test-l1cyhrlg/run/artifacts/ticket-01-standards.assignment.json",
+        "exit_code": 0,
+        "cleanup": {
+          "process_group": 13028,
+          "signal": "SIGKILL",
+          "sent": false
+        },
+        "ticket": "01",
+        "attempt": 1,
+        "timeout_category": "standards",
+        "report": {
+          "role": "standards",
+          "ticket": "01",
+          "attempt": 1,
+          "base_revision": "b22d3bea8f7a42ca397cf62d2408c80bea6b46d1",
+          "revision": "48d8730e452ce7fc396f2de8a9162f7bcd0903c6",
+          "pid": 13028,
+          "findings": []
+        },
+        "report_status": "valid"
+      },
+      {
+        "stage": "candidate",
+        "revision": "37a9cca5df53e2f33ea4b6f30db8c7dd238556d2",
+        "argv": [
+          "/home/ajkerr1/development/agentic_template/.micromamba/envs/dev/bin/python",
+          "/tmp/ticket-harness-test-l1cyhrlg/graph-check.py"
+        ],
+        "cwd": "/tmp/ticket-harness-test-l1cyhrlg/run/worktrees/ticket-01-candidate",
+        "stdout": "/tmp/ticket-harness-test-l1cyhrlg/run/artifacts/ticket-01-candidate.stdout",
+        "stderr": "/tmp/ticket-harness-test-l1cyhrlg/run/artifacts/ticket-01-candidate.stderr",
+        "passed": true,
+        "timeout_seconds": 1800,
+        "timed_out": false,
+        "exit_code": 0,
+        "cleanup": {
+          "process_group": 13095,
+          "signal": "SIGKILL",
+          "sent": false
+        },
+        "ticket": "01",
+        "attempt": 1,
+        "timeout_category": "candidate"
+      },
+      {
+        "stage": "milestone-regression",
+        "revision": "1713cc75b4c906d7843b44e688bde13a467b2190",
+        "argv": [
+          "/home/ajkerr1/development/agentic_template/.micromamba/envs/dev/bin/python",
+          "/tmp/ticket-harness-test-l1cyhrlg/graph-check.py"
+        ],
+        "cwd": "/tmp/ticket-harness-test-l1cyhrlg/run/worktrees/milestone-candidate",
+        "stdout": "/tmp/ticket-harness-test-l1cyhrlg/run/artifacts/milestone-regression.stdout",
+        "stderr": "/tmp/ticket-harness-test-l1cyhrlg/run/artifacts/milestone-regression.stderr",
+        "passed": true,
+        "timeout_seconds": 1800,
+        "timed_out": false,
+        "exit_code": 0,
+        "cleanup": {
+          "process_group": 13200,
+          "signal": "SIGKILL",
+          "sent": false
+        },
+        "ticket": null,
+        "attempt": 0,
+        "timeout_category": "candidate"
+      }
+    ],
+    "attempts": [
+      {
+        "ticket": "03",
+        "attempt": 1,
+        "state": "Done",
+        "starting_revision": "ab6bcdcb7fd193cdf15db4ee5dce8cc9afcacfc4",
+        "gate_start": 1,
+        "source": "/tmp/ticket-harness-test-l1cyhrlg/run/worktrees/ticket-03-implementation",
+        "submitted_revision": "4dee0e2c21b96b8009a5cc1e25e90401f867b4f5",
+        "changed_files": [
+          "last-ticket",
+          "work-03"
+        ],
+        "candidate_revision": "b22d3bea8f7a42ca397cf62d2408c80bea6b46d1",
+        "done_revision": "b22d3bea8f7a42ca397cf62d2408c80bea6b46d1",
+        "gate_end": 6
+      },
+      {
+        "ticket": "01",
+        "attempt": 1,
+        "state": "Done",
+        "starting_revision": "b22d3bea8f7a42ca397cf62d2408c80bea6b46d1",
+        "gate_start": 6,
+        "source": "/tmp/ticket-harness-test-l1cyhrlg/run/worktrees/ticket-01-implementation",
+        "submitted_revision": "48d8730e452ce7fc396f2de8a9162f7bcd0903c6",
+        "changed_files": [
+          "last-ticket",
+          "work-01"
+        ],
+        "candidate_revision": "37a9cca5df53e2f33ea4b6f30db8c7dd238556d2",
+        "done_revision": "37a9cca5df53e2f33ea4b6f30db8c7dd238556d2",
+        "gate_end": 11
+      }
+    ],
+    "requirements": {
+      "01": {
+        "id": "01",
+        "title": "Work 01",
+        "readiness": "ready-for-agent",
+        "dependencies": [],
+        "acceptance": [
+          "Deliver work 01."
+        ],
+        "checks": [
+          "ticket"
+        ],
+        "source": "/tmp/ticket-harness-test-l1cyhrlg/target/01-value.md"
+      },
+      "04": {
+        "id": "04",
+        "title": "Work 04",
+        "readiness": "ready-for-agent",
+        "dependencies": [
+          "01"
+        ],
+        "acceptance": [
+          "Deliver work 04."
+        ],
+        "checks": [
+          "ticket"
+        ],
+        "source": "/tmp/ticket-harness-test-l1cyhrlg/target/04-work.md"
+      },
+      "02": {
+        "id": "02",
+        "title": "Work 02",
+        "readiness": "ready-for-agent",
+        "dependencies": [
+          "03",
+          "04"
+        ],
+        "acceptance": [
+          "Deliver work 02."
+        ],
+        "checks": [
+          "ticket"
+        ],
+        "source": "/tmp/ticket-harness-test-l1cyhrlg/target/02-work.md"
+      },
+      "03": {
+        "id": "03",
+        "title": "Work 03",
+        "readiness": "ready-for-agent",
+        "dependencies": [],
+        "acceptance": [
+          "Deliver work 03."
+        ],
+        "checks": [
+          "other"
+        ],
+        "source": "/tmp/ticket-harness-test-l1cyhrlg/target/03-work.md"
+      },
+      "05": {
+        "id": "05",
+        "title": "Human context",
+        "readiness": "ready-for-human",
+        "dependencies": [],
+        "acceptance": [
+          "Human work."
+        ],
+        "checks": [
+          "ticket",
+          "other"
+        ],
+        "source": "/tmp/ticket-harness-test-l1cyhrlg/target/05-context.md"
+      },
+      "07": {
+        "id": "07",
+        "title": "Agent context",
+        "readiness": "ready-for-agent",
+        "dependencies": [
+          "05"
+        ],
+        "acceptance": [
+          "Context work."
+        ],
+        "checks": [
+          "ticket",
+          "other"
+        ],
+        "source": "/tmp/ticket-harness-test-l1cyhrlg/target/07-context.md"
+      }
+    },
+    "max_repairs": 0,
+    "timeouts": {
+      "implementation": 1800,
+      "repair": 1800,
+      "spec": 900,
+      "standards": 900,
+      "checks": 300,
+      "baseline": 1800,
+      "candidate": 1800
+    },
+    "selected_tickets": [
+      "01",
+      "03"
+    ],
+    "run_id": "cc745be7ab7a48f1b38c17717b9140d6",
+    "plan": {
+      "version": "v1",
+      "approval": "human-approved fixture bundle v1",
+      "development": "dev",
+      "required_tickets": [
+        "01",
+        "02",
+        "03",
+        "04"
+      ],
+      "milestones": [
+        {
+          "id": "M1",
+          "tickets": [
+            "03",
+            "01"
+          ],
+          "qa": {
+            "setup": "Inspect disposable feature",
+            "actions": [
+              "Read delivered work"
+            ],
+            "pass_conditions": [
+              "Work 01 and 03 exist"
+            ]
+          }
+        },
+        {
+          "id": "M2",
+          "tickets": [
+            "04",
+            "02"
+          ],
+          "qa": {
+            "setup": "Inspect all work",
+            "actions": [
+              "Read all delivered work"
+            ],
+            "pass_conditions": [
+              "All required work exists"
+            ]
+          }
+        }
+      ],
+      "final_milestone": "M2",
+      "final_coverage": [
+        "01",
+        "02",
+        "03",
+        "04"
+      ],
+      "roles": {
+        "worker": {
+          "model": "scripted-fixture",
+          "reasoning": "Medium"
+        },
+        "spec": {
+          "model": "scripted-spec",
+          "reasoning": "High"
+        },
+        "standards": {
+          "model": "scripted-standards",
+          "reasoning": "High"
+        }
+      },
+      "worker_overrides": {
+        "03": {
+          "reasoning": "High",
+          "reason": "Fixture override"
+        }
+      }
+    },
+    "worker_settings": {
+      "01": {
+        "model": "scripted-fixture",
+        "reasoning": "Medium"
+      },
+      "02": {
+        "model": "scripted-fixture",
+        "reasoning": "Medium"
+      },
+      "03": {
+        "model": "scripted-fixture",
+        "reasoning": "High"
+      },
+      "04": {
+        "model": "scripted-fixture",
+        "reasoning": "Medium"
+      }
+    },
+    "feature_complete": false,
+    "milestone": {
+      "id": "M1",
+      "state": "awaiting_human_qa",
+      "feature_revision": "37a9cca5df53e2f33ea4b6f30db8c7dd238556d2",
+      "development_revision": "ab6bcdcb7fd193cdf15db4ee5dce8cc9afcacfc4",
+      "candidate_revision": "1713cc75b4c906d7843b44e688bde13a467b2190"
+    },
+    "tickets": {
+      "01": {
+        "id": "01",
+        "state": "Done",
+        "attempt": 1,
+        "ticket": "01",
+        "starting_revision": "b22d3bea8f7a42ca397cf62d2408c80bea6b46d1",
+        "gate_start": 6,
+        "source": "/tmp/ticket-harness-test-l1cyhrlg/run/worktrees/ticket-01-implementation",
+        "submitted_revision": "48d8730e452ce7fc396f2de8a9162f7bcd0903c6",
+        "changed_files": [
+          "last-ticket",
+          "work-01"
+        ],
+        "candidate_revision": "37a9cca5df53e2f33ea4b6f30db8c7dd238556d2",
+        "done_revision": "37a9cca5df53e2f33ea4b6f30db8c7dd238556d2"
+      },
+      "02": {
+        "id": "02",
+        "state": "Pending",
+        "attempt": 0
+      },
+      "03": {
+        "id": "03",
+        "state": "Done",
+        "attempt": 1,
+        "ticket": "03",
+        "starting_revision": "ab6bcdcb7fd193cdf15db4ee5dce8cc9afcacfc4",
+        "gate_start": 1,
+        "source": "/tmp/ticket-harness-test-l1cyhrlg/run/worktrees/ticket-03-implementation",
+        "submitted_revision": "4dee0e2c21b96b8009a5cc1e25e90401f867b4f5",
+        "changed_files": [
+          "last-ticket",
+          "work-03"
+        ],
+        "candidate_revision": "b22d3bea8f7a42ca397cf62d2408c80bea6b46d1",
+        "done_revision": "b22d3bea8f7a42ca397cf62d2408c80bea6b46d1"
+      },
+      "04": {
+        "id": "04",
+        "state": "Pending",
+        "attempt": 0
+      }
+    },
+    "development_branch": "dev",
+    "development_revision": "ab6bcdcb7fd193cdf15db4ee5dce8cc9afcacfc4",
+    "base_revision": "ab6bcdcb7fd193cdf15db4ee5dce8cc9afcacfc4",
+    "integration_revision": "37a9cca5df53e2f33ea4b6f30db8c7dd238556d2",
+    "integration_branch": "integration",
+    "operations": [
+      {
+        "stage": "baseline-worktree",
+        "ticket": null,
+        "attempt": 0,
+        "passed": true
+      },
+      {
+        "stage": "ticket-03-implementation-worktree",
+        "ticket": "03",
+        "attempt": 1,
+        "passed": true
+      },
+      {
+        "stage": "ticket-03-submission",
+        "ticket": "03",
+        "attempt": 1,
+        "passed": true
+      },
+      {
+        "stage": "ticket-03-spec-worktree",
+        "ticket": "03",
+        "attempt": 1,
+        "passed": true
+      },
+      {
+        "stage": "ticket-03-standards-worktree",
+        "ticket": "03",
+        "attempt": 1,
+        "passed": true
+      },
+      {
+        "stage": "ticket-03-candidate-merge",
+        "ticket": "03",
+        "attempt": 1,
+        "passed": true
+      },
+      {
+        "stage": "ticket-01-implementation-worktree",
+        "ticket": "01",
+        "attempt": 1,
+        "passed": true
+      },
+      {
+        "stage": "ticket-01-submission",
+        "ticket": "01",
+        "attempt": 1,
+        "passed": true
+      },
+      {
+        "stage": "ticket-01-spec-worktree",
+        "ticket": "01",
+        "attempt": 1,
+        "passed": true
+      },
+      {
+        "stage": "ticket-01-standards-worktree",
+        "ticket": "01",
+        "attempt": 1,
+        "passed": true
+      },
+      {
+        "stage": "ticket-01-candidate-merge",
+        "ticket": "01",
+        "attempt": 1,
+        "passed": true
+      },
+      {
+        "stage": "milestone-candidate-merge",
+        "ticket": null,
+        "attempt": 0,
+        "passed": true
+      },
+      {
+        "stage": "milestone-candidate-validation",
+        "ticket": null,
+        "attempt": 0,
+        "passed": true
+      }
+    ],
+    "starting_development_revision": "ab6bcdcb7fd193cdf15db4ee5dce8cc9afcacfc4",
+    "qa_request": "/tmp/ticket-harness-test-l1cyhrlg/run/qa-request.json",
+    "qa_decision": "/tmp/ticket-harness-test-l1cyhrlg/run/qa-decision.json",
+    "qa_decision_status": "missing",
+    "checkpoint_id": "3cf5ad72d2f14b7baa7029545a876adf"
+  },
+  "milestone_index": 0,
+  "verified": [
+    [
+      {
+        "stage": "baseline",
+        "revision": "ab6bcdcb7fd193cdf15db4ee5dce8cc9afcacfc4",
+        "argv": [
+          "/home/ajkerr1/development/agentic_template/.micromamba/envs/dev/bin/python",
+          "/tmp/ticket-harness-test-l1cyhrlg/graph-check.py"
+        ],
+        "cwd": "/tmp/ticket-harness-test-l1cyhrlg/run/worktrees/baseline",
+        "stdout": "/tmp/ticket-harness-test-l1cyhrlg/run/artifacts/baseline.stdout",
+        "stderr": "/tmp/ticket-harness-test-l1cyhrlg/run/artifacts/baseline.stderr",
+        "passed": true,
+        "timeout_seconds": 1800,
+        "timed_out": false,
+        "exit_code": 0,
+        "cleanup": {
+          "process_group": 12723,
+          "signal": "SIGKILL",
+          "sent": false
+        },
+        "ticket": null,
+        "attempt": 0,
+        "timeout_category": "baseline"
+      },
+      "/tmp/ticket-harness-test-l1cyhrlg/run/worktrees/baseline",
+      "ab6bcdcb7fd193cdf15db4ee5dce8cc9afcacfc4"
+    ],
+    [
+      {
+        "stage": "check-other",
+        "revision": "4dee0e2c21b96b8009a5cc1e25e90401f867b4f5",
+        "argv": [
+          "/home/ajkerr1/development/agentic_template/.micromamba/envs/dev/bin/python",
+          "/tmp/ticket-harness-test-l1cyhrlg/graph-check.py"
+        ],
+        "cwd": "/tmp/ticket-harness-test-l1cyhrlg/run/worktrees/ticket-03-implementation",
+        "stdout": "/tmp/ticket-harness-test-l1cyhrlg/run/artifacts/ticket-03-check-other.stdout",
+        "stderr": "/tmp/ticket-harness-test-l1cyhrlg/run/artifacts/ticket-03-check-other.stderr",
+        "passed": true,
+        "timeout_seconds": 300,
+        "timed_out": false,
+        "exit_code": 0,
+        "cleanup": {
+          "process_group": 12753,
+          "signal": "SIGKILL",
+          "sent": false
+        },
+        "ticket": "03",
+        "attempt": 1,
+        "timeout_category": "checks"
+      },
+      "/tmp/ticket-harness-test-l1cyhrlg/run/worktrees/ticket-03-implementation",
+      "4dee0e2c21b96b8009a5cc1e25e90401f867b4f5"
+    ],
+    [
+      {
+        "stage": "spec",
+        "revision": "4dee0e2c21b96b8009a5cc1e25e90401f867b4f5",
+        "argv": [
+          "/home/ajkerr1/development/agentic_template/.micromamba/envs/dev/bin/python",
+          "/tmp/ticket-harness-test-l1cyhrlg/graph-agent.py"
+        ],
+        "cwd": "/tmp/ticket-harness-test-l1cyhrlg/run/worktrees/ticket-03-spec",
+        "stdout": "/tmp/ticket-harness-test-l1cyhrlg/run/artifacts/ticket-03-spec.stdout",
+        "stderr": "/tmp/ticket-harness-test-l1cyhrlg/run/artifacts/ticket-03-spec.stderr",
+        "passed": true,
+        "timeout_seconds": 900,
+        "timed_out": false,
+        "assignment": "/tmp/ticket-harness-test-l1cyhrlg/run/artifacts/ticket-03-spec.assignment.json",
+        "exit_code": 0,
+        "cleanup": {
+          "process_group": 12772,
+          "signal": "SIGKILL",
+          "sent": false
+        },
+        "ticket": "03",
+        "attempt": 1,
+        "timeout_category": "spec",
+        "report": {
+          "role": "spec",
+          "ticket": "03",
+          "attempt": 1,
+          "base_revision": "ab6bcdcb7fd193cdf15db4ee5dce8cc9afcacfc4",
+          "revision": "4dee0e2c21b96b8009a5cc1e25e90401f867b4f5",
+          "pid": 12772,
+          "findings": []
+        },
+        "report_status": "valid"
+      },
+      "/tmp/ticket-harness-test-l1cyhrlg/run/worktrees/ticket-03-spec",
+      "4dee0e2c21b96b8009a5cc1e25e90401f867b4f5"
+    ],
+    [
+      {
+        "stage": "standards",
+        "revision": "4dee0e2c21b96b8009a5cc1e25e90401f867b4f5",
+        "argv": [
+          "/home/ajkerr1/development/agentic_template/.micromamba/envs/dev/bin/python",
+          "/tmp/ticket-harness-test-l1cyhrlg/graph-agent.py"
+        ],
+        "cwd": "/tmp/ticket-harness-test-l1cyhrlg/run/worktrees/ticket-03-standards",
+        "stdout": "/tmp/ticket-harness-test-l1cyhrlg/run/artifacts/ticket-03-standards.stdout",
+        "stderr": "/tmp/ticket-harness-test-l1cyhrlg/run/artifacts/ticket-03-standards.stderr",
+        "passed": true,
+        "timeout_seconds": 900,
+        "timed_out": false,
+        "assignment": "/tmp/ticket-harness-test-l1cyhrlg/run/artifacts/ticket-03-standards.assignment.json",
+        "exit_code": 0,
+        "cleanup": {
+          "process_group": 12798,
+          "signal": "SIGKILL",
+          "sent": false
+        },
+        "ticket": "03",
+        "attempt": 1,
+        "timeout_category": "standards",
+        "report": {
+          "role": "standards",
+          "ticket": "03",
+          "attempt": 1,
+          "base_revision": "ab6bcdcb7fd193cdf15db4ee5dce8cc9afcacfc4",
+          "revision": "4dee0e2c21b96b8009a5cc1e25e90401f867b4f5",
+          "pid": 12798,
+          "findings": []
+        },
+        "report_status": "valid"
+      },
+      "/tmp/ticket-harness-test-l1cyhrlg/run/worktrees/ticket-03-standards",
+      "4dee0e2c21b96b8009a5cc1e25e90401f867b4f5"
+    ],
+    [
+      {
+        "stage": "candidate",
+        "revision": "b22d3bea8f7a42ca397cf62d2408c80bea6b46d1",
+        "argv": [
+          "/home/ajkerr1/development/agentic_template/.micromamba/envs/dev/bin/python",
+          "/tmp/ticket-harness-test-l1cyhrlg/graph-check.py"
+        ],
+        "cwd": "/tmp/ticket-harness-test-l1cyhrlg/run/worktrees/ticket-03-candidate",
+        "stdout": "/tmp/ticket-harness-test-l1cyhrlg/run/artifacts/ticket-03-candidate.stdout",
+        "stderr": "/tmp/ticket-harness-test-l1cyhrlg/run/artifacts/ticket-03-candidate.stderr",
+        "passed": true,
+        "timeout_seconds": 1800,
+        "timed_out": false,
+        "exit_code": 0,
+        "cleanup": {
+          "process_group": 12841,
+          "signal": "SIGKILL",
+          "sent": false
+        },
+        "ticket": "03",
+        "attempt": 1,
+        "timeout_category": "candidate"
+      },
+      "/tmp/ticket-harness-test-l1cyhrlg/run/worktrees/ticket-03-candidate",
+      "b22d3bea8f7a42ca397cf62d2408c80bea6b46d1"
+    ],
+    [
+      {
+        "stage": "check-ticket",
+        "revision": "48d8730e452ce7fc396f2de8a9162f7bcd0903c6",
+        "argv": [
+          "/home/ajkerr1/development/agentic_template/.micromamba/envs/dev/bin/python",
+          "/tmp/ticket-harness-test-l1cyhrlg/graph-check.py"
+        ],
+        "cwd": "/tmp/ticket-harness-test-l1cyhrlg/run/worktrees/ticket-01-implementation",
+        "stdout": "/tmp/ticket-harness-test-l1cyhrlg/run/artifacts/ticket-01-check-ticket.stdout",
+        "stderr": "/tmp/ticket-harness-test-l1cyhrlg/run/artifacts/ticket-01-check-ticket.stderr",
+        "passed": true,
+        "timeout_seconds": 300,
+        "timed_out": false,
+        "exit_code": 0,
+        "cleanup": {
+          "process_group": 12935,
+          "signal": "SIGKILL",
+          "sent": false
+        },
+        "ticket": "01",
+        "attempt": 1,
+        "timeout_category": "checks"
+      },
+      "/tmp/ticket-harness-test-l1cyhrlg/run/worktrees/ticket-01-implementation",
+      "48d8730e452ce7fc396f2de8a9162f7bcd0903c6"
+    ],
+    [
+      {
+        "stage": "spec",
+        "revision": "48d8730e452ce7fc396f2de8a9162f7bcd0903c6",
+        "argv": [
+          "/home/ajkerr1/development/agentic_template/.micromamba/envs/dev/bin/python",
+          "/tmp/ticket-harness-test-l1cyhrlg/graph-agent.py"
+        ],
+        "cwd": "/tmp/ticket-harness-test-l1cyhrlg/run/worktrees/ticket-01-spec",
+        "stdout": "/tmp/ticket-harness-test-l1cyhrlg/run/artifacts/ticket-01-spec.stdout",
+        "stderr": "/tmp/ticket-harness-test-l1cyhrlg/run/artifacts/ticket-01-spec.stderr",
+        "passed": true,
+        "timeout_seconds": 900,
+        "timed_out": false,
+        "assignment": "/tmp/ticket-harness-test-l1cyhrlg/run/artifacts/ticket-01-spec.assignment.json",
+        "exit_code": 0,
+        "cleanup": {
+          "process_group": 12978,
+          "signal": "SIGKILL",
+          "sent": false
+        },
+        "ticket": "01",
+        "attempt": 1,
+        "timeout_category": "spec",
+        "report": {
+          "role": "spec",
+          "ticket": "01",
+          "attempt": 1,
+          "base_revision": "b22d3bea8f7a42ca397cf62d2408c80bea6b46d1",
+          "revision": "48d8730e452ce7fc396f2de8a9162f7bcd0903c6",
+          "pid": 12978,
+          "findings": []
+        },
+        "report_status": "valid"
+      },
+      "/tmp/ticket-harness-test-l1cyhrlg/run/worktrees/ticket-01-spec",
+      "48d8730e452ce7fc396f2de8a9162f7bcd0903c6"
+    ],
+    [
+      {
+        "stage": "standards",
+        "revision": "48d8730e452ce7fc396f2de8a9162f7bcd0903c6",
+        "argv": [
+          "/home/ajkerr1/development/agentic_template/.micromamba/envs/dev/bin/python",
+          "/tmp/ticket-harness-test-l1cyhrlg/graph-agent.py"
+        ],
+        "cwd": "/tmp/ticket-harness-test-l1cyhrlg/run/worktrees/ticket-01-standards",
+        "stdout": "/tmp/ticket-harness-test-l1cyhrlg/run/artifacts/ticket-01-standards.stdout",
+        "stderr": "/tmp/ticket-harness-test-l1cyhrlg/run/artifacts/ticket-01-standards.stderr",
+        "passed": true,
+        "timeout_seconds": 900,
+        "timed_out": false,
+        "assignment": "/tmp/ticket-harness-test-l1cyhrlg/run/artifacts/ticket-01-standards.assignment.json",
+        "exit_code": 0,
+        "cleanup": {
+          "process_group": 13028,
+          "signal": "SIGKILL",
+          "sent": false
+        },
+        "ticket": "01",
+        "attempt": 1,
+        "timeout_category": "standards",
+        "report": {
+          "role": "standards",
+          "ticket": "01",
+          "attempt": 1,
+          "base_revision": "b22d3bea8f7a42ca397cf62d2408c80bea6b46d1",
+          "revision": "48d8730e452ce7fc396f2de8a9162f7bcd0903c6",
+          "pid": 13028,
+          "findings": []
+        },
+        "report_status": "valid"
+      },
+      "/tmp/ticket-harness-test-l1cyhrlg/run/worktrees/ticket-01-standards",
+      "48d8730e452ce7fc396f2de8a9162f7bcd0903c6"
+    ],
+    [
+      {
+        "stage": "candidate",
+        "revision": "37a9cca5df53e2f33ea4b6f30db8c7dd238556d2",
+        "argv": [
+          "/home/ajkerr1/development/agentic_template/.micromamba/envs/dev/bin/python",
+          "/tmp/ticket-harness-test-l1cyhrlg/graph-check.py"
+        ],
+        "cwd": "/tmp/ticket-harness-test-l1cyhrlg/run/worktrees/ticket-01-candidate",
+        "stdout": "/tmp/ticket-harness-test-l1cyhrlg/run/artifacts/ticket-01-candidate.stdout",
+        "stderr": "/tmp/ticket-harness-test-l1cyhrlg/run/artifacts/ticket-01-candidate.stderr",
+        "passed": true,
+        "timeout_seconds": 1800,
+        "timed_out": false,
+        "exit_code": 0,
+        "cleanup": {
+          "process_group": 13095,
+          "signal": "SIGKILL",
+          "sent": false
+        },
+        "ticket": "01",
+        "attempt": 1,
+        "timeout_category": "candidate"
+      },
+      "/tmp/ticket-harness-test-l1cyhrlg/run/worktrees/ticket-01-candidate",
+      "37a9cca5df53e2f33ea4b6f30db8c7dd238556d2"
+    ],
+    [
+      {
+        "stage": "milestone-regression",
+        "revision": "1713cc75b4c906d7843b44e688bde13a467b2190",
+        "argv": [
+          "/home/ajkerr1/development/agentic_template/.micromamba/envs/dev/bin/python",
+          "/tmp/ticket-harness-test-l1cyhrlg/graph-check.py"
+        ],
+        "cwd": "/tmp/ticket-harness-test-l1cyhrlg/run/worktrees/milestone-candidate",
+        "stdout": "/tmp/ticket-harness-test-l1cyhrlg/run/artifacts/milestone-regression.stdout",
+        "stderr": "/tmp/ticket-harness-test-l1cyhrlg/run/artifacts/milestone-regression.stderr",
+        "passed": true,
+        "timeout_seconds": 1800,
+        "timed_out": false,
+        "exit_code": 0,
+        "cleanup": {
+          "process_group": 13200,
+          "signal": "SIGKILL",
+          "sent": false
+        },
+        "ticket": null,
+        "attempt": 0,
+        "timeout_category": "candidate"
+      },
+      "/tmp/ticket-harness-test-l1cyhrlg/run/worktrees/milestone-candidate",
+      "1713cc75b4c906d7843b44e688bde13a467b2190"
+    ]
+  ],
+  "evidence": {
+    "/tmp/ticket-harness-test-l1cyhrlg/run/artifacts/qa-request.json": "b2c702d92ef5962122f746d5760cdb3117cc1e3b02a32c243c2e5c52bb6be716",
+    "/tmp/ticket-harness-test-l1cyhrlg/run/artifacts/milestone-regression.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "/tmp/ticket-harness-test-l1cyhrlg/run/artifacts/milestone-regression.stdout": "0140e05ce1b0362ee32628ff1568d3cc238ae51545068789034593a97e73f841",
+    "/tmp/ticket-harness-test-l1cyhrlg/run/artifacts/ticket-01-candidate.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "/tmp/ticket-harness-test-l1cyhrlg/run/artifacts/ticket-01-candidate.stdout": "6dd053f2574ac85b8897d910bc0fcf266cb2b576e9382b41f036fc129064dfcd",
+    "/tmp/ticket-harness-test-l1cyhrlg/run/artifacts/ticket-01-standards.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "/tmp/ticket-harness-test-l1cyhrlg/run/artifacts/ticket-01-standards.stdout": "aff91ad1e82c8730ac2989a634c8a3b4fb107590d0f1a7e803815b7b023f1f67",
+    "/tmp/ticket-harness-test-l1cyhrlg/run/artifacts/ticket-01-standards.assignment.json": "6fc53ff2ba18de59df1d4b46cab79dee9671cd48c0aeb70e4a620c0d6fb46932",
+    "/tmp/ticket-harness-test-l1cyhrlg/run/artifacts/ticket-01-spec.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "/tmp/ticket-harness-test-l1cyhrlg/run/artifacts/ticket-01-spec.stdout": "99b666abd90fde245dde441513ca88b96029400ff5d45d154b0ebc55171f61cb",
+    "/tmp/ticket-harness-test-l1cyhrlg/run/artifacts/ticket-01-spec.assignment.json": "d3c202d81fedd86f545012f643550b3566922973b63b4f0acc423f300d1509e0",
+    "/tmp/ticket-harness-test-l1cyhrlg/run/artifacts/ticket-01-check-ticket.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "/tmp/ticket-harness-test-l1cyhrlg/run/artifacts/ticket-01-check-ticket.stdout": "2818911cb95596e566032510e20991ed997e6f9bb6a6799cf86c1ca08e8c0971",
+    "/tmp/ticket-harness-test-l1cyhrlg/run/artifacts/ticket-01-implementation.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "/tmp/ticket-harness-test-l1cyhrlg/run/artifacts/ticket-01-implementation.stdout": "85e44ede4ea5f5a6404731c0672a6be47072a9acf7115bfdcfb392d971ab17dc",
+    "/tmp/ticket-harness-test-l1cyhrlg/run/artifacts/ticket-01-implementation.assignment.json": "aed94c368a5b9c41cb5df6750c5d8a21f76f2ce34949095051793398bc608fa3",
+    "/tmp/ticket-harness-test-l1cyhrlg/run/artifacts/ticket-03-candidate.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "/tmp/ticket-harness-test-l1cyhrlg/run/artifacts/ticket-03-candidate.stdout": "ea33c9ebfcb2e7adaff3820eb2d62d004ef5780b4cd159b40342e29994a940a6",
+    "/tmp/ticket-harness-test-l1cyhrlg/run/artifacts/ticket-03-standards.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "/tmp/ticket-harness-test-l1cyhrlg/run/artifacts/ticket-03-standards.stdout": "c40858d3f67a2faf48a84d0f29814eafdd366376a8f6e7c2d4bd346b3562192b",
+    "/tmp/ticket-harness-test-l1cyhrlg/run/artifacts/ticket-03-standards.assignment.json": "c420620af3cae1b47b150afdb0ca212b446857489181174d88e8a31479b6e7e5",
+    "/tmp/ticket-harness-test-l1cyhrlg/run/artifacts/ticket-03-spec.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "/tmp/ticket-harness-test-l1cyhrlg/run/artifacts/ticket-03-spec.stdout": "0658e3bca21c275aa41cf2b5ab1a092fbd6e2e202f14e004ee63bcd8eadb4e31",
+    "/tmp/ticket-harness-test-l1cyhrlg/run/artifacts/ticket-03-spec.assignment.json": "27d09318441154e0027b94c75e433a628ec7a87dd0d15160ae4a74e71d4de4dc",
+    "/tmp/ticket-harness-test-l1cyhrlg/run/artifacts/ticket-03-check-other.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "/tmp/ticket-harness-test-l1cyhrlg/run/artifacts/ticket-03-check-other.stdout": "8ef543fed3cdae4e24a9c47ce799afb9be82d3e1a356eed02be33f82ddbdeb82",
+    "/tmp/ticket-harness-test-l1cyhrlg/run/artifacts/ticket-03-implementation.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "/tmp/ticket-harness-test-l1cyhrlg/run/artifacts/ticket-03-implementation.stdout": "d382d575df4fba79d2c564598c57fe93b2dc2caec510cc1accb840c76a3e2a3f",
+    "/tmp/ticket-harness-test-l1cyhrlg/run/artifacts/ticket-03-implementation.assignment.json": "fe833174f24e1a8283df820d3153ff8417aae0b8e38c69871207c3014fe1e41f",
+    "/tmp/ticket-harness-test-l1cyhrlg/run/artifacts/baseline.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "/tmp/ticket-harness-test-l1cyhrlg/run/artifacts/baseline.stdout": "167719a6a4b56cab2877eb91cc82cb48bf3f633e1f8c0e492c300c0abfeae06e"
+  },
+  "request_sha256": "b2c702d92ef5962122f746d5760cdb3117cc1e3b02a32c243c2e5c52bb6be716"
+}

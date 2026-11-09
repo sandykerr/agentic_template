@@ -1,0 +1,129 @@
+{
+  "baseline": "90255aaf6faf9aedce18f7159093f5dbfde294b7",
+  "implementation": "36ed3e72c278cf147c84ae9c282cd2899af23ad0",
+  "all_final_gate_source_hashes_match_committed": true,
+  "checks": {
+    "suite": {
+      "command": [
+        "/home/ajkerr1/development/agentic_template/.micromamba/envs/dev/bin/python",
+        "-m",
+        "pytest",
+        "-q",
+        "--durations=20"
+      ],
+      "exit_code": 0,
+      "seconds": 786.607,
+      "source_identity": "15-final-suite-source.json"
+    },
+    "mypy": {
+      "command": [
+        "/home/ajkerr1/development/agentic_template/.micromamba/envs/dev/bin/python",
+        "-m",
+        "mypy"
+      ],
+      "exit_code": 0,
+      "seconds": 4.254,
+      "source_identity": "15-final-mypy-source.json"
+    },
+    "lint": {
+      "command": [
+        "/home/ajkerr1/development/agentic_template/.micromamba/envs/dev/bin/python",
+        "-m",
+        "ruff",
+        "check",
+        "ticket_harness",
+        "tests",
+        "examples"
+      ],
+      "exit_code": 0,
+      "seconds": 0.243,
+      "source_identity": "15-final-lint-source.json"
+    },
+    "format": {
+      "command": [
+        "/home/ajkerr1/development/agentic_template/.micromamba/envs/dev/bin/python",
+        "-m",
+        "ruff",
+        "format",
+        "--check",
+        "ticket_harness",
+        "tests",
+        "examples"
+      ],
+      "exit_code": 0,
+      "seconds": 0.168,
+      "source_identity": "15-final-format-source.json"
+    },
+    "implementation-whitespace": {
+      "command": [
+        "git",
+        "diff",
+        "--cached",
+        "--check"
+      ],
+      "exit_code": 0,
+      "seconds": 0.007,
+      "source_identity": "15-final-implementation-whitespace-source.json"
+    },
+    "committed-whitespace": {
+      "command": [
+        "git",
+        "diff",
+        "90255aaf6faf9aedce18f7159093f5dbfde294b7",
+        "HEAD",
+        "--check"
+      ],
+      "exit_code": 0,
+      "seconds": 0.004,
+      "source_identity": "15-final-committed-whitespace-source.json"
+    },
+    "wheel": {
+      "command": [
+        "env",
+        "PIP_NO_INDEX=1",
+        "PIP_FIND_LINKS=/tmp/ticket15-build-deps",
+        "/home/ajkerr1/development/agentic_template/.micromamba/envs/dev/bin/python",
+        "-m",
+        "pip",
+        "--cache-dir",
+        "/tmp/ticket15-pip-cache",
+        "wheel",
+        "--no-deps",
+        "--wheel-dir",
+        "/tmp/ticket15-wheel",
+        "."
+      ],
+      "exit_code": 0,
+      "seconds": 11.348,
+      "source_identity": "15-final-wheel-source.json"
+    },
+    "install": {
+      "command": [
+        "/home/ajkerr1/development/agentic_template/.micromamba/envs/dev/bin/python",
+        "-m",
+        "pip",
+        "--cache-dir",
+        "/tmp/ticket15-pip-cache",
+        "install",
+        "--no-index",
+        "--no-deps",
+        "--target",
+        "/tmp/ticket15-installed",
+        "/tmp/ticket15-wheel/ticket_harness-0.1.0-py3-none-any.whl"
+      ],
+      "exit_code": 0,
+      "seconds": 1.397,
+      "source_identity": "15-final-install-source.json"
+    },
+    "installed": {
+      "command": [
+        "/home/ajkerr1/development/agentic_template/.micromamba/envs/dev/bin/python",
+        ".scratch/ticket-harness/evidence/15-installed-scenario.py"
+      ],
+      "exit_code": 0,
+      "seconds": 32.228,
+      "source_identity": "15-final-installed-source.json"
+    }
+  },
+  "historical_note": "15-final-staged-whitespace was an empty-index observation; only final-implementation-whitespace and final-committed-whitespace establish complete implementation whitespace gates."
+}

@@ -1,0 +1,230 @@
+{
+  "scenario": "test_unavailable_shared_executable_stops_run_without_repairs",
+  "record": {
+    "outcome": "environment",
+    "artifacts": "/tmp/ticket-harness-test-11kiyt17/run/artifacts",
+    "inputs": {
+      "configuration": {
+        "source": "/tmp/ticket-harness-test-11kiyt17/project.json",
+        "artifact": "/tmp/ticket-harness-test-11kiyt17/run/inputs/configuration.json",
+        "sha256": "7b14e8a54f94cb0b26a203feb20aefba27cd225a3ed7963276c51efa638e3f6f"
+      },
+      "spec": {
+        "source": "/tmp/ticket-harness-test-11kiyt17/target/spec.md",
+        "artifact": "/tmp/ticket-harness-test-11kiyt17/run/inputs/spec.md",
+        "sha256": "70fc083432bac5b804dc291e318b27ed5ed439bc44fb6d81f98e39b808c3c363"
+      },
+      "ticket": {
+        "source": "/tmp/ticket-harness-test-11kiyt17/target/01-value.md",
+        "artifact": "/tmp/ticket-harness-test-11kiyt17/run/inputs/ticket.md",
+        "sha256": "f6b0b71fb8923adc649d922cd69ebdbb51e1635b766b5e9d666b781101a80bb3"
+      },
+      "standards-0": {
+        "source": "/tmp/ticket-harness-test-11kiyt17/target/STANDARDS.md",
+        "artifact": "/tmp/ticket-harness-test-11kiyt17/run/inputs/standards-0.md",
+        "sha256": "8a5efa5017f12574ff43bab7d9a487d9216a65b74d2e4709ec0dba7d141682d2"
+      }
+    },
+    "ticket": {
+      "id": "01",
+      "state": "Blocked",
+      "attempt": 1,
+      "ticket": "01",
+      "starting_revision": "415549ab3b02f5011cd96fef5205c56eb35c7ebe",
+      "gate_start": 1,
+      "source": "/tmp/ticket-harness-test-11kiyt17/run/worktrees/implementation",
+      "submitted_revision": "6156b012278300942a66753847b539937d8f49aa",
+      "changed_files": [
+        "value.txt"
+      ]
+    },
+    "gates": [
+      {
+        "stage": "baseline",
+        "revision": "415549ab3b02f5011cd96fef5205c56eb35c7ebe",
+        "argv": [
+          "/home/ajkerr1/development/agentic_template/.micromamba/envs/dev/bin/python",
+          "check.py",
+          "suite"
+        ],
+        "cwd": "/tmp/ticket-harness-test-11kiyt17/run/worktrees/baseline",
+        "stdout": "/tmp/ticket-harness-test-11kiyt17/run/artifacts/baseline.stdout",
+        "stderr": "/tmp/ticket-harness-test-11kiyt17/run/artifacts/baseline.stderr",
+        "passed": true,
+        "timeout_seconds": 1800,
+        "timed_out": false,
+        "exit_code": 0,
+        "cleanup": {
+          "process_group": 75586,
+          "signal": "SIGKILL",
+          "sent": false
+        },
+        "ticket": null,
+        "attempt": 0,
+        "timeout_category": "baseline"
+      },
+      {
+        "stage": "implementation",
+        "revision": "415549ab3b02f5011cd96fef5205c56eb35c7ebe",
+        "argv": [
+          "/home/ajkerr1/development/agentic_template/.micromamba/envs/dev/bin/python",
+          "/tmp/ticket-harness-test-11kiyt17/repair-agent.py"
+        ],
+        "cwd": "/tmp/ticket-harness-test-11kiyt17/run/worktrees/implementation",
+        "stdout": "/tmp/ticket-harness-test-11kiyt17/run/artifacts/implementation.stdout",
+        "stderr": "/tmp/ticket-harness-test-11kiyt17/run/artifacts/implementation.stderr",
+        "passed": true,
+        "timeout_seconds": 1800,
+        "timed_out": false,
+        "assignment": "/tmp/ticket-harness-test-11kiyt17/run/artifacts/implementation.assignment.json",
+        "exit_code": 0,
+        "cleanup": {
+          "process_group": 75599,
+          "signal": "SIGKILL",
+          "sent": false
+        },
+        "ticket": "01",
+        "attempt": 1,
+        "timeout_category": "implementation",
+        "report": {
+          "role": "implementation",
+          "ticket": "01",
+          "attempt": 1,
+          "base_revision": "415549ab3b02f5011cd96fef5205c56eb35c7ebe",
+          "revision": "415549ab3b02f5011cd96fef5205c56eb35c7ebe",
+          "pid": 75599,
+          "result": "submitted",
+          "summary": "Changed value to 2",
+          "changed_files": [
+            "value.txt"
+          ],
+          "checks": [],
+          "acceptance_evidence": [
+            "value.txt contains 2"
+          ],
+          "unresolved_questions": [],
+          "before": "1\n"
+        },
+        "report_status": "valid"
+      },
+      {
+        "stage": "check-ticket",
+        "revision": "6156b012278300942a66753847b539937d8f49aa",
+        "argv": [
+          "/tmp/ticket-harness-test-11kiyt17/shared-check"
+        ],
+        "cwd": "/tmp/ticket-harness-test-11kiyt17/run/worktrees/implementation",
+        "stdout": "/tmp/ticket-harness-test-11kiyt17/run/artifacts/check-ticket.stdout",
+        "stderr": "/tmp/ticket-harness-test-11kiyt17/run/artifacts/check-ticket.stderr",
+        "passed": false,
+        "timeout_seconds": 300,
+        "timed_out": false,
+        "exit_code": null,
+        "execution_error": "[Errno 2] No such file or directory: '/tmp/ticket-harness-test-11kiyt17/shared-check'",
+        "ticket": "01",
+        "attempt": 1,
+        "timeout_category": "checks"
+      }
+    ],
+    "attempts": [
+      {
+        "ticket": "01",
+        "attempt": 1,
+        "state": "Rejected",
+        "starting_revision": "415549ab3b02f5011cd96fef5205c56eb35c7ebe",
+        "gate_start": 1,
+        "source": "/tmp/ticket-harness-test-11kiyt17/run/worktrees/implementation",
+        "submitted_revision": "6156b012278300942a66753847b539937d8f49aa",
+        "changed_files": [
+          "value.txt"
+        ],
+        "failure": {
+          "stage": "check-ticket",
+          "message": "Execution environment failure: [Errno 2] No such file or directory: '/tmp/ticket-harness-test-11kiyt17/shared-check'"
+        },
+        "gate_end": 3
+      }
+    ],
+    "requirements": {
+      "01": {
+        "id": "01",
+        "title": "Change value",
+        "readiness": "ready-for-agent",
+        "dependencies": [],
+        "acceptance": [
+          "value.txt contains 2."
+        ],
+        "checks": [
+          "ticket"
+        ],
+        "source": "/tmp/ticket-harness-test-11kiyt17/target/01-value.md"
+      }
+    },
+    "max_repairs": 2,
+    "timeouts": {
+      "implementation": 1800,
+      "repair": 1800,
+      "spec": 900,
+      "standards": 900,
+      "checks": 300,
+      "baseline": 1800,
+      "candidate": 1800
+    },
+    "selected_tickets": [
+      "01"
+    ],
+    "tickets": {
+      "01": {
+        "id": "01",
+        "state": "Blocked",
+        "attempt": 1,
+        "ticket": "01",
+        "starting_revision": "415549ab3b02f5011cd96fef5205c56eb35c7ebe",
+        "gate_start": 1,
+        "source": "/tmp/ticket-harness-test-11kiyt17/run/worktrees/implementation",
+        "submitted_revision": "6156b012278300942a66753847b539937d8f49aa",
+        "changed_files": [
+          "value.txt"
+        ]
+      }
+    },
+    "base_revision": "415549ab3b02f5011cd96fef5205c56eb35c7ebe",
+    "integration_revision": "415549ab3b02f5011cd96fef5205c56eb35c7ebe",
+    "integration_branch": "integration",
+    "operations": [
+      {
+        "stage": "baseline-worktree",
+        "ticket": null,
+        "attempt": 0,
+        "passed": true
+      },
+      {
+        "stage": "implementation-worktree",
+        "ticket": "01",
+        "attempt": 1,
+        "passed": true
+      },
+      {
+        "stage": "submission",
+        "ticket": "01",
+        "attempt": 1,
+        "passed": true
+      }
+    ],
+    "environment_failure": true,
+    "failure": {
+      "stage": "check-ticket",
+      "message": "Execution environment failure: [Errno 2] No such file or directory: '/tmp/ticket-harness-test-11kiyt17/shared-check'"
+    }
+  },
+  "integration": "415549ab3b02f5011cd96fef5205c56eb35c7ebe",
+  "caller_status": "",
+  "outputs": {
+    "baseline.stdout": "baseline 415549ab3b02f5011cd96fef5205c56eb35c7ebe\n",
+    "baseline.stderr": "",
+    "implementation.stdout": "{\"role\": \"implementation\", \"ticket\": \"01\", \"attempt\": 1, \"base_revision\": \"415549ab3b02f5011cd96fef5205c56eb35c7ebe\", \"revision\": \"415549ab3b02f5011cd96fef5205c56eb35c7ebe\", \"pid\": 75599, \"result\": \"submitted\", \"summary\": \"Changed value to 2\", \"changed_files\": [\"value.txt\"], \"checks\": [], \"acceptance_evidence\": [\"value.txt contains 2\"], \"unresolved_questions\": [], \"before\": \"1\\n\"}\n",
+    "implementation.stderr": "",
+    "check-ticket.stdout": "",
+    "check-ticket.stderr": "[Errno 2] No such file or directory: '/tmp/ticket-harness-test-11kiyt17/shared-check'"
+  }
+}

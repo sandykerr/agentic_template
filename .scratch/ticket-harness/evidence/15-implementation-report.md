@@ -1,0 +1,37 @@
+# Ticket 15 implementation report
+
+Development implementation assignment: fresh GPT-6.1 Sol Medium, 250K active-context target. Original fixed review baseline: `90255aaf6faf9aedce18f7159093f5dbfde294b7`. Only ticket 15 is implemented; separate fresh High Spec/Standards reviews and completion bookkeeping are owned by the parent assignment. This report does not accept development M1.
+
+## Implemented contract
+
+- `stop RUN_DIRECTORY` acknowledges a request only at an active planned QA wait. The owner validates original inputs/request/evidence/sources/refs, persists a versioned checkpoint and unique immutable archive, then exits 2 with `stopped_at_qa` and `feature_complete: false`.
+- `continue RUN_DIRECTORY` takes exclusive nonblocking POSIX ownership of the directory inode, validates the typed record/checkpoint binding, current and historical archives, approved sources/snapshots, exact request/evidence, all previously verified sources, expected branch tips and caller checkout state before mutating the run. The directory lock avoids removable lock-file/PID takeover races and covers the whole active workflow, including later execution/QA/promotion.
+- Restored execution retains exact Done/attempt/decision identities, baseline/check/review artifacts and later-group eligibility. It watches the same human decision artifact, consumes acceptance once, uses the existing expected-old two-ref transaction, and runs subsequent groups through every existing gate. Only final acceptance exits 0/completed/true.
+- State/ownership rejection exits 1, appending a unique diagnostic under `rejections/` without replacing run/checkpoint/artifact evidence or refs. Completed/active/arbitrarily interrupted runs cannot be continued through this interface.
+- Clean-stop checkpoint archives retain prior accepted decisions and their artifacts across repeated M2 stops. Original QA evidence and later observations remain frozen; modification before stop or promotion rejects rather than being recaptured as trusted content.
+
+No arbitrary mid-stage crash recovery, QA-session/correction workflow, background operation, live-agent/role-skill enforcement, OS role sandbox, or development milestone acceptance is claimed.
+
+## Coverage and evidence
+
+See `15-coverage-map.md` and repository `docs/agents/testing.md`. Tests use the agreed public CLI, external scripted processes, isolated real Git repositories and observable reports/refs. New behavior followed retained red/green slices: missing stop CLI; observation rewrite before clean stop; archive lineage and unsupported dead-owner stop. Existing exact decision, timeouts, gate, integrity and Git transaction regressions remain intact.
+
+Final `test_continuation.py` has 19 scenarios: full two-group clean stop/resume plus active duplicate rejection and final replay rejection; fresh-observation rewriting; 15 representative state mutations (plan, captured snapshot, record, typed record value, malformed record, current checkpoint, current archive, request, gate output, fabricated consumption, baseline, candidate, both branch tips and caller checkout); unsupported arbitrary interruption; and repeated stops with prior acceptance/checkpoint lineage. Original test process cleanup and bounded fixture deadlines are reused; runtime QA waiting remains indefinite.
+
+Actual final-run fixture JSON observations and copied non-worktree raw run trees are retained under `15-observations/final-suite/`. The copies include input snapshots, all process/gate artifacts, exact current and archived checkpoints/requests, consumed/rejected decisions and ownership/state rejection diagnostics. Existing final fixture observers retain Git tips/history, source/worktree observations, assignments and process launches. These are target-repository fixtures and do not constitute development human QA.
+
+Installed console-script evidence is `15-installed-observations.json`, `15-final-installed-{result,source}.json`, `15-final-installed.log` and `15-observations/installed/`. It executed from `/tmp`, with import independently resolved to `/tmp/ticket15-installed/ticket_harness/__init__.py`, through M1 stop, active-owner rejection, changed-plan rejection while stopped, M1 acceptance, M2 stale/replay rejection, M2 stop, new-process continuation and final acceptance. It observed one baseline, four implementations, two consumed decisions and aligned exact refs. `15-package-manifest.json` proves all nine installed Python files match current source, and binds the wheel/backend hashes. The built wheel itself is retained under `15-package/`. Shared environment packages were not changed.
+
+Prerequisite ticket 14: `15-prerequisite-audit.json` confirms all 21 starting source hashes and implementation/bookkeeping ancestry, with required evidence-file hashes. The parent independently retained `15-root-prerequisite-audit.json` and `15-root-observation-audit.json`; these supplement, rather than replace, new implementation checks.
+
+## Check provenance
+
+Only `15-final-*` captures establish final gates; red/green/focused captures are historical iterations and retain their actual source identities. The final full suite passed **543 tests in 785.01s**, exit 0. Strict mypy, Ruff lint/format, staged and committed baseline-diff whitespace, pinned-backend wheel build, isolated target installation and installed console-script scenario passed. Implementation commit: `36ed3e72c278cf147c84ae9c282cd2899af23ad0`. All 23 final suite source/test/doc hashes match committed/current bytes and every final gate source capture. `15-check-results.json`, `15-checks.log` and `15-final-source-identity.json` consolidate the actual results. `15-fixture-observations.json` indexes all 122 retained final graph scenarios. The empty-index `15-final-staged-whitespace` capture is explicitly superseded by the actual complete implementation/committed whitespace captures; it is not a completion gate. The initial sandbox wheel attempt failed to resolve PyPI; an auto-approved setuptools 80.9.0 download to `/tmp` enabled the final offline isolated build. The shared reusable environment stayed unchanged.
+
+Historical display logs with trailing whitespace have been normalized for repository whitespace checks; `15-log-originals.json` retains their exact original strings and SHA-256 hashes. Actual final fixture artifacts are unmodified.
+
+Required separate High Spec and Standards reviews remain pending parent orchestration. Ticket status/checkboxes, completion comment, feature index and next-agent handoff are intentionally untouched by this implementation assignment. The unrelated tracker edit remains preserved with SHA-256 `3803de99e541e60d2e9f733d5c98b009a43e60a9584e3819adffc55eae0214ce`.
+
+## Repair 1 addendum
+
+The initial Standards review identified STD15-01: restored verified-source dictionaries were detached from canonical durable gates. Repair commit `d11f0bc60a2c11c40683e58581dffa10e36a91be` restores canonical ownership and adds the demonstrated public CLI regression. The initial gates above remain history. See [repair report](15-repair1-implementation-report.md), [renewed checks](15-repair1-check-results.json), [repair source identity](15-repair1-final-source-identity.json) and [123 renewed observations](15-repair1-fixture-observations.json). Renewed full suite: **544 passed in 910.17s**; all ten repair completion gates passed. Fresh whole-diff reviews and completion bookkeeping remain parent responsibilities.

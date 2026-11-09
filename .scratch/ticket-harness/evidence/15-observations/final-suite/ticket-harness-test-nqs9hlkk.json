@@ -1,0 +1,88 @@
+{
+  "scenario": "test_duplicate_milestone_metadata_rejects_without_execution[Plan version]",
+  "record": {
+    "outcome": "invalid-input",
+    "artifacts": "/tmp/ticket-harness-test-nqs9hlkk/run/artifacts",
+    "inputs": {},
+    "ticket": {
+      "state": "Blocked",
+      "attempt": 0
+    },
+    "gates": [],
+    "attempts": [],
+    "failure": {
+      "stage": "inputs",
+      "message": "/tmp/ticket-harness-test-nqs9hlkk/target/03-work.md: duplicate Plan version metadata; keep one authoritative value"
+    }
+  },
+  "cli_observations": [
+    {
+      "command": [
+        "/home/ajkerr1/development/agentic_template/.micromamba/envs/dev/bin/python",
+        "-m",
+        "ticket_harness",
+        "run",
+        "--config",
+        "/tmp/ticket-harness-test-nqs9hlkk/project.json",
+        "--output",
+        "/tmp/ticket-harness-test-nqs9hlkk/run"
+      ],
+      "exit_code": 1,
+      "stderr": "",
+      "stdout_matches_record": true,
+      "record": {
+        "outcome": "invalid-input",
+        "artifacts": "/tmp/ticket-harness-test-nqs9hlkk/run/artifacts",
+        "inputs": {},
+        "ticket": {
+          "state": "Blocked",
+          "attempt": 0
+        },
+        "gates": [],
+        "attempts": [],
+        "failure": {
+          "stage": "inputs",
+          "message": "/tmp/ticket-harness-test-nqs9hlkk/target/03-work.md: duplicate Plan version metadata; keep one authoritative value"
+        }
+      }
+    },
+    {
+      "command": [
+        "/home/ajkerr1/development/agentic_template/.micromamba/envs/dev/bin/python",
+        "-m",
+        "ticket_harness",
+        "status",
+        "/tmp/ticket-harness-test-nqs9hlkk/run"
+      ],
+      "exit_code": 0,
+      "stderr": "",
+      "stdout_matches_record": true,
+      "record": {
+        "outcome": "invalid-input",
+        "artifacts": "/tmp/ticket-harness-test-nqs9hlkk/run/artifacts",
+        "inputs": {},
+        "ticket": {
+          "state": "Blocked",
+          "attempt": 0
+        },
+        "gates": [],
+        "attempts": [],
+        "failure": {
+          "stage": "inputs",
+          "message": "/tmp/ticket-harness-test-nqs9hlkk/target/03-work.md: duplicate Plan version metadata; keep one authoritative value"
+        }
+      }
+    }
+  ],
+  "foreground_observations": [],
+  "qa_artifacts": {},
+  "integration": "bc6973ab47ec2522219584409312ae7181a0f7f9",
+  "history": "bc6973ab47ec2522219584409312ae7181a0f7f9 d1c023e1e65b11424549430d2a776df4c58e68a8 Approved dependency graph\nd1c023e1e65b11424549430d2a776df4c58e68a8  Fixture baseline",
+  "caller_status": "M 03-work.md\n?? plan.json",
+  "launches": [],
+  "assignments": {},
+  "qa_request": null,
+  "milestone_candidate": null,
+  "development": "bc6973ab47ec2522219584409312ae7181a0f7f9",
+  "outputs": {}
+}

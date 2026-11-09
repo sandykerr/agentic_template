@@ -1,0 +1,88 @@
+{
+  "scenario": "test_invalid_selection_rejects_before_workers_checks_or_git_changes[selection7-unsatisfied prerequisites]",
+  "record": {
+    "outcome": "invalid-input",
+    "artifacts": "/tmp/ticket-harness-test-x67tz3uh/run/artifacts",
+    "inputs": {},
+    "ticket": {
+      "state": "Blocked",
+      "attempt": 0
+    },
+    "gates": [],
+    "attempts": [],
+    "failure": {
+      "stage": "inputs",
+      "message": "ticket 02: unsatisfied prerequisites ['03', '04']; select prerequisites or supply completed_runs with integrated Done evidence"
+    }
+  },
+  "cli_observations": [
+    {
+      "command": [
+        "/home/ajkerr1/development/agentic_template/.micromamba/envs/dev/bin/python",
+        "-m",
+        "ticket_harness",
+        "run",
+        "--config",
+        "/tmp/ticket-harness-test-x67tz3uh/project.json",
+        "--output",
+        "/tmp/ticket-harness-test-x67tz3uh/run"
+      ],
+      "exit_code": 1,
+      "stderr": "",
+      "stdout_matches_record": true,
+      "record": {
+        "outcome": "invalid-input",
+        "artifacts": "/tmp/ticket-harness-test-x67tz3uh/run/artifacts",
+        "inputs": {},
+        "ticket": {
+          "state": "Blocked",
+          "attempt": 0
+        },
+        "gates": [],
+        "attempts": [],
+        "failure": {
+          "stage": "inputs",
+          "message": "ticket 02: unsatisfied prerequisites ['03', '04']; select prerequisites or supply completed_runs with integrated Done evidence"
+        }
+      }
+    },
+    {
+      "command": [
+        "/home/ajkerr1/development/agentic_template/.micromamba/envs/dev/bin/python",
+        "-m",
+        "ticket_harness",
+        "status",
+        "/tmp/ticket-harness-test-x67tz3uh/run"
+      ],
+      "exit_code": 0,
+      "stderr": "",
+      "stdout_matches_record": true,
+      "record": {
+        "outcome": "invalid-input",
+        "artifacts": "/tmp/ticket-harness-test-x67tz3uh/run/artifacts",
+        "inputs": {},
+        "ticket": {
+          "state": "Blocked",
+          "attempt": 0
+        },
+        "gates": [],
+        "attempts": [],
+        "failure": {
+          "stage": "inputs",
+          "message": "ticket 02: unsatisfied prerequisites ['03', '04']; select prerequisites or supply completed_runs with integrated Done evidence"
+        }
+      }
+    }
+  ],
+  "foreground_observations": [],
+  "qa_artifacts": {},
+  "integration": "7c9f84f492612101cb74c458be06a9c9d1390bd5",
+  "history": "7c9f84f492612101cb74c458be06a9c9d1390bd5 8cb9e1b95de23b071477daf8cdf3fab279eb1db8 Approved dependency graph\n8cb9e1b95de23b071477daf8cdf3fab279eb1db8  Fixture baseline",
+  "caller_status": "",
+  "launches": [],
+  "assignments": {},
+  "qa_request": null,
+  "milestone_candidate": null,
+  "development": null,
+  "outputs": {}
+}

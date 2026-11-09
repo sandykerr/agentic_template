@@ -1,0 +1,218 @@
+{
+  "scope": "Root independent audit of renewed final-suite checkpoint/decision/ref/invalidation artifacts at d11f0bc.",
+  "successful_scenarios": [
+    {
+      "scenario": "test_clean_qa_stop_continues_in_new_process_without_replaying_done_work",
+      "raw": ".scratch/ticket-harness/evidence/15-observations/repair1-final-suite/ticket-harness-test-0m6_0u8y.json",
+      "archives_verified": 1,
+      "decision_hashes_verified": 2,
+      "implementation_starts": 4,
+      "baseline_count": 1,
+      "next_worker_matches_first_promotion": true,
+      "foreground_exits": [
+        2,
+        0
+      ],
+      "final_candidate": "1145e974c79248281f64f5e1efc0910f1b221d27"
+    },
+    {
+      "scenario": "test_repeated_stops_retain_previous_decisions_and_checkpoint_lineage",
+      "raw": ".scratch/ticket-harness/evidence/15-observations/repair1-final-suite/ticket-harness-test-ioq1_hwx.json",
+      "archives_verified": 2,
+      "decision_hashes_verified": 2,
+      "implementation_starts": 4,
+      "baseline_count": 1,
+      "next_worker_matches_first_promotion": true,
+      "foreground_exits": [
+        2,
+        2,
+        0
+      ],
+      "final_candidate": "aa08f5d6b447a7aa297cbdab4c88ed89b3433371"
+    }
+  ],
+  "rejected_state_scenarios": [
+    {
+      "scenario": "test_continuation_rejects_changed_checkpoint_without_overwriting_prior_state[snapshot]",
+      "raw": ".scratch/ticket-harness/evidence/15-observations/repair1-final-suite/ticket-harness-test-jvvw5dmi.json",
+      "diagnostics": [
+        {
+          "operation": "continue",
+          "diagnostic": "Approved input changed: /tmp/ticket-harness-test-jvvw5dmi/run/inputs/plan.json"
+        }
+      ]
+    },
+    {
+      "scenario": "test_continuation_rejects_changed_checkpoint_without_overwriting_prior_state[evidence]",
+      "raw": ".scratch/ticket-harness/evidence/15-observations/repair1-final-suite/ticket-harness-test-2uqs9mya.json",
+      "diagnostics": [
+        {
+          "operation": "continue",
+          "diagnostic": "QA evidence changed: /tmp/ticket-harness-test-2uqs9mya/run/artifacts/milestone-regression.stdout"
+        }
+      ]
+    },
+    {
+      "scenario": "test_continuation_rejects_changed_checkpoint_without_overwriting_prior_state[integration]",
+      "raw": ".scratch/ticket-harness/evidence/15-observations/repair1-final-suite/ticket-harness-test-ac5eb90n.json",
+      "diagnostics": [
+        {
+          "operation": "continue",
+          "diagnostic": "Branch integration changed externally"
+        }
+      ]
+    },
+    {
+      "scenario": "test_continuation_rejects_changed_checkpoint_without_overwriting_prior_state[checked-out]",
+      "raw": ".scratch/ticket-harness/evidence/15-observations/repair1-final-suite/ticket-harness-test-l1cyhrlg.json",
+      "diagnostics": [
+        {
+          "operation": "continue",
+          "diagnostic": "Branch dev must not be checked out"
+        }
+      ]
+    },
+    {
+      "scenario": "test_continuation_rejects_changed_checkpoint_without_overwriting_prior_state[candidate]",
+      "raw": ".scratch/ticket-harness/evidence/15-observations/repair1-final-suite/ticket-harness-test-fr3cegwd.json",
+      "diagnostics": [
+        {
+          "operation": "continue",
+          "diagnostic": "Verified source changed at /tmp/ticket-harness-test-fr3cegwd/run/worktrees/milestone-candidate"
+        }
+      ]
+    },
+    {
+      "scenario": "test_continuation_rejects_changed_checkpoint_without_overwriting_prior_state[plan]",
+      "raw": ".scratch/ticket-harness/evidence/15-observations/repair1-final-suite/ticket-harness-test-2aehyv10.json",
+      "diagnostics": [
+        {
+          "operation": "continue",
+          "diagnostic": "Approved input changed: /tmp/ticket-harness-test-2aehyv10/target/plan.json"
+        }
+      ]
+    },
+    {
+      "scenario": "test_continuation_rejects_changed_checkpoint_without_overwriting_prior_state[dev]",
+      "raw": ".scratch/ticket-harness/evidence/15-observations/repair1-final-suite/ticket-harness-test-bjxv797_.json",
+      "diagnostics": [
+        {
+          "operation": "continue",
+          "diagnostic": "Branch dev changed externally"
+        }
+      ]
+    },
+    {
+      "scenario": "test_continuation_rejects_changed_checkpoint_without_overwriting_prior_state[request]",
+      "raw": ".scratch/ticket-harness/evidence/15-observations/repair1-final-suite/ticket-harness-test-c_73gljy.json",
+      "diagnostics": [
+        {
+          "operation": "continue",
+          "diagnostic": "QA request changed"
+        }
+      ]
+    },
+    {
+      "scenario": "test_continuation_rejects_changed_checkpoint_without_overwriting_prior_state[checkpoint]",
+      "raw": ".scratch/ticket-harness/evidence/15-observations/repair1-final-suite/ticket-harness-test-es4besnt.json",
+      "diagnostics": [
+        {
+          "operation": "continue",
+          "diagnostic": "QA checkpoint identity changed"
+        }
+      ]
+    },
+    {
+      "scenario": "test_continuation_rejects_changed_checkpoint_without_overwriting_prior_state[baseline]",
+      "raw": ".scratch/ticket-harness/evidence/15-observations/repair1-final-suite/ticket-harness-test-gk9b6se6.json",
+      "diagnostics": [
+        {
+          "operation": "continue",
+          "diagnostic": "Verified source changed at /tmp/ticket-harness-test-gk9b6se6/run/worktrees/baseline"
+        }
+      ]
+    },
+    {
+      "scenario": "test_continuation_rejects_changed_checkpoint_without_overwriting_prior_state[record-type]",
+      "raw": ".scratch/ticket-harness/evidence/15-observations/repair1-final-suite/ticket-harness-test-oue59fvz.json",
+      "diagnostics": [
+        {
+          "operation": "continue",
+          "diagnostic": "Checkpoint run record or directory changed"
+        }
+      ]
+    },
+    {
+      "scenario": "test_continuation_rejects_changed_checkpoint_without_overwriting_prior_state[archive]",
+      "raw": ".scratch/ticket-harness/evidence/15-observations/repair1-final-suite/ticket-harness-test-h29flj8o.json",
+      "diagnostics": [
+        {
+          "operation": "continue",
+          "diagnostic": "Archived checkpoint identity changed"
+        }
+      ]
+    },
+    {
+      "scenario": "test_continuation_rejects_changed_checkpoint_without_overwriting_prior_state[record]",
+      "raw": ".scratch/ticket-harness/evidence/15-observations/repair1-final-suite/ticket-harness-test-8uwycfzm.json",
+      "diagnostics": [
+        {
+          "operation": "continue",
+          "diagnostic": "Checkpoint run record or directory changed"
+        }
+      ]
+    },
+    {
+      "scenario": "test_continuation_rejects_changed_checkpoint_without_overwriting_prior_state[observation]",
+      "raw": ".scratch/ticket-harness/evidence/15-observations/repair1-final-suite/ticket-harness-test-4rq6ozuo.json",
+      "diagnostics": [
+        {
+          "operation": "continue",
+          "diagnostic": "Checkpoint run record or directory changed"
+        }
+      ]
+    },
+    {
+      "scenario": "test_continuation_rejects_changed_checkpoint_without_overwriting_prior_state[malformed-record]",
+      "raw": ".scratch/ticket-harness/evidence/15-observations/repair1-final-suite/ticket-harness-test-iikzjvdm.json",
+      "diagnostics": [
+        {
+          "operation": "continue",
+          "diagnostic": "Continue requires a deliberate stopped_at_qa checkpoint; arbitrary interruption recovery is unsupported"
+        }
+      ]
+    }
+  ],
+  "post_restore_invalidation": {
+    "raw": ".scratch/ticket-harness/evidence/15-observations/repair1-final-suite/ticket-harness-test-ai5ihdfg.json",
+    "gate": {
+      "stage": "baseline",
+      "revision": "a55a2f20289ec00e41ef6dad27091e00b4e1753a",
+      "argv": [
+        "/home/ajkerr1/development/agentic_template/.micromamba/envs/dev/bin/python",
+        "/tmp/ticket-harness-test-ai5ihdfg/graph-check.py"
+      ],
+      "cwd": "/tmp/ticket-harness-test-ai5ihdfg/run/worktrees/baseline",
+      "stdout": "/tmp/ticket-harness-test-ai5ihdfg/run/artifacts/baseline.stdout",
+      "stderr": "/tmp/ticket-harness-test-ai5ihdfg/run/artifacts/baseline.stderr",
+      "passed": false,
+      "timeout_seconds": 1800,
+      "timed_out": false,
+      "exit_code": 0,
+      "cleanup": {
+        "process_group": 3365,
+        "signal": "SIGKILL",
+        "sent": false
+      },
+      "ticket": null,
+      "attempt": 0,
+      "timeout_category": "baseline",
+      "verification_status": "invalidated",
+      "diagnostic": "Verified source changed at /tmp/ticket-harness-test-ai5ihdfg/run/worktrees/baseline"
+    },
+    "foreground_exits": [
+      2,
+      1
+    ]
+  }
+}

@@ -1,0 +1,163 @@
+{
+  "role": "spec",
+  "ticket": "01",
+  "attempt": 1,
+  "repair_context": null,
+  "base_revision": "f22b5d23b79e54c9583dc91a900c3f094ae18ff1",
+  "revision": "413f978106bdc94e184f3dd295cc66dcd003802a",
+  "instructions": "Review the exact revision against the approved ticket/spec and actual check results. Do not edit source. Return findings classified as blocking or optional. For unavailable requirements or changes to approved contracts, return a blocking finding with human_decision_needed true. Identify the approved contract in requirement, supporting evidence/consequence, and the precise decision in resolution. Do not resolve the conflict by changing approved inputs or interfaces.",
+  "inputs": {
+    "spec": "# Fixture spec\nChange value.txt from 1 to 2. Preserve the other files.\n",
+    "ticket": "# 01: Work 01\n\nStatus: ready-for-agent\nBlocked by: None\nChecks: ticket\n\n## Acceptance criteria\n\n- [ ] Deliver work 01.\n",
+    "plan": "{\"version\": \"v1\", \"approval\": \"human-approved fixture bundle v1\", \"development\": \"dev\", \"required_tickets\": [\"01\", \"02\", \"03\", \"04\"], \"milestones\": [{\"id\": \"M1\", \"tickets\": [\"03\", \"01\"], \"qa\": {\"setup\": \"Inspect disposable feature\", \"actions\": [\"Read delivered work\"], \"pass_conditions\": [\"Work 01 and 03 exist\"]}}, {\"id\": \"M2\", \"tickets\": [\"04\", \"02\"], \"qa\": {\"setup\": \"Inspect all work\", \"actions\": [\"Read all delivered work\"], \"pass_conditions\": [\"All required work exists\"]}}], \"final_milestone\": \"M2\", \"final_coverage\": [\"01\", \"02\", \"03\", \"04\"], \"roles\": {\"worker\": {\"model\": \"scripted-fixture\"}, \"spec\": {\"model\": \"scripted-spec\"}, \"standards\": {\"model\": \"scripted-standards\"}}, \"worker_overrides\": {\"03\": {\"reasoning\": \"High\", \"reason\": \"Fixture override\"}}}",
+    "ticket-0": "# 04: Work 04\n\nStatus: ready-for-agent\nBlocked by: 01\nChecks: ticket\n\n## Acceptance criteria\n\n- [ ] Deliver work 04.\n",
+    "ticket-1": "# 02: Work 02\n\nStatus: ready-for-agent\nBlocked by: 03, 04\nChecks: ticket\n\n## Acceptance criteria\n\n- [ ] Deliver work 02.\n",
+    "ticket-2": "# 03: Work 03\n\nStatus: ready-for-agent\nBlocked by: None\nChecks: other\n\n## Acceptance criteria\n\n- [ ] Deliver work 03.\n",
+    "ticket-4": "# 05: Human context\n\nStatus: ready-for-human\nBlocked by: None\n\n## Acceptance criteria\n\n- [ ] Human work.\n",
+    "ticket-5": "# 07: Agent context\nStatus: ready-for-agent\nBlocked by: 05\n\n## Acceptance criteria\n- [ ] Context work.\n",
+    "standards-0": "# The fixture standard\nKeep the value as a decimal integer followed by a newline.\n"
+  },
+  "check_results": [
+    {
+      "stage": "baseline",
+      "revision": "79d0b7d4b9e2dac647ca6573f3dfdb9cdb4c2399",
+      "argv": [
+        "/home/ajkerr1/development/agentic_template/.micromamba/envs/dev/bin/python",
+        "/tmp/ticket-harness-test-oiqyijax/graph-check.py"
+      ],
+      "cwd": "/tmp/ticket-harness-test-oiqyijax/run/worktrees/baseline",
+      "stdout": "/tmp/ticket-harness-test-oiqyijax/run/artifacts/baseline.stdout",
+      "stderr": "/tmp/ticket-harness-test-oiqyijax/run/artifacts/baseline.stderr",
+      "passed": true,
+      "timeout_seconds": 1800,
+      "timed_out": false,
+      "exit_code": 0,
+      "cleanup": {
+        "process_group": 2582,
+        "signal": "SIGKILL",
+        "sent": false
+      },
+      "ticket": null,
+      "attempt": 0,
+      "timeout_category": "baseline"
+    },
+    {
+      "stage": "implementation",
+      "revision": "f22b5d23b79e54c9583dc91a900c3f094ae18ff1",
+      "argv": [
+        "/home/ajkerr1/development/agentic_template/.micromamba/envs/dev/bin/python",
+        "/tmp/ticket-harness-test-oiqyijax/graph-agent.py"
+      ],
+      "cwd": "/tmp/ticket-harness-test-oiqyijax/run/worktrees/ticket-01-implementation",
+      "stdout": "/tmp/ticket-harness-test-oiqyijax/run/artifacts/ticket-01-implementation.stdout",
+      "stderr": "/tmp/ticket-harness-test-oiqyijax/run/artifacts/ticket-01-implementation.stderr",
+      "passed": true,
+      "timeout_seconds": 1800,
+      "timed_out": false,
+      "assignment": "/tmp/ticket-harness-test-oiqyijax/run/artifacts/ticket-01-implementation.assignment.json",
+      "exit_code": 0,
+      "cleanup": {
+        "process_group": 2753,
+        "signal": "SIGKILL",
+        "sent": false
+      },
+      "ticket": "01",
+      "attempt": 1,
+      "timeout_category": "implementation",
+      "report": {
+        "role": "implementation",
+        "ticket": "01",
+        "attempt": 1,
+        "base_revision": "f22b5d23b79e54c9583dc91a900c3f094ae18ff1",
+        "revision": "f22b5d23b79e54c9583dc91a900c3f094ae18ff1",
+        "pid": 2753,
+        "result": "submitted",
+        "summary": "Delivered ticket",
+        "changed_files": [],
+        "checks": [],
+        "acceptance_evidence": [
+          "Delivered cumulative work"
+        ],
+        "unresolved_questions": []
+      },
+      "report_status": "valid"
+    },
+    {
+      "stage": "check-ticket",
+      "revision": "413f978106bdc94e184f3dd295cc66dcd003802a",
+      "argv": [
+        "/home/ajkerr1/development/agentic_template/.micromamba/envs/dev/bin/python",
+        "/tmp/ticket-harness-test-oiqyijax/graph-check.py"
+      ],
+      "cwd": "/tmp/ticket-harness-test-oiqyijax/run/worktrees/ticket-01-implementation",
+      "stdout": "/tmp/ticket-harness-test-oiqyijax/run/artifacts/ticket-01-check-ticket.stdout",
+      "stderr": "/tmp/ticket-harness-test-oiqyijax/run/artifacts/ticket-01-check-ticket.stderr",
+      "passed": true,
+      "timeout_seconds": 300,
+      "timed_out": false,
+      "exit_code": 0,
+      "cleanup": {
+        "process_group": 2794,
+        "signal": "SIGKILL",
+        "sent": false
+      },
+      "ticket": "01",
+      "attempt": 1,
+      "timeout_category": "checks"
+    }
+  ],
+  "required_checks": {
+    "ticket": [
+      "/home/ajkerr1/development/agentic_template/.micromamba/envs/dev/bin/python",
+      "/tmp/ticket-harness-test-oiqyijax/graph-check.py"
+    ]
+  },
+  "report_contract": {
+    "identity_fields": [
+      "role",
+      "ticket",
+      "attempt",
+      "base_revision",
+      "revision"
+    ],
+    "result": "findings list",
+    "fields": [
+      "findings"
+    ],
+    "finding_fields": [
+      "id",
+      "classification",
+      "location",
+      "requirement",
+      "consequence",
+      "evidence",
+      "resolution",
+      "human_decision_needed"
+    ],
+    "field_types": {
+      "role": "string: copy assignment role; spec/standards is the review axis",
+      "ticket": "string: copy assignment ticket, including leading zeros",
+      "attempt": "integer: copy assignment attempt; booleans/floats are invalid",
+      "base_revision": "string: copy assignment base_revision",
+      "revision": "string: copy assignment revision (starting source for implementation)",
+      "result": "string: submitted or human-decision-needed; never Done",
+      "summary": "nonempty string",
+      "changed_files": "list of nonempty strings; claims only, may be empty",
+      "checks": "list of nonempty strings; claims only, may be empty",
+      "acceptance_evidence": "list of nonempty strings; nonempty for submitted",
+      "unresolved_questions": "list of nonempty strings; nonempty for human-decision-needed",
+      "findings": "list of complete finding objects; may be empty"
+    },
+    "finding_field_types": {
+      "id": "nonempty string; stable and unique within this review",
+      "classification": "blocking or optional",
+      "location": "nonempty string",
+      "requirement": "nonempty string",
+      "consequence": "nonempty string",
+      "evidence": "nonempty string",
+      "resolution": "nonempty string",
+      "human_decision_needed": "boolean"
+    },
+    "instructions": "Emit one JSON object to stdout; diagnostics go to stderr. Copy assignment identity fields exactly, including their JSON types. Identity fields and fields listed in fields are required. Every finding requires finding_fields. Maximum object/array nesting: 100 levels. No duplicate keys or nonfinite numbers. Extra diagnostic metadata is allowed but has no authority."
+  }
+}

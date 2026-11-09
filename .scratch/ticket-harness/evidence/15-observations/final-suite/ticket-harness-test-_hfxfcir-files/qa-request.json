@@ -1,0 +1,53 @@
+{
+  "request_id": "3358f15101e34cb4844166c9ad2a1381",
+  "run_id": "b665175287cc4095b2126b46c7daf1f5",
+  "run_directory": "/tmp/ticket-harness-test-_hfxfcir/run",
+  "plan_version": "v1",
+  "plan_approval": "human-approved fixture bundle v1",
+  "plan_input": {
+    "source": "/tmp/ticket-harness-test-_hfxfcir/target/plan.json",
+    "artifact": "/tmp/ticket-harness-test-_hfxfcir/run/inputs/plan.json",
+    "sha256": "3ee4d5b011078e4d0bdf1d42199935f71d1cff1ee07cb5ad15af38a9dbe8d5fc"
+  },
+  "milestone": "M1",
+  "feature_branch": "integration",
+  "feature_revision": "f00178fa9f8ff5da15727d554e36fb57ccd09bdc",
+  "development_branch": "dev",
+  "development_revision": "9b85278a85c376bd2fc3b689a85c2c512b01c58d",
+  "candidate_revision": "8490f7f4f81e9db7a8d32a5b7947e4a615dae05b",
+  "candidate_worktree": "/tmp/ticket-harness-test-_hfxfcir/run/worktrees/milestone-candidate",
+  "human_checks": {
+    "setup": "Inspect disposable feature",
+    "actions": [
+      "Read delivered work"
+    ],
+    "pass_conditions": [
+      "Work 01 and 03 exist"
+    ]
+  },
+  "regression_evidence": [
+    {
+      "stage": "milestone-regression",
+      "revision": "8490f7f4f81e9db7a8d32a5b7947e4a615dae05b",
+      "argv": [
+        "/home/ajkerr1/development/agentic_template/.micromamba/envs/dev/bin/python",
+        "/tmp/ticket-harness-test-_hfxfcir/graph-check.py"
+      ],
+      "cwd": "/tmp/ticket-harness-test-_hfxfcir/run/worktrees/milestone-candidate",
+      "stdout": "/tmp/ticket-harness-test-_hfxfcir/run/artifacts/milestone-regression.stdout",
+      "stderr": "/tmp/ticket-harness-test-_hfxfcir/run/artifacts/milestone-regression.stderr",
+      "passed": true,
+      "timeout_seconds": 1800,
+      "timed_out": false,
+      "exit_code": 0,
+      "cleanup": {
+        "process_group": 11905,
+        "signal": "SIGKILL",
+        "sent": false
+      },
+      "ticket": null,
+      "attempt": 0,
+      "timeout_category": "candidate"
+    }
+  ]
+}

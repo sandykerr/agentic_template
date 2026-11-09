@@ -1,0 +1,48 @@
+FF                                                                       [100%]
+=================================== FAILURES ===================================
+_______ test_active_owner_and_arbitrary_interruption_cannot_be_continued _______
+
+graph = <test_dependencies.DependencyFixture testMethod=runTest>
+
+    def test_active_owner_and_arbitrary_interruption_cannot_be_continued(graph):
+        configure_plan(graph)
+        with foreground(graph) as process:
+            waiting(graph, process, "M1")
+            before = (graph.output / "run.json").read_bytes()
+            result = graph.cli("continue", graph.output)
+            assert result.returncode == 1 and "active owner" in result.stderr
+            assert (graph.output / "run.json").read_bytes() == before
+        # Termination by the fixture did not create a clean checkpoint.
+        result = graph.cli("continue", graph.output)
+        assert result.returncode == 1 and "deliberate" in result.stderr
+>       assert graph.cli("stop", graph.output).returncode == 1
+E       assert 0 == 1
+E        +  where 0 = CompletedProcess(args=['/home/ajkerr1/development/agentic_template/.micromamba/envs/dev/bin/python', '-m', 'ticket_har...turncode=0, stdout='{\n  "outcome": "stop_requested",\n  "run_id": "682d578fdb0b46b5a50e5ea991af9681"\n}\n', stderr='').returncode
+E        +    where CompletedProcess(args=['/home/ajkerr1/development/agentic_template/.micromamba/envs/dev/bin/python', '-m', 'ticket_har...turncode=0, stdout='{\n  "outcome": "stop_requested",\n  "run_id": "682d578fdb0b46b5a50e5ea991af9681"\n}\n', stderr='') = cli('stop', PosixPath('/tmp/ticket-harness-test-ppcq9_5j/run'))
+E        +      where cli = <test_dependencies.DependencyFixture testMethod=runTest>.cli
+E        +      and   PosixPath('/tmp/ticket-harness-test-ppcq9_5j/run') = <test_dependencies.DependencyFixture testMethod=runTest>.output
+
+tests/test_continuation.py:128: AssertionError
+_____ test_repeated_stops_retain_previous_decisions_and_checkpoint_lineage _____
+
+graph = <test_dependencies.DependencyFixture testMethod=runTest>
+
+    def test_repeated_stops_retain_previous_decisions_and_checkpoint_lineage(graph):
+        configure_plan(graph)
+        stop_at_qa(graph)
+        first_checkpoint = (graph.output / "qa-checkpoint.json").read_bytes()
+        request = json.loads((graph.output / "qa-request.json").read_text())
+        approve(graph, request)
+        with foreground(graph, operation="continue") as process:
+            second = waiting(graph, process, "M2")
+            graph.cli("stop", graph.output)
+            process.wait(timeout=10)
+            assert process.returncode == 2
+>       assert first_checkpoint in [p.read_bytes() for p in (graph.output / "checkpoints").glob("*.json")]
+E       assert b'{\n  "version": 1,\n  "run_directory": "/tmp/ticket-harness-test-ksqorh21/run",\n  "config": {\n    "repository": "/...9ee328727b4b039e54"\n  },\n  "request_sha256": "da64e00c3a97660ebd869dcaf8a7d018b9c4e89dd9878918e15fd2c743681f44"\n}\n' in []
+
+tests/test_continuation.py:142: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_continuation.py::test_active_owner_and_arbitrary_interruption_cannot_be_continued
+FAILED tests/test_continuation.py::test_repeated_stops_retain_previous_decisions_and_checkpoint_lineage
+2 failed, 14 deselected in 8.23s
