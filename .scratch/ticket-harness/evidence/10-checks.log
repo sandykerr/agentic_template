@@ -1,0 +1,121 @@
+Ticket 10 — actual documentation/skill checks
+Fixed original baseline: 42053bd55c925b252e838e8794314ecb1047148e
+Verified implementation checkpoint: 70a0122
+All Python used the documented reusable environment. No dependencies installed.
+Final static command: bash /tmp/ticket10-checks/static/run.sh; exit 0.
+Initial validator lacked yaml; final command uses existing system PyYAML through command-local PYTHONPATH.
+A renewed static check after concurrent numbering additions initially failed because the temporary link checker treated #ticket-numbering as a directory. The helper was corrected to resolve same-file anchors; final complete static sequence passed. Product sources were unchanged by this correction.
+Initial observations concern pre-numbering sources; subsequent source audits are separately retained in both sessions.
+
+--- static/commands.log ---
+env PYTHONPATH=/usr/lib/python3/dist-packages /home/ajkerr1/development/agentic_template/.micromamba/envs/dev/bin/python /home/ajkerr1/.codex/skills/.system/skill-creator/scripts/quick_validate.py .agents/skills/custom/grill-to-tickets
+exit=0 log=/tmp/ticket10-checks/static/skill-validation.log
+/home/ajkerr1/development/agentic_template/.micromamba/envs/dev/bin/python /tmp/ticket10-checks/static/check_links.py
+exit=0 log=/tmp/ticket10-checks/static/links.log
+/home/ajkerr1/development/agentic_template/.micromamba/envs/dev/bin/python /tmp/ticket10-checks/static/check_whitespace.py
+exit=0 log=/tmp/ticket10-checks/static/whitespace.log
+git diff 42053bd55c925b252e838e8794314ecb1047148e -- .agents/skills/matt-pocock .agents/skills/microsoft
+exit=0 log=/tmp/ticket10-checks/static/upstream-clean.log
+sha256sum .agents/skills/custom/grill-to-tickets/SKILL.md .agents/skills/custom/references/planning.md /home/ajkerr1/.codex/skills/.system/skill-creator/scripts/quick_validate.py
+exit=0 log=/tmp/ticket10-checks/static/source-hashes.log
+
+--- static/skill-validation.log ---
+Skill is valid!
+
+--- static/links.log ---
+.agents/skills/custom/grill-to-tickets/SKILL.md: ../references/planning.md -> /home/ajkerr1/development/agentic_template/.agents/skills/custom/references/planning.md
+.agents/skills/custom/grill-to-tickets/SKILL.md: ../../matt-pocock/grilling/SKILL.md -> /home/ajkerr1/development/agentic_template/.agents/skills/matt-pocock/grilling/SKILL.md
+.agents/skills/custom/grill-to-tickets/SKILL.md: ../../matt-pocock/domain-modeling/SKILL.md -> /home/ajkerr1/development/agentic_template/.agents/skills/matt-pocock/domain-modeling/SKILL.md
+.agents/skills/custom/grill-to-tickets/SKILL.md: ../../matt-pocock/to-spec/SKILL.md -> /home/ajkerr1/development/agentic_template/.agents/skills/matt-pocock/to-spec/SKILL.md
+.agents/skills/custom/grill-to-tickets/SKILL.md: ../test-strategy/SKILL.md -> /home/ajkerr1/development/agentic_template/.agents/skills/custom/test-strategy/SKILL.md
+.agents/skills/custom/grill-to-tickets/SKILL.md: ../../matt-pocock/to-tickets/SKILL.md -> /home/ajkerr1/development/agentic_template/.agents/skills/matt-pocock/to-tickets/SKILL.md
+.agents/skills/custom/grill-to-tickets/SKILL.md: ../references/planning.md#ticket-numbering -> /home/ajkerr1/development/agentic_template/.agents/skills/custom/references/planning.md
+.agents/skills/custom/references/planning.md: ../../../../docs/agents/domain.md -> /home/ajkerr1/development/agentic_template/docs/agents/domain.md
+.agents/skills/custom/references/planning.md: ../../../../docs/agents/issue-tracker.md -> /home/ajkerr1/development/agentic_template/docs/agents/issue-tracker.md
+.agents/skills/custom/references/planning.md: ../../../../docs/agents/triage-labels.md -> /home/ajkerr1/development/agentic_template/docs/agents/triage-labels.md
+.agents/skills/custom/references/planning.md: ../../../../docs/agents/testing.md -> /home/ajkerr1/development/agentic_template/docs/agents/testing.md
+.agents/skills/custom/references/planning.md: ../../matt-pocock/codebase-design/SKILL.md -> /home/ajkerr1/development/agentic_template/.agents/skills/matt-pocock/codebase-design/SKILL.md
+.agents/skills/custom/references/planning.md: ../test-strategy/SKILL.md -> /home/ajkerr1/development/agentic_template/.agents/skills/custom/test-strategy/SKILL.md
+.agents/skills/custom/references/planning.md: #ticket-numbering -> /home/ajkerr1/development/agentic_template/.agents/skills/custom/references/planning.md
+PASS: 14 Markdown links resolve to local files
+
+--- static/whitespace.log ---
+PASS: .agents/skills/custom/grill-to-tickets/SKILL.md: final newline, no trailing whitespace or conflict markers
+PASS: .agents/skills/custom/references/planning.md: final newline, no trailing whitespace or conflict markers
+
+--- static/upstream-clean.log ---
+
+--- static/source-hashes.log ---
+137522347bce0b00eb94375bbb99dc44555585abb870b73b504eae6cf600a5bb  .agents/skills/custom/grill-to-tickets/SKILL.md
+02bf9315a0e78afdf9766f689ffd1f7971f1f652d0e085489a6012fb1563aab2  .agents/skills/custom/references/planning.md
+ee6dba90f44d37171c5a6edb8095979c54919ff6822c1a907afca2e78c48738c  /home/ajkerr1/.codex/skills/.system/skill-creator/scripts/quick_validate.py
+
+--- Isolated observations ---
+Command: /home/ajkerr1/development/agentic_template/.micromamba/envs/dev/bin/python /tmp/ticket10-checks/observe_examples.py > /tmp/ticket10-checks/examples-check.log
+Exit: 0
+PASS: approved Taskbox v1 hashes unchanged; no new issues or version published
+PASS: feedback changes both staged spec and complete proposal; original draft retained
+PASS: reading-list publishes four bundle documents and five ready tickets with unchecked criteria
+PASS: 199 local example links and anchors resolve
+Saved raw source identities, sessions and complete workspace files: planning-observations.json
+
+Command: sha256sum -c /tmp/ticket10-checks/feedback-before.sha256 > /tmp/ticket10-checks/feedback-preservation.log
+Exit: 0
+/tmp/ticket10-checks/feedback-workspace/.scratch/taskbox/README.md: OK
+/tmp/ticket10-checks/feedback-workspace/.scratch/taskbox/issues/01-add-and-list.md: OK
+/tmp/ticket10-checks/feedback-workspace/.scratch/taskbox/milestones.md: OK
+/tmp/ticket10-checks/feedback-workspace/.scratch/taskbox/spec.md: OK
+/tmp/ticket10-checks/feedback-workspace/.scratch/taskbox/ticket-proposal.md: OK
+
+Command: git diff --cached --check (before implementation checkpoint)
+Exit: 0
+Command: git diff --check 42053bd55c925b252e838e8794314ecb1047148e...HEAD (at 70a0122)
+Exit: 0
+
+The approved-example agent ran node .planning-check.cjs: exit 0; 9 published Markdown files and 96 local references. Exact helper source and session observations are retained in 10-planning-observations.json. These are planning artifacts, not application/runtime tests.
+No runtime, packaging, dependency or repository test changes: no runtime suite replay, strict type/lint or install checks were required for this standalone skill/document change under docs/agents/testing.md.
+
+--- review-spec.md ---
+# Ticket 10 — independent Spec review
+
+Reviewed `70a01220dfac353ebea639ae85daac08d5eed8b2` against `42053bd55c925b252e838e8794314ecb1047148e` using `git diff 42053bd55c925b252e838e8794314ecb1047148e...HEAD`. Commit: `70a0122 Add unified approved-bundle planning skill for ticket 10`. Both changed files match `static/source-hashes.log`. The unrelated uncommitted tracker edit was excluded and preserved.
+
+**Findings: zero blockers; zero optional suggestions.** No missing/partial scoped requirement, scope creep, or incorrectly implemented behavior found. Scope: ticket 10, spec planning/milestone and custom-skills sections, proposal R01; relevant glossary, ADRs and repository guidance reviewed.
+
+All six criteria assessed:
+
+1. One user-facing entry point delegates procedures to upstream grilling, domain modeling, synthesis and vertical-ticket guidance. Upstream files remain unchanged.
+2. Grilling settles QA/testing/role decisions and confirms understanding before drafting. Joint revision and consequential targeted regrilling are explicit; the feedback example changes both spec and proposal, including criteria, tests and QA.
+3. Complete bundle approval gates canonical spec, tickets, milestones and index. Declined feedback publication preserved all five existing approved files and created no new issues; the approved example publishes all nine bundle documents.
+4. Final cumulative QA is mandatory; capability defaults and fixed topological every-N groups are documented. Approved example has dependency-consistent 2/2/1 membership and distinct human gates.
+5. The shared reference owns Medium worker/repair, independent High reviewers, inherited/explicit worker overrides, testing seams, QA actions and acceptance conditions. Example ticket 04 applies High to implementation and repair without changing reviewers.
+6. Retained independent isolated sessions/artifacts demonstrate feedback, declined publication and approved publication. Runtime/skill-metadata proof is explicitly deferred to ticket 27.
+
+Independently reran: `quick_validate.py` (valid); `static/check_links.py` (14 links); `static/check_whitespace.py`; `git diff --check BASE...HEAD`; upstream `git diff --exit-code BASE -- .agents/skills/matt-pocock .agents/skills/microsoft`; approved `.planning-check.cjs` (9 files, 96 links); `sha256sum --check feedback-before.sha256` (five preserved files). All exited 0. Inspected raw sessions, before/after drafts and published artifacts.
+
+Provenance limit: original example execution loaded pre-numbering text; later independent audits reread final hashes and checked current numbering conformance. These are retrospective checks, not fresh final-source executions. Reorder/split, experiment and preserved-ID-exception paths remain unexercised. No runtime suite, milestone acceptance or feature completion is claimed.
+
+--- review-standards.md ---
+# Standards review — ticket 10
+
+Reviewed revision: `70a01220dfac353ebea639ae85daac08d5eed8b2`; original baseline: `42053bd55c925b252e838e8794314ecb1047148e`. Command: `git diff 42053bd55c925b252e838e8794314ecb1047148e...HEAD`. Sole commit: `70a0122 Add unified approved-bundle planning skill for ticket 10`. Independent fresh Standards assignment; no source edits.
+
+**Blocking findings: 0. Optional findings: 0.**
+
+- `.agents/skills/custom/grill-to-tickets/SKILL.md`: no documented-standard violations. The concise, discoverable entrypoint names its planning/revision scope, routes each stage to existing upstream procedures, and explicitly loads the authoritative planning reference. Automatic discovery follows the user's choice and skill-creator default; upstream explicit-only invocation conventions do not override that choice.
+- `.agents/skills/custom/references/planning.md`: no documented-standard violations. The single reference owns detailed planning decisions and output shapes, uses domain terminology, preserves approved/active-run inputs, separates plan approval from QA acceptance, and retains target-project policy precedence. Detailed bundle validation is warranted by the approval/publication contract. The requested single-reference packaging takes precedence over an optional split for length.
+
+Applied AGENTS/domain/testing/tracker/triage guidance, GLOSSARY, ADR-0001/0002, harness design/spec policy, writing-for-agents and skill mechanics, skill-creator, and relevant upstream procedures. No applicable CONTRIBUTING or general CODING_STANDARDS file exists; fixture-only `examples/scripted/STANDARDS.md` does not govern this skill. All twelve Fowler baseline smells were considered as judgments; none warrants an actionable finding. Tool-enforced matters are reported as checks, not findings.
+
+Actual independent checks: official `quick_validate.py` through the documented reusable Python with existing system PyYAML on `PYTHONPATH` returned `Skill is valid!` (exit 0); retained `check_links.py` resolved all 14 links/anchors (exit 0); `check_whitespace.py` passed both files (exit 0); `git diff --check` passed; upstream baseline diff was empty. SHA-256 values match final `static/source-hashes.log`. No runtime/test/package changes exist, so the standalone documentation/skill verification policy applies.
+
+Inspected retained commands/results and both example sessions' provenance: their initial execution preceded numbering additions; later audits explicitly assess final-source conformance. This review does not claim those initial runs loaded final sources. Concurrent uncommitted `docs/agents/issue-tracker.md` remains untouched and excluded from the reviewed diff.
+
+--- Completion bookkeeping ---
+Command: /home/ajkerr1/development/agentic_template/.micromamba/envs/dev/bin/python /tmp/ticket10-checks/check_bookkeeping.py
+Exit: 0
+PASS: six unchanged criteria checked, dependency history retained, completed status/previous readiness/index agree; 79 local links/anchors resolve; raw observations parse
+Command: git diff --check (after bookkeeping)
+Exit: 0
+
+Initial cached whitespace validation found trailing command separators in the retained raw command log. Formatting-only cleanup removed those spaces; final cached whitespace check passed.
