@@ -1,0 +1,73 @@
+Ticket 13 final verification; implementation checkpoint 19ea4f1b0bbdc601653468212aaaa0a7211d5c6f
+Source: 13-renewed-final-suite-source.json; command-local PYTHONPATH=/tmp/ticket12-tools.
+
+Command: ["/home/ajkerr1/development/agentic_template/.micromamba/envs/dev/bin/python", "-m", "pytest", "-q", "--durations=20"]
+Exit: 0; elapsed seconds: 796.788
+Source: 13-renewed-final-suite-source.json
+Observations: .scratch/ticket-harness/evidence/13-observations/renewed-final-suite
+........................................................................ [ 14%]
+........................................................................ [ 28%]
+........................................................................ [ 42%]
+........................................................................ [ 56%]
+........................................................................ [ 70%]
+........................................................................ [ 84%]
+........................................................................ [ 99%]
+.....                                                                    [100%]
+============================= slowest 20 durations =============================
+11.00s call     tests/test_milestones.py::test_single_final_group_still_requires_human_qa_and_captures_matching_metadata
+10.45s call     tests/test_dependencies.py::test_repairs_keep_ticket_local_attempts_fixed_bases_and_all_earlier_evidence
+10.02s call     tests/test_dependencies.py::test_multi_ticket_completion_evidence_unlocks_only_explicit_follow_up_selection
+8.95s call     tests/test_milestones.py::test_conflicting_development_preserves_resolution_and_requires_renewed_reviews[True]
+8.35s call     tests/test_dependencies.py::test_dependency_chain_and_independent_work_use_verified_integration_in_stable_order
+7.65s call     tests/test_preflight.py::test_prerequisite_completion_requires_current_integrated_done_evidence[incomplete]
+6.57s call     tests/test_milestones.py::test_development_already_containing_the_feature_still_runs_exact_milestone_regression
+6.45s call     tests/test_milestones.py::test_conflicting_development_preserves_resolution_and_requires_renewed_reviews[False]
+6.29s call     tests/test_milestones.py::test_failed_milestone_regression_retains_done_tickets_without_a_qa_request
+6.03s call     tests/test_repairs.py::test_report_and_process_failures_share_the_repair_allowance[mistyped-standards]
+5.76s call     tests/test_timeouts.py::test_check_timeout_can_repair_and_test_the_exact_new_candidate[candidate]
+5.69s call     tests/test_repairs.py::test_final_default_repair_gets_all_rejected_revision_and_gate_history
+5.68s call     tests/test_human_decisions.py::test_invalid_decision_like_output_is_untrusted_and_uses_bounded_repairs[overflow-standards]
+5.48s call     tests/test_timeouts.py::test_timed_out_assignment_repairs_current_work_with_fresh_verification[implementation]
+5.46s call     tests/test_optional_suggestions.py::test_optional_only_integrates_without_spending_available_repairs[True-roles0]
+5.21s call     tests/test_milestones.py::test_changed_development_base_is_combined_with_feature_using_a_clean_same_file_merge
+4.87s call     tests/test_timeouts.py::test_timeout_exhaustion_uses_repair_deadline_and_preserves_all_attempts
+4.83s call     tests/test_repairs.py::test_report_and_process_failures_share_the_repair_allowance[overflow-standards]
+4.70s call     tests/test_optional_suggestions.py::test_optional_only_integrates_without_spending_available_repairs[True-roles1]
+4.55s call     tests/test_milestones.py::test_external_milestone_input_movement_preserves_refs_and_rejects_readiness[dev]
+509 passed in 795.92s (0:13:15)
+
+Command: ["/home/ajkerr1/development/agentic_template/.micromamba/envs/dev/bin/python", "-m", "mypy"]
+Exit: 0; elapsed seconds: 1.742
+Source: 13-renewed-final-mypy-source.json
+Observations: .scratch/ticket-harness/evidence/13-observations/renewed-final-mypy
+Success: no issues found in 8 source files
+
+Command: ["/home/ajkerr1/development/agentic_template/.micromamba/envs/dev/bin/python", "-m", "ruff", "check", "ticket_harness", "tests", "examples"]
+Exit: 0; elapsed seconds: 0.152
+Source: 13-renewed-final-lint-source.json
+Observations: .scratch/ticket-harness/evidence/13-observations/renewed-final-lint
+All checks passed!
+
+Command: ["/home/ajkerr1/development/agentic_template/.micromamba/envs/dev/bin/python", "-m", "ruff", "format", "--check", "ticket_harness", "tests", "examples"]
+Exit: 0; elapsed seconds: 0.166
+Source: 13-renewed-final-format-source.json
+Observations: .scratch/ticket-harness/evidence/13-observations/renewed-final-format
+20 files already formatted
+
+Command: ["git", "diff", "--check"]
+Exit: 0; elapsed seconds: 0.016
+Source: 13-renewed-final-whitespace-source.json
+Observations: .scratch/ticket-harness/evidence/13-observations/renewed-final-whitespace
+
+Independent implementation reviews at 19ea4f1, original baseline fd292a988cde79532bb84714b5800e4baa5de127:
+Spec: fresh GPT-6.1 Sol High /root/review_spec13; 0 blockers, 0 optional suggestions.
+Independent command: reusable Python -m pytest tests/test_milestones.py -q -k 'changed_development_base or failed_milestone_regression'
+Exit: 0; 2 passed, 38 deselected in 12.89s. Report: 13-review-spec.md.
+Standards: separate fresh GPT-6.1 Sol High /root/review_standards13; 0 blockers/violations, 1 optional duplicate status assertion suggestion. Report: 13-review-standards.md.
+Both independently audited all 20 source hashes across all five final captures and all 88 raw/consolidated observations. No source changes or blocking repair followed.
+
+Root command: reusable Python /tmp/ticket13-root/audit_final.py
+Exit: 0; 20 committed/current hashes; all 5 final check captures; 88 raw/consolidated scenarios; exact passing request and separate ticket/milestone gates; later Pending/zero attempts; unchanged tracker. Output: 13-root-audit.json.
+Root command: reusable Python /tmp/ticket13-root/verify_records.py
+Exit: 0; five unchanged criteria completed, prior-readiness/dependency/comment/index agreement, 20 committed/current hashes and five final gates, separate review reports, unchanged approved inputs/tracker, 110 local links and whitespace.
+No active run using these feature inputs was identified. Documentation-only completion bookkeeping does not replay the verified runtime suite.

@@ -1,0 +1,63 @@
+[
+  {
+    "command": [
+      "/home/ajkerr1/development/agentic_template/.micromamba/envs/dev/bin/python",
+      "-m",
+      "pytest",
+      "-q",
+      "--durations=20"
+    ],
+    "exit_code": 0,
+    "seconds": 796.788,
+    "source_identity": "13-renewed-final-suite-source.json"
+  },
+  {
+    "command": [
+      "/home/ajkerr1/development/agentic_template/.micromamba/envs/dev/bin/python",
+      "-m",
+      "mypy"
+    ],
+    "exit_code": 0,
+    "seconds": 1.742,
+    "source_identity": "13-renewed-final-mypy-source.json"
+  },
+  {
+    "command": [
+      "/home/ajkerr1/development/agentic_template/.micromamba/envs/dev/bin/python",
+      "-m",
+      "ruff",
+      "check",
+      "ticket_harness",
+      "tests",
+      "examples"
+    ],
+    "exit_code": 0,
+    "seconds": 0.152,
+    "source_identity": "13-renewed-final-lint-source.json"
+  },
+  {
+    "command": [
+      "/home/ajkerr1/development/agentic_template/.micromamba/envs/dev/bin/python",
+      "-m",
+      "ruff",
+      "format",
+      "--check",
+      "ticket_harness",
+      "tests",
+      "examples"
+    ],
+    "exit_code": 0,
+    "seconds": 0.166,
+    "source_identity": "13-renewed-final-format-source.json"
+  },
+  {
+    "command": [
+      "git",
+      "diff",
+      "--check"
+    ],
+    "exit_code": 0,
+    "seconds": 0.016,
+    "source_identity": "13-renewed-final-whitespace-source.json"
+  }
+]

@@ -1,0 +1,12 @@
+{
+  "purpose": "Verify the interrupted prior wrapper/pytest were absent while renewed verification runs",
+  "command": "ps -eo pid,ppid,pgid,comm,args | awk '$4 ~ /python/ && ($0 ~ /-m pytest/ || $0 ~ /ticket13-checks\\/check.py/ || $0 ~ /-m ticket_harness/ || $0 ~ /graph-agent.py/) {print}'",
+  "execution": "Read-only host process metadata using require_escalated; exit 0",
+  "observed_process_chain": [
+    {"pid": 228318, "ppid": 228308, "pgid": 228308, "command": "/home/ajkerr1/development/agentic_template/.micromamba/envs/dev/bin/python /tmp/ticket13-checks/check.py renewed-final-suite /home/ajkerr1/development/agentic_template/.micromamba/envs/dev/bin/python -m pytest -q --durations=20"},
+    {"pid": 228338, "ppid": 228318, "pgid": 228308, "command": "/home/ajkerr1/development/agentic_template/.micromamba/envs/dev/bin/python -m pytest -q --durations=20"},
+    {"pid": 237289, "ppid": 228338, "pgid": 228308, "command": "/home/ajkerr1/development/agentic_template/.micromamba/envs/dev/bin/python -m ticket_harness run --config /tmp/ticket-harness-test-gj9nu9nu/project.json --output /tmp/ticket-harness-test-gj9nu9nu/run"}
+  ],
+  "observation": "Only the renewed wrapper, its pytest child and current runner matched. No interrupted wrapper/pytest or graph-agent remained. Original wrapper session 78936 had already closed with SIGINT exit 130; its child completion remains unobserved, not assigned a synthetic exit.",
+  "scope_note": "The renewed run was started after SIGINT returned and the red/green status tracer finished; this explicit host process check was performed after renewed verification began. A preceding audit command used an incorrect awk column and returned no rows; it supplied no process conclusion. The corrected command above produced these actual rows."
+}

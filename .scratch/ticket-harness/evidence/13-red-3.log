@@ -1,0 +1,829 @@
+F                                                                        [100%]
+=================================== FAILURES ===================================
+_ test_development_already_containing_the_feature_still_runs_exact_milestone_regression _
+
+graph = <test_dependencies.DependencyFixture testMethod=runTest>
+
+    def test_development_already_containing_the_feature_still_runs_exact_milestone_regression(graph):
+        configure_plan(graph)
+        script = graph.home / "suite.py"
+        script.write_text(
+            "import json, os, subprocess\nfrom pathlib import Path\n"
+            "if os.environ['TICKET_HARNESS_STAGE'] == 'milestone-regression':\n"
+            "    record = json.loads((Path.cwd().parents[1] / 'run.json').read_text())\n"
+            "    assert record['outcome'] == 'preparing_milestone', record['outcome']\n"
+            "    assert record['milestone']['state'] == 'preparing'\n"
+            "if os.environ['TICKET_HARNESS_STAGE'] == 'candidate' and Path('last-ticket').read_text() == '01':\n"
+            "    subprocess.run(['git', 'update-ref', 'refs/heads/dev', 'HEAD'], check=True)\n"
+        )
+        graph.config["suite"] = [graph.config["agent"][0], str(script)]
+        result = graph.run_ticket()
+>       assert result.returncode == 0, result.stdout + result.stderr
+E       AssertionError: {
+E           "outcome": "incomplete",
+E           "artifacts": "/tmp/ticket-harness-test-bobyg_rm/run/artifacts",
+E           "inputs": {
+E             "configuration": {
+E               "source": "/tmp/ticket-harness-test-bobyg_rm/project.json",
+E               "artifact": "/tmp/ticket-harness-test-bobyg_rm/run/inputs/configuration.json",
+E               "sha256": "f5d0b52d9fb3f1afa8632b742ff56bf9586f0d316d49d8d408e35316c1a9365a"
+E             },
+E             "spec": {
+E               "source": "/tmp/ticket-harness-test-bobyg_rm/target/spec.md",
+E               "artifact": "/tmp/ticket-harness-test-bobyg_rm/run/inputs/spec.md",
+E               "sha256": "70fc083432bac5b804dc291e318b27ed5ed439bc44fb6d81f98e39b808c3c363"
+E             },
+E             "ticket": {
+E               "source": "/tmp/ticket-harness-test-bobyg_rm/target/01-value.md",
+E               "artifact": "/tmp/ticket-harness-test-bobyg_rm/run/inputs/ticket.md",
+E               "sha256": "c3d58a4513f77911e3c7a915b9d9515fa758f59ff6a4b174233fd7da61b15154"
+E             },
+E             "plan": {
+E               "source": "/tmp/ticket-harness-test-bobyg_rm/target/plan.json",
+E               "artifact": "/tmp/ticket-harness-test-bobyg_rm/run/inputs/plan.json",
+E               "sha256": "3ee4d5b011078e4d0bdf1d42199935f71d1cff1ee07cb5ad15af38a9dbe8d5fc"
+E             },
+E             "ticket-0": {
+E               "source": "/tmp/ticket-harness-test-bobyg_rm/target/04-work.md",
+E               "artifact": "/tmp/ticket-harness-test-bobyg_rm/run/inputs/ticket-0.md",
+E               "sha256": "38e7b671f24b8549595abeef5ce15d5baa030cfaa6b96d623bb6399be9904ddc"
+E             },
+E             "ticket-1": {
+E               "source": "/tmp/ticket-harness-test-bobyg_rm/target/02-work.md",
+E               "artifact": "/tmp/ticket-harness-test-bobyg_rm/run/inputs/ticket-1.md",
+E               "sha256": "308c3c67fa603e2ee190877d9487a58413de51f1b8fc239f728450099e053c4f"
+E             },
+E             "ticket-2": {
+E               "source": "/tmp/ticket-harness-test-bobyg_rm/target/03-work.md",
+E               "artifact": "/tmp/ticket-harness-test-bobyg_rm/run/inputs/ticket-2.md",
+E               "sha256": "3d338f0f67ac51bbb3a3c204a71570ed79ba2cb269582a45cd1d577d5d42c4e7"
+E             },
+E             "ticket-4": {
+E               "source": "/tmp/ticket-harness-test-bobyg_rm/target/05-context.md",
+E               "artifact": "/tmp/ticket-harness-test-bobyg_rm/run/inputs/ticket-4.md",
+E               "sha256": "6f7b730a1ae19cc725876492213fd51fd150b14244b9b01a444d2e5be9607e48"
+E             },
+E             "ticket-5": {
+E               "source": "/tmp/ticket-harness-test-bobyg_rm/target/07-context.md",
+E               "artifact": "/tmp/ticket-harness-test-bobyg_rm/run/inputs/ticket-5.md",
+E               "sha256": "17976a1b7794ab7ea71f3ea60048617568820e11b87d96c8561829766ebd805d"
+E             },
+E             "standards-0": {
+E               "source": "/tmp/ticket-harness-test-bobyg_rm/target/STANDARDS.md",
+E               "artifact": "/tmp/ticket-harness-test-bobyg_rm/run/inputs/standards-0.md",
+E               "sha256": "8a5efa5017f12574ff43bab7d9a487d9216a65b74d2e4709ec0dba7d141682d2"
+E             }
+E           },
+E           "ticket": {
+E             "id": "01",
+E             "state": "Done",
+E             "attempt": 1,
+E             "ticket": "01",
+E             "starting_revision": "bff55bea47f29a6ccd151676f90f80f37b6221b4",
+E             "gate_start": 6,
+E             "source": "/tmp/ticket-harness-test-bobyg_rm/run/worktrees/ticket-01-implementation",
+E             "submitted_revision": "b76d61b1e19ebe21c54afaeb0dfe74abf2018a4e",
+E             "changed_files": [
+E               "last-ticket",
+E               "work-01"
+E             ],
+E             "candidate_revision": "5d00f79fa6c8c3677ec5f8cbb18fb8beb573d0d5",
+E             "done_revision": "5d00f79fa6c8c3677ec5f8cbb18fb8beb573d0d5"
+E           },
+E           "gates": [
+E             {
+E               "stage": "baseline",
+E               "revision": "89e3879ec5c340caa335e305e022f5a28edc1833",
+E               "argv": [
+E                 "/home/ajkerr1/development/agentic_template/.micromamba/envs/dev/bin/python",
+E                 "/tmp/ticket-harness-test-bobyg_rm/suite.py"
+E               ],
+E               "cwd": "/tmp/ticket-harness-test-bobyg_rm/run/worktrees/baseline",
+E               "stdout": "/tmp/ticket-harness-test-bobyg_rm/run/artifacts/baseline.stdout",
+E               "stderr": "/tmp/ticket-harness-test-bobyg_rm/run/artifacts/baseline.stderr",
+E               "passed": true,
+E               "timeout_seconds": 1800,
+E               "timed_out": false,
+E               "exit_code": 0,
+E               "cleanup": {
+E                 "process_group": 32,
+E                 "signal": "SIGKILL",
+E                 "sent": false
+E               },
+E               "ticket": null,
+E               "attempt": 0,
+E               "timeout_category": "baseline"
+E             },
+E             {
+E               "stage": "implementation",
+E               "revision": "89e3879ec5c340caa335e305e022f5a28edc1833",
+E               "argv": [
+E                 "/home/ajkerr1/development/agentic_template/.micromamba/envs/dev/bin/python",
+E                 "/tmp/ticket-harness-test-bobyg_rm/graph-agent.py"
+E               ],
+E               "cwd": "/tmp/ticket-harness-test-bobyg_rm/run/worktrees/ticket-03-implementation",
+E               "stdout": "/tmp/ticket-harness-test-bobyg_rm/run/artifacts/ticket-03-implementation.stdout",
+E               "stderr": "/tmp/ticket-harness-test-bobyg_rm/run/artifacts/ticket-03-implementation.stderr",
+E               "passed": true,
+E               "timeout_seconds": 1800,
+E               "timed_out": false,
+E               "assignment": "/tmp/ticket-harness-test-bobyg_rm/run/artifacts/ticket-03-implementation.assignment.json",
+E               "exit_code": 0,
+E               "cleanup": {
+E                 "process_group": 44,
+E                 "signal": "SIGKILL",
+E                 "sent": false
+E               },
+E               "ticket": "03",
+E               "attempt": 1,
+E               "timeout_category": "implementation",
+E               "report": {
+E                 "role": "implementation",
+E                 "ticket": "03",
+E                 "attempt": 1,
+E                 "base_revision": "89e3879ec5c340caa335e305e022f5a28edc1833",
+E                 "revision": "89e3879ec5c340caa335e305e022f5a28edc1833",
+E                 "pid": 44,
+E                 "result": "submitted",
+E                 "summary": "Delivered ticket",
+E                 "changed_files": [],
+E                 "checks": [],
+E                 "acceptance_evidence": [
+E                   "Delivered cumulative work"
+E                 ],
+E                 "unresolved_questions": []
+E               },
+E               "report_status": "valid"
+E             },
+E             {
+E               "stage": "check-other",
+E               "revision": "3c4f0d5b2591dec6b0eb0f414327a91228ae2195",
+E               "argv": [
+E                 "/home/ajkerr1/development/agentic_template/.micromamba/envs/dev/bin/python",
+E                 "/tmp/ticket-harness-test-bobyg_rm/graph-check.py"
+E               ],
+E               "cwd": "/tmp/ticket-harness-test-bobyg_rm/run/worktrees/ticket-03-implementation",
+E               "stdout": "/tmp/ticket-harness-test-bobyg_rm/run/artifacts/ticket-03-check-other.stdout",
+E               "stderr": "/tmp/ticket-harness-test-bobyg_rm/run/artifacts/ticket-03-check-other.stderr",
+E               "passed": true,
+E               "timeout_seconds": 300,
+E               "timed_out": false,
+E               "exit_code": 0,
+E               "cleanup": {
+E                 "process_group": 61,
+E                 "signal": "SIGKILL",
+E                 "sent": false
+E               },
+E               "ticket": "03",
+E               "attempt": 1,
+E               "timeout_category": "checks"
+E             },
+E             {
+E               "stage": "spec",
+E               "revision": "3c4f0d5b2591dec6b0eb0f414327a91228ae2195",
+E               "argv": [
+E                 "/home/ajkerr1/development/agentic_template/.micromamba/envs/dev/bin/python",
+E                 "/tmp/ticket-harness-test-bobyg_rm/graph-agent.py"
+E               ],
+E               "cwd": "/tmp/ticket-harness-test-bobyg_rm/run/worktrees/ticket-03-spec",
+E               "stdout": "/tmp/ticket-harness-test-bobyg_rm/run/artifacts/ticket-03-spec.stdout",
+E               "stderr": "/tmp/ticket-harness-test-bobyg_rm/run/artifacts/ticket-03-spec.stderr",
+E               "passed": true,
+E               "timeout_seconds": 900,
+E               "timed_out": false,
+E               "assignment": "/tmp/ticket-harness-test-bobyg_rm/run/artifacts/ticket-03-spec.assignment.json",
+E               "exit_code": 0,
+E               "cleanup": {
+E                 "process_group": 80,
+E                 "signal": "SIGKILL",
+E                 "sent": false
+E               },
+E               "ticket": "03",
+E               "attempt": 1,
+E               "timeout_category": "spec",
+E               "report": {
+E                 "role": "spec",
+E                 "ticket": "03",
+E                 "attempt": 1,
+E                 "base_revision": "89e3879ec5c340caa335e305e022f5a28edc1833",
+E                 "revision": "3c4f0d5b2591dec6b0eb0f414327a91228ae2195",
+E                 "pid": 80,
+E                 "findings": []
+E               },
+E               "report_status": "valid"
+E             },
+E             {
+E               "stage": "standards",
+E               "revision": "3c4f0d5b2591dec6b0eb0f414327a91228ae2195",
+E               "argv": [
+E                 "/home/ajkerr1/development/agentic_template/.micromamba/envs/dev/bin/python",
+E                 "/tmp/ticket-harness-test-bobyg_rm/graph-agent.py"
+E               ],
+E               "cwd": "/tmp/ticket-harness-test-bobyg_rm/run/worktrees/ticket-03-standards",
+E               "stdout": "/tmp/ticket-harness-test-bobyg_rm/run/artifacts/ticket-03-standards.stdout",
+E               "stderr": "/tmp/ticket-harness-test-bobyg_rm/run/artifacts/ticket-03-standards.stderr",
+E               "passed": true,
+E               "timeout_seconds": 900,
+E               "timed_out": false,
+E               "assignment": "/tmp/ticket-harness-test-bobyg_rm/run/artifacts/ticket-03-standards.assignment.json",
+E               "exit_code": 0,
+E               "cleanup": {
+E                 "process_group": 106,
+E                 "signal": "SIGKILL",
+E                 "sent": false
+E               },
+E               "ticket": "03",
+E               "attempt": 1,
+E               "timeout_category": "standards",
+E               "report": {
+E                 "role": "standards",
+E                 "ticket": "03",
+E                 "attempt": 1,
+E                 "base_revision": "89e3879ec5c340caa335e305e022f5a28edc1833",
+E                 "revision": "3c4f0d5b2591dec6b0eb0f414327a91228ae2195",
+E                 "pid": 106,
+E                 "findings": []
+E               },
+E               "report_status": "valid"
+E             },
+E             {
+E               "stage": "candidate",
+E               "revision": "bff55bea47f29a6ccd151676f90f80f37b6221b4",
+E               "argv": [
+E                 "/home/ajkerr1/development/agentic_template/.micromamba/envs/dev/bin/python",
+E                 "/tmp/ticket-harness-test-bobyg_rm/suite.py"
+E               ],
+E               "cwd": "/tmp/ticket-harness-test-bobyg_rm/run/worktrees/ticket-03-candidate",
+E               "stdout": "/tmp/ticket-harness-test-bobyg_rm/run/artifacts/ticket-03-candidate.stdout",
+E               "stderr": "/tmp/ticket-harness-test-bobyg_rm/run/artifacts/ticket-03-candidate.stderr",
+E               "passed": true,
+E               "timeout_seconds": 1800,
+E               "timed_out": false,
+E               "exit_code": 0,
+E               "cleanup": {
+E                 "process_group": 149,
+E                 "signal": "SIGKILL",
+E                 "sent": false
+E               },
+E               "ticket": "03",
+E               "attempt": 1,
+E               "timeout_category": "candidate"
+E             },
+E             {
+E               "stage": "implementation",
+E               "revision": "bff55bea47f29a6ccd151676f90f80f37b6221b4",
+E               "argv": [
+E                 "/home/ajkerr1/development/agentic_template/.micromamba/envs/dev/bin/python",
+E                 "/tmp/ticket-harness-test-bobyg_rm/graph-agent.py"
+E               ],
+E               "cwd": "/tmp/ticket-harness-test-bobyg_rm/run/worktrees/ticket-01-implementation",
+E               "stdout": "/tmp/ticket-harness-test-bobyg_rm/run/artifacts/ticket-01-implementation.stdout",
+E               "stderr": "/tmp/ticket-harness-test-bobyg_rm/run/artifacts/ticket-01-implementation.stderr",
+E               "passed": true,
+E               "timeout_seconds": 1800,
+E               "timed_out": false,
+E               "assignment": "/tmp/ticket-harness-test-bobyg_rm/run/artifacts/ticket-01-implementation.assignment.json",
+E               "exit_code": 0,
+E               "cleanup": {
+E                 "process_group": 201,
+E                 "signal": "SIGKILL",
+E                 "sent": false
+E               },
+E               "ticket": "01",
+E               "attempt": 1,
+E               "timeout_category": "implementation",
+E               "report": {
+E                 "role": "implementation",
+E                 "ticket": "01",
+E                 "attempt": 1,
+E                 "base_revision": "bff55bea47f29a6ccd151676f90f80f37b6221b4",
+E                 "revision": "bff55bea47f29a6ccd151676f90f80f37b6221b4",
+E                 "pid": 201,
+E                 "result": "submitted",
+E                 "summary": "Delivered ticket",
+E                 "changed_files": [],
+E                 "checks": [],
+E                 "acceptance_evidence": [
+E                   "Delivered cumulative work"
+E                 ],
+E                 "unresolved_questions": []
+E               },
+E               "report_status": "valid"
+E             },
+E             {
+E               "stage": "check-ticket",
+E               "revision": "b76d61b1e19ebe21c54afaeb0dfe74abf2018a4e",
+E               "argv": [
+E                 "/home/ajkerr1/development/agentic_template/.micromamba/envs/dev/bin/python",
+E                 "/tmp/ticket-harness-test-bobyg_rm/graph-check.py"
+E               ],
+E               "cwd": "/tmp/ticket-harness-test-bobyg_rm/run/worktrees/ticket-01-implementation",
+E               "stdout": "/tmp/ticket-harness-test-bobyg_rm/run/artifacts/ticket-01-check-ticket.stdout",
+E               "stderr": "/tmp/ticket-harness-test-bobyg_rm/run/artifacts/ticket-01-check-ticket.stderr",
+E               "passed": true,
+E               "timeout_seconds": 300,
+E               "timed_out": false,
+E               "exit_code": 0,
+E               "cleanup": {
+E                 "process_group": 242,
+E                 "signal": "SIGKILL",
+E                 "sent": false
+E               },
+E               "ticket": "01",
+E               "attempt": 1,
+E               "timeout_category": "checks"
+E             },
+E             {
+E               "stage": "spec",
+E               "revision": "b76d61b1e19ebe21c54afaeb0dfe74abf2018a4e",
+E               "argv": [
+E                 "/home/ajkerr1/development/agentic_template/.micromamba/envs/dev/bin/python",
+E                 "/tmp/ticket-harness-test-bobyg_rm/graph-agent.py"
+E               ],
+E               "cwd": "/tmp/ticket-harness-test-bobyg_rm/run/worktrees/ticket-01-spec",
+E               "stdout": "/tmp/ticket-harness-test-bobyg_rm/run/artifacts/ticket-01-spec.stdout",
+E               "stderr": "/tmp/ticket-harness-test-bobyg_rm/run/artifacts/ticket-01-spec.stderr",
+E               "passed": true,
+E               "timeout_seconds": 900,
+E               "timed_out": false,
+E               "assignment": "/tmp/ticket-harness-test-bobyg_rm/run/artifacts/ticket-01-spec.assignment.json",
+E               "exit_code": 0,
+E               "cleanup": {
+E                 "process_group": 285,
+E                 "signal": "SIGKILL",
+E                 "sent": false
+E               },
+E               "ticket": "01",
+E               "attempt": 1,
+E               "timeout_category": "spec",
+E               "report": {
+E                 "role": "spec",
+E                 "ticket": "01",
+E                 "attempt": 1,
+E                 "base_revision": "bff55bea47f29a6ccd151676f90f80f37b6221b4",
+E                 "revision": "b76d61b1e19ebe21c54afaeb0dfe74abf2018a4e",
+E                 "pid": 285,
+E                 "findings": []
+E               },
+E               "report_status": "valid"
+E             },
+E             {
+E               "stage": "standards",
+E               "revision": "b76d61b1e19ebe21c54afaeb0dfe74abf2018a4e",
+E               "argv": [
+E                 "/home/ajkerr1/development/agentic_template/.micromamba/envs/dev/bin/python",
+E                 "/tmp/ticket-harness-test-bobyg_rm/graph-agent.py"
+E               ],
+E               "cwd": "/tmp/ticket-harness-test-bobyg_rm/run/worktrees/ticket-01-standards",
+E               "stdout": "/tmp/ticket-harness-test-bobyg_rm/run/artifacts/ticket-01-standards.stdout",
+E               "stderr": "/tmp/ticket-harness-test-bobyg_rm/run/artifacts/ticket-01-standards.stderr",
+E               "passed": true,
+E               "timeout_seconds": 900,
+E               "timed_out": false,
+E               "assignment": "/tmp/ticket-harness-test-bobyg_rm/run/artifacts/ticket-01-standards.assignment.json",
+E               "exit_code": 0,
+E               "cleanup": {
+E                 "process_group": 335,
+E                 "signal": "SIGKILL",
+E                 "sent": false
+E               },
+E               "ticket": "01",
+E               "attempt": 1,
+E               "timeout_category": "standards",
+E               "report": {
+E                 "role": "standards",
+E                 "ticket": "01",
+E                 "attempt": 1,
+E                 "base_revision": "bff55bea47f29a6ccd151676f90f80f37b6221b4",
+E                 "revision": "b76d61b1e19ebe21c54afaeb0dfe74abf2018a4e",
+E                 "pid": 335,
+E                 "findings": []
+E               },
+E               "report_status": "valid"
+E             },
+E             {
+E               "stage": "candidate",
+E               "revision": "5d00f79fa6c8c3677ec5f8cbb18fb8beb573d0d5",
+E               "argv": [
+E                 "/home/ajkerr1/development/agentic_template/.micromamba/envs/dev/bin/python",
+E                 "/tmp/ticket-harness-test-bobyg_rm/suite.py"
+E               ],
+E               "cwd": "/tmp/ticket-harness-test-bobyg_rm/run/worktrees/ticket-01-candidate",
+E               "stdout": "/tmp/ticket-harness-test-bobyg_rm/run/artifacts/ticket-01-candidate.stdout",
+E               "stderr": "/tmp/ticket-harness-test-bobyg_rm/run/artifacts/ticket-01-candidate.stderr",
+E               "passed": true,
+E               "timeout_seconds": 1800,
+E               "timed_out": false,
+E               "exit_code": 0,
+E               "cleanup": {
+E                 "process_group": 402,
+E                 "signal": "SIGKILL",
+E                 "sent": false
+E               },
+E               "ticket": "01",
+E               "attempt": 1,
+E               "timeout_category": "candidate"
+E             },
+E             {
+E               "stage": "milestone-regression",
+E               "revision": "5d00f79fa6c8c3677ec5f8cbb18fb8beb573d0d5",
+E               "argv": [
+E                 "/home/ajkerr1/development/agentic_template/.micromamba/envs/dev/bin/python",
+E                 "/tmp/ticket-harness-test-bobyg_rm/suite.py"
+E               ],
+E               "cwd": "/tmp/ticket-harness-test-bobyg_rm/run/worktrees/milestone-candidate",
+E               "stdout": "/tmp/ticket-harness-test-bobyg_rm/run/artifacts/milestone-regression.stdout",
+E               "stderr": "/tmp/ticket-harness-test-bobyg_rm/run/artifacts/milestone-regression.stderr",
+E               "passed": false,
+E               "timeout_seconds": 1800,
+E               "timed_out": false,
+E               "exit_code": 1,
+E               "cleanup": {
+E                 "process_group": 504,
+E                 "signal": "SIGKILL",
+E                 "sent": false
+E               },
+E               "ticket": null,
+E               "attempt": 0,
+E               "timeout_category": "candidate"
+E             }
+E           ],
+E           "attempts": [
+E             {
+E               "ticket": "03",
+E               "attempt": 1,
+E               "state": "Done",
+E               "starting_revision": "89e3879ec5c340caa335e305e022f5a28edc1833",
+E               "gate_start": 1,
+E               "source": "/tmp/ticket-harness-test-bobyg_rm/run/worktrees/ticket-03-implementation",
+E               "submitted_revision": "3c4f0d5b2591dec6b0eb0f414327a91228ae2195",
+E               "changed_files": [
+E                 "last-ticket",
+E                 "work-03"
+E               ],
+E               "candidate_revision": "bff55bea47f29a6ccd151676f90f80f37b6221b4",
+E               "done_revision": "bff55bea47f29a6ccd151676f90f80f37b6221b4",
+E               "gate_end": 6
+E             },
+E             {
+E               "ticket": "01",
+E               "attempt": 1,
+E               "state": "Done",
+E               "starting_revision": "bff55bea47f29a6ccd151676f90f80f37b6221b4",
+E               "gate_start": 6,
+E               "source": "/tmp/ticket-harness-test-bobyg_rm/run/worktrees/ticket-01-implementation",
+E               "submitted_revision": "b76d61b1e19ebe21c54afaeb0dfe74abf2018a4e",
+E               "changed_files": [
+E                 "last-ticket",
+E                 "work-01"
+E               ],
+E               "candidate_revision": "5d00f79fa6c8c3677ec5f8cbb18fb8beb573d0d5",
+E               "done_revision": "5d00f79fa6c8c3677ec5f8cbb18fb8beb573d0d5",
+E               "gate_end": 11
+E             }
+E           ],
+E           "requirements": {
+E             "01": {
+E               "id": "01",
+E               "title": "Work 01",
+E               "readiness": "ready-for-agent",
+E               "dependencies": [],
+E               "acceptance": [
+E                 "Deliver work 01."
+E               ],
+E               "checks": [
+E                 "ticket"
+E               ],
+E               "source": "/tmp/ticket-harness-test-bobyg_rm/target/01-value.md"
+E             },
+E             "04": {
+E               "id": "04",
+E               "title": "Work 04",
+E               "readiness": "ready-for-agent",
+E               "dependencies": [
+E                 "01"
+E               ],
+E               "acceptance": [
+E                 "Deliver work 04."
+E               ],
+E               "checks": [
+E                 "ticket"
+E               ],
+E               "source": "/tmp/ticket-harness-test-bobyg_rm/target/04-work.md"
+E             },
+E             "02": {
+E               "id": "02",
+E               "title": "Work 02",
+E               "readiness": "ready-for-agent",
+E               "dependencies": [
+E                 "03",
+E                 "04"
+E               ],
+E               "acceptance": [
+E                 "Deliver work 02."
+E               ],
+E               "checks": [
+E                 "ticket"
+E               ],
+E               "source": "/tmp/ticket-harness-test-bobyg_rm/target/02-work.md"
+E             },
+E             "03": {
+E               "id": "03",
+E               "title": "Work 03",
+E               "readiness": "ready-for-agent",
+E               "dependencies": [],
+E               "acceptance": [
+E                 "Deliver work 03."
+E               ],
+E               "checks": [
+E                 "other"
+E               ],
+E               "source": "/tmp/ticket-harness-test-bobyg_rm/target/03-work.md"
+E             },
+E             "05": {
+E               "id": "05",
+E               "title": "Human context",
+E               "readiness": "ready-for-human",
+E               "dependencies": [],
+E               "acceptance": [
+E                 "Human work."
+E               ],
+E               "checks": [
+E                 "ticket",
+E                 "other"
+E               ],
+E               "source": "/tmp/ticket-harness-test-bobyg_rm/target/05-context.md"
+E             },
+E             "07": {
+E               "id": "07",
+E               "title": "Agent context",
+E               "readiness": "ready-for-agent",
+E               "dependencies": [
+E                 "05"
+E               ],
+E               "acceptance": [
+E                 "Context work."
+E               ],
+E               "checks": [
+E                 "ticket",
+E                 "other"
+E               ],
+E               "source": "/tmp/ticket-harness-test-bobyg_rm/target/07-context.md"
+E             }
+E           },
+E           "max_repairs": 0,
+E           "timeouts": {
+E             "implementation": 1800,
+E             "repair": 1800,
+E             "spec": 900,
+E             "standards": 900,
+E             "checks": 300,
+E             "baseline": 1800,
+E             "candidate": 1800
+E           },
+E           "selected_tickets": [
+E             "01",
+E             "03"
+E           ],
+E           "run_id": "d6b004c679024b00b5f579fe2cc5630d",
+E           "plan": {
+E             "version": "v1",
+E             "approval": "human-approved fixture bundle v1",
+E             "development": "dev",
+E             "required_tickets": [
+E               "01",
+E               "02",
+E               "03",
+E               "04"
+E             ],
+E             "milestones": [
+E               {
+E                 "id": "M1",
+E                 "tickets": [
+E                   "03",
+E                   "01"
+E                 ],
+E                 "qa": {
+E                   "setup": "Inspect disposable feature",
+E                   "actions": [
+E                     "Read delivered work"
+E                   ],
+E                   "pass_conditions": [
+E                     "Work 01 and 03 exist"
+E                   ]
+E                 }
+E               },
+E               {
+E                 "id": "M2",
+E                 "tickets": [
+E                   "04",
+E                   "02"
+E                 ],
+E                 "qa": {
+E                   "setup": "Inspect all work",
+E                   "actions": [
+E                     "Read all delivered work"
+E                   ],
+E                   "pass_conditions": [
+E                     "All required work exists"
+E                   ]
+E                 }
+E               }
+E             ],
+E             "final_milestone": "M2",
+E             "final_coverage": [
+E               "01",
+E               "02",
+E               "03",
+E               "04"
+E             ],
+E             "roles": {
+E               "worker": {
+E                 "model": "scripted-fixture",
+E                 "reasoning": "Medium"
+E               },
+E               "spec": {
+E                 "model": "scripted-spec",
+E                 "reasoning": "High"
+E               },
+E               "standards": {
+E                 "model": "scripted-standards",
+E                 "reasoning": "High"
+E               }
+E             },
+E             "worker_overrides": {
+E               "03": {
+E                 "reasoning": "High",
+E                 "reason": "Fixture override"
+E               }
+E             }
+E           },
+E           "worker_settings": {
+E             "01": {
+E               "model": "scripted-fixture",
+E               "reasoning": "Medium"
+E             },
+E             "02": {
+E               "model": "scripted-fixture",
+E               "reasoning": "Medium"
+E             },
+E             "03": {
+E               "model": "scripted-fixture",
+E               "reasoning": "High"
+E             },
+E             "04": {
+E               "model": "scripted-fixture",
+E               "reasoning": "Medium"
+E             }
+E           },
+E           "feature_complete": false,
+E           "milestone": {
+E             "id": "M1",
+E             "state": "preparation_failed",
+E             "feature_revision": "5d00f79fa6c8c3677ec5f8cbb18fb8beb573d0d5",
+E             "development_revision": "5d00f79fa6c8c3677ec5f8cbb18fb8beb573d0d5",
+E             "candidate_revision": "5d00f79fa6c8c3677ec5f8cbb18fb8beb573d0d5"
+E           },
+E           "tickets": {
+E             "01": {
+E               "id": "01",
+E               "state": "Done",
+E               "attempt": 1,
+E               "ticket": "01",
+E               "starting_revision": "bff55bea47f29a6ccd151676f90f80f37b6221b4",
+E               "gate_start": 6,
+E               "source": "/tmp/ticket-harness-test-bobyg_rm/run/worktrees/ticket-01-implementation",
+E               "submitted_revision": "b76d61b1e19ebe21c54afaeb0dfe74abf2018a4e",
+E               "changed_files": [
+E                 "last-ticket",
+E                 "work-01"
+E               ],
+E               "candidate_revision": "5d00f79fa6c8c3677ec5f8cbb18fb8beb573d0d5",
+E               "done_revision": "5d00f79fa6c8c3677ec5f8cbb18fb8beb573d0d5"
+E             },
+E             "02": {
+E               "id": "02",
+E               "state": "Pending",
+E               "attempt": 0
+E             },
+E             "03": {
+E               "id": "03",
+E               "state": "Done",
+E               "attempt": 1,
+E               "ticket": "03",
+E               "starting_revision": "89e3879ec5c340caa335e305e022f5a28edc1833",
+E               "gate_start": 1,
+E               "source": "/tmp/ticket-harness-test-bobyg_rm/run/worktrees/ticket-03-implementation",
+E               "submitted_revision": "3c4f0d5b2591dec6b0eb0f414327a91228ae2195",
+E               "changed_files": [
+E                 "last-ticket",
+E                 "work-03"
+E               ],
+E               "candidate_revision": "bff55bea47f29a6ccd151676f90f80f37b6221b4",
+E               "done_revision": "bff55bea47f29a6ccd151676f90f80f37b6221b4"
+E             },
+E             "04": {
+E               "id": "04",
+E               "state": "Pending",
+E               "attempt": 0
+E             }
+E           },
+E           "development_branch": "dev",
+E           "development_revision": "5d00f79fa6c8c3677ec5f8cbb18fb8beb573d0d5",
+E           "base_revision": "89e3879ec5c340caa335e305e022f5a28edc1833",
+E           "integration_revision": "5d00f79fa6c8c3677ec5f8cbb18fb8beb573d0d5",
+E           "integration_branch": "integration",
+E           "operations": [
+E             {
+E               "stage": "baseline-worktree",
+E               "ticket": null,
+E               "attempt": 0,
+E               "passed": true
+E             },
+E             {
+E               "stage": "ticket-03-implementation-worktree",
+E               "ticket": "03",
+E               "attempt": 1,
+E               "passed": true
+E             },
+E             {
+E               "stage": "ticket-03-submission",
+E               "ticket": "03",
+E               "attempt": 1,
+E               "passed": true
+E             },
+E             {
+E               "stage": "ticket-03-spec-worktree",
+E               "ticket": "03",
+E               "attempt": 1,
+E               "passed": true
+E             },
+E             {
+E               "stage": "ticket-03-standards-worktree",
+E               "ticket": "03",
+E               "attempt": 1,
+E               "passed": true
+E             },
+E             {
+E               "stage": "ticket-03-candidate-merge",
+E               "ticket": "03",
+E               "attempt": 1,
+E               "passed": true
+E             },
+E             {
+E               "stage": "ticket-01-implementation-worktree",
+E               "ticket": "01",
+E               "attempt": 1,
+E               "passed": true
+E             },
+E             {
+E               "stage": "ticket-01-submission",
+E               "ticket": "01",
+E               "attempt": 1,
+E               "passed": true
+E             },
+E             {
+E               "stage": "ticket-01-spec-worktree",
+E               "ticket": "01",
+E               "attempt": 1,
+E               "passed": true
+E             },
+E             {
+E               "stage": "ticket-01-standards-worktree",
+E               "ticket": "01",
+E               "attempt": 1,
+E               "passed": true
+E             },
+E             {
+E               "stage": "ticket-01-candidate-merge",
+E               "ticket": "01",
+E               "attempt": 1,
+E               "passed": true
+E             },
+E             {
+E               "stage": "milestone-candidate-merge",
+E               "ticket": null,
+E               "attempt": 0,
+E               "passed": true
+E             },
+E             {
+E               "stage": "milestone-candidate-validation",
+E               "ticket": null,
+E               "attempt": 0,
+E               "passed": true
+E             }
+E           ],
+E           "starting_development_revision": "89e3879ec5c340caa335e305e022f5a28edc1833",
+E           "failure": {
+E             "stage": "milestone-regression",
+E             "message": "Required gate failed: milestone-regression; see /tmp/ticket-harness-test-bobyg_rm/run/artifacts/milestone-regression.stderr"
+E           }
+E         }
+E
+E       assert 1 == 0
+E        +  where 1 = CompletedProcess(args=['/home/ajkerr1/development/agentic_template/.micromamba/envs/dev/bin/python', '-m', 'ticket_har...one-regression; see /tmp/ticket-harness-test-bobyg_rm/run/artifacts/milestone-regression.stderr"\n  }\n}\n', stderr='').returncode
+
+tests/test_milestones.py:595: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_milestones.py::test_development_already_containing_the_feature_still_runs_exact_milestone_regression
+1 failed, 39 deselected in 5.60s

@@ -4,7 +4,7 @@
 
 **Blocked by:** [12: Execute only the first eligible milestone](12-execute-only-the-current-qa-milestone.md).
 
-**Status:** ready-for-agent
+**Status:** completed
 
 **Milestone:** M1. Follow [milestone eligibility](../milestones.md) before selecting work.
 
@@ -18,11 +18,11 @@
 
 ## Acceptance criteria
 
-- [ ] Prepare a candidate combining the completed milestone's feature revision and current development base without advancing dev or admitting later work.
-- [ ] Run configured local regression gates on that exact candidate before issuing a QA request; preserve per-ticket candidate checks as a separate gate.
-- [ ] Record run/plan/milestone/feature/development/candidate identities, planned human checks, acceptance conditions and actual regression evidence in the request.
-- [ ] Failed regression, external branch movement, or an invalidated candidate cannot be presented as ready or promoted; preserve evidence and do not overwrite refs.
-- [ ] Conflict resolution that changes reviewed source renews applicable checks and reviews before QA. Demonstrate passing, failed, and changed-base cases at the public Git/report seam.
+- [x] Prepare a candidate combining the completed milestone's feature revision and current development base without advancing dev or admitting later work.
+- [x] Run configured local regression gates on that exact candidate before issuing a QA request; preserve per-ticket candidate checks as a separate gate.
+- [x] Record run/plan/milestone/feature/development/candidate identities, planned human checks, acceptance conditions and actual regression evidence in the request.
+- [x] Failed regression, external branch movement, or an invalidated candidate cannot be presented as ready or promoted; preserve evidence and do not overwrite refs.
+- [x] Conflict resolution that changes reviewed source renews applicable checks and reviews before QA. Demonstrate passing, failed, and changed-base cases at the public Git/report seam.
 
 ## Verification
 
@@ -33,3 +33,30 @@ Follow the repository's testing policy; document-only skill changes use skill/li
 ## Handoff
 
 Use the [shared worker handoff](../README.md#worker-handoff). Verify and record this ticket's completion without treating it as milestone acceptance. Select further work only through the [published milestone plan](../milestones.md); do not start the next ticket automatically.
+
+## Comments
+
+### Verified completion
+
+Previous readiness: `ready-for-agent`. Implementation `19ea4f1b0bbdc601653468212aaaa0a7211d5c6f`
+was reviewed against the fixed starting baseline `fd292a988cde79532bb84714b5800e4baa5de127`.
+All five criteria are verified in [completion evidence](../evidence/13-completion.md):
+current feature/dev combination with unchanged dev and later work held; separate
+exact-candidate regression; full request identities/human checks/actual evidence;
+failed/moved/mutated candidate rejection with retained evidence and refs; and
+source-changing conflict resolutions stopped for renewed checks/reviews before QA.
+The slice does not claim automatic conflict-repair or renewed-review execution.
+
+[Actual final checks](../evidence/13-checks.log): **509 tests passed**, strict mypy,
+Ruff lint/format and whitespace passed. [Twenty source hashes](../evidence/13-final-source-identity.json)
+match the committed/current implementation; [88 final observations](../evidence/13-fixture-observations.json)
+retain the passing, rejected, changed-base and conflict behavior. The interrupted
+earlier suite and development checks are explicitly superseded by renewed final gates.
+Separate fresh High [Spec](../evidence/13-review-spec.md) and
+[Standards](../evidence/13-review-standards.md) reviews found zero blockers;
+Standards recorded one optional duplicate status assertion cleanup, without
+mandatory rework. No unchecked criterion or required unresolved item remains.
+
+Declared `Blocked by:` is retained as dependency history. Ticket 14 is next in
+M1, without launching it here. Ticket completion does not accept M1 or complete
+the feature; human acceptance and later milestone eligibility remain unchanged.
