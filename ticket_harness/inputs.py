@@ -111,14 +111,16 @@ def configuration(value: Any) -> dict[str, Any]:
     for field in sorted(
         value.keys()
         - required
-        - {"tickets", "selected_tickets", "completed_runs", "max_repairs", "timeouts"}
+        - {"tickets", "selected_tickets", "completed_runs", "max_repairs", "timeouts", "plan"}
     ):
         raise GateFailure(f"configuration: unsupported field {field!r}; see the input contract")
     value["timeouts"] = timeouts(value.get("timeouts", {}))
     allowance = value.setdefault("max_repairs", 2)
     if type(allowance) is not int or allowance < 0:
         raise GateFailure("configuration.max_repairs: expected a nonnegative integer")
-    for field in ("repository", "base", "integration", "spec", "ticket"):
+    for field in ("repository", "base", "integration", "spec", "ticket", "plan"):
+        if field not in value:
+            continue
         if not isinstance(value[field], str) or not value[field].strip() or "\0" in value[field]:
             raise GateFailure(f"configuration.{field}: expected a nonempty string")
     for field in ("standards", "tickets", "selected_tickets", "completed_runs"):
@@ -243,6 +245,11 @@ def normalize_ticket(
             raise GateFailure(f"{path}: unknown check reference {name!r}; configure it in checks")
     if len(set(references)) != len(references):
         raise GateFailure(f"{path}: duplicate check reference; list each check once")
+    plan_metadata = {
+        key: metadata[key]
+        for key in ("Plan version", "Milestone", "Worker reasoning")
+        if key in metadata
+    }
     return {
         "id": ticket_id,
         "title": title[2],
@@ -251,6 +258,7 @@ def normalize_ticket(
         "acceptance": requirements,
         "checks": references,
         "source": str(path),
+        **({"plan_metadata": plan_metadata} if plan_metadata else {}),
     }, dependency_references
 
 
@@ -364,6 +372,8 @@ def load(config_path: Path, output: Path) -> tuple[dict[str, Any], dict[str, Any
         "spec": repository / config["spec"],
         "ticket": repository / config["ticket"],
     }
+    if "plan" in config:
+        paths["plan"] = repository / config["plan"]
     selected_path = paths["ticket"].resolve()
     bundle = [(repository / path).resolve() for path in config.get("tickets", [config["ticket"]])]
     if selected_path not in bundle:
@@ -416,6 +426,16 @@ def load(config_path: Path, output: Path) -> tuple[dict[str, Any], dict[str, Any
             if name == "ticket":
                 ticket = normalized
     config["requirements"] = requirements
+    if "plan" in snapshots:
+        plan = json.loads(
+            Path(snapshots["plan"]["artifact"]).read_text(), object_pairs_hook=unique_object
+        )
+        from ticket_harness import plans
+
+        config["plan"], config["worker_settings"] = plans.validate(
+            plan, requirements, config, ticket["id"]
+        )
+        selection = [Path(requirements[t]["source"]) for t in plan["milestones"][0]["tickets"]]
     validate_graph(requirements, references)
     selected = sorted(
         (item["id"] for item in requirements.values() if Path(item["source"]) in selection),

@@ -122,6 +122,14 @@ def graph(request):
                 "history": fixture.git("log", "--format=%H %P %s", "integration"),
                 "caller_status": fixture.git("status", "--porcelain"),
                 "launches": launches(fixture),
+                "assignments": {
+                    Path(g["assignment"]).name: json.loads(Path(g["assignment"]).read_text())
+                    for g in record["gates"]
+                    if "assignment" in g
+                },
+                "development": fixture.git("rev-parse", "dev")
+                if "plan" in fixture.config
+                else None,
                 "outputs": {
                     p.name: p.read_text()
                     for g in record["gates"]

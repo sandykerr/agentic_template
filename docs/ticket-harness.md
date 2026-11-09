@@ -61,7 +61,7 @@ python -m ticket_harness status "$fixture/passing-run"
 ```
 
 `run` intentionally approves the chosen requirements and commands. Exit 0 means
-Done; nonzero means invalid inputs, environment failure, or incomplete work, as
+Done in the legacy selection mode, or a deliberate `preparation_pending` stop in milestone mode; nonzero means invalid inputs, environment failure, or incomplete work, as
 recorded in `outcome` and `failure`. `status RUN_DIRECTORY` prints `run.json`
 without running processes or modifying source or records; exit 0 means the
 record was read, including for an incomplete run.
@@ -72,6 +72,114 @@ suite exits nonzero. The run is incomplete, the integration branch stays at the
 baseline, and the submitted/candidate revisions and logs remain inspectable.
 Alternatively, append `["--reject", "spec"]` or `["--reject", "standards"]` to
 `agent` for a blocking review.
+
+## Approved milestone plans
+
+Supply `"plan": "plan.json"` in project configuration to execute the first fixed
+milestone into `integration`, which serves as the feature branch. Omission retains
+the earlier explicit ticket-selection contract. A plan is a separate approved JSON
+input, snapshotted and SHA-256 recorded alongside the spec, tickets and configuration.
+Starting `run` approves these exact inputs; the `approval` field records the human
+bundle-approval reference and never asserts milestone QA acceptance.
+
+This minimal example uses two required tickets and two groups:
+
+```json
+{
+  "version": "v1",
+  "approval": "human approved bundle v1 in planning session",
+  "development": "dev",
+  "required_tickets": ["01", "02"],
+  "milestones": [
+    {
+      "id": "M1",
+      "tickets": ["01"],
+      "qa": {
+        "setup": "Inspect the disposable target repository",
+        "actions": ["Exercise the first capability"],
+        "pass_conditions": ["The first capability produces its approved result"]
+      }
+    },
+    {
+      "id": "M2",
+      "tickets": ["02"],
+      "qa": {
+        "setup": "Inspect the complete feature",
+        "actions": ["Exercise both capabilities together"],
+        "pass_conditions": ["All required outcomes satisfy overall feature acceptance"]
+      }
+    }
+  ],
+  "final_milestone": "M2",
+  "final_coverage": ["01", "02"],
+  "roles": {
+    "worker": {"model": "approved-worker-model"},
+    "spec": {"model": "approved-spec-model"},
+    "standards": {"model": "approved-standards-model"}
+  },
+  "worker_overrides": {
+    "02": {"reasoning": "High", "reason": "Approved complexity override"}
+  }
+}
+```
+
+All shown fields except `worker_overrides` are required. Unknown object fields
+and duplicate JSON keys reject. Strings must be nonempty without NUL. Ticket IDs
+are numeric strings normalized like Markdown heading IDs. Each required ticket
+must exist in `tickets` and belong to exactly one nonempty milestone. Context-only
+bundle tickets are allowed; external prerequisites still need verified
+`completed_runs` evidence. Dependencies within a milestone or pointing to an
+earlier milestone are valid; dependencies into a later milestone reject, including
+transitive violations through context tickets. The final milestone must be last,
+and `final_coverage` must explicitly contain every required ticket exactly once,
+including earlier groups cumulatively. Each QA object requires nonempty `setup`,
+`actions` and `pass_conditions` (the last two are arrays of nonempty strings).
+
+Each role requires an explicit model string. Reasoning defaults independently to
+`Medium` for worker and `High` for Spec and Standards; explicit `Low`, `Medium` or
+`High` values are supported. Optional `context_limit` is a positive integer active
+context target. Each ticket worker override must name a required ticket, supply a
+nonempty `reason` and at least one setting (`model`, `reasoning`, `context_limit`).
+Its effective settings apply equally to implementation and repair; reviewers keep
+their independent profiles. `run.json` captures normalized `plan` and effective
+`worker_settings` for every required ticket. These are approved profile records;
+the scripted command contract is unchanged, and this slice does not enforce model
+selection or context occupancy. Live profile enforcement remains future work.
+
+Optional Markdown header fields `Plan version`, `Milestone`, and `Worker reasoning`
+use plain scalar values exactly matching the plan version, group ID and effective
+reasoning (for example `**Milestone:** M1`). Duplicate declarations reject even
+when identical. Links, explanatory suffixes or inheritance prose in these three
+fields are unsupported in this runtime contract and reject against the explicit
+plan values. The shared planning reference defines authoring policy; its documents
+are not automatically executable plan JSON.
+
+`ticket` must identify a member of the first milestone. Omit `selected_tickets`
+to select that whole group, or explicitly list exactly its members. Later groups
+cannot be selected. Among ready tickets the harness follows the fixed order in
+that group's `tickets` array, honoring actual dependencies; each implementation
+starts from the latest verified feature revision. Existing baseline, lightweight
+checks, separate reviews, bounded repairs and exact ticket-candidate gates remain
+mandatory. Validation completes before worktrees, checks, agents or ref changes.
+`development` must name an existing local branch distinct from `integration`;
+its starting revision is recorded and this workflow never advances it.
+
+After the current group's tickets become Done, exit 0 records
+`outcome: "preparation_pending"`, `feature_complete: false` and a `milestone` object
+with `id`, `state: "preparation_pending"`, and the exact `feature_revision`.
+The `tickets` mapping includes all required tickets; later groups remain `Pending`
+with attempt zero, including independent tickets. `selected_tickets` contains only
+this run's current group in numeric order. A failing current gate retains the
+existing failure outcome and does not claim preparation is pending.
+
+This stop creates no feature-to-development candidate, QA request or decision,
+and claims no QA readiness, acceptance, promotion or feature completion. Even a
+single final group with all tickets Done stops for preparation. Candidate
+preparation/testing, human approval/promotion and planned continuation are separate
+later workflows; a new `run` cannot use recorded ticket completion to skip the
+first group's QA gate. `status` reads the same durable record without launching
+work. The development checkpoints for building this harness are separate from
+these target-repository runtime plans.
 
 ## Canonical input contract
 
@@ -87,6 +195,7 @@ a JSON object with the following fields. Unknown fields and duplicate keys
 | `spec`, `ticket` | Approved Markdown paths, relative to the target or absolute. |
 | `tickets` | Optional nonempty array of all Markdown ticket paths in this requirements bundle, including `ticket`. Defaults to `[ticket]`. It provides dependency context, not a multi-ticket execution selection. Paths must be distinct after resolution. |
 | `selected_tickets` | Optional nonempty array of ticket paths to execute, relative to the target or absolute. Defaults to `[ticket]`; must include `ticket` and be a subset of `tickets`, with distinct resolved paths. Bundle context alone never selects work. |
+| `plan` | Optional approved milestone-plan JSON path, relative to the target repository or absolute. Enables the milestone contract below. |
 | `completed_runs` | Optional array of earlier harness `run.json` paths, relative to the configuration file or absolute; defaults to `[]`. These provide prerequisite completion evidence, described below. |
 | `standards` | Paths for applicable project rules, AGENTS instructions, ADRs, and policy; list them explicitly. |
 | `agent` | Argument array for the trusted scripted executable, used freshly for each role. |
@@ -95,7 +204,7 @@ a JSON object with the following fields. Unknown fields and duplicate keys
 | `max_repairs` | Optional nonnegative integer; defaults to `2` repairs after the initial assignment. `0` stops on the first rejection. Booleans, floats, strings, and null are invalid. |
 | `timeouts` | Optional object overriding stage allowances in seconds; omitted keys use the defaults below. Every supplied value must be a positive finite JSON number no greater than `604800` (one week). Booleans, strings, null, unknown stages, and unsafe numeric ranges are rejected before any worker/check starts. |
 
-All fields except `tickets`, `selected_tickets`, `completed_runs`, `max_repairs`, and `timeouts` are required. Paths, refs, and
+All fields except `tickets`, `selected_tickets`, `completed_runs`, `max_repairs`, `timeouts`, and `plan` are required. Paths, refs, and
 branch names must be nonempty strings; `standards` is an array of nonempty paths
 (it may be empty). Approved files must exist and be readable. `checks` is a
 nonempty mapping. Check names match `[A-Za-z0-9]+(?:-[A-Za-z0-9]+)*`.

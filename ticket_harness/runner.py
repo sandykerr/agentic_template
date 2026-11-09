@@ -210,16 +210,27 @@ def run(config_path: Path, output: Path) -> tuple[dict[str, Any], int]:
         record["max_repairs"] = config["max_repairs"]
         record["timeouts"] = config["timeouts"]
         record["selected_tickets"] = config["selected_tickets"]
+        active_tickets = config["selected_tickets"]
+        planned = "plan" in config
+        if planned:
+            record["plan"] = config["plan"]
+            record["worker_settings"] = config["worker_settings"]
+            record["feature_complete"] = False
+            record["milestone"] = {
+                "id": config["plan"]["milestones"][0]["id"],
+                "state": "executing",
+            }
         completed = set(config["completed_tickets"])
         record["tickets"] = {
             ticket_id: {
                 "id": ticket_id,
                 "state": "Ready"
-                if set(config["requirements"][ticket_id]["dependencies"]) <= completed
+                if ticket_id in active_tickets
+                and set(config["requirements"][ticket_id]["dependencies"]) <= completed
                 else "Pending",
                 "attempt": 0,
             }
-            for ticket_id in config["selected_tickets"]
+            for ticket_id in (config["plan"]["required_tickets"] if planned else active_tickets)
         }
         record["ticket"] = record["tickets"][ticket]
         repository = Path(config["repository"])
@@ -241,6 +252,13 @@ def run(config_path: Path, output: Path) -> tuple[dict[str, Any], int]:
         previous = git(repository, "rev-parse", "--verify", f"refs/heads/{integration}^{{commit}}")
         if previous != base:
             raise GateFailure("This slice requires base and integration to name the same commit")
+        if planned:
+            development = config["plan"]["development"]
+            git(repository, "check-ref-format", f"refs/heads/{development}")
+            record["development_branch"] = development
+            record["development_revision"] = git(
+                repository, "rev-parse", "--verify", f"refs/heads/{development}^{{commit}}"
+            )
         record["base_revision"] = base
         record["integration_revision"] = base
         record["integration_branch"] = integration
@@ -249,11 +267,15 @@ def run(config_path: Path, output: Path) -> tuple[dict[str, Any], int]:
             baseline = worktree(repository, trees / "baseline", base)
         gate(stage, config["suite"], baseline, base)
         require_unchanged(baseline, base)
-        while any(state["state"] != "Done" for state in record["tickets"].values()):
+        while any(record["tickets"][t]["state"] != "Done" for t in active_tickets):
             ready = [key for key, state in record["tickets"].items() if state["state"] == "Ready"]
             if not ready:
                 raise GateFailure("No selected ticket has verified prerequisites")
-            ticket = min(ready, key=int)
+            ticket = (
+                next(t for t in config["plan"]["milestones"][0]["tickets"] if t in ready)
+                if planned
+                else min(ready, key=int)
+            )
             record["ticket"] = record["tickets"][ticket]
             base = previous
             checks = {
@@ -372,6 +394,7 @@ def run(config_path: Path, output: Path) -> tuple[dict[str, Any], int]:
                     for ticket_id, state in record["tickets"].items():
                         if (
                             state["state"] == "Pending"
+                            and ticket_id in active_tickets
                             and set(config["requirements"][ticket_id]["dependencies"]) <= completed
                         ):
                             state["state"] = "Ready"
@@ -415,7 +438,9 @@ def run(config_path: Path, output: Path) -> tuple[dict[str, Any], int]:
                             if key in item
                         ],
                     }
-        record["outcome"] = "completed"
+        record["outcome"] = "preparation_pending" if planned else "completed"
+        if planned:
+            record["milestone"].update(state="preparation_pending", feature_revision=previous)
         save()
         return record, 0
     except (GateFailure, OSError, ValueError, KeyError, TypeError) as error:
