@@ -75,6 +75,25 @@ def stop_at_qa(graph):
         assert process.returncode == 2
 
 
+def test_continued_run_records_invalidation_of_earlier_verified_source(graph):
+    configure_plan(graph)
+    stop_at_qa(graph)
+    with foreground(graph, operation="continue") as process:
+        waiting(graph, process, "M1")
+        (graph.output / "worktrees/baseline/value.txt").write_text("external post-restore edit")
+        assert graph.cli("stop", graph.output).returncode == 0
+        process.wait(timeout=10)
+        assert process.returncode == 1
+    record = graph.record()
+    assert record["outcome"] == "incomplete"
+    baseline = next(gate for gate in record["gates"] if gate["stage"] == "baseline")
+    assert baseline["passed"] is False
+    assert baseline["verification_status"] == "invalidated"
+    assert "Verified source changed" in baseline["diagnostic"]
+    assert graph.git("rev-parse", "dev") == graph.base
+    assert not record.get("qa_decisions")
+
+
 @pytest.mark.parametrize(
     "changed",
     [

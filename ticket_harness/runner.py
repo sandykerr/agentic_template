@@ -289,8 +289,11 @@ def _run(
             completed = set(config["completed_tickets"]) | {
                 key for key, item in record["tickets"].items() if item["state"] == "Done"
             }
+            # JSON copies lose object ownership. Rebind each exact evidence value
+            # to its canonical gate so later source invalidation is durable.
             verified = [
-                (item, Path(source), revision) for item, source, revision in checkpoint["verified"]
+                (record["gates"][record["gates"].index(item)], Path(source), revision)
+                for item, source, revision in checkpoint["verified"]
             ]
             milestone_index = checkpoint["milestone_index"]
             record.pop("checkpoint_sha256", None)
