@@ -25,3 +25,4 @@ scope and evidence locations in the [feature index](../README.md#completion-evid
 | --- | --- | --- | --- | --- |
 | [review-ticket-16](ticket-16.md) | Ticket 16 / `3c8d4ab52c5da112552275d1d5fffdef001c1451` | completed | None; Spec and Standards each 0 blockers/0 optional | M1 not requested/accepted |
 | [review-ticket-17](ticket-17.md) | Ticket 17 / `4814eabd4bf2f196f7fb6915667c4305b7c2d0b9` | completed | None; Spec and Standards each 0 blockers/0 optional; fixture findings retain isolated scope | M1 not requested/accepted |
+| [review-ticket-18](ticket-18.md) | Ticket 18 / `816aecbaa67f79ca5fd97c78f40593cdb007c45a` | completed | None; separate Spec/Standards each 0 blocking/0 optional; isolated F1/history retains fixture scope | Real M1 cumulative assessment unperformed; QA not requested/accepted |
