@@ -20,6 +20,11 @@ For eligible implementation work, read the selected ticket, its referenced spec 
 
 Identify every acceptance criterion, the public testing seam, compatibility requirements, explicit scope exclusions, and any unresolved decisions. Use the existing approved testing seam when one exists; otherwise tell the next agent to establish it with the user before writing tests. Preserve requirement wording and scope when translating criteria into implementation instructions.
 
+Carry [efficient ticket development](../../../../docs/agents/development-efficiency.md)
+into the implementation handoff. Include any recorded review rounds, repeated
+failure pattern, agreed bounds and outstanding preparation so the next worker
+resolves those before another dispatch; preserve all required fresh review gates.
+
 For ownership and review context, apply the shared
 [ownership and review-scope contract](../../../../docs/agents/ownership-review.md#repair-and-handoff).
 Include the current approved owner/writer contract, affected unchanged flows and

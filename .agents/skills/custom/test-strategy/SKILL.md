@@ -33,6 +33,11 @@ internal mocks are not a shortcut around it. Then use TDD for the missing behavi
 
 ## Verification and evidence
 
+For ticket review/repair preparation, apply
+[efficient ticket development](../../../../docs/agents/development-efficiency.md).
+Use the existing worker and canonical check artifacts for mechanical work;
+fresh reviewers still provide the required independent source assessment.
+
 Choose focused checks from the changed behavior and its callers, shared fixtures,
 configuration, and dependencies. Broaden selection when impact is uncertain. Run
 the repository's required completion checks, including any required full-suite gate.

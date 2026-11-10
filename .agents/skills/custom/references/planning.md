@@ -164,6 +164,10 @@ without rewriting historical identities or active-run inputs.
 
 ## Role and testing contracts
 
+Use [efficient ticket development](../../../../docs/agents/development-efficiency.md)
+to plan required assignments, check reuse and review preparation. Record agreed
+resource/repair bounds without substituting them for accuracy or acceptance gates.
+
 Record these defaults in the bundle unless the human chooses explicit alternatives:
 
 | Role | Reasoning | Configuration |

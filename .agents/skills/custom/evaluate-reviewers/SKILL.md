@@ -10,6 +10,11 @@ for another person to challenge its conclusions. Apply the target repository's
 contracts, verification policy and human decision boundaries. Existing task
 choices control case counts, reviewer roles/models, resources and retry scope.
 
+Apply [efficient ticket development](../../../../docs/agents/development-efficiency.md)
+when preparing or correcting the evaluation. Resolve local source/capture failures
+before dispatch, investigate repeated causes and preserve complete final-corpus
+evaluation and independent implementation reviews where required.
+
 1. **Bound the claim.** Identify the proposed reviewer guidance, source contracts,
    required concerns, acceptable controls, relevant axes and success conditions.
    Establish authorized stages and retry/resource limits from the task; resolve

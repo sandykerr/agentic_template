@@ -144,6 +144,13 @@ runtime 33/34, orchestration or QA acceptance.
 
 ## Verification, reviews and completion
 
+Before requesting review or another repair round, apply
+[efficient ticket development](docs/agents/development-efficiency.md). Finish local
+checks/capture with the current worker, supply canonical evidence, and collect both
+reports before a fresh repair. Investigate repeated failure causes before another
+dispatch. Required fresh axes, final-source gates and human boundaries still apply;
+this ordinary implementation ticket does not create calibration examples.
+
 Read [Python environment](docs/agents/python-environment.md) before Python,
 dependencies or checks; use its absolute reusable micromamba prefix. Apply
 [testing policy](docs/agents/testing.md), test-strategy and

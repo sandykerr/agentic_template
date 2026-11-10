@@ -33,6 +33,11 @@ never accepts a milestone.
 
 ## Implement and review
 
+Apply [efficient ticket development](../../../../docs/agents/development-efficiency.md)
+before the first review and each repair round: finish local preparation/checks,
+share canonical evidence, and batch the complete authorized diagnosis before
+requesting fresh review. Preserve the role settings and review gates below.
+
 Read the repo-owned [review record contract](../../../../docs/agents/review-records.md)
 when preparing assessments, saving reports or handling findings. Use its templates
 to attach routine Spec/Standards reports to one ticket assessment, preserve the
