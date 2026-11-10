@@ -1,0 +1,83 @@
+{
+  "source": "21-final-source.json",
+  "results": [
+    {
+      "command": [
+        "/home/ajkerr1/development/agentic_template/.micromamba/envs/dev/bin/python",
+        "-m",
+        "pytest",
+        "-q",
+        "--durations=20",
+        "-p",
+        "capture21"
+      ],
+      "exit_code": 0,
+      "seconds": 775.7438957300001,
+      "log": "21-final-check-0.log"
+    },
+    {
+      "command": [
+        "/home/ajkerr1/development/agentic_template/.micromamba/envs/dev/bin/python",
+        "-m",
+        "mypy"
+      ],
+      "exit_code": 0,
+      "seconds": 0.32958961299664224,
+      "log": "21-final-check-1.log"
+    },
+    {
+      "command": [
+        "/home/ajkerr1/development/agentic_template/.micromamba/envs/dev/bin/python",
+        "-m",
+        "ruff",
+        "check",
+        "ticket_harness",
+        "tests",
+        "examples"
+      ],
+      "exit_code": 0,
+      "seconds": 0.062371734999032924,
+      "log": "21-final-check-2.log"
+    },
+    {
+      "command": [
+        "/home/ajkerr1/development/agentic_template/.micromamba/envs/dev/bin/python",
+        "-m",
+        "ruff",
+        "format",
+        "--check",
+        "ticket_harness",
+        "tests",
+        "examples"
+      ],
+      "exit_code": 0,
+      "seconds": 0.07334137100042426,
+      "log": "21-final-check-3.log"
+    },
+    {
+      "command": [
+        "git",
+        "diff",
+        "--check"
+      ],
+      "exit_code": 0,
+      "seconds": 0.027175506998901255,
+      "log": "21-final-check-4.log"
+    },
+    {
+      "command": [
+        "git",
+        "diff",
+        "--check",
+        "8574c6e5fb0a55ea3539e52c7c53044f1c036583",
+        "--",
+        "ticket_harness",
+        "tests",
+        "examples"
+      ],
+      "exit_code": 0,
+      "seconds": 0.01741176400173572,
+      "log": "21-final-check-5.log"
+    }
+  ]
+}

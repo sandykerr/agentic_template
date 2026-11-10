@@ -1,10 +1,9 @@
 """Ticket readiness, complete implementation attempts, and bounded repairs."""
 
-from functools import partial
 from pathlib import Path
 from typing import TYPE_CHECKING, Any
 
-from ticket_harness import agents, inputs
+from ticket_harness import agents
 from ticket_harness.git import (
     candidate,
     capture,
@@ -18,7 +17,7 @@ from ticket_harness.git import (
 from ticket_harness.records import GateFailure, NonRepairableFailure
 
 if TYPE_CHECKING:
-    from ticket_harness.runner import _Run
+    from ticket_harness.runner import _TicketVerification
 
 
 class _Attempt:
@@ -146,141 +145,179 @@ def next_ready(record: dict[str, Any], config: dict[str, Any], index: int) -> st
     raise GateFailure("No selected ticket has verified prerequisites")
 
 
-def execute(execution: "_Run", ticket: str) -> None:
-    record, config = execution.record, execution.config
-    snapshots = record["inputs"]
-    repository = Path(config["repository"])
-    integration = config["integration"]
-    record["ticket"] = record["tickets"][ticket]
-    base = record["integration_revision"]
-    checks = {name: config["checks"][name] for name in config["requirements"][ticket]["checks"]}
-    assignment_snapshots = dict(snapshots)
-    active_input = next(
-        name
-        for name, snapshot in snapshots.items()
-        if snapshot["source"] == config["requirements"][ticket]["source"]
-        and (name == "ticket" or name.startswith("ticket-"))
-    )
-    assignment_snapshots["ticket"], assignment_snapshots[active_input] = (
-        assignment_snapshots[active_input],
-        assignment_snapshots["ticket"],
-    )
+class _TicketExecution:
+    """Own one fixed-base ticket cycle, including its bounded repair decisions."""
 
-    def ticket_gates() -> list[dict[str, Any]]:
-        # Earlier ticket reports stay inspectable without authorizing this assignment.
-        return [g for g in record["gates"] if g["ticket"] in (None, ticket)]
-
-    start_revision = base
-    repair_context = None
-    previous_source = None
-    for attempt in range(1, config["max_repairs"] + 2):
-        operation = partial(execution.git_operation, ticket=ticket, attempt=attempt)
-        name_for = partial(execution.artifact_name, ticket=ticket, attempt=attempt)
-        current = _Attempt(
-            ticket, attempt, start_revision, record["ticket"], record["attempts"], record["gates"]
+    def __init__(
+        self,
+        ticket: str,
+        base: str,
+        config: dict[str, Any],
+        snapshots: dict[str, Any],
+        current_ticket: dict[str, Any],
+        history: list[dict[str, Any]],
+        gates: list[dict[str, Any]],
+        approved_source: set[str],
+        verification: "_TicketVerification",
+    ) -> None:
+        self._ticket = ticket
+        self._base = base
+        self._repository = Path(config["repository"])
+        self._integration = config["integration"]
+        self._max_repairs = config["max_repairs"]
+        self._agent = config["agent"]
+        self._suite = config["suite"]
+        self._checks = {
+            name: config["checks"][name] for name in config["requirements"][ticket]["checks"]
+        }
+        self._snapshots = dict(snapshots)
+        active_input = next(
+            name
+            for name, snapshot in snapshots.items()
+            if snapshot["source"] == config["requirements"][ticket]["source"]
+            and (name == "ticket" or name.startswith("ticket-"))
         )
-        check = partial(execution.check, ticket=ticket, attempt=attempt, owner=current)
-        try:
-            execution.stage = "implementation"
-            execution.save()
-            with operation("implementation-worktree"):
-                source = worktree(
-                    repository, execution.trees / name_for("implementation"), start_revision
-                )
-                if previous_source is not None:
-                    carry_changes(previous_source, source)
-                current.observe_source(source)
-            prompt = agents.assignment(
-                execution.stage,
-                ticket,
-                base,
-                start_revision,
-                assignment_snapshots,
-                ticket_gates(),
-                checks,
+        self._snapshots["ticket"], self._snapshots[active_input] = (
+            self._snapshots[active_input],
+            self._snapshots["ticket"],
+        )
+        self._current_ticket = current_ticket
+        self._history = history
+        self._gates = gates
+        self._approved_source = approved_source
+        self._verification = verification
+        self._current: _Attempt | None = None
+        self._start_revision = base
+        self._previous_source: Path | None = None
+        self._repair_context: dict[str, Any] | None = None
+
+    def _ticket_gates(self) -> list[dict[str, Any]]:
+        # Earlier ticket reports stay inspectable without authorizing this assignment.
+        return [gate for gate in self._gates if gate["ticket"] in (None, self._ticket)]
+
+    def execute(self) -> str:
+        """Return the tested candidate only after expected-old integration succeeds."""
+        for attempt in range(1, self._max_repairs + 2):
+            current = _Attempt(
+                self._ticket,
                 attempt,
-                repair_context,
+                self._start_revision,
+                self._current_ticket,
+                self._history,
+                self._gates,
             )
-            check(execution.stage, config["agent"], source, start_revision, prompt)
-            with operation("submission"):
-                submitted, changed = capture(
-                    source, start_revision, ticket, base if attempt > 1 else None
-                )
-                current.submit(submitted, changed)
-            execution.save()
-            if execution.approved_source.intersection(changed):
-                raise NonRepairableFailure(
-                    "Submission changed approved input source; human decision required"
-                )
-            for name, argv in checks.items():
-                execution.stage = f"check-{name}"
-                check(execution.stage, argv, source, submitted)
-                require_unchanged(source, submitted)
-            for role in ("spec", "standards"):
-                execution.stage = role
-                with operation(f"{role}-worktree"):
-                    review_source = worktree(
-                        repository, execution.trees / name_for(role), submitted
-                    )
+            self._current = current
+            try:
+                stage = "implementation"
+                self._verification.observe(stage)
+                with self._verification.operation(
+                    "implementation-worktree", attempt
+                ) as destination:
+                    source = worktree(self._repository, destination, self._start_revision)
+                    if self._previous_source is not None:
+                        carry_changes(self._previous_source, source)
+                    current.observe_source(source)
                 prompt = agents.assignment(
-                    role,
-                    ticket,
-                    base,
-                    submitted,
-                    assignment_snapshots,
-                    ticket_gates(),
-                    checks,
+                    stage,
+                    self._ticket,
+                    self._base,
+                    self._start_revision,
+                    self._snapshots,
+                    self._ticket_gates(),
+                    self._checks,
                     attempt,
+                    self._repair_context,
                 )
-                check(role, config["agent"], review_source, submitted, prompt)
-                require_unchanged(review_source, submitted)
-                execution.save()
-            execution.stage = "candidate"
-            candidate_source = execution.trees / name_for("candidate")
-            with operation("candidate-merge"):
-                revision = candidate(repository, candidate_source, base, submitted)
-                current.observe_candidate(revision)
-            execution.save()
-            require_reviewed_candidate(candidate_source, revision, base, submitted)
-            check(execution.stage, config["suite"], candidate_source, revision)
-            require_unchanged(candidate_source, revision)
-            execution.stage = "integration"
-            inputs.require_approved(snapshots)
-            execution.validate_sources()
-            promote(repository, integration, revision, base)
-            current.complete(revision)
-            record["integration_revision"] = revision
-            unlock(record, config)
-            execution.save()
-            break
-        except (GateFailure, OSError, ValueError, KeyError, TypeError) as error:
-            current.reject(execution.stage, error)
-            execution.save()
-            if (
-                isinstance(error, NonRepairableFailure)
-                or execution.stage == "integration"
-                or attempt > config["max_repairs"]
-            ):
-                raise
-            inputs.require_approved(snapshots)
-            execution.reject_checks(ticket)
-            if git(repository, "rev-parse", f"refs/heads/{integration}") != base:
-                raise GateFailure(
-                    "Integration branch changed externally; repair stopped"
-                ) from error
-            start_revision, previous_source, failure = current.repair_start(previous_source)
-            if (
-                previous_source is not None
-                and git(previous_source, "rev-parse", "HEAD") != start_revision
-            ):
-                raise GateFailure("Rejected implementation changed HEAD; repair stopped") from error
-            repair_context = {
-                "failure": failure,
-                "rejected_revisions": [
-                    item[key]
-                    for item in record["attempts"]
-                    if item["ticket"] == ticket
-                    for key in ("submitted_revision", "candidate_revision")
-                    if key in item
-                ],
-            }
+                self._verification.check(
+                    stage, self._agent, source, self._start_revision, attempt, current, prompt
+                )
+                with self._verification.operation("submission", attempt):
+                    submitted, changed = capture(
+                        source,
+                        self._start_revision,
+                        self._ticket,
+                        self._base if attempt > 1 else None,
+                    )
+                    current.submit(submitted, changed)
+                self._verification.observe(stage)
+                if self._approved_source.intersection(changed):
+                    raise NonRepairableFailure(
+                        "Submission changed approved input source; human decision required"
+                    )
+                for name, argv in self._checks.items():
+                    stage = f"check-{name}"
+                    self._verification.check(stage, argv, source, submitted, attempt, current)
+                    require_unchanged(source, submitted)
+                for role in ("spec", "standards"):
+                    stage = role
+                    with self._verification.operation(f"{role}-worktree", attempt) as destination:
+                        review_source = worktree(self._repository, destination, submitted)
+                    prompt = agents.assignment(
+                        role,
+                        self._ticket,
+                        self._base,
+                        submitted,
+                        self._snapshots,
+                        self._ticket_gates(),
+                        self._checks,
+                        attempt,
+                    )
+                    self._verification.check(
+                        role, self._agent, review_source, submitted, attempt, current, prompt
+                    )
+                    require_unchanged(review_source, submitted)
+                    self._verification.observe(stage)
+                stage = "candidate"
+                with self._verification.operation("candidate-merge", attempt) as candidate_source:
+                    revision = candidate(self._repository, candidate_source, self._base, submitted)
+                    current.observe_candidate(revision)
+                self._verification.observe(stage)
+                require_reviewed_candidate(candidate_source, revision, self._base, submitted)
+                self._verification.check(
+                    stage, self._suite, candidate_source, revision, attempt, current
+                )
+                require_unchanged(candidate_source, revision)
+                stage = "integration"
+                self._verification.observe(stage)
+                self._verification.validate_sources()
+                promote(self._repository, self._integration, revision, self._base)
+                current.complete(revision)
+                return revision
+            except (GateFailure, OSError, ValueError, KeyError, TypeError) as error:
+                current.reject(stage, error)
+                self._verification.observe(stage)
+                if (
+                    isinstance(error, NonRepairableFailure)
+                    or stage == "integration"
+                    or attempt > self._max_repairs
+                ):
+                    raise
+                self._verification.validate_sources(rejected=True)
+                if (
+                    git(self._repository, "rev-parse", f"refs/heads/{self._integration}")
+                    != self._base
+                ):
+                    raise GateFailure(
+                        "Integration branch changed externally; repair stopped"
+                    ) from error
+                self._start_revision, self._previous_source, failure = current.repair_start(
+                    self._previous_source
+                )
+                if (
+                    self._previous_source is not None
+                    and git(self._previous_source, "rev-parse", "HEAD") != self._start_revision
+                ):
+                    raise GateFailure(
+                        "Rejected implementation changed HEAD; repair stopped"
+                    ) from error
+                self._repair_context = {
+                    "failure": failure,
+                    "rejected_revisions": [
+                        item[key]
+                        for item in self._history
+                        if item["ticket"] == self._ticket
+                        for key in ("submitted_revision", "candidate_revision")
+                        if key in item
+                    ],
+                }
+        raise AssertionError("Ticket execution requires an initial attempt")

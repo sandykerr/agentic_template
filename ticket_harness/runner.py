@@ -252,6 +252,61 @@ class _Run:
         return result
 
 
+class _TicketVerification:
+    """Limit a ticket to scoped verification and durable observation operations.
+
+    The runner retains its check registry, protection policy and persistence.
+    Ticket policy cannot select another ticket's evidence, mutate run state or
+    access the runner through this interface.
+    """
+
+    def __init__(self, execution: _Run, ticket: str) -> None:
+        self.__execution = execution
+        self.__ticket = ticket
+
+    def observe(self, stage: str) -> None:
+        self.__execution.stage = stage
+        self.__execution.save()
+
+    @contextmanager
+    def operation(self, name: str, attempt: int) -> Iterator[Path]:
+        # Worktree/artifact naming and protected Git observations remain run-owned.
+        stage = "candidate" if name == "candidate-merge" else name.removesuffix("-worktree")
+        destination = self.__execution.trees / self.__execution.artifact_name(
+            stage, self.__ticket, attempt
+        )
+        with self.__execution.git_operation(name, self.__ticket, attempt):
+            yield destination
+
+    def check(
+        self,
+        stage: str,
+        argv: list[str],
+        source: Path,
+        revision: str,
+        attempt: int,
+        owner: tickets._Attempt,
+        prompt: dict[str, Any] | None = None,
+    ) -> None:
+        self.__execution.check(
+            stage,
+            argv,
+            source,
+            revision,
+            prompt,
+            ticket=self.__ticket,
+            attempt=attempt,
+            owner=owner,
+        )
+
+    def validate_sources(self, *, rejected: bool = False) -> None:
+        inputs.require_approved(self.__execution.record["inputs"])
+        if rejected:
+            self.__execution.reject_checks(self.__ticket)
+        else:
+            self.__execution.validate_sources()
+
+
 def run(config_path: Path, output: Path) -> tuple[dict[str, Any], int]:
     # Never overwrite an existing run, including its preserved rejected work.
     output.mkdir(parents=True, exist_ok=False)
@@ -353,7 +408,21 @@ def _run(
                 tickets.unlock(record, config)
                 execution.save()
             while (ticket := tickets.next_ready(record, config, index)) is not None:
-                tickets.execute(execution, ticket)
+                record["ticket"] = record["tickets"][ticket]
+                candidate_revision = tickets._TicketExecution(
+                    ticket,
+                    record["integration_revision"],
+                    config,
+                    snapshots,
+                    record["ticket"],
+                    record["attempts"],
+                    record["gates"],
+                    execution.approved_source,
+                    _TicketVerification(execution, ticket),
+                ).execute()
+                record["integration_revision"] = candidate_revision
+                tickets.unlock(record, config)
+                execution.save()
             record["outcome"] = "preparing_milestone" if planned else "completed"
             if planned and qa.review(execution, checkpoint):
                 return record, 2

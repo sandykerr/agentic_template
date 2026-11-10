@@ -1,0 +1,5 @@
+# Capture audit preparation history
+
+The first archive audit used random-access extraction in a gzip archive while walking the separately sorted manifest. That replayed decompression and was needlessly slow. It emitted no stdout/result before it was interrupted with Ctrl-C (exit130). An attempted exact-process pkill from a different sandbox execution found no matching visible process (exit1); the owned session interrupt then stopped it.
+
+The helper was corrected to stream archive members once and compare each member against the preserved manifest. The renewed audit completed in 3.28 seconds, exit0, matching 26 source identities, all 10,445 original raw files and all 544 scenario observations. Its result is 21-capture-audit.json and stdout is 21-audit.log. No test, runtime, source manifest or archive bytes changed. This capture-only correction requires no suite replay. The initial document link check ran before the capture-audit file existed and failed on that pending link; after the audit, all 36 file links passed (21-document-check.json).
