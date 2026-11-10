@@ -47,3 +47,36 @@ Run: `$code-review <prompt>` to begin the code review. This checks if features a
 ## 7. OPTIONAL: Audit agent execution: what worked, and what needs improvement?
 
 Run: `$retro <prompt>` to find out what the agents had issues with and what they did well.
+
+## Repository storage and push checks
+
+`.scratch/` contains tracked specs, tickets, reviews, and retained evidence. Keep
+required records; use lossless compression for large raw evidence and record the
+original byte count and SHA-256. Avoid embedding complete command output in
+identity manifests when a path and digest suffice.
+
+Enable the repository's pre-push size check in each clone:
+
+```bash
+git config --local core.hooksPath .githooks
+```
+
+The hook checks blobs throughout outgoing history and rejects files over GitHub's
+100 MiB limit, including files deleted by later commits. It requires Bash, Git,
+and awk. If you already use a hooks directory, integrate this check into your
+existing pre-push hook instead of replacing that configuration.
+
+The ticket 19 round-two Spec identity JSON is now a locator for its adjacent
+`.json.gz` archive. Decompress it before checking the original capture hash:
+
+```bash
+gzip -dc .scratch/ticket-harness/evidence/19-review-round2-spec-identities.json.gz > /tmp/19-review-round2-spec-identities.json
+sha256sum /tmp/19-review-round2-spec-identities.json
+```
+
+The expected SHA-256 is
+`94736e1eefbee407abcc23e0ece23508f2db1733af895269f332257700d20e47`.
+The [history migration record](docs/history/2026-11-10-large-file-rewrite.json)
+maps the original unpublished commit IDs to their replacements. Historical review
+records retain their original source IDs and hashes; this storage migration does
+not renew implementation verification.
