@@ -26,6 +26,12 @@ For this repository, read [domain guidance](../../../../docs/agents/domain.md),
 For another target, use that project's equivalents; ask only for missing
 decisions that cannot be inferred from its guidance or the conversation.
 
+For this repository's ownership refactors 20–24, carry the
+[evaluated development-review guidance and corpus](../../../../docs/agents/reviewer-evaluation.md)
+into the implementation/review context. Preserve its exact guidance identity,
+finite observations and unresolved limits; later refactor evidence and M1 QA
+remain separate required work.
+
 Keep proposals in the conversation or an explicitly marked draft location,
 separate from published inputs. A suitable local staging location is
 `.scratch/<feature>/drafts/<version>/`; mark each document **Draft — unapproved**.

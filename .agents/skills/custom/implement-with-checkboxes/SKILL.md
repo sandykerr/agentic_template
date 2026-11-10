@@ -19,6 +19,11 @@ whole-ticket scope and report requirements take precedence over upstream
 diff-hunk-only wording and the under-400-word report briefs; retain a concise
 summary with enough linked detail for the required evidence.
 
+For this repository's ownership refactors 20–24, use the
+[evaluated development-review guidance and corpus](../../../../docs/agents/reviewer-evaluation.md)
+when preparing both fresh review assignments. Carry the evaluated guidance
+identity and finite limitations; corpus reports do not review the new refactor.
+
 Apply [development architecture checkpoints](../../../../docs/agents/architecture-checkpoints.md)
 at ticket start and after implementation. Record each risk trigger and required
 broader assessment before integration; no-trigger tickets retain the two existing

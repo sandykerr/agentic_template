@@ -1,0 +1,30 @@
+{
+  "kind": "evidence collector history; not reviewer trials",
+  "events": [
+    {
+      "event": "C01",
+      "command": "/home/ajkerr1/development/agentic_template/.micromamba/envs/dev/bin/python .scratch/ticket-harness/evidence/19-evaluation/capture_reviews.py",
+      "exit": 0,
+      "observed": "Captured actual assignments only. Serialized dispatch message fields subsequently recognized as opaque, not plaintext instructions."
+    },
+    {
+      "event": "C02",
+      "command": "capture_reviews.py --final",
+      "exit": 0,
+      "observed": "Original first plaintext final_answer reports captured exactly; reviewer-preserved copies differ only by terminal newline. Narrow tool collector omitted custom_tool_call/output and agent_message record types."
+    },
+    {
+      "event": "C03",
+      "command": "capture_reviews.py --final (first supplemental collector)",
+      "exit": 1,
+      "observed": "AssertionError at payload.rstrip('\\n') == readable.rstrip('\\n'). Received agent_message wrapper contains an empty plaintext payload followed by encrypted_content, so readable input cannot be byte-verified against decrypted delivery. Spec supplemental source records were already retained; no originals overwritten."
+    },
+    {
+      "event": "C04",
+      "command": "capture_reviews.py --final (corrected supplemental collector)",
+      "exit": 0,
+      "observed": "Retained both complete custom-tool/source record supplements: 10 Spec and 12 Standards tool calls with matching outputs, plus received messages. Comparison remains null for encrypted received payloads; readable initial input remains reviewer-attested transcription."
+    }
+  ],
+  "limits": "Commands/exits transcribed by implementer from actual tool outputs. Original session-derived report/tool artifacts and hashes retained separately. No guidance, case, finding or review outcome changed."
+}

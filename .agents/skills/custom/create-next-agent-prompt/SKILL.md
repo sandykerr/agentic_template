@@ -33,6 +33,12 @@ human decision/amendment links and pending exact-source revalidation into the
 handoff. Link original reports without rewriting them. A completed assessment or
 risk disposition does not establish milestone acceptance or implementation eligibility.
 
+For this repository's refactors 20–24 and their M1 checkpoint, carry the
+[evaluated development-review guidance and corpus](../../../../docs/agents/reviewer-evaluation.md)
+into either handoff branch. Name the evaluated version, original corpus/reports,
+finite results and any unresolved limits. Keep new refactor reviews, cumulative
+architecture assessment and human QA separate from the corpus evaluation.
+
 Apply [development architecture checkpoints](../../../../docs/agents/architecture-checkpoints.md)
 when selecting work and drafting either handoff branch. Carry start/post-change
 trigger observations, required cumulative work, exact cumulative baseline/source,
