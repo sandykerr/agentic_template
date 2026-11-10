@@ -1,0 +1,70 @@
+[
+  {
+    "scenario": "ticket-a-local-checks",
+    "command": [
+      "/home/ajkerr1/development/agentic_template/.micromamba/envs/dev/bin/python",
+      "-B",
+      "/home/ajkerr1/development/agentic_template/.scratch/ticket-harness/evidence/18-walkthrough/ticket-a/observe.py"
+    ],
+    "exit": 0,
+    "stdout": "A check status and revocation: PASS\n",
+    "stderr": ""
+  },
+  {
+    "scenario": "ticket-b-local-checks",
+    "command": [
+      "/home/ajkerr1/development/agentic_template/.micromamba/envs/dev/bin/python",
+      "-B",
+      "/home/ajkerr1/development/agentic_template/.scratch/ticket-harness/evidence/18-walkthrough/ticket-b/observe.py"
+    ],
+    "exit": 0,
+    "stdout": "A check status and revocation: PASS\nB checks plus approval and revocation: PASS\n",
+    "stderr": ""
+  },
+  {
+    "scenario": "risk-local-checks",
+    "command": [
+      "/home/ajkerr1/development/agentic_template/.micromamba/envs/dev/bin/python",
+      "-B",
+      "/home/ajkerr1/development/agentic_template/.scratch/ticket-harness/evidence/18-walkthrough/risk/observe.py"
+    ],
+    "exit": 0,
+    "stdout": "A check status and revocation: PASS\nB checks plus approval and revocation: PASS\n",
+    "stderr": ""
+  },
+  {
+    "scenario": "risk-cumulative-revocation",
+    "command": [
+      "/home/ajkerr1/development/agentic_template/.micromamba/envs/dev/bin/python",
+      "-B",
+      "/home/ajkerr1/development/agentic_template/.scratch/ticket-harness/evidence/18-walkthrough/observe-risk.py"
+    ],
+    "PYTHONPATH": "/home/ajkerr1/development/agentic_template/.scratch/ticket-harness/evidence/18-walkthrough/risk",
+    "exit": 1,
+    "stdout": "{'canonical': {'checks': False, 'approval': False}, 'review': {'checks': True, 'approval': True}, 'checks_ready_after_revoke': True, 'candidate_ready_after_revoke': True}\n",
+    "stderr": "Traceback (most recent call last):\n  File \"/home/ajkerr1/development/agentic_template/.scratch/ticket-harness/evidence/18-walkthrough/observe-risk.py\", line 11, in <module>\n    assert not candidate_ready(review), \"restored review readiness survives canonical revocation\"\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: restored review readiness survives canonical revocation\n"
+  },
+  {
+    "scenario": "clean-local-checks",
+    "command": [
+      "/home/ajkerr1/development/agentic_template/.micromamba/envs/dev/bin/python",
+      "-B",
+      "/home/ajkerr1/development/agentic_template/.scratch/ticket-harness/evidence/18-walkthrough/clean/observe.py"
+    ],
+    "exit": 0,
+    "stdout": "A check status and revocation: PASS\nB checks plus approval and revocation: PASS\n",
+    "stderr": ""
+  },
+  {
+    "scenario": "clean-cumulative-revocation",
+    "command": [
+      "/home/ajkerr1/development/agentic_template/.micromamba/envs/dev/bin/python",
+      "-B",
+      "/home/ajkerr1/development/agentic_template/.scratch/ticket-harness/evidence/18-walkthrough/observe-risk.py"
+    ],
+    "PYTHONPATH": "/home/ajkerr1/development/agentic_template/.scratch/ticket-harness/evidence/18-walkthrough/clean",
+    "exit": 0,
+    "stdout": "{'canonical': {'checks': False, 'approval': False}, 'review': {'checks': False, 'approval': False}, 'checks_ready_after_revoke': False, 'candidate_ready_after_revoke': False}\n",
+    "stderr": ""
+  }
+]

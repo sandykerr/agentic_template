@@ -1,0 +1,106 @@
+
+command: git rev-parse HEAD
+02d76205a1c40e45c607ef2a5d11ec282393edcd
+exit=0
+
+command: git status --short
+ M .agents/skills/custom/create-next-agent-prompt/SKILL.md
+ M .agents/skills/custom/implement-with-checkboxes/SKILL.md
+ M .agents/skills/custom/references/planning.md
+ M .scratch/ticket-harness/README.md
+ M .scratch/ticket-harness/milestones.md
+ M .scratch/ticket-harness/reviews/README.md
+ M docs/agents/issue-tracker.md
+ M docs/agents/ownership-review.md
+ M docs/agents/review-records.md
+ M docs/templates/reviews/assessment.md
+ M docs/ticket-harness.md
+?? .scratch/ticket-harness/evidence/18-build-fixture.py
+?? .scratch/ticket-harness/evidence/18-check-results.json
+?? .scratch/ticket-harness/evidence/18-check.py
+?? .scratch/ticket-harness/evidence/18-checks.log
+?? .scratch/ticket-harness/evidence/18-implementation-report.md
+?? .scratch/ticket-harness/evidence/18-observe.py
+?? .scratch/ticket-harness/evidence/18-provenance.json
+?? .scratch/ticket-harness/evidence/18-run-checks.sh
+?? .scratch/ticket-harness/evidence/18-walkthrough/
+?? docs/agents/architecture-checkpoints.md
+exit=0
+
+command: bash -n .scratch/ticket-harness/evidence/18-run-checks.sh
+exit=0
+
+command: env PYTHONPATH=/usr/lib/python3/dist-packages /home/ajkerr1/development/agentic_template/.micromamba/envs/dev/bin/python /home/ajkerr1/.codex/skills/.system/skill-creator/scripts/quick_validate.py .agents/skills/custom/implement-with-checkboxes
+Skill is valid!
+exit=0
+
+command: env PYTHONPATH=/usr/lib/python3/dist-packages /home/ajkerr1/development/agentic_template/.micromamba/envs/dev/bin/python /home/ajkerr1/.codex/skills/.system/skill-creator/scripts/quick_validate.py .agents/skills/custom/create-next-agent-prompt
+Skill is valid!
+exit=0
+
+command: /home/ajkerr1/development/agentic_template/.micromamba/envs/dev/bin/python .scratch/ticket-harness/evidence/18-check.py
+{
+  "result": "pass",
+  "protected_files": 6314,
+  "observations": 6,
+  "readiness_observations": 7
+}
+Validated local links: 392
+exit=0
+
+command: git diff --check 02d76205a1c40e45c607ef2a5d11ec282393edcd
+exit=0
+
+command: git rev-parse HEAD
+02d76205a1c40e45c607ef2a5d11ec282393edcd
+exit=0
+
+command: git status --short
+ M .agents/skills/custom/create-next-agent-prompt/SKILL.md
+ M .agents/skills/custom/implement-with-checkboxes/SKILL.md
+ M .agents/skills/custom/references/planning.md
+ M .scratch/ticket-harness/README.md
+ M .scratch/ticket-harness/milestones.md
+ M .scratch/ticket-harness/reviews/README.md
+ M docs/agents/issue-tracker.md
+ M docs/agents/ownership-review.md
+ M docs/agents/review-records.md
+ M docs/templates/reviews/assessment.md
+ M docs/ticket-harness.md
+?? .scratch/ticket-harness/evidence/18-build-fixture.py
+?? .scratch/ticket-harness/evidence/18-check-results.json
+?? .scratch/ticket-harness/evidence/18-check.py
+?? .scratch/ticket-harness/evidence/18-checks.log
+?? .scratch/ticket-harness/evidence/18-implementation-report.md
+?? .scratch/ticket-harness/evidence/18-observe.py
+?? .scratch/ticket-harness/evidence/18-provenance.json
+?? .scratch/ticket-harness/evidence/18-run-checks.sh
+?? .scratch/ticket-harness/evidence/18-walkthrough/
+?? docs/agents/architecture-checkpoints.md
+exit=0
+
+command: bash -n .scratch/ticket-harness/evidence/18-run-checks.sh
+exit=0
+
+command: env PYTHONPATH=/usr/lib/python3/dist-packages /home/ajkerr1/development/agentic_template/.micromamba/envs/dev/bin/python /home/ajkerr1/.codex/skills/.system/skill-creator/scripts/quick_validate.py .agents/skills/custom/implement-with-checkboxes
+Skill is valid!
+exit=0
+
+command: env PYTHONPATH=/usr/lib/python3/dist-packages /home/ajkerr1/development/agentic_template/.micromamba/envs/dev/bin/python /home/ajkerr1/.codex/skills/.system/skill-creator/scripts/quick_validate.py .agents/skills/custom/create-next-agent-prompt
+Skill is valid!
+exit=0
+
+command: /home/ajkerr1/development/agentic_template/.micromamba/envs/dev/bin/python .scratch/ticket-harness/evidence/18-check.py
+{
+  "result": "pass",
+  "protected_files": 6314,
+  "observations": 6,
+  "readiness_observations": 7
+}
+Validated local links: 392
+exit=0
+
+command: git diff --check 02d76205a1c40e45c607ef2a5d11ec282393edcd
+exit=0
+
+Final staged implementation: git diff --cached --check; exit=0

@@ -82,6 +82,12 @@ During approved harness execution, source specs and tickets remain unchanged and
 
 ## Review records
 
+Apply [development architecture checkpoints](../../docs/agents/architecture-checkpoints.md)
+for ticket risk triggers and milestone readiness. Cumulative work belongs in the
+[review index](reviews/README.md); missing/stale assessments and unresolved blockers
+remain visible in handoffs. Real M1 cumulative assessment and human QA are pending.
+
+
 Development assessments use the [review index](reviews/README.md) and repo-owned
 [record contract/templates](../../docs/agents/review-records.md). Ticket 16's
 [isolated example](evidence/16-miniature/README.md) shows finding histories and

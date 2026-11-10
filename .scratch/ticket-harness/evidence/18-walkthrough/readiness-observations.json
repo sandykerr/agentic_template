@@ -1,0 +1,96 @@
+[
+  {
+    "id": "missing",
+    "kind": "manual guidance walkthrough",
+    "actor": "/root/implement18",
+    "source_snapshot": "risk",
+    "input": "required report in progress; pre-assessment capture names reports absent and integration B",
+    "outcome": "blocked: required assessment incomplete",
+    "evidence": [
+      "pre-assessment-observation.json",
+      "assignment-cumulative-risk.txt"
+    ],
+    "limit": "development guidance applied to retained isolated inputs; no runtime gate or human acceptance executed"
+  },
+  {
+    "id": "blocking",
+    "kind": "manual guidance walkthrough",
+    "actor": "/root/implement18",
+    "source_snapshot": "risk",
+    "input": "actual standards-risk-01 completed with open full key review-18-fixture-cumulative/standards-risk-01/F1",
+    "outcome": "blocked: unresolved in-scope blocker",
+    "evidence": [
+      "cumulative-risk.md",
+      "cumulative-risk-observations.json"
+    ],
+    "limit": "development guidance applied to retained isolated inputs; no runtime gate or human acceptance executed"
+  },
+  {
+    "id": "stale",
+    "kind": "manual guidance walkthrough",
+    "actor": "/root/implement18",
+    "source_snapshot": "clean",
+    "input": "repair source differs from assessed risk source; old completed report cannot authorize new readiness",
+    "outcome": "blocked: stale assessed source",
+    "evidence": [
+      "sources.json",
+      "finding-history.md"
+    ],
+    "limit": "development guidance applied to retained isolated inputs; no runtime gate or human acceptance executed"
+  },
+  {
+    "id": "human-missing",
+    "kind": "manual guidance walkthrough",
+    "actor": "/root/implement18",
+    "source_snapshot": "risk",
+    "input": "worker cannot convert blocker into acceptance or deferral without actual human authority and applicable amendment",
+    "outcome": "blocked: actual human decision absent",
+    "evidence": [
+      "example-human-decision.md",
+      "finding-history.md"
+    ],
+    "limit": "development guidance applied to retained isolated inputs; no runtime gate or human acceptance executed"
+  },
+  {
+    "id": "synthetic-disposition",
+    "kind": "manual guidance walkthrough",
+    "actor": "/root/implement18",
+    "source_snapshot": "risk",
+    "input": "fictional decision/amendment link deferred D; independent alternate-scope assessment remains missing; no actual authority",
+    "outcome": "example deferred-work handoff; actual progression blocked",
+    "evidence": [
+      "example-human-decision.md",
+      "example-amendment.md",
+      "deferred-D.md",
+      "deferred-handoff.md"
+    ],
+    "limit": "development guidance applied to retained isolated inputs; no runtime gate or human acceptance executed"
+  },
+  {
+    "id": "clean",
+    "kind": "manual guidance walkthrough",
+    "actor": "/root/implement18",
+    "source_snapshot": "clean",
+    "input": "fresh standards-clean-01 verifies exact original-key fix and all cumulative source; no new findings",
+    "outcome": "checkpoint clean; QA acceptance absent",
+    "evidence": [
+      "cumulative-clean.md",
+      "cumulative-clean-observations.json",
+      "finding-history.md"
+    ],
+    "limit": "development guidance applied to retained isolated inputs; no runtime gate or human acceptance executed"
+  },
+  {
+    "id": "acceptance",
+    "kind": "manual guidance walkthrough",
+    "actor": "/root/implement18",
+    "source_snapshot": "clean",
+    "input": "clean checkpoint supplies no candidate/check/request/QA decision; integration B retained and real M1 incomplete",
+    "outcome": "waiting: candidate gates and human QA; later milestone ineligible",
+    "evidence": [
+      "assessment.md",
+      "sources.json"
+    ],
+    "limit": "development guidance applied to retained isolated inputs; no runtime gate or human acceptance executed"
+  }
+]

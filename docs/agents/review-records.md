@@ -130,6 +130,7 @@ from tracker history without rewriting active approved inputs or frozen evidence
 If the intended authoring files are active inputs, report that blocker and retain
 the new record in the authorized output location until authoring is permitted.
 
-The shared scope guidance is delivered by ticket 17; architecture gating, reviewer
-calibration and runtime adoption are owned by later tickets 18, 19 and 33 respectively. These templates record
-their eventual evidence without claiming those mechanisms already exist.
+For development architecture gating, apply
+[architecture checkpoints](architecture-checkpoints.md). Reviewer calibration and
+runtime adoption remain tickets 19 and 33; development guidance is not runtime
+enforcement. These templates retain their evidence without claiming it exists.

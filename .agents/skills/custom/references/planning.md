@@ -121,6 +121,14 @@ of the previous group; all tickets Done still requires final QA. Plan approval
 does not accept a candidate. Actual request identities, candidates, decisions,
 execution, promotion and continuation are owned by later runtime/QA workflows.
 
+Before required milestone QA readiness, apply
+[development architecture checkpoints](../../../../docs/agents/architecture-checkpoints.md).
+Plan cumulative work with the prior accepted milestone or feature starting revision,
+complete workflow inventory and carried findings. Assess lifecycle, restoration,
+shared-state and writer risks at ticket start and after implementation; triggered
+work requires broader assessment before integration. Keep review completion,
+finding dispositions, candidate readiness and human acceptance separate.
+
 ## Ticket numbering
 
 By default, number a new local ticket bundle consecutively in its preferred

@@ -1,0 +1,1638 @@
+{
+  "result": "pass",
+  "baseline": "02d76205a1c40e45c607ef2a5d11ec282393edcd",
+  "head": "02d76205a1c40e45c607ef2a5d11ec282393edcd",
+  "source_identities": {
+    "docs/agents/architecture-checkpoints.md": "e81bfaff325e069ee3b8c73a8a4d2028e06a871dcf94f6045377585a5d1e3d8f",
+    "docs/agents/ownership-review.md": "7bef209024464c7ce7b0d3ebcfc8f2707d2309efef50b79bb7d5cc589ab1aa56",
+    "docs/agents/review-records.md": "7371c706ba48a09ba2f69750dab8f60c5c6892bdfb0ecb35f5f9ada7e502d49d",
+    "docs/agents/issue-tracker.md": "deedc16ba7e08d0b7e4f83bc96457301095e108ed1f6fa5138a726a8b9f18d2d",
+    "docs/templates/reviews/assessment.md": "44e30cf9d4ffb1ca79ed144f9e1cdbeb180974ee2832f45a81f97b06e2c4434d",
+    "docs/ticket-harness.md": "5a29773fd137a95a2ebd9a53b29f5fc3bb2349baee47eff04f45393bbf5e6465",
+    ".agents/skills/custom/implement-with-checkboxes/SKILL.md": "b9d07ad38cd791d48891127f4ed20d50f6ed707b865cea186b94fedabf5533e5",
+    ".agents/skills/custom/create-next-agent-prompt/SKILL.md": "f6c11a00bfd342513b72d78ca0de2cb5fb2a0a414b91335b171860f2a174ab9c",
+    ".agents/skills/custom/references/planning.md": "8488e2ff44b1e122452a3c1385102e142e2fdbb768029b37a65667c8022d299f",
+    ".scratch/ticket-harness/README.md": "a554785142fd0f74bf7ceab5c0ddde6b74c2b20a530b1c671d13a35499752256",
+    ".scratch/ticket-harness/milestones.md": "981c11982252037db8be62e9668442f5370af82e7abb6e7431cc3e1b6fabe867",
+    ".scratch/ticket-harness/reviews/README.md": "f7c965b582d7d9d6a4df32b43e25e3d32928b9fad70b55fecb3bd81cdae9b7de",
+    ".scratch/ticket-harness/evidence/18-implementation-report.md": "50ce7cd5c4b6c3c2876ed0a2df902de10a9e39401a9b13f8752176c90e47dacd",
+    ".scratch/ticket-harness/evidence/18-check.py": "ddf488008e26a0b2d44e71151b2c7a8d8e5bec7eaa9aeb876439f5e61b54af8b",
+    ".scratch/ticket-harness/evidence/18-run-checks.sh": "4b030cfae3991d5016f79a874d632ccace158a6492751c232c55d9710f61045d"
+  },
+  "links": [
+    {
+      "from": "docs/agents/architecture-checkpoints.md",
+      "href": "../../.scratch/ticket-harness/spec.md#cumulative-architecture-checkpoints"
+    },
+    {
+      "from": "docs/agents/architecture-checkpoints.md",
+      "href": "ownership-review.md"
+    },
+    {
+      "from": "docs/agents/architecture-checkpoints.md",
+      "href": "review-records.md"
+    },
+    {
+      "from": "docs/agents/architecture-checkpoints.md",
+      "href": "../templates/reviews/assessment.md"
+    },
+    {
+      "from": "docs/agents/architecture-checkpoints.md",
+      "href": "review-records.md#dispositions-and-authority"
+    },
+    {
+      "from": "docs/agents/architecture-checkpoints.md",
+      "href": "../../.scratch/ticket-harness/evidence/18-walkthrough/README.md"
+    },
+    {
+      "from": "docs/agents/ownership-review.md",
+      "href": "review-records.md"
+    },
+    {
+      "from": "docs/agents/ownership-review.md",
+      "href": "domain.md"
+    },
+    {
+      "from": "docs/agents/ownership-review.md",
+      "href": "../../.agents/skills/matt-pocock/codebase-design/SKILL.md"
+    },
+    {
+      "from": "docs/agents/ownership-review.md",
+      "href": "../templates/reviews/report.md"
+    },
+    {
+      "from": "docs/agents/ownership-review.md",
+      "href": "architecture-checkpoints.md"
+    },
+    {
+      "from": "docs/agents/ownership-review.md",
+      "href": "review-records.md#immutable-reports-and-append-only-history"
+    },
+    {
+      "from": "docs/agents/review-records.md",
+      "href": "../../.scratch/ticket-harness/spec.md#review-work-findings-and-decisions"
+    },
+    {
+      "from": "docs/agents/review-records.md",
+      "href": "issue-tracker.md"
+    },
+    {
+      "from": "docs/agents/review-records.md",
+      "href": "ownership-review.md"
+    },
+    {
+      "from": "docs/agents/review-records.md",
+      "href": "../templates/reviews/assessment.md"
+    },
+    {
+      "from": "docs/agents/review-records.md",
+      "href": "../templates/reviews/report.md"
+    },
+    {
+      "from": "docs/agents/review-records.md",
+      "href": "../templates/reviews/history.md"
+    },
+    {
+      "from": "docs/agents/review-records.md",
+      "href": "../templates/reviews/decision.md"
+    },
+    {
+      "from": "docs/agents/review-records.md",
+      "href": "../../.scratch/ticket-harness/reviews/README.md"
+    },
+    {
+      "from": "docs/agents/review-records.md",
+      "href": "../../.scratch/ticket-harness/evidence/16-miniature/README.md"
+    },
+    {
+      "from": "docs/agents/review-records.md",
+      "href": "../adr/0002-human-qa-gates-feature-promotion.md"
+    },
+    {
+      "from": "docs/agents/review-records.md",
+      "href": "architecture-checkpoints.md"
+    },
+    {
+      "from": "docs/agents/issue-tracker.md",
+      "href": "review-records.md"
+    },
+    {
+      "from": "docs/agents/issue-tracker.md",
+      "href": "architecture-checkpoints.md"
+    },
+    {
+      "from": "docs/templates/reviews/assessment.md",
+      "href": "../../agents/review-records.md"
+    },
+    {
+      "from": "docs/templates/reviews/assessment.md",
+      "href": "../../agents/architecture-checkpoints.md"
+    },
+    {
+      "from": "docs/ticket-harness.md",
+      "href": "agents/review-records.md"
+    },
+    {
+      "from": "docs/ticket-harness.md",
+      "href": "../.scratch/ticket-harness/reviews/README.md"
+    },
+    {
+      "from": "docs/ticket-harness.md",
+      "href": "agents/ownership-review.md"
+    },
+    {
+      "from": "docs/ticket-harness.md",
+      "href": "agents/testing.md"
+    },
+    {
+      "from": "docs/ticket-harness.md",
+      "href": "agents/python-environment.md"
+    },
+    {
+      "from": "docs/ticket-harness.md",
+      "href": "agents/architecture-checkpoints.md"
+    },
+    {
+      "from": ".agents/skills/custom/implement-with-checkboxes/SKILL.md",
+      "href": "../../matt-pocock/implement/SKILL.md"
+    },
+    {
+      "from": ".agents/skills/custom/implement-with-checkboxes/SKILL.md",
+      "href": "../references/planning.md#milestone-membership"
+    },
+    {
+      "from": ".agents/skills/custom/implement-with-checkboxes/SKILL.md",
+      "href": "../references/planning.md#role-and-testing-contracts"
+    },
+    {
+      "from": ".agents/skills/custom/implement-with-checkboxes/SKILL.md",
+      "href": "../../../../docs/agents/ownership-review.md"
+    },
+    {
+      "from": ".agents/skills/custom/implement-with-checkboxes/SKILL.md",
+      "href": "../../../../docs/agents/architecture-checkpoints.md"
+    },
+    {
+      "from": ".agents/skills/custom/implement-with-checkboxes/SKILL.md",
+      "href": "../../../../docs/agents/review-records.md"
+    },
+    {
+      "from": ".agents/skills/custom/implement-with-checkboxes/SKILL.md",
+      "href": "../../../../docs/agents/issue-tracker.md"
+    },
+    {
+      "from": ".agents/skills/custom/implement-with-checkboxes/SKILL.md",
+      "href": "../../../../docs/agents/testing.md"
+    },
+    {
+      "from": ".agents/skills/custom/implement-with-checkboxes/SKILL.md",
+      "href": "../test-strategy/SKILL.md"
+    },
+    {
+      "from": ".agents/skills/custom/implement-with-checkboxes/SKILL.md",
+      "href": "../create-next-agent-prompt/SKILL.md"
+    },
+    {
+      "from": ".agents/skills/custom/create-next-agent-prompt/SKILL.md",
+      "href": "../implement-with-checkboxes/SKILL.md"
+    },
+    {
+      "from": ".agents/skills/custom/create-next-agent-prompt/SKILL.md",
+      "href": "../references/planning.md#milestone-membership"
+    },
+    {
+      "from": ".agents/skills/custom/create-next-agent-prompt/SKILL.md",
+      "href": "../references/planning.md#ticket-numbering"
+    },
+    {
+      "from": ".agents/skills/custom/create-next-agent-prompt/SKILL.md",
+      "href": "../../../../docs/agents/ownership-review.md#repair-and-handoff"
+    },
+    {
+      "from": ".agents/skills/custom/create-next-agent-prompt/SKILL.md",
+      "href": "../../../../docs/agents/review-records.md"
+    },
+    {
+      "from": ".agents/skills/custom/create-next-agent-prompt/SKILL.md",
+      "href": "../../../../docs/agents/architecture-checkpoints.md"
+    },
+    {
+      "from": ".agents/skills/custom/create-next-agent-prompt/SKILL.md",
+      "href": "../references/planning.md#role-and-testing-contracts"
+    },
+    {
+      "from": ".agents/skills/custom/create-next-agent-prompt/SKILL.md",
+      "href": "../test-strategy/SKILL.md"
+    },
+    {
+      "from": ".agents/skills/custom/create-next-agent-prompt/SKILL.md",
+      "href": "../../../../docs/agents/ownership-review.md#repair-and-handoff"
+    },
+    {
+      "from": ".agents/skills/custom/references/planning.md",
+      "href": "../../../../docs/agents/ownership-review.md#planning-and-implementation"
+    },
+    {
+      "from": ".agents/skills/custom/references/planning.md",
+      "href": "../../../../docs/agents/domain.md"
+    },
+    {
+      "from": ".agents/skills/custom/references/planning.md",
+      "href": "../../../../docs/agents/issue-tracker.md"
+    },
+    {
+      "from": ".agents/skills/custom/references/planning.md",
+      "href": "../../../../docs/agents/triage-labels.md"
+    },
+    {
+      "from": ".agents/skills/custom/references/planning.md",
+      "href": "../../../../docs/agents/testing.md"
+    },
+    {
+      "from": ".agents/skills/custom/references/planning.md",
+      "href": "../../matt-pocock/codebase-design/SKILL.md"
+    },
+    {
+      "from": ".agents/skills/custom/references/planning.md",
+      "href": "../test-strategy/SKILL.md"
+    },
+    {
+      "from": ".agents/skills/custom/references/planning.md",
+      "href": "../../../../docs/agents/architecture-checkpoints.md"
+    },
+    {
+      "from": ".agents/skills/custom/references/planning.md",
+      "href": "#ticket-numbering"
+    },
+    {
+      "from": ".scratch/ticket-harness/README.md",
+      "href": "approval.md"
+    },
+    {
+      "from": ".scratch/ticket-harness/README.md",
+      "href": "spec.md"
+    },
+    {
+      "from": ".scratch/ticket-harness/README.md",
+      "href": "ticket-proposal.md"
+    },
+    {
+      "from": ".scratch/ticket-harness/README.md",
+      "href": "milestones.md"
+    },
+    {
+      "from": ".scratch/ticket-harness/README.md",
+      "href": "archive/oop-numbering-history.md"
+    },
+    {
+      "from": ".scratch/ticket-harness/README.md",
+      "href": "issues/01-complete-one-scripted-ticket-cycle.md"
+    },
+    {
+      "from": ".scratch/ticket-harness/README.md",
+      "href": "issues/02-reject-invalid-inputs-before-execution.md"
+    },
+    {
+      "from": ".scratch/ticket-harness/README.md",
+      "href": "issues/03-validate-agent-reports-and-review-evidence.md"
+    },
+    {
+      "from": ".scratch/ticket-harness/README.md",
+      "href": "issues/04-promote-only-the-verified-candidate.md"
+    },
+    {
+      "from": ".scratch/ticket-harness/README.md",
+      "href": "issues/05-repair-rejected-submissions-within-budget.md"
+    },
+    {
+      "from": ".scratch/ticket-harness/README.md",
+      "href": "issues/06-surface-human-decisions-without-retrying.md"
+    },
+    {
+      "from": ".scratch/ticket-harness/README.md",
+      "href": "issues/07-report-optional-suggestions-without-repair.md"
+    },
+    {
+      "from": ".scratch/ticket-harness/README.md",
+      "href": "issues/08-stop-timed-out-process-trees.md"
+    },
+    {
+      "from": ".scratch/ticket-harness/README.md",
+      "href": "issues/09-execute-dependencies-sequentially.md"
+    },
+    {
+      "from": ".scratch/ticket-harness/README.md",
+      "href": "issues/10-produce-approved-harness-inputs-with-planning-skill.md"
+    },
+    {
+      "from": ".scratch/ticket-harness/README.md",
+      "href": "issues/11-stop-development-handoffs-at-qa-milestones.md"
+    },
+    {
+      "from": ".scratch/ticket-harness/README.md",
+      "href": "issues/12-execute-only-the-current-qa-milestone.md"
+    },
+    {
+      "from": ".scratch/ticket-harness/README.md",
+      "href": "issues/13-prepare-a-tested-feature-to-dev-candidate.md"
+    },
+    {
+      "from": ".scratch/ticket-harness/README.md",
+      "href": "issues/14-promote-only-the-human-approved-milestone.md"
+    },
+    {
+      "from": ".scratch/ticket-harness/README.md",
+      "href": "issues/15-continue-from-a-planned-qa-checkpoint.md"
+    },
+    {
+      "from": ".scratch/ticket-harness/README.md",
+      "href": "issues/16-record-review-work-findings-and-decisions.md"
+    },
+    {
+      "from": ".scratch/ticket-harness/README.md",
+      "href": "issues/17-review-ownership-across-affected-modules.md"
+    },
+    {
+      "from": ".scratch/ticket-harness/README.md",
+      "href": "issues/18-gate-development-on-cumulative-architecture-review.md"
+    },
+    {
+      "from": ".scratch/ticket-harness/README.md",
+      "href": "issues/19-evaluate-reviewers-on-known-and-acceptable-designs.md"
+    },
+    {
+      "from": ".scratch/ticket-harness/README.md",
+      "href": "issues/20-own-implementation-attempt-transitions.md"
+    },
+    {
+      "from": ".scratch/ticket-harness/README.md",
+      "href": "issues/21-own-ticket-execution-and-bounded-repairs.md"
+    },
+    {
+      "from": ".scratch/ticket-harness/README.md",
+      "href": "issues/22-return-clearly-prepared-inputs.md"
+    },
+    {
+      "from": ".scratch/ticket-harness/README.md",
+      "href": "issues/23-own-the-complete-run-lifecycle.md"
+    },
+    {
+      "from": ".scratch/ticket-harness/README.md",
+      "href": "issues/24-own-milestone-review-and-checkpoint-continuation.md"
+    },
+    {
+      "from": ".scratch/ticket-harness/README.md",
+      "href": "issues/25-guide-and-record-human-milestone-qa.md"
+    },
+    {
+      "from": ".scratch/ticket-harness/README.md",
+      "href": "issues/26-propose-versioned-qa-corrections.md"
+    },
+    {
+      "from": ".scratch/ticket-harness/README.md",
+      "href": "issues/27-execute-approved-qa-corrections.md"
+    },
+    {
+      "from": ".scratch/ticket-harness/README.md",
+      "href": "issues/28-operate-the-harness-in-the-background.md"
+    },
+    {
+      "from": ".scratch/ticket-harness/README.md",
+      "href": "issues/29-continue-independent-work-after-blocks.md"
+    },
+    {
+      "from": ".scratch/ticket-harness/README.md",
+      "href": "issues/30-supply-combined-design-guidance-to-standards-review.md"
+    },
+    {
+      "from": ".scratch/ticket-harness/README.md",
+      "href": "issues/31-capture-and-deliver-selected-local-skills.md"
+    },
+    {
+      "from": ".scratch/ticket-harness/README.md",
+      "href": "issues/32-deliver-focused-implementation-and-spec-review-contexts.md"
+    },
+    {
+      "from": ".scratch/ticket-harness/README.md",
+      "href": "issues/33-enforce-traceable-runtime-review-checkpoints.md"
+    },
+    {
+      "from": ".scratch/ticket-harness/README.md",
+      "href": "issues/34-run-a-real-codex-ticket-cycle.md"
+    },
+    {
+      "from": ".scratch/ticket-harness/README.md",
+      "href": "issues/35-compare-configurable-agent-context-limits.md"
+    },
+    {
+      "from": ".scratch/ticket-harness/README.md",
+      "href": "issues/36-verify-role-write-boundaries.md"
+    },
+    {
+      "from": ".scratch/ticket-harness/README.md",
+      "href": "issues/37-run-a-generated-plan-through-the-runtime.md"
+    },
+    {
+      "from": ".scratch/ticket-harness/README.md",
+      "href": "issues/38-demonstrate-the-first-usable-release.md"
+    },
+    {
+      "from": ".scratch/ticket-harness/README.md",
+      "href": "archive/before-oop-v2/README.md"
+    },
+    {
+      "from": ".scratch/ticket-harness/README.md",
+      "href": "archive/oop-numbering-history.md"
+    },
+    {
+      "from": ".scratch/ticket-harness/README.md",
+      "href": "../../docs/agents/architecture-checkpoints.md"
+    },
+    {
+      "from": ".scratch/ticket-harness/README.md",
+      "href": "reviews/README.md"
+    },
+    {
+      "from": ".scratch/ticket-harness/README.md",
+      "href": "reviews/README.md"
+    },
+    {
+      "from": ".scratch/ticket-harness/README.md",
+      "href": "../../docs/agents/review-records.md"
+    },
+    {
+      "from": ".scratch/ticket-harness/README.md",
+      "href": "evidence/16-miniature/README.md"
+    },
+    {
+      "from": ".scratch/ticket-harness/README.md",
+      "href": "issues/35-compare-configurable-agent-context-limits.md"
+    },
+    {
+      "from": ".scratch/ticket-harness/README.md",
+      "href": "evidence/01-completion.md"
+    },
+    {
+      "from": ".scratch/ticket-harness/README.md",
+      "href": "evidence/01-fixture-observations.json"
+    },
+    {
+      "from": ".scratch/ticket-harness/README.md",
+      "href": "issues/01-complete-one-scripted-ticket-cycle.md#comments"
+    },
+    {
+      "from": ".scratch/ticket-harness/README.md",
+      "href": "evidence/02-completion.md"
+    },
+    {
+      "from": ".scratch/ticket-harness/README.md",
+      "href": "evidence/02-fixture-observations.json"
+    },
+    {
+      "from": ".scratch/ticket-harness/README.md",
+      "href": "issues/02-reject-invalid-inputs-before-execution.md#comments"
+    },
+    {
+      "from": ".scratch/ticket-harness/README.md",
+      "href": "evidence/03-completion.md"
+    },
+    {
+      "from": ".scratch/ticket-harness/README.md",
+      "href": "evidence/03-fixture-observations.json"
+    },
+    {
+      "from": ".scratch/ticket-harness/README.md",
+      "href": "issues/03-validate-agent-reports-and-review-evidence.md#comments"
+    },
+    {
+      "from": ".scratch/ticket-harness/README.md",
+      "href": "evidence/04-completion.md"
+    },
+    {
+      "from": ".scratch/ticket-harness/README.md",
+      "href": "evidence/04-fixture-observations.json"
+    },
+    {
+      "from": ".scratch/ticket-harness/README.md",
+      "href": "issues/04-promote-only-the-verified-candidate.md#comments"
+    },
+    {
+      "from": ".scratch/ticket-harness/README.md",
+      "href": "evidence/05-completion.md"
+    },
+    {
+      "from": ".scratch/ticket-harness/README.md",
+      "href": "evidence/05-fixture-observations.json"
+    },
+    {
+      "from": ".scratch/ticket-harness/README.md",
+      "href": "evidence/06-completion.md"
+    },
+    {
+      "from": ".scratch/ticket-harness/README.md",
+      "href": "evidence/06-fixture-observations.json"
+    },
+    {
+      "from": ".scratch/ticket-harness/README.md",
+      "href": "evidence/07-completion.md"
+    },
+    {
+      "from": ".scratch/ticket-harness/README.md",
+      "href": "evidence/07-fixture-observations.json"
+    },
+    {
+      "from": ".scratch/ticket-harness/README.md",
+      "href": "evidence/08-completion.md"
+    },
+    {
+      "from": ".scratch/ticket-harness/README.md",
+      "href": "evidence/08-fixture-observations.json"
+    },
+    {
+      "from": ".scratch/ticket-harness/README.md",
+      "href": "evidence/09-completion.md"
+    },
+    {
+      "from": ".scratch/ticket-harness/README.md",
+      "href": "evidence/09-fixture-observations.json"
+    },
+    {
+      "from": ".scratch/ticket-harness/README.md",
+      "href": "evidence/09-checks.log"
+    },
+    {
+      "from": ".scratch/ticket-harness/README.md",
+      "href": "evidence/10-completion.md"
+    },
+    {
+      "from": ".scratch/ticket-harness/README.md",
+      "href": "evidence/10-checks.log"
+    },
+    {
+      "from": ".scratch/ticket-harness/README.md",
+      "href": "evidence/10-planning-observations.json"
+    },
+    {
+      "from": ".scratch/ticket-harness/README.md",
+      "href": "evidence/11-completion.md"
+    },
+    {
+      "from": ".scratch/ticket-harness/README.md",
+      "href": "evidence/11-checks.log"
+    },
+    {
+      "from": ".scratch/ticket-harness/README.md",
+      "href": "evidence/11-static/"
+    },
+    {
+      "from": ".scratch/ticket-harness/README.md",
+      "href": "evidence/11-handoff-observations.json"
+    },
+    {
+      "from": ".scratch/ticket-harness/README.md",
+      "href": "evidence/11-review-spec.md"
+    },
+    {
+      "from": ".scratch/ticket-harness/README.md",
+      "href": "evidence/11-review-standards.md"
+    },
+    {
+      "from": ".scratch/ticket-harness/README.md",
+      "href": "evidence/12-completion.md"
+    },
+    {
+      "from": ".scratch/ticket-harness/README.md",
+      "href": "evidence/12-checks.log"
+    },
+    {
+      "from": ".scratch/ticket-harness/README.md",
+      "href": "evidence/12-fixture-observations.json"
+    },
+    {
+      "from": ".scratch/ticket-harness/README.md",
+      "href": "evidence/12-review-spec.md"
+    },
+    {
+      "from": ".scratch/ticket-harness/README.md",
+      "href": "evidence/12-review-standards.md"
+    },
+    {
+      "from": ".scratch/ticket-harness/README.md",
+      "href": "evidence/13-completion.md"
+    },
+    {
+      "from": ".scratch/ticket-harness/README.md",
+      "href": "evidence/13-checks.log"
+    },
+    {
+      "from": ".scratch/ticket-harness/README.md",
+      "href": "evidence/13-fixture-observations.json"
+    },
+    {
+      "from": ".scratch/ticket-harness/README.md",
+      "href": "evidence/13-review-spec.md"
+    },
+    {
+      "from": ".scratch/ticket-harness/README.md",
+      "href": "evidence/13-review-standards.md"
+    },
+    {
+      "from": ".scratch/ticket-harness/README.md",
+      "href": "evidence/14-completion.md"
+    },
+    {
+      "from": ".scratch/ticket-harness/README.md",
+      "href": "evidence/14-checks.log"
+    },
+    {
+      "from": ".scratch/ticket-harness/README.md",
+      "href": "evidence/14-fixture-observations.json"
+    },
+    {
+      "from": ".scratch/ticket-harness/README.md",
+      "href": "evidence/14-review-spec.md"
+    },
+    {
+      "from": ".scratch/ticket-harness/README.md",
+      "href": "evidence/14-review-standards.md"
+    },
+    {
+      "from": ".scratch/ticket-harness/README.md",
+      "href": "evidence/15-completion.md"
+    },
+    {
+      "from": ".scratch/ticket-harness/README.md",
+      "href": "evidence/15-repair1-check-results.json"
+    },
+    {
+      "from": ".scratch/ticket-harness/README.md",
+      "href": "evidence/15-repair1-fixture-observations.json"
+    },
+    {
+      "from": ".scratch/ticket-harness/README.md",
+      "href": "evidence/15-review-spec.md"
+    },
+    {
+      "from": ".scratch/ticket-harness/README.md",
+      "href": "evidence/15-review-standards.md"
+    },
+    {
+      "from": ".scratch/ticket-harness/README.md",
+      "href": "evidence/16-completion.md"
+    },
+    {
+      "from": ".scratch/ticket-harness/README.md",
+      "href": "evidence/16-checks.log"
+    },
+    {
+      "from": ".scratch/ticket-harness/README.md",
+      "href": "evidence/16-review-spec.md"
+    },
+    {
+      "from": ".scratch/ticket-harness/README.md",
+      "href": "evidence/16-review-standards.md"
+    },
+    {
+      "from": ".scratch/ticket-harness/README.md",
+      "href": "reviews/ticket-16.md"
+    },
+    {
+      "from": ".scratch/ticket-harness/README.md",
+      "href": "evidence/17-completion.md"
+    },
+    {
+      "from": ".scratch/ticket-harness/README.md",
+      "href": "evidence/17-checks.log"
+    },
+    {
+      "from": ".scratch/ticket-harness/README.md",
+      "href": "evidence/17-review-spec.md"
+    },
+    {
+      "from": ".scratch/ticket-harness/README.md",
+      "href": "evidence/17-review-standards.md"
+    },
+    {
+      "from": ".scratch/ticket-harness/README.md",
+      "href": "reviews/ticket-17.md"
+    },
+    {
+      "from": ".scratch/ticket-harness/milestones.md",
+      "href": "approval.md"
+    },
+    {
+      "from": ".scratch/ticket-harness/milestones.md",
+      "href": "../../docs/agents/architecture-checkpoints.md"
+    },
+    {
+      "from": ".scratch/ticket-harness/milestones.md",
+      "href": "issues/10-produce-approved-harness-inputs-with-planning-skill.md"
+    },
+    {
+      "from": ".scratch/ticket-harness/milestones.md",
+      "href": "issues/11-stop-development-handoffs-at-qa-milestones.md"
+    },
+    {
+      "from": ".scratch/ticket-harness/milestones.md",
+      "href": "issues/12-execute-only-the-current-qa-milestone.md"
+    },
+    {
+      "from": ".scratch/ticket-harness/milestones.md",
+      "href": "issues/13-prepare-a-tested-feature-to-dev-candidate.md"
+    },
+    {
+      "from": ".scratch/ticket-harness/milestones.md",
+      "href": "issues/14-promote-only-the-human-approved-milestone.md"
+    },
+    {
+      "from": ".scratch/ticket-harness/milestones.md",
+      "href": "issues/15-continue-from-a-planned-qa-checkpoint.md"
+    },
+    {
+      "from": ".scratch/ticket-harness/milestones.md",
+      "href": "issues/16-record-review-work-findings-and-decisions.md"
+    },
+    {
+      "from": ".scratch/ticket-harness/milestones.md",
+      "href": "issues/17-review-ownership-across-affected-modules.md"
+    },
+    {
+      "from": ".scratch/ticket-harness/milestones.md",
+      "href": "issues/18-gate-development-on-cumulative-architecture-review.md"
+    },
+    {
+      "from": ".scratch/ticket-harness/milestones.md",
+      "href": "issues/19-evaluate-reviewers-on-known-and-acceptable-designs.md"
+    },
+    {
+      "from": ".scratch/ticket-harness/milestones.md",
+      "href": "issues/20-own-implementation-attempt-transitions.md"
+    },
+    {
+      "from": ".scratch/ticket-harness/milestones.md",
+      "href": "issues/21-own-ticket-execution-and-bounded-repairs.md"
+    },
+    {
+      "from": ".scratch/ticket-harness/milestones.md",
+      "href": "issues/22-return-clearly-prepared-inputs.md"
+    },
+    {
+      "from": ".scratch/ticket-harness/milestones.md",
+      "href": "issues/23-own-the-complete-run-lifecycle.md"
+    },
+    {
+      "from": ".scratch/ticket-harness/milestones.md",
+      "href": "issues/24-own-milestone-review-and-checkpoint-continuation.md"
+    },
+    {
+      "from": ".scratch/ticket-harness/milestones.md",
+      "href": "issues/25-guide-and-record-human-milestone-qa.md"
+    },
+    {
+      "from": ".scratch/ticket-harness/milestones.md",
+      "href": "issues/26-propose-versioned-qa-corrections.md"
+    },
+    {
+      "from": ".scratch/ticket-harness/milestones.md",
+      "href": "issues/27-execute-approved-qa-corrections.md"
+    },
+    {
+      "from": ".scratch/ticket-harness/milestones.md",
+      "href": "issues/28-operate-the-harness-in-the-background.md"
+    },
+    {
+      "from": ".scratch/ticket-harness/milestones.md",
+      "href": "issues/29-continue-independent-work-after-blocks.md"
+    },
+    {
+      "from": ".scratch/ticket-harness/milestones.md",
+      "href": "issues/30-supply-combined-design-guidance-to-standards-review.md"
+    },
+    {
+      "from": ".scratch/ticket-harness/milestones.md",
+      "href": "issues/31-capture-and-deliver-selected-local-skills.md"
+    },
+    {
+      "from": ".scratch/ticket-harness/milestones.md",
+      "href": "issues/32-deliver-focused-implementation-and-spec-review-contexts.md"
+    },
+    {
+      "from": ".scratch/ticket-harness/milestones.md",
+      "href": "issues/33-enforce-traceable-runtime-review-checkpoints.md"
+    },
+    {
+      "from": ".scratch/ticket-harness/milestones.md",
+      "href": "issues/34-run-a-real-codex-ticket-cycle.md"
+    },
+    {
+      "from": ".scratch/ticket-harness/milestones.md",
+      "href": "issues/36-verify-role-write-boundaries.md"
+    },
+    {
+      "from": ".scratch/ticket-harness/milestones.md",
+      "href": "issues/37-run-a-generated-plan-through-the-runtime.md"
+    },
+    {
+      "from": ".scratch/ticket-harness/milestones.md",
+      "href": "issues/38-demonstrate-the-first-usable-release.md"
+    },
+    {
+      "from": ".scratch/ticket-harness/milestones.md",
+      "href": "issues/10-produce-approved-harness-inputs-with-planning-skill.md"
+    },
+    {
+      "from": ".scratch/ticket-harness/milestones.md",
+      "href": "issues/11-stop-development-handoffs-at-qa-milestones.md"
+    },
+    {
+      "from": ".scratch/ticket-harness/milestones.md",
+      "href": "issues/12-execute-only-the-current-qa-milestone.md"
+    },
+    {
+      "from": ".scratch/ticket-harness/milestones.md",
+      "href": "issues/13-prepare-a-tested-feature-to-dev-candidate.md"
+    },
+    {
+      "from": ".scratch/ticket-harness/milestones.md",
+      "href": "issues/14-promote-only-the-human-approved-milestone.md"
+    },
+    {
+      "from": ".scratch/ticket-harness/milestones.md",
+      "href": "issues/15-continue-from-a-planned-qa-checkpoint.md"
+    },
+    {
+      "from": ".scratch/ticket-harness/milestones.md",
+      "href": "issues/16-record-review-work-findings-and-decisions.md"
+    },
+    {
+      "from": ".scratch/ticket-harness/milestones.md",
+      "href": "issues/17-review-ownership-across-affected-modules.md"
+    },
+    {
+      "from": ".scratch/ticket-harness/milestones.md",
+      "href": "issues/18-gate-development-on-cumulative-architecture-review.md"
+    },
+    {
+      "from": ".scratch/ticket-harness/milestones.md",
+      "href": "issues/19-evaluate-reviewers-on-known-and-acceptable-designs.md"
+    },
+    {
+      "from": ".scratch/ticket-harness/milestones.md",
+      "href": "issues/20-own-implementation-attempt-transitions.md"
+    },
+    {
+      "from": ".scratch/ticket-harness/milestones.md",
+      "href": "issues/21-own-ticket-execution-and-bounded-repairs.md"
+    },
+    {
+      "from": ".scratch/ticket-harness/milestones.md",
+      "href": "issues/22-return-clearly-prepared-inputs.md"
+    },
+    {
+      "from": ".scratch/ticket-harness/milestones.md",
+      "href": "issues/23-own-the-complete-run-lifecycle.md"
+    },
+    {
+      "from": ".scratch/ticket-harness/milestones.md",
+      "href": "issues/24-own-milestone-review-and-checkpoint-continuation.md"
+    },
+    {
+      "from": ".scratch/ticket-harness/milestones.md",
+      "href": "issues/25-guide-and-record-human-milestone-qa.md"
+    },
+    {
+      "from": ".scratch/ticket-harness/milestones.md",
+      "href": "issues/26-propose-versioned-qa-corrections.md"
+    },
+    {
+      "from": ".scratch/ticket-harness/milestones.md",
+      "href": "issues/27-execute-approved-qa-corrections.md"
+    },
+    {
+      "from": ".scratch/ticket-harness/milestones.md",
+      "href": "issues/28-operate-the-harness-in-the-background.md"
+    },
+    {
+      "from": ".scratch/ticket-harness/milestones.md",
+      "href": "issues/29-continue-independent-work-after-blocks.md"
+    },
+    {
+      "from": ".scratch/ticket-harness/milestones.md",
+      "href": "issues/30-supply-combined-design-guidance-to-standards-review.md"
+    },
+    {
+      "from": ".scratch/ticket-harness/milestones.md",
+      "href": "issues/31-capture-and-deliver-selected-local-skills.md"
+    },
+    {
+      "from": ".scratch/ticket-harness/milestones.md",
+      "href": "issues/32-deliver-focused-implementation-and-spec-review-contexts.md"
+    },
+    {
+      "from": ".scratch/ticket-harness/milestones.md",
+      "href": "issues/33-enforce-traceable-runtime-review-checkpoints.md"
+    },
+    {
+      "from": ".scratch/ticket-harness/milestones.md",
+      "href": "issues/34-run-a-real-codex-ticket-cycle.md"
+    },
+    {
+      "from": ".scratch/ticket-harness/milestones.md",
+      "href": "issues/36-verify-role-write-boundaries.md"
+    },
+    {
+      "from": ".scratch/ticket-harness/milestones.md",
+      "href": "issues/37-run-a-generated-plan-through-the-runtime.md"
+    },
+    {
+      "from": ".scratch/ticket-harness/milestones.md",
+      "href": "issues/38-demonstrate-the-first-usable-release.md"
+    },
+    {
+      "from": ".scratch/ticket-harness/milestones.md",
+      "href": "issues/35-compare-configurable-agent-context-limits.md"
+    },
+    {
+      "from": ".scratch/ticket-harness/reviews/README.md",
+      "href": "../../../docs/agents/review-records.md"
+    },
+    {
+      "from": ".scratch/ticket-harness/reviews/README.md",
+      "href": "../../../docs/agents/architecture-checkpoints.md"
+    },
+    {
+      "from": ".scratch/ticket-harness/reviews/README.md",
+      "href": "../evidence/18-walkthrough/README.md"
+    },
+    {
+      "from": ".scratch/ticket-harness/reviews/README.md",
+      "href": "ticket-16.md"
+    },
+    {
+      "from": ".scratch/ticket-harness/reviews/README.md",
+      "href": "../evidence/16-miniature/README.md"
+    },
+    {
+      "from": ".scratch/ticket-harness/reviews/README.md",
+      "href": "../README.md#completion-evidence"
+    },
+    {
+      "from": ".scratch/ticket-harness/reviews/README.md",
+      "href": "ticket-16.md"
+    },
+    {
+      "from": ".scratch/ticket-harness/reviews/README.md",
+      "href": "ticket-17.md"
+    },
+    {
+      "from": ".scratch/ticket-harness/evidence/18-walkthrough/README.md",
+      "href": "source.bundle"
+    },
+    {
+      "from": ".scratch/ticket-harness/evidence/18-walkthrough/README.md",
+      "href": "sources.json"
+    },
+    {
+      "from": ".scratch/ticket-harness/evidence/18-walkthrough/README.md",
+      "href": "../18-build-fixture.py"
+    },
+    {
+      "from": ".scratch/ticket-harness/evidence/18-walkthrough/README.md",
+      "href": "../18-check.py"
+    },
+    {
+      "from": ".scratch/ticket-harness/evidence/18-walkthrough/README.md",
+      "href": "a-spec.md"
+    },
+    {
+      "from": ".scratch/ticket-harness/evidence/18-walkthrough/README.md",
+      "href": "a-standards.md"
+    },
+    {
+      "from": ".scratch/ticket-harness/evidence/18-walkthrough/README.md",
+      "href": "b-spec.md"
+    },
+    {
+      "from": ".scratch/ticket-harness/evidence/18-walkthrough/README.md",
+      "href": "b-standards.md"
+    },
+    {
+      "from": ".scratch/ticket-harness/evidence/18-walkthrough/README.md",
+      "href": "cumulative-risk.md"
+    },
+    {
+      "from": ".scratch/ticket-harness/evidence/18-walkthrough/README.md",
+      "href": "cumulative-clean.md"
+    },
+    {
+      "from": ".scratch/ticket-harness/evidence/18-walkthrough/README.md",
+      "href": "assignments.json"
+    },
+    {
+      "from": ".scratch/ticket-harness/evidence/18-walkthrough/README.md",
+      "href": "guidance-identities.json"
+    },
+    {
+      "from": ".scratch/ticket-harness/evidence/18-walkthrough/README.md",
+      "href": "capture.json"
+    },
+    {
+      "from": ".scratch/ticket-harness/evidence/18-walkthrough/README.md",
+      "href": "command-observations.json"
+    },
+    {
+      "from": ".scratch/ticket-harness/evidence/18-walkthrough/README.md",
+      "href": "assessment.md"
+    },
+    {
+      "from": ".scratch/ticket-harness/evidence/18-walkthrough/README.md",
+      "href": "finding-history.md"
+    },
+    {
+      "from": ".scratch/ticket-harness/evidence/18-walkthrough/README.md",
+      "href": "pre-assessment-observation.json"
+    },
+    {
+      "from": ".scratch/ticket-harness/evidence/18-walkthrough/README.md",
+      "href": "readiness-observations.json"
+    },
+    {
+      "from": ".scratch/ticket-harness/evidence/18-walkthrough/README.md",
+      "href": "example-human-decision.md"
+    },
+    {
+      "from": ".scratch/ticket-harness/evidence/18-walkthrough/README.md",
+      "href": "example-amendment.md"
+    },
+    {
+      "from": ".scratch/ticket-harness/evidence/18-walkthrough/README.md",
+      "href": "deferred-D.md"
+    },
+    {
+      "from": ".scratch/ticket-harness/evidence/18-walkthrough/README.md",
+      "href": "deferred-handoff.md"
+    },
+    {
+      "from": ".scratch/ticket-harness/evidence/18-walkthrough/README.md",
+      "href": "real-package-inventory.json"
+    },
+    {
+      "from": ".scratch/ticket-harness/evidence/18-walkthrough/README.md",
+      "href": "../18-provenance.json"
+    },
+    {
+      "from": ".scratch/ticket-harness/evidence/18-walkthrough/a-spec.md",
+      "href": "ticket-a/"
+    },
+    {
+      "from": ".scratch/ticket-harness/evidence/18-walkthrough/a-spec.md",
+      "href": "ticket-a/ticket-A.md"
+    },
+    {
+      "from": ".scratch/ticket-harness/evidence/18-walkthrough/a-spec.md",
+      "href": "ticket-a/CONTRACT.md"
+    },
+    {
+      "from": ".scratch/ticket-harness/evidence/18-walkthrough/a-standards.md",
+      "href": "a-standards-identity.log"
+    },
+    {
+      "from": ".scratch/ticket-harness/evidence/18-walkthrough/a-standards.md",
+      "href": "ticket-a/ticket-A.md"
+    },
+    {
+      "from": ".scratch/ticket-harness/evidence/18-walkthrough/a-standards.md",
+      "href": "ticket-a/CONTRACT.md"
+    },
+    {
+      "from": ".scratch/ticket-harness/evidence/18-walkthrough/a-standards.md",
+      "href": "ticket-a/CONTRACT.md:2"
+    },
+    {
+      "from": ".scratch/ticket-harness/evidence/18-walkthrough/a-standards.md",
+      "href": "ticket-a/ticket-A.md:2"
+    },
+    {
+      "from": ".scratch/ticket-harness/evidence/18-walkthrough/a-standards.md",
+      "href": "ticket-a/ticket_harness/run.py:2"
+    },
+    {
+      "from": ".scratch/ticket-harness/evidence/18-walkthrough/a-standards.md",
+      "href": "ticket-a/ticket_harness/checks.py:1"
+    },
+    {
+      "from": ".scratch/ticket-harness/evidence/18-walkthrough/a-standards.md",
+      "href": "ticket-a/observe.py:3"
+    },
+    {
+      "from": ".scratch/ticket-harness/evidence/18-walkthrough/a-standards.md",
+      "href": "a-standards-identity.log"
+    },
+    {
+      "from": ".scratch/ticket-harness/evidence/18-walkthrough/a-standards.md",
+      "href": "a-standards-observe.log"
+    },
+    {
+      "from": ".scratch/ticket-harness/evidence/18-walkthrough/assessment.md",
+      "href": "../../issues/18-gate-development-on-cumulative-architecture-review.md"
+    },
+    {
+      "from": ".scratch/ticket-harness/evidence/18-walkthrough/assessment.md",
+      "href": "sources.json"
+    },
+    {
+      "from": ".scratch/ticket-harness/evidence/18-walkthrough/assessment.md",
+      "href": "assignments.json"
+    },
+    {
+      "from": ".scratch/ticket-harness/evidence/18-walkthrough/assessment.md",
+      "href": "guidance-identities.json"
+    },
+    {
+      "from": ".scratch/ticket-harness/evidence/18-walkthrough/assessment.md",
+      "href": "assignment-cumulative-risk.txt"
+    },
+    {
+      "from": ".scratch/ticket-harness/evidence/18-walkthrough/assessment.md",
+      "href": "assignment-cumulative-clean.txt"
+    },
+    {
+      "from": ".scratch/ticket-harness/evidence/18-walkthrough/assessment.md",
+      "href": "cumulative-risk.md"
+    },
+    {
+      "from": ".scratch/ticket-harness/evidence/18-walkthrough/assessment.md",
+      "href": "cumulative-clean.md"
+    },
+    {
+      "from": ".scratch/ticket-harness/evidence/18-walkthrough/assessment.md",
+      "href": "capture.json"
+    },
+    {
+      "from": ".scratch/ticket-harness/evidence/18-walkthrough/assessment.md",
+      "href": "sources.json"
+    },
+    {
+      "from": ".scratch/ticket-harness/evidence/18-walkthrough/assessment.md",
+      "href": "README.md#source-and-independent-assignments"
+    },
+    {
+      "from": ".scratch/ticket-harness/evidence/18-walkthrough/assessment.md",
+      "href": "finding-history.md"
+    },
+    {
+      "from": ".scratch/ticket-harness/evidence/18-walkthrough/assessment.md",
+      "href": "example-human-decision.md"
+    },
+    {
+      "from": ".scratch/ticket-harness/evidence/18-walkthrough/assessment.md",
+      "href": "deferred-handoff.md"
+    },
+    {
+      "from": ".scratch/ticket-harness/evidence/18-walkthrough/assessment.md",
+      "href": "cumulative-risk.md#findings"
+    },
+    {
+      "from": ".scratch/ticket-harness/evidence/18-walkthrough/assessment.md",
+      "href": "cumulative-clean.md"
+    },
+    {
+      "from": ".scratch/ticket-harness/evidence/18-walkthrough/assessment.md",
+      "href": "finding-history.md#e04--independent-exact-source-fix-verification"
+    },
+    {
+      "from": ".scratch/ticket-harness/evidence/18-walkthrough/assessment.md",
+      "href": "deferred-D.md"
+    },
+    {
+      "from": ".scratch/ticket-harness/evidence/18-walkthrough/assessment.md",
+      "href": "readiness-observations.json"
+    },
+    {
+      "from": ".scratch/ticket-harness/evidence/18-walkthrough/b-spec.md",
+      "href": "source.bundle"
+    },
+    {
+      "from": ".scratch/ticket-harness/evidence/18-walkthrough/b-spec.md",
+      "href": "ticket-b/"
+    },
+    {
+      "from": ".scratch/ticket-harness/evidence/18-walkthrough/b-spec.md",
+      "href": "ticket-b/ticket-B.md:2"
+    },
+    {
+      "from": ".scratch/ticket-harness/evidence/18-walkthrough/b-spec.md",
+      "href": "ticket-b/CONTRACT.md:2"
+    },
+    {
+      "from": ".scratch/ticket-harness/evidence/18-walkthrough/b-spec.md",
+      "href": "ticket-b/ticket_harness/run.py:2"
+    },
+    {
+      "from": ".scratch/ticket-harness/evidence/18-walkthrough/b-spec.md",
+      "href": "ticket-b/ticket_harness/approval.py:1"
+    },
+    {
+      "from": ".scratch/ticket-harness/evidence/18-walkthrough/b-spec.md",
+      "href": "ticket-b/ticket_harness/checks.py:1"
+    },
+    {
+      "from": ".scratch/ticket-harness/evidence/18-walkthrough/b-standards.md",
+      "href": "ticket-b/"
+    },
+    {
+      "from": ".scratch/ticket-harness/evidence/18-walkthrough/b-standards.md",
+      "href": "source.bundle"
+    },
+    {
+      "from": ".scratch/ticket-harness/evidence/18-walkthrough/b-standards.md",
+      "href": "ticket-b/CONTRACT.md"
+    },
+    {
+      "from": ".scratch/ticket-harness/evidence/18-walkthrough/b-standards.md",
+      "href": "ticket-b/ticket-B.md"
+    },
+    {
+      "from": ".scratch/ticket-harness/evidence/18-walkthrough/b-standards.md",
+      "href": "ticket-b/ticket-A.md"
+    },
+    {
+      "from": ".scratch/ticket-harness/evidence/18-walkthrough/b-standards.md",
+      "href": "ticket-b/ticket_harness/approval.py"
+    },
+    {
+      "from": ".scratch/ticket-harness/evidence/18-walkthrough/b-standards.md",
+      "href": "ticket-b/ticket_harness/run.py"
+    },
+    {
+      "from": ".scratch/ticket-harness/evidence/18-walkthrough/b-standards.md",
+      "href": "ticket-b/ticket_harness/checks.py:1"
+    },
+    {
+      "from": ".scratch/ticket-harness/evidence/18-walkthrough/cumulative-clean.md",
+      "href": "clean/"
+    },
+    {
+      "from": ".scratch/ticket-harness/evidence/18-walkthrough/cumulative-clean.md",
+      "href": "source.bundle"
+    },
+    {
+      "from": ".scratch/ticket-harness/evidence/18-walkthrough/cumulative-clean.md",
+      "href": "sources.json"
+    },
+    {
+      "from": ".scratch/ticket-harness/evidence/18-walkthrough/cumulative-clean.md",
+      "href": "cumulative-risk.md"
+    },
+    {
+      "from": ".scratch/ticket-harness/evidence/18-walkthrough/cumulative-clean.md",
+      "href": "cumulative-clean-observations.json"
+    },
+    {
+      "from": ".scratch/ticket-harness/evidence/18-walkthrough/cumulative-clean.md",
+      "href": "clean/CONTRACT.md"
+    },
+    {
+      "from": ".scratch/ticket-harness/evidence/18-walkthrough/cumulative-clean.md",
+      "href": "clean/ticket-A.md"
+    },
+    {
+      "from": ".scratch/ticket-harness/evidence/18-walkthrough/cumulative-clean.md",
+      "href": "clean/ticket-B.md"
+    },
+    {
+      "from": ".scratch/ticket-harness/evidence/18-walkthrough/cumulative-clean.md",
+      "href": "clean/ticket-C.md"
+    },
+    {
+      "from": ".scratch/ticket-harness/evidence/18-walkthrough/cumulative-clean.md",
+      "href": "cumulative-clean-observations.json"
+    },
+    {
+      "from": ".scratch/ticket-harness/evidence/18-walkthrough/cumulative-clean.md",
+      "href": "a-spec.md"
+    },
+    {
+      "from": ".scratch/ticket-harness/evidence/18-walkthrough/cumulative-clean.md",
+      "href": "a-standards.md"
+    },
+    {
+      "from": ".scratch/ticket-harness/evidence/18-walkthrough/cumulative-clean.md",
+      "href": "b-spec.md"
+    },
+    {
+      "from": ".scratch/ticket-harness/evidence/18-walkthrough/cumulative-clean.md",
+      "href": "b-standards.md"
+    },
+    {
+      "from": ".scratch/ticket-harness/evidence/18-walkthrough/cumulative-clean.md",
+      "href": "cumulative-risk.md"
+    },
+    {
+      "from": ".scratch/ticket-harness/evidence/18-walkthrough/cumulative-clean.md",
+      "href": "cumulative-risk-observations.json"
+    },
+    {
+      "from": ".scratch/ticket-harness/evidence/18-walkthrough/cumulative-clean.md",
+      "href": "clean/CONTRACT.md:2"
+    },
+    {
+      "from": ".scratch/ticket-harness/evidence/18-walkthrough/cumulative-clean.md",
+      "href": "clean/ticket_harness/run.py:1"
+    },
+    {
+      "from": ".scratch/ticket-harness/evidence/18-walkthrough/cumulative-clean.md",
+      "href": "clean/observe.py:1"
+    },
+    {
+      "from": ".scratch/ticket-harness/evidence/18-walkthrough/cumulative-clean.md",
+      "href": "clean/ticket_harness/checks.py:1"
+    },
+    {
+      "from": ".scratch/ticket-harness/evidence/18-walkthrough/cumulative-clean.md",
+      "href": "clean/ticket_harness/approval.py:1"
+    },
+    {
+      "from": ".scratch/ticket-harness/evidence/18-walkthrough/cumulative-clean.md",
+      "href": "clean/ticket_harness/restore.py:4"
+    },
+    {
+      "from": ".scratch/ticket-harness/evidence/18-walkthrough/cumulative-clean.md",
+      "href": "cumulative-clean-observations.json"
+    },
+    {
+      "from": ".scratch/ticket-harness/evidence/18-walkthrough/cumulative-risk.md",
+      "href": "risk/"
+    },
+    {
+      "from": ".scratch/ticket-harness/evidence/18-walkthrough/cumulative-risk.md",
+      "href": "source.bundle"
+    },
+    {
+      "from": ".scratch/ticket-harness/evidence/18-walkthrough/cumulative-risk.md",
+      "href": "risk/CONTRACT.md"
+    },
+    {
+      "from": ".scratch/ticket-harness/evidence/18-walkthrough/cumulative-risk.md",
+      "href": "risk/ticket-A.md"
+    },
+    {
+      "from": ".scratch/ticket-harness/evidence/18-walkthrough/cumulative-risk.md",
+      "href": "risk/ticket-B.md"
+    },
+    {
+      "from": ".scratch/ticket-harness/evidence/18-walkthrough/cumulative-risk.md",
+      "href": "risk/ticket-C.md"
+    },
+    {
+      "from": ".scratch/ticket-harness/evidence/18-walkthrough/cumulative-risk.md",
+      "href": "a-spec.md"
+    },
+    {
+      "from": ".scratch/ticket-harness/evidence/18-walkthrough/cumulative-risk.md",
+      "href": "a-standards.md"
+    },
+    {
+      "from": ".scratch/ticket-harness/evidence/18-walkthrough/cumulative-risk.md",
+      "href": "b-spec.md"
+    },
+    {
+      "from": ".scratch/ticket-harness/evidence/18-walkthrough/cumulative-risk.md",
+      "href": "b-standards.md"
+    },
+    {
+      "from": ".scratch/ticket-harness/evidence/18-walkthrough/cumulative-risk.md",
+      "href": "cumulative-risk-observations.json"
+    },
+    {
+      "from": ".scratch/ticket-harness/evidence/18-walkthrough/cumulative-risk.md",
+      "href": "risk/ticket_harness/run.py"
+    },
+    {
+      "from": ".scratch/ticket-harness/evidence/18-walkthrough/cumulative-risk.md",
+      "href": "risk/observe.py"
+    },
+    {
+      "from": ".scratch/ticket-harness/evidence/18-walkthrough/cumulative-risk.md",
+      "href": "risk/ticket_harness/checks.py:1"
+    },
+    {
+      "from": ".scratch/ticket-harness/evidence/18-walkthrough/cumulative-risk.md",
+      "href": "risk/ticket_harness/approval.py:1"
+    },
+    {
+      "from": ".scratch/ticket-harness/evidence/18-walkthrough/cumulative-risk.md",
+      "href": "risk/ticket_harness/restore.py:4"
+    },
+    {
+      "from": ".scratch/ticket-harness/evidence/18-walkthrough/cumulative-risk.md",
+      "href": "cumulative-risk-observations.json"
+    },
+    {
+      "from": ".scratch/ticket-harness/evidence/18-walkthrough/cumulative-risk.md",
+      "href": "risk/ticket_harness/restore.py:5"
+    },
+    {
+      "from": ".scratch/ticket-harness/evidence/18-walkthrough/cumulative-risk.md",
+      "href": "risk/ticket-C.md:2"
+    },
+    {
+      "from": ".scratch/ticket-harness/evidence/18-walkthrough/cumulative-risk.md",
+      "href": "risk/CONTRACT.md:2"
+    },
+    {
+      "from": ".scratch/ticket-harness/evidence/18-walkthrough/cumulative-risk.md",
+      "href": "risk/ticket_harness/run.py:8"
+    },
+    {
+      "from": ".scratch/ticket-harness/evidence/18-walkthrough/deferred-D.md",
+      "href": "finding-history.md"
+    },
+    {
+      "from": ".scratch/ticket-harness/evidence/18-walkthrough/deferred-D.md",
+      "href": "example-human-decision.md"
+    },
+    {
+      "from": ".scratch/ticket-harness/evidence/18-walkthrough/deferred-D.md",
+      "href": "example-amendment.md"
+    },
+    {
+      "from": ".scratch/ticket-harness/evidence/18-walkthrough/deferred-handoff.md",
+      "href": "sources.json"
+    },
+    {
+      "from": ".scratch/ticket-harness/evidence/18-walkthrough/deferred-handoff.md",
+      "href": "cumulative-risk.md"
+    },
+    {
+      "from": ".scratch/ticket-harness/evidence/18-walkthrough/deferred-handoff.md",
+      "href": "finding-history.md"
+    },
+    {
+      "from": ".scratch/ticket-harness/evidence/18-walkthrough/deferred-handoff.md",
+      "href": "example-human-decision.md"
+    },
+    {
+      "from": ".scratch/ticket-harness/evidence/18-walkthrough/deferred-handoff.md",
+      "href": "example-amendment.md"
+    },
+    {
+      "from": ".scratch/ticket-harness/evidence/18-walkthrough/deferred-handoff.md",
+      "href": "deferred-D.md"
+    },
+    {
+      "from": ".scratch/ticket-harness/evidence/18-walkthrough/deferred-handoff.md",
+      "href": "cumulative-clean.md"
+    },
+    {
+      "from": ".scratch/ticket-harness/evidence/18-walkthrough/example-amendment.md",
+      "href": "example-human-decision.md"
+    },
+    {
+      "from": ".scratch/ticket-harness/evidence/18-walkthrough/example-amendment.md",
+      "href": "risk/ticket-C.md"
+    },
+    {
+      "from": ".scratch/ticket-harness/evidence/18-walkthrough/example-amendment.md",
+      "href": "deferred-D.md"
+    },
+    {
+      "from": ".scratch/ticket-harness/evidence/18-walkthrough/example-human-decision.md",
+      "href": "example-amendment.md"
+    },
+    {
+      "from": ".scratch/ticket-harness/evidence/18-walkthrough/example-human-decision.md",
+      "href": "deferred-D.md"
+    },
+    {
+      "from": ".scratch/ticket-harness/evidence/18-walkthrough/example-human-decision.md",
+      "href": "finding-history.md"
+    },
+    {
+      "from": ".scratch/ticket-harness/evidence/18-walkthrough/finding-history.md",
+      "href": "cumulative-risk.md"
+    },
+    {
+      "from": ".scratch/ticket-harness/evidence/18-walkthrough/finding-history.md",
+      "href": "cumulative-risk-observations.json"
+    },
+    {
+      "from": ".scratch/ticket-harness/evidence/18-walkthrough/finding-history.md",
+      "href": "sources.json"
+    },
+    {
+      "from": ".scratch/ticket-harness/evidence/18-walkthrough/finding-history.md",
+      "href": "source.bundle"
+    },
+    {
+      "from": ".scratch/ticket-harness/evidence/18-walkthrough/finding-history.md",
+      "href": "example-human-decision.md"
+    },
+    {
+      "from": ".scratch/ticket-harness/evidence/18-walkthrough/finding-history.md",
+      "href": "example-amendment.md"
+    },
+    {
+      "from": ".scratch/ticket-harness/evidence/18-walkthrough/finding-history.md",
+      "href": "deferred-D.md"
+    },
+    {
+      "from": ".scratch/ticket-harness/evidence/18-walkthrough/finding-history.md",
+      "href": "deferred-handoff.md"
+    },
+    {
+      "from": ".scratch/ticket-harness/evidence/18-walkthrough/finding-history.md",
+      "href": "clean/ticket-C.md"
+    },
+    {
+      "from": ".scratch/ticket-harness/evidence/18-walkthrough/finding-history.md",
+      "href": "source.bundle"
+    },
+    {
+      "from": ".scratch/ticket-harness/evidence/18-walkthrough/finding-history.md",
+      "href": "sources.json"
+    },
+    {
+      "from": ".scratch/ticket-harness/evidence/18-walkthrough/finding-history.md",
+      "href": "cumulative-clean.md"
+    },
+    {
+      "from": ".scratch/ticket-harness/evidence/18-walkthrough/finding-history.md",
+      "href": "cumulative-clean-observations.json"
+    },
+    {
+      "from": ".scratch/ticket-harness/evidence/18-implementation-report.md",
+      "href": "../../../docs/agents/architecture-checkpoints.md"
+    },
+    {
+      "from": ".scratch/ticket-harness/evidence/18-implementation-report.md",
+      "href": "../../../docs/agents/ownership-review.md"
+    },
+    {
+      "from": ".scratch/ticket-harness/evidence/18-implementation-report.md",
+      "href": "../../../docs/agents/review-records.md"
+    },
+    {
+      "from": ".scratch/ticket-harness/evidence/18-implementation-report.md",
+      "href": "18-walkthrough/real-package-inventory.json"
+    },
+    {
+      "from": ".scratch/ticket-harness/evidence/18-implementation-report.md",
+      "href": "18-walkthrough/README.md"
+    },
+    {
+      "from": ".scratch/ticket-harness/evidence/18-implementation-report.md",
+      "href": "18-checks.log"
+    },
+    {
+      "from": ".scratch/ticket-harness/evidence/18-implementation-report.md",
+      "href": "18-check-results.json"
+    }
+  ],
+  "routing": {
+    "docs/agents/ownership-review.md": "shared checkpoint contract",
+    "docs/agents/review-records.md": "shared checkpoint contract",
+    "docs/agents/issue-tracker.md": "shared checkpoint contract",
+    "docs/templates/reviews/assessment.md": "shared checkpoint contract",
+    "docs/ticket-harness.md": "shared checkpoint contract",
+    ".agents/skills/custom/implement-with-checkboxes/SKILL.md": "shared checkpoint contract",
+    ".agents/skills/custom/create-next-agent-prompt/SKILL.md": "shared checkpoint contract",
+    ".agents/skills/custom/references/planning.md": "shared checkpoint contract",
+    ".scratch/ticket-harness/README.md": "shared checkpoint contract",
+    ".scratch/ticket-harness/milestones.md": "shared checkpoint contract",
+    ".scratch/ticket-harness/reviews/README.md": "shared checkpoint contract"
+  },
+  "protected_files": 6314,
+  "reports": {
+    "actor": "/root/implement18",
+    "status": "original reports and observation snapshots retained unchanged; hashes external to outputs",
+    "sha256": {
+      "a-spec.md": "e39df271c3afacfab55372282a48fb6fc3208c0bbdbeca6224b03214fe112988",
+      "a-standards-capture.sha256": "adce25822323bc8e8141a29124d11e36073b486621668839e9f761027b7652f5",
+      "a-standards-identity.log": "28cf178bf633d487a77ea067f4c68d0a301a7c573d8ea1b2833fa12f302ac5b6",
+      "a-standards-observe.log": "afd41187749761901bb3029a3b4e09f9fea1bbbee96767e99cfd905d266e87d5",
+      "a-standards.md": "ee44dc445f4b0e6a02078eb916abee9e7c74ed60cd3f30d081acdba6a2861506",
+      "assignment-a-spec.txt": "b47bb196aba4185905016abc5e05a11b24bc9b6c5b7f9e1935321a1f1eb0c0e3",
+      "assignment-a-standards.txt": "fcc1b9d1b0997f838e3e211ddb05244881958dc621a83ebbce4b637ce67bf9bb",
+      "assignment-b-spec.txt": "e8815cb04c8588d33bab4ca41d928c48abcde6493e6fb1b190cbe29949003090",
+      "assignment-b-standards.txt": "7be9269011d7377ceed403504b77d421921c5d049e2ded8d1600bf3636ebfe71",
+      "assignment-cumulative-clean.txt": "7811efa3d8c9a885fdd99bdbb619a474a0fcc1184f156bc427f1a839bc3710e7",
+      "assignment-cumulative-risk.txt": "38d756a3682ca89a9997e1a270d0bf629eb56ca92a84630fad59bdefe18c5e2b",
+      "assignments.json": "4a344ff80e43542525a29335e8d8588d45d7c0a0bdfdc34dafc383d576d4c45d",
+      "b-spec.md": "de62b1d1f9539b8fda1a1b0ce014f8690fe22d2de93aae08b7d9370dae217758",
+      "b-standards.md": "6578386c0164aac1084e30d86a7cfb537cbe2721b18480c1c051884e9ac8f439",
+      "command-observations.json": "ca858c77121d73a5df7d27bf7bba915c4759ca859abd2df8f22bfa3979082bf4",
+      "cumulative-clean-observations.json": "c8eee9683390d8eb31bbfd5635cbb2ec72c748a17d9a71b7bb54a8a0b695d98e",
+      "cumulative-clean.md": "9adeba6a4722f37c42498e3eccea48107e282bafff323376d00dbfa140a5cf51",
+      "cumulative-risk-observations.json": "bca5bb0d17d8edc9061cde50fb1a36cd48193267f486413bbaf6e2cc2afd7c98",
+      "cumulative-risk.md": "b2ce210eb6c21c3ef72989815029fa8c7105654d67ea34c8c0c1ca06af0f61f1",
+      "history-prefix.json": "dabff8428d8627d69eb873a744602990b0cd713e45cb186766b9e6ba86bc8974",
+      "pre-assessment-observation.json": "82ffdcfbe449491b4ae3463191d85e330b8644e7c31d01ec99c9489c9da1e73d",
+      "source.bundle": "5c8626d8074871fee2e7bdb37d13bb1628af36f535d93404341d499be457531e",
+      "sources.json": "03d363e16858a504c189dbf029300b5549e777b141bd7fa8c4661246f6cb85c7"
+    }
+  },
+  "scope": "standalone guidance; no runtime suite replay",
+  "observations": 6,
+  "readiness_observations": 7
+}

@@ -33,6 +33,15 @@ human decision/amendment links and pending exact-source revalidation into the
 handoff. Link original reports without rewriting them. A completed assessment or
 risk disposition does not establish milestone acceptance or implementation eligibility.
 
+Apply [development architecture checkpoints](../../../../docs/agents/architecture-checkpoints.md)
+when selecting work and drafting either handoff branch. Carry start/post-change
+trigger observations, required cumulative work, exact cumulative baseline/source,
+inspected inventory and outstanding/deferred full finding keys. Missing/incomplete
+or stale required assessment blocks affected integration/readiness; include the
+next responsible action. When tickets are complete but cumulative work is absent,
+write a preparation/waiting status, not a ready QA claim. A clean assessment can
+progress autonomously within scope; actual candidate acceptance remains human-owned.
+
 ## Draft an implementation prompt
 
 Write directly to the next agent, beginning with `Use $implement-with-checkboxes to implement only:` and the exact repository-relative ticket path. Include the ticket title, exact scoped spec references, and enough project-specific context to work without the preceding conversation. Use the current skills and tracker rules; keep detailed invariant workflows in their authoritative sources while making the consequential gates explicit in the handoff:

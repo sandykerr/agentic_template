@@ -1,0 +1,59 @@
+{
+  "source": "e65723747cf4029c1829209da9f333ca17d87989",
+  "files_verified": {
+    "CONTRACT.md": "0fb78af44c59c817b758f04629a2e126ab51ee08295b2eeacf55e7224f329771",
+    "observe.py": "7ad9d01822158346cb37a40f6fabf0e54f71d3216cdcdd36582d46583035f2ce",
+    "ticket-A.md": "2489d63a308f3a0e6572baa283148240c1af4dbd4ba704407cb1ec4ddc349c67",
+    "ticket-B.md": "42954855b7e4d558a7de025f1ce7de82a4d505270519fa17ec03ecc91fc1d7f6",
+    "ticket-C.md": "63e569866bc045ae1feb688a98a75f0f07e74b128260b2d44654739d7c997668",
+    "ticket_harness/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "ticket_harness/approval.py": "873ceb7bb218d6ab08553e4196fc6c276bdde36dadbbb83fd10010456ca8e796",
+    "ticket_harness/checks.py": "9e9c2cc8052ad0477e436af4a31bb4508f4db6ad73030919fbd879babf81078c",
+    "ticket_harness/restore.py": "71de9b238d0e1b7fd7650f69d17c2379944d983466609d73f636797995804c23",
+    "ticket_harness/run.py": "a8116ffa6a128852fb19a145abc5bef11e81ba168bee092aa5dff1ea9c7cdaaa"
+  },
+  "commands": [
+    {
+      "command": [
+        "/home/ajkerr1/development/agentic_template/.micromamba/envs/dev/bin/python",
+        "-B",
+        "/home/ajkerr1/development/agentic_template/.scratch/ticket-harness/evidence/18-walkthrough/risk/observe.py"
+      ],
+      "cwd": "/home/ajkerr1/development/agentic_template/.scratch/ticket-harness/evidence/18-walkthrough/risk",
+      "env_additions": {},
+      "exit": 0,
+      "stdout": "A check status and revocation: PASS\nB checks plus approval and revocation: PASS\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/home/ajkerr1/development/agentic_template/.micromamba/envs/dev/bin/python",
+        "-B",
+        "/home/ajkerr1/development/agentic_template/.scratch/ticket-harness/evidence/18-walkthrough/observe-risk.py"
+      ],
+      "cwd": "/home/ajkerr1/development/agentic_template/.scratch/ticket-harness/evidence/18-walkthrough/risk",
+      "env_additions": {
+        "PYTHONPATH": "/home/ajkerr1/development/agentic_template/.scratch/ticket-harness/evidence/18-walkthrough/risk"
+      },
+      "exit": 1,
+      "stdout": "{'canonical': {'checks': False, 'approval': False}, 'review': {'checks': True, 'approval': True}, 'checks_ready_after_revoke': True, 'candidate_ready_after_revoke': True}\n",
+      "stderr": "Traceback (most recent call last):\n  File \"/home/ajkerr1/development/agentic_template/.scratch/ticket-harness/evidence/18-walkthrough/observe-risk.py\", line 11, in <module>\n    assert not candidate_ready(review), \"restored review readiness survives canonical revocation\"\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: restored review readiness survives canonical revocation\n"
+    },
+    {
+      "command": [
+        "/home/ajkerr1/development/agentic_template/.micromamba/envs/dev/bin/python",
+        "-B",
+        "-c",
+        "from ticket_harness.restore import restore; from ticket_harness.run import Run; from ticket_harness.checks import checks_ready; from ticket_harness.approval import candidate_ready; r,v=restore({\"gates\":{\"checks\":True,\"approval\":True}}); print({\"run_is_Run\":isinstance(r,Run),\"shared_gates\":r.gates is v.gates,\"has_record\":hasattr(r,\"record\"),\"has_revoke\":hasattr(r,\"revoke\")}); Run.revoke(r); print({\"run_checks\":checks_ready(r),\"review_checks\":checks_ready(v),\"run_ready\":candidate_ready(r),\"review_ready\":candidate_ready(v)})"
+      ],
+      "cwd": "/home/ajkerr1/development/agentic_template/.scratch/ticket-harness/evidence/18-walkthrough/risk",
+      "env_additions": {
+        "PYTHONPATH": "/home/ajkerr1/development/agentic_template/.scratch/ticket-harness/evidence/18-walkthrough/risk"
+      },
+      "exit": 0,
+      "stdout": "{'run_is_Run': False, 'shared_gates': False, 'has_record': False, 'has_revoke': False}\n{'run_checks': False, 'review_checks': True, 'run_ready': False, 'review_ready': True}\n",
+      "stderr": ""
+    }
+  ],
+  "setup_attempt": "First audit driver exited 1 on its expected exit-vector assertion before writing output; its inline -c diagnostic ran at repository root, where current-directory imports can shadow fixture PYTHONPATH. Repeated with cwd=risk for all commands; source was unchanged."
+}

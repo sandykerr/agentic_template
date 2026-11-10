@@ -8,6 +8,15 @@
 
 Completed 01–15 retain their evidence. M1 gains nine required tickets 16–24 before its still-unrequested QA. Review workflow/evaluation precedes the five refactors; later milestones wait for explicit human acceptance of the previous one. Required architecture assessments and disposition rules precede QA readiness, while review completion and review decisions never equal candidate acceptance. E1 remains independent, immediately after verified 34.
 
+Before any required milestone QA request, use the shared
+[development checkpoint contract](../../docs/agents/architecture-checkpoints.md).
+Record cumulative baseline provenance, exact source, all package Python files,
+prior findings and a fresh High Standards report. Missing/incomplete/stale work
+or unresolved in-scope blockers holds readiness, even with all tickets completed.
+Assessment completed, findings dispositioned, candidate ready and milestone
+accepted are separate observations. Real M1 cumulative assessment remains
+unperformed; ticket 18's isolated examples cannot substitute for it.
+
 ## Required release membership
 
 | Milestone | Required tickets in preferred order | Gate |

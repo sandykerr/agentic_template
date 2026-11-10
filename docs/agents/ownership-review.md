@@ -86,6 +86,10 @@ Keep the summary concise and link detail as needed. There is no universal short
 report cap: preserve all required scope, evidence and reasoning. Empty findings
 mean no findings within the recorded inspection, not universal design approval.
 
+For cumulative milestone scope and start/post-implementation risk triggers, apply
+[architecture checkpoints](architecture-checkpoints.md). That contract determines
+when broader work gates progression; this contract owns its substantive inspection.
+
 ## Repair and handoff
 
 Carry the full review/report/local finding keys, original reports, disposition

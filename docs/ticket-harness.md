@@ -814,3 +814,7 @@ record, including rejected implementation evidence and both review axes.
 Worktrees and rejected Git commits remain available for inspection. To remove a
 run after inspection, remove its worktrees with `git worktree remove` (use
 `--force` only for disposable rejected changes), then delete its output folder.
+
+Development integration and milestone readiness also follow the repo-owned
+[architecture checkpoint contract](agents/architecture-checkpoints.md). These
+tracker/handoff gates do not claim runtime adoption, which remains ticket 33.

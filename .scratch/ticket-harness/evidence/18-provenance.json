@@ -1,0 +1,89 @@
+{
+  "observations": [
+    {
+      "command": [
+        "git",
+        "rev-parse",
+        "HEAD"
+      ],
+      "exit": 0,
+      "stdout": "02d76205a1c40e45c607ef2a5d11ec282393edcd\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "git",
+        "log",
+        "--reverse",
+        "--format=%H %s",
+        "--",
+        ".scratch/ticket-harness/spec.md"
+      ],
+      "exit": 0,
+      "stdout": "1a623bad0b08241367948948b731b9e1f5114671 initial commit\n3d78722ae2e0f53c40eb169234aebec50e2140fb adding custom test skills\n42053bd55c925b252e838e8794314ecb1047148e updating tickets for new design direction\neae64ae6bce4f96aa0e2e7a3d5f63e8aba93da87 updating tickets to have better oop\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "git",
+        "log",
+        "--reverse",
+        "--format=%H %s",
+        "--",
+        "ticket_harness"
+      ],
+      "exit": 0,
+      "stdout": "b09e324dda0da6d89d24de07538a9bad1dd91104 Implement ticket 01 scripted single-ticket CLI cycle\n855a4c850745c53053ddbd1cc41f1b8e7dbe4d23 Reject invalid ticket bundles before harness execution\ndfdb1a67330ae3509fd50ee7f536ea4f41e6f122 Validate relative executables against the approved base tree\nb11fd20f37dbb18730278bd271cf3d47d05f6e82 Reject executable paths with ambiguous runtime resolution\n5b041870115dfb1f4dd2b25fc7c0fd07deb81529 Validate ticket 03 agent reports and preserve rejected evidence\n2a27565f24f9acbc6fb1a7390d027b4889354f6e Reject overflowing JSON numbers in agent reports\n07094fa3594219f6d3b57600d2d7f212f2ce54fc Bound report nesting before retaining durable evidence\ndc27eb298f7b48098d5aa1f3a82521ec6003e770 Bind ticket verification to protected inputs and exact candidate\n8d345bddabd3d7fdc9cfb049e3cc7ce70f66e54a Protect verification evidence across Git hooks and hidden source edits\n34a49b7090a77d689a67c4230cc8b5f12c9c9f35 Repair rejected ticket submissions within a bounded allowance\ndc1018e07f03c967ed686707c4d7f5a9660a6332 Stop ticket attempts immediately for human decisions\nfbfc088de61f50636ec2f8557fdf2e119976fc58 Bound stage execution with timeouts and process-group cleanup\n7f4eac025cfccd0912f25e3bdd602c1e2b3e516f Execute selected dependency graphs sequentially from verified integration\n14cafef40726eba80d8648d98d9c263fde3a5d0b Bound execution to the first approved milestone\n19ea4f1b0bbdc601653468212aaaa0a7211d5c6f Prepare regression-tested milestone QA candidates\n29fb5569cf53c75bd351d6bd176bb29889c42a65 Consume exact milestone QA decisions before promotion\n36ed3e72c278cf147c84ae9c282cd2899af23ad0 Support clean QA checkpoint continuation with exclusive run ownership\nd11f0bc60a2c11c40683e58581dffa10e36a91be Preserve canonical gate evidence after QA continuation\n152b0c4577269789a419079c6261c69f9a0695fd adding some codebase improvements\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "git",
+        "merge-base",
+        "--is-ancestor",
+        "3c8d4ab52c5da112552275d1d5fffdef001c1451",
+        "HEAD"
+      ],
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "git",
+        "merge-base",
+        "--is-ancestor",
+        "6b8dae9eb8f436e60224bea9b9fd4b0b8bf61e02",
+        "HEAD"
+      ],
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "git",
+        "merge-base",
+        "--is-ancestor",
+        "4814eabd4bf2f196f7fb6915667c4305b7c2d0b9",
+        "HEAD"
+      ],
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "git",
+        "merge-base",
+        "--is-ancestor",
+        "91e285ff3cb1b46f4404b7fc534625637bdff015",
+        "HEAD"
+      ],
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    }
+  ],
+  "limit": "Git creation history establishes object ancestry, not a human-accepted milestone or selected feature baseline. Real M1 baseline selection remains future checkpoint responsibility."
+}

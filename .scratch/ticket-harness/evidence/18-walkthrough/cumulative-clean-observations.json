@@ -1,0 +1,84 @@
+{
+  "review": "review-18-fixture-cumulative",
+  "report": "standards-clean-01",
+  "baseline": "36772524659032570d018cc164c5aa4e90068edf",
+  "source": "8078239cfc1062acbf8e3f59ac2392925da4586a",
+  "guidance_checkout": "02d76205a1c40e45c607ef2a5d11ec282393edcd",
+  "files_verified": {
+    "CONTRACT.md": "0fb78af44c59c817b758f04629a2e126ab51ee08295b2eeacf55e7224f329771",
+    "observe.py": "7ad9d01822158346cb37a40f6fabf0e54f71d3216cdcdd36582d46583035f2ce",
+    "ticket-A.md": "2489d63a308f3a0e6572baa283148240c1af4dbd4ba704407cb1ec4ddc349c67",
+    "ticket-B.md": "42954855b7e4d558a7de025f1ce7de82a4d505270519fa17ec03ecc91fc1d7f6",
+    "ticket-C.md": "63e569866bc045ae1feb688a98a75f0f07e74b128260b2d44654739d7c997668",
+    "ticket_harness/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "ticket_harness/approval.py": "873ceb7bb218d6ab08553e4196fc6c276bdde36dadbbb83fd10010456ca8e796",
+    "ticket_harness/checks.py": "9e9c2cc8052ad0477e436af4a31bb4508f4db6ad73030919fbd879babf81078c",
+    "ticket_harness/restore.py": "125c76259ea6bc347508493363bb7db9276c18c73e026f2747f050b4df76d987",
+    "ticket_harness/run.py": "a8116ffa6a128852fb19a145abc5bef11e81ba168bee092aa5dff1ea9c7cdaaa"
+  },
+  "guidance_sha256": {
+    "docs/agents/domain.md": "ade77403240a3a8b863ab1740b01e2e6ef12234b08b0d4f87a83897d72269876",
+    "docs/agents/ownership-review.md": "7bef209024464c7ce7b0d3ebcfc8f2707d2309efef50b79bb7d5cc589ab1aa56",
+    "docs/agents/review-records.md": "7371c706ba48a09ba2f69750dab8f60c5c6892bdfb0ecb35f5f9ada7e502d49d",
+    "docs/agents/architecture-checkpoints.md": "e81bfaff325e069ee3b8c73a8a4d2028e06a871dcf94f6045377585a5d1e3d8f",
+    "docs/agents/testing.md": "6b6b498a718205bb5fd1f0b12410623807e708f784e7d09a4bd72343b229a4ff",
+    "docs/agents/python-environment.md": "dc357dd6bf10406d9a16b3beb40455f9262a7d3922fa4f1e138a6547a45efd8d",
+    "GLOSSARY.md": "4b45856348181d3383d3b2416d56eb0261243ddab8507fb869dd4bdee39bdefc",
+    "docs/adr/0001-reusable-harness-and-local-integration.md": "6e4adc64a9a454d00ca4d16649796daf525783e554d1dc892bd0654b5990e603",
+    "docs/adr/0002-human-qa-gates-feature-promotion.md": "7f9ef955940b6a4315d9a5fc7c7279cc367043310ebd4575cee450dffd0e4982",
+    ".agents/skills/matt-pocock/codebase-design/SKILL.md": "2c20617f87ec8af6a434859f381b2f061a69b530444e74eb39e78bb016a6d1e2",
+    ".agents/skills/custom/test-strategy/SKILL.md": "3a0a0f667aaa65ae8a74b2c7f3ab0e24517e756ed1a5663f35623bc46c8fc816",
+    "docs/templates/reviews/report.md": "bb0c4613964f1dc60f4ee7a618119997cf96ac3fafc3b810ed95002b2f787e76"
+  },
+  "bundle_sha256": "5c8626d8074871fee2e7bdb37d13bb1628af36f535d93404341d499be457531e",
+  "sources_manifest_sha256": "03d363e16858a504c189dbf029300b5549e777b141bd7fa8c4661246f6cb85c7",
+  "commands": [
+    {
+      "command": [
+        "/home/ajkerr1/development/agentic_template/.micromamba/envs/dev/bin/python",
+        "-B",
+        "/home/ajkerr1/development/agentic_template/.scratch/ticket-harness/evidence/18-walkthrough/clean/observe.py"
+      ],
+      "cwd": "/home/ajkerr1/development/agentic_template/.scratch/ticket-harness/evidence/18-walkthrough/clean",
+      "env_additions": {
+        "PYTHONPATH": "/home/ajkerr1/development/agentic_template/.scratch/ticket-harness/evidence/18-walkthrough/clean",
+        "PYTHONDONTWRITEBYTECODE": "1"
+      },
+      "exit": 0,
+      "stdout": "A check status and revocation: PASS\nB checks plus approval and revocation: PASS\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/home/ajkerr1/development/agentic_template/.micromamba/envs/dev/bin/python",
+        "-B",
+        "/home/ajkerr1/development/agentic_template/.scratch/ticket-harness/evidence/18-walkthrough/observe-risk.py"
+      ],
+      "cwd": "/home/ajkerr1/development/agentic_template/.scratch/ticket-harness/evidence/18-walkthrough/clean",
+      "env_additions": {
+        "PYTHONPATH": "/home/ajkerr1/development/agentic_template/.scratch/ticket-harness/evidence/18-walkthrough/clean",
+        "PYTHONDONTWRITEBYTECODE": "1"
+      },
+      "exit": 0,
+      "stdout": "{'canonical': {'checks': False, 'approval': False}, 'review': {'checks': False, 'approval': False}, 'checks_ready_after_revoke': False, 'candidate_ready_after_revoke': False}\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/home/ajkerr1/development/agentic_template/.micromamba/envs/dev/bin/python",
+        "-B",
+        "-c",
+        "import json\nfrom ticket_harness.run import Run\nfrom ticket_harness.restore import restore\nfrom ticket_harness.checks import checks_ready\nfrom ticket_harness.approval import candidate_ready\nimport ticket_harness.restore as restore_module\nsaved = {\"gates\": {\"checks\": True, \"approval\": True}}\nr, review = restore(saved)\nidentity = {\"run_is_Run\": isinstance(r, Run), \"same_live_owner\": r is review, \"shared_gates\": r.gates is review.gates, \"saved_mapping_detached\": r.gates is not saved[\"gates\"], \"record_callable\": callable(r.record), \"revoke_callable\": callable(r.revoke), \"restore_module\": restore_module.__file__}\nassert all(value for key, value in identity.items() if key != \"restore_module\")\nassert checks_ready(r) and checks_ready(review) and candidate_ready(r) and candidate_ready(review)\nr.revoke()\nrevoked = {\"run_checks\": checks_ready(r), \"review_checks\": checks_ready(review), \"run_ready\": candidate_ready(r), \"review_ready\": candidate_ready(review)}\nassert not any(revoked.values())\nassert saved == {\"gates\": {\"checks\": True, \"approval\": True}}\nr.record(\"checks\", True)\nassert checks_ready(review) and not candidate_ready(review)\nr.record(\"approval\", True)\nassert candidate_ready(review)\nr.record(\"checks\", False)\nassert not checks_ready(review) and not candidate_ready(review)\nprint(json.dumps({\"identity\": identity, \"after_owner_revoke\": revoked, \"saved_after_revoke\": saved, \"rerecord_and_checks_regression\": \"PASS\"}, sort_keys=True))\n"
+      ],
+      "cwd": "/home/ajkerr1/development/agentic_template/.scratch/ticket-harness/evidence/18-walkthrough/clean",
+      "env_additions": {
+        "PYTHONPATH": "/home/ajkerr1/development/agentic_template/.scratch/ticket-harness/evidence/18-walkthrough/clean",
+        "PYTHONDONTWRITEBYTECODE": "1"
+      },
+      "exit": 0,
+      "stdout": "{\"after_owner_revoke\": {\"review_checks\": false, \"review_ready\": false, \"run_checks\": false, \"run_ready\": false}, \"identity\": {\"record_callable\": true, \"restore_module\": \"/home/ajkerr1/development/agentic_template/.scratch/ticket-harness/evidence/18-walkthrough/clean/ticket_harness/restore.py\", \"revoke_callable\": true, \"run_is_Run\": true, \"same_live_owner\": true, \"saved_mapping_detached\": true, \"shared_gates\": true}, \"rerecord_and_checks_regression\": \"PASS\", \"saved_after_revoke\": {\"gates\": {\"approval\": true, \"checks\": true}}}\n",
+      "stderr": ""
+    }
+  ],
+  "audit_driver": "/tmp/fixture-cumulative-clean-audit.py"
+}

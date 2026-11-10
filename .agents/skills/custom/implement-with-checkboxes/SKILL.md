@@ -19,6 +19,13 @@ whole-ticket scope and report requirements take precedence over upstream
 diff-hunk-only wording and the under-400-word report briefs; retain a concise
 summary with enough linked detail for the required evidence.
 
+Apply [development architecture checkpoints](../../../../docs/agents/architecture-checkpoints.md)
+at ticket start and after implementation. Record each risk trigger and required
+broader assessment before integration; no-trigger tickets retain the two existing
+review axes. At milestone readiness, carry the cumulative assessment, exact source,
+prior findings and missing/stale work into the handoff; a completed review alone
+never accepts a milestone.
+
 ## Implement and review
 
 Read the repo-owned [review record contract](../../../../docs/agents/review-records.md)

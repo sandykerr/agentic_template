@@ -27,6 +27,12 @@ It supplies the repo-owned templates and navigation for assessments in the same
 feature tracker, immutable evidence and append-only finding history. Review
 lifecycle stays separate from implementation readiness and human QA decisions.
 
+For risk-triggered integration and development milestone readiness, apply
+[architecture checkpoints](architecture-checkpoints.md). Keep cumulative work in
+the existing feature review index with originating ticket/milestone links; carry
+missing/stale reports and unresolved findings into the handoff. Ticket completion
+and assessment completion alone do not establish QA readiness or acceptance.
+
 ## Completion bookkeeping
 
 Outside an active harness run, reconcile implementation tickets with their verified outcomes:
