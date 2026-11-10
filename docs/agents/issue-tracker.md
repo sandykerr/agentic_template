@@ -19,6 +19,14 @@ When a skill says to publish to the issue tracker, create the appropriate local 
 
 Approved specs and tickets remain unchanged during a harness run. The harness records execution statuses, attempts, and outcomes separately. The authoring-time triage `Status:` is separate from the harness's execution state.
 
+## Review records
+
+Before preparing review assignments, saving reports, recording finding decisions
+or carrying them into repairs/handoffs, read [review records](review-records.md).
+It supplies the repo-owned templates and navigation for assessments in the same
+feature tracker, immutable evidence and append-only finding history. Review
+lifecycle stays separate from implementation readiness and human QA decisions.
+
 ## Completion bookkeeping
 
 Outside an active harness run, reconcile implementation tickets with their verified outcomes:

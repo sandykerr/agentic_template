@@ -13,6 +13,13 @@ Use fresh implementation and repair assignments with Medium reasoning by default
 
 ## Implement and review
 
+Read the repo-owned [review record contract](../../../../docs/agents/review-records.md)
+when preparing assessments, saving reports or handling findings. Use its templates
+to attach routine Spec/Standards reports to one ticket assessment, preserve the
+original baseline/reports and carry full finding keys/history into repairs and
+independent re-review. Keep assessment completion, outstanding findings and human
+QA separate; record human-owned decisions rather than inferring authority.
+
 1. Follow `AGENTS.md` and the ticket's scoped spec references. Read the repository's [issue-tracker conventions](../../../../docs/agents/issue-tracker.md) and [testing policy](../../../../docs/agents/testing.md). Capture the starting `HEAD` as the review baseline and inspect the worktree, preserving unrelated changes. When adding or changing tests, use [test-strategy](../test-strategy/SKILL.md) to map existing coverage and choose verification scope before the upstream TDD workflow. Implement only the assigned ticket. Use the testing policy's focused development checks and required completion checks; standalone documentation/skill work receives its documented validation rather than an artificial TDD cycle or runtime suite replay.
 2. After checks pass, create a checkpoint commit containing only this implementation **before** invoking `code-review`: its current committed-diff review cannot see uncommitted changes. Supply the captured baseline, ticket, and relevant spec requirements. For later repairs, keep that original baseline so the review covers the whole implementation.
 3. Obtain the upstream skill's separate, fresh Spec and Standards reviews with the independently configured reviewer settings above. For test changes, supply the coverage map, testing policy, and test-strategy's review guidance to these existing reviewers. Scripted fixture reviewers verify harness behavior; they do not replace reviews of the implementation itself. Resolve blocking findings through fresh repair assignments with the worker setting, rerun affected required checks, commit fixes, and re-review the whole implementation against the original baseline. Record optional suggestions without treating them as mandatory fixes. If implementation already exists and the diff is empty, verify its recorded checks and reviews against the current revision instead of treating an empty review as a pass.

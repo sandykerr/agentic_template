@@ -80,6 +80,14 @@ Return a compact report with the outcome, commit references/changed files, actua
 
 During approved harness execution, source specs and tickets remain unchanged and the harness owns execution records. A ready-for-agent label or published ticket alone does not start a run. Concurrency, arbitrary interruption/crash recovery, hosted PRs, and email remain deferred. Planned-QA checkpoint stop/continuation is implemented by ticket 15; development M1 and final feature human acceptance remain pending.
 
+## Review records
+
+Development assessments use the [review index](reviews/README.md) and repo-owned
+[record contract/templates](../../docs/agents/review-records.md). Ticket 16's
+[isolated example](evidence/16-miniature/README.md) shows finding histories and
+source-specific decisions with synthetic reviewers/human decisions; it supplies
+no real review result or milestone acceptance.
+
 ## Early context-budget experiment
 
 [35: Compare configurable 100K–250K agent context limits](issues/35-compare-configurable-agent-context-limits.md) is ready for execution immediately after issue 34 supplies the verified real Codex cycle, configured roles, and usage artifacts. Prioritize it then; it does not require the final release demonstration, multi-ticket scheduling, the planning skill, or the later access-boundary probes. It is a separate early experiment, not an additional first-release completion gate.

@@ -20,6 +20,12 @@ For eligible implementation work, read the selected ticket, its referenced spec 
 
 Identify every acceptance criterion, the public testing seam, compatibility requirements, explicit scope exclusions, and any unresolved decisions. Use the existing approved testing seam when one exists; otherwise tell the next agent to establish it with the user before writing tests. Preserve requirement wording and scope when translating criteria into implementation instructions.
 
+For review context, follow the [review record contract](../../../../docs/agents/review-records.md).
+Carry assessment/report identities, current unresolved full finding keys, history,
+human decision/amendment links and pending exact-source revalidation into the
+handoff. Link original reports without rewriting them. A completed assessment or
+risk disposition does not establish milestone acceptance or implementation eligibility.
+
 ## Draft an implementation prompt
 
 Write directly to the next agent, beginning with `Use $implement-with-checkboxes to implement only:` and the exact repository-relative ticket path. Include the ticket title, exact scoped spec references, and enough project-specific context to work without the preceding conversation. Use the current skills and tracker rules; keep detailed invariant workflows in their authoritative sources while making the consequential gates explicit in the handoff:
