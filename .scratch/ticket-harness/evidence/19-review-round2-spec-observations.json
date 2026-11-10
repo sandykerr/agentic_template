@@ -1,0 +1,100 @@
+{
+  "h8": {
+    "source": "7c02181e6e5ce6f464a12acd772f519d53f8cd02bb4f52f38cdadd96103603a1",
+    "dictionary_and_list_input_isolation": true,
+    "nested_snapshot_isolation_both_views": true,
+    "mirrors_equal_each_phase": true,
+    "invalid_operations_unchanged": 5
+  },
+  "d9": {
+    "long_chain": 2000,
+    "reject_inputs": [
+      "a:+",
+      "a:b+,b:",
+      "a:missing",
+      "a:b,b:a",
+      "a:,a:"
+    ],
+    "shared_and_repeated_dependencies_ordered": true
+  },
+  "f6": {
+    "encoding_failure_preserves_old_content_and_cleans_temp": true,
+    "complete_replace": true,
+    "nonfinite_guard_before_launch": true,
+    "nonzero_exit_returned": 7,
+    "TimeoutExpired_propagates": true
+  },
+  "b7": {
+    "paths": [
+      {
+        "kind": "space",
+        "root_equal": true
+      },
+      {
+        "kind": "CR",
+        "root_equal": true
+      },
+      {
+        "kind": "LF",
+        "root_equal": true
+      },
+      {
+        "kind": "nonutf8",
+        "root_equal": true
+      }
+    ],
+    "wrong_branch_and_missing_base_reject": true,
+    "branch_tag_same_name": {
+      "outcome": "ValueError",
+      "message": "unexpected branch",
+      "symbolic_ref": "heads/main\n"
+    }
+  },
+  "whitespace": {
+    "path": ".scratch/ticket-harness/evidence/19-evaluation-g3/spec-c3-reviewer-saved.md",
+    "sha256": "75dbfbdde31879ceeb2f35bb50fb6fe0a318f09cfbb6d15fb6fb76502a40f84d",
+    "trailing_LF": 2,
+    "last_three_checks": [
+      {
+        "argv": [
+          "git",
+          "diff",
+          "--check",
+          "f2929e79cfd5a68f670862775053ae85ba9582b5...ce4e57d77be6dfd695f0ecb15284c5e9d5792b93"
+        ],
+        "exit": 2,
+        "stdout": ".scratch/ticket-harness/evidence/19-evaluation-g3/spec-c3-reviewer-saved.md:202: new blank line at EOF.\n",
+        "stderr": ""
+      },
+      {
+        "argv": [
+          "git",
+          "diff",
+          "--check",
+          "f2929e79cfd5a68f670862775053ae85ba9582b5...ce4e57d77be6dfd695f0ecb15284c5e9d5792b93",
+          "--",
+          ".",
+          ":(exclude).scratch/ticket-harness/evidence/19-evaluation-g3/spec-c3-reviewer-saved.md"
+        ],
+        "exit": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      {
+        "argv": [
+          "git",
+          "-c",
+          "core.whitespace=-blank-at-eof",
+          "diff",
+          "--check",
+          "f2929e79cfd5a68f670862775053ae85ba9582b5...ce4e57d77be6dfd695f0ecb15284c5e9d5792b93",
+          "--",
+          ".scratch/ticket-harness/evidence/19-evaluation-g3/spec-c3-reviewer-saved.md"
+        ],
+        "exit": 0,
+        "stdout": "",
+        "stderr": ""
+      }
+    ]
+  }
+}

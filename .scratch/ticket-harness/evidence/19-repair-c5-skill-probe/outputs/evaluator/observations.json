@@ -1,0 +1,131 @@
+{
+  "interpreter": "3.12.16",
+  "method": "Execute exact supplied source in isolated Python namespaces; call bounded valid-domain examples; compare against literal contract expectations.",
+  "observations": [
+    {
+      "case": "m4",
+      "scenario": "ordinary rows and order",
+      "arguments": [
+        "a,b\nc,d"
+      ],
+      "contract_expectation": "((a,b),(c,d)) as tuple of tuple of strings",
+      "observed": {
+        "returned": [
+          [
+            "a",
+            "b"
+          ],
+          [
+            "c",
+            "d"
+          ]
+        ],
+        "python_repr": "(('a', 'b'), ('c', 'd'))",
+        "type": "tuple",
+        "tuple_of_tuple_of_strings": true
+      },
+      "conforms_for_this_observation": true
+    },
+    {
+      "case": "m4",
+      "scenario": "quoted embedded comma",
+      "arguments": [
+        "\"alpha,beta\",gamma"
+      ],
+      "contract_expectation": "(('alpha,beta', 'gamma'),)",
+      "observed": {
+        "returned": [
+          [
+            "\"alpha",
+            "beta\"",
+            "gamma"
+          ]
+        ],
+        "python_repr": "(('\"alpha', 'beta\"', 'gamma'),)",
+        "type": "tuple",
+        "tuple_of_tuple_of_strings": true
+      },
+      "conforms_for_this_observation": false
+    },
+    {
+      "case": "m4",
+      "scenario": "doubled quote escaping",
+      "arguments": [
+        "\"a\"\"b\",c"
+      ],
+      "contract_expectation": "(('a\"b', 'c'),)",
+      "observed": {
+        "returned": [
+          [
+            "\"a\"\"b\"",
+            "c"
+          ]
+        ],
+        "python_repr": "(('\"a\"\"b\"', 'c'),)",
+        "type": "tuple",
+        "tuple_of_tuple_of_strings": true
+      },
+      "conforms_for_this_observation": false
+    },
+    {
+      "case": "r2",
+      "scenario": "satisfiable request",
+      "arguments": [
+        5,
+        2
+      ],
+      "contract_expectation": "return 3",
+      "observed": {
+        "returned": 3,
+        "python_repr": "3",
+        "type": "int"
+      },
+      "conforms_for_this_observation": true
+    },
+    {
+      "case": "r2",
+      "scenario": "exact exhaustion",
+      "arguments": [
+        5,
+        5
+      ],
+      "contract_expectation": "return 0",
+      "observed": {
+        "returned": 0,
+        "python_repr": "0",
+        "type": "int"
+      },
+      "conforms_for_this_observation": true
+    },
+    {
+      "case": "r2",
+      "scenario": "over-request",
+      "arguments": [
+        2,
+        3
+      ],
+      "contract_expectation": "raise ValueError; no negative result",
+      "observed": {
+        "returned": -1,
+        "python_repr": "-1",
+        "type": "int"
+      },
+      "conforms_for_this_observation": false
+    },
+    {
+      "case": "r2",
+      "scenario": "zero stock positive request",
+      "arguments": [
+        0,
+        1
+      ],
+      "contract_expectation": "raise ValueError; no negative result",
+      "observed": {
+        "returned": -1,
+        "python_repr": "-1",
+        "type": "int"
+      },
+      "conforms_for_this_observation": false
+    }
+  ]
+}

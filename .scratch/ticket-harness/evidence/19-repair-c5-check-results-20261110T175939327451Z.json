@@ -1,0 +1,861 @@
+{
+  "result": "pass",
+  "recorded_at_utc": "2026-11-10T17:59:39.306325+00:00",
+  "baseline": "f2929e79cfd5a68f670862775053ae85ba9582b5",
+  "previous_source": "ce4e57d77be6dfd695f0ecb15284c5e9d5792b93",
+  "head_before_checkpoint": "ce4e57d77be6dfd695f0ecb15284c5e9d5792b93",
+  "scope": "C5 standalone source/guidance/evaluation repair audit, no production runtime/tests or judgment scoring",
+  "protected_previous_paths": 6742,
+  "changed_previous_owners": [
+    ".scratch/ticket-harness/evidence/19-finding-history.md",
+    ".scratch/ticket-harness/reviews/ticket-19.md",
+    "docs/agents/reviewer-evaluation.md"
+  ],
+  "corpora": {
+    "19-evaluation": "ebf72b6255ad6c2c6365990f4479c11ddfc52113d13b57f02a4c584119401c23",
+    "19-evaluation-g2": "ae5ba62e56cb12c1f58f6d5098ac357faf5f1d8a8815383cb1d4471acc5a467c",
+    "19-evaluation-g3": "b33636d1b8fdcacd572de6c063064afd5068b4e1275c2714bf0091651513b5c4",
+    "19-evaluation-g4": "bb544f58260e57309be8ffbfb9a2752994b65d8186c899fd7f8ce7e91c33a197",
+    "19-evaluation-g5": "332ddabe972f596d86cd09eda809bd2f93d1f57602f01d75ed9f39f2b182510d"
+  },
+  "C5_source_delta": [
+    "cases/b7/caller.py",
+    "cases/b7/git_ops.py"
+  ],
+  "corpus_files_each": 36,
+  "root_context_sha256": "4478b4aea22a419c65360948ecbfd077bcf56d3598691600c1621bb8f95cb00b",
+  "preflight_sha256": {
+    "19-repair-c5-branch-preflight-results.json": "4e6e28b8b1ca7467629eda3cd916380e5e759378fc867d254b193a5c12046204",
+    "19-repair-c5-adapter-preflight-results.json": "889477387b986527023f18c0afbd34c45496b49a9c252994bf00583fd94fa9fe"
+  },
+  "checked_document_sha256": {
+    ".agents/skills/custom/evaluate-reviewers/SKILL.md": "5e97caed6be6e4fa0f367bae82d5b2505ab49edbd731923894ce63312899ef5f",
+    "docs/agents/reviewer-evaluation.md": "3b0b6c1c7e44d1df6e42962105372b75909eb523538f4e2bc7af54037f1feb59",
+    ".scratch/ticket-harness/evidence/19-repair-c5-report.md": "8443a5ff86ac88d3c0cf106855927533eda73cee5f80dc5eb203d067eb0a8835",
+    ".scratch/ticket-harness/evidence/19-repair-c5-skill-observation.md": "6256e83c8cad343aa5dd943715bac000737a80b36d502f8c982c80d5feedd0c7",
+    ".scratch/ticket-harness/evidence/19-finding-history.md": "f9289211447f61c1c1608fddb27641095b573340c733417dd3474942e42f3763",
+    ".scratch/ticket-harness/reviews/ticket-19.md": "cc33eb1858ea49954658f5fd790834d4dafd5f9c7bb631e3ae49b72220bfb508",
+    ".agents/skills/custom/references/planning.md": "bc432d8e3b77cce2c826583591cb95095e76f2989239edf4d58e7eda603b6cf2",
+    ".agents/skills/custom/implement-with-checkboxes/SKILL.md": "a573e3e099f3a4cf32ce81103eb2681db40ee8151be7d19f7b53a304df1c111f",
+    ".agents/skills/custom/create-next-agent-prompt/SKILL.md": "86ae4ceb5d19502931e80fd26d3ade2f650c4b68e70332733ef9171f53307a5e",
+    ".scratch/ticket-harness/evidence/19-evaluation-g5/results.md": "28cf8b65db5fea2813562852d873dc4438207f8afee7d9ebcfb49c4977b9d55e",
+    ".scratch/ticket-harness/evidence/19-evaluation-g5/declaration.md": "0c3ef9747a0d9f1e89ff466117a4f7dd8930f8bea4027280e0f8ea49272d0394",
+    ".scratch/ticket-harness/evidence/19-evaluation-g5/history.md": "9d45592efb171c8e6522ef374e17f6f612bee9139e844565c402909a5ba72041",
+    ".scratch/ticket-harness/evidence/19-evaluation-g5/README.md": "cb4029a6b507b7a38048ab813736e8962f2aae0d6af6ccc925aa8ce5919c151d"
+  },
+  "local_links": [
+    {
+      "from": ".agents/skills/custom/evaluate-reviewers/SKILL.md",
+      "href": "../../../../docs/agents/reviewer-evaluation.md#lessons-for-evaluation-authors"
+    },
+    {
+      "from": "docs/agents/reviewer-evaluation.md",
+      "href": "ownership-review.md"
+    },
+    {
+      "from": "docs/agents/reviewer-evaluation.md",
+      "href": "review-records.md"
+    },
+    {
+      "from": "docs/agents/reviewer-evaluation.md",
+      "href": "architecture-checkpoints.md"
+    },
+    {
+      "from": "docs/agents/reviewer-evaluation.md",
+      "href": "../../.scratch/ticket-harness/evidence/19-evaluation-g5/declaration.md"
+    },
+    {
+      "from": "docs/agents/reviewer-evaluation.md",
+      "href": "../../.scratch/ticket-harness/evidence/19-evaluation-g5/source-manifest.json"
+    },
+    {
+      "from": "docs/agents/reviewer-evaluation.md",
+      "href": "../../.scratch/ticket-harness/evidence/19-evaluation-g5/snapshot/REVIEW.md"
+    },
+    {
+      "from": "docs/agents/reviewer-evaluation.md",
+      "href": "../../.scratch/ticket-harness/evidence/19-evaluation-g5/README.md"
+    },
+    {
+      "from": "docs/agents/reviewer-evaluation.md",
+      "href": "../../.scratch/ticket-harness/evidence/19-evaluation-g5/results.md"
+    },
+    {
+      "from": "docs/agents/reviewer-evaluation.md",
+      "href": "../../.scratch/ticket-harness/evidence/19-repair-c5-report.md"
+    },
+    {
+      "from": "docs/agents/reviewer-evaluation.md",
+      "href": "../../.scratch/ticket-harness/evidence/19-evaluation-g5/history.md"
+    },
+    {
+      "from": "docs/agents/reviewer-evaluation.md",
+      "href": "../../.scratch/ticket-harness/evidence/19-finding-history.md"
+    },
+    {
+      "from": "docs/agents/reviewer-evaluation.md",
+      "href": "../../.scratch/ticket-harness/evidence/19-evaluation/README.md"
+    },
+    {
+      "from": "docs/agents/reviewer-evaluation.md",
+      "href": "../../.scratch/ticket-harness/evidence/19-evaluation-g2/history.md"
+    },
+    {
+      "from": "docs/agents/reviewer-evaluation.md",
+      "href": "../../.scratch/ticket-harness/evidence/19-evaluation-g2/results.md"
+    },
+    {
+      "from": "docs/agents/reviewer-evaluation.md",
+      "href": "../../.scratch/ticket-harness/evidence/19-evaluation-g3/results.md"
+    },
+    {
+      "from": "docs/agents/reviewer-evaluation.md",
+      "href": "../../.scratch/ticket-harness/evidence/19-evaluation-g4/results.md"
+    },
+    {
+      "from": "docs/agents/reviewer-evaluation.md",
+      "href": "../../.scratch/ticket-harness/evidence/19-review-spec-02.md"
+    },
+    {
+      "from": "docs/agents/reviewer-evaluation.md",
+      "href": "../../.scratch/ticket-harness/evidence/19-evaluation-g5/declaration.md"
+    },
+    {
+      "from": "docs/agents/reviewer-evaluation.md",
+      "href": "../../.scratch/ticket-harness/evidence/19-evaluation-g2/revision-delta.json"
+    },
+    {
+      "from": "docs/agents/reviewer-evaluation.md",
+      "href": "../../.scratch/ticket-harness/evidence/19-evaluation-g3/revision-delta.json"
+    },
+    {
+      "from": "docs/agents/reviewer-evaluation.md",
+      "href": "../../.scratch/ticket-harness/evidence/19-evaluation-g4/revision-delta.json"
+    },
+    {
+      "from": "docs/agents/reviewer-evaluation.md",
+      "href": "../../.scratch/ticket-harness/evidence/19-evaluation-g5/revision-delta.json"
+    },
+    {
+      "from": "docs/agents/reviewer-evaluation.md",
+      "href": "../../.agents/skills/custom/evaluate-reviewers/SKILL.md"
+    },
+    {
+      "from": "docs/agents/reviewer-evaluation.md",
+      "href": "../../.scratch/ticket-harness/evidence/19-repair-c5-skill-observation.md"
+    },
+    {
+      "from": "docs/agents/reviewer-evaluation.md",
+      "href": "../../.scratch/ticket-harness/evidence/19-review-spec-h8-observation.json"
+    },
+    {
+      "from": "docs/agents/reviewer-evaluation.md",
+      "href": "../../.scratch/ticket-harness/evidence/19-repair-control-preflight-results.json"
+    },
+    {
+      "from": "docs/agents/reviewer-evaluation.md",
+      "href": "../../.scratch/ticket-harness/evidence/19-repair-path-preflight-results.json"
+    },
+    {
+      "from": "docs/agents/reviewer-evaluation.md",
+      "href": "../../.scratch/ticket-harness/evidence/19-repair-c5-branch-preflight-results.json"
+    },
+    {
+      "from": "docs/agents/reviewer-evaluation.md",
+      "href": "../../.scratch/ticket-harness/evidence/19-repair-c5-adapter-preflight-results.json"
+    },
+    {
+      "from": "docs/agents/reviewer-evaluation.md",
+      "href": "../../.scratch/ticket-harness/evidence/19-repair-stage-check.json"
+    },
+    {
+      "from": "docs/agents/reviewer-evaluation.md",
+      "href": "../../.scratch/ticket-harness/evidence/19-review-spec-02.md"
+    },
+    {
+      "from": ".scratch/ticket-harness/evidence/19-repair-c5-report.md",
+      "href": "19-review-spec-02.md"
+    },
+    {
+      "from": ".scratch/ticket-harness/evidence/19-repair-c5-report.md",
+      "href": "19-review-standards-02.md"
+    },
+    {
+      "from": ".scratch/ticket-harness/evidence/19-repair-c5-report.md",
+      "href": "19-review-round2-capture.json"
+    },
+    {
+      "from": ".scratch/ticket-harness/evidence/19-repair-c5-report.md",
+      "href": "19-finding-history.md"
+    },
+    {
+      "from": ".scratch/ticket-harness/evidence/19-repair-c5-report.md",
+      "href": "../reviews/ticket-19.md"
+    },
+    {
+      "from": ".scratch/ticket-harness/evidence/19-repair-c5-report.md",
+      "href": "19-repair-c5-root-context.json"
+    },
+    {
+      "from": ".scratch/ticket-harness/evidence/19-repair-c5-report.md",
+      "href": "19-repair-c4-preservation.json"
+    },
+    {
+      "from": ".scratch/ticket-harness/evidence/19-repair-c5-report.md",
+      "href": "19-evaluation-g5/revision-delta.json"
+    },
+    {
+      "from": ".scratch/ticket-harness/evidence/19-repair-c5-report.md",
+      "href": "19-repair-c5-env-observation.json"
+    },
+    {
+      "from": ".scratch/ticket-harness/evidence/19-repair-c5-report.md",
+      "href": "19-repair-c5-readonly-observation.json"
+    },
+    {
+      "from": ".scratch/ticket-harness/evidence/19-repair-c5-report.md",
+      "href": "19-repair-c5-branch-preflight-results.json"
+    },
+    {
+      "from": ".scratch/ticket-harness/evidence/19-repair-c5-report.md",
+      "href": "19-repair-c5-adapter-preflight-results.json"
+    },
+    {
+      "from": ".scratch/ticket-harness/evidence/19-repair-c5-report.md",
+      "href": "19-evaluation-g5/declaration.md"
+    },
+    {
+      "from": ".scratch/ticket-harness/evidence/19-repair-c5-report.md",
+      "href": "../../../.agents/skills/custom/evaluate-reviewers/SKILL.md"
+    },
+    {
+      "from": ".scratch/ticket-harness/evidence/19-repair-c5-report.md",
+      "href": "../../../docs/agents/reviewer-evaluation.md#lessons-for-evaluation-authors"
+    },
+    {
+      "from": ".scratch/ticket-harness/evidence/19-repair-c5-report.md",
+      "href": "19-repair-c5-skill-observation.md"
+    },
+    {
+      "from": ".scratch/ticket-harness/evidence/19-repair-c5-report.md",
+      "href": "19-repair-c5-skill-final-delta.json"
+    },
+    {
+      "from": ".scratch/ticket-harness/evidence/19-repair-c5-report.md",
+      "href": "19-repair-c5-checks.log"
+    },
+    {
+      "from": ".scratch/ticket-harness/evidence/19-repair-c5-report.md",
+      "href": "19-evaluation-g5/review-capture.json"
+    },
+    {
+      "from": ".scratch/ticket-harness/evidence/19-repair-c5-report.md",
+      "href": "19-evaluation-g5/results.md"
+    },
+    {
+      "from": ".scratch/ticket-harness/evidence/19-repair-c5-skill-observation.md",
+      "href": "../../../.agents/skills/custom/evaluate-reviewers/SKILL.md"
+    },
+    {
+      "from": ".scratch/ticket-harness/evidence/19-repair-c5-skill-observation.md",
+      "href": "19-repair-c5-skill-preflight-declaration.json"
+    },
+    {
+      "from": ".scratch/ticket-harness/evidence/19-repair-c5-skill-observation.md",
+      "href": "19-repair-c5-skill-probe/capture.json"
+    },
+    {
+      "from": ".scratch/ticket-harness/evidence/19-repair-c5-skill-observation.md",
+      "href": "19-repair-c5-skill-probe/original-final.md"
+    },
+    {
+      "from": ".scratch/ticket-harness/evidence/19-repair-c5-skill-observation.md",
+      "href": "19-repair-c5-skill-probe/request.txt"
+    },
+    {
+      "from": ".scratch/ticket-harness/evidence/19-repair-c5-skill-observation.md",
+      "href": "19-repair-c5-skill-probe/inputs/proposal.json"
+    },
+    {
+      "from": ".scratch/ticket-harness/evidence/19-repair-c5-skill-observation.md",
+      "href": "19-repair-c5-skill-probe/outputs/evaluator/held-declaration.json"
+    },
+    {
+      "from": ".scratch/ticket-harness/evidence/19-repair-c5-skill-observation.md",
+      "href": "19-repair-c5-skill-probe/outputs/evaluator/capture-plan.md"
+    },
+    {
+      "from": ".scratch/ticket-harness/evidence/19-repair-c5-skill-observation.md",
+      "href": "19-repair-c5-skill-probe/outputs/evaluator/observations.json"
+    },
+    {
+      "from": ".scratch/ticket-harness/evidence/19-repair-c5-skill-observation.md",
+      "href": "19-repair-c5-skill-probe/outputs/evaluator/preflight.py"
+    },
+    {
+      "from": ".scratch/ticket-harness/evidence/19-repair-c5-skill-observation.md",
+      "href": "19-repair-c5-skill-probe/outputs/evaluator/artifact-manifest.json"
+    },
+    {
+      "from": ".scratch/ticket-harness/evidence/19-repair-c5-skill-observation.md",
+      "href": "19-repair-c5-skill-final-delta.json"
+    },
+    {
+      "from": ".scratch/ticket-harness/evidence/19-repair-c5-skill-observation.md",
+      "href": "19-repair-c5-skill-probe/original-tool-and-final-records.jsonl.gz"
+    },
+    {
+      "from": ".scratch/ticket-harness/evidence/19-finding-history.md",
+      "href": "19-review-spec.md#f1--blocking-h8-cannot-supply-the-required-fourth-acceptable-control-under-its-frozen-contract"
+    },
+    {
+      "from": ".scratch/ticket-harness/evidence/19-finding-history.md",
+      "href": "19-review-spec.md"
+    },
+    {
+      "from": ".scratch/ticket-harness/evidence/19-finding-history.md",
+      "href": "19-review-spec-h8-observation.json"
+    },
+    {
+      "from": ".scratch/ticket-harness/evidence/19-finding-history.md",
+      "href": "19-review-spec-identities.json"
+    },
+    {
+      "from": ".scratch/ticket-harness/evidence/19-finding-history.md",
+      "href": "../issues/19-evaluate-reviewers-on-known-and-acceptable-designs.md"
+    },
+    {
+      "from": ".scratch/ticket-harness/evidence/19-finding-history.md",
+      "href": "19-repair-report.md"
+    },
+    {
+      "from": ".scratch/ticket-harness/evidence/19-finding-history.md",
+      "href": "19-repair-checks.log"
+    },
+    {
+      "from": ".scratch/ticket-harness/evidence/19-finding-history.md",
+      "href": "19-review-spec-02.md"
+    },
+    {
+      "from": ".scratch/ticket-harness/evidence/19-finding-history.md",
+      "href": "19-review-round2-spec-identities.json"
+    },
+    {
+      "from": ".scratch/ticket-harness/evidence/19-finding-history.md",
+      "href": "19-review-round2-spec-observations.json"
+    },
+    {
+      "from": ".scratch/ticket-harness/evidence/19-finding-history.md",
+      "href": "19-review-standards-02.md"
+    },
+    {
+      "from": ".scratch/ticket-harness/evidence/19-finding-history.md",
+      "href": "19-review-round2-standards-identities.json"
+    },
+    {
+      "from": ".scratch/ticket-harness/evidence/19-finding-history.md",
+      "href": "19-review-spec-02.md#f1--blocking-final-b7-falsely-rejects-the-requested-branch-when-a-tag-shares-its-name"
+    },
+    {
+      "from": ".scratch/ticket-harness/evidence/19-finding-history.md",
+      "href": "19-review-round2-spec-b7-observation.json"
+    },
+    {
+      "from": ".scratch/ticket-harness/evidence/19-finding-history.md",
+      "href": "19-review-spec-02.md"
+    },
+    {
+      "from": ".scratch/ticket-harness/reviews/ticket-19.md",
+      "href": "../issues/19-evaluate-reviewers-on-known-and-acceptable-designs.md"
+    },
+    {
+      "from": ".scratch/ticket-harness/reviews/ticket-19.md",
+      "href": "../evidence/19-review-capture.json"
+    },
+    {
+      "from": ".scratch/ticket-harness/reviews/ticket-19.md",
+      "href": "../evidence/19-review-spec-02.md"
+    },
+    {
+      "from": ".scratch/ticket-harness/reviews/ticket-19.md",
+      "href": "../evidence/19-review-standards-02.md"
+    },
+    {
+      "from": ".scratch/ticket-harness/reviews/ticket-19.md",
+      "href": "../evidence/19-review-round2-capture.json"
+    },
+    {
+      "from": ".scratch/ticket-harness/reviews/ticket-19.md",
+      "href": "../evidence/19-implementation-report.md"
+    },
+    {
+      "from": ".scratch/ticket-harness/reviews/ticket-19.md",
+      "href": "../evidence/19-repair-report.md"
+    },
+    {
+      "from": ".scratch/ticket-harness/reviews/ticket-19.md",
+      "href": "../evidence/19-checks.log"
+    },
+    {
+      "from": ".scratch/ticket-harness/reviews/ticket-19.md",
+      "href": "../evidence/19-repair-checks.log"
+    },
+    {
+      "from": ".scratch/ticket-harness/reviews/ticket-19.md",
+      "href": "../evidence/19-finding-history.md"
+    },
+    {
+      "from": ".scratch/ticket-harness/reviews/ticket-19.md",
+      "href": "../evidence/19-review-spec.md#f1--blocking-h8-cannot-supply-the-required-fourth-acceptable-control-under-its-frozen-contract"
+    },
+    {
+      "from": ".scratch/ticket-harness/reviews/ticket-19.md",
+      "href": "../evidence/19-finding-history.md#e03--original-h8-blocker-independently-fixed"
+    },
+    {
+      "from": ".scratch/ticket-harness/reviews/ticket-19.md",
+      "href": "../evidence/19-review-spec-02.md#f1--blocking-final-b7-falsely-rejects-the-requested-branch-when-a-tag-shares-its-name"
+    },
+    {
+      "from": ".scratch/ticket-harness/reviews/ticket-19.md",
+      "href": "../evidence/19-finding-history.md#e05--new-branchtag-control-mismatch"
+    },
+    {
+      "from": ".agents/skills/custom/references/planning.md",
+      "href": "../../../../docs/agents/ownership-review.md#planning-and-implementation"
+    },
+    {
+      "from": ".agents/skills/custom/references/planning.md",
+      "href": "../../../../docs/agents/domain.md"
+    },
+    {
+      "from": ".agents/skills/custom/references/planning.md",
+      "href": "../../../../docs/agents/issue-tracker.md"
+    },
+    {
+      "from": ".agents/skills/custom/references/planning.md",
+      "href": "../../../../docs/agents/triage-labels.md"
+    },
+    {
+      "from": ".agents/skills/custom/references/planning.md",
+      "href": "../../../../docs/agents/testing.md"
+    },
+    {
+      "from": ".agents/skills/custom/references/planning.md",
+      "href": "../../../../docs/agents/reviewer-evaluation.md"
+    },
+    {
+      "from": ".agents/skills/custom/references/planning.md",
+      "href": "../../matt-pocock/codebase-design/SKILL.md"
+    },
+    {
+      "from": ".agents/skills/custom/references/planning.md",
+      "href": "../test-strategy/SKILL.md"
+    },
+    {
+      "from": ".agents/skills/custom/references/planning.md",
+      "href": "../../../../docs/agents/architecture-checkpoints.md"
+    },
+    {
+      "from": ".agents/skills/custom/references/planning.md",
+      "href": "#ticket-numbering"
+    },
+    {
+      "from": ".agents/skills/custom/implement-with-checkboxes/SKILL.md",
+      "href": "../../matt-pocock/implement/SKILL.md"
+    },
+    {
+      "from": ".agents/skills/custom/implement-with-checkboxes/SKILL.md",
+      "href": "../references/planning.md#milestone-membership"
+    },
+    {
+      "from": ".agents/skills/custom/implement-with-checkboxes/SKILL.md",
+      "href": "../references/planning.md#role-and-testing-contracts"
+    },
+    {
+      "from": ".agents/skills/custom/implement-with-checkboxes/SKILL.md",
+      "href": "../../../../docs/agents/ownership-review.md"
+    },
+    {
+      "from": ".agents/skills/custom/implement-with-checkboxes/SKILL.md",
+      "href": "../../../../docs/agents/reviewer-evaluation.md"
+    },
+    {
+      "from": ".agents/skills/custom/implement-with-checkboxes/SKILL.md",
+      "href": "../../../../docs/agents/architecture-checkpoints.md"
+    },
+    {
+      "from": ".agents/skills/custom/implement-with-checkboxes/SKILL.md",
+      "href": "../../../../docs/agents/review-records.md"
+    },
+    {
+      "from": ".agents/skills/custom/implement-with-checkboxes/SKILL.md",
+      "href": "../../../../docs/agents/issue-tracker.md"
+    },
+    {
+      "from": ".agents/skills/custom/implement-with-checkboxes/SKILL.md",
+      "href": "../../../../docs/agents/testing.md"
+    },
+    {
+      "from": ".agents/skills/custom/implement-with-checkboxes/SKILL.md",
+      "href": "../test-strategy/SKILL.md"
+    },
+    {
+      "from": ".agents/skills/custom/implement-with-checkboxes/SKILL.md",
+      "href": "../create-next-agent-prompt/SKILL.md"
+    },
+    {
+      "from": ".agents/skills/custom/create-next-agent-prompt/SKILL.md",
+      "href": "../implement-with-checkboxes/SKILL.md"
+    },
+    {
+      "from": ".agents/skills/custom/create-next-agent-prompt/SKILL.md",
+      "href": "../references/planning.md#milestone-membership"
+    },
+    {
+      "from": ".agents/skills/custom/create-next-agent-prompt/SKILL.md",
+      "href": "../references/planning.md#ticket-numbering"
+    },
+    {
+      "from": ".agents/skills/custom/create-next-agent-prompt/SKILL.md",
+      "href": "../../../../docs/agents/ownership-review.md#repair-and-handoff"
+    },
+    {
+      "from": ".agents/skills/custom/create-next-agent-prompt/SKILL.md",
+      "href": "../../../../docs/agents/review-records.md"
+    },
+    {
+      "from": ".agents/skills/custom/create-next-agent-prompt/SKILL.md",
+      "href": "../../../../docs/agents/reviewer-evaluation.md"
+    },
+    {
+      "from": ".agents/skills/custom/create-next-agent-prompt/SKILL.md",
+      "href": "../../../../docs/agents/architecture-checkpoints.md"
+    },
+    {
+      "from": ".agents/skills/custom/create-next-agent-prompt/SKILL.md",
+      "href": "../references/planning.md#role-and-testing-contracts"
+    },
+    {
+      "from": ".agents/skills/custom/create-next-agent-prompt/SKILL.md",
+      "href": "../test-strategy/SKILL.md"
+    },
+    {
+      "from": ".agents/skills/custom/create-next-agent-prompt/SKILL.md",
+      "href": "../../../../docs/agents/ownership-review.md#repair-and-handoff"
+    },
+    {
+      "from": ".scratch/ticket-harness/evidence/19-evaluation-g5/results.md",
+      "href": "declaration.md"
+    },
+    {
+      "from": ".scratch/ticket-harness/evidence/19-evaluation-g5/results.md",
+      "href": "declaration-capture.json"
+    },
+    {
+      "from": ".scratch/ticket-harness/evidence/19-evaluation-g5/results.md",
+      "href": "assignments.json"
+    },
+    {
+      "from": ".scratch/ticket-harness/evidence/19-evaluation-g5/results.md",
+      "href": "spec-c5-raw.md"
+    },
+    {
+      "from": ".scratch/ticket-harness/evidence/19-evaluation-g5/results.md",
+      "href": "standards-c5-raw.md"
+    },
+    {
+      "from": ".scratch/ticket-harness/evidence/19-evaluation-g5/results.md",
+      "href": "history.md"
+    },
+    {
+      "from": ".scratch/ticket-harness/evidence/19-evaluation-g5/results.md",
+      "href": "../19-repair-c4-preservation.json"
+    },
+    {
+      "from": ".scratch/ticket-harness/evidence/19-evaluation-g5/results.md",
+      "href": "../19-review-spec-02.md"
+    },
+    {
+      "from": ".scratch/ticket-harness/evidence/19-evaluation-g5/results.md",
+      "href": "review-capture.json"
+    },
+    {
+      "from": ".scratch/ticket-harness/evidence/19-evaluation-g5/results.md",
+      "href": "capture-provenance.json"
+    },
+    {
+      "from": ".scratch/ticket-harness/evidence/19-evaluation-g5/results.md",
+      "href": "artifact-capture.json"
+    },
+    {
+      "from": ".scratch/ticket-harness/evidence/19-evaluation-g5/declaration.md",
+      "href": "source-manifest.json"
+    },
+    {
+      "from": ".scratch/ticket-harness/evidence/19-evaluation-g5/declaration.md",
+      "href": "snapshot/REVIEW.md"
+    },
+    {
+      "from": ".scratch/ticket-harness/evidence/19-evaluation-g5/declaration.md",
+      "href": "revision-delta.json"
+    },
+    {
+      "from": ".scratch/ticket-harness/evidence/19-evaluation-g5/declaration.md",
+      "href": "../19-evaluation/README.md"
+    },
+    {
+      "from": ".scratch/ticket-harness/evidence/19-evaluation-g5/declaration.md",
+      "href": "../19-evaluation-g2/results.md"
+    },
+    {
+      "from": ".scratch/ticket-harness/evidence/19-evaluation-g5/declaration.md",
+      "href": "../19-evaluation-g3/results.md"
+    },
+    {
+      "from": ".scratch/ticket-harness/evidence/19-evaluation-g5/declaration.md",
+      "href": "../19-evaluation-g4/results.md"
+    },
+    {
+      "from": ".scratch/ticket-harness/evidence/19-evaluation-g5/declaration.md",
+      "href": "../19-repair-c4-preservation.json"
+    },
+    {
+      "from": ".scratch/ticket-harness/evidence/19-evaluation-g5/declaration.md",
+      "href": "../19-repair-c5-branch-preflight-results.json"
+    },
+    {
+      "from": ".scratch/ticket-harness/evidence/19-evaluation-g5/declaration.md",
+      "href": "../19-repair-c5-adapter-preflight-results.json"
+    },
+    {
+      "from": ".scratch/ticket-harness/evidence/19-evaluation-g5/history.md",
+      "href": "../19-review-spec-02.md#f1--blocking-final-b7-falsely-rejects-the-requested-branch-when-a-tag-shares-its-name"
+    },
+    {
+      "from": ".scratch/ticket-harness/evidence/19-evaluation-g5/history.md",
+      "href": "../19-review-round2-spec-b7-observation.json"
+    },
+    {
+      "from": ".scratch/ticket-harness/evidence/19-evaluation-g5/history.md",
+      "href": "../19-evaluation-g4/results.md"
+    },
+    {
+      "from": ".scratch/ticket-harness/evidence/19-evaluation-g5/history.md",
+      "href": "../19-review-standards-02.md"
+    },
+    {
+      "from": ".scratch/ticket-harness/evidence/19-evaluation-g5/history.md",
+      "href": "../19-finding-history.md#e05--new-branchtag-control-mismatch"
+    },
+    {
+      "from": ".scratch/ticket-harness/evidence/19-evaluation-g5/history.md",
+      "href": "../19-repair-c5-env-observation.json"
+    },
+    {
+      "from": ".scratch/ticket-harness/evidence/19-evaluation-g5/history.md",
+      "href": "../19-repair-c5-readonly-observation.json"
+    },
+    {
+      "from": ".scratch/ticket-harness/evidence/19-evaluation-g5/history.md",
+      "href": "../19-repair-c5-branch-preflight-results.json"
+    },
+    {
+      "from": ".scratch/ticket-harness/evidence/19-evaluation-g5/history.md",
+      "href": "../19-repair-c5-adapter-preflight-results.json"
+    },
+    {
+      "from": ".scratch/ticket-harness/evidence/19-evaluation-g5/history.md",
+      "href": "declaration.md"
+    },
+    {
+      "from": ".scratch/ticket-harness/evidence/19-evaluation-g5/history.md",
+      "href": "revision-delta.json"
+    },
+    {
+      "from": ".scratch/ticket-harness/evidence/19-evaluation-g5/history.md",
+      "href": "../19-repair-c4-preservation.json"
+    },
+    {
+      "from": ".scratch/ticket-harness/evidence/19-evaluation-g5/history.md",
+      "href": "assignments.json"
+    },
+    {
+      "from": ".scratch/ticket-harness/evidence/19-evaluation-g5/history.md",
+      "href": "review-capture.json"
+    },
+    {
+      "from": ".scratch/ticket-harness/evidence/19-evaluation-g5/history.md",
+      "href": "results.md"
+    },
+    {
+      "from": ".scratch/ticket-harness/evidence/19-evaluation-g5/README.md",
+      "href": "../19-review-spec-02.md"
+    },
+    {
+      "from": ".scratch/ticket-harness/evidence/19-evaluation-g5/README.md",
+      "href": "../19-repair-c4-preservation.json"
+    },
+    {
+      "from": ".scratch/ticket-harness/evidence/19-evaluation-g5/README.md",
+      "href": "../19-review-round2-capture.json"
+    },
+    {
+      "from": ".scratch/ticket-harness/evidence/19-evaluation-g5/README.md",
+      "href": "../19-finding-history.md"
+    },
+    {
+      "from": ".scratch/ticket-harness/evidence/19-evaluation-g5/README.md",
+      "href": "declaration.md"
+    },
+    {
+      "from": ".scratch/ticket-harness/evidence/19-evaluation-g5/README.md",
+      "href": "declaration-capture.json"
+    },
+    {
+      "from": ".scratch/ticket-harness/evidence/19-evaluation-g5/README.md",
+      "href": "source-manifest.json"
+    },
+    {
+      "from": ".scratch/ticket-harness/evidence/19-evaluation-g5/README.md",
+      "href": "revision-delta.json"
+    },
+    {
+      "from": ".scratch/ticket-harness/evidence/19-evaluation-g5/README.md",
+      "href": "snapshot/REVIEW.md"
+    },
+    {
+      "from": ".scratch/ticket-harness/evidence/19-evaluation-g5/README.md",
+      "href": "spec-c5-input.txt"
+    },
+    {
+      "from": ".scratch/ticket-harness/evidence/19-evaluation-g5/README.md",
+      "href": "standards-c5-input.txt"
+    },
+    {
+      "from": ".scratch/ticket-harness/evidence/19-evaluation-g5/README.md",
+      "href": "assignments.json"
+    },
+    {
+      "from": ".scratch/ticket-harness/evidence/19-evaluation-g5/README.md",
+      "href": "../19-repair-c5-branch-preflight-results.json"
+    },
+    {
+      "from": ".scratch/ticket-harness/evidence/19-evaluation-g5/README.md",
+      "href": "../19-repair-c5-adapter-preflight-results.json"
+    },
+    {
+      "from": ".scratch/ticket-harness/evidence/19-evaluation-g5/README.md",
+      "href": "spec-c5-raw.md"
+    },
+    {
+      "from": ".scratch/ticket-harness/evidence/19-evaluation-g5/README.md",
+      "href": "standards-c5-raw.md"
+    },
+    {
+      "from": ".scratch/ticket-harness/evidence/19-evaluation-g5/README.md",
+      "href": "review-capture.json"
+    },
+    {
+      "from": ".scratch/ticket-harness/evidence/19-evaluation-g5/README.md",
+      "href": "capture-provenance.json"
+    },
+    {
+      "from": ".scratch/ticket-harness/evidence/19-evaluation-g5/README.md",
+      "href": "artifact-capture.json"
+    },
+    {
+      "from": ".scratch/ticket-harness/evidence/19-evaluation-g5/README.md",
+      "href": "results.md"
+    },
+    {
+      "from": ".scratch/ticket-harness/evidence/19-evaluation-g5/README.md",
+      "href": "history.md"
+    }
+  ],
+  "authoring_skill_final_sha256": "5e97caed6be6e4fa0f367bae82d5b2505ab49edbd731923894ce63312899ef5f",
+  "authoring_probe_capture_sha256": "924767c64be469acef8b1e5a7071b2b9c68f3efa28cc0b8a96776380818cf7cb",
+  "authoring_probe_tested_skill_sha256": "7fbe8a937e29a916894c4b397f390bf793379f5b3f7e8edece8c13ae416d36b0",
+  "python_syntax_files": 33,
+  "current_evidence_sha256": {
+    ".scratch/ticket-harness/evidence/19-evaluation-g5/README.md": "cb4029a6b507b7a38048ab813736e8962f2aae0d6af6ccc925aa8ce5919c151d",
+    ".scratch/ticket-harness/evidence/19-evaluation-g5/artifact-capture.json": "b38847363e7b42b66ac2037e8a3fa435eb578c7b15d87752a0e2f93328d241fa",
+    ".scratch/ticket-harness/evidence/19-evaluation-g5/assignments.json": "3419cb64f977089d478a437ce9cf60a9b4c9a9c52da146a03a83dd65fe13ed5d",
+    ".scratch/ticket-harness/evidence/19-evaluation-g5/capture-provenance.json": "6f4e25f56232bc7b03c9aa325357f753534880040a1f6d546112d5633c2d8b51",
+    ".scratch/ticket-harness/evidence/19-evaluation-g5/capture_reviews_c5.py": "149e2d147090ae98423cf9298a9fccfcd899de4037c469ff260d157c6a3a8d8e",
+    ".scratch/ticket-harness/evidence/19-evaluation-g5/corpus-identity.txt": "a0415011b20f7d7117f04fc469c6ee78c95e087491b19cb4a53e8371c25e0fb0",
+    ".scratch/ticket-harness/evidence/19-evaluation-g5/declaration-capture.json": "d4e46699e124fa4a31cdf3d431a55416644290a0460bc898c6dde96972f6da4d",
+    ".scratch/ticket-harness/evidence/19-evaluation-g5/declaration.md": "0c3ef9747a0d9f1e89ff466117a4f7dd8930f8bea4027280e0f8ea49272d0394",
+    ".scratch/ticket-harness/evidence/19-evaluation-g5/history.md": "9d45592efb171c8e6522ef374e17f6f612bee9139e844565c402909a5ba72041",
+    ".scratch/ticket-harness/evidence/19-evaluation-g5/results.md": "28cf8b65db5fea2813562852d873dc4438207f8afee7d9ebcfb49c4977b9d55e",
+    ".scratch/ticket-harness/evidence/19-evaluation-g5/review-capture.json": "17095c5f9cd6307d1bfab66faf6fb809020ceec634567148e1ae5ca95cae514e",
+    ".scratch/ticket-harness/evidence/19-evaluation-g5/revision-delta.json": "0167a2b9dbf79e9fb5c58125ed327423d3b46da27d9436f99d894cbf03057526",
+    ".scratch/ticket-harness/evidence/19-evaluation-g5/snapshot/REVIEW.md": "8e37866b20decc67802e6e5d65a2a1cf469505ead6cde6c930adce387e828310",
+    ".scratch/ticket-harness/evidence/19-evaluation-g5/snapshot/cases/a3/CONTRACT.md": "86ae2893359f38a9242200c1e444169053653149431e957993f419fe2805ba49",
+    ".scratch/ticket-harness/evidence/19-evaluation-g5/snapshot/cases/a3/qa.py": "3e847eb9d49c0f801c897e31172ab8a3aa7a8fec1bb39791affc43b71c44d3e3",
+    ".scratch/ticket-harness/evidence/19-evaluation-g5/snapshot/cases/a3/run.py": "f74ad5e6516582a51b0df51c3cf3c9895ca0372bfb493faa565d40fb4f75987b",
+    ".scratch/ticket-harness/evidence/19-evaluation-g5/snapshot/cases/b7/CONTRACT.md": "a8cb890bbac9e40b5b0e7a409e89899ad878943bc0198f81d10e7157dce701f4",
+    ".scratch/ticket-harness/evidence/19-evaluation-g5/snapshot/cases/b7/caller.py": "aa722a8a5b3292cfc85fc125054093c06ef862dcea0bb0195948e42b0679e584",
+    ".scratch/ticket-harness/evidence/19-evaluation-g5/snapshot/cases/b7/git_ops.py": "63ca01d67ac2e7b9c60cce1abfcf8d97f80f8325bcfd16f032a87e929f452a32",
+    ".scratch/ticket-harness/evidence/19-evaluation-g5/snapshot/cases/c2/CONTRACT.md": "1f4f63540674fa6cd9dd279f641d4dccce8c0b8cb3f20114ee115adc43e1640f",
+    ".scratch/ticket-harness/evidence/19-evaluation-g5/snapshot/cases/c2/checking.py": "7e72511e7644a34c0a438cc6bd02dec3fdee78812424913ee05bc7723ab55d42",
+    ".scratch/ticket-harness/evidence/19-evaluation-g5/snapshot/cases/c2/execution.py": "20fafa2092522e8d30372c80ec54a20e710e44f0e1f8b23b6039f24fd694230e",
+    ".scratch/ticket-harness/evidence/19-evaluation-g5/snapshot/cases/d9/CONTRACT.md": "18aa280aab8b202636580bcbfcfc34cd3ff5901c57b2f499e4ba06fa6303ecec",
+    ".scratch/ticket-harness/evidence/19-evaluation-g5/snapshot/cases/d9/plan.py": "598ee6a5bd1783d1f7dc030c09911c1e87fbe775338db88deb3acfc2e7808087",
+    ".scratch/ticket-harness/evidence/19-evaluation-g5/snapshot/cases/e4/CONTRACT.md": "5363f847f3397e013d5a0bdc54a7f40e11a3fb498dfe4b5bc42566bd66591c32",
+    ".scratch/ticket-harness/evidence/19-evaluation-g5/snapshot/cases/e4/attempt.py": "3ca2f272b86e8bb2742691872917be4fef815344e030716e46e70c07743c22c7",
+    ".scratch/ticket-harness/evidence/19-evaluation-g5/snapshot/cases/e4/repair.py": "dd2d751350b88db2adc49b63bde1b8ff47cdef07bf64fedea754c1fd1470cb9c",
+    ".scratch/ticket-harness/evidence/19-evaluation-g5/snapshot/cases/e4/worker.py": "bafed6633fd5879fd43da4cb010204e77cb30c70c8f1027f7f194b998a654f2c",
+    ".scratch/ticket-harness/evidence/19-evaluation-g5/snapshot/cases/f6/CONTRACT.md": "82b5d53b1ac036441f4a7f367655a11e9a408b55351439fbb31661aa31fe11b1",
+    ".scratch/ticket-harness/evidence/19-evaluation-g5/snapshot/cases/f6/io_ops.py": "bac0df4e81a9f105ecf8b418d8448c18bbbe42c0736ceaa7ab6a3af532d18471",
+    ".scratch/ticket-harness/evidence/19-evaluation-g5/snapshot/cases/g1/CONTRACT.md": "3bb604e93fe600fb914497cc091618c2dc6d4bb5d6af8f5950b5f52e5ebe9b73",
+    ".scratch/ticket-harness/evidence/19-evaluation-g5/snapshot/cases/g1/cli.py": "4f902d5fb4a997fe8a1e18f1977ee689f2606bf9df6ece37949db8c3031b99af",
+    ".scratch/ticket-harness/evidence/19-evaluation-g5/snapshot/cases/g1/preparation.py": "5def9b498f24bbab4f1cf4e02398c8d94ade995911243e21ca73a1970ac71bb0",
+    ".scratch/ticket-harness/evidence/19-evaluation-g5/snapshot/cases/g1/resume.py": "e91ae0907e36ee9de97edb1f1e9ed32a12b70f30c65ac0600f09f5a56e763c9a",
+    ".scratch/ticket-harness/evidence/19-evaluation-g5/snapshot/cases/h8/CONTRACT.md": "fc6dff5ba70d3e8dd747e564dda85e9e7569465670b8686b7a8f881b1224b666",
+    ".scratch/ticket-harness/evidence/19-evaluation-g5/snapshot/cases/h8/attempt.py": "7c02181e6e5ce6f464a12acd772f519d53f8cd02bb4f52f38cdadd96103603a1",
+    ".scratch/ticket-harness/evidence/19-evaluation-g5/snapshot/cases/h8/caller.py": "8c7a89afa9f83a3a89c80832f7e274b96280a08a2f2c28483772ba361d2a2c1c",
+    ".scratch/ticket-harness/evidence/19-evaluation-g5/snapshot/guidance/.agents/skills/custom/test-strategy/SKILL.md": "3a0a0f667aaa65ae8a74b2c7f3ab0e24517e756ed1a5663f35623bc46c8fc816",
+    ".scratch/ticket-harness/evidence/19-evaluation-g5/snapshot/guidance/.agents/skills/matt-pocock/codebase-design/SKILL.md": "2c20617f87ec8af6a434859f381b2f061a69b530444e74eb39e78bb016a6d1e2",
+    ".scratch/ticket-harness/evidence/19-evaluation-g5/snapshot/guidance/.agents/skills/microsoft/microsoft_oop/SKILL.md": "7d9fb19811bc83bffa964746e70e1b85757773576b5a5373ffa6edbd8ae5e481",
+    ".scratch/ticket-harness/evidence/19-evaluation-g5/snapshot/guidance/GLOSSARY.md": "4b45856348181d3383d3b2416d56eb0261243ddab8507fb869dd4bdee39bdefc",
+    ".scratch/ticket-harness/evidence/19-evaluation-g5/snapshot/guidance/docs/adr/0001-reusable-harness-and-local-integration.md": "6e4adc64a9a454d00ca4d16649796daf525783e554d1dc892bd0654b5990e603",
+    ".scratch/ticket-harness/evidence/19-evaluation-g5/snapshot/guidance/docs/adr/0002-human-qa-gates-feature-promotion.md": "7f9ef955940b6a4315d9a5fc7c7279cc367043310ebd4575cee450dffd0e4982",
+    ".scratch/ticket-harness/evidence/19-evaluation-g5/snapshot/guidance/docs/agents/architecture-checkpoints.md": "e81bfaff325e069ee3b8c73a8a4d2028e06a871dcf94f6045377585a5d1e3d8f",
+    ".scratch/ticket-harness/evidence/19-evaluation-g5/snapshot/guidance/docs/agents/ownership-review.md": "15e472b9e1d6fddba44c8f248f94130f545bc662cb5af124bb5d5d316aca18a0",
+    ".scratch/ticket-harness/evidence/19-evaluation-g5/snapshot/guidance/docs/agents/review-records.md": "7371c706ba48a09ba2f69750dab8f60c5c6892bdfb0ecb35f5f9ada7e502d49d",
+    ".scratch/ticket-harness/evidence/19-evaluation-g5/snapshot/guidance/docs/agents/testing.md": "6b6b498a718205bb5fd1f0b12410623807e708f784e7d09a4bd72343b229a4ff",
+    ".scratch/ticket-harness/evidence/19-evaluation-g5/snapshot/guidance/docs/templates/reviews/report.md": "bb0c4613964f1dc60f4ee7a618119997cf96ac3fafc3b810ed95002b2f787e76",
+    ".scratch/ticket-harness/evidence/19-evaluation-g5/source-manifest.json": "84220fc3b57f0c852c1415e76a648852592a6ddd0fc67637ca7fea218d4a99a8",
+    ".scratch/ticket-harness/evidence/19-evaluation-g5/spec-c5-dispatch.json": "08238330d98e8821ae7ae25c8de95febc55a4947c137d6e174d271b4c982ac89",
+    ".scratch/ticket-harness/evidence/19-evaluation-g5/spec-c5-input.txt": "35b4d63f16b628acca970f7d0f6a7bbdf1c9ffad4ab60b6653bdefdafd0862e1",
+    ".scratch/ticket-harness/evidence/19-evaluation-g5/spec-c5-raw.md": "a2c9a8a016b37659b96dcf08be81fc27da1d10b38c1b759574fa58604fc7cb5e",
+    ".scratch/ticket-harness/evidence/19-evaluation-g5/spec-c5-reviewer-manifest.json": "332ddabe972f596d86cd09eda809bd2f93d1f57602f01d75ed9f39f2b182510d",
+    ".scratch/ticket-harness/evidence/19-evaluation-g5/spec-c5-reviewer-report.sha256": "725046e9c1d642b55964cae3c84415c8aed988f54f67ba6a6f0686112e5e9fc3",
+    ".scratch/ticket-harness/evidence/19-evaluation-g5/spec-c5-reviewer-saved.md": "4c958c98a68e65d427b2ce3568159a219d22ceb80587886de2bbc3c885dab9f3",
+    ".scratch/ticket-harness/evidence/19-evaluation-g5/spec-c5-source-records.json": "39254bc722f7e8cd9a55bdb7b0d957349bab3bb48014deb25ea70628bb2d1a04",
+    ".scratch/ticket-harness/evidence/19-evaluation-g5/standards-c5-dispatch.json": "f1d9977b7431f52e75e3ca073ab57d8adf51ff9093dc408d8e964e84627c5cb8",
+    ".scratch/ticket-harness/evidence/19-evaluation-g5/standards-c5-input.txt": "31aabcf3e397fc8958699e3ecf8615f6f2034092678405c23aa44dae33e642b9",
+    ".scratch/ticket-harness/evidence/19-evaluation-g5/standards-c5-raw.md": "0ebb050b6753c263d760e7d47781c4989f395e9a3c081f4a302470bafa9c4ccb",
+    ".scratch/ticket-harness/evidence/19-evaluation-g5/standards-c5-reviewer-saved.md": "46e1a52e06f6a20a631027a29073b057e22045c5134886089c6f263683e02ea9",
+    ".scratch/ticket-harness/evidence/19-evaluation-g5/standards-c5-reviewer-source-manifest.json": "332ddabe972f596d86cd09eda809bd2f93d1f57602f01d75ed9f39f2b182510d",
+    ".scratch/ticket-harness/evidence/19-evaluation-g5/standards-c5-source-records.json": "c3d8c3e948aecbada91eebfc506f91c69da629615fe4396a0770354ce6a00209"
+  },
+  "helper_sha256": {
+    "19-repair-c5-branch-preflight.py": "839d291cbf8233346f8cbbd3cb66492a53e40808dace02debabbba473ea7d95f",
+    "19-repair-c5-capture-skill-probe.py": "70e88d9b9a9ecfe3c3c4d5220343af6069df2ad3d03c8ae0713b5e2e2c6c1885",
+    "19-repair-c5-readonly-observation.py": "13f454aff4abf80031c65cff56b65a5c52c1954ab6af3f8f08006711f1b37e70",
+    "19-repair-c5-capture-workflow.py": "43f76a433a9a928a4d5463940be9afdcd22fe225d4912089590af8f76d396834",
+    "19-repair-c5-build.py": "94be5bb63298f77c6a6cb423f5d3bfda47c8f62d759f5b6853845480cbf540d7",
+    "19-repair-c5-check.py": "9ba98ccd1bf1c24af7492b8995d8e47c9848d6693861aefd6a11dddae67a0a30",
+    "19-repair-c5-env-observation.py": "f166d7c64c7071e5e51ada210b3d394f414a109609122eefea5843bb34e113ea",
+    "19-repair-c5-adapter-preflight.py": "7573a0f8d542165d76ebec5890c5dc674605362a9d79e325051b700ca3c02136"
+  },
+  "immutable_whitespace_exception": {
+    "path": ".scratch/ticket-harness/evidence/19-evaluation-g3/spec-c3-reviewer-saved.md",
+    "sha256": "75dbfbdde31879ceeb2f35bb50fb6fe0a318f09cfbb6d15fb6fb76502a40f84d",
+    "trailing_LF_bytes": 2,
+    "scope": "Only blank-at-EOF allowance on this exact frozen report; every other whitespace rule/path checked normally; full default failure retained separately"
+  },
+  "limits": "Mechanical identity/link/syntax/protection checks establish their facts, not reviewer judgment. Full independent originals and manual per-case adjudication remain separate."
+}

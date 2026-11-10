@@ -1,0 +1,105 @@
+{
+  "dispatch_matches": [
+    {
+      "corpus": "g1",
+      "axis": "spec",
+      "original_dispatch_match": true
+    },
+    {
+      "corpus": "g1",
+      "axis": "standards",
+      "original_dispatch_match": true
+    },
+    {
+      "corpus": "g2",
+      "axis": "spec",
+      "original_dispatch_match": true
+    },
+    {
+      "corpus": "g2",
+      "axis": "standards",
+      "original_dispatch_match": true
+    },
+    {
+      "corpus": "c3",
+      "axis": "spec",
+      "original_dispatch_match": true
+    },
+    {
+      "corpus": "c3",
+      "axis": "standards",
+      "original_dispatch_match": true
+    },
+    {
+      "corpus": "c4",
+      "axis": "spec",
+      "original_dispatch_match": true
+    },
+    {
+      "corpus": "c4",
+      "axis": "standards",
+      "original_dispatch_match": true
+    }
+  ],
+  "declaration_builder_operations": [
+    {
+      "corpus": "g1",
+      "timestamp": "2026-11-10T16:21:30.499Z",
+      "name": "exec",
+      "input": "Large builder authoring input retained in original session; not recopied."
+    },
+    {
+      "corpus": "g1",
+      "timestamp": "2026-11-10T16:22:16.168Z",
+      "name": "exec",
+      "input": "text(await tools.exec_command({cmd:\"date -u +%FT%TZ && cat > .scratch/ticket-harness/evidence/19-evaluation/declaration.md <<'EOF'\\n# Declared corpus \u2014 evaluator only\\n\\nDeclared before any corpus reviewer assignment on 2026-11-10. Exact creation time\\nand command output are retained in declaration-capture.json. This document and\\nbuild_corpus.py are excluded from reviewer input. No evaluation has yet occurred.\\nFixed ticket baseline: `f2929e79cfd5a68f670862775053ae85ba9582b5` (clean worktree).\\nCorpus SHA-256 over canonical sorted path/digest mapping:\\n`ebf72b6255ad6c2c6365990f4479c11ddfc52113d13b57f02a4c584119401c23`.\\n[All 36 file identities](source-manifest.json); [source snapshot](snapshot/REVIEW.md).\\n\\n| Case | Declared kind / required axis | Expected observation and rationale |\\n| --- | --- | --- |\\n| a3 | Required concern / Spec | JSON restoration detaches verified dictionaries from durable gates. `Run.invalidate` updates gates while QA still sees valid copies. Block incorrect restored eligibility; restore canonical references while preserving schema. Standards may also detect ownership breach. |\\n| b7 | Acceptable control / both | Cohesive Git validation hides command/error/branch/dirty/ancestor decisions behind one operation; the caller supplies policies and a real process adapter. Nested helper/functions do not justify a blocker. Contract intentionally excludes Git mutations and richer failure diagnostics. |\\n| c2 | Required concern / Spec | `checking.attach` selects history[-1], ignoring validated attempt ID. Late reports and unknown IDs mutate the wrong attempt. Block correctness/ownership breach; return validation to execution and attach through explicit identified owner. |\\n| d9 | Acceptable control / both | Pure parser returns immutable values, validates dependencies/cycles and preserves order. Local recursion/state are implementation details, not domain lifecycle ownership. No class/framework requirement. |\\n| e4 | Required concern / Standards | `repair.receive_repair` duplicates `Attempt.submit` edits into both attempt and current-ticket state; an extra writer owns ordering/policy outside approved owner. Present matching behavior does not satisfy one owning transition operation. Block explicit ownership breach with concrete propagation risk; delegate to existing submit operation, not broader refactor. |\\n| f6 | Acceptable control / both | Atomic replacement and captured subprocess primitives own filesystem/process mechanics, with documented failure/timeout contracts. No domain state to encapsulate; speculative class, fsync, metadata, or custom runner demands are unsupported blockers. |\\n| g1 | Required concern / Standards | Prepared returns incomplete None fields; CLI completes/normalizes/validates externally, resume returns incomplete result and accepts invalid limits. Block broken preparation ownership/completeness; preparation returns fully checked result to both callers. Spec may also detect direct behavior violation. |\\n| h8 | Acceptable control / both | Attempt owns mirrored state and legal transitions, validates before mutation, returns copies; caller delegates. Small object has actual invariant responsibility. No general state-machine requirement. |\\n\\nBoth fresh axes assess all eight independent cases once under the same final\\nguidance. Required pass: relevant axis detects each required concern with exact\\nsource evidence, proportionate blocking classification/remedy; no unsupported\\nblocking findings on any control. Cross-axis concerns supplement, never replace a\\nmiss on its declared relevant axis. Optional suggestions are evaluated on their\\nown evidence and do not fail merely by existing. Findings outside the key require\\nindependent substantive adjudication; counts alone cannot score judgment.\\n\\nEach report must reason about clean cases too. Preserve full raw output, settings,\\nprovided instructions, source identities and every failed trial. Any required miss\\nor false blocker requires guidance correction or explicit unresolved limitation;\\na correction needs fresh full-corpus trials of final guidance, retaining earlier\\nversions. No case-source repair may silently replace this declared corpus.\\n\\nGuidance G1 is the exact supplied snapshot from baseline f2929e7: existing shared\\nownership, record, checkpoint, test strategy and design contracts. No substantive\\nreview guidance correction precedes this first trial. REVIEW.md supplies corpus\\nrouting/report scope, not expected classifications. Model requested independently\\nfor each axis: fresh gpt-6.1-sol High, fork_turns none, <=250000 active-context target.\\nSettings/tool acceptance are observed assignment configuration; backend telemetry,\\nhard context enforcement and filesystem sandbox isolation between assignments are\\nnot established. Supplied snapshots are read-only and reviewers must stay within\\nthem; the shared workspace remains technically accessible. Check source hashes\\nbefore and after. No harness run or production testing seam is involved.\\n\\nFinite claim: eight short synthetic development cases, two independent full-corpus\\nreports per trial. They do not assess actual ticket_harness architecture or later\\nrefactors, guarantee future detection, or demonstrate runtime delivery. Human\\nrisk/design/QA authority and authorized autonomous repair remain unchanged.\\nEOF\\n/home/ajkerr1/development/agentic_template/.micromamba/envs/dev/bin/python - <<'PY'\\nfrom pathlib import Path\\nimport datetime, hashlib, json, shutil\\np=Path('.scratch/ticket-harness/evidence/19-evaluation')\\ndest=Path('/tmp/development-review-19-g1')\\nassert not dest.exists()\\nshutil.copytree(p/'snapshot',dest)\\nfor f in dest.rglob('*'):\\n    f.chmod(0o555 if f.is_dir() else 0o444)\\ndest.chmod(0o555)\\nrecord={'declared_at_utc':datetime.datetime.now(datetime.timezone.utc).isoformat(), 'state':'before any reviewer assignment', 'baseline':'f2929e79cfd5a68f670862775053ae85ba9582b5', 'guidance':'G1, baseline snapshot', 'snapshot':str(dest), 'declaration_sha256':hashlib.sha256((p/'declaration.md').read_bytes()).hexdigest(), 'source_manifest_sha256':hashlib.sha256((p/'source-manifest.json').read_bytes()).hexdigest(), 'corpus_identity':(p/'corpus-identity.txt').read_text().strip(), 'read_only_modes':'files 0444, directories 0555 (advisory in shared workspace)', 'reviewer_assignments':[]}\\n(p/'declaration-capture.json').write_text(json.dumps(record,indent=2)+'\\\\n')\\nprint(json.dumps(record,indent=2))\\nPY\",\"max_output_tokens\":2500}));\n"
+    },
+    {
+      "corpus": "g1",
+      "timestamp": "2026-11-10T16:26:43.096Z",
+      "name": "exec",
+      "input": "text(await tools.exec_command({cmd:\"cat > .scratch/ticket-harness/evidence/19-check.py <<'PY'\\n\\\"\\\"\\\"Audit retained identities, routing, links and preservation; never score judgment.\\\"\\\"\\\"\\nfrom pathlib import Path\\nfrom urllib.parse import unquote\\nimport datetime\\nimport hashlib\\nimport json\\nimport re\\nimport runpy\\nimport subprocess\\n\\nROOT = Path(__file__).resolve().parents[3]\\nEV = ROOT / '.scratch/ticket-harness/evidence'\\nCASE = EV / '19-evaluation'\\nBASE = 'f2929e79cfd5a68f670862775053ae85ba9582b5'\\nDOCS = ['docs/agents/reviewer-evaluation.md',\\n        '.agents/skills/custom/references/planning.md',\\n        '.agents/skills/custom/implement-with-checkboxes/SKILL.md',\\n        '.agents/skills/custom/create-next-agent-prompt/SKILL.md']\\n\\ndef sha(path):\\n    return hashlib.sha256(path.read_bytes()).hexdigest()\\n\\ndef git(*args):\\n    return subprocess.check_output(['git', '-C', str(ROOT), *args], text=True).strip()\\n\\ndef main():\\n    changed = set(git('diff', '--name-only', BASE).splitlines() + git('ls-files', '--others', '--exclude-standard').splitlines())\\n    for name in changed:\\n        assert name in DOCS or name.startswith('.scratch/ticket-harness/evidence/19-'), name\\n    protected = set(git('ls-tree', '-r', '--name-only', BASE).splitlines()) - set(DOCS)\\n    assert not protected & changed, sorted(protected & changed)\\n    for commit in ['4814eabd4bf2f196f7fb6915667c4305b7c2d0b9', '91e285ff3cb1b46f4404b7fc534625637bdff015', '816aecbaa67f79ca5fd97c78f40593cdb007c45a', 'aef9625c3d155815df22f3e827559ef23fcdcf03']:\\n        subprocess.run(['git', 'merge-base', '--is-ancestor', commit, BASE], cwd=ROOT, check=True)\\n    manifest = json.loads((CASE/'source-manifest.json').read_text())\\n    identity = hashlib.sha256(json.dumps(manifest, sort_keys=True).encode()).hexdigest()\\n    assert identity == (CASE/'corpus-identity.txt').read_text().strip()\\n    assert set(manifest) == {str(p.relative_to(CASE/'snapshot')) for p in (CASE/'snapshot').rglob('*') if p.is_file()}\\n    temp = Path('/tmp/development-review-19-g1')\\n    for name, digest in manifest.items():\\n        assert sha(CASE/'snapshot'/name) == digest, name\\n        assert sha(temp/name) == digest, ('supplied snapshot changed', name)\\n        assert (temp/name).stat().st_mode & 0o222 == 0, name\\n        if name.startswith('guidance/'):\\n            # Routing docs added by this ticket are not substantive G1 reviewer instructions.\\n            original = subprocess.check_output(['git', 'show', BASE+':'+name.removeprefix('guidance/')], cwd=ROOT)\\n            assert original == (CASE/'snapshot'/name).read_bytes(), name\\n    declaration = json.loads((CASE/'declaration-capture.json').read_text())\\n    assert sha(CASE/'declaration.md') == declaration['declaration_sha256']\\n    assert sha(CASE/'source-manifest.json') == declaration['source_manifest_sha256']\\n    assignments = json.loads((CASE/'assignments.json').read_text())['assignments']\\n    assert len(assignments) == 2\\n    declared_at = datetime.datetime.fromisoformat(declaration['declared_at_utc'])\\n    for row in assignments:\\n        assert declared_at < datetime.datetime.fromisoformat(row['timestamp'].replace('Z','+00:00'))\\n        assert row['settings'] == {'fork_turns':'none', 'model':'gpt-6.1-sol', 'reasoning_effort':'high'}\\n        assert sha(CASE/row['prompt_path']) == row['prompt_sha256']\\n        prompt = json.loads((CASE/row['prompt_path']).read_text())['arguments']['message']\\n        assert str(temp) in prompt and identity in prompt\\n    captured = json.loads((CASE/'review-capture.json').read_text())\\n    for name, digest in captured['sha256'].items():\\n        assert sha(CASE/name) == digest, name\\n    anchors = runpy.run_path(str(EV/'16-check.py'))['anchors']\\n    docs = [ROOT/name for name in DOCS] + [EV/'19-implementation-report.md'] + list(CASE.glob('*.md'))\\n    links = []\\n    for path in docs:\\n        text = re.sub(r'^```[^\\\\n]*\\\\n.*?^```\\\\s*$', '', path.read_text(), flags=re.M|re.S)\\n        text = re.sub(r'`[^`\\\\n]+`', '', text)\\n        for href in re.findall(r'\\\\[[^\\\\]]*\\\\]\\\\(([^\\\\s)]+)\\\\)', text):\\n            if re.match(r'[a-z]+://', href):\\n                continue\\n            name, _, fragment = unquote(href).partition('#')\\n            name = re.sub(r':\\\\d+$', '', name)\\n            target = (path.parent/name).resolve() if name else path\\n            assert target.exists(), (path, href)\\n            if fragment:\\n                assert fragment in anchors(target), (path, href)\\n            links.append({'from':str(path.relative_to(ROOT)), 'href':href})\\n    for name in DOCS[1:]:\\n        assert 'reviewer-evaluation.md' in (ROOT/name).read_text(), name\\n    # The retained guidance deliberately has unsupplied outgoing context pointers.\\n    # REVIEW.md bounds their resolution; never pull key-bearing specs into reviewer input.\\n    assert not list((CASE/'snapshot').rglob('*declaration*'))\\n    assert not (CASE/'snapshot/guidance/.scratch').exists()\\n    result = {'result':'pass', 'recorded_at_utc':datetime.datetime.now(datetime.timezone.utc).isoformat(),\\n              'baseline':BASE, 'head_before_checkpoint':git('rev-parse','HEAD'),\\n              'scope':'standalone documentation/skill evidence; no runtime tests or judgment scoring',\\n              'source_identities':{str(p.relative_to(ROOT)):sha(p) for p in docs if not p.name.endswith('-raw.md')},\\n              'helpers':{str(p.relative_to(ROOT)):sha(p) for p in [Path(__file__),EV/'19-run-checks.sh',CASE/'build_corpus.py',CASE/'capture_reviews.py']},\\n              'corpus_identity':identity, 'corpus_files':len(manifest),\\n              'protected_baseline_paths':len(protected), 'local_links':links,\\n              'review_capture':captured, 'assignments':assignments,\\n              'limits':'Link/hash/routing audits do not establish reviewer judgment. See manual per-case adjudication and original reports.'}\\n    stamp = datetime.datetime.now(datetime.timezone.utc).strftime('%Y%m%dT%H%M%S%fZ')\\n    target = EV/f'19-check-results-{stamp}.json'\\n    target.write_text(json.dumps(result,indent=2)+'\\\\n')\\n    print(json.dumps({'result':'pass','source_manifest':identity,'corpus_files':len(manifest),'protected_paths':len(protected),'local_links':len(links),'result_path':str(target.relative_to(ROOT))},indent=2))\\n\\nif __name__ == '__main__':\\n    main()\\nPY\\ncat > .scratch/ticket-harness/evidence/19-run-checks.sh <<'SH'\\n#!/usr/bin/env bash\\nset -u\\ncd /home/ajkerr1/development/agentic_template || exit 1\\nlog=.scratch/ticket-harness/evidence/19-checks.log\\npy=/home/ajkerr1/development/agentic_template/.micromamba/envs/dev/bin/python\\nresult=0\\nrun() {\\n  {\\n    printf '\\\\ncommand:'\\n    printf ' %q' \\\"$@\\\"\\n    printf '\\\\n'\\n  } >> \\\"$log\\\"\\n  \\\"$@\\\" >> \\\"$log\\\" 2>&1\\n  code=$?\\n  printf 'exit=%s\\\\n' \\\"$code\\\" >> \\\"$log\\\"\\n  if [ \\\"$code\\\" -ne 0 ]; then result=1; fi\\n}\\nrun date -u +%FT%TZ\\nrun git rev-parse HEAD\\nrun git status --short\\nrun bash -n .scratch/ticket-harness/evidence/19-run-checks.sh\\nfor skill in implement-with-checkboxes create-next-agent-prompt; do\\n  run env PYTHONPATH=/usr/lib/python3/dist-packages \\\"$py\\\" /home/ajkerr1/.codex/skills/.system/skill-creator/scripts/quick_validate.py \\\".agents/skills/custom/$skill\\\"\\ndone\\nrun \\\"$py\\\" .scratch/ticket-harness/evidence/19-check.py\\nrun git diff --check f2929e79cfd5a68f670862775053ae85ba9582b5\\nexit \\\"$result\\\"\\nSH\",\"max_output_tokens\":1000}));\n"
+    },
+    {
+      "corpus": "g1",
+      "timestamp": "2026-11-10T16:30:07.601Z",
+      "name": "exec",
+      "input": "Large builder authoring input retained in original session; not recopied."
+    },
+    {
+      "corpus": "g1",
+      "timestamp": "2026-11-10T16:32:53.545Z",
+      "name": "exec",
+      "input": "text(await tools.apply_patch(\"*** Begin Patch\\n*** Update File: /home/ajkerr1/development/agentic_template/.scratch/ticket-harness/evidence/19-check.py\\n@@\\n               'helpers':{str(p.relative_to(ROOT)):sha(p) for p in [Path(__file__),EV/'19-run-checks.sh',CASE/'build_corpus.py',CASE/'capture_reviews.py']},\\n+              'retained_evidence_identities':{str(p.relative_to(ROOT)):sha(p) for p in sorted(CASE.rglob('*')) if p.is_file()},\\n*** End Patch\"));\ntext(await tools.exec_command({cmd:\"git add .agents/skills/custom/create-next-agent-prompt/SKILL.md .agents/skills/custom/implement-with-checkboxes/SKILL.md .agents/skills/custom/references/planning.md docs/agents/reviewer-evaluation.md .scratch/ticket-harness/evidence/19-check.py .scratch/ticket-harness/evidence/19-checks.log .scratch/ticket-harness/evidence/19-evaluation .scratch/ticket-harness/evidence/19-implementation-report.md .scratch/ticket-harness/evidence/19-run-checks.sh\",\"max_output_tokens\":1000}));\ntext(await tools.exec_command({cmd:\"bash .scratch/ticket-harness/evidence/19-run-checks.sh\",\"max_output_tokens\":2000}));\ntext(await tools.exec_command({cmd:\"tail -27 .scratch/ticket-harness/evidence/19-checks.log && git diff --cached --stat && git diff --check f2929e79cfd5a68f670862775053ae85ba9582b5\",\"max_output_tokens\":4000}));\n"
+    },
+    {
+      "corpus": "g2",
+      "timestamp": "2026-11-10T16:45:23.920Z",
+      "name": "exec",
+      "input": "Large builder authoring input retained in original session; not recopied."
+    },
+    {
+      "corpus": "g2",
+      "timestamp": "2026-11-10T16:50:34.326Z",
+      "name": "exec",
+      "input": "Large builder authoring input retained in original session; not recopied."
+    },
+    {
+      "corpus": "c3",
+      "timestamp": "2026-11-10T17:00:05.839Z",
+      "name": "exec",
+      "input": "Large builder authoring input retained in original session; not recopied."
+    },
+    {
+      "corpus": "c4",
+      "timestamp": "2026-11-10T17:12:22.481Z",
+      "name": "exec",
+      "input": "Large builder authoring input retained in original session; not recopied."
+    }
+  ],
+  "C4_original_neutral_followups_match": true,
+  "independently_validated_links": 256,
+  "initial_review_capture_matches": true,
+  "root_observation_capture_matches": true,
+  "limits": "Known prompts/opaque dispatch and advisory read-only permissions do not prove decrypted delivery, backend effectiveness, isolation or context enforcement."
+}

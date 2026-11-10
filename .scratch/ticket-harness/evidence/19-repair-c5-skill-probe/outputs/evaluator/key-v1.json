@@ -1,0 +1,45 @@
+{
+  "status": "proposed evaluator key; verified concerns; packet unready",
+  "axis": "Spec",
+  "cases": {
+    "m4": {
+      "provisional_slot": "acceptable control",
+      "verified_classification": "invalid control: contract violation",
+      "required_concern_if_case_is_retained": "Standard quoted CSV fields are not parsed; comma splitting breaks embedded commas and leaves escaped quotes undecoded.",
+      "source_location": "records.py:2",
+      "rationale": "CONTRACT.md explicitly includes quoted fields, embedded commas, and doubled quote escaping; all observations use that accepted domain.",
+      "counterexamples": [
+        "quoted embedded comma",
+        "doubled quote escaping"
+      ],
+      "proportionate_outcome": "Identify a concrete CSV parsing contract failure; one finding may cover both symptoms. Recommend standard CSV parsing behavior without prescribing a particular implementation.",
+      "not_an_overreach": "A reviewer flagging this defect is correct, even though the proposal called this a control.",
+      "status": "Not eligible to score as an acceptable control; no source repair authorized."
+    },
+    "r2": {
+      "provisional_slot": "required concern",
+      "verified_classification": "required concern supported",
+      "required_concern": "Above-stock requests escape as negative stock instead of raising ValueError.",
+      "source_location": "stock.py:4",
+      "rationale": "CONTRACT.md explicitly makes reserve own the availability validation; accepted nonnegative stock and positive request expose the missing check.",
+      "counterexamples": [
+        "over-request",
+        "zero stock positive request"
+      ],
+      "proportionate_outcome": "Identify missing availability rejection and negative result; recommend ValueError for above-stock requests before returning a result. One finding covers both symptoms."
+    }
+  },
+  "adjudication_rules": [
+    "Judge substantive contract reasoning, not exact wording or number of findings.",
+    "Retain supported extra findings and independently trace them to the supplied contract.",
+    "Keep optional suggestions separate; do not count silence about unaccepted input types as a miss.",
+    "No current acceptable control exists; false-positive restraint cannot be evaluated with this proposal.",
+    "If later source or substantive guidance changes, version them separately and evaluate the entire final declared corpus; do not transfer old results."
+  ],
+  "proposed_finite_success_conditions_after_readiness": [
+    "Complete authorized final corpus reviewed on Spec with real independent judgments and retained exact originals.",
+    "Every final required concern substantively identified; every final supported acceptable control avoids unsupported blocking findings.",
+    "Any supported additional findings and disagreements explicitly adjudicated; no unresolved invalid control."
+  ],
+  "current_success_claim": "None: no reviewer judgments and no valid acceptable control."
+}

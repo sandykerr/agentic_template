@@ -1,0 +1,2726 @@
+{
+  "recorded_at_utc": "2026-11-10T17:40:10.130790+00:00",
+  "scope": "Bounded evaluator Git namespace/policy/path audit, not reviewer judgment, exhaustive Git/platform guarantee, production test or harness run",
+  "guidance_version": "G2 unchanged",
+  "old_sources": {
+    "REVIEW.md": "8e37866b20decc67802e6e5d65a2a1cf469505ead6cde6c930adce387e828310",
+    "cases/a3/CONTRACT.md": "86ae2893359f38a9242200c1e444169053653149431e957993f419fe2805ba49",
+    "cases/a3/qa.py": "3e847eb9d49c0f801c897e31172ab8a3aa7a8fec1bb39791affc43b71c44d3e3",
+    "cases/a3/run.py": "f74ad5e6516582a51b0df51c3cf3c9895ca0372bfb493faa565d40fb4f75987b",
+    "cases/b7/CONTRACT.md": "a8cb890bbac9e40b5b0e7a409e89899ad878943bc0198f81d10e7157dce701f4",
+    "cases/b7/caller.py": "87bc76724c852a8175ea38a2964e1eebc37b5ec61c9095961f0176d3a9a8a705",
+    "cases/b7/git_ops.py": "aed3d63321a520e8b6a164700089b2b6c4ea2859a0c71c0f16cf90b11009d8d9",
+    "cases/c2/CONTRACT.md": "1f4f63540674fa6cd9dd279f641d4dccce8c0b8cb3f20114ee115adc43e1640f",
+    "cases/c2/checking.py": "7e72511e7644a34c0a438cc6bd02dec3fdee78812424913ee05bc7723ab55d42",
+    "cases/c2/execution.py": "20fafa2092522e8d30372c80ec54a20e710e44f0e1f8b23b6039f24fd694230e",
+    "cases/d9/CONTRACT.md": "18aa280aab8b202636580bcbfcfc34cd3ff5901c57b2f499e4ba06fa6303ecec",
+    "cases/d9/plan.py": "598ee6a5bd1783d1f7dc030c09911c1e87fbe775338db88deb3acfc2e7808087",
+    "cases/e4/CONTRACT.md": "5363f847f3397e013d5a0bdc54a7f40e11a3fb498dfe4b5bc42566bd66591c32",
+    "cases/e4/attempt.py": "3ca2f272b86e8bb2742691872917be4fef815344e030716e46e70c07743c22c7",
+    "cases/e4/repair.py": "dd2d751350b88db2adc49b63bde1b8ff47cdef07bf64fedea754c1fd1470cb9c",
+    "cases/e4/worker.py": "bafed6633fd5879fd43da4cb010204e77cb30c70c8f1027f7f194b998a654f2c",
+    "cases/f6/CONTRACT.md": "82b5d53b1ac036441f4a7f367655a11e9a408b55351439fbb31661aa31fe11b1",
+    "cases/f6/io_ops.py": "bac0df4e81a9f105ecf8b418d8448c18bbbe42c0736ceaa7ab6a3af532d18471",
+    "cases/g1/CONTRACT.md": "3bb604e93fe600fb914497cc091618c2dc6d4bb5d6af8f5950b5f52e5ebe9b73",
+    "cases/g1/cli.py": "4f902d5fb4a997fe8a1e18f1977ee689f2606bf9df6ece37949db8c3031b99af",
+    "cases/g1/preparation.py": "5def9b498f24bbab4f1cf4e02398c8d94ade995911243e21ca73a1970ac71bb0",
+    "cases/g1/resume.py": "e91ae0907e36ee9de97edb1f1e9ed32a12b70f30c65ac0600f09f5a56e763c9a",
+    "cases/h8/CONTRACT.md": "fc6dff5ba70d3e8dd747e564dda85e9e7569465670b8686b7a8f881b1224b666",
+    "cases/h8/attempt.py": "7c02181e6e5ce6f464a12acd772f519d53f8cd02bb4f52f38cdadd96103603a1",
+    "cases/h8/caller.py": "8c7a89afa9f83a3a89c80832f7e274b96280a08a2f2c28483772ba361d2a2c1c",
+    "guidance/.agents/skills/custom/test-strategy/SKILL.md": "3a0a0f667aaa65ae8a74b2c7f3ab0e24517e756ed1a5663f35623bc46c8fc816",
+    "guidance/.agents/skills/matt-pocock/codebase-design/SKILL.md": "2c20617f87ec8af6a434859f381b2f061a69b530444e74eb39e78bb016a6d1e2",
+    "guidance/.agents/skills/microsoft/microsoft_oop/SKILL.md": "7d9fb19811bc83bffa964746e70e1b85757773576b5a5373ffa6edbd8ae5e481",
+    "guidance/GLOSSARY.md": "4b45856348181d3383d3b2416d56eb0261243ddab8507fb869dd4bdee39bdefc",
+    "guidance/docs/adr/0001-reusable-harness-and-local-integration.md": "6e4adc64a9a454d00ca4d16649796daf525783e554d1dc892bd0654b5990e603",
+    "guidance/docs/adr/0002-human-qa-gates-feature-promotion.md": "7f9ef955940b6a4315d9a5fc7c7279cc367043310ebd4575cee450dffd0e4982",
+    "guidance/docs/agents/architecture-checkpoints.md": "e81bfaff325e069ee3b8c73a8a4d2028e06a871dcf94f6045377585a5d1e3d8f",
+    "guidance/docs/agents/ownership-review.md": "15e472b9e1d6fddba44c8f248f94130f545bc662cb5af124bb5d5d316aca18a0",
+    "guidance/docs/agents/review-records.md": "7371c706ba48a09ba2f69750dab8f60c5c6892bdfb0ecb35f5f9ada7e502d49d",
+    "guidance/docs/agents/testing.md": "6b6b498a718205bb5fd1f0b12410623807e708f784e7d09a4bd72343b229a4ff",
+    "guidance/docs/templates/reviews/report.md": "bb0c4613964f1dc60f4ee7a618119997cf96ac3fafc3b810ed95002b2f787e76"
+  },
+  "candidate_sources": {
+    "REVIEW.md": "8e37866b20decc67802e6e5d65a2a1cf469505ead6cde6c930adce387e828310",
+    "cases/a3/CONTRACT.md": "86ae2893359f38a9242200c1e444169053653149431e957993f419fe2805ba49",
+    "cases/a3/qa.py": "3e847eb9d49c0f801c897e31172ab8a3aa7a8fec1bb39791affc43b71c44d3e3",
+    "cases/a3/run.py": "f74ad5e6516582a51b0df51c3cf3c9895ca0372bfb493faa565d40fb4f75987b",
+    "cases/b7/CONTRACT.md": "a8cb890bbac9e40b5b0e7a409e89899ad878943bc0198f81d10e7157dce701f4",
+    "cases/b7/caller.py": "aa722a8a5b3292cfc85fc125054093c06ef862dcea0bb0195948e42b0679e584",
+    "cases/b7/git_ops.py": "63ca01d67ac2e7b9c60cce1abfcf8d97f80f8325bcfd16f032a87e929f452a32",
+    "cases/c2/CONTRACT.md": "1f4f63540674fa6cd9dd279f641d4dccce8c0b8cb3f20114ee115adc43e1640f",
+    "cases/c2/checking.py": "7e72511e7644a34c0a438cc6bd02dec3fdee78812424913ee05bc7723ab55d42",
+    "cases/c2/execution.py": "20fafa2092522e8d30372c80ec54a20e710e44f0e1f8b23b6039f24fd694230e",
+    "cases/d9/CONTRACT.md": "18aa280aab8b202636580bcbfcfc34cd3ff5901c57b2f499e4ba06fa6303ecec",
+    "cases/d9/plan.py": "598ee6a5bd1783d1f7dc030c09911c1e87fbe775338db88deb3acfc2e7808087",
+    "cases/e4/CONTRACT.md": "5363f847f3397e013d5a0bdc54a7f40e11a3fb498dfe4b5bc42566bd66591c32",
+    "cases/e4/attempt.py": "3ca2f272b86e8bb2742691872917be4fef815344e030716e46e70c07743c22c7",
+    "cases/e4/repair.py": "dd2d751350b88db2adc49b63bde1b8ff47cdef07bf64fedea754c1fd1470cb9c",
+    "cases/e4/worker.py": "bafed6633fd5879fd43da4cb010204e77cb30c70c8f1027f7f194b998a654f2c",
+    "cases/f6/CONTRACT.md": "82b5d53b1ac036441f4a7f367655a11e9a408b55351439fbb31661aa31fe11b1",
+    "cases/f6/io_ops.py": "bac0df4e81a9f105ecf8b418d8448c18bbbe42c0736ceaa7ab6a3af532d18471",
+    "cases/g1/CONTRACT.md": "3bb604e93fe600fb914497cc091618c2dc6d4bb5d6af8f5950b5f52e5ebe9b73",
+    "cases/g1/cli.py": "4f902d5fb4a997fe8a1e18f1977ee689f2606bf9df6ece37949db8c3031b99af",
+    "cases/g1/preparation.py": "5def9b498f24bbab4f1cf4e02398c8d94ade995911243e21ca73a1970ac71bb0",
+    "cases/g1/resume.py": "e91ae0907e36ee9de97edb1f1e9ed32a12b70f30c65ac0600f09f5a56e763c9a",
+    "cases/h8/CONTRACT.md": "fc6dff5ba70d3e8dd747e564dda85e9e7569465670b8686b7a8f881b1224b666",
+    "cases/h8/attempt.py": "7c02181e6e5ce6f464a12acd772f519d53f8cd02bb4f52f38cdadd96103603a1",
+    "cases/h8/caller.py": "8c7a89afa9f83a3a89c80832f7e274b96280a08a2f2c28483772ba361d2a2c1c",
+    "guidance/.agents/skills/custom/test-strategy/SKILL.md": "3a0a0f667aaa65ae8a74b2c7f3ab0e24517e756ed1a5663f35623bc46c8fc816",
+    "guidance/.agents/skills/matt-pocock/codebase-design/SKILL.md": "2c20617f87ec8af6a434859f381b2f061a69b530444e74eb39e78bb016a6d1e2",
+    "guidance/.agents/skills/microsoft/microsoft_oop/SKILL.md": "7d9fb19811bc83bffa964746e70e1b85757773576b5a5373ffa6edbd8ae5e481",
+    "guidance/GLOSSARY.md": "4b45856348181d3383d3b2416d56eb0261243ddab8507fb869dd4bdee39bdefc",
+    "guidance/docs/adr/0001-reusable-harness-and-local-integration.md": "6e4adc64a9a454d00ca4d16649796daf525783e554d1dc892bd0654b5990e603",
+    "guidance/docs/adr/0002-human-qa-gates-feature-promotion.md": "7f9ef955940b6a4315d9a5fc7c7279cc367043310ebd4575cee450dffd0e4982",
+    "guidance/docs/agents/architecture-checkpoints.md": "e81bfaff325e069ee3b8c73a8a4d2028e06a871dcf94f6045377585a5d1e3d8f",
+    "guidance/docs/agents/ownership-review.md": "15e472b9e1d6fddba44c8f248f94130f545bc662cb5af124bb5d5d316aca18a0",
+    "guidance/docs/agents/review-records.md": "7371c706ba48a09ba2f69750dab8f60c5c6892bdfb0ecb35f5f9ada7e502d49d",
+    "guidance/docs/agents/testing.md": "6b6b498a718205bb5fd1f0b12410623807e708f784e7d09a4bd72343b229a4ff",
+    "guidance/docs/templates/reviews/report.md": "bb0c4613964f1dc60f4ee7a618119997cf96ac3fafc3b810ed95002b2f787e76"
+  },
+  "observations": [
+    {
+      "case": "ordinary-clean",
+      "expected_accept": true,
+      "expected_branch": "main",
+      "base": "eda1ea42f99dea785ed1c24d2cab82895ecc6364",
+      "short_symbolic_ref": "main",
+      "full_symbolic_ref": "refs/heads/main",
+      "outcomes": {
+        "C4": {
+          "outcome": "returned",
+          "root": "/tmp/review19-c5-b7-47ihmceh/0-repo",
+          "branch": "main",
+          "exact_root": true
+        },
+        "C5_candidate": {
+          "outcome": "returned",
+          "root": "/tmp/review19-c5-b7-47ihmceh/0-repo",
+          "branch": "main",
+          "exact_root": true
+        }
+      },
+      "setup_commands": [
+        {
+          "argv": [
+            "git",
+            "-C",
+            "/tmp/review19-c5-b7-47ihmceh/0-repo",
+            "init",
+            "--quiet",
+            "--initial-branch=main"
+          ],
+          "exit": 0,
+          "stdout": "",
+          "stderr": ""
+        },
+        {
+          "argv": [
+            "git",
+            "-C",
+            "/tmp/review19-c5-b7-47ihmceh/0-repo",
+            "add",
+            "tracked"
+          ],
+          "exit": 0,
+          "stdout": "",
+          "stderr": ""
+        },
+        {
+          "argv": [
+            "git",
+            "-C",
+            "/tmp/review19-c5-b7-47ihmceh/0-repo",
+            "-c",
+            "user.name=Corpus observation",
+            "-c",
+            "user.email=corpus@example.invalid",
+            "commit",
+            "--quiet",
+            "-m",
+            "initial"
+          ],
+          "exit": 0,
+          "stdout": "",
+          "stderr": ""
+        },
+        {
+          "argv": [
+            "git",
+            "-C",
+            "/tmp/review19-c5-b7-47ihmceh/0-repo",
+            "rev-parse",
+            "HEAD"
+          ],
+          "exit": 0,
+          "stdout": "eda1ea42f99dea785ed1c24d2cab82895ecc6364\n",
+          "stderr": ""
+        },
+        {
+          "argv": [
+            "git",
+            "-C",
+            "/tmp/review19-c5-b7-47ihmceh/0-repo",
+            "symbolic-ref",
+            "--short",
+            "HEAD"
+          ],
+          "exit": 0,
+          "stdout": "main\n",
+          "stderr": ""
+        },
+        {
+          "argv": [
+            "git",
+            "-C",
+            "/tmp/review19-c5-b7-47ihmceh/0-repo",
+            "symbolic-ref",
+            "HEAD"
+          ],
+          "exit": 0,
+          "stdout": "refs/heads/main\n",
+          "stderr": ""
+        }
+      ]
+    },
+    {
+      "case": "branch-tag-remote-same-name",
+      "expected_accept": true,
+      "expected_branch": "main",
+      "base": "eda1ea42f99dea785ed1c24d2cab82895ecc6364",
+      "short_symbolic_ref": "heads/main",
+      "full_symbolic_ref": "refs/heads/main",
+      "outcomes": {
+        "C4": {
+          "outcome": "ValueError",
+          "message": "unexpected branch"
+        },
+        "C5_candidate": {
+          "outcome": "returned",
+          "root": "/tmp/review19-c5-b7-47ihmceh/1-repo",
+          "branch": "main",
+          "exact_root": true
+        }
+      },
+      "setup_commands": [
+        {
+          "argv": [
+            "git",
+            "-C",
+            "/tmp/review19-c5-b7-47ihmceh/1-repo",
+            "init",
+            "--quiet",
+            "--initial-branch=main"
+          ],
+          "exit": 0,
+          "stdout": "",
+          "stderr": ""
+        },
+        {
+          "argv": [
+            "git",
+            "-C",
+            "/tmp/review19-c5-b7-47ihmceh/1-repo",
+            "add",
+            "tracked"
+          ],
+          "exit": 0,
+          "stdout": "",
+          "stderr": ""
+        },
+        {
+          "argv": [
+            "git",
+            "-C",
+            "/tmp/review19-c5-b7-47ihmceh/1-repo",
+            "-c",
+            "user.name=Corpus observation",
+            "-c",
+            "user.email=corpus@example.invalid",
+            "commit",
+            "--quiet",
+            "-m",
+            "initial"
+          ],
+          "exit": 0,
+          "stdout": "",
+          "stderr": ""
+        },
+        {
+          "argv": [
+            "git",
+            "-C",
+            "/tmp/review19-c5-b7-47ihmceh/1-repo",
+            "rev-parse",
+            "HEAD"
+          ],
+          "exit": 0,
+          "stdout": "eda1ea42f99dea785ed1c24d2cab82895ecc6364\n",
+          "stderr": ""
+        },
+        {
+          "argv": [
+            "git",
+            "-C",
+            "/tmp/review19-c5-b7-47ihmceh/1-repo",
+            "tag",
+            "main"
+          ],
+          "exit": 0,
+          "stdout": "",
+          "stderr": ""
+        },
+        {
+          "argv": [
+            "git",
+            "-C",
+            "/tmp/review19-c5-b7-47ihmceh/1-repo",
+            "update-ref",
+            "refs/remotes/main",
+            "eda1ea42f99dea785ed1c24d2cab82895ecc6364"
+          ],
+          "exit": 0,
+          "stdout": "",
+          "stderr": ""
+        },
+        {
+          "argv": [
+            "git",
+            "-C",
+            "/tmp/review19-c5-b7-47ihmceh/1-repo",
+            "symbolic-ref",
+            "--short",
+            "HEAD"
+          ],
+          "exit": 0,
+          "stdout": "heads/main\n",
+          "stderr": ""
+        },
+        {
+          "argv": [
+            "git",
+            "-C",
+            "/tmp/review19-c5-b7-47ihmceh/1-repo",
+            "symbolic-ref",
+            "HEAD"
+          ],
+          "exit": 0,
+          "stdout": "refs/heads/main\n",
+          "stderr": ""
+        }
+      ]
+    },
+    {
+      "case": "namespace-shaped-heads/main",
+      "expected_accept": true,
+      "expected_branch": "heads/main",
+      "base": "e4c732ea5a1fc4b1f593bde56f97fab1c1f2ac34",
+      "short_symbolic_ref": "heads/heads/main",
+      "full_symbolic_ref": "refs/heads/heads/main",
+      "outcomes": {
+        "C4": {
+          "outcome": "ValueError",
+          "message": "unexpected branch"
+        },
+        "C5_candidate": {
+          "outcome": "returned",
+          "root": "/tmp/review19-c5-b7-47ihmceh/2-repo",
+          "branch": "heads/main",
+          "exact_root": true
+        }
+      },
+      "setup_commands": [
+        {
+          "argv": [
+            "git",
+            "-C",
+            "/tmp/review19-c5-b7-47ihmceh/2-repo",
+            "init",
+            "--quiet",
+            "--initial-branch=heads/main"
+          ],
+          "exit": 0,
+          "stdout": "",
+          "stderr": ""
+        },
+        {
+          "argv": [
+            "git",
+            "-C",
+            "/tmp/review19-c5-b7-47ihmceh/2-repo",
+            "add",
+            "tracked"
+          ],
+          "exit": 0,
+          "stdout": "",
+          "stderr": ""
+        },
+        {
+          "argv": [
+            "git",
+            "-C",
+            "/tmp/review19-c5-b7-47ihmceh/2-repo",
+            "-c",
+            "user.name=Corpus observation",
+            "-c",
+            "user.email=corpus@example.invalid",
+            "commit",
+            "--quiet",
+            "-m",
+            "initial"
+          ],
+          "exit": 0,
+          "stdout": "",
+          "stderr": ""
+        },
+        {
+          "argv": [
+            "git",
+            "-C",
+            "/tmp/review19-c5-b7-47ihmceh/2-repo",
+            "rev-parse",
+            "HEAD"
+          ],
+          "exit": 0,
+          "stdout": "e4c732ea5a1fc4b1f593bde56f97fab1c1f2ac34\n",
+          "stderr": ""
+        },
+        {
+          "argv": [
+            "git",
+            "-C",
+            "/tmp/review19-c5-b7-47ihmceh/2-repo",
+            "tag",
+            "heads/main"
+          ],
+          "exit": 0,
+          "stdout": "",
+          "stderr": ""
+        },
+        {
+          "argv": [
+            "git",
+            "-C",
+            "/tmp/review19-c5-b7-47ihmceh/2-repo",
+            "update-ref",
+            "refs/remotes/heads/main",
+            "e4c732ea5a1fc4b1f593bde56f97fab1c1f2ac34"
+          ],
+          "exit": 0,
+          "stdout": "",
+          "stderr": ""
+        },
+        {
+          "argv": [
+            "git",
+            "-C",
+            "/tmp/review19-c5-b7-47ihmceh/2-repo",
+            "symbolic-ref",
+            "--short",
+            "HEAD"
+          ],
+          "exit": 0,
+          "stdout": "heads/heads/main\n",
+          "stderr": ""
+        },
+        {
+          "argv": [
+            "git",
+            "-C",
+            "/tmp/review19-c5-b7-47ihmceh/2-repo",
+            "symbolic-ref",
+            "HEAD"
+          ],
+          "exit": 0,
+          "stdout": "refs/heads/heads/main\n",
+          "stderr": ""
+        }
+      ]
+    },
+    {
+      "case": "namespace-shaped-tags/main",
+      "expected_accept": true,
+      "expected_branch": "tags/main",
+      "base": "e4c732ea5a1fc4b1f593bde56f97fab1c1f2ac34",
+      "short_symbolic_ref": "heads/tags/main",
+      "full_symbolic_ref": "refs/heads/tags/main",
+      "outcomes": {
+        "C4": {
+          "outcome": "ValueError",
+          "message": "unexpected branch"
+        },
+        "C5_candidate": {
+          "outcome": "returned",
+          "root": "/tmp/review19-c5-b7-47ihmceh/3-repo",
+          "branch": "tags/main",
+          "exact_root": true
+        }
+      },
+      "setup_commands": [
+        {
+          "argv": [
+            "git",
+            "-C",
+            "/tmp/review19-c5-b7-47ihmceh/3-repo",
+            "init",
+            "--quiet",
+            "--initial-branch=tags/main"
+          ],
+          "exit": 0,
+          "stdout": "",
+          "stderr": ""
+        },
+        {
+          "argv": [
+            "git",
+            "-C",
+            "/tmp/review19-c5-b7-47ihmceh/3-repo",
+            "add",
+            "tracked"
+          ],
+          "exit": 0,
+          "stdout": "",
+          "stderr": ""
+        },
+        {
+          "argv": [
+            "git",
+            "-C",
+            "/tmp/review19-c5-b7-47ihmceh/3-repo",
+            "-c",
+            "user.name=Corpus observation",
+            "-c",
+            "user.email=corpus@example.invalid",
+            "commit",
+            "--quiet",
+            "-m",
+            "initial"
+          ],
+          "exit": 0,
+          "stdout": "",
+          "stderr": ""
+        },
+        {
+          "argv": [
+            "git",
+            "-C",
+            "/tmp/review19-c5-b7-47ihmceh/3-repo",
+            "rev-parse",
+            "HEAD"
+          ],
+          "exit": 0,
+          "stdout": "e4c732ea5a1fc4b1f593bde56f97fab1c1f2ac34\n",
+          "stderr": ""
+        },
+        {
+          "argv": [
+            "git",
+            "-C",
+            "/tmp/review19-c5-b7-47ihmceh/3-repo",
+            "tag",
+            "tags/main"
+          ],
+          "exit": 0,
+          "stdout": "",
+          "stderr": ""
+        },
+        {
+          "argv": [
+            "git",
+            "-C",
+            "/tmp/review19-c5-b7-47ihmceh/3-repo",
+            "update-ref",
+            "refs/remotes/tags/main",
+            "e4c732ea5a1fc4b1f593bde56f97fab1c1f2ac34"
+          ],
+          "exit": 0,
+          "stdout": "",
+          "stderr": ""
+        },
+        {
+          "argv": [
+            "git",
+            "-C",
+            "/tmp/review19-c5-b7-47ihmceh/3-repo",
+            "symbolic-ref",
+            "--short",
+            "HEAD"
+          ],
+          "exit": 0,
+          "stdout": "heads/tags/main\n",
+          "stderr": ""
+        },
+        {
+          "argv": [
+            "git",
+            "-C",
+            "/tmp/review19-c5-b7-47ihmceh/3-repo",
+            "symbolic-ref",
+            "HEAD"
+          ],
+          "exit": 0,
+          "stdout": "refs/heads/tags/main\n",
+          "stderr": ""
+        }
+      ]
+    },
+    {
+      "case": "namespace-shaped-feature/nested",
+      "expected_accept": true,
+      "expected_branch": "feature/nested",
+      "base": "e4c732ea5a1fc4b1f593bde56f97fab1c1f2ac34",
+      "short_symbolic_ref": "heads/feature/nested",
+      "full_symbolic_ref": "refs/heads/feature/nested",
+      "outcomes": {
+        "C4": {
+          "outcome": "ValueError",
+          "message": "unexpected branch"
+        },
+        "C5_candidate": {
+          "outcome": "returned",
+          "root": "/tmp/review19-c5-b7-47ihmceh/4-repo",
+          "branch": "feature/nested",
+          "exact_root": true
+        }
+      },
+      "setup_commands": [
+        {
+          "argv": [
+            "git",
+            "-C",
+            "/tmp/review19-c5-b7-47ihmceh/4-repo",
+            "init",
+            "--quiet",
+            "--initial-branch=feature/nested"
+          ],
+          "exit": 0,
+          "stdout": "",
+          "stderr": ""
+        },
+        {
+          "argv": [
+            "git",
+            "-C",
+            "/tmp/review19-c5-b7-47ihmceh/4-repo",
+            "add",
+            "tracked"
+          ],
+          "exit": 0,
+          "stdout": "",
+          "stderr": ""
+        },
+        {
+          "argv": [
+            "git",
+            "-C",
+            "/tmp/review19-c5-b7-47ihmceh/4-repo",
+            "-c",
+            "user.name=Corpus observation",
+            "-c",
+            "user.email=corpus@example.invalid",
+            "commit",
+            "--quiet",
+            "-m",
+            "initial"
+          ],
+          "exit": 0,
+          "stdout": "",
+          "stderr": ""
+        },
+        {
+          "argv": [
+            "git",
+            "-C",
+            "/tmp/review19-c5-b7-47ihmceh/4-repo",
+            "rev-parse",
+            "HEAD"
+          ],
+          "exit": 0,
+          "stdout": "e4c732ea5a1fc4b1f593bde56f97fab1c1f2ac34\n",
+          "stderr": ""
+        },
+        {
+          "argv": [
+            "git",
+            "-C",
+            "/tmp/review19-c5-b7-47ihmceh/4-repo",
+            "tag",
+            "feature/nested"
+          ],
+          "exit": 0,
+          "stdout": "",
+          "stderr": ""
+        },
+        {
+          "argv": [
+            "git",
+            "-C",
+            "/tmp/review19-c5-b7-47ihmceh/4-repo",
+            "update-ref",
+            "refs/remotes/feature/nested",
+            "e4c732ea5a1fc4b1f593bde56f97fab1c1f2ac34"
+          ],
+          "exit": 0,
+          "stdout": "",
+          "stderr": ""
+        },
+        {
+          "argv": [
+            "git",
+            "-C",
+            "/tmp/review19-c5-b7-47ihmceh/4-repo",
+            "symbolic-ref",
+            "--short",
+            "HEAD"
+          ],
+          "exit": 0,
+          "stdout": "heads/feature/nested\n",
+          "stderr": ""
+        },
+        {
+          "argv": [
+            "git",
+            "-C",
+            "/tmp/review19-c5-b7-47ihmceh/4-repo",
+            "symbolic-ref",
+            "HEAD"
+          ],
+          "exit": 0,
+          "stdout": "refs/heads/feature/nested\n",
+          "stderr": ""
+        }
+      ]
+    },
+    {
+      "case": "namespace-shaped-unicod\u00e9/\u679d",
+      "expected_accept": true,
+      "expected_branch": "unicod\u00e9/\u679d",
+      "base": "e4c732ea5a1fc4b1f593bde56f97fab1c1f2ac34",
+      "short_symbolic_ref": "heads/unicod\u00e9/\u679d",
+      "full_symbolic_ref": "refs/heads/unicod\u00e9/\u679d",
+      "outcomes": {
+        "C4": {
+          "outcome": "ValueError",
+          "message": "unexpected branch"
+        },
+        "C5_candidate": {
+          "outcome": "returned",
+          "root": "/tmp/review19-c5-b7-47ihmceh/5-repo",
+          "branch": "unicod\u00e9/\u679d",
+          "exact_root": true
+        }
+      },
+      "setup_commands": [
+        {
+          "argv": [
+            "git",
+            "-C",
+            "/tmp/review19-c5-b7-47ihmceh/5-repo",
+            "init",
+            "--quiet",
+            "--initial-branch=unicod\u00e9/\u679d"
+          ],
+          "exit": 0,
+          "stdout": "",
+          "stderr": ""
+        },
+        {
+          "argv": [
+            "git",
+            "-C",
+            "/tmp/review19-c5-b7-47ihmceh/5-repo",
+            "add",
+            "tracked"
+          ],
+          "exit": 0,
+          "stdout": "",
+          "stderr": ""
+        },
+        {
+          "argv": [
+            "git",
+            "-C",
+            "/tmp/review19-c5-b7-47ihmceh/5-repo",
+            "-c",
+            "user.name=Corpus observation",
+            "-c",
+            "user.email=corpus@example.invalid",
+            "commit",
+            "--quiet",
+            "-m",
+            "initial"
+          ],
+          "exit": 0,
+          "stdout": "",
+          "stderr": ""
+        },
+        {
+          "argv": [
+            "git",
+            "-C",
+            "/tmp/review19-c5-b7-47ihmceh/5-repo",
+            "rev-parse",
+            "HEAD"
+          ],
+          "exit": 0,
+          "stdout": "e4c732ea5a1fc4b1f593bde56f97fab1c1f2ac34\n",
+          "stderr": ""
+        },
+        {
+          "argv": [
+            "git",
+            "-C",
+            "/tmp/review19-c5-b7-47ihmceh/5-repo",
+            "tag",
+            "unicod\u00e9/\u679d"
+          ],
+          "exit": 0,
+          "stdout": "",
+          "stderr": ""
+        },
+        {
+          "argv": [
+            "git",
+            "-C",
+            "/tmp/review19-c5-b7-47ihmceh/5-repo",
+            "update-ref",
+            "refs/remotes/unicod\u00e9/\u679d",
+            "e4c732ea5a1fc4b1f593bde56f97fab1c1f2ac34"
+          ],
+          "exit": 0,
+          "stdout": "",
+          "stderr": ""
+        },
+        {
+          "argv": [
+            "git",
+            "-C",
+            "/tmp/review19-c5-b7-47ihmceh/5-repo",
+            "symbolic-ref",
+            "--short",
+            "HEAD"
+          ],
+          "exit": 0,
+          "stdout": "heads/unicod\u00e9/\u679d\n",
+          "stderr": ""
+        },
+        {
+          "argv": [
+            "git",
+            "-C",
+            "/tmp/review19-c5-b7-47ihmceh/5-repo",
+            "symbolic-ref",
+            "HEAD"
+          ],
+          "exit": 0,
+          "stdout": "refs/heads/unicod\u00e9/\u679d\n",
+          "stderr": ""
+        }
+      ]
+    },
+    {
+      "case": "path-'trailing-space '",
+      "expected_accept": true,
+      "expected_branch": "main",
+      "base": "e4c732ea5a1fc4b1f593bde56f97fab1c1f2ac34",
+      "short_symbolic_ref": "heads/main",
+      "full_symbolic_ref": "refs/heads/main",
+      "outcomes": {
+        "C4": {
+          "outcome": "ValueError",
+          "message": "unexpected branch"
+        },
+        "C5_candidate": {
+          "outcome": "returned",
+          "root": "/tmp/review19-c5-b7-47ihmceh/6-trailing-space ",
+          "branch": "main",
+          "exact_root": true
+        }
+      },
+      "setup_commands": [
+        {
+          "argv": [
+            "git",
+            "-C",
+            "/tmp/review19-c5-b7-47ihmceh/6-trailing-space ",
+            "init",
+            "--quiet",
+            "--initial-branch=main"
+          ],
+          "exit": 0,
+          "stdout": "",
+          "stderr": ""
+        },
+        {
+          "argv": [
+            "git",
+            "-C",
+            "/tmp/review19-c5-b7-47ihmceh/6-trailing-space ",
+            "add",
+            "tracked"
+          ],
+          "exit": 0,
+          "stdout": "",
+          "stderr": ""
+        },
+        {
+          "argv": [
+            "git",
+            "-C",
+            "/tmp/review19-c5-b7-47ihmceh/6-trailing-space ",
+            "-c",
+            "user.name=Corpus observation",
+            "-c",
+            "user.email=corpus@example.invalid",
+            "commit",
+            "--quiet",
+            "-m",
+            "initial"
+          ],
+          "exit": 0,
+          "stdout": "",
+          "stderr": ""
+        },
+        {
+          "argv": [
+            "git",
+            "-C",
+            "/tmp/review19-c5-b7-47ihmceh/6-trailing-space ",
+            "rev-parse",
+            "HEAD"
+          ],
+          "exit": 0,
+          "stdout": "e4c732ea5a1fc4b1f593bde56f97fab1c1f2ac34\n",
+          "stderr": ""
+        },
+        {
+          "argv": [
+            "git",
+            "-C",
+            "/tmp/review19-c5-b7-47ihmceh/6-trailing-space ",
+            "tag",
+            "main"
+          ],
+          "exit": 0,
+          "stdout": "",
+          "stderr": ""
+        },
+        {
+          "argv": [
+            "git",
+            "-C",
+            "/tmp/review19-c5-b7-47ihmceh/6-trailing-space ",
+            "update-ref",
+            "refs/remotes/main",
+            "e4c732ea5a1fc4b1f593bde56f97fab1c1f2ac34"
+          ],
+          "exit": 0,
+          "stdout": "",
+          "stderr": ""
+        },
+        {
+          "argv": [
+            "git",
+            "-C",
+            "/tmp/review19-c5-b7-47ihmceh/6-trailing-space ",
+            "symbolic-ref",
+            "--short",
+            "HEAD"
+          ],
+          "exit": 0,
+          "stdout": "heads/main\n",
+          "stderr": ""
+        },
+        {
+          "argv": [
+            "git",
+            "-C",
+            "/tmp/review19-c5-b7-47ihmceh/6-trailing-space ",
+            "symbolic-ref",
+            "HEAD"
+          ],
+          "exit": 0,
+          "stdout": "refs/heads/main\n",
+          "stderr": ""
+        }
+      ]
+    },
+    {
+      "case": "path-'carriage\\rreturn'",
+      "expected_accept": true,
+      "expected_branch": "main",
+      "base": "e4c732ea5a1fc4b1f593bde56f97fab1c1f2ac34",
+      "short_symbolic_ref": "heads/main",
+      "full_symbolic_ref": "refs/heads/main",
+      "outcomes": {
+        "C4": {
+          "outcome": "ValueError",
+          "message": "unexpected branch"
+        },
+        "C5_candidate": {
+          "outcome": "returned",
+          "root": "/tmp/review19-c5-b7-47ihmceh/7-carriage\rreturn",
+          "branch": "main",
+          "exact_root": true
+        }
+      },
+      "setup_commands": [
+        {
+          "argv": [
+            "git",
+            "-C",
+            "/tmp/review19-c5-b7-47ihmceh/7-carriage\rreturn",
+            "init",
+            "--quiet",
+            "--initial-branch=main"
+          ],
+          "exit": 0,
+          "stdout": "",
+          "stderr": ""
+        },
+        {
+          "argv": [
+            "git",
+            "-C",
+            "/tmp/review19-c5-b7-47ihmceh/7-carriage\rreturn",
+            "add",
+            "tracked"
+          ],
+          "exit": 0,
+          "stdout": "",
+          "stderr": ""
+        },
+        {
+          "argv": [
+            "git",
+            "-C",
+            "/tmp/review19-c5-b7-47ihmceh/7-carriage\rreturn",
+            "-c",
+            "user.name=Corpus observation",
+            "-c",
+            "user.email=corpus@example.invalid",
+            "commit",
+            "--quiet",
+            "-m",
+            "initial"
+          ],
+          "exit": 0,
+          "stdout": "",
+          "stderr": ""
+        },
+        {
+          "argv": [
+            "git",
+            "-C",
+            "/tmp/review19-c5-b7-47ihmceh/7-carriage\rreturn",
+            "rev-parse",
+            "HEAD"
+          ],
+          "exit": 0,
+          "stdout": "e4c732ea5a1fc4b1f593bde56f97fab1c1f2ac34\n",
+          "stderr": ""
+        },
+        {
+          "argv": [
+            "git",
+            "-C",
+            "/tmp/review19-c5-b7-47ihmceh/7-carriage\rreturn",
+            "tag",
+            "main"
+          ],
+          "exit": 0,
+          "stdout": "",
+          "stderr": ""
+        },
+        {
+          "argv": [
+            "git",
+            "-C",
+            "/tmp/review19-c5-b7-47ihmceh/7-carriage\rreturn",
+            "update-ref",
+            "refs/remotes/main",
+            "e4c732ea5a1fc4b1f593bde56f97fab1c1f2ac34"
+          ],
+          "exit": 0,
+          "stdout": "",
+          "stderr": ""
+        },
+        {
+          "argv": [
+            "git",
+            "-C",
+            "/tmp/review19-c5-b7-47ihmceh/7-carriage\rreturn",
+            "symbolic-ref",
+            "--short",
+            "HEAD"
+          ],
+          "exit": 0,
+          "stdout": "heads/main\n",
+          "stderr": ""
+        },
+        {
+          "argv": [
+            "git",
+            "-C",
+            "/tmp/review19-c5-b7-47ihmceh/7-carriage\rreturn",
+            "symbolic-ref",
+            "HEAD"
+          ],
+          "exit": 0,
+          "stdout": "refs/heads/main\n",
+          "stderr": ""
+        }
+      ]
+    },
+    {
+      "case": "path-'trailing-newline\\n'",
+      "expected_accept": true,
+      "expected_branch": "main",
+      "base": "e4c732ea5a1fc4b1f593bde56f97fab1c1f2ac34",
+      "short_symbolic_ref": "heads/main",
+      "full_symbolic_ref": "refs/heads/main",
+      "outcomes": {
+        "C4": {
+          "outcome": "ValueError",
+          "message": "unexpected branch"
+        },
+        "C5_candidate": {
+          "outcome": "returned",
+          "root": "/tmp/review19-c5-b7-47ihmceh/8-trailing-newline\n",
+          "branch": "main",
+          "exact_root": true
+        }
+      },
+      "setup_commands": [
+        {
+          "argv": [
+            "git",
+            "-C",
+            "/tmp/review19-c5-b7-47ihmceh/8-trailing-newline\n",
+            "init",
+            "--quiet",
+            "--initial-branch=main"
+          ],
+          "exit": 0,
+          "stdout": "",
+          "stderr": ""
+        },
+        {
+          "argv": [
+            "git",
+            "-C",
+            "/tmp/review19-c5-b7-47ihmceh/8-trailing-newline\n",
+            "add",
+            "tracked"
+          ],
+          "exit": 0,
+          "stdout": "",
+          "stderr": ""
+        },
+        {
+          "argv": [
+            "git",
+            "-C",
+            "/tmp/review19-c5-b7-47ihmceh/8-trailing-newline\n",
+            "-c",
+            "user.name=Corpus observation",
+            "-c",
+            "user.email=corpus@example.invalid",
+            "commit",
+            "--quiet",
+            "-m",
+            "initial"
+          ],
+          "exit": 0,
+          "stdout": "",
+          "stderr": ""
+        },
+        {
+          "argv": [
+            "git",
+            "-C",
+            "/tmp/review19-c5-b7-47ihmceh/8-trailing-newline\n",
+            "rev-parse",
+            "HEAD"
+          ],
+          "exit": 0,
+          "stdout": "e4c732ea5a1fc4b1f593bde56f97fab1c1f2ac34\n",
+          "stderr": ""
+        },
+        {
+          "argv": [
+            "git",
+            "-C",
+            "/tmp/review19-c5-b7-47ihmceh/8-trailing-newline\n",
+            "tag",
+            "main"
+          ],
+          "exit": 0,
+          "stdout": "",
+          "stderr": ""
+        },
+        {
+          "argv": [
+            "git",
+            "-C",
+            "/tmp/review19-c5-b7-47ihmceh/8-trailing-newline\n",
+            "update-ref",
+            "refs/remotes/main",
+            "e4c732ea5a1fc4b1f593bde56f97fab1c1f2ac34"
+          ],
+          "exit": 0,
+          "stdout": "",
+          "stderr": ""
+        },
+        {
+          "argv": [
+            "git",
+            "-C",
+            "/tmp/review19-c5-b7-47ihmceh/8-trailing-newline\n",
+            "symbolic-ref",
+            "--short",
+            "HEAD"
+          ],
+          "exit": 0,
+          "stdout": "heads/main\n",
+          "stderr": ""
+        },
+        {
+          "argv": [
+            "git",
+            "-C",
+            "/tmp/review19-c5-b7-47ihmceh/8-trailing-newline\n",
+            "symbolic-ref",
+            "HEAD"
+          ],
+          "exit": 0,
+          "stdout": "refs/heads/main\n",
+          "stderr": ""
+        }
+      ]
+    },
+    {
+      "case": "path-'unicod\u00e9-\u679d'",
+      "expected_accept": true,
+      "expected_branch": "main",
+      "base": "e4c732ea5a1fc4b1f593bde56f97fab1c1f2ac34",
+      "short_symbolic_ref": "heads/main",
+      "full_symbolic_ref": "refs/heads/main",
+      "outcomes": {
+        "C4": {
+          "outcome": "ValueError",
+          "message": "unexpected branch"
+        },
+        "C5_candidate": {
+          "outcome": "returned",
+          "root": "/tmp/review19-c5-b7-47ihmceh/9-unicod\u00e9-\u679d",
+          "branch": "main",
+          "exact_root": true
+        }
+      },
+      "setup_commands": [
+        {
+          "argv": [
+            "git",
+            "-C",
+            "/tmp/review19-c5-b7-47ihmceh/9-unicod\u00e9-\u679d",
+            "init",
+            "--quiet",
+            "--initial-branch=main"
+          ],
+          "exit": 0,
+          "stdout": "",
+          "stderr": ""
+        },
+        {
+          "argv": [
+            "git",
+            "-C",
+            "/tmp/review19-c5-b7-47ihmceh/9-unicod\u00e9-\u679d",
+            "add",
+            "tracked"
+          ],
+          "exit": 0,
+          "stdout": "",
+          "stderr": ""
+        },
+        {
+          "argv": [
+            "git",
+            "-C",
+            "/tmp/review19-c5-b7-47ihmceh/9-unicod\u00e9-\u679d",
+            "-c",
+            "user.name=Corpus observation",
+            "-c",
+            "user.email=corpus@example.invalid",
+            "commit",
+            "--quiet",
+            "-m",
+            "initial"
+          ],
+          "exit": 0,
+          "stdout": "",
+          "stderr": ""
+        },
+        {
+          "argv": [
+            "git",
+            "-C",
+            "/tmp/review19-c5-b7-47ihmceh/9-unicod\u00e9-\u679d",
+            "rev-parse",
+            "HEAD"
+          ],
+          "exit": 0,
+          "stdout": "e4c732ea5a1fc4b1f593bde56f97fab1c1f2ac34\n",
+          "stderr": ""
+        },
+        {
+          "argv": [
+            "git",
+            "-C",
+            "/tmp/review19-c5-b7-47ihmceh/9-unicod\u00e9-\u679d",
+            "tag",
+            "main"
+          ],
+          "exit": 0,
+          "stdout": "",
+          "stderr": ""
+        },
+        {
+          "argv": [
+            "git",
+            "-C",
+            "/tmp/review19-c5-b7-47ihmceh/9-unicod\u00e9-\u679d",
+            "update-ref",
+            "refs/remotes/main",
+            "e4c732ea5a1fc4b1f593bde56f97fab1c1f2ac34"
+          ],
+          "exit": 0,
+          "stdout": "",
+          "stderr": ""
+        },
+        {
+          "argv": [
+            "git",
+            "-C",
+            "/tmp/review19-c5-b7-47ihmceh/9-unicod\u00e9-\u679d",
+            "symbolic-ref",
+            "--short",
+            "HEAD"
+          ],
+          "exit": 0,
+          "stdout": "heads/main\n",
+          "stderr": ""
+        },
+        {
+          "argv": [
+            "git",
+            "-C",
+            "/tmp/review19-c5-b7-47ihmceh/9-unicod\u00e9-\u679d",
+            "symbolic-ref",
+            "HEAD"
+          ],
+          "exit": 0,
+          "stdout": "refs/heads/main\n",
+          "stderr": ""
+        }
+      ]
+    },
+    {
+      "case": "path-'nonutf8-\\udcff'",
+      "expected_accept": true,
+      "expected_branch": "main",
+      "base": "e4c732ea5a1fc4b1f593bde56f97fab1c1f2ac34",
+      "short_symbolic_ref": "heads/main",
+      "full_symbolic_ref": "refs/heads/main",
+      "outcomes": {
+        "C4": {
+          "outcome": "ValueError",
+          "message": "unexpected branch"
+        },
+        "C5_candidate": {
+          "outcome": "returned",
+          "root": "/tmp/review19-c5-b7-47ihmceh/10-nonutf8-\udcff",
+          "branch": "main",
+          "exact_root": true
+        }
+      },
+      "setup_commands": [
+        {
+          "argv": [
+            "git",
+            "-C",
+            "/tmp/review19-c5-b7-47ihmceh/10-nonutf8-\udcff",
+            "init",
+            "--quiet",
+            "--initial-branch=main"
+          ],
+          "exit": 0,
+          "stdout": "",
+          "stderr": ""
+        },
+        {
+          "argv": [
+            "git",
+            "-C",
+            "/tmp/review19-c5-b7-47ihmceh/10-nonutf8-\udcff",
+            "add",
+            "tracked"
+          ],
+          "exit": 0,
+          "stdout": "",
+          "stderr": ""
+        },
+        {
+          "argv": [
+            "git",
+            "-C",
+            "/tmp/review19-c5-b7-47ihmceh/10-nonutf8-\udcff",
+            "-c",
+            "user.name=Corpus observation",
+            "-c",
+            "user.email=corpus@example.invalid",
+            "commit",
+            "--quiet",
+            "-m",
+            "initial"
+          ],
+          "exit": 0,
+          "stdout": "",
+          "stderr": ""
+        },
+        {
+          "argv": [
+            "git",
+            "-C",
+            "/tmp/review19-c5-b7-47ihmceh/10-nonutf8-\udcff",
+            "rev-parse",
+            "HEAD"
+          ],
+          "exit": 0,
+          "stdout": "e4c732ea5a1fc4b1f593bde56f97fab1c1f2ac34\n",
+          "stderr": ""
+        },
+        {
+          "argv": [
+            "git",
+            "-C",
+            "/tmp/review19-c5-b7-47ihmceh/10-nonutf8-\udcff",
+            "tag",
+            "main"
+          ],
+          "exit": 0,
+          "stdout": "",
+          "stderr": ""
+        },
+        {
+          "argv": [
+            "git",
+            "-C",
+            "/tmp/review19-c5-b7-47ihmceh/10-nonutf8-\udcff",
+            "update-ref",
+            "refs/remotes/main",
+            "e4c732ea5a1fc4b1f593bde56f97fab1c1f2ac34"
+          ],
+          "exit": 0,
+          "stdout": "",
+          "stderr": ""
+        },
+        {
+          "argv": [
+            "git",
+            "-C",
+            "/tmp/review19-c5-b7-47ihmceh/10-nonutf8-\udcff",
+            "symbolic-ref",
+            "--short",
+            "HEAD"
+          ],
+          "exit": 0,
+          "stdout": "heads/main\n",
+          "stderr": ""
+        },
+        {
+          "argv": [
+            "git",
+            "-C",
+            "/tmp/review19-c5-b7-47ihmceh/10-nonutf8-\udcff",
+            "symbolic-ref",
+            "HEAD"
+          ],
+          "exit": 0,
+          "stdout": "refs/heads/main\n",
+          "stderr": ""
+        }
+      ]
+    },
+    {
+      "case": "unexpected-branch",
+      "expected_accept": false,
+      "expected_branch": "other",
+      "base": "e4c732ea5a1fc4b1f593bde56f97fab1c1f2ac34",
+      "short_symbolic_ref": "main",
+      "full_symbolic_ref": "refs/heads/main",
+      "outcomes": {
+        "C4": {
+          "outcome": "ValueError",
+          "message": "unexpected branch"
+        },
+        "C5_candidate": {
+          "outcome": "ValueError",
+          "message": "unexpected branch"
+        }
+      },
+      "setup_commands": [
+        {
+          "argv": [
+            "git",
+            "-C",
+            "/tmp/review19-c5-b7-47ihmceh/11-repo",
+            "init",
+            "--quiet",
+            "--initial-branch=main"
+          ],
+          "exit": 0,
+          "stdout": "",
+          "stderr": ""
+        },
+        {
+          "argv": [
+            "git",
+            "-C",
+            "/tmp/review19-c5-b7-47ihmceh/11-repo",
+            "add",
+            "tracked"
+          ],
+          "exit": 0,
+          "stdout": "",
+          "stderr": ""
+        },
+        {
+          "argv": [
+            "git",
+            "-C",
+            "/tmp/review19-c5-b7-47ihmceh/11-repo",
+            "-c",
+            "user.name=Corpus observation",
+            "-c",
+            "user.email=corpus@example.invalid",
+            "commit",
+            "--quiet",
+            "-m",
+            "initial"
+          ],
+          "exit": 0,
+          "stdout": "",
+          "stderr": ""
+        },
+        {
+          "argv": [
+            "git",
+            "-C",
+            "/tmp/review19-c5-b7-47ihmceh/11-repo",
+            "rev-parse",
+            "HEAD"
+          ],
+          "exit": 0,
+          "stdout": "e4c732ea5a1fc4b1f593bde56f97fab1c1f2ac34\n",
+          "stderr": ""
+        },
+        {
+          "argv": [
+            "git",
+            "-C",
+            "/tmp/review19-c5-b7-47ihmceh/11-repo",
+            "symbolic-ref",
+            "--short",
+            "HEAD"
+          ],
+          "exit": 0,
+          "stdout": "main\n",
+          "stderr": ""
+        },
+        {
+          "argv": [
+            "git",
+            "-C",
+            "/tmp/review19-c5-b7-47ihmceh/11-repo",
+            "symbolic-ref",
+            "HEAD"
+          ],
+          "exit": 0,
+          "stdout": "refs/heads/main\n",
+          "stderr": ""
+        }
+      ]
+    },
+    {
+      "case": "detached-HEAD",
+      "expected_accept": false,
+      "expected_branch": "main",
+      "base": "e4c732ea5a1fc4b1f593bde56f97fab1c1f2ac34",
+      "short_symbolic_ref": "",
+      "full_symbolic_ref": "",
+      "outcomes": {
+        "C4": {
+          "outcome": "ValueError",
+          "message": "Git preflight failed: symbolic-ref --short HEAD"
+        },
+        "C5_candidate": {
+          "outcome": "ValueError",
+          "message": "Git preflight failed: symbolic-ref HEAD"
+        }
+      },
+      "setup_commands": [
+        {
+          "argv": [
+            "git",
+            "-C",
+            "/tmp/review19-c5-b7-47ihmceh/12-repo",
+            "init",
+            "--quiet",
+            "--initial-branch=main"
+          ],
+          "exit": 0,
+          "stdout": "",
+          "stderr": ""
+        },
+        {
+          "argv": [
+            "git",
+            "-C",
+            "/tmp/review19-c5-b7-47ihmceh/12-repo",
+            "add",
+            "tracked"
+          ],
+          "exit": 0,
+          "stdout": "",
+          "stderr": ""
+        },
+        {
+          "argv": [
+            "git",
+            "-C",
+            "/tmp/review19-c5-b7-47ihmceh/12-repo",
+            "-c",
+            "user.name=Corpus observation",
+            "-c",
+            "user.email=corpus@example.invalid",
+            "commit",
+            "--quiet",
+            "-m",
+            "initial"
+          ],
+          "exit": 0,
+          "stdout": "",
+          "stderr": ""
+        },
+        {
+          "argv": [
+            "git",
+            "-C",
+            "/tmp/review19-c5-b7-47ihmceh/12-repo",
+            "rev-parse",
+            "HEAD"
+          ],
+          "exit": 0,
+          "stdout": "e4c732ea5a1fc4b1f593bde56f97fab1c1f2ac34\n",
+          "stderr": ""
+        },
+        {
+          "argv": [
+            "git",
+            "-C",
+            "/tmp/review19-c5-b7-47ihmceh/12-repo",
+            "checkout",
+            "--quiet",
+            "--detach",
+            "e4c732ea5a1fc4b1f593bde56f97fab1c1f2ac34"
+          ],
+          "exit": 0,
+          "stdout": "",
+          "stderr": ""
+        },
+        {
+          "argv": [
+            "git",
+            "-C",
+            "/tmp/review19-c5-b7-47ihmceh/12-repo",
+            "symbolic-ref",
+            "--short",
+            "HEAD"
+          ],
+          "exit": 128,
+          "stdout": "",
+          "stderr": "fatal: ref HEAD is not a symbolic ref\n"
+        },
+        {
+          "argv": [
+            "git",
+            "-C",
+            "/tmp/review19-c5-b7-47ihmceh/12-repo",
+            "symbolic-ref",
+            "HEAD"
+          ],
+          "exit": 128,
+          "stdout": "",
+          "stderr": "fatal: ref HEAD is not a symbolic ref\n"
+        }
+      ]
+    },
+    {
+      "case": "nonlocal-symbolic-HEAD",
+      "expected_accept": false,
+      "expected_branch": "outside",
+      "base": "e4c732ea5a1fc4b1f593bde56f97fab1c1f2ac34",
+      "short_symbolic_ref": "outside",
+      "full_symbolic_ref": "refs/tags/outside",
+      "outcomes": {
+        "C4": {
+          "outcome": "returned",
+          "root": "/tmp/review19-c5-b7-47ihmceh/13-repo",
+          "branch": "outside",
+          "exact_root": true
+        },
+        "C5_candidate": {
+          "outcome": "ValueError",
+          "message": "HEAD is not a local branch"
+        }
+      },
+      "setup_commands": [
+        {
+          "argv": [
+            "git",
+            "-C",
+            "/tmp/review19-c5-b7-47ihmceh/13-repo",
+            "init",
+            "--quiet",
+            "--initial-branch=main"
+          ],
+          "exit": 0,
+          "stdout": "",
+          "stderr": ""
+        },
+        {
+          "argv": [
+            "git",
+            "-C",
+            "/tmp/review19-c5-b7-47ihmceh/13-repo",
+            "add",
+            "tracked"
+          ],
+          "exit": 0,
+          "stdout": "",
+          "stderr": ""
+        },
+        {
+          "argv": [
+            "git",
+            "-C",
+            "/tmp/review19-c5-b7-47ihmceh/13-repo",
+            "-c",
+            "user.name=Corpus observation",
+            "-c",
+            "user.email=corpus@example.invalid",
+            "commit",
+            "--quiet",
+            "-m",
+            "initial"
+          ],
+          "exit": 0,
+          "stdout": "",
+          "stderr": ""
+        },
+        {
+          "argv": [
+            "git",
+            "-C",
+            "/tmp/review19-c5-b7-47ihmceh/13-repo",
+            "rev-parse",
+            "HEAD"
+          ],
+          "exit": 0,
+          "stdout": "e4c732ea5a1fc4b1f593bde56f97fab1c1f2ac34\n",
+          "stderr": ""
+        },
+        {
+          "argv": [
+            "git",
+            "-C",
+            "/tmp/review19-c5-b7-47ihmceh/13-repo",
+            "tag",
+            "outside"
+          ],
+          "exit": 0,
+          "stdout": "",
+          "stderr": ""
+        },
+        {
+          "argv": [
+            "git",
+            "-C",
+            "/tmp/review19-c5-b7-47ihmceh/13-repo",
+            "symbolic-ref",
+            "HEAD",
+            "refs/tags/outside"
+          ],
+          "exit": 0,
+          "stdout": "",
+          "stderr": ""
+        },
+        {
+          "argv": [
+            "git",
+            "-C",
+            "/tmp/review19-c5-b7-47ihmceh/13-repo",
+            "symbolic-ref",
+            "--short",
+            "HEAD"
+          ],
+          "exit": 0,
+          "stdout": "outside\n",
+          "stderr": ""
+        },
+        {
+          "argv": [
+            "git",
+            "-C",
+            "/tmp/review19-c5-b7-47ihmceh/13-repo",
+            "symbolic-ref",
+            "HEAD"
+          ],
+          "exit": 0,
+          "stdout": "refs/tags/outside\n",
+          "stderr": ""
+        }
+      ]
+    },
+    {
+      "case": "tracked-dirty",
+      "expected_accept": false,
+      "expected_branch": "main",
+      "base": "e4c732ea5a1fc4b1f593bde56f97fab1c1f2ac34",
+      "short_symbolic_ref": "main",
+      "full_symbolic_ref": "refs/heads/main",
+      "outcomes": {
+        "C4": {
+          "outcome": "ValueError",
+          "message": "dirty worktree"
+        },
+        "C5_candidate": {
+          "outcome": "ValueError",
+          "message": "dirty worktree"
+        }
+      },
+      "setup_commands": [
+        {
+          "argv": [
+            "git",
+            "-C",
+            "/tmp/review19-c5-b7-47ihmceh/14-repo",
+            "init",
+            "--quiet",
+            "--initial-branch=main"
+          ],
+          "exit": 0,
+          "stdout": "",
+          "stderr": ""
+        },
+        {
+          "argv": [
+            "git",
+            "-C",
+            "/tmp/review19-c5-b7-47ihmceh/14-repo",
+            "add",
+            "tracked"
+          ],
+          "exit": 0,
+          "stdout": "",
+          "stderr": ""
+        },
+        {
+          "argv": [
+            "git",
+            "-C",
+            "/tmp/review19-c5-b7-47ihmceh/14-repo",
+            "-c",
+            "user.name=Corpus observation",
+            "-c",
+            "user.email=corpus@example.invalid",
+            "commit",
+            "--quiet",
+            "-m",
+            "initial"
+          ],
+          "exit": 0,
+          "stdout": "",
+          "stderr": ""
+        },
+        {
+          "argv": [
+            "git",
+            "-C",
+            "/tmp/review19-c5-b7-47ihmceh/14-repo",
+            "rev-parse",
+            "HEAD"
+          ],
+          "exit": 0,
+          "stdout": "e4c732ea5a1fc4b1f593bde56f97fab1c1f2ac34\n",
+          "stderr": ""
+        },
+        {
+          "argv": [
+            "git",
+            "-C",
+            "/tmp/review19-c5-b7-47ihmceh/14-repo",
+            "symbolic-ref",
+            "--short",
+            "HEAD"
+          ],
+          "exit": 0,
+          "stdout": "main\n",
+          "stderr": ""
+        },
+        {
+          "argv": [
+            "git",
+            "-C",
+            "/tmp/review19-c5-b7-47ihmceh/14-repo",
+            "symbolic-ref",
+            "HEAD"
+          ],
+          "exit": 0,
+          "stdout": "refs/heads/main\n",
+          "stderr": ""
+        }
+      ]
+    },
+    {
+      "case": "untracked-dirty",
+      "expected_accept": false,
+      "expected_branch": "main",
+      "base": "e4c732ea5a1fc4b1f593bde56f97fab1c1f2ac34",
+      "short_symbolic_ref": "main",
+      "full_symbolic_ref": "refs/heads/main",
+      "outcomes": {
+        "C4": {
+          "outcome": "ValueError",
+          "message": "dirty worktree"
+        },
+        "C5_candidate": {
+          "outcome": "ValueError",
+          "message": "dirty worktree"
+        }
+      },
+      "setup_commands": [
+        {
+          "argv": [
+            "git",
+            "-C",
+            "/tmp/review19-c5-b7-47ihmceh/15-repo",
+            "init",
+            "--quiet",
+            "--initial-branch=main"
+          ],
+          "exit": 0,
+          "stdout": "",
+          "stderr": ""
+        },
+        {
+          "argv": [
+            "git",
+            "-C",
+            "/tmp/review19-c5-b7-47ihmceh/15-repo",
+            "add",
+            "tracked"
+          ],
+          "exit": 0,
+          "stdout": "",
+          "stderr": ""
+        },
+        {
+          "argv": [
+            "git",
+            "-C",
+            "/tmp/review19-c5-b7-47ihmceh/15-repo",
+            "-c",
+            "user.name=Corpus observation",
+            "-c",
+            "user.email=corpus@example.invalid",
+            "commit",
+            "--quiet",
+            "-m",
+            "initial"
+          ],
+          "exit": 0,
+          "stdout": "",
+          "stderr": ""
+        },
+        {
+          "argv": [
+            "git",
+            "-C",
+            "/tmp/review19-c5-b7-47ihmceh/15-repo",
+            "rev-parse",
+            "HEAD"
+          ],
+          "exit": 0,
+          "stdout": "e4c732ea5a1fc4b1f593bde56f97fab1c1f2ac34\n",
+          "stderr": ""
+        },
+        {
+          "argv": [
+            "git",
+            "-C",
+            "/tmp/review19-c5-b7-47ihmceh/15-repo",
+            "symbolic-ref",
+            "--short",
+            "HEAD"
+          ],
+          "exit": 0,
+          "stdout": "main\n",
+          "stderr": ""
+        },
+        {
+          "argv": [
+            "git",
+            "-C",
+            "/tmp/review19-c5-b7-47ihmceh/15-repo",
+            "symbolic-ref",
+            "HEAD"
+          ],
+          "exit": 0,
+          "stdout": "refs/heads/main\n",
+          "stderr": ""
+        }
+      ]
+    },
+    {
+      "case": "staged-dirty",
+      "expected_accept": false,
+      "expected_branch": "main",
+      "base": "e4c732ea5a1fc4b1f593bde56f97fab1c1f2ac34",
+      "short_symbolic_ref": "main",
+      "full_symbolic_ref": "refs/heads/main",
+      "outcomes": {
+        "C4": {
+          "outcome": "ValueError",
+          "message": "dirty worktree"
+        },
+        "C5_candidate": {
+          "outcome": "ValueError",
+          "message": "dirty worktree"
+        }
+      },
+      "setup_commands": [
+        {
+          "argv": [
+            "git",
+            "-C",
+            "/tmp/review19-c5-b7-47ihmceh/16-repo",
+            "init",
+            "--quiet",
+            "--initial-branch=main"
+          ],
+          "exit": 0,
+          "stdout": "",
+          "stderr": ""
+        },
+        {
+          "argv": [
+            "git",
+            "-C",
+            "/tmp/review19-c5-b7-47ihmceh/16-repo",
+            "add",
+            "tracked"
+          ],
+          "exit": 0,
+          "stdout": "",
+          "stderr": ""
+        },
+        {
+          "argv": [
+            "git",
+            "-C",
+            "/tmp/review19-c5-b7-47ihmceh/16-repo",
+            "-c",
+            "user.name=Corpus observation",
+            "-c",
+            "user.email=corpus@example.invalid",
+            "commit",
+            "--quiet",
+            "-m",
+            "initial"
+          ],
+          "exit": 0,
+          "stdout": "",
+          "stderr": ""
+        },
+        {
+          "argv": [
+            "git",
+            "-C",
+            "/tmp/review19-c5-b7-47ihmceh/16-repo",
+            "rev-parse",
+            "HEAD"
+          ],
+          "exit": 0,
+          "stdout": "e4c732ea5a1fc4b1f593bde56f97fab1c1f2ac34\n",
+          "stderr": ""
+        },
+        {
+          "argv": [
+            "git",
+            "-C",
+            "/tmp/review19-c5-b7-47ihmceh/16-repo",
+            "add",
+            "tracked"
+          ],
+          "exit": 0,
+          "stdout": "",
+          "stderr": ""
+        },
+        {
+          "argv": [
+            "git",
+            "-C",
+            "/tmp/review19-c5-b7-47ihmceh/16-repo",
+            "symbolic-ref",
+            "--short",
+            "HEAD"
+          ],
+          "exit": 0,
+          "stdout": "main\n",
+          "stderr": ""
+        },
+        {
+          "argv": [
+            "git",
+            "-C",
+            "/tmp/review19-c5-b7-47ihmceh/16-repo",
+            "symbolic-ref",
+            "HEAD"
+          ],
+          "exit": 0,
+          "stdout": "refs/heads/main\n",
+          "stderr": ""
+        }
+      ]
+    },
+    {
+      "case": "missing-base",
+      "expected_accept": false,
+      "expected_branch": "main",
+      "base": "absent-revision",
+      "short_symbolic_ref": "main",
+      "full_symbolic_ref": "refs/heads/main",
+      "outcomes": {
+        "C4": {
+          "outcome": "ValueError",
+          "message": "Git preflight failed: rev-parse --verify absent-revision^{commit}"
+        },
+        "C5_candidate": {
+          "outcome": "ValueError",
+          "message": "Git preflight failed: rev-parse --verify absent-revision^{commit}"
+        }
+      },
+      "setup_commands": [
+        {
+          "argv": [
+            "git",
+            "-C",
+            "/tmp/review19-c5-b7-47ihmceh/17-repo",
+            "init",
+            "--quiet",
+            "--initial-branch=main"
+          ],
+          "exit": 0,
+          "stdout": "",
+          "stderr": ""
+        },
+        {
+          "argv": [
+            "git",
+            "-C",
+            "/tmp/review19-c5-b7-47ihmceh/17-repo",
+            "add",
+            "tracked"
+          ],
+          "exit": 0,
+          "stdout": "",
+          "stderr": ""
+        },
+        {
+          "argv": [
+            "git",
+            "-C",
+            "/tmp/review19-c5-b7-47ihmceh/17-repo",
+            "-c",
+            "user.name=Corpus observation",
+            "-c",
+            "user.email=corpus@example.invalid",
+            "commit",
+            "--quiet",
+            "-m",
+            "initial"
+          ],
+          "exit": 0,
+          "stdout": "",
+          "stderr": ""
+        },
+        {
+          "argv": [
+            "git",
+            "-C",
+            "/tmp/review19-c5-b7-47ihmceh/17-repo",
+            "rev-parse",
+            "HEAD"
+          ],
+          "exit": 0,
+          "stdout": "e4c732ea5a1fc4b1f593bde56f97fab1c1f2ac34\n",
+          "stderr": ""
+        },
+        {
+          "argv": [
+            "git",
+            "-C",
+            "/tmp/review19-c5-b7-47ihmceh/17-repo",
+            "symbolic-ref",
+            "--short",
+            "HEAD"
+          ],
+          "exit": 0,
+          "stdout": "main\n",
+          "stderr": ""
+        },
+        {
+          "argv": [
+            "git",
+            "-C",
+            "/tmp/review19-c5-b7-47ihmceh/17-repo",
+            "symbolic-ref",
+            "HEAD"
+          ],
+          "exit": 0,
+          "stdout": "refs/heads/main\n",
+          "stderr": ""
+        }
+      ]
+    },
+    {
+      "case": "nonancestor-base",
+      "expected_accept": false,
+      "expected_branch": "main",
+      "base": "cbc34f548e06c01c3a1568e844a1dcb55483c4cb",
+      "short_symbolic_ref": "main",
+      "full_symbolic_ref": "refs/heads/main",
+      "outcomes": {
+        "C4": {
+          "outcome": "ValueError",
+          "message": "Git preflight failed: merge-base --is-ancestor cbc34f548e06c01c3a1568e844a1dcb55483c4cb HEAD"
+        },
+        "C5_candidate": {
+          "outcome": "ValueError",
+          "message": "Git preflight failed: merge-base --is-ancestor cbc34f548e06c01c3a1568e844a1dcb55483c4cb HEAD"
+        }
+      },
+      "setup_commands": [
+        {
+          "argv": [
+            "git",
+            "-C",
+            "/tmp/review19-c5-b7-47ihmceh/18-repo",
+            "init",
+            "--quiet",
+            "--initial-branch=main"
+          ],
+          "exit": 0,
+          "stdout": "",
+          "stderr": ""
+        },
+        {
+          "argv": [
+            "git",
+            "-C",
+            "/tmp/review19-c5-b7-47ihmceh/18-repo",
+            "add",
+            "tracked"
+          ],
+          "exit": 0,
+          "stdout": "",
+          "stderr": ""
+        },
+        {
+          "argv": [
+            "git",
+            "-C",
+            "/tmp/review19-c5-b7-47ihmceh/18-repo",
+            "-c",
+            "user.name=Corpus observation",
+            "-c",
+            "user.email=corpus@example.invalid",
+            "commit",
+            "--quiet",
+            "-m",
+            "initial"
+          ],
+          "exit": 0,
+          "stdout": "",
+          "stderr": ""
+        },
+        {
+          "argv": [
+            "git",
+            "-C",
+            "/tmp/review19-c5-b7-47ihmceh/18-repo",
+            "rev-parse",
+            "HEAD"
+          ],
+          "exit": 0,
+          "stdout": "e4c732ea5a1fc4b1f593bde56f97fab1c1f2ac34\n",
+          "stderr": ""
+        },
+        {
+          "argv": [
+            "git",
+            "-C",
+            "/tmp/review19-c5-b7-47ihmceh/18-repo",
+            "rev-parse",
+            "HEAD^{tree}"
+          ],
+          "exit": 0,
+          "stdout": "268b9da62096d53d5775712581dd1ecccda8a694\n",
+          "stderr": ""
+        },
+        {
+          "argv": [
+            "git",
+            "-C",
+            "/tmp/review19-c5-b7-47ihmceh/18-repo",
+            "-c",
+            "user.name=Corpus observation",
+            "-c",
+            "user.email=corpus@example.invalid",
+            "commit-tree",
+            "268b9da62096d53d5775712581dd1ecccda8a694",
+            "-m",
+            "unrelated"
+          ],
+          "exit": 0,
+          "stdout": "cbc34f548e06c01c3a1568e844a1dcb55483c4cb\n",
+          "stderr": ""
+        },
+        {
+          "argv": [
+            "git",
+            "-C",
+            "/tmp/review19-c5-b7-47ihmceh/18-repo",
+            "symbolic-ref",
+            "--short",
+            "HEAD"
+          ],
+          "exit": 0,
+          "stdout": "main\n",
+          "stderr": ""
+        },
+        {
+          "argv": [
+            "git",
+            "-C",
+            "/tmp/review19-c5-b7-47ihmceh/18-repo",
+            "symbolic-ref",
+            "HEAD"
+          ],
+          "exit": 0,
+          "stdout": "refs/heads/main\n",
+          "stderr": ""
+        }
+      ]
+    },
+    {
+      "case": "ancestor-base",
+      "expected_accept": true,
+      "expected_branch": "main",
+      "base": "e4c732ea5a1fc4b1f593bde56f97fab1c1f2ac34",
+      "short_symbolic_ref": "heads/main",
+      "full_symbolic_ref": "refs/heads/main",
+      "outcomes": {
+        "C4": {
+          "outcome": "ValueError",
+          "message": "unexpected branch"
+        },
+        "C5_candidate": {
+          "outcome": "returned",
+          "root": "/tmp/review19-c5-b7-47ihmceh/19-repo",
+          "branch": "main",
+          "exact_root": true
+        }
+      },
+      "setup_commands": [
+        {
+          "argv": [
+            "git",
+            "-C",
+            "/tmp/review19-c5-b7-47ihmceh/19-repo",
+            "init",
+            "--quiet",
+            "--initial-branch=main"
+          ],
+          "exit": 0,
+          "stdout": "",
+          "stderr": ""
+        },
+        {
+          "argv": [
+            "git",
+            "-C",
+            "/tmp/review19-c5-b7-47ihmceh/19-repo",
+            "add",
+            "tracked"
+          ],
+          "exit": 0,
+          "stdout": "",
+          "stderr": ""
+        },
+        {
+          "argv": [
+            "git",
+            "-C",
+            "/tmp/review19-c5-b7-47ihmceh/19-repo",
+            "-c",
+            "user.name=Corpus observation",
+            "-c",
+            "user.email=corpus@example.invalid",
+            "commit",
+            "--quiet",
+            "-m",
+            "initial"
+          ],
+          "exit": 0,
+          "stdout": "",
+          "stderr": ""
+        },
+        {
+          "argv": [
+            "git",
+            "-C",
+            "/tmp/review19-c5-b7-47ihmceh/19-repo",
+            "rev-parse",
+            "HEAD"
+          ],
+          "exit": 0,
+          "stdout": "e4c732ea5a1fc4b1f593bde56f97fab1c1f2ac34\n",
+          "stderr": ""
+        },
+        {
+          "argv": [
+            "git",
+            "-C",
+            "/tmp/review19-c5-b7-47ihmceh/19-repo",
+            "tag",
+            "main"
+          ],
+          "exit": 0,
+          "stdout": "",
+          "stderr": ""
+        },
+        {
+          "argv": [
+            "git",
+            "-C",
+            "/tmp/review19-c5-b7-47ihmceh/19-repo",
+            "update-ref",
+            "refs/remotes/main",
+            "e4c732ea5a1fc4b1f593bde56f97fab1c1f2ac34"
+          ],
+          "exit": 0,
+          "stdout": "",
+          "stderr": ""
+        },
+        {
+          "argv": [
+            "git",
+            "-C",
+            "/tmp/review19-c5-b7-47ihmceh/19-repo",
+            "-c",
+            "user.name=Corpus observation",
+            "-c",
+            "user.email=corpus@example.invalid",
+            "commit",
+            "--quiet",
+            "--allow-empty",
+            "-m",
+            "next"
+          ],
+          "exit": 0,
+          "stdout": "",
+          "stderr": ""
+        },
+        {
+          "argv": [
+            "git",
+            "-C",
+            "/tmp/review19-c5-b7-47ihmceh/19-repo",
+            "symbolic-ref",
+            "--short",
+            "HEAD"
+          ],
+          "exit": 0,
+          "stdout": "heads/main\n",
+          "stderr": ""
+        },
+        {
+          "argv": [
+            "git",
+            "-C",
+            "/tmp/review19-c5-b7-47ihmceh/19-repo",
+            "symbolic-ref",
+            "HEAD"
+          ],
+          "exit": 0,
+          "stdout": "refs/heads/main\n",
+          "stderr": ""
+        }
+      ]
+    },
+    {
+      "case": "tag-base",
+      "expected_accept": true,
+      "expected_branch": "main",
+      "base": "base-tag",
+      "short_symbolic_ref": "main",
+      "full_symbolic_ref": "refs/heads/main",
+      "outcomes": {
+        "C4": {
+          "outcome": "returned",
+          "root": "/tmp/review19-c5-b7-47ihmceh/20-repo",
+          "branch": "main",
+          "exact_root": true
+        },
+        "C5_candidate": {
+          "outcome": "returned",
+          "root": "/tmp/review19-c5-b7-47ihmceh/20-repo",
+          "branch": "main",
+          "exact_root": true
+        }
+      },
+      "setup_commands": [
+        {
+          "argv": [
+            "git",
+            "-C",
+            "/tmp/review19-c5-b7-47ihmceh/20-repo",
+            "init",
+            "--quiet",
+            "--initial-branch=main"
+          ],
+          "exit": 0,
+          "stdout": "",
+          "stderr": ""
+        },
+        {
+          "argv": [
+            "git",
+            "-C",
+            "/tmp/review19-c5-b7-47ihmceh/20-repo",
+            "add",
+            "tracked"
+          ],
+          "exit": 0,
+          "stdout": "",
+          "stderr": ""
+        },
+        {
+          "argv": [
+            "git",
+            "-C",
+            "/tmp/review19-c5-b7-47ihmceh/20-repo",
+            "-c",
+            "user.name=Corpus observation",
+            "-c",
+            "user.email=corpus@example.invalid",
+            "commit",
+            "--quiet",
+            "-m",
+            "initial"
+          ],
+          "exit": 0,
+          "stdout": "",
+          "stderr": ""
+        },
+        {
+          "argv": [
+            "git",
+            "-C",
+            "/tmp/review19-c5-b7-47ihmceh/20-repo",
+            "rev-parse",
+            "HEAD"
+          ],
+          "exit": 0,
+          "stdout": "f4883d0e587c2487cd3ab8757d24a8faf3486873\n",
+          "stderr": ""
+        },
+        {
+          "argv": [
+            "git",
+            "-C",
+            "/tmp/review19-c5-b7-47ihmceh/20-repo",
+            "tag",
+            "base-tag"
+          ],
+          "exit": 0,
+          "stdout": "",
+          "stderr": ""
+        },
+        {
+          "argv": [
+            "git",
+            "-C",
+            "/tmp/review19-c5-b7-47ihmceh/20-repo",
+            "symbolic-ref",
+            "--short",
+            "HEAD"
+          ],
+          "exit": 0,
+          "stdout": "main\n",
+          "stderr": ""
+        },
+        {
+          "argv": [
+            "git",
+            "-C",
+            "/tmp/review19-c5-b7-47ihmceh/20-repo",
+            "symbolic-ref",
+            "HEAD"
+          ],
+          "exit": 0,
+          "stdout": "refs/heads/main\n",
+          "stderr": ""
+        }
+      ]
+    }
+  ],
+  "owner_git_failure_cases": [
+    {
+      "failed_argv": [
+        "rev-parse",
+        "--show-toplevel"
+      ],
+      "calls": [
+        [
+          "rev-parse",
+          "--show-toplevel"
+        ]
+      ],
+      "outcome": "ValueError",
+      "message": "Git preflight failed: rev-parse --show-toplevel"
+    },
+    {
+      "failed_argv": [
+        "symbolic-ref",
+        "HEAD"
+      ],
+      "calls": [
+        [
+          "rev-parse",
+          "--show-toplevel"
+        ],
+        [
+          "symbolic-ref",
+          "HEAD"
+        ]
+      ],
+      "outcome": "ValueError",
+      "message": "Git preflight failed: symbolic-ref HEAD"
+    },
+    {
+      "failed_argv": [
+        "status",
+        "--porcelain",
+        "--untracked-files=all"
+      ],
+      "calls": [
+        [
+          "rev-parse",
+          "--show-toplevel"
+        ],
+        [
+          "symbolic-ref",
+          "HEAD"
+        ],
+        [
+          "status",
+          "--porcelain",
+          "--untracked-files=all"
+        ]
+      ],
+      "outcome": "ValueError",
+      "message": "Git preflight failed: status --porcelain --untracked-files=all"
+    },
+    {
+      "failed_argv": [
+        "rev-parse",
+        "--verify",
+        "base^{commit}"
+      ],
+      "calls": [
+        [
+          "rev-parse",
+          "--show-toplevel"
+        ],
+        [
+          "symbolic-ref",
+          "HEAD"
+        ],
+        [
+          "status",
+          "--porcelain",
+          "--untracked-files=all"
+        ],
+        [
+          "rev-parse",
+          "--verify",
+          "base^{commit}"
+        ]
+      ],
+      "outcome": "ValueError",
+      "message": "Git preflight failed: rev-parse --verify base^{commit}"
+    },
+    {
+      "failed_argv": [
+        "merge-base",
+        "--is-ancestor",
+        "base",
+        "HEAD"
+      ],
+      "calls": [
+        [
+          "rev-parse",
+          "--show-toplevel"
+        ],
+        [
+          "symbolic-ref",
+          "HEAD"
+        ],
+        [
+          "status",
+          "--porcelain",
+          "--untracked-files=all"
+        ],
+        [
+          "rev-parse",
+          "--verify",
+          "base^{commit}"
+        ],
+        [
+          "merge-base",
+          "--is-ancestor",
+          "base",
+          "HEAD"
+        ]
+      ],
+      "outcome": "ValueError",
+      "message": "Git preflight failed: merge-base --is-ancestor base HEAD"
+    }
+  ],
+  "audit": "Full symbolic HEAD validates the local-branch namespace before returning the exact branch suffix; tags/remotes cannot change identity. Caller and all failure/dirty/base/ancestry/path policies remain unchanged. Representative branches, allowed filesystem paths and each decision are observed; no narrower accepted-input contract introduced."
+}

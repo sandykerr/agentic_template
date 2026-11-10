@@ -1,0 +1,297 @@
+command: git diff --check f2929e79cfd5a68f670862775053ae85ba9582b5
+.scratch/ticket-harness/evidence/19-evaluation-g3/spec-c3-reviewer-saved.md:202: new blank line at EOF.
+exit=2
+
+command: date -u +%FT%TZ
+2026-11-10T18:00:02Z
+exit=0
+
+command: git rev-parse HEAD
+ce4e57d77be6dfd695f0ecb15284c5e9d5792b93
+exit=0
+
+command: git status --short
+ M .scratch/ticket-harness/evidence/19-finding-history.md
+ M .scratch/ticket-harness/reviews/ticket-19.md
+ M docs/agents/reviewer-evaluation.md
+?? .agents/skills/custom/evaluate-reviewers/
+?? .scratch/ticket-harness/evidence/19-evaluation-g5/
+?? .scratch/ticket-harness/evidence/19-repair-c4-preservation.json
+?? .scratch/ticket-harness/evidence/19-repair-c5-adapter-preflight-results.json
+?? .scratch/ticket-harness/evidence/19-repair-c5-adapter-preflight.py
+?? .scratch/ticket-harness/evidence/19-repair-c5-branch-preflight-results.json
+?? .scratch/ticket-harness/evidence/19-repair-c5-branch-preflight.py
+?? .scratch/ticket-harness/evidence/19-repair-c5-build.py
+?? .scratch/ticket-harness/evidence/19-repair-c5-capture-skill-probe.py
+?? .scratch/ticket-harness/evidence/19-repair-c5-capture-workflow.py
+?? .scratch/ticket-harness/evidence/19-repair-c5-check-results-20261110T175939327451Z.json
+?? .scratch/ticket-harness/evidence/19-repair-c5-check.py
+?? .scratch/ticket-harness/evidence/19-repair-c5-checks.log
+?? .scratch/ticket-harness/evidence/19-repair-c5-default-whitespace.json
+?? .scratch/ticket-harness/evidence/19-repair-c5-env-observation.json
+?? .scratch/ticket-harness/evidence/19-repair-c5-env-observation.py
+?? .scratch/ticket-harness/evidence/19-repair-c5-readonly-observation.json
+?? .scratch/ticket-harness/evidence/19-repair-c5-readonly-observation.py
+?? .scratch/ticket-harness/evidence/19-repair-c5-report.md
+?? .scratch/ticket-harness/evidence/19-repair-c5-root-context.json
+?? .scratch/ticket-harness/evidence/19-repair-c5-run-checks.sh
+?? .scratch/ticket-harness/evidence/19-repair-c5-skill-final-delta.json
+?? .scratch/ticket-harness/evidence/19-repair-c5-skill-observation.md
+?? .scratch/ticket-harness/evidence/19-repair-c5-skill-preflight-declaration.json
+?? .scratch/ticket-harness/evidence/19-repair-c5-skill-probe/
+?? .scratch/ticket-harness/evidence/19-repair-c5-workflow-command-records.json
+?? .scratch/ticket-harness/evidence/19-review-round2-capture.json
+?? .scratch/ticket-harness/evidence/19-review-round2-common.txt
+?? .scratch/ticket-harness/evidence/19-review-round2-dispatches.json
+?? .scratch/ticket-harness/evidence/19-review-round2-spec-assignment.txt
+?? .scratch/ticket-harness/evidence/19-review-round2-spec-audit.py
+?? .scratch/ticket-harness/evidence/19-review-round2-spec-b7-observation.json
+?? .scratch/ticket-harness/evidence/19-review-round2-spec-b7-observe.py
+?? .scratch/ticket-harness/evidence/19-review-round2-spec-identities.json
+?? .scratch/ticket-harness/evidence/19-review-round2-spec-observations.json
+?? .scratch/ticket-harness/evidence/19-review-round2-spec-tool-audit.json
+?? .scratch/ticket-harness/evidence/19-review-round2-standards-assignment.txt
+?? .scratch/ticket-harness/evidence/19-review-round2-standards-audit.log
+?? .scratch/ticket-harness/evidence/19-review-round2-standards-audit.py
+?? .scratch/ticket-harness/evidence/19-review-round2-standards-identities.json
+?? .scratch/ticket-harness/evidence/19-review-round2-standards-provenance-audit.json
+?? .scratch/ticket-harness/evidence/19-review-round2-standards-provenance-audit.log
+?? .scratch/ticket-harness/evidence/19-review-round2-standards-provenance-audit.py
+?? .scratch/ticket-harness/evidence/19-review-round2-standards-source-tool-inventory.json
+?? .scratch/ticket-harness/evidence/19-review-spec-02.md
+?? .scratch/ticket-harness/evidence/19-review-standards-02.md
+exit=0
+
+command: bash -n .scratch/ticket-harness/evidence/19-repair-c5-run-checks.sh
+exit=0
+
+command: env PYTHONPATH=/usr/lib/python3/dist-packages /home/ajkerr1/development/agentic_template/.micromamba/envs/dev/bin/python /home/ajkerr1/.codex/skills/.system/skill-creator/scripts/quick_validate.py .agents/skills/custom/implement-with-checkboxes
+Skill is valid!
+exit=0
+
+command: env PYTHONPATH=/usr/lib/python3/dist-packages /home/ajkerr1/development/agentic_template/.micromamba/envs/dev/bin/python /home/ajkerr1/.codex/skills/.system/skill-creator/scripts/quick_validate.py .agents/skills/custom/create-next-agent-prompt
+Skill is valid!
+exit=0
+
+command: env PYTHONPATH=/usr/lib/python3/dist-packages /home/ajkerr1/development/agentic_template/.micromamba/envs/dev/bin/python /home/ajkerr1/.codex/skills/.system/skill-creator/scripts/quick_validate.py .agents/skills/custom/evaluate-reviewers
+Skill is valid!
+exit=0
+
+command: /home/ajkerr1/development/agentic_template/.micromamba/envs/dev/bin/python .scratch/ticket-harness/evidence/19-repair-c5-check.py
+{
+  "result": "pass",
+  "result_path": ".scratch/ticket-harness/evidence/19-repair-c5-check-results-20261110T180005245551Z.json",
+  "protected_paths": 6742,
+  "local_links": 182,
+  "corpus": "332ddabe972f596d86cd09eda809bd2f93d1f57602f01d75ed9f39f2b182510d"
+}
+exit=0
+
+command: git diff --check f2929e79cfd5a68f670862775053ae85ba9582b5 -- . :\(exclude\).scratch/ticket-harness/evidence/19-evaluation-g3/spec-c3-reviewer-saved.md
+exit=0
+
+command: git -c core.whitespace=-blank-at-eof diff --check f2929e79cfd5a68f670862775053ae85ba9582b5 -- .scratch/ticket-harness/evidence/19-evaluation-g3/spec-c3-reviewer-saved.md
+exit=0
+
+Staging correction: initial ordinary git add failed read-only .git; escalated approved git add succeeded. Renew full newly staged whitespace coverage.
+command: git diff --check f2929e79cfd5a68f670862775053ae85ba9582b5
+.scratch/ticket-harness/evidence/19-evaluation-g3/spec-c3-reviewer-saved.md:202: new blank line at EOF.
+exit=2
+
+command: date -u +%FT%TZ
+2026-11-10T18:01:00Z
+exit=0
+
+command: git rev-parse HEAD
+ce4e57d77be6dfd695f0ecb15284c5e9d5792b93
+exit=0
+
+command: git status --short
+A  .agents/skills/custom/evaluate-reviewers/SKILL.md
+A  .scratch/ticket-harness/evidence/19-evaluation-g5/README.md
+A  .scratch/ticket-harness/evidence/19-evaluation-g5/artifact-capture.json
+A  .scratch/ticket-harness/evidence/19-evaluation-g5/assignments.json
+A  .scratch/ticket-harness/evidence/19-evaluation-g5/capture-provenance.json
+A  .scratch/ticket-harness/evidence/19-evaluation-g5/capture_reviews_c5.py
+A  .scratch/ticket-harness/evidence/19-evaluation-g5/corpus-identity.txt
+A  .scratch/ticket-harness/evidence/19-evaluation-g5/declaration-capture.json
+A  .scratch/ticket-harness/evidence/19-evaluation-g5/declaration.md
+A  .scratch/ticket-harness/evidence/19-evaluation-g5/history.md
+A  .scratch/ticket-harness/evidence/19-evaluation-g5/results.md
+A  .scratch/ticket-harness/evidence/19-evaluation-g5/review-capture.json
+A  .scratch/ticket-harness/evidence/19-evaluation-g5/revision-delta.json
+A  .scratch/ticket-harness/evidence/19-evaluation-g5/snapshot/REVIEW.md
+A  .scratch/ticket-harness/evidence/19-evaluation-g5/snapshot/cases/a3/CONTRACT.md
+A  .scratch/ticket-harness/evidence/19-evaluation-g5/snapshot/cases/a3/qa.py
+A  .scratch/ticket-harness/evidence/19-evaluation-g5/snapshot/cases/a3/run.py
+A  .scratch/ticket-harness/evidence/19-evaluation-g5/snapshot/cases/b7/CONTRACT.md
+A  .scratch/ticket-harness/evidence/19-evaluation-g5/snapshot/cases/b7/caller.py
+A  .scratch/ticket-harness/evidence/19-evaluation-g5/snapshot/cases/b7/git_ops.py
+A  .scratch/ticket-harness/evidence/19-evaluation-g5/snapshot/cases/c2/CONTRACT.md
+A  .scratch/ticket-harness/evidence/19-evaluation-g5/snapshot/cases/c2/checking.py
+A  .scratch/ticket-harness/evidence/19-evaluation-g5/snapshot/cases/c2/execution.py
+A  .scratch/ticket-harness/evidence/19-evaluation-g5/snapshot/cases/d9/CONTRACT.md
+A  .scratch/ticket-harness/evidence/19-evaluation-g5/snapshot/cases/d9/plan.py
+A  .scratch/ticket-harness/evidence/19-evaluation-g5/snapshot/cases/e4/CONTRACT.md
+A  .scratch/ticket-harness/evidence/19-evaluation-g5/snapshot/cases/e4/attempt.py
+A  .scratch/ticket-harness/evidence/19-evaluation-g5/snapshot/cases/e4/repair.py
+A  .scratch/ticket-harness/evidence/19-evaluation-g5/snapshot/cases/e4/worker.py
+A  .scratch/ticket-harness/evidence/19-evaluation-g5/snapshot/cases/f6/CONTRACT.md
+A  .scratch/ticket-harness/evidence/19-evaluation-g5/snapshot/cases/f6/io_ops.py
+A  .scratch/ticket-harness/evidence/19-evaluation-g5/snapshot/cases/g1/CONTRACT.md
+A  .scratch/ticket-harness/evidence/19-evaluation-g5/snapshot/cases/g1/cli.py
+A  .scratch/ticket-harness/evidence/19-evaluation-g5/snapshot/cases/g1/preparation.py
+A  .scratch/ticket-harness/evidence/19-evaluation-g5/snapshot/cases/g1/resume.py
+A  .scratch/ticket-harness/evidence/19-evaluation-g5/snapshot/cases/h8/CONTRACT.md
+A  .scratch/ticket-harness/evidence/19-evaluation-g5/snapshot/cases/h8/attempt.py
+A  .scratch/ticket-harness/evidence/19-evaluation-g5/snapshot/cases/h8/caller.py
+A  .scratch/ticket-harness/evidence/19-evaluation-g5/snapshot/guidance/.agents/skills/custom/test-strategy/SKILL.md
+A  .scratch/ticket-harness/evidence/19-evaluation-g5/snapshot/guidance/.agents/skills/matt-pocock/codebase-design/SKILL.md
+A  .scratch/ticket-harness/evidence/19-evaluation-g5/snapshot/guidance/.agents/skills/microsoft/microsoft_oop/SKILL.md
+A  .scratch/ticket-harness/evidence/19-evaluation-g5/snapshot/guidance/GLOSSARY.md
+A  .scratch/ticket-harness/evidence/19-evaluation-g5/snapshot/guidance/docs/adr/0001-reusable-harness-and-local-integration.md
+A  .scratch/ticket-harness/evidence/19-evaluation-g5/snapshot/guidance/docs/adr/0002-human-qa-gates-feature-promotion.md
+A  .scratch/ticket-harness/evidence/19-evaluation-g5/snapshot/guidance/docs/agents/architecture-checkpoints.md
+A  .scratch/ticket-harness/evidence/19-evaluation-g5/snapshot/guidance/docs/agents/ownership-review.md
+A  .scratch/ticket-harness/evidence/19-evaluation-g5/snapshot/guidance/docs/agents/review-records.md
+A  .scratch/ticket-harness/evidence/19-evaluation-g5/snapshot/guidance/docs/agents/testing.md
+A  .scratch/ticket-harness/evidence/19-evaluation-g5/snapshot/guidance/docs/templates/reviews/report.md
+A  .scratch/ticket-harness/evidence/19-evaluation-g5/source-manifest.json
+A  .scratch/ticket-harness/evidence/19-evaluation-g5/spec-c5-dispatch.json
+A  .scratch/ticket-harness/evidence/19-evaluation-g5/spec-c5-input.txt
+A  .scratch/ticket-harness/evidence/19-evaluation-g5/spec-c5-raw.md
+A  .scratch/ticket-harness/evidence/19-evaluation-g5/spec-c5-reviewer-manifest.json
+A  .scratch/ticket-harness/evidence/19-evaluation-g5/spec-c5-reviewer-report.sha256
+A  .scratch/ticket-harness/evidence/19-evaluation-g5/spec-c5-reviewer-saved.md
+A  .scratch/ticket-harness/evidence/19-evaluation-g5/spec-c5-source-records.json
+A  .scratch/ticket-harness/evidence/19-evaluation-g5/standards-c5-dispatch.json
+A  .scratch/ticket-harness/evidence/19-evaluation-g5/standards-c5-input.txt
+A  .scratch/ticket-harness/evidence/19-evaluation-g5/standards-c5-raw.md
+A  .scratch/ticket-harness/evidence/19-evaluation-g5/standards-c5-reviewer-saved.md
+A  .scratch/ticket-harness/evidence/19-evaluation-g5/standards-c5-reviewer-source-manifest.json
+A  .scratch/ticket-harness/evidence/19-evaluation-g5/standards-c5-source-records.json
+M  .scratch/ticket-harness/evidence/19-finding-history.md
+A  .scratch/ticket-harness/evidence/19-repair-c4-preservation.json
+A  .scratch/ticket-harness/evidence/19-repair-c5-adapter-preflight-results.json
+A  .scratch/ticket-harness/evidence/19-repair-c5-adapter-preflight.py
+A  .scratch/ticket-harness/evidence/19-repair-c5-branch-preflight-results.json
+A  .scratch/ticket-harness/evidence/19-repair-c5-branch-preflight.py
+A  .scratch/ticket-harness/evidence/19-repair-c5-build.py
+A  .scratch/ticket-harness/evidence/19-repair-c5-capture-skill-probe.py
+A  .scratch/ticket-harness/evidence/19-repair-c5-capture-workflow.py
+A  .scratch/ticket-harness/evidence/19-repair-c5-check-results-20261110T175939327451Z.json
+A  .scratch/ticket-harness/evidence/19-repair-c5-check-results-20261110T180005245551Z.json
+A  .scratch/ticket-harness/evidence/19-repair-c5-check.py
+AM .scratch/ticket-harness/evidence/19-repair-c5-checks.log
+A  .scratch/ticket-harness/evidence/19-repair-c5-default-whitespace.json
+A  .scratch/ticket-harness/evidence/19-repair-c5-env-observation.json
+A  .scratch/ticket-harness/evidence/19-repair-c5-env-observation.py
+A  .scratch/ticket-harness/evidence/19-repair-c5-readonly-observation.json
+A  .scratch/ticket-harness/evidence/19-repair-c5-readonly-observation.py
+A  .scratch/ticket-harness/evidence/19-repair-c5-report.md
+A  .scratch/ticket-harness/evidence/19-repair-c5-root-context.json
+A  .scratch/ticket-harness/evidence/19-repair-c5-run-checks.sh
+A  .scratch/ticket-harness/evidence/19-repair-c5-skill-final-delta.json
+A  .scratch/ticket-harness/evidence/19-repair-c5-skill-observation.md
+A  .scratch/ticket-harness/evidence/19-repair-c5-skill-preflight-declaration.json
+A  .scratch/ticket-harness/evidence/19-repair-c5-skill-probe/capture.json
+A  .scratch/ticket-harness/evidence/19-repair-c5-skill-probe/dispatch.json
+A  .scratch/ticket-harness/evidence/19-repair-c5-skill-probe/inputs/SKILL.md
+A  .scratch/ticket-harness/evidence/19-repair-c5-skill-probe/inputs/cases/m4/CONTRACT.md
+A  .scratch/ticket-harness/evidence/19-repair-c5-skill-probe/inputs/cases/m4/records.py
+A  .scratch/ticket-harness/evidence/19-repair-c5-skill-probe/inputs/cases/r2/CONTRACT.md
+A  .scratch/ticket-harness/evidence/19-repair-c5-skill-probe/inputs/cases/r2/stock.py
+A  .scratch/ticket-harness/evidence/19-repair-c5-skill-probe/inputs/proposal.json
+A  .scratch/ticket-harness/evidence/19-repair-c5-skill-probe/inputs/python-environment.md
+A  .scratch/ticket-harness/evidence/19-repair-c5-skill-probe/original-final.md
+A  .scratch/ticket-harness/evidence/19-repair-c5-skill-probe/original-tool-and-final-records.jsonl.gz
+A  .scratch/ticket-harness/evidence/19-repair-c5-skill-probe/outputs/evaluator/artifact-manifest.json
+A  .scratch/ticket-harness/evidence/19-repair-c5-skill-probe/outputs/evaluator/capture-plan.md
+A  .scratch/ticket-harness/evidence/19-repair-c5-skill-probe/outputs/evaluator/held-declaration.json
+A  .scratch/ticket-harness/evidence/19-repair-c5-skill-probe/outputs/evaluator/input-manifest.json
+A  .scratch/ticket-harness/evidence/19-repair-c5-skill-probe/outputs/evaluator/key-v1.json
+A  .scratch/ticket-harness/evidence/19-repair-c5-skill-probe/outputs/evaluator/observations.json
+A  .scratch/ticket-harness/evidence/19-repair-c5-skill-probe/outputs/evaluator/preflight.py
+A  .scratch/ticket-harness/evidence/19-repair-c5-skill-probe/outputs/evaluator/prepare_packet.py
+A  .scratch/ticket-harness/evidence/19-repair-c5-skill-probe/outputs/report.md
+A  .scratch/ticket-harness/evidence/19-repair-c5-skill-probe/outputs/retention/original-inputs/SKILL.md
+A  .scratch/ticket-harness/evidence/19-repair-c5-skill-probe/outputs/retention/original-inputs/cases/m4/CONTRACT.md
+A  .scratch/ticket-harness/evidence/19-repair-c5-skill-probe/outputs/retention/original-inputs/cases/m4/records.py
+A  .scratch/ticket-harness/evidence/19-repair-c5-skill-probe/outputs/retention/original-inputs/cases/r2/CONTRACT.md
+A  .scratch/ticket-harness/evidence/19-repair-c5-skill-probe/outputs/retention/original-inputs/cases/r2/stock.py
+A  .scratch/ticket-harness/evidence/19-repair-c5-skill-probe/outputs/retention/original-inputs/proposal.json
+A  .scratch/ticket-harness/evidence/19-repair-c5-skill-probe/outputs/retention/original-inputs/python-environment.md
+A  .scratch/ticket-harness/evidence/19-repair-c5-skill-probe/outputs/reviewer-inputs/corpus-v1/m4/CONTRACT.md
+A  .scratch/ticket-harness/evidence/19-repair-c5-skill-probe/outputs/reviewer-inputs/corpus-v1/m4/records.py
+A  .scratch/ticket-harness/evidence/19-repair-c5-skill-probe/outputs/reviewer-inputs/corpus-v1/r2/CONTRACT.md
+A  .scratch/ticket-harness/evidence/19-repair-c5-skill-probe/outputs/reviewer-inputs/corpus-v1/r2/stock.py
+A  .scratch/ticket-harness/evidence/19-repair-c5-skill-probe/outputs/reviewer-inputs/guidance-v1/spec.md
+A  .scratch/ticket-harness/evidence/19-repair-c5-skill-probe/outputs/reviewer-inputs/prompt-v1.md
+A  .scratch/ticket-harness/evidence/19-repair-c5-skill-probe/request.txt
+A  .scratch/ticket-harness/evidence/19-repair-c5-skill-probe/source-records.json
+A  .scratch/ticket-harness/evidence/19-repair-c5-workflow-command-records.json
+A  .scratch/ticket-harness/evidence/19-review-round2-capture.json
+A  .scratch/ticket-harness/evidence/19-review-round2-common.txt
+A  .scratch/ticket-harness/evidence/19-review-round2-dispatches.json
+A  .scratch/ticket-harness/evidence/19-review-round2-spec-assignment.txt
+A  .scratch/ticket-harness/evidence/19-review-round2-spec-audit.py
+A  .scratch/ticket-harness/evidence/19-review-round2-spec-b7-observation.json
+A  .scratch/ticket-harness/evidence/19-review-round2-spec-b7-observe.py
+A  .scratch/ticket-harness/evidence/19-review-round2-spec-identities.json
+A  .scratch/ticket-harness/evidence/19-review-round2-spec-observations.json
+A  .scratch/ticket-harness/evidence/19-review-round2-spec-tool-audit.json
+A  .scratch/ticket-harness/evidence/19-review-round2-standards-assignment.txt
+A  .scratch/ticket-harness/evidence/19-review-round2-standards-audit.log
+A  .scratch/ticket-harness/evidence/19-review-round2-standards-audit.py
+A  .scratch/ticket-harness/evidence/19-review-round2-standards-identities.json
+A  .scratch/ticket-harness/evidence/19-review-round2-standards-provenance-audit.json
+A  .scratch/ticket-harness/evidence/19-review-round2-standards-provenance-audit.log
+A  .scratch/ticket-harness/evidence/19-review-round2-standards-provenance-audit.py
+A  .scratch/ticket-harness/evidence/19-review-round2-standards-source-tool-inventory.json
+A  .scratch/ticket-harness/evidence/19-review-spec-02.md
+A  .scratch/ticket-harness/evidence/19-review-standards-02.md
+M  .scratch/ticket-harness/reviews/ticket-19.md
+M  docs/agents/reviewer-evaluation.md
+?? .scratch/ticket-harness/evidence/19-repair-c5-staged-whitespace.json
+exit=0
+
+command: bash -n .scratch/ticket-harness/evidence/19-repair-c5-run-checks.sh
+exit=0
+
+command: env PYTHONPATH=/usr/lib/python3/dist-packages /home/ajkerr1/development/agentic_template/.micromamba/envs/dev/bin/python /home/ajkerr1/.codex/skills/.system/skill-creator/scripts/quick_validate.py .agents/skills/custom/implement-with-checkboxes
+Skill is valid!
+exit=0
+
+command: env PYTHONPATH=/usr/lib/python3/dist-packages /home/ajkerr1/development/agentic_template/.micromamba/envs/dev/bin/python /home/ajkerr1/.codex/skills/.system/skill-creator/scripts/quick_validate.py .agents/skills/custom/create-next-agent-prompt
+Skill is valid!
+exit=0
+
+command: env PYTHONPATH=/usr/lib/python3/dist-packages /home/ajkerr1/development/agentic_template/.micromamba/envs/dev/bin/python /home/ajkerr1/.codex/skills/.system/skill-creator/scripts/quick_validate.py .agents/skills/custom/evaluate-reviewers
+Skill is valid!
+exit=0
+
+command: /home/ajkerr1/development/agentic_template/.micromamba/envs/dev/bin/python .scratch/ticket-harness/evidence/19-repair-c5-check.py
+{
+  "result": "pass",
+  "result_path": ".scratch/ticket-harness/evidence/19-repair-c5-check-results-20261110T180103445335Z.json",
+  "protected_paths": 6742,
+  "local_links": 182,
+  "corpus": "332ddabe972f596d86cd09eda809bd2f93d1f57602f01d75ed9f39f2b182510d"
+}
+exit=0
+
+command: git diff --check f2929e79cfd5a68f670862775053ae85ba9582b5 -- . :\(exclude\).scratch/ticket-harness/evidence/19-evaluation-g3/spec-c3-reviewer-saved.md
+exit=0
+
+command: git -c core.whitespace=-blank-at-eof diff --check f2929e79cfd5a68f670862775053ae85ba9582b5 -- .scratch/ticket-harness/evidence/19-evaluation-g3/spec-c3-reviewer-saved.md
+exit=0
+
+final staged command: ['git', 'diff', '--check', 'f2929e79cfd5a68f670862775053ae85ba9582b5']
+.scratch/ticket-harness/evidence/19-evaluation-g3/spec-c3-reviewer-saved.md:202: new blank line at EOF.
+exit=2
+
+final staged command: ['git', 'diff', '--check', 'f2929e79cfd5a68f670862775053ae85ba9582b5', '--', '.', ':(exclude).scratch/ticket-harness/evidence/19-evaluation-g3/spec-c3-reviewer-saved.md']
+exit=0
+
+final staged command: ['git', '-c', 'core.whitespace=-blank-at-eof', 'diff', '--check', 'f2929e79cfd5a68f670862775053ae85ba9582b5', '--', '.scratch/ticket-harness/evidence/19-evaluation-g3/spec-c3-reviewer-saved.md']
+exit=0

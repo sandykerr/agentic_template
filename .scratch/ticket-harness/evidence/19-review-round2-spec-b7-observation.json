@@ -1,0 +1,186 @@
+{
+  "source": "ce4e57d77be6dfd695f0ecb15284c5e9d5792b93",
+  "source_sha256": {
+    "git_ops.py": "aed3d63321a520e8b6a164700089b2b6c4ea2859a0c71c0f16cf90b11009d8d9",
+    "caller.py": "87bc76724c852a8175ea38a2964e1eebc37b5ec61c9095961f0176d3a9a8a705",
+    "CONTRACT.md": "a8cb890bbac9e40b5b0e7a409e89899ad878943bc0198f81d10e7157dce701f4"
+  },
+  "before_tag": {
+    "root_equal": true,
+    "branch": "main"
+  },
+  "after_tag": {
+    "outcome": "ValueError",
+    "message": "unexpected branch"
+  },
+  "worktree_status": "",
+  "full_HEAD": "refs/heads/main\n",
+  "short_HEAD": "heads/main\n",
+  "actual_branch": "main\n",
+  "base": "e5510142445a6687c64f391163399d9fccd36e7b",
+  "commands": [
+    {
+      "argv": [
+        "git",
+        "show",
+        "ce4e57d77be6dfd695f0ecb15284c5e9d5792b93:.scratch/ticket-harness/evidence/19-evaluation-g4/snapshot/cases/b7/git_ops.py"
+      ],
+      "exit": 0,
+      "stdout": "from pathlib import Path\n\ndef validate(git, expected_branch, base):\n    def checked(*args):\n        result = git(list(args))\n        if result.returncode:\n            raise ValueError(\"Git preflight failed: \" + \" \".join(args))\n        return result.stdout\n\n    root = Path(checked(\"rev-parse\", \"--show-toplevel\").removesuffix(\"\\n\")).resolve()\n    branch = checked(\"symbolic-ref\", \"--short\", \"HEAD\").removesuffix(\"\\n\")\n    if branch != expected_branch:\n        raise ValueError(\"unexpected branch\")\n    if checked(\"status\", \"--porcelain\", \"--untracked-files=all\"):\n        raise ValueError(\"dirty worktree\")\n    checked(\"rev-parse\", \"--verify\", base + \"^{commit}\")\n    checked(\"merge-base\", \"--is-ancestor\", base, \"HEAD\")\n    return root, branch\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "git",
+        "show",
+        "ce4e57d77be6dfd695f0ecb15284c5e9d5792b93:.scratch/ticket-harness/evidence/19-evaluation-g4/snapshot/cases/b7/caller.py"
+      ],
+      "exit": 0,
+      "stdout": "import os\nimport subprocess\nfrom git_ops import validate\n\ndef preflight(checkout, expected_branch, base):\n    def git(args):\n        result = subprocess.run([\"git\", \"-C\", os.fspath(checkout), *args],\n                                capture_output=True, check=False)\n        return subprocess.CompletedProcess(result.args, result.returncode,\n                                           os.fsdecode(result.stdout),\n                                           os.fsdecode(result.stderr))\n    return validate(git, expected_branch, base)\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "git",
+        "show",
+        "ce4e57d77be6dfd695f0ecb15284c5e9d5792b93:.scratch/ticket-harness/evidence/19-evaluation-g4/snapshot/cases/b7/CONTRACT.md"
+      ],
+      "exit": 0,
+      "stdout": "# Repository preflight\n`validate` owns the local repository preflight and returns the resolved root and\nrequested branch. Reject failed Git commands, detached HEAD, an unexpected branch,\na dirty worktree (including untracked files), absent base revision, and a base that\nis not an ancestor of HEAD. Read-only; no saved state or mutation. The injected\n`git` callable accepts argument lists and returns CompletedProcess-like results;\nit runs against the requested checkout with text capture, never a shell. Git\nfailure details may be reduced to ValueError. No class requirement or generic\nvalidation framework. The caller selects policies through `expected_branch` and\n`base`; it should not reproduce these validation decisions.\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "git",
+        "init",
+        "--quiet",
+        "--initial-branch=main",
+        "/tmp/ticket19-review2/spec-b7-tag-v0shjk6i/repo"
+      ],
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "git",
+        "-C",
+        "/tmp/ticket19-review2/spec-b7-tag-v0shjk6i/repo",
+        "-c",
+        "user.name=Spec reviewer",
+        "-c",
+        "user.email=spec@example.invalid",
+        "commit",
+        "--quiet",
+        "--allow-empty",
+        "-m",
+        "observation"
+      ],
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "git",
+        "-C",
+        "/tmp/ticket19-review2/spec-b7-tag-v0shjk6i/repo",
+        "rev-parse",
+        "HEAD"
+      ],
+      "exit": 0,
+      "stdout": "e5510142445a6687c64f391163399d9fccd36e7b\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "git",
+        "-C",
+        "/tmp/ticket19-review2/spec-b7-tag-v0shjk6i/repo",
+        "tag",
+        "main"
+      ],
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "git",
+        "-C",
+        "/tmp/ticket19-review2/spec-b7-tag-v0shjk6i/repo",
+        "status",
+        "--porcelain",
+        "--untracked-files=all"
+      ],
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "git",
+        "-C",
+        "/tmp/ticket19-review2/spec-b7-tag-v0shjk6i/repo",
+        "symbolic-ref",
+        "HEAD"
+      ],
+      "exit": 0,
+      "stdout": "refs/heads/main\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "git",
+        "-C",
+        "/tmp/ticket19-review2/spec-b7-tag-v0shjk6i/repo",
+        "symbolic-ref",
+        "--short",
+        "HEAD"
+      ],
+      "exit": 0,
+      "stdout": "heads/main\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "git",
+        "-C",
+        "/tmp/ticket19-review2/spec-b7-tag-v0shjk6i/repo",
+        "branch",
+        "--show-current"
+      ],
+      "exit": 0,
+      "stdout": "main\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "git",
+        "-C",
+        "/tmp/ticket19-review2/spec-b7-tag-v0shjk6i/repo",
+        "rev-parse",
+        "--verify",
+        "e5510142445a6687c64f391163399d9fccd36e7b^{commit}"
+      ],
+      "exit": 0,
+      "stdout": "e5510142445a6687c64f391163399d9fccd36e7b\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "git",
+        "-C",
+        "/tmp/ticket19-review2/spec-b7-tag-v0shjk6i/repo",
+        "merge-base",
+        "--is-ancestor",
+        "e5510142445a6687c64f391163399d9fccd36e7b",
+        "HEAD"
+      ],
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    }
+  ],
+  "scope": "One exact-source disposable Git counterexample; source compiled from committed Git blobs; no repository mutation or production tests."
+}
