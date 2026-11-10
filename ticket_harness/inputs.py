@@ -355,7 +355,42 @@ def require_approved(snapshots: dict[str, Any]) -> None:
                 raise GateFailure(f"Approved input changed: {path}")
 
 
-def load(config_path: Path, output: Path) -> tuple[dict[str, Any], dict[str, Any], str]:
+@dataclass(frozen=True)
+class PreparedInputs:
+    """Validated settings and derived execution inputs from one preparation operation.
+
+    Settings retain configuration paths/selections; normalized values live in their
+    own fields. The execution mapping preserves the existing durable checkpoint
+    shape without enriching the settings or serializing this in-memory carrier.
+    """
+
+    settings: dict[str, Any]
+    snapshots: dict[str, Any]
+    requirements: dict[str, Any]
+    primary: str
+    selected: list[str]
+    completed: list[str]
+    plan: dict[str, Any] | None
+    worker_settings: dict[str, Any] | None
+
+    def execution_config(self) -> dict[str, Any]:
+        config = self.settings | {
+            "requirements": self.requirements,
+            "selected_tickets": self.selected,
+            "completed_tickets": self.completed,
+        }
+        if self.plan is not None:
+            config.update(plan=self.plan, worker_settings=self.worker_settings)
+        return config
+
+
+def load(config_path: Path, output: Path) -> PreparedInputs:
+    """Prepare inputs before execution, copying approved bytes into output/inputs.
+
+    The caller must create output/inputs first. Output must be outside the target
+    repository and separate from every approved input; violations reject before
+    any worker/check execution or ref advancement. Source files are never written.
+    """
     config = configuration(json.loads(config_path.read_text(), object_pairs_hook=unique_object))
     repository = (config_path.parent / config["repository"]).resolve()
     for name in config["checks"]:
@@ -425,17 +460,18 @@ def load(config_path: Path, output: Path) -> tuple[dict[str, Any], dict[str, Any
             references[normalized["id"]] = dependencies
             if name == "ticket":
                 ticket = normalized
-    config["requirements"] = requirements
+    checked_plan = None
+    worker_settings = None
     if "plan" in snapshots:
         plan = json.loads(
             Path(snapshots["plan"]["artifact"]).read_text(), object_pairs_hook=unique_object
         )
         from ticket_harness import plans
 
-        config["plan"], config["worker_settings"] = plans.validate(
-            plan, requirements, config, ticket["id"]
-        )
-        selection = [Path(requirements[t]["source"]) for t in plan["milestones"][0]["tickets"]]
+        checked_plan, worker_settings = plans.validate(plan, requirements, config, ticket["id"])
+        selection = [
+            Path(requirements[t]["source"]) for t in checked_plan["milestones"][0]["tickets"]
+        ]
     validate_graph(requirements, references)
     selected = sorted(
         (item["id"] for item in requirements.values() if Path(item["source"]) in selection),
@@ -443,7 +479,7 @@ def load(config_path: Path, output: Path) -> tuple[dict[str, Any], dict[str, Any
     )
     completed = completed_tickets(snapshots, requirements, repository, config["base"])
     # A selected prerequisite must be verified again by this run before it can unlock work.
-    executable = config["plan"]["required_tickets"] if "plan" in config else selected
+    executable = checked_plan["required_tickets"] if checked_plan is not None else selected
     completed.difference_update(executable)
     for ticket_id in executable:
         item = requirements[ticket_id]
@@ -462,6 +498,13 @@ def load(config_path: Path, output: Path) -> tuple[dict[str, Any], dict[str, Any
                 f"ticket {ticket_id}: unsatisfied prerequisites {missing}; "
                 "select prerequisites or supply completed_runs with integrated Done evidence"
             )
-    config["selected_tickets"] = selected
-    config["completed_tickets"] = sorted(completed, key=int)
-    return config, snapshots, ticket["id"]
+    return PreparedInputs(
+        config,
+        snapshots,
+        requirements,
+        ticket["id"],
+        selected,
+        sorted(completed, key=int),
+        checked_plan,
+        worker_settings,
+    )

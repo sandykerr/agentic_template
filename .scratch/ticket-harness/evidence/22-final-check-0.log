@@ -1,0 +1,31 @@
+{"command": ["/home/ajkerr1/development/agentic_template/.micromamba/envs/dev/bin/python", "-m", "pytest", "-q", "--durations=20", "-p", "capture22"], "source": "22-final-source.json"}
+........................................................................ [ 13%]
+........................................................................ [ 26%]
+........................................................................ [ 39%]
+........................................................................ [ 52%]
+........................................................................ [ 66%]
+........................................................................ [ 79%]
+........................................................................ [ 92%]
+........................................                                 [100%]
+============================= slowest 20 durations =============================
+13.07s call     tests/test_milestones.py::test_single_final_group_still_requires_human_qa_and_captures_matching_metadata
+10.67s call     tests/test_continuation.py::test_repeated_stops_retain_previous_decisions_and_checkpoint_lineage
+9.90s call     tests/test_continuation.py::test_clean_qa_stop_continues_in_new_process_without_replaying_done_work
+9.46s call     tests/test_dependencies.py::test_multi_ticket_completion_evidence_unlocks_only_explicit_follow_up_selection
+9.39s call     tests/test_dependencies.py::test_repairs_keep_ticket_local_attempts_fixed_bases_and_all_earlier_evidence
+8.59s call     tests/test_qa_promotion.py::test_two_foreground_milestones_require_exact_acceptance_and_consume_each_decision
+8.53s call     tests/test_dependencies.py::test_dependency_chain_and_independent_work_use_verified_integration_in_stable_order
+7.34s call     tests/test_continuation.py::test_continuation_rejects_changed_checkpoint_without_overwriting_prior_state[record]
+7.00s call     tests/test_qa_promotion.py::test_invalid_decisions_keep_waiting_without_repairs_or_authority_from_incidental_text
+6.61s call     tests/test_continuation.py::test_continuation_rejects_changed_checkpoint_without_overwriting_prior_state[snapshot]
+5.96s call     tests/test_continuation.py::test_continuation_rejects_changed_checkpoint_without_overwriting_prior_state[checkpoint]
+5.57s call     tests/test_continuation.py::test_continued_run_records_invalidation_of_earlier_verified_source
+5.43s call     tests/test_continuation.py::test_continuation_rejects_changed_checkpoint_without_overwriting_prior_state[baseline]
+5.27s call     tests/test_continuation.py::test_continuation_rejects_changed_checkpoint_without_overwriting_prior_state[malformed-record]
+5.27s call     tests/test_human_decisions.py::test_invalid_decision_like_output_is_untrusted_and_uses_bounded_repairs[duplicate-standards]
+5.14s call     tests/test_continuation.py::test_continuation_rejects_changed_checkpoint_without_overwriting_prior_state[record-type]
+5.12s call     tests/test_repairs.py::test_failed_git_operations_have_per_attempt_diagnostics
+5.08s call     tests/test_milestones.py::test_milestone_merge_hook_cannot_present_changed_source_without_renewed_reviews
+4.99s call     tests/test_continuation.py::test_continuation_rejects_changed_checkpoint_without_overwriting_prior_state[plan]
+4.92s call     tests/test_milestones.py::test_external_milestone_input_movement_preserves_refs_and_rejects_readiness[dev]
+544 passed in 709.21s (0:11:49)

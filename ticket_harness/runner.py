@@ -335,7 +335,9 @@ def _run(
         execution.save()
     try:
         if checkpoint is None:
-            config, snapshots, primary = inputs.load(config_path, output)
+            prepared = inputs.load(config_path, output)
+            config = prepared.execution_config()
+            snapshots = prepared.snapshots
             record["inputs"] = snapshots
             for field in ("requirements", "max_repairs", "timeouts", "selected_tickets"):
                 record[field] = config[field]
@@ -347,7 +349,7 @@ def _run(
                     feature_complete=False,
                     milestone={"id": config["plan"]["milestones"][0]["id"], "state": "executing"},
                 )
-            tickets.initialize(record, config, primary)
+            tickets.initialize(record, config, prepared.primary)
         else:
             config = checkpoint["config"]
             snapshots = record["inputs"]
