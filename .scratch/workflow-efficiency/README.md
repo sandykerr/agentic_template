@@ -66,7 +66,20 @@ a purposeful required fresh assignment; no instruction change was needed.
 This is reasoning through finite scenarios, not an executed ticket lifecycle or
 measured speed improvement. No future efficiency/reliability guarantee is made.
 
-Independent committed-source Spec/Standards assessment is pending at this source
-checkpoint. Follow-up records will name its exact revision, original outputs,
-instruction identities and actual available settings. No previous ticket 19
-result is claimed as validation of these later instructions.
+The [independent assessment](reviews/workflow.md) is complete at exact source
+`221bc551cb931998b0250a806309aa22b8bd41b7`: Spec and Standards each report zero
+blocking and zero optional findings. Both fresh High-configured axes trace actual
+instructions and unchanged collaborators; originals, settings limits and source
+identities are retained. No repair or instruction change was needed. No previous
+ticket 19 result is claimed as validation of these later instructions.
+
+[Final record checks](evidence/final-audit.json) verify unchanged assessed-source
+hashes, assignment identities, links across all changed Markdown and whitespace.
+The [artifact manifest](evidence/artifacts.sha256) identifies retained originals
+and checks. The first record check ran before that manifest existed and stopped
+on its missing link; its [failure](evidence/final-audit-01.stderr) is retained.
+The manifest was then created before the successful check. These subsequent files
+are assessment/completion bookkeeping; they
+do not relabel the source review or runtime evidence as tests of another revision.
+The follow-up is complete once this bookkeeping commit exists. The current
+[handoff](../../next_agent_prompt.md) still points to ticket 20, which was not begun.
