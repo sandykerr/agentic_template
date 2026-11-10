@@ -6,7 +6,8 @@ their identities, reports and outstanding findings here as they are produced.
 Routine Spec/Standards reports share their ticket assessment; cross-ticket work
 has its own review ID. This index does not schedule implementation tickets.
 
-No real assessment is asserted by this initial index. Ticket 16's
+The [ticket 16 assessment](ticket-16.md) records its actual independent implementation
+reviews. Ticket 16's
 [isolated miniature tracker](../evidence/16-miniature/README.md) demonstrates all
 six required record histories using synthetic reviewer/human decisions and real
 disposable Git source identities. It is not a real review, calibration result or
@@ -15,4 +16,4 @@ scope and evidence locations in the [feature index](../README.md#completion-evid
 
 | Assessment | Scope / assessed source | Review lifecycle | Outstanding findings / history | Milestone assessment |
 | --- | --- | --- | --- | --- |
-| None recorded yet | New assessments will link exact source/report identities | — | — | M1 not requested/accepted |
+| [review-ticket-16](ticket-16.md) | Ticket 16 / `3c8d4ab52c5da112552275d1d5fffdef001c1451` | completed | None; Spec and Standards each 0 blockers/0 optional | M1 not requested/accepted |
