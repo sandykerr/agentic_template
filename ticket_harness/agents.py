@@ -5,8 +5,6 @@ from math import isfinite
 from pathlib import Path
 from typing import Any
 
-from ticket_harness.records import GateFailure
-
 INSTRUCTIONS = {
     "implementation": "Implement only the approved ticket in this worktree. Do not commit. "
     "When repair_context is present, repair the current changes using its rejected revisions, "
@@ -188,16 +186,18 @@ def require_bounded_nesting(value: Any) -> None:
         pending.extend((child, depth + 1) for child in children)
 
 
-def report(gate: dict[str, Any], expected: dict[str, Any]) -> dict[str, Any]:
+def report(stdout: Path, expected: dict[str, Any]) -> dict[str, Any]:
+    """Return parsed content and validation observations without editing a gate."""
+    observation: dict[str, Any] = {}
     try:
         value = json.loads(
-            Path(gate["stdout"]).read_text(),
+            stdout.read_text(),
             object_pairs_hook=report_object,
             parse_constant=invalid_constant,
             parse_float=finite_number,
         )
         require_bounded_nesting(value)
-        gate["report"] = value
+        observation["report"] = value
         if not isinstance(value, dict):
             raise ValueError("report must be an object")
         for key in ("role", "ticket", "attempt", "base_revision", "revision"):
@@ -212,7 +212,7 @@ def report(gate: dict[str, Any], expected: dict[str, Any]) -> dict[str, Any]:
         else:
             review(value)
     except (ValueError, KeyError, TypeError, RecursionError) as error:
-        gate.update(passed=False, report_status="invalid", diagnostic=str(error))
-        raise GateFailure(f"{gate['stage']} report rejected: {error}") from error
-    gate["report_status"] = "valid"
-    return value
+        observation.update(passed=False, report_status="invalid", diagnostic=str(error))
+        return observation
+    observation["report_status"] = "valid"
+    return observation

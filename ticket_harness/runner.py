@@ -138,6 +138,7 @@ class _Run:
         *,
         ticket: str | None = None,
         attempt: int = 0,
+        owner: tickets._Attempt | None = None,
     ) -> dict[str, Any]:
         self.stage = stage
         repairable = True
@@ -179,7 +180,12 @@ class _Run:
                 result["report_status"] = "not-evaluated"
                 self.save()
             if prompt is not None and not result["timed_out"]:
-                report = agents.report(result, prompt)
+                observation = agents.report(Path(result["stdout"]), prompt)
+                result.update(observation)
+                if observation["report_status"] == "invalid":
+                    self.save()
+                    raise GateFailure(f"{stage} report rejected: {observation['diagnostic']}")
+                report = observation["report"]
                 questions = []
                 if stage == "implementation" and report["result"] == "human-decision-needed":
                     questions = report["unresolved_questions"]
@@ -202,8 +208,9 @@ class _Run:
                         "stdout": result["stdout"],
                         "stderr": result["stderr"],
                     }
-                    self.record["ticket"]["human_decision"] = decision
-                    self.record["attempts"][-1]["human_decision"] = decision
+                    if owner is None:
+                        raise NonRepairableFailure("Human decision has no owning attempt")
+                    owner.attach_human_decision(decision)
                 if result["exit_code"] != 0:
                     result.update(
                         passed=False,

@@ -1,0 +1,23 @@
+# Ticket 20 criterion evidence for independent review
+
+Exact source: [hash map and complete source diff](20-final-source.json).
+Final required checks: [results](20-final-check-results.json), full 544 passed.
+All representative paths below resolve under `ticket20-final-raw/` within the
+[retained archive](20-final-raw.tar.gz); [complete scenario index](20-observation-index.json)
+links every scenario, not just these examples. [Archive/source audit](20-capture-audit.json)
+verifies all 10446 raw files and 26 source/test/config hashes.
+
+| Original criterion | Source and actual observation evidence |
+| --- | --- |
+| 1 attempt lifecycle, identity, files, ranges and current ticket | Owner operations in `tickets.py`, all execution callers migrated. `test_failed_check_repairs_current_changes_and_renews_all_gates` (`ticket-harness-test-59mjyeuz/observations.json`) observes rejected and repaired revisions, fresh roles/gates, exact successful ref and status. Pre-submission invalid report carry: `ticket-harness-test-32pgpxzb/observations.json`. Exhaustion examples `ticket-harness-test-1t0st8f4/observations.json` and `ticket-harness-test-3qqutjsl/observations.json`. All ranged observations independently match ticket/attempt in summary; original projection distinctions explained in implementation report. |
+| 2 checking/report authority and precedence | `agents.report` returns local observations; `_Run.check` alone publishes canonical gate fields and delegates only validated decisions to explicit owner. Three-role nonzero success reports include `ticket-harness-test-173hnw3_/observations.json` and `ticket-harness-test-66ddokit/observations.json`; complete report data/exit/diagnostics remain in record and raw outputs. `test_reports`, `test_transaction` and `test_timeouts` all pass. Shared baseline invalidation before repair: `ticket-harness-test-elxb_6yg/observations.json`. Actual ownership conclusion still requires independent source review. |
+| 3 correct initial/repair human decision, either axis, exit 0/7 | All 12 `test_decision_blocks_immediately_with_contract_work_and_history` variants pass and are individually indexed. Examples initial Spec `ticket-harness-test-3ky1trg9/observations.json`, repair Standards `ticket-harness-test-2ub_q8y9/observations.json`; all roles/exits are in full index. Complete same handoff in ticket/attempt, accurate range/counter, valid failed terminal gate, precise diagnostic, preserved source/caller/approved inputs and immediate stop are existing public assertions. Additional decision scenarios yield 8 implementation/7 Spec/7 Standards handoffs in this run. |
+| 4 distinct malformed/optional/ordinary/timeout bounded behavior | All `test_human_decisions`, `test_reports`, `test_optional_suggestions`, `test_timeouts` and `test_repairs` cases pass. Representative repaired timeouts: `ticket-harness-test-0hvxmf07/observations.json` and `ticket-harness-test-hosf75jf/observations.json`. Raw records distinguish 277 invalid reports and 10 not-evaluated timeout reports from validated decisions; optional findings require no repair. |
+| 5 public compatibility/history/protection/atomic observations | Whole 544-case suite/status comparisons pass. Multi-ticket order/history/ref evidence: `ticket-harness-test-44_rwo2m/observations.json`. [Baseline-code checkpoint preservation history and timing limitation](20-checkpoint/preservation-history.md), [actual final continuation](20-checkpoint/renewed/continuation.json), and before/after real repository archives preserve compatibility evidence. Public schema/artifact/persistence source trace is in implementation report. |
+| 6 state-owned operations and encapsulation | Source trace in [implementation report](20-implementation-report.md); no runner coupling in owner, no dictionary transition writes left in execute/check, no hierarchy/private-shape tests. Pending fresh independent design review; worker does not self-certify this criterion. |
+| 7 evaluated independent review workflow/history/checkpoint | [Entry record](20-start.md), final four-trigger assessment and unchanged/cross-module scope in implementation report; G2/C5 and original limitation references retained. Root owns independent immutable reports/finding history and bookkeeping after committed implementation. Still pending; no actual M1 cumulative assessment or human QA acceptance claimed. |
+
+Public tests and artifact/status observations establish behavior; they do not replace
+source review. No new tests were warranted by the existing coverage map. Packaging
+is out of impact scope. No original ticket criterion, ticket status/index/handoff,
+frozen historical report or approved requirement is changed by the worker.
