@@ -6,6 +6,11 @@ It implements the local [review contract](../../.scratch/ticket-harness/spec.md#
 under the existing [tracker conventions](issue-tracker.md). It defines Markdown
 records, not a runtime report schema, scheduler or additional review gate.
 
+Before assigning source reviews or carrying ownership concerns into repairs or
+handoffs, apply [ownership and review scope](ownership-review.md). It owns the
+substantive cross-module inspection and reporting contract; these records own
+identity, preservation and disposition mechanics.
+
 ## Location and navigation
 
 Keep records with their feature: `.scratch/<feature>/reviews/` for work items,
@@ -125,6 +130,6 @@ from tracker history without rewriting active approved inputs or frozen evidence
 If the intended authoring files are active inputs, report that blocker and retain
 the new record in the authorized output location until authoring is permitted.
 
-Scope enforcement, architecture gating, reviewer calibration and runtime adoption
-are owned by later tickets 17, 18, 19 and 33 respectively. These templates record
+The shared scope guidance is delivered by ticket 17; architecture gating, reviewer
+calibration and runtime adoption are owned by later tickets 18, 19 and 33 respectively. These templates record
 their eventual evidence without claiming those mechanisms already exist.

@@ -13,6 +13,12 @@ Use project requirements and accepted architecture decisions over general design
 heuristics. Reuse existing custom guidance before proposing another policy.
 Resolve environment facts by inspection; decisions belong to the human.
 
+For consequential mutable state, apply the repo-owned
+[ownership and review-scope contract](../../../../docs/agents/ownership-review.md#planning-and-implementation)
+when grilling decisions and drafting implementation contracts. Carry the owner,
+permitted writers, invariant-preserving operations, persistence/restoration and
+failure rules into the spec; resolve consequential gaps before approval.
+
 For this repository, read [domain guidance](../../../../docs/agents/domain.md),
 [tracker conventions](../../../../docs/agents/issue-tracker.md),
 [triage vocabulary](../../../../docs/agents/triage-labels.md), and

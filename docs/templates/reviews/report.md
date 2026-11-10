@@ -18,6 +18,18 @@ or manifest after capture, outside the hashed file itself.
 | Omitted scope | {{scope and reasons; unresolved assumptions}} |
 | Prior observations | {{superseded/reopened full keys and links or none}} |
 
+## Substantive assessment
+
+{{Approved behavior/ownership contract; traced callers, writers, persistence/restore
+and invalidation; reasoning about invariant preservation, including a justified
+clean conclusion when appropriate. Apply the shared
+[scope contract](../../agents/ownership-review.md#report-substantive-reasoning).}}
+
+## Evidence audit
+
+{{Commands/observations and identity checks, results and limits; distinguish these
+from the substantive design conclusion.}}
+
 ## Findings
 
 Use a heading per report-local ID. Preserve the reviewer's classification,

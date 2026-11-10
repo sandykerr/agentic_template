@@ -11,6 +11,14 @@ Read the [shared planning reference](../references/planning.md#milestone-members
 
 Use fresh implementation and repair assignments with Medium reasoning by default; apply an explicit ticket worker override to both. Configure the separate fresh Spec and Standards assignments independently, each defaulting to High. Carry the approved model, role guidance and context target; report missing configuration rather than inventing it. These are development assignment settings, not proof of runtime profile enforcement or skill capture.
 
+Read and apply the shared [ownership and review-scope contract](../../../../docs/agents/ownership-review.md)
+before implementation/repair and when preparing both upstream `code-review`
+assignments. Record the affected flow and changed/unchanged ownership in the
+implementation evidence; supply the shared contract to each fresh reviewer. Its
+whole-ticket scope and report requirements take precedence over upstream
+diff-hunk-only wording and the under-400-word report briefs; retain a concise
+summary with enough linked detail for the required evidence.
+
 ## Implement and review
 
 Read the repo-owned [review record contract](../../../../docs/agents/review-records.md)

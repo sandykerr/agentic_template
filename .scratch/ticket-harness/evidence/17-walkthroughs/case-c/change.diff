@@ -1,0 +1,12 @@
+diff --git a/execution.js b/execution.js
+index fb98b3b..497282b 100644
+--- a/execution.js
++++ b/execution.js
+@@ -1 +1,6 @@
+-// Ticket entry point will be added here.
++import { summary } from './report.js';
++export function runTicket(a) {
++  a.submit();
++  a.status = 'complete';
++  return summary(a);
++}

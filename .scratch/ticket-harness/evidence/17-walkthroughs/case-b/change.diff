@@ -1,0 +1,12 @@
+diff --git a/gates.js b/gates.js
+index 4b2d0af..cbb677a 100644
+--- a/gates.js
++++ b/gates.js
+@@ -8,4 +8,7 @@ export class Gates {
+   invalidate(source) {
+     for (const gate of this.records) if (gate.source !== source) gate.valid = false;
+   }
++  replaceSource(source) {
++    this.invalidate(source);
++  }
+ }

@@ -1,0 +1,14 @@
+diff --git a/capacity.js b/capacity.js
+index 6f93cb8..aad975c 100644
+--- a/capacity.js
++++ b/capacity.js
+@@ -5,4 +5,9 @@ export class Capacity {
+     this.remaining -= units;
+     return true;
+   }
++  cancel(units) {
++    if (!Number.isInteger(units) || units <= 0) return false;
++    this.remaining += units;
++    return true;
++  }
+ }

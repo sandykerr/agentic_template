@@ -11,6 +11,12 @@ Read them and perform their procedures directly when no Skill tool is available.
 Keep upstream files unchanged. This wrapper adds the presentation rules below;
 they take precedence over upstream vocabulary and fixed diagram-size preferences.
 
+When assessing source architecture, apply the shared
+[ownership and review-scope contract](../../../../docs/agents/ownership-review.md)
+to select affected collaborators, evaluate state ownership and record inspected
+and omitted scope. Report-only edits preserve the prior assessment scope and
+source identity. This wrapper does not add a ticket reviewer or milestone gate.
+
 ## Review and report
 
 Follow the upstream scope selection, domain/ADR checks, evidence gathering,

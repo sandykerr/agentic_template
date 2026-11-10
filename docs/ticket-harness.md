@@ -37,7 +37,10 @@ requirements, or which failures stop the run.
 Development review assessments and finding decisions use the local
 [review record contract and templates](agents/review-records.md), with the
 feature's [review index](../.scratch/ticket-harness/reviews/README.md) for navigation.
-These authoring records leave the runtime report formats below unchanged.
+Use the shared [ownership and review-scope contract](agents/ownership-review.md)
+for planning state ownership, reviewing affected collaborators and carrying
+unresolved work into repairs/handoffs. These authoring records leave the runtime
+report formats below unchanged.
 
 Use the [testing policy](agents/testing.md) to select focused development checks,
 preserve the full-suite completion gate, and capture evidence without redundant runs.

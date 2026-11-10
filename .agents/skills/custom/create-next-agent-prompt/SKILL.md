@@ -20,6 +20,13 @@ For eligible implementation work, read the selected ticket, its referenced spec 
 
 Identify every acceptance criterion, the public testing seam, compatibility requirements, explicit scope exclusions, and any unresolved decisions. Use the existing approved testing seam when one exists; otherwise tell the next agent to establish it with the user before writing tests. Preserve requirement wording and scope when translating criteria into implementation instructions.
 
+For ownership and review context, apply the shared
+[ownership and review-scope contract](../../../../docs/agents/ownership-review.md#repair-and-handoff).
+Include the current approved owner/writer contract, affected unchanged flows and
+changed/unchanged ownership explanation; direct both fresh reviewers to the shared
+contract. Expose missing consequential decisions, omitted scope and pending work
+with the next responsible action, using an explicit absence where none exists.
+
 For review context, follow the [review record contract](../../../../docs/agents/review-records.md).
 Carry assessment/report identities, current unresolved full finding keys, history,
 human decision/amendment links and pending exact-source revalidation into the
@@ -44,6 +51,12 @@ Adapt these instructions to the selected ticket rather than copying the previous
 ## Draft a QA handoff or waiting status
 
 Begin with the actual status, such as **Awaiting milestone QA**, **Awaiting final QA**, or **Waiting: prerequisite evidence missing**. Identify the approved plan/version, milestone and membership, verified completion evidence, pending acceptance/blockers and which later work remains ineligible. Use the milestone's planned human checks, setup, expected observations and acceptance conditions; distinguish development checkpoints from target-repository runtime QA in fixtures.
+
+Carry outstanding review work and the inspected/omitted scope using the shared
+[ownership and review-scope contract](../../../../docs/agents/ownership-review.md#repair-and-handoff),
+including unresolved full finding keys, missing reports, pending revalidation and
+human decisions or their explicit absence. Keep the next responsible action
+visible without treating review completion as QA acceptance.
 
 Carry exact existing QA request and artifact paths/identities, run identity, feature revision, development base, tested candidate revision, gate evidence, decision location and recorded decision when available. Label missing references explicitly; a plan without runtime artifacts receives a preparation/waiting status with the missing inputs and next responsible workflow, not invented request IDs, candidates, results or acceptance. Identify a known stale/mismatched decision as pending renewed assessment. Link actual records without authoring or altering an approval artifact.
 

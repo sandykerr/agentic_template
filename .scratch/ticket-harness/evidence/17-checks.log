@@ -1,0 +1,195 @@
+
+command: git rev-parse HEAD
+c82b15f504c29a69e8fb708e10568574150e80d3
+exit=0
+
+command: git status --short
+ M .agents/skills/custom/create-next-agent-prompt/SKILL.md
+ M .agents/skills/custom/implement-with-checkboxes/SKILL.md
+ M .agents/skills/custom/references/planning.md
+ M .agents/skills/custom/review-architecture/SKILL.md
+ M docs/agents/review-records.md
+ M docs/templates/reviews/report.md
+ M docs/ticket-harness.md
+?? .scratch/ticket-harness/evidence/17-check.py
+?? .scratch/ticket-harness/evidence/17-checks.log
+?? .scratch/ticket-harness/evidence/17-implementation-report.md
+?? .scratch/ticket-harness/evidence/17-run-checks.sh
+?? .scratch/ticket-harness/evidence/17-walkthroughs/
+?? .scratch/ticket-harness/evidence/17-worker-context.json
+?? docs/agents/ownership-review.md
+exit=0
+
+command: bash -n .scratch/ticket-harness/evidence/17-run-checks.sh
+exit=0
+
+command: env PYTHONPATH=/usr/lib/python3/dist-packages /home/ajkerr1/development/agentic_template/.micromamba/envs/dev/bin/python /home/ajkerr1/.codex/skills/.system/skill-creator/scripts/quick_validate.py .agents/skills/custom/implement-with-checkboxes
+Skill is valid!
+exit=0
+
+command: env PYTHONPATH=/usr/lib/python3/dist-packages /home/ajkerr1/development/agentic_template/.micromamba/envs/dev/bin/python /home/ajkerr1/.codex/skills/.system/skill-creator/scripts/quick_validate.py .agents/skills/custom/create-next-agent-prompt
+Skill is valid!
+exit=0
+
+command: env PYTHONPATH=/usr/lib/python3/dist-packages /home/ajkerr1/development/agentic_template/.micromamba/envs/dev/bin/python /home/ajkerr1/.codex/skills/.system/skill-creator/scripts/quick_validate.py .agents/skills/custom/review-architecture
+Skill is valid!
+exit=0
+
+command: /home/ajkerr1/development/agentic_template/.micromamba/envs/dev/bin/python .scratch/ticket-harness/evidence/17-check.py
+Traceback (most recent call last):
+  File "/home/ajkerr1/development/agentic_template/.scratch/ticket-harness/evidence/17-check.py", line 102, in <module>
+    main()
+  File "/home/ajkerr1/development/agentic_template/.scratch/ticket-harness/evidence/17-check.py", line 41, in main
+    observations = audit(paths)
+                   ^^^^^^^^^^^^
+  File "/home/ajkerr1/development/agentic_template/.scratch/ticket-harness/evidence/16-check.py", line 96, in links
+    assert target.exists(), (path, href, "missing file or directory")
+           ^^^^^^^^^^^^^^^
+AssertionError: (PosixPath('/home/ajkerr1/development/agentic_template/.scratch/ticket-harness/evidence/17-implementation-report.md'), '17-check-results.json', 'missing file or directory')
+exit=1
+
+command: git diff --check c82b15f504c29a69e8fb708e10568574150e80d3
+exit=0
+
+command: git rev-parse HEAD
+c82b15f504c29a69e8fb708e10568574150e80d3
+exit=0
+
+command: git status --short
+M  .agents/skills/custom/create-next-agent-prompt/SKILL.md
+M  .agents/skills/custom/implement-with-checkboxes/SKILL.md
+M  .agents/skills/custom/references/planning.md
+M  .agents/skills/custom/review-architecture/SKILL.md
+A  .scratch/ticket-harness/evidence/17-check.py
+AM .scratch/ticket-harness/evidence/17-checks.log
+A  .scratch/ticket-harness/evidence/17-implementation-report.md
+A  .scratch/ticket-harness/evidence/17-run-checks.sh
+A  .scratch/ticket-harness/evidence/17-walkthroughs/README.md
+A  .scratch/ticket-harness/evidence/17-walkthroughs/capture.json
+A  .scratch/ticket-harness/evidence/17-walkthroughs/case-a/assignment.json
+A  .scratch/ticket-harness/evidence/17-walkthroughs/case-a/assignment.txt
+A  .scratch/ticket-harness/evidence/17-walkthroughs/case-a/baseline/CONTRACT.md
+A  .scratch/ticket-harness/evidence/17-walkthroughs/case-a/baseline/capacity.js
+A  .scratch/ticket-harness/evidence/17-walkthroughs/case-a/baseline/submission.js
+A  .scratch/ticket-harness/evidence/17-walkthroughs/case-a/candidate/CONTRACT.md
+A  .scratch/ticket-harness/evidence/17-walkthroughs/case-a/candidate/capacity.js
+A  .scratch/ticket-harness/evidence/17-walkthroughs/case-a/candidate/submission.js
+A  .scratch/ticket-harness/evidence/17-walkthroughs/case-a/change.diff
+A  .scratch/ticket-harness/evidence/17-walkthroughs/case-a/report.md
+A  .scratch/ticket-harness/evidence/17-walkthroughs/case-a/source.bundle
+A  .scratch/ticket-harness/evidence/17-walkthroughs/case-b/assignment.json
+A  .scratch/ticket-harness/evidence/17-walkthroughs/case-b/assignment.txt
+A  .scratch/ticket-harness/evidence/17-walkthroughs/case-b/baseline/CONTRACT.md
+A  .scratch/ticket-harness/evidence/17-walkthroughs/case-b/baseline/checkpoint.js
+A  .scratch/ticket-harness/evidence/17-walkthroughs/case-b/baseline/gates.js
+A  .scratch/ticket-harness/evidence/17-walkthroughs/case-b/candidate/CONTRACT.md
+A  .scratch/ticket-harness/evidence/17-walkthroughs/case-b/candidate/checkpoint.js
+A  .scratch/ticket-harness/evidence/17-walkthroughs/case-b/candidate/gates.js
+A  .scratch/ticket-harness/evidence/17-walkthroughs/case-b/change.diff
+A  .scratch/ticket-harness/evidence/17-walkthroughs/case-b/report.md
+A  .scratch/ticket-harness/evidence/17-walkthroughs/case-b/source.bundle
+A  .scratch/ticket-harness/evidence/17-walkthroughs/case-c/assignment.json
+A  .scratch/ticket-harness/evidence/17-walkthroughs/case-c/assignment.txt
+A  .scratch/ticket-harness/evidence/17-walkthroughs/case-c/baseline/CONTRACT.md
+A  .scratch/ticket-harness/evidence/17-walkthroughs/case-c/baseline/attempt.js
+A  .scratch/ticket-harness/evidence/17-walkthroughs/case-c/baseline/execution.js
+A  .scratch/ticket-harness/evidence/17-walkthroughs/case-c/baseline/report.js
+A  .scratch/ticket-harness/evidence/17-walkthroughs/case-c/candidate/CONTRACT.md
+A  .scratch/ticket-harness/evidence/17-walkthroughs/case-c/candidate/attempt.js
+A  .scratch/ticket-harness/evidence/17-walkthroughs/case-c/candidate/execution.js
+A  .scratch/ticket-harness/evidence/17-walkthroughs/case-c/candidate/report.js
+A  .scratch/ticket-harness/evidence/17-walkthroughs/case-c/case-c-report.md
+A  .scratch/ticket-harness/evidence/17-walkthroughs/case-c/change.diff
+A  .scratch/ticket-harness/evidence/17-walkthroughs/case-c/proposal-assessment.md
+A  .scratch/ticket-harness/evidence/17-walkthroughs/case-c/report.md
+A  .scratch/ticket-harness/evidence/17-walkthroughs/case-c/source.bundle
+A  .scratch/ticket-harness/evidence/17-walkthroughs/case-d/assignment.json
+A  .scratch/ticket-harness/evidence/17-walkthroughs/case-d/assignment.txt
+A  .scratch/ticket-harness/evidence/17-walkthroughs/case-d/baseline/CONTRACT.md
+A  .scratch/ticket-harness/evidence/17-walkthroughs/case-d/baseline/cli.js
+A  .scratch/ticket-harness/evidence/17-walkthroughs/case-d/baseline/validator.js
+A  .scratch/ticket-harness/evidence/17-walkthroughs/case-d/candidate/CONTRACT.md
+A  .scratch/ticket-harness/evidence/17-walkthroughs/case-d/candidate/cli.js
+A  .scratch/ticket-harness/evidence/17-walkthroughs/case-d/candidate/validator.js
+A  .scratch/ticket-harness/evidence/17-walkthroughs/case-d/change.diff
+A  .scratch/ticket-harness/evidence/17-walkthroughs/case-d/history.md
+A  .scratch/ticket-harness/evidence/17-walkthroughs/case-d/report.md
+A  .scratch/ticket-harness/evidence/17-walkthroughs/case-d/report.raw.md.gz
+A  .scratch/ticket-harness/evidence/17-walkthroughs/case-d/source.bundle
+A  .scratch/ticket-harness/evidence/17-walkthroughs/case-d2/assignment.json
+A  .scratch/ticket-harness/evidence/17-walkthroughs/case-d2/assignment.txt
+A  .scratch/ticket-harness/evidence/17-walkthroughs/case-d2/baseline/CONTRACT.md
+A  .scratch/ticket-harness/evidence/17-walkthroughs/case-d2/baseline/cli.js
+A  .scratch/ticket-harness/evidence/17-walkthroughs/case-d2/baseline/validator.js
+A  .scratch/ticket-harness/evidence/17-walkthroughs/case-d2/candidate/CONTRACT.md
+A  .scratch/ticket-harness/evidence/17-walkthroughs/case-d2/candidate/cli.js
+A  .scratch/ticket-harness/evidence/17-walkthroughs/case-d2/candidate/validator.js
+A  .scratch/ticket-harness/evidence/17-walkthroughs/case-d2/change.diff
+A  .scratch/ticket-harness/evidence/17-walkthroughs/case-d2/report.md
+A  .scratch/ticket-harness/evidence/17-walkthroughs/case-d2/source.bundle
+A  .scratch/ticket-harness/evidence/17-walkthroughs/case-d2/verification.md
+A  .scratch/ticket-harness/evidence/17-walkthroughs/followups.json
+A  .scratch/ticket-harness/evidence/17-walkthroughs/guidance-identities.json
+A  .scratch/ticket-harness/evidence/17-walkthroughs/guidance/1-ownership-review.md
+A  .scratch/ticket-harness/evidence/17-walkthroughs/guidance/2-review-records.md
+A  .scratch/ticket-harness/evidence/17-walkthroughs/guidance/3-SKILL.md
+A  .scratch/ticket-harness/evidence/17-walkthroughs/sources.json
+A  .scratch/ticket-harness/evidence/17-worker-context.json
+A  docs/agents/ownership-review.md
+M  docs/agents/review-records.md
+M  docs/templates/reviews/report.md
+M  docs/ticket-harness.md
+exit=0
+
+command: bash -n .scratch/ticket-harness/evidence/17-run-checks.sh
+exit=0
+
+command: env PYTHONPATH=/usr/lib/python3/dist-packages /home/ajkerr1/development/agentic_template/.micromamba/envs/dev/bin/python /home/ajkerr1/.codex/skills/.system/skill-creator/scripts/quick_validate.py .agents/skills/custom/implement-with-checkboxes
+Skill is valid!
+exit=0
+
+command: env PYTHONPATH=/usr/lib/python3/dist-packages /home/ajkerr1/development/agentic_template/.micromamba/envs/dev/bin/python /home/ajkerr1/.codex/skills/.system/skill-creator/scripts/quick_validate.py .agents/skills/custom/create-next-agent-prompt
+Skill is valid!
+exit=0
+
+command: env PYTHONPATH=/usr/lib/python3/dist-packages /home/ajkerr1/development/agentic_template/.micromamba/envs/dev/bin/python /home/ajkerr1/.codex/skills/.system/skill-creator/scripts/quick_validate.py .agents/skills/custom/review-architecture
+Skill is valid!
+exit=0
+
+command: /home/ajkerr1/development/agentic_template/.micromamba/envs/dev/bin/python .scratch/ticket-harness/evidence/17-check.py
+/home/ajkerr1/development/agentic_template/.scratch/ticket-harness/evidence/17-walkthroughs/case-a/source.bundle is okay
+/home/ajkerr1/development/agentic_template/.scratch/ticket-harness/evidence/17-walkthroughs/case-b/source.bundle is okay
+/home/ajkerr1/development/agentic_template/.scratch/ticket-harness/evidence/17-walkthroughs/case-c/source.bundle is okay
+/home/ajkerr1/development/agentic_template/.scratch/ticket-harness/evidence/17-walkthroughs/case-d/source.bundle is okay
+/home/ajkerr1/development/agentic_template/.scratch/ticket-harness/evidence/17-walkthroughs/case-d2/source.bundle is okay
+{
+  "result": "pass",
+  "links": 94,
+  "protected_files": 6228,
+  "reports": {
+    "case-a": {
+      "display_sha256": "bce6691f4b83a0fc6299f2f8f48f637907ae0a585b627ea7a67c6041b156db77",
+      "assignment_sha256": "c5a5acf4dd36aa545fb89e21b3a1034a050d32c942942e5538e4b70fbfc0cdae"
+    },
+    "case-b": {
+      "display_sha256": "712c8d4f45b5eb999016ceaba92f31547ea94195708f60229497e0b967b9a820",
+      "assignment_sha256": "55c18bd3c1d5c8911d2887e9b948509629a0e7d17de1202c70e0f9ddf34c9469"
+    },
+    "case-c": {
+      "display_sha256": "b65638e387a4306f433ff841a26ca70dea57cd7653bb0fc678da757d3409cd16",
+      "assignment_sha256": "dea78b0538e28e7b557adc444f7c475f9630afc1eb9cddc265691486b64d88c4"
+    },
+    "case-d": {
+      "display_sha256": "1bf134c0d12869c1b03e58491a2657d3b78f76aeaec5f92a9fc77fd1cef7a5e8",
+      "assignment_sha256": "1b7a032ab9a9d7f92e01f66466558d81045fbb83ab615d496072d8d782a2d8ce"
+    },
+    "case-d2": {
+      "display_sha256": "581ea5d8005569ea8fc713741f3dc3c1ad172bdc94da857d71889a3713134c6d",
+      "assignment_sha256": "733ef506ee31f491dafb8251cc320b286e241297d7fb2eb2d142b913fa276291"
+    }
+  }
+}
+exit=0
+
+command: git diff --check c82b15f504c29a69e8fb708e10568574150e80d3
+exit=0

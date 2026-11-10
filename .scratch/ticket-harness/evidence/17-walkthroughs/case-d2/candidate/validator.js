@@ -1,0 +1,79 @@
+export function validatePlan(raw) {
+  const errors = [];
+  if (!raw || typeof raw !== 'object' || Array.isArray(raw)) {
+    return { ok: false, errors: ['plan must be an object'] };
+  }
+  if (typeof raw.version !== 'string' || !raw.version.trim()) {
+    errors.push('version must be a nonempty string');
+  }
+  if (!Array.isArray(raw.tickets) || raw.tickets.length === 0) {
+    errors.push('tickets must be a nonempty array');
+    return { ok: false, errors };
+  }
+  const ids = new Set();
+  const normalized = [];
+  for (const ticket of raw.tickets) {
+    if (!ticket || typeof ticket !== 'object' || Array.isArray(ticket)) {
+      errors.push('ticket must be an object');
+      continue;
+    }
+    const id = ticket.id;
+    if (typeof id !== 'string' || !id.trim()) {
+      errors.push('ticket id must be a nonempty string');
+      continue;
+    }
+    if (ids.has(id)) errors.push(`duplicate ticket ${id}`);
+    ids.add(id);
+    if (typeof ticket.title !== 'string' || !ticket.title.trim()) {
+      errors.push(`ticket ${id} needs a title`);
+    }
+    if (!['ready-for-agent', 'needs-info'].includes(ticket.status)) {
+      errors.push(`ticket ${id} has invalid status`);
+    }
+    const dependencies = ticket.dependencies === undefined ? [] : ticket.dependencies;
+    if (!Array.isArray(dependencies) || dependencies.some(d => typeof d !== 'string')) {
+      errors.push(`ticket ${id} dependencies must be strings`);
+      continue;
+    }
+    if (new Set(dependencies).size !== dependencies.length) {
+      errors.push(`ticket ${id} has duplicate dependencies`);
+    }
+    if (!Array.isArray(ticket.acceptance) || ticket.acceptance.length === 0 ||
+        Array.from(ticket.acceptance).some(a => typeof a !== 'string' || !a.trim())) {
+      errors.push(`ticket ${id} needs acceptance requirements`);
+    }
+    normalized.push({
+      id,
+      title: ticket.title,
+      status: ticket.status,
+      dependencies: [...dependencies],
+      acceptance: Array.isArray(ticket.acceptance) ? [...ticket.acceptance] : [],
+    });
+  }
+  const graph = new Map(normalized.map(t => [t.id, t.dependencies]));
+  for (const ticket of normalized) {
+    for (const dependency of ticket.dependencies) {
+      if (!ids.has(dependency)) errors.push(`unknown dependency ${dependency}`);
+      if (dependency === ticket.id) errors.push(`ticket ${ticket.id} depends on itself`);
+    }
+  }
+  const done = new Set();
+  const visiting = new Set();
+  function visit(id) {
+    if (visiting.has(id)) {
+      errors.push(`dependency cycle at ${id}`);
+      return;
+    }
+    if (done.has(id)) return;
+    visiting.add(id);
+    for (const dependency of graph.get(id) || []) visit(dependency);
+    visiting.delete(id);
+    done.add(id);
+  }
+  for (const id of ids) visit(id);
+  if (errors.length) return { ok: false, errors };
+  return {
+    ok: true,
+    value: { version: raw.version, tickets: normalized },
+  };
+}
