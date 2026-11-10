@@ -8,9 +8,9 @@ Review the [spec](spec.md), [complete ticket bodies/dependencies](ticket-proposa
 
 ## Implementation status
 
-Completed 01–15 retain their IDs and evidence. New development review work 16–19 precedes five refactors 20–24 in M1; new runtime review enforcement 33 precedes real-agent work 34 in M3. Thirteen inherited open tickets are renumbered coherently; after ticket 21 completion, 17 open tickets 22–38 remain. M1 contains twelve completed 10–21 and three remaining 22–24. Human M1 QA is not requested/accepted, and later milestones remain gated.
+Completed 01–15 retain their IDs and evidence. New development review work 16–19 precedes five refactors 20–24 in M1; new runtime review enforcement 33 precedes real-agent work 34 in M3. Thirteen inherited open tickets are renumbered coherently; after ticket 22 completion, 16 open tickets 23–38 remain. M1 contains thirteen completed 10–22 and two remaining 23–24. Human M1 QA is not requested/accepted, and later milestones remain gated.
 
-The next eligible implementation ticket is 22, backed by completed 02, 12 and 19. Prefer ascending prerequisite-ready work, respecting human milestone acceptance. Publication launches no review evaluation, implementation or harness run.
+The next eligible implementation ticket is 23, backed by completed 15, 21 and 22. Prefer ascending prerequisite-ready work, respecting human milestone acceptance. Publication launches no review evaluation, implementation or harness run.
 
 ## Complete ticket index
 
@@ -37,7 +37,7 @@ The next eligible implementation ticket is 22, backed by completed 02, 12 and 19
 | [19: Evaluate reviewers on known and acceptable designs](issues/19-evaluate-reviewers-on-known-and-acceptable-designs.md) | 17, 18 | completed | M1 |
 | [20: Own implementation-attempt transitions](issues/20-own-implementation-attempt-transitions.md) | 05, 06, 19 | completed | M1 |
 | [21: Own ticket execution and bounded repairs](issues/21-own-ticket-execution-and-bounded-repairs.md) | 20 | completed | M1 |
-| [22: Return clearly prepared inputs](issues/22-return-clearly-prepared-inputs.md) | 02, 12, 19 | ready-for-agent | M1 |
+| [22: Return clearly prepared inputs](issues/22-return-clearly-prepared-inputs.md) | 02, 12, 19 | completed | M1 |
 | [23: Own the complete run lifecycle](issues/23-own-the-complete-run-lifecycle.md) | 15, 21, 22 | ready-for-agent | M1 |
 | [24: Own milestone review and checkpoint continuation](issues/24-own-milestone-review-and-checkpoint-continuation.md) | 15, 23 | ready-for-agent | M1 |
 | [25: Guide a human through milestone QA](issues/25-guide-and-record-human-milestone-qa.md) | 10, 14 | ready-for-agent | M2 |
@@ -166,3 +166,14 @@ Verify whether the installed backend enforces a hard limit, applies a compaction
   live Git fixture archives retained. All four start/final triggers independently No.
   Next 22 has completed 02/12/19; M1 still requires 22–24, actual cumulative
   provenance/all-package assessment and explicit human QA. No acceptance or promotion inferred.
+
+- [22: Return clearly prepared inputs — completed](evidence/22-completion.md):
+  implementation `33fa0ea6e667a3879564ed4628c10f6d59ada21b`; **544 passed in 709.21s**,
+  strict mypy, Ruff lint/format and whitespace passed. All26 tested identities
+  match committed source;10446 raw files retained/streamed.
+  [Independent assessment](reviews/ticket-22.md): separate Spec and Standards each
+  0 blocking/0 optional, originals and explicit history preserved. All seven
+  criteria verified; genuine baseline checkpoint continued under final source.
+  All four start/final triggers independently No; no unresolved actual key or
+  pending relevant revalidation. Next23 has completed15/21/22. M1 still requires
+  23–24, cumulative feature-start/all-package assessment and explicit human QA.
