@@ -1,0 +1,105 @@
+{
+  "commands": [
+    {
+      "timestamp": "2026-11-10T16:46:22.154Z",
+      "ordinal": 114,
+      "type": "response_item",
+      "payload": {
+        "type": "custom_tool_call",
+        "id": "ctc_0fc82f4803010e71016af34a59388487d2b6afc0c6cc91b34d",
+        "status": "completed",
+        "call_id": "call_044cf35e93c7414a85db7ac6ea60938a",
+        "name": "exec",
+        "input": "text(await tools.exec_command({cmd:\"sed -n '1,180p' .scratch/ticket-harness/reviews/ticket-19.md; cat .scratch/ticket-harness/evidence/19-finding-history.md; git status --short\",max_output_tokens:4500}));\ntext(await tools.apply_patch(\"*** Begin Patch\\n*** Update File: /home/ajkerr1/development/agentic_template/docs/agents/ownership-review.md\\n@@\\n    Neither establishes a design conclusion by itself.\\n+\\n+Check each explicit guarantee against the accepted input values and reference\\n+aliases in the supplied contract and implementation. A narrower input-domain\\n+assumption needs support from that contract or enforced validation; disclosing\\n+an assumption alone cannot establish a clean result when accepted inputs break\\n+the guarantee. Record a concrete counterexample and classify its consequence\\n+under the governing contract.\\n \\n For each finding, cite exact code/contract locations, concrete evidence and\\n*** End Patch\"));\ntext(await tools.exec_command({cmd:\"/home/ajkerr1/development/agentic_template/.micromamba/envs/dev/bin/python /tmp/ticket19-g2-build.py\",max_output_tokens:1500}));\n",
+        "internal_chat_message_metadata_passthrough": {
+          "turn_id": "01a1c657-e8ec-7501-ba73-f4ffe26c3fe6",
+          "create_time": 1794329177.2230153
+        }
+      }
+    },
+    {
+      "timestamp": "2026-11-10T16:48:01.849Z",
+      "ordinal": 173,
+      "type": "response_item",
+      "payload": {
+        "type": "custom_tool_call",
+        "id": "ctc_0fc82f4803010e71016af34ab5893c87d2ae4993a29e283ba9",
+        "status": "completed",
+        "call_id": "call_55b818e0e7a444d5bfe2807c28b9c249",
+        "name": "exec",
+        "input": "text(await tools.exec_command({cmd:\"cat > .scratch/ticket-harness/evidence/19-evaluation-g2/observe_control_g2.py <<'PY'\\n\\\"\\\"\\\"Disposable dictionary-isolation observation, not production regression coverage.\\\"\\\"\\\"\\nfrom copy import deepcopy\\nfrom pathlib import Path\\nimport hashlib\\nimport json\\n\\nOUT = Path(__file__).resolve().parent\\nresult = {}\\nfor version,path in [('G1',OUT.parent/'19-evaluation/snapshot/cases/h8/attempt.py'),('G2',OUT/'snapshot/cases/h8/attempt.py')]:\\n    namespace = {}\\n    exec(compile(path.read_text(),str(path),'exec'),namespace)\\n    identity,revision = {'value':['A']},{'value':['r1']}\\n    attempt = namespace['Attempt'](identity)\\n    attempt.submit(revision)\\n    attempt.complete()\\n    initial = deepcopy(attempt.snapshot())\\n    identity['value'].append('external')\\n    revision['value'].append('external')\\n    after_input = deepcopy(attempt.snapshot())\\n    observed,current = attempt.snapshot()\\n    observed['id']['value'].append('snapshot')\\n    current['revision']['value'].append('snapshot')\\n    after_snapshot = deepcopy(attempt.snapshot())\\n    before_invalid = deepcopy(attempt.snapshot())\\n    errors = []\\n    for operation in [lambda:attempt.submit({'value':['r2']}),attempt.complete]:\\n        try:\\n            operation()\\n        except ValueError as error:\\n            errors.append(str(error))\\n    after_invalid = deepcopy(attempt.snapshot())\\n    result[version] = {'source_path':str(path),'source_sha256':hashlib.sha256(path.read_bytes()).hexdigest(),\\n        'initial':initial,'after_input_mutation':after_input,'after_snapshot_mutation':after_snapshot,\\n        'input_isolated':initial == after_input,'snapshot_isolated':after_input == after_snapshot,\\n        'invalid_operations':errors,'invalid_operations_unchanged':before_invalid == after_invalid,\\n        'mirrored_observations_equal':after_invalid[0] == after_invalid[1]}\\nassert result['G1']['input_isolated'] is False\\nassert result['G1']['snapshot_isolated'] is False\\nassert result['G2']['input_isolated'] is True\\nassert result['G2']['snapshot_isolated'] is True\\nassert result['G2']['invalid_operations_unchanged'] is True\\nassert result['G2']['mirrored_observations_equal'] is True\\nresult['limits'] = 'One dictionary/list example and invalid terminal transitions; observable fixture evidence, not reviewer judgment, exhaustive input validation, production coverage or a reliability rate.'\\npath = OUT/'control-observation.json'\\nassert not path.exists(), 'Never overwrite a retained observation'\\npath.write_text(json.dumps(result,indent=2)+'\\\\n')\\nprint(json.dumps({'observation':str(path),'G1_input_isolated':False,'G2_input_isolated':True,'G2_snapshot_isolated':True,'invalid_operations_unchanged':True},indent=2))\\nPY\\n/home/ajkerr1/development/agentic_template/.micromamba/envs/dev/bin/python .scratch/ticket-harness/evidence/19-evaluation-g2/observe_control_g2.py\",\"max_output_tokens\":1200}));\n",
+        "internal_chat_message_metadata_passthrough": {
+          "turn_id": "01a1c657-e8ec-7501-ba73-f4ffe26c3fe6",
+          "create_time": 1794329269.6211967
+        }
+      }
+    }
+  ],
+  "outputs": [
+    {
+      "timestamp": "2026-11-10T16:46:22.690Z",
+      "ordinal": 119,
+      "type": "response_item",
+      "payload": {
+        "type": "custom_tool_call_output",
+        "id": "ctco_01a1c65a-81e1-72c2-a661-bfbed882542d",
+        "call_id": "call_044cf35e93c7414a85db7ac6ea60938a",
+        "output": [
+          {
+            "type": "input_text",
+            "text": "Script completed\nWall time 0.5 seconds\nOutput:\n"
+          },
+          {
+            "type": "input_text",
+            "text": "{\"chunk_id\":\"d2bd81\",\"wall_time_seconds\":0.000084453,\"exit_code\":0,\"original_token_count\":2061,\"output\":\"# Review assessment: review-ticket-19\\n\\n**Review lifecycle:** in progress\\n\\n| Field | Value |\\n| --- | --- |\\n| Purpose/origin | Whole-ticket reviewer evaluation and guidance routing; [ticket 19](../issues/19-evaluate-reviewers-on-known-and-acceptable-designs.md), [oop-v2 / review-process-1](../spec.md), M1 |\\n| Fixed original baseline | `f2929e79cfd5a68f670862775053ae85ba9582b5`, retained through repairs |\\n| Initial assessed source | `e90abb64ab95c5b15cdb0949b03c6a948365339b` |\\n| Assignments/settings | Fresh independent `/root/spec19` and `/root/standards19`, fork-none GPT-6.1 Sol High, each <=250000 active-context advisory target; backend enforcement/observed context unavailable |\\n| Instructions/identities | [Common assignment](../evidence/19-review-common.txt), [Spec](../evidence/19-review-spec-assignment.txt), [Standards](../evidence/19-review-standards-assignment.txt), [dispatch records](../evidence/19-review-dispatches.json), [capture manifest](../evidence/19-review-capture.json) |\\n| Original reports | [spec-01](../evidence/19-review-spec.md), [standards-01](../evidence/19-review-standards.md); original temporary links map to immutable durable copies in capture manifest |\\n| Inspected scope | Complete committed ticket diff; declared corpus/source/contracts, actual fresh assignment evidence/raw reports, captures/helpers/checks, planning/implementation and both handoff routes, unchanged consumers and responsibility/authority contracts. Detailed inspection in separate original reports. |\\n| Ownership/checkpoints | [Implementation map and start/post triggers](../evidence/19-implementation-report.md); both axes support four actual-workflow triggers No. No executable owner/schema changed. Real cumulative M1 review unperformed. |\\n| Check evidence | [Checks](../evidence/19-checks.log), final source identities `19-check-results-20261110T163455901396Z.json`; parent independently matched all 73 recorded identities to checkpoint. Mechanical checks do not settle source correctness. |\\n| Prior history/decisions | Prerequisite 17/18 have no unresolved actual findings. Original G1 seeds retain fixture-only scope. [Append-only implementation finding history](../evidence/19-finding-history.md). No actual human decision/amendment required for this authorized evaluation repair. |\\n| Omissions/assumptions | Runtime/package architecture, future refactors, actual role delivery/enforcement, M1 cumulative provenance/all-file assessment and human QA remain later work. Corpus h8 assumption is an implementation blocker, not waived by this scope limit. |\\n| Required next review | Fresh Medium repair prepares versioned complete evaluation; then separate fresh High Spec/Standards whole-ticket reviews against the original baseline and exact repair source. Both renewed reports currently missing. |\\n\\n## Current findings\\n\\n| Full finding key | Original classification | Current disposition | Next action |\\n| --- | --- | --- | --- |\\n| [review-ticket-19/spec-01/F1](../evidence/19-review-spec.md#f1--blocking-h8-cannot-supply-the-required-fourth-acceptable-control-under-its-frozen-contract) | Blocking | Open at `e90abb6`; [E01](../evidence/19-finding-history.md#e01--original-contractsource-mismatch) | Preserve G1, establish actually acceptable versioned control, declare complete final corpus before fresh independent evaluation, renew checks and whole-ticket reviews. |\\n\\nSpec initial: **1 blocking / 0 optional**. Standards initial: **0 blocking / 0 optional**.\\nBoth original axes remain unchanged; their different h8 judgments are preserved.\\nNo optional implementation finding keys exist. No blocker deferral or human risk\\nacceptance is inferred. Seeded corpus findings are distinct from this actual\\nimplementation finding.\\n\\n**Integration/milestone eligibility:** ticket completion and progression remain\\npending F1, repair checks and both renewed reports. Real M1 cumulative assessment,\\ncandidate preparation and human QA are separate, unperformed work; no acceptance\\nor runtime backend claim is supplied.\\n\\n## Assessment history\\n\\n- A01 \u2014 `/root` assigned fresh independent High Spec/Standards after checkpoint\\n  `e90abb6`, with original fixed baseline, actual source/contracts/checks and prior\\n  finding context; sibling initial outputs excluded.\\n- A02 \u2014 `/root/spec19` saved original spec-01 with F1 and a disposable exact-source\\n  dictionary-alias reproduction; original assessment complete, finding open.\\n- A03 \u2014 `/root/standards19` saved original standards-01 with no findings and explicit\\n  scalar-value/capture limits. Parent preserved both reports before aggregation.\\n- A04 \u2014 `/root` captured original reports/instructions/evidence with external\\n  digests; authorized fresh Medium `/root/repair19` for F1. Renewed whole-ticket\\n  assessment remains in progress, not a clean initial pass.\\n# Append-only implementation finding history: review-ticket-19\\n\\nCorpus seed keys/history retain their own separate fixture scopes. This history\\ntracks actual ticket 19 implementation findings and subsequent verification.\\n\\n## E01 \u2014 Original contract/source mismatch\\n\\n| Field | Value |\\n| --- | --- |\\n| Full finding | [review-ticket-19/spec-01/F1](19-review-spec.md#f1--blocking-h8-cannot-supply-the-required-fourth-acceptable-control-under-its-frozen-contract) |\\n| Disposition/classification | Open; original blocking finding |\\n| Actor/role | `/root/spec19` original reviewer; `/root` records history after preserving both independent reports |\\n| Affected revision | `e90abb64ab95c5b15cdb0949b03c6a948365339b` |\\n| Reason/evidence | h8 source accepts dictionary identity/revision by reference despite explicit input-isolation promise. [Original report](19-review-spec.md), [exact-source observation](19-review-spec-h8-observation.json), [source/check identities](19-review-spec-identities.json) |\\n| Prior/superseded observation | Initial implementation finding. Both corpus reviewers disclosed but accepted scalar assumptions; G1 evaluator classified clean. Originals preserved, not retroactively reclassified or rewritten. Standards implementation review remains its original clean result. |\\n| Repair | Authorized bounded evaluation repair for [ticket 19](../issues/19-evaluate-reviewers-on-known-and-acceptable-designs.md), fresh Medium `/root/repair19`; no neighboring production refactor |\\n| Repair commit/verification | Pending repair checkpoint and fresh independent exact-source whole-ticket Spec/Standards re-review |\\n| Human decision/amendment | Not required for original-contract fixture/evaluation correction; no waiver, deferral, risk acceptance or approved requirement change authorized |\\n| Milestone assessment | Real M1 unperformed; no candidate or acceptance |\\n| Next action | Preserve G1, append failed-trial/mismatch evidence, declare a complete versioned corpus with a genuinely acceptable fourth control and any guidance correction, run fresh independent full-corpus trials, renew checks/commit/reviews. |\\n?? .scratch/ticket-harness/evidence/19-finding-history.md\\n?? .scratch/ticket-harness/evidence/19-review-capture.json\\n?? .scratch/ticket-harness/evidence/19-review-common.txt\\n?? .scratch/ticket-harness/evidence/19-review-dispatches.json\\n?? .scratch/ticket-harness/evidence/19-review-spec-assignment.txt\\n?? .scratch/ticket-harness/evidence/19-review-spec-audit-history.json\\n?? .scratch/ticket-harness/evidence/19-review-spec-audit.json\\n?? .scratch/ticket-harness/evidence/19-review-spec-audit.py\\n?? .scratch/ticket-harness/evidence/19-review-spec-h8-observation.json\\n?? .scratch/ticket-harness/evidence/19-review-spec-identities.json\\n?? .scratch/ticket-harness/evidence/19-review-spec.md\\n?? .scratch/ticket-harness/evidence/19-review-standards-assignment.txt\\n?? .scratch/ticket-harness/evidence/19-review-standards-audit.json\\n?? .scratch/ticket-harness/evidence/19-review-standards-audit.py\\n?? .scratch/ticket-harness/evidence/19-review-standards-check-history.json\\n?? .scratch/ticket-harness/evidence/19-review-standards-identities-build.py\\n?? .scratch/ticket-harness/evidence/19-review-standards-identities.json\\n?? .scratch/ticket-harness/evidence/19-review-standards-parent-provenance.json\\n?? .scratch/ticket-harness/evidence/19-review-standards.md\\n?? .scratch/ticket-harness/reviews/ticket-19.md\\n\"}"
+          },
+          {
+            "type": "input_text",
+            "text": "{}"
+          },
+          {
+            "type": "input_text",
+            "text": "{\"chunk_id\":\"fa6aa7\",\"wall_time_seconds\":0.010100586,\"exit_code\":0,\"original_token_count\":71,\"output\":\"{\\n  \\\"corpus\\\": \\\"ae5ba62e56cb12c1f58f6d5098ac357faf5f1d8a8815383cb1d4471acc5a467c\\\",\\n  \\\"files\\\": 36,\\n  \\\"delta\\\": [\\n    \\\"cases/h8/attempt.py\\\",\\n    \\\"guidance/docs/agents/ownership-review.md\\\"\\n  ],\\n  \\\"declaration_sha256\\\": \\\"28ef143724b469fddc0588087f921ee998fd4e8f44957a273b87d5bde7e36ed3\\\"\\n}\\n\"}"
+          }
+        ],
+        "internal_chat_message_metadata_passthrough": {
+          "turn_id": "01a1c657-e8ec-7501-ba73-f4ffe26c3fe6",
+          "create_time": 1794329182.689605
+        }
+      },
+      "metadata": {
+        "client_authored": false,
+        "fallback_token_limit_override": 12000
+      }
+    },
+    {
+      "timestamp": "2026-11-10T16:48:02.109Z",
+      "ordinal": 176,
+      "type": "response_item",
+      "payload": {
+        "type": "custom_tool_call_output",
+        "id": "ctco_01a1c65c-063d-7561-9f87-4fe6b53fcdf7",
+        "call_id": "call_55b818e0e7a444d5bfe2807c28b9c249",
+        "output": [
+          {
+            "type": "input_text",
+            "text": "Script completed\nWall time 0.2 seconds\nOutput:\n"
+          },
+          {
+            "type": "input_text",
+            "text": "{\"chunk_id\":\"5c325a\",\"wall_time_seconds\":0.025673323,\"exit_code\":0,\"original_token_count\":68,\"output\":\"{\\n  \\\"observation\\\": \\\"/home/ajkerr1/development/agentic_template/.scratch/ticket-harness/evidence/19-evaluation-g2/control-observation.json\\\",\\n  \\\"G1_input_isolated\\\": false,\\n  \\\"G2_input_isolated\\\": true,\\n  \\\"G2_snapshot_isolated\\\": true,\\n  \\\"invalid_operations_unchanged\\\": true\\n}\\n\"}"
+          }
+        ],
+        "internal_chat_message_metadata_passthrough": {
+          "turn_id": "01a1c657-e8ec-7501-ba73-f4ffe26c3fe6",
+          "create_time": 1794329282.1090772
+        }
+      },
+      "metadata": {
+        "client_authored": false,
+        "fallback_token_limit_override": 12000
+      }
+    }
+  ],
+  "scope": "Original builder/declaration/prompt capture and disposable alias observation tool records, including actual shell commands, exits and outputs. No finding generation."
+}

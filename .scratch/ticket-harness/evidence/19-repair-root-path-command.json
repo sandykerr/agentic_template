@@ -1,0 +1,8 @@
+{
+  "actor": "/root",
+  "command": "/home/ajkerr1/development/agentic_template/.micromamba/envs/dev/bin/python - <<'PY'\nfrom pathlib import Path\nimport subprocess,tempfile,json\nbase=Path(tempfile.mkdtemp(prefix='ticket19-root-path-audit-')); root=base/'repo\\rname';root.mkdir()\nsubprocess.run(['git','init','--quiet',str(root)],check=True)\nraw=subprocess.run(['git','-C',str(root),'rev-parse','--show-toplevel'],capture_output=True,check=True)\ntextual=subprocess.run(['git','-C',str(root),'rev-parse','--show-toplevel'],capture_output=True,text=True,check=True)\nresult={'root':str(root),'raw_stdout':raw.stdout.decode(),'text_stdout':textual.stdout,'normalization_changed_path':raw.stdout.decode()!=textual.stdout}\n(base/'result.json').write_text(json.dumps(result,indent=2)+'\\n');print(json.dumps(result,indent=2))\nPY",
+  "exit_code": 0,
+  "result": "/tmp/ticket19-root-path-audit-0pm288vi/result.json",
+  "scope": "Real isolated Git output and subprocess text newline translation; source-level consequence for b7/caller.py text=True adapter. Did not execute validate or establish all preflight gates. Independent evaluator observation after C3 declaration; not supplied to active blind C3 reviewers.",
+  "provenance": "Readable executed command preserved from root tool-call context. Script retained separately from same context; result is original runtime artifact, not a replay."
+}

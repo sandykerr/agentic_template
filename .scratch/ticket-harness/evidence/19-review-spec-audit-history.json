@@ -1,0 +1,15 @@
+{
+  "events": [
+    {
+      "event": "S01",
+      "observation": "Some initial combined source/report reads exceeded output limits; bounded rereads supplied the governing sections and report portions used for assessment.",
+      "effect": "No source or assessment correction. No missing text was assumed to establish compliance."
+    },
+    {
+      "event": "S02",
+      "observation": "First /tmp identity/provenance audit exited 0 and reproduced h8 aliasing. During review of that observation, its after-input-edit snapshot was found to retain live nested dictionary references until final JSON serialization; a later snapshot mutation could therefore appear in the earlier captured state.",
+      "correction": "Freeze each captured observation using JSON round-trip immediately after capture, then rerun the same scoped audit. Corrected audit exited 0. Final spec-h8-observation.json preserves distinct before, after-input-edit and after-snapshot-edit values.",
+      "effect": "Source violation and raw-final/hash conclusions unchanged. No production source, corpus, guidance or historical evidence writer executed or modified."
+    }
+  ]
+}

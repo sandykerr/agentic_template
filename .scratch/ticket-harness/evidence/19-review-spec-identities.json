@@ -1,0 +1,661 @@
+{
+  "review_id": "review-ticket-19",
+  "report_id": "spec-01",
+  "axis": "Spec",
+  "actor": "/root/spec19",
+  "created_at_utc": "2026-11-10T16:42:34.053089+00:00",
+  "original_baseline": "f2929e79cfd5a68f670862775053ae85ba9582b5",
+  "assessed_source": "e90abb64ab95c5b15cdb0949b03c6a948365339b",
+  "assignment_settings": {
+    "requested_model": "gpt-6.1-sol",
+    "requested_reasoning": "high",
+    "requested_fork": "none",
+    "active_context_advisory_target": 250000,
+    "backend_selection_enforcement_and_measured_context": "unavailable to reviewer; requests not claimed as delivery proof"
+  },
+  "assignment_instructions": [
+    {
+      "path": "/tmp/ticket19-review/spec-assignment.txt",
+      "sha256": "be205a0cdf67a6b3cf9b08f5b3bc68c46cc26e3f99a854a66a617ab27e0e65f4"
+    },
+    {
+      "path": "/tmp/ticket19-review/common.txt",
+      "sha256": "6221e2d4d8b08bada03c5997a68b0894dce5f8f31d096e83252b04acc01f9c97"
+    }
+  ],
+  "instruction_sources": [
+    {
+      "path": "AGENTS.md",
+      "sha256": "145ecd579b8bfb35b05c84e5d42d7c88b00a70e3bf7df02fe6247f4fb4e4ef27",
+      "revision": "e90abb64ab95c5b15cdb0949b03c6a948365339b",
+      "inspection": "read governing instructions; spec relevant sections"
+    },
+    {
+      "path": "GLOSSARY.md",
+      "sha256": "4b45856348181d3383d3b2416d56eb0261243ddab8507fb869dd4bdee39bdefc",
+      "revision": "e90abb64ab95c5b15cdb0949b03c6a948365339b",
+      "inspection": "read governing instructions; spec relevant sections"
+    },
+    {
+      "path": "docs/agents/domain.md",
+      "sha256": "ade77403240a3a8b863ab1740b01e2e6ef12234b08b0d4f87a83897d72269876",
+      "revision": "e90abb64ab95c5b15cdb0949b03c6a948365339b",
+      "inspection": "read governing instructions; spec relevant sections"
+    },
+    {
+      "path": "docs/agents/issue-tracker.md",
+      "sha256": "deedc16ba7e08d0b7e4f83bc96457301095e108ed1f6fa5138a726a8b9f18d2d",
+      "revision": "e90abb64ab95c5b15cdb0949b03c6a948365339b",
+      "inspection": "read governing instructions; spec relevant sections"
+    },
+    {
+      "path": "docs/agents/python-environment.md",
+      "sha256": "dc357dd6bf10406d9a16b3beb40455f9262a7d3922fa4f1e138a6547a45efd8d",
+      "revision": "e90abb64ab95c5b15cdb0949b03c6a948365339b",
+      "inspection": "read governing instructions; spec relevant sections"
+    },
+    {
+      "path": "docs/agents/testing.md",
+      "sha256": "6b6b498a718205bb5fd1f0b12410623807e708f784e7d09a4bd72343b229a4ff",
+      "revision": "e90abb64ab95c5b15cdb0949b03c6a948365339b",
+      "inspection": "read governing instructions; spec relevant sections"
+    },
+    {
+      "path": "docs/agents/ownership-review.md",
+      "sha256": "7bef209024464c7ce7b0d3ebcfc8f2707d2309efef50b79bb7d5cc589ab1aa56",
+      "revision": "e90abb64ab95c5b15cdb0949b03c6a948365339b",
+      "inspection": "read governing instructions; spec relevant sections"
+    },
+    {
+      "path": "docs/agents/review-records.md",
+      "sha256": "7371c706ba48a09ba2f69750dab8f60c5c6892bdfb0ecb35f5f9ada7e502d49d",
+      "revision": "e90abb64ab95c5b15cdb0949b03c6a948365339b",
+      "inspection": "read governing instructions; spec relevant sections"
+    },
+    {
+      "path": "docs/agents/architecture-checkpoints.md",
+      "sha256": "e81bfaff325e069ee3b8c73a8a4d2028e06a871dcf94f6045377585a5d1e3d8f",
+      "revision": "e90abb64ab95c5b15cdb0949b03c6a948365339b",
+      "inspection": "read governing instructions; spec relevant sections"
+    },
+    {
+      "path": "docs/templates/reviews/report.md",
+      "sha256": "bb0c4613964f1dc60f4ee7a618119997cf96ac3fafc3b810ed95002b2f787e76",
+      "revision": "e90abb64ab95c5b15cdb0949b03c6a948365339b",
+      "inspection": "read governing instructions; spec relevant sections"
+    },
+    {
+      "path": "docs/adr/0001-reusable-harness-and-local-integration.md",
+      "sha256": "6e4adc64a9a454d00ca4d16649796daf525783e554d1dc892bd0654b5990e603",
+      "revision": "e90abb64ab95c5b15cdb0949b03c6a948365339b",
+      "inspection": "read governing instructions; spec relevant sections"
+    },
+    {
+      "path": "docs/adr/0002-human-qa-gates-feature-promotion.md",
+      "sha256": "7f9ef955940b6a4315d9a5fc7c7279cc367043310ebd4575cee450dffd0e4982",
+      "revision": "e90abb64ab95c5b15cdb0949b03c6a948365339b",
+      "inspection": "read governing instructions; spec relevant sections"
+    },
+    {
+      "path": ".scratch/ticket-harness/spec.md",
+      "sha256": "7de95e1235db5a3f84f155da3c525c0f83b19119dfa4a7b65a7721476a223951",
+      "revision": "e90abb64ab95c5b15cdb0949b03c6a948365339b",
+      "inspection": "read governing instructions; spec relevant sections"
+    },
+    {
+      "path": ".scratch/ticket-harness/issues/19-evaluate-reviewers-on-known-and-acceptable-designs.md",
+      "sha256": "cb56ba38ef8758f997f63195cc31b186726d9064ddba539cabdb00616d0807ee",
+      "revision": "e90abb64ab95c5b15cdb0949b03c6a948365339b",
+      "inspection": "read governing instructions; spec relevant sections"
+    },
+    {
+      "path": ".scratch/ticket-harness/approval.md",
+      "sha256": "c758d157a05d886f0f1cfc78eec9f2cf90a5ae2c4f4c55cc9f2c42da56e224f2",
+      "revision": "e90abb64ab95c5b15cdb0949b03c6a948365339b",
+      "inspection": "read governing instructions; spec relevant sections"
+    },
+    {
+      "path": ".agents/skills/matt-pocock/code-review/SKILL.md",
+      "sha256": "9c921a8d88138a41401d8897ca1bb852088ab1b7b605cdd04edc13e3e8aab6dd",
+      "revision": "e90abb64ab95c5b15cdb0949b03c6a948365339b",
+      "inspection": "read governing instructions; spec relevant sections"
+    },
+    {
+      "path": ".agents/skills/custom/test-strategy/SKILL.md",
+      "sha256": "3a0a0f667aaa65ae8a74b2c7f3ab0e24517e756ed1a5663f35623bc46c8fc816",
+      "revision": "e90abb64ab95c5b15cdb0949b03c6a948365339b",
+      "inspection": "read governing instructions; spec relevant sections"
+    }
+  ],
+  "unchanged_consumers_and_prior_context": [
+    {
+      "path": ".scratch/ticket-harness/reviews/ticket-17.md",
+      "sha256": "f0cec64fb2be7a29667d3a0d1772314a139409d757ce5fd52aa9b4b7a0bad9b2",
+      "revision": "e90abb64ab95c5b15cdb0949b03c6a948365339b",
+      "inspection": "substantively read affected routing or prerequisite assessment"
+    },
+    {
+      "path": ".scratch/ticket-harness/reviews/ticket-18.md",
+      "sha256": "092de12559851c99cff2a3c48196c8062a8aafa23559f80b86074e336b1f6e71",
+      "revision": "e90abb64ab95c5b15cdb0949b03c6a948365339b",
+      "inspection": "substantively read affected routing or prerequisite assessment"
+    },
+    {
+      "path": ".agents/skills/custom/grill-to-tickets/SKILL.md",
+      "sha256": "137522347bce0b00eb94375bbb99dc44555585abb870b73b504eae6cf600a5bb",
+      "revision": "e90abb64ab95c5b15cdb0949b03c6a948365339b",
+      "inspection": "substantively read affected routing or prerequisite assessment"
+    },
+    {
+      "path": ".agents/skills/custom/references/planning.md",
+      "sha256": "bc432d8e3b77cce2c826583591cb95095e76f2989239edf4d58e7eda603b6cf2",
+      "revision": "e90abb64ab95c5b15cdb0949b03c6a948365339b",
+      "inspection": "substantively read affected routing or prerequisite assessment"
+    },
+    {
+      "path": ".agents/skills/custom/implement-with-checkboxes/SKILL.md",
+      "sha256": "a573e3e099f3a4cf32ce81103eb2681db40ee8151be7d19f7b53a304df1c111f",
+      "revision": "e90abb64ab95c5b15cdb0949b03c6a948365339b",
+      "inspection": "substantively read affected routing or prerequisite assessment"
+    },
+    {
+      "path": ".agents/skills/custom/create-next-agent-prompt/SKILL.md",
+      "sha256": "86ae4ceb5d19502931e80fd26d3ade2f650c4b68e70332733ef9171f53307a5e",
+      "revision": "e90abb64ab95c5b15cdb0949b03c6a948365339b",
+      "inspection": "substantively read affected routing or prerequisite assessment"
+    }
+  ],
+  "substantive_evidence": [
+    {
+      "path": "docs/agents/reviewer-evaluation.md",
+      "sha256": "84ae9a7f2461565c45259a49fa9b57b432cc4f6f44087b522f55359c20394f95",
+      "revision": "e90abb64ab95c5b15cdb0949b03c6a948365339b",
+      "inspection": "substantively inspected"
+    },
+    {
+      "path": ".scratch/ticket-harness/evidence/19-implementation-report.md",
+      "sha256": "66112b6f3f6e86d2d926b7b8f29c89dca052301cfc8d01064b0a9d5585de2fa8",
+      "revision": "e90abb64ab95c5b15cdb0949b03c6a948365339b",
+      "inspection": "substantively inspected"
+    },
+    {
+      "path": ".scratch/ticket-harness/evidence/19-check.py",
+      "sha256": "6dc77bc275d440d54c011c08c7a9af4d44cd75c3a432e076210c37f503d64b1b",
+      "revision": "e90abb64ab95c5b15cdb0949b03c6a948365339b",
+      "inspection": "substantively inspected"
+    },
+    {
+      "path": ".scratch/ticket-harness/evidence/19-run-checks.sh",
+      "sha256": "769bc020ed5cb1932bbd3767eb3ee3478bb591dd52e38408be6f1aad931441a4",
+      "revision": "e90abb64ab95c5b15cdb0949b03c6a948365339b",
+      "inspection": "substantively inspected"
+    },
+    {
+      "path": ".scratch/ticket-harness/evidence/19-checks.log",
+      "sha256": "c99a79fc8f50b22579bfe5ea87c8781da6b6dd35ac8ecf4259d01377f354a9b7",
+      "revision": "e90abb64ab95c5b15cdb0949b03c6a948365339b",
+      "inspection": "substantively inspected"
+    },
+    {
+      "path": ".scratch/ticket-harness/evidence/19-evaluation/README.md",
+      "sha256": "f9d1be1b5dde13dd64814209d47ab51d805e4994a62ad5ee30eaeba120c8cb79",
+      "revision": "e90abb64ab95c5b15cdb0949b03c6a948365339b",
+      "inspection": "substantively inspected"
+    },
+    {
+      "path": ".scratch/ticket-harness/evidence/19-evaluation/declaration.md",
+      "sha256": "a848246d454f0905112b6def6d0c9e95b25b2b0e97bffadafeb9c8f7a1758cad",
+      "revision": "e90abb64ab95c5b15cdb0949b03c6a948365339b",
+      "inspection": "substantively inspected"
+    },
+    {
+      "path": ".scratch/ticket-harness/evidence/19-evaluation/declaration-capture.json",
+      "sha256": "bbda0269706554151555e5032f0f2b71df34c3b715d7332157358b7a3152f800",
+      "revision": "e90abb64ab95c5b15cdb0949b03c6a948365339b",
+      "inspection": "substantively inspected"
+    },
+    {
+      "path": ".scratch/ticket-harness/evidence/19-evaluation/results.md",
+      "sha256": "2b214acc490adb31e726dc9cded5eed22493b3d9bb5c6905a7400c9ea20ae3d4",
+      "revision": "e90abb64ab95c5b15cdb0949b03c6a948365339b",
+      "inspection": "substantively inspected"
+    },
+    {
+      "path": ".scratch/ticket-harness/evidence/19-evaluation/finding-history.md",
+      "sha256": "fac61214cd07753b935a7f1d6920af5822e92abe29845bc1933e0970609df1ca",
+      "revision": "e90abb64ab95c5b15cdb0949b03c6a948365339b",
+      "inspection": "substantively inspected"
+    },
+    {
+      "path": ".scratch/ticket-harness/evidence/19-evaluation/build_corpus.py",
+      "sha256": "cebfe3bba51e72278bf7962511e4ce01d85e2aed00faa5314e0a227274473260",
+      "revision": "e90abb64ab95c5b15cdb0949b03c6a948365339b",
+      "inspection": "substantively inspected"
+    },
+    {
+      "path": ".scratch/ticket-harness/evidence/19-evaluation/capture_reviews.py",
+      "sha256": "17ef378ed24c29379a86f43fdd10780d3ad4b0f3f8fa46a9ffc5a0acca7a26cb",
+      "revision": "e90abb64ab95c5b15cdb0949b03c6a948365339b",
+      "inspection": "substantively inspected"
+    },
+    {
+      "path": ".scratch/ticket-harness/evidence/19-evaluation/assignments.json",
+      "sha256": "45f6b39c97e4dcfa0629e919ef9e56503b20840cc0f15842fa724d9bcec770b8",
+      "revision": "e90abb64ab95c5b15cdb0949b03c6a948365339b",
+      "inspection": "substantively inspected"
+    },
+    {
+      "path": ".scratch/ticket-harness/evidence/19-evaluation/capture-provenance.json",
+      "sha256": "ecf897313bbe25879643aa02bfa2fab240036acbfe2a4714a9d905a9cdfaf0a0",
+      "revision": "e90abb64ab95c5b15cdb0949b03c6a948365339b",
+      "inspection": "substantively inspected"
+    },
+    {
+      "path": ".scratch/ticket-harness/evidence/19-evaluation/collector-history.json",
+      "sha256": "252ca22d5a1421beb7cf336acf9d7d91586e51c18918578e18fc4cea67547f3c",
+      "revision": "e90abb64ab95c5b15cdb0949b03c6a948365339b",
+      "inspection": "substantively inspected"
+    },
+    {
+      "path": ".scratch/ticket-harness/evidence/19-evaluation/spec-g1-raw.md",
+      "sha256": "5a1136b7b46ea2eee05c636a15cd873e0dfd7a85477bd4bc3588be55aad1ed78",
+      "revision": "e90abb64ab95c5b15cdb0949b03c6a948365339b",
+      "inspection": "substantively inspected"
+    },
+    {
+      "path": ".scratch/ticket-harness/evidence/19-evaluation/standards-g1-raw.md",
+      "sha256": "8194d614122bc926c0cd3c312fdaed6123dbbce39f90102d7d612de561831c95",
+      "revision": "e90abb64ab95c5b15cdb0949b03c6a948365339b",
+      "inspection": "substantively inspected"
+    },
+    {
+      "path": ".scratch/ticket-harness/evidence/19-evaluation/spec-g1-input.txt",
+      "sha256": "cc348dc26ebd84f1463f3b434ff7025bb4629897e83fca045ee8673fe14d51de",
+      "revision": "e90abb64ab95c5b15cdb0949b03c6a948365339b",
+      "inspection": "substantively inspected"
+    },
+    {
+      "path": ".scratch/ticket-harness/evidence/19-evaluation/standards-g1-input.txt",
+      "sha256": "fb01b13202536e7c050ac8662b88f54bf60ddda7b1e46697bc5a7f6c1a11eb5b",
+      "revision": "e90abb64ab95c5b15cdb0949b03c6a948365339b",
+      "inspection": "substantively inspected"
+    },
+    {
+      "path": ".scratch/ticket-harness/evidence/19-evaluation/capture-followups-readable.json",
+      "sha256": "f6f23ea3eba0a638063ce34b0127ac0aab26e06c6393dd10ad21eea679fe413e",
+      "revision": "e90abb64ab95c5b15cdb0949b03c6a948365339b",
+      "inspection": "substantively inspected"
+    },
+    {
+      "path": ".scratch/ticket-harness/evidence/19-evaluation/snapshot/REVIEW.md",
+      "sha256": "8e37866b20decc67802e6e5d65a2a1cf469505ead6cde6c930adce387e828310",
+      "revision": "e90abb64ab95c5b15cdb0949b03c6a948365339b",
+      "inspection": "substantively inspected"
+    },
+    {
+      "path": ".scratch/ticket-harness/evidence/19-evaluation/snapshot/cases/a3/CONTRACT.md",
+      "sha256": "86ae2893359f38a9242200c1e444169053653149431e957993f419fe2805ba49",
+      "revision": "e90abb64ab95c5b15cdb0949b03c6a948365339b",
+      "inspection": "substantively inspected"
+    },
+    {
+      "path": ".scratch/ticket-harness/evidence/19-evaluation/snapshot/cases/a3/qa.py",
+      "sha256": "3e847eb9d49c0f801c897e31172ab8a3aa7a8fec1bb39791affc43b71c44d3e3",
+      "revision": "e90abb64ab95c5b15cdb0949b03c6a948365339b",
+      "inspection": "substantively inspected"
+    },
+    {
+      "path": ".scratch/ticket-harness/evidence/19-evaluation/snapshot/cases/a3/run.py",
+      "sha256": "f74ad5e6516582a51b0df51c3cf3c9895ca0372bfb493faa565d40fb4f75987b",
+      "revision": "e90abb64ab95c5b15cdb0949b03c6a948365339b",
+      "inspection": "substantively inspected"
+    },
+    {
+      "path": ".scratch/ticket-harness/evidence/19-evaluation/snapshot/cases/b7/CONTRACT.md",
+      "sha256": "a8cb890bbac9e40b5b0e7a409e89899ad878943bc0198f81d10e7157dce701f4",
+      "revision": "e90abb64ab95c5b15cdb0949b03c6a948365339b",
+      "inspection": "substantively inspected"
+    },
+    {
+      "path": ".scratch/ticket-harness/evidence/19-evaluation/snapshot/cases/b7/caller.py",
+      "sha256": "1fcd0c97ab007c142d687910d6d93f4a9665338cb6780d8ec63e9a6a671f18d7",
+      "revision": "e90abb64ab95c5b15cdb0949b03c6a948365339b",
+      "inspection": "substantively inspected"
+    },
+    {
+      "path": ".scratch/ticket-harness/evidence/19-evaluation/snapshot/cases/b7/git_ops.py",
+      "sha256": "28378efa194e419dac686c298cc8577bffbc7409dddd2ef6c8d746b6a291ccda",
+      "revision": "e90abb64ab95c5b15cdb0949b03c6a948365339b",
+      "inspection": "substantively inspected"
+    },
+    {
+      "path": ".scratch/ticket-harness/evidence/19-evaluation/snapshot/cases/c2/CONTRACT.md",
+      "sha256": "1f4f63540674fa6cd9dd279f641d4dccce8c0b8cb3f20114ee115adc43e1640f",
+      "revision": "e90abb64ab95c5b15cdb0949b03c6a948365339b",
+      "inspection": "substantively inspected"
+    },
+    {
+      "path": ".scratch/ticket-harness/evidence/19-evaluation/snapshot/cases/c2/checking.py",
+      "sha256": "7e72511e7644a34c0a438cc6bd02dec3fdee78812424913ee05bc7723ab55d42",
+      "revision": "e90abb64ab95c5b15cdb0949b03c6a948365339b",
+      "inspection": "substantively inspected"
+    },
+    {
+      "path": ".scratch/ticket-harness/evidence/19-evaluation/snapshot/cases/c2/execution.py",
+      "sha256": "20fafa2092522e8d30372c80ec54a20e710e44f0e1f8b23b6039f24fd694230e",
+      "revision": "e90abb64ab95c5b15cdb0949b03c6a948365339b",
+      "inspection": "substantively inspected"
+    },
+    {
+      "path": ".scratch/ticket-harness/evidence/19-evaluation/snapshot/cases/d9/CONTRACT.md",
+      "sha256": "18aa280aab8b202636580bcbfcfc34cd3ff5901c57b2f499e4ba06fa6303ecec",
+      "revision": "e90abb64ab95c5b15cdb0949b03c6a948365339b",
+      "inspection": "substantively inspected"
+    },
+    {
+      "path": ".scratch/ticket-harness/evidence/19-evaluation/snapshot/cases/d9/plan.py",
+      "sha256": "04d5ade095ebfc947f8b769b4d1db409d92787aa81c8b4424b41e0beb295c3a9",
+      "revision": "e90abb64ab95c5b15cdb0949b03c6a948365339b",
+      "inspection": "substantively inspected"
+    },
+    {
+      "path": ".scratch/ticket-harness/evidence/19-evaluation/snapshot/cases/e4/CONTRACT.md",
+      "sha256": "5363f847f3397e013d5a0bdc54a7f40e11a3fb498dfe4b5bc42566bd66591c32",
+      "revision": "e90abb64ab95c5b15cdb0949b03c6a948365339b",
+      "inspection": "substantively inspected"
+    },
+    {
+      "path": ".scratch/ticket-harness/evidence/19-evaluation/snapshot/cases/e4/attempt.py",
+      "sha256": "3ca2f272b86e8bb2742691872917be4fef815344e030716e46e70c07743c22c7",
+      "revision": "e90abb64ab95c5b15cdb0949b03c6a948365339b",
+      "inspection": "substantively inspected"
+    },
+    {
+      "path": ".scratch/ticket-harness/evidence/19-evaluation/snapshot/cases/e4/repair.py",
+      "sha256": "dd2d751350b88db2adc49b63bde1b8ff47cdef07bf64fedea754c1fd1470cb9c",
+      "revision": "e90abb64ab95c5b15cdb0949b03c6a948365339b",
+      "inspection": "substantively inspected"
+    },
+    {
+      "path": ".scratch/ticket-harness/evidence/19-evaluation/snapshot/cases/e4/worker.py",
+      "sha256": "bafed6633fd5879fd43da4cb010204e77cb30c70c8f1027f7f194b998a654f2c",
+      "revision": "e90abb64ab95c5b15cdb0949b03c6a948365339b",
+      "inspection": "substantively inspected"
+    },
+    {
+      "path": ".scratch/ticket-harness/evidence/19-evaluation/snapshot/cases/f6/CONTRACT.md",
+      "sha256": "82b5d53b1ac036441f4a7f367655a11e9a408b55351439fbb31661aa31fe11b1",
+      "revision": "e90abb64ab95c5b15cdb0949b03c6a948365339b",
+      "inspection": "substantively inspected"
+    },
+    {
+      "path": ".scratch/ticket-harness/evidence/19-evaluation/snapshot/cases/f6/io_ops.py",
+      "sha256": "ae3bd8b46ed253896dc4cf662fbd64dade68cea16a24d82f81d8bc94f2d6a9b0",
+      "revision": "e90abb64ab95c5b15cdb0949b03c6a948365339b",
+      "inspection": "substantively inspected"
+    },
+    {
+      "path": ".scratch/ticket-harness/evidence/19-evaluation/snapshot/cases/g1/CONTRACT.md",
+      "sha256": "3bb604e93fe600fb914497cc091618c2dc6d4bb5d6af8f5950b5f52e5ebe9b73",
+      "revision": "e90abb64ab95c5b15cdb0949b03c6a948365339b",
+      "inspection": "substantively inspected"
+    },
+    {
+      "path": ".scratch/ticket-harness/evidence/19-evaluation/snapshot/cases/g1/cli.py",
+      "sha256": "4f902d5fb4a997fe8a1e18f1977ee689f2606bf9df6ece37949db8c3031b99af",
+      "revision": "e90abb64ab95c5b15cdb0949b03c6a948365339b",
+      "inspection": "substantively inspected"
+    },
+    {
+      "path": ".scratch/ticket-harness/evidence/19-evaluation/snapshot/cases/g1/preparation.py",
+      "sha256": "5def9b498f24bbab4f1cf4e02398c8d94ade995911243e21ca73a1970ac71bb0",
+      "revision": "e90abb64ab95c5b15cdb0949b03c6a948365339b",
+      "inspection": "substantively inspected"
+    },
+    {
+      "path": ".scratch/ticket-harness/evidence/19-evaluation/snapshot/cases/g1/resume.py",
+      "sha256": "e91ae0907e36ee9de97edb1f1e9ed32a12b70f30c65ac0600f09f5a56e763c9a",
+      "revision": "e90abb64ab95c5b15cdb0949b03c6a948365339b",
+      "inspection": "substantively inspected"
+    },
+    {
+      "path": ".scratch/ticket-harness/evidence/19-evaluation/snapshot/cases/h8/CONTRACT.md",
+      "sha256": "fc6dff5ba70d3e8dd747e564dda85e9e7569465670b8686b7a8f881b1224b666",
+      "revision": "e90abb64ab95c5b15cdb0949b03c6a948365339b",
+      "inspection": "substantively inspected"
+    },
+    {
+      "path": ".scratch/ticket-harness/evidence/19-evaluation/snapshot/cases/h8/attempt.py",
+      "sha256": "f001a6ec434251e1dbd649ad383474ec795022b3397ca226fab3dce8b14676a3",
+      "revision": "e90abb64ab95c5b15cdb0949b03c6a948365339b",
+      "inspection": "substantively inspected"
+    },
+    {
+      "path": ".scratch/ticket-harness/evidence/19-evaluation/snapshot/cases/h8/caller.py",
+      "sha256": "8c7a89afa9f83a3a89c80832f7e274b96280a08a2f2c28483772ba361d2a2c1c",
+      "revision": "e90abb64ab95c5b15cdb0949b03c6a948365339b",
+      "inspection": "substantively inspected"
+    }
+  ],
+  "other_changed_source_identities": [
+    {
+      "path": ".scratch/ticket-harness/evidence/19-check-results-20261110T163214678876Z.json",
+      "sha256": "5e0b5c8a7fb0830b420e029abeb9ef356373f998548b0772f51bd6fbdcd02a6c",
+      "revision": "e90abb64ab95c5b15cdb0949b03c6a948365339b",
+      "inspection": "identity/preservation/provenance audit; frozen Standards-only design skills not applied as Spec requirements"
+    },
+    {
+      "path": ".scratch/ticket-harness/evidence/19-check-results-20261110T163254274746Z.json",
+      "sha256": "43e03cfc435790a17636143fb743a0da182e904112d422f8afff765eb254d494",
+      "revision": "e90abb64ab95c5b15cdb0949b03c6a948365339b",
+      "inspection": "identity/preservation/provenance audit; frozen Standards-only design skills not applied as Spec requirements"
+    },
+    {
+      "path": ".scratch/ticket-harness/evidence/19-check-results-20261110T163455901396Z.json",
+      "sha256": "b19c458975b39a7454215300c83cb447fe65e45d1dd93287786f5f5322e154e1",
+      "revision": "e90abb64ab95c5b15cdb0949b03c6a948365339b",
+      "inspection": "identity/preservation/provenance audit; frozen Standards-only design skills not applied as Spec requirements"
+    },
+    {
+      "path": ".scratch/ticket-harness/evidence/19-evaluation/capture-followups.json",
+      "sha256": "51b7e5e0c7c3b2387d9fad35f2ccb957958d9a53fab05f3b9403bf02fadfbdb5",
+      "revision": "e90abb64ab95c5b15cdb0949b03c6a948365339b",
+      "inspection": "identity/preservation/provenance audit; frozen Standards-only design skills not applied as Spec requirements"
+    },
+    {
+      "path": ".scratch/ticket-harness/evidence/19-evaluation/corpus-identity.txt",
+      "sha256": "e456c04f5731f0f569ce876caa489e6657ba404e17d0735fd784277de9b27983",
+      "revision": "e90abb64ab95c5b15cdb0949b03c6a948365339b",
+      "inspection": "identity/preservation/provenance audit; frozen Standards-only design skills not applied as Spec requirements"
+    },
+    {
+      "path": ".scratch/ticket-harness/evidence/19-evaluation/review-capture-supplement.json",
+      "sha256": "f92f4c5ab2f1211b8a25c097368319a262fedfa3c0c97816d4d79f5abbc01c85",
+      "revision": "e90abb64ab95c5b15cdb0949b03c6a948365339b",
+      "inspection": "identity/preservation/provenance audit; frozen Standards-only design skills not applied as Spec requirements"
+    },
+    {
+      "path": ".scratch/ticket-harness/evidence/19-evaluation/review-capture.json",
+      "sha256": "2d010226a8ff2221c782188211e94b2904b46fe299ad7a33e984c8e0e67e4ac5",
+      "revision": "e90abb64ab95c5b15cdb0949b03c6a948365339b",
+      "inspection": "identity/preservation/provenance audit; frozen Standards-only design skills not applied as Spec requirements"
+    },
+    {
+      "path": ".scratch/ticket-harness/evidence/19-evaluation/snapshot/guidance/.agents/skills/custom/test-strategy/SKILL.md",
+      "sha256": "3a0a0f667aaa65ae8a74b2c7f3ab0e24517e756ed1a5663f35623bc46c8fc816",
+      "revision": "e90abb64ab95c5b15cdb0949b03c6a948365339b",
+      "inspection": "identity/preservation/provenance audit; frozen Standards-only design skills not applied as Spec requirements"
+    },
+    {
+      "path": ".scratch/ticket-harness/evidence/19-evaluation/snapshot/guidance/.agents/skills/matt-pocock/codebase-design/SKILL.md",
+      "sha256": "2c20617f87ec8af6a434859f381b2f061a69b530444e74eb39e78bb016a6d1e2",
+      "revision": "e90abb64ab95c5b15cdb0949b03c6a948365339b",
+      "inspection": "identity/preservation/provenance audit; frozen Standards-only design skills not applied as Spec requirements"
+    },
+    {
+      "path": ".scratch/ticket-harness/evidence/19-evaluation/snapshot/guidance/.agents/skills/microsoft/microsoft_oop/SKILL.md",
+      "sha256": "7d9fb19811bc83bffa964746e70e1b85757773576b5a5373ffa6edbd8ae5e481",
+      "revision": "e90abb64ab95c5b15cdb0949b03c6a948365339b",
+      "inspection": "identity/preservation/provenance audit; frozen Standards-only design skills not applied as Spec requirements"
+    },
+    {
+      "path": ".scratch/ticket-harness/evidence/19-evaluation/snapshot/guidance/GLOSSARY.md",
+      "sha256": "4b45856348181d3383d3b2416d56eb0261243ddab8507fb869dd4bdee39bdefc",
+      "revision": "e90abb64ab95c5b15cdb0949b03c6a948365339b",
+      "inspection": "identity/preservation/provenance audit; frozen Standards-only design skills not applied as Spec requirements"
+    },
+    {
+      "path": ".scratch/ticket-harness/evidence/19-evaluation/snapshot/guidance/docs/adr/0001-reusable-harness-and-local-integration.md",
+      "sha256": "6e4adc64a9a454d00ca4d16649796daf525783e554d1dc892bd0654b5990e603",
+      "revision": "e90abb64ab95c5b15cdb0949b03c6a948365339b",
+      "inspection": "identity/preservation/provenance audit; frozen Standards-only design skills not applied as Spec requirements"
+    },
+    {
+      "path": ".scratch/ticket-harness/evidence/19-evaluation/snapshot/guidance/docs/adr/0002-human-qa-gates-feature-promotion.md",
+      "sha256": "7f9ef955940b6a4315d9a5fc7c7279cc367043310ebd4575cee450dffd0e4982",
+      "revision": "e90abb64ab95c5b15cdb0949b03c6a948365339b",
+      "inspection": "identity/preservation/provenance audit; frozen Standards-only design skills not applied as Spec requirements"
+    },
+    {
+      "path": ".scratch/ticket-harness/evidence/19-evaluation/snapshot/guidance/docs/agents/architecture-checkpoints.md",
+      "sha256": "e81bfaff325e069ee3b8c73a8a4d2028e06a871dcf94f6045377585a5d1e3d8f",
+      "revision": "e90abb64ab95c5b15cdb0949b03c6a948365339b",
+      "inspection": "identity/preservation/provenance audit; frozen Standards-only design skills not applied as Spec requirements"
+    },
+    {
+      "path": ".scratch/ticket-harness/evidence/19-evaluation/snapshot/guidance/docs/agents/ownership-review.md",
+      "sha256": "7bef209024464c7ce7b0d3ebcfc8f2707d2309efef50b79bb7d5cc589ab1aa56",
+      "revision": "e90abb64ab95c5b15cdb0949b03c6a948365339b",
+      "inspection": "identity/preservation/provenance audit; frozen Standards-only design skills not applied as Spec requirements"
+    },
+    {
+      "path": ".scratch/ticket-harness/evidence/19-evaluation/snapshot/guidance/docs/agents/review-records.md",
+      "sha256": "7371c706ba48a09ba2f69750dab8f60c5c6892bdfb0ecb35f5f9ada7e502d49d",
+      "revision": "e90abb64ab95c5b15cdb0949b03c6a948365339b",
+      "inspection": "identity/preservation/provenance audit; frozen Standards-only design skills not applied as Spec requirements"
+    },
+    {
+      "path": ".scratch/ticket-harness/evidence/19-evaluation/snapshot/guidance/docs/agents/testing.md",
+      "sha256": "6b6b498a718205bb5fd1f0b12410623807e708f784e7d09a4bd72343b229a4ff",
+      "revision": "e90abb64ab95c5b15cdb0949b03c6a948365339b",
+      "inspection": "identity/preservation/provenance audit; frozen Standards-only design skills not applied as Spec requirements"
+    },
+    {
+      "path": ".scratch/ticket-harness/evidence/19-evaluation/snapshot/guidance/docs/templates/reviews/report.md",
+      "sha256": "bb0c4613964f1dc60f4ee7a618119997cf96ac3fafc3b810ed95002b2f787e76",
+      "revision": "e90abb64ab95c5b15cdb0949b03c6a948365339b",
+      "inspection": "identity/preservation/provenance audit; frozen Standards-only design skills not applied as Spec requirements"
+    },
+    {
+      "path": ".scratch/ticket-harness/evidence/19-evaluation/source-manifest.json",
+      "sha256": "38d88c8b31b1baf84c30464ba1606d9c3406678f2881462161804da19816e0f8",
+      "revision": "e90abb64ab95c5b15cdb0949b03c6a948365339b",
+      "inspection": "identity/preservation/provenance audit; frozen Standards-only design skills not applied as Spec requirements"
+    },
+    {
+      "path": ".scratch/ticket-harness/evidence/19-evaluation/spec-g1-assignment.json",
+      "sha256": "201a866a08b1e2cb0b18b044c83c99b97dccce14b786a3d1007f8d9dbc050a6a",
+      "revision": "e90abb64ab95c5b15cdb0949b03c6a948365339b",
+      "inspection": "identity/preservation/provenance audit; frozen Standards-only design skills not applied as Spec requirements"
+    },
+    {
+      "path": ".scratch/ticket-harness/evidence/19-evaluation/spec-g1-preservation-attestation.json",
+      "sha256": "b75d68e5675244fe5e84592d9e65b95cbe846c4670f9989d525e181e97e6f450",
+      "revision": "e90abb64ab95c5b15cdb0949b03c6a948365339b",
+      "inspection": "identity/preservation/provenance audit; frozen Standards-only design skills not applied as Spec requirements"
+    },
+    {
+      "path": ".scratch/ticket-harness/evidence/19-evaluation/spec-g1-reviewer-preserved.md",
+      "sha256": "cb64d356ca885dd1c4f499e84c15b1a975f47ec4fcbd5e28effc0cb6467dea77",
+      "revision": "e90abb64ab95c5b15cdb0949b03c6a948365339b",
+      "inspection": "identity/preservation/provenance audit; frozen Standards-only design skills not applied as Spec requirements"
+    },
+    {
+      "path": ".scratch/ticket-harness/evidence/19-evaluation/spec-g1-source-records.json",
+      "sha256": "7bae7a381f254305d6c1dcb4b2e12b53c410ac6dc7708f320e06c3f93578201f",
+      "revision": "e90abb64ab95c5b15cdb0949b03c6a948365339b",
+      "inspection": "identity/preservation/provenance audit; frozen Standards-only design skills not applied as Spec requirements"
+    },
+    {
+      "path": ".scratch/ticket-harness/evidence/19-evaluation/spec-g1-tool-evidence.json",
+      "sha256": "0900c20366fecfcf2e09ef1b6e7e063e2d6b678eb99d6a1d840cf0833bfd4b85",
+      "revision": "e90abb64ab95c5b15cdb0949b03c6a948365339b",
+      "inspection": "identity/preservation/provenance audit; frozen Standards-only design skills not applied as Spec requirements"
+    },
+    {
+      "path": ".scratch/ticket-harness/evidence/19-evaluation/standards-g1-assignment.json",
+      "sha256": "7c17093db2c3b04f0b37a33ced66bb64c74c8e0c675e85458a4e2adb2b8c3adb",
+      "revision": "e90abb64ab95c5b15cdb0949b03c6a948365339b",
+      "inspection": "identity/preservation/provenance audit; frozen Standards-only design skills not applied as Spec requirements"
+    },
+    {
+      "path": ".scratch/ticket-harness/evidence/19-evaluation/standards-g1-preservation-attestation.json",
+      "sha256": "9af221fe03b43277d386589be8c8d57b4f1735f971caabfa52465f18c1525c73",
+      "revision": "e90abb64ab95c5b15cdb0949b03c6a948365339b",
+      "inspection": "identity/preservation/provenance audit; frozen Standards-only design skills not applied as Spec requirements"
+    },
+    {
+      "path": ".scratch/ticket-harness/evidence/19-evaluation/standards-g1-reviewer-preserved.md",
+      "sha256": "b2928b0305feda577873e7b5b08d70ec4a045a891fc2a2523a14755f4dd134aa",
+      "revision": "e90abb64ab95c5b15cdb0949b03c6a948365339b",
+      "inspection": "identity/preservation/provenance audit; frozen Standards-only design skills not applied as Spec requirements"
+    },
+    {
+      "path": ".scratch/ticket-harness/evidence/19-evaluation/standards-g1-source-records.json",
+      "sha256": "bf07c625ca98b2ef0a85bdb5c8915c9f7b9a003958ccb56aa43951b45f2b32c5",
+      "revision": "e90abb64ab95c5b15cdb0949b03c6a948365339b",
+      "inspection": "identity/preservation/provenance audit; frozen Standards-only design skills not applied as Spec requirements"
+    },
+    {
+      "path": ".scratch/ticket-harness/evidence/19-evaluation/standards-g1-tool-evidence.json",
+      "sha256": "df2770b69587884aa5452f5034296d05edd0b9a6b19bde1f0834566776e6c0e3",
+      "revision": "e90abb64ab95c5b15cdb0949b03c6a948365339b",
+      "inspection": "identity/preservation/provenance audit; frozen Standards-only design skills not applied as Spec requirements"
+    }
+  ],
+  "commands_and_exits": {
+    "independent_command_record": "/tmp/ticket19-review/spec-audit.json",
+    "source_read_commands": "cat, sed -n, nl -ba, rg --files, rg -n and scoped git diff/status/rev-parse reads; all returned exit 0. Large output truncations addressed by bounded rereads. Full tool commands/outputs retained in this reviewer session.",
+    "audit_execution": {
+      "command": "/home/ajkerr1/development/agentic_template/.micromamba/envs/dev/bin/python /tmp/ticket19-review/spec-audit.py",
+      "first_exit": 0,
+      "corrected_observation_capture_exit": 0
+    },
+    "historical_evidence_writers_executed": false,
+    "runtime_suite_harness_or_dependency_install_executed": false
+  },
+  "review_limits": [
+    "No sibling implementation assessment/report/identity read or requested.",
+    "Original corpus reports are implementation evidence and were read independently of sibling ticket review.",
+    "No production package architecture or executable regression-suite assessment; no runtime delivery/enforcement assessment.",
+    "Raw-original-session inspection was restricted to named child paths and extraction of first plaintext assistant final content, without exposing unrelated session context.",
+    "Opaque initial delivery remains opaque; readable received inputs are reviewer-attested transcriptions.",
+    "No actual M1 cumulative assessment, QA, completion bookkeeping or handoff generated by this reviewer."
+  ],
+  "preserved_audit_artifacts": [
+    {
+      "path": "/tmp/ticket19-review/spec-audit.py",
+      "sha256": "3e1173e8fc1f763f345fadfe19257dcb734b9f3868aeb22e582b3dcebe6515df"
+    },
+    {
+      "path": "/tmp/ticket19-review/spec-audit.json",
+      "sha256": "5f0d74da8b3ae9c2997179c1a0c362ff8240dbe6c2cbe546b148e95fe153ddee"
+    },
+    {
+      "path": "/tmp/ticket19-review/spec-h8-observation.json",
+      "sha256": "2259d705c801369471a36b7188305c1f277b4ed59a1fde29c9ee2cac79a60893"
+    },
+    {
+      "path": "/tmp/ticket19-review/spec-audit-history.json",
+      "sha256": "ac19e42be1939f844c809d49b5431cf02ec688b61aacce286d150f5ef3fee9b5"
+    }
+  ],
+  "assessment_output": {
+    "path": "/tmp/ticket19-review/spec-01.md",
+    "sha256": "53dca18975287a2476cb58fae8eeca45256e9057a0a5b4a8c5d337eade9dd503",
+    "result": "1 blocking / 0 optional",
+    "finding_keys": [
+      "review-ticket-19/spec-01/F1"
+    ]
+  }
+}

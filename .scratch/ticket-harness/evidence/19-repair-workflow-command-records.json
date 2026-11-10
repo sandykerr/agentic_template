@@ -1,0 +1,277 @@
+{
+  "commands": [
+    {
+      "timestamp": "2026-11-10T16:56:11.856Z",
+      "ordinal": 346,
+      "type": "response_item",
+      "payload": {
+        "type": "custom_tool_call",
+        "id": "ctc_0fc82f4803010e71016af34ca3383087d2ba05bc26fcc63b5d",
+        "status": "completed",
+        "call_id": "call_5d0bb82a74114196bdb26a21e3287800",
+        "name": "exec",
+        "input": "text(await tools.exec_command({cmd:\"cat > .scratch/ticket-harness/evidence/19-repair-prepare-c3.py <<'PY'\\n\\\"\\\"\\\"Prepare a candidate complete corpus outside frozen G1/G2 snapshots.\\\"\\\"\\\"\\nfrom pathlib import Path\\nimport shutil\\n\\nROOT = Path(__file__).resolve().parents[3]\\nSOURCE = ROOT/'.scratch/ticket-harness/evidence/19-evaluation-g2/snapshot'\\nTARGET = Path('/tmp/development-review-19-c3-candidate')\\nassert not TARGET.exists()\\nshutil.copytree(SOURCE,TARGET)\\npath = TARGET/'cases/b7/git_ops.py'\\ntext = path.read_text()\\ntext = text.replace('return result.stdout.strip()', 'return result.stdout')\\ntext = text.replace('checked(\\\"rev-parse\\\", \\\"--show-toplevel\\\")', 'checked(\\\"rev-parse\\\", \\\"--show-toplevel\\\").removesuffix(\\\"\\\\\\\\n\\\")')\\ntext = text.replace('checked(\\\"symbolic-ref\\\", \\\"--short\\\", \\\"HEAD\\\")', 'checked(\\\"symbolic-ref\\\", \\\"--short\\\", \\\"HEAD\\\").removesuffix(\\\"\\\\\\\\n\\\")')\\npath.write_text(text)\\n(TARGET/'cases/d9/plan.py').write_text('''from dataclasses import dataclass\\n\\n@dataclass(frozen=True)\\nclass Ticket:\\n    id: str\\n    dependencies: tuple[str, ...]\\n\\ndef parse(text):\\n    tickets = []\\n    for entry in text.split(\\\",\\\"):\\n        identity, sep, rest = entry.partition(\\\":\\\")\\n        identity = identity.strip()\\n        if not identity or not sep:\\n            raise ValueError(\\\"expected id:dependencies\\\")\\n        dependencies = tuple(d.strip() for d in rest.split(\\\"+\\\")) if rest.strip() else ()\\n        if any(not dependency for dependency in dependencies):\\n            raise ValueError(\\\"empty dependency ID\\\")\\n        tickets.append(Ticket(identity, dependencies))\\n    by_id = {t.id: t for t in tickets}\\n    if len(by_id) != len(tickets):\\n        raise ValueError(\\\"duplicate ID\\\")\\n    visiting, done = set(), set()\\n    for ticket in tickets:\\n        stack = [(ticket.id, False)]\\n        while stack:\\n            identity, leaving = stack.pop()\\n            if leaving:\\n                visiting.remove(identity)\\n                done.add(identity)\\n                continue\\n            if identity not in by_id:\\n                raise ValueError(\\\"unknown dependency\\\")\\n            if identity in visiting:\\n                raise ValueError(\\\"cycle\\\")\\n            if identity in done:\\n                continue\\n            visiting.add(identity)\\n            stack.append((identity, True))\\n            stack.extend((dependency, False)\\n                         for dependency in reversed(by_id[identity].dependencies))\\n    return tuple(tickets)\\n''')\\nprint('Prepared complete C3 candidate at '+str(TARGET)+'; no declaration or review yet.')\\nPY\\n/home/ajkerr1/development/agentic_template/.micromamba/envs/dev/bin/python .scratch/ticket-harness/evidence/19-repair-prepare-c3.py\",\"max_output_tokens\":1000}));\n",
+        "internal_chat_message_metadata_passthrough": {
+          "turn_id": "01a1c657-e8ec-7501-ba73-f4ffe26c3fe6",
+          "create_time": 1794329763.2447772
+        }
+      }
+    },
+    {
+      "timestamp": "2026-11-10T16:58:09.205Z",
+      "ordinal": 382,
+      "type": "response_item",
+      "payload": {
+        "type": "custom_tool_call",
+        "id": "ctc_0fc82f4803010e71016af34cfe5b5087d2b909a1f664eb86d1",
+        "status": "completed",
+        "call_id": "call_ac69fda9c18e4666a0eaef8c686f5973",
+        "name": "exec",
+        "input": "text(await tools.exec_command({cmd:\"cat > .scratch/ticket-harness/evidence/19-repair-control-preflight.py <<'PY'\\n\\\"\\\"\\\"Bounded evaluator preflight of all four controls before C3 declaration.\\\"\\\"\\\"\\nfrom copy import deepcopy\\nfrom pathlib import Path\\nimport hashlib\\nimport json\\nimport subprocess\\nimport sys\\nimport tempfile\\nimport types\\n\\nROOT = Path(__file__).resolve().parents[3]\\nEV = ROOT/'.scratch/ticket-harness/evidence'\\nOLD = EV/'19-evaluation-g2/snapshot'\\nNEW = Path('/tmp/development-review-19-c3-candidate')\\ndef load(path,name):\\n    module=types.ModuleType(name)\\n    sys.modules[name]=module\\n    exec(compile(path.read_text(),str(path),'exec'),module.__dict__)\\n    return module\\n\\ndef sha(path):\\n    return hashlib.sha256(path.read_bytes()).hexdigest()\\nresult={'scope':'Evaluator source/contract preflight before C3 declaration; no additional blinded trial or production tests',\\n        'guidance_version':'G2 unchanged', 'sources':{str(p.relative_to(NEW)):sha(p) for p in sorted(NEW.rglob('*')) if p.is_file()}}\\nwith tempfile.TemporaryDirectory(prefix='review-19-control-audit-') as directory:\\n    parent=Path(directory)\\n    checkout=parent/'repo '\\n    checkout.mkdir()\\n    commands=[]\\n    def command(args):\\n        value=subprocess.run(args,text=True,capture_output=True,check=False)\\n        commands.append({'argv':args,'exit':value.returncode,'stdout':value.stdout,'stderr':value.stderr})\\n        assert value.returncode == 0,commands[-1]\\n        return value.stdout\\n    command(['git','init','--quiet','--initial-branch=main',str(checkout)])\\n    command(['git','-C',str(checkout),'-c','user.name=Corpus observation','-c','user.email=corpus@example.invalid','commit','--quiet','--allow-empty','-m','control observation'])\\n    base=command(['git','-C',str(checkout),'rev-parse','HEAD']).removesuffix('\\\\n')\\n    def git(args):\\n        value=subprocess.run(['git','-C',str(checkout),*args],capture_output=True,text=True,check=False)\\n        commands.append({'argv':['git','-C',str(checkout),*args],'exit':value.returncode,'stdout':value.stdout,'stderr':value.stderr})\\n        return value\\n    roots={}\\n    for label,snapshot in [('C2',OLD),('C3_candidate',NEW)]:\\n        owner=load(snapshot/'cases/b7/git_ops.py','b7_'+label)\\n        root,branch=owner.validate(git,'main',base)\\n        roots[label]={'returned_root':str(root),'expected_root':str(checkout.resolve()),'equal':root==checkout.resolve(),'branch':branch}\\n    assert roots['C2']['equal'] is False and roots['C3_candidate']['equal'] is True\\n    result['b7']={'observations':roots,'commands':commands,\\n        'audit':'Checked command status remains owner policy; root/ref remove one record newline, pathname whitespace preserved; status remains raw truthiness. Detached/unexpected/dirty/missing-base/ancestry checks retained; no new path restriction.'}\\n    parse={}\\n    length=1200\\n    text=','.join(f'T{i}:T{i+1}' for i in range(length-1))+f',T{length-1}:'\\n    for label,snapshot in [('C2',OLD),('C3_candidate',NEW)]:\\n        owner=load(snapshot/'cases/d9/plan.py','d9_'+label)\\n        row={}\\n        try:\\n            value=owner.parse(text)\\n            row['forward_chain']={'outcome':'returned','count':len(value),'first':value[0].id,'last':value[-1].id}\\n        except RecursionError as error:\\n            row['forward_chain']={'outcome':'RecursionError','message':str(error)}\\n        for source in ['a:+','a:,b:a+','a:,b:a','a:b,b:a','a:missing','a:,a:']:\\n            try:\\n                value=owner.parse(source)\\n                row[source]={'outcome':'returned','value':[{'id':v.id,'dependencies':v.dependencies} for v in value]}\\n            except ValueError as error:\\n                row[source]={'outcome':'ValueError','message':str(error)}\\n        parse[label]=row\\n    assert parse['C2']['forward_chain']['outcome']=='RecursionError'\\n    assert parse['C3_candidate']['forward_chain']['count']==length\\n    for source in ['a:+','a:,b:a+']:\\n        assert parse['C2'][source]['outcome']=='returned'\\n        assert parse['C3_candidate'][source]['outcome']=='ValueError'\\n    result['d9']={'chain_nodes':length,'recursion_limit':sys.getrecursionlimit(),'observations':parse,\\n        'audit':'Nonempty dependency operands enforce existing grammar; whole empty RHS remains valid. Explicit DFS enter/leave stack replaces interpreter recursion, preserves output order/frozen values and local graph checks. Duplicate dependency mentions remain permitted; no graph-depth input restriction.'}\\n    io=load(NEW/'cases/f6/io_ops.py','f6_c3')\\n    destination=parent/'content.txt'\\n    destination.write_text('original',encoding='utf-8')\\n    before=set(parent.iterdir())\\n    try:\\n        io.atomic_write(destination,'\\\\ud800')\\n    except UnicodeEncodeError as error:\\n        write_failure=type(error).__name__\\n    assert destination.read_text()=='original' and set(parent.iterdir())==before\\n    io.atomic_write(destination,'complete text')\\n    assert destination.read_text()=='complete text' and set(parent.iterdir())==before\\n    nonzero=io.invoke([sys.executable,'-c','raise SystemExit(7)'],parent,1)\\n    assert nonzero.returncode==7\\n    timeout=[]\\n    for value in [None,float('inf'),float('nan')]:\\n        try:\\n            io.invoke(['/nonexistent/review-control-command'],parent,value)\\n        except ValueError as error:\\n            timeout.append({'input':repr(value),'outcome':type(error).__name__,'message':str(error)})\\n    assert len(timeout)==3\\n    finite=[]\\n    for value in [0,-1,0.01]:\\n        try:\\n            process=io.invoke([sys.executable,'-c','import time; time.sleep(1)'],parent,value)\\n            finite.append({'timeout':value,'outcome':'returned','exit':process.returncode})\\n        except subprocess.TimeoutExpired:\\n            finite.append({'timeout':value,'outcome':'TimeoutExpired'})\\n    assert all(v['outcome']=='TimeoutExpired' for v in finite)\\n    result['f6']={'encoding_failure':write_failure,'old_content_survived':True,'temporary_cleanup':True,'complete_replacement':True,'nonzero_exit':nonzero.returncode,'invalid_timeouts':timeout,'finite_timeouts':finite,\\n        'audit':'C3 enforces finite timeout before child creation without positive-only policy. argv/cwd/capture/check=False/TimeoutExpired unchanged. Same-directory temporary closes before replace; ordinary encoding failure cleans temporary and preserves old destination. Existing directory is explicit precondition; no fsync/metadata/concurrency/crash durability or impossible successful unlink under OS refusal asserted.'}\\n    owner=load(NEW/'cases/h8/attempt.py','h8_c3')\\n    identity,revision={'id':['A']},{'rev':['r1']}\\n    attempt=owner.Attempt(identity)\\n    before=deepcopy(attempt.snapshot())\\n    try:\\n        attempt.complete()\\n    except ValueError:\\n        pass\\n    assert attempt.snapshot()==before\\n    try:\\n        attempt.submit({})\\n    except ValueError:\\n        pass\\n    assert attempt.snapshot()==before\\n    attempt.submit(revision)\\n    attempt.complete()\\n    before=deepcopy(attempt.snapshot())\\n    identity['id'].append('external')\\n    revision['rev'].append('external')\\n    a,b=attempt.snapshot()\\n    a['id']['id'].append('observation')\\n    b['revision']['rev'].append('observation')\\n    assert attempt.snapshot()==before\\n    result['h8']={'premature_completion_unchanged':True,'empty_submission_unchanged':True,'nested_input_and_snapshot_isolation':True,'audit':'Unchanged corrected h8 deep-copies inputs/proposed transition pair/outputs. One owner and guard-before-mutation; dictionary/list aliases isolated without scalar restriction. No persistence/concurrency; no arbitrary malicious copy protocol behavior assessed.'}\\npath=EV/'19-repair-control-preflight-results.json'\\nassert not path.exists()\\npath.write_text(json.dumps(result,indent=2)+'\\\\n')\\nprint(json.dumps({'preflight':str(path),'candidate_files':len(result['sources']),'b7_whitespace_fixed':True,'d9_chain_nodes':length,'d9_empty_operands_reject':True,'f6_finite_timeout_guard':True,'h8_isolated':True},indent=2))\\nPY\\n/home/ajkerr1/development/agentic_template/.micromamba/envs/dev/bin/python .scratch/ticket-harness/evidence/19-repair-control-preflight.py\",\"max_output_tokens\":1500}));\n",
+        "internal_chat_message_metadata_passthrough": {
+          "turn_id": "01a1c657-e8ec-7501-ba73-f4ffe26c3fe6",
+          "create_time": 1794329854.3595679
+        }
+      }
+    },
+    {
+      "timestamp": "2026-11-10T17:00:05.839Z",
+      "ordinal": 396,
+      "type": "response_item",
+      "payload": {
+        "type": "custom_tool_call",
+        "id": "ctc_0fc82f4803010e71016af34d703a4c87d2a8b95c146f349e67",
+        "status": "completed",
+        "call_id": "call_2b85f46e36e747dcabbee98c4f4cd53c",
+        "name": "exec",
+        "input": "text(await tools.exec_command({cmd:\"cat > .scratch/ticket-harness/evidence/19-repair-build-c3.py <<'PY'\\n\\\"\\\"\\\"Declare complete corpus C3 under unchanged guidance G2; evaluator-only.\\\"\\\"\\\"\\nfrom pathlib import Path\\nimport datetime\\nimport hashlib\\nimport json\\nimport shutil\\n\\nROOT=Path(__file__).resolve().parents[3]\\nEV=ROOT/'.scratch/ticket-harness/evidence'\\nOLD=EV/'19-evaluation-g2'\\nOUT=EV/'19-evaluation-g3'\\nCANDIDATE=Path('/tmp/development-review-19-c3-candidate')\\nassert not OUT.exists()\\ndef sha(path):\\n    return hashlib.sha256(path.read_bytes()).hexdigest()\\ndef files(directory):\\n    return {str(p.relative_to(directory)):sha(p) for p in sorted(directory.rglob('*')) if p.is_file()}\\npreserved=EV/'19-repair-c2-preservation.json'\\nassert not preserved.exists()\\npreserved.write_text(json.dumps({'corpus':'C2','guidance':'G2','sha256':files(OLD),'purpose':'All frozen failed-trial files before C3 declaration; future checks prohibit any mutation.'},indent=2)+'\\\\n')\\nmanifest=files(CANDIDATE)\\naudit=json.loads((EV/'19-repair-control-preflight-results.json').read_text())\\nassert manifest==audit['sources'],'Candidate differs from substantively audited source'\\nold=json.loads((OLD/'source-manifest.json').read_text())\\ndelta={name:{'C2':old[name],'C3':digest} for name,digest in manifest.items() if digest != old[name]}\\nassert set(delta)=={'cases/b7/git_ops.py','cases/d9/plan.py','cases/f6/io_ops.py'}\\nassert all(manifest[name]==old[name] for name in manifest if name.startswith('guidance/'))\\nOUT.mkdir()\\nshutil.copytree(CANDIDATE,OUT/'snapshot')\\nidentity=hashlib.sha256(json.dumps(manifest,sort_keys=True).encode()).hexdigest()\\n(OUT/'source-manifest.json').write_text(json.dumps(manifest,indent=2)+'\\\\n')\\n(OUT/'corpus-identity.txt').write_text(identity+'\\\\n')\\n(OUT/'revision-delta.json').write_text(json.dumps({'guidance_version':'G2 unchanged from C2','previous_corpus':(OLD/'corpus-identity.txt').read_text().strip(),'final_corpus':identity,'changed_files':delta,'all_contracts_and_guidance_unchanged':True,'preflight_identity_sha256':sha(EV/'19-repair-control-preflight-results.json')},indent=2)+'\\\\n')\\n(OUT/'declaration.md').write_text(f'''# C3 declared complete corpus \u2014 evaluator only\\n\\nGuidance: **G2 unchanged**. Corpus: **C3**, distinct from its guidance version.\\nFixed whole-ticket baseline `f2929e79cfd5a68f670862775053ae85ba9582b5`; rejected source\\n`e90abb64ab95c5b15cdb0949b03c6a948365339b`. Declared before C3 reviewer assignments.\\n36-file mapping SHA-256 `{identity}`; [manifest](source-manifest.json),\\n[neutral source snapshot](snapshot/REVIEW.md), [delta](revision-delta.json).\\n\\n[G1/C1](../19-evaluation/declaration.md) and [G2/C2](../19-evaluation-g2/declaration.md)\\nremain intact, including failed source/contracts, reports, classifications and\\nresults. C1 failed invalid-control/adjudication; C2 correctly exposed more invalid\\ncontrols despite all four required seeds detected. [C2 per-case adjudication](../19-evaluation-g2/results.md)\\npreserves valid new b7/d9/f6 findings and differing d9/f6 reviewer interpretations.\\nNo valid blocker is relabeled false or removed by narrowing a contract.\\n\\nC3 preserves every original contract and seeded-concern source. Relative to C2,\\nonly b7/git_ops.py, d9/plan.py and f6/io_ops.py change: command-specific root/ref\\nrecord-terminator decoding preserves path whitespace; parser rejects missing\\ndependency operands and uses an explicit local DFS stack without recursion depth\\nrestriction; invocation validates finite timeout before process creation, without\\npositive-only policy. Corrected h8 and every guidance byte remain exactly C2.\\n[Evaluator preflight](../19-repair-control-preflight-results.json) substantively\\nassesses all four controls and records bounded ordinary observations before this\\ndeclaration. The extra 1200-node recursion failure is evaluator preflight, not a\\nG2 reviewer finding. [Full C2 preservation](../19-repair-c2-preservation.json)\\npins every failed-trial artifact before C3 dispatch.\\n\\n| Case | Kind / required axis | Expected observation and rationale |\\n| --- | --- | --- |\\n| a3 | Required concern / Spec | JSON restoration detaches verified references from canonical gates; invalidation leaves QA stale. Block and rebuild canonical references preserving saved keys/repeated records. |\\n| b7 | Acceptable control / both | Cohesive function owns Git failures, branch/dirty/base/ancestry checks; root/ref decoding preserves path characters. No class/framework/richer diagnostic requirement. |\\n| c2 | Required concern / Spec | Checking chooses history[-1] despite supplied ID; delayed/unknown handoffs mutate wrong owner. Block and return validation to execution/identified Attempt attachment. |\\n| d9 | Acceptable control / both | Pure immutable parser preserves order, rejects missing IDs/references/cycles, validates nonempty dependency tokens, iterates graph locally without interpreter recursion-depth bound. No object/lifecycle framework. |\\n| e4 | Required concern / Standards | Repair duplicates owning submission guard and mirrored edits; block extra writer/policy propagation and delegate to submit. |\\n| f6 | Acceptable control / both | Atomic file replacement/cleanup and captured argv process primitive own mechanics; finite timeout checked, nonzero results and TimeoutExpired preserved. No domain state/fsync/metadata requirement. |\\n| g1 | Required concern / Standards | Preparation returns incomplete fields; CLI finishes privately, resume incomplete/unvalidated. Block hidden caller initialization and complete checked result in preparation. |\\n| h8 | Acceptable control / both | One owner guards mirrored transitions and deep-copies ordinary mutable inputs/observations; caller delegates under unchanged isolation promise. No assumed scalar restriction/framework. |\\n\\nRequired pass: actual fresh independent Spec and Standards each assess all eight\\ncases once, both supplied exact final G2 guidance. Declared relevant axis detects\\neach required seed with concrete source/contract evidence, blocking classification\\nand proportionate remedy. Controls receive no unsupported blocker; a valid new\\ncontract breach is another invalid-control failure requiring correction, not an\\nunsupported reviewer finding. Optional suggestions adjudicated by evidence, not\\ncount. Explain all matches/mismatches. Retain every trial/source/report/version.\\nAny correction needs a fresh complete declaration and final-source evaluation.\\n\\nKnown readable axis prompts and hashes are retained before dispatch. Reviewers\\nreceive only read-only neutral snapshot/contracts/guidance and axis assignment;\\nno key, builder, evaluator audit, old result, repair/ticket19/spec material or sibling\\noutput. Preserve actual settings/calls/outputs/original finals and pre/post hashes.\\nUse fresh fork-none GPT-6.1 Sol High, <=250000 active-context advisory target;\\nbackend/enforcement/usage telemetry unavailable. Filesystem isolation advisory.\\nNo harness run, production test, future refactor, human design/risk waiver or QA.\\n\\nFinite history if C3 is assessed: **three complete eight-case corpora, two guidance\\nversions, three original reports per axis**. C3 adds no guidance correction. C1 to\\nC2 changed source and guidance together; C2 to C3 corrects controls under same G2.\\nNo causal wording-effect, future-detection, general reliability or runtime delivery\\nclaim follows. C3's clean corrected controls cannot show original-flaw detection.\\nActual later refactors, M1 cumulative review and human QA remain separate.\\n''')\\nfor axis in ['spec','standards']:\\n    prompt=(OLD/f'{axis}-g2-input.txt').read_text()\\n    prompt=prompt.replace('/tmp/development-review-19-g2','/tmp/development-review-19-c3')\\n    prompt=prompt.replace((OLD/'corpus-identity.txt').read_text().strip(),identity)\\n    prompt=prompt.replace(f'/tmp/development-review-19-{axis}-g2-report.md',f'/tmp/development-review-19-{axis}-c3-report.md')\\n    (OUT/f'{axis}-c3-input.txt').write_text(prompt)\\n(OUT/'declaration-capture.json').write_text(json.dumps({'declared_at_utc':datetime.datetime.now(datetime.timezone.utc).isoformat(),'guidance_version':'G2','corpus_version':'C3','declaration_sha256':sha(OUT/'declaration.md'),'source_manifest_sha256':sha(OUT/'source-manifest.json'),'corpus_sha256':identity,'known_prompt_sha256':{axis:sha(OUT/f'{axis}-c3-input.txt') for axis in ['spec','standards']},'C2_preservation_sha256':sha(preserved)},indent=2)+'\\\\n')\\nTEMP=Path('/tmp/development-review-19-c3')\\nassert not TEMP.exists()\\nshutil.copytree(OUT/'snapshot',TEMP)\\nfor path in TEMP.rglob('*'):\\n    path.chmod(0o555 if path.is_dir() else 0o444)\\nTEMP.chmod(0o555)\\nprint(json.dumps({'corpus':'C3','guidance':'G2 unchanged','corpus_sha256':identity,'files':len(manifest),'changed_files':list(delta),'declaration_sha256':sha(OUT/'declaration.md')},indent=2))\\nPY\\n/home/ajkerr1/development/agentic_template/.micromamba/envs/dev/bin/python .scratch/ticket-harness/evidence/19-repair-build-c3.py\",\"max_output_tokens\":1300}));\n",
+        "internal_chat_message_metadata_passthrough": {
+          "turn_id": "01a1c657-e8ec-7501-ba73-f4ffe26c3fe6",
+          "create_time": 1794329968.2307818
+        }
+      }
+    },
+    {
+      "timestamp": "2026-11-10T17:11:28.499Z",
+      "ordinal": 612,
+      "type": "response_item",
+      "payload": {
+        "type": "custom_tool_call",
+        "id": "ctc_0fc82f4803010e71016af3503e0d7087d282c8bdd45a14efa1",
+        "status": "completed",
+        "call_id": "call_bcce198ae77c415ebb5fb5808a9011c4",
+        "name": "exec",
+        "input": "text(await tools.exec_command({cmd:\"/home/ajkerr1/development/agentic_template/.micromamba/envs/dev/bin/python - <<'PY'\\nfrom pathlib import Path\\nimport shutil\\nroot=Path('.scratch/ticket-harness/evidence')\\ncandidate=Path('/tmp/development-review-19-c4-candidate')\\nassert not candidate.exists()\\nshutil.copytree(root/'19-evaluation-g3/snapshot',candidate)\\n(candidate/'cases/b7/caller.py').write_bytes(Path('/tmp/ticket19-c4-adapter.txt').read_bytes())\\nhelper=root/'19-repair-path-preflight.py'\\nassert not helper.exists()\\nhelper.write_bytes(Path('/tmp/ticket19-audit-c4.py').read_bytes())\\nprint('Prepared C4 candidate with b7 caller-only delta after C3 originals preserved.')\\nPY\\n/home/ajkerr1/development/agentic_template/.micromamba/envs/dev/bin/python .scratch/ticket-harness/evidence/19-repair-path-preflight.py\",\"max_output_tokens\":1500}));\n",
+        "internal_chat_message_metadata_passthrough": {
+          "turn_id": "01a1c657-e8ec-7501-ba73-f4ffe26c3fe6",
+          "create_time": 1794330686.1863909
+        }
+      }
+    },
+    {
+      "timestamp": "2026-11-10T17:12:22.481Z",
+      "ordinal": 619,
+      "type": "response_item",
+      "payload": {
+        "type": "custom_tool_call",
+        "id": "ctc_0fc82f4803010e71016af3505615d087d2b7baefcbc9543a90",
+        "status": "completed",
+        "call_id": "call_f35b24f83aa14e8fbbea0ab84b98fa3d",
+        "name": "exec",
+        "input": "text(await tools.exec_command({cmd:\"cat > .scratch/ticket-harness/evidence/19-repair-build-c4.py <<'PY'\\n\\\"\\\"\\\"Declare complete final C4 corpus under unchanged G2 guidance; evaluator-only.\\\"\\\"\\\"\\nfrom pathlib import Path\\nimport datetime\\nimport hashlib\\nimport json\\nimport shutil\\n\\nROOT=Path(__file__).resolve().parents[3]\\nEV=ROOT/'.scratch/ticket-harness/evidence'\\nOLD=EV/'19-evaluation-g3'\\nOUT=EV/'19-evaluation-g4'\\nCANDIDATE=Path('/tmp/development-review-19-c4-candidate')\\nassert not OUT.exists()\\ndef sha(path):\\n    return hashlib.sha256(path.read_bytes()).hexdigest()\\ndef files(directory):\\n    return {str(p.relative_to(directory)):sha(p) for p in sorted(directory.rglob('*')) if p.is_file()}\\npreserved=EV/'19-repair-c3-preservation.json'\\nassert not preserved.exists()\\npreserved.write_text(json.dumps({'corpus':'C3','guidance':'G2','sha256':files(OLD),'purpose':'All frozen failed-trial source/reports/results/history before C4 declaration; no mutations permitted.'},indent=2)+'\\\\n')\\nmanifest=files(CANDIDATE)\\naudit=json.loads((EV/'19-repair-path-preflight-results.json').read_text())\\nassert manifest==audit['candidate_sources']\\nold=json.loads((OLD/'source-manifest.json').read_text())\\ndelta={name:{'C3':old[name],'C4':digest} for name,digest in manifest.items() if digest!=old[name]}\\nassert set(delta)=={'cases/b7/caller.py'}\\nOUT.mkdir()\\nshutil.copytree(CANDIDATE,OUT/'snapshot')\\nidentity=hashlib.sha256(json.dumps(manifest,sort_keys=True).encode()).hexdigest()\\n(OUT/'source-manifest.json').write_text(json.dumps(manifest,indent=2)+'\\\\n')\\n(OUT/'corpus-identity.txt').write_text(identity+'\\\\n')\\n(OUT/'revision-delta.json').write_text(json.dumps({'guidance_version':'G2 unchanged since C2','previous_corpus':(OLD/'corpus-identity.txt').read_text().strip(),'final_corpus':identity,'changed_files':delta,'all_contracts_guidance_concerns_and_other_controls_unchanged':True,'preflight_identity_sha256':sha(EV/'19-repair-path-preflight-results.json')},indent=2)+'\\\\n')\\nprior=(OLD/'declaration.md').read_text()\\ntable=prior[prior.index('| Case |'):prior.index('Required pass:')]\\ntable=table.replace('root/ref decoding preserves path characters.','root/ref terminator decoding and explicit filesystem text decoding preserve path characters, CR and non-UTF8 filesystem bytes.')\\n(OUT/'declaration.md').write_text(f'''# C4 declared complete final corpus \u2014 evaluator only\\n\\nGuidance: **G2 unchanged since C2**. Corpus: **C4**, independent version identity.\\nFixed whole-ticket baseline `f2929e79cfd5a68f670862775053ae85ba9582b5`; rejected source\\n`e90abb64ab95c5b15cdb0949b03c6a948365339b`. Declared before any C4 reviewer assignment.\\n36-file mapping SHA-256 `{identity}`; [manifest](source-manifest.json),\\n[neutral snapshot](snapshot/REVIEW.md), [explicit delta](revision-delta.json).\\n\\nPreserved failed trials: [G1/C1](../19-evaluation/declaration.md),\\n[G2/C2](../19-evaluation-g2/results.md), [G2/C3](../19-evaluation-g3/results.md).\\nAll their sources/contracts/reports/classifications/results/history/checks remain\\nintact. The first invalid h8 clean adjudication and later b7/d9/f6 breaches stay\\nvisible. All four seeded required concerns were detected in each earlier trial;\\nno historical complete-corpus pass stands. Extra defects are not retroactively\\ninserted into the original seeded key. C2 reviewer disagreements and C3 clean b7\\njudgments remain original, with later evaluator counterexamples distinguished.\\n\\nC4 changes only b7/caller.py relative to C3: capture process bytes, then explicitly\\nos.fsdecode stdout/stderr into text CompletedProcess values, preserving CR and\\nfilesystem bytes without universal-newline translation. os.fspath preserves the\\ncheckout's filesystem representation. Argument vectors, no shell, text results,\\ncheck=False and validate's sole policy ownership remain. All eight original\\ncontracts, seeded concerns, other controls and guidance bytes are unchanged.\\nNo root-path input restriction is introduced. [Actual exact-caller preflight](../19-repair-path-preflight-results.json)\\nprecedes declaration and observes old/new behavior for trailing space, CR, trailing\\nnewline, Unicode and non-UTF8 filesystem paths in real temporary Git repositories.\\nC3 corrupts CR and raises on non-UTF8; all C4 candidate roots equal the actual roots.\\nThe [earlier all-control audit](../19-repair-control-preflight-results.json) remains\\nexact for unchanged d9/f6/h8. These observations support source validity, not reviewer\\njudgment or exhaustive behavior. [Full C3 preservation](../19-repair-c3-preservation.json)\\npins every failed-trial file before C4. The root's original output-translation\\npreflight is separately retained, not a blind report or full-validate observation.\\n\\n{table}Required pass: two actual fresh independent Spec/Standards assignments each assess\\nall eight cases under exact final G2 guidance. Each required seed is detected by\\nits declared relevant axis with source-specific evidence, justified blocking\\nclassification and proportionate remedy. Controls receive no unsupported blocker;\\na valid new contract breach is another invalid-control failure, not a false blocker.\\nAdjudicate optional suggestions and every match/mismatch substantively, not by count.\\nPreserve all failures/versions. Any later source/guidance correction requires a\\nnew complete declaration/final-source trial; no current result is silently reused.\\n\\nKnown readable full axis prompts and hashes are saved before dispatch. Reviewers\\nreceive only a read-only neutral snapshot/contracts/guidance and their respective\\nassignment. No key, builder, old outcomes, evaluator audit, repair/ticket19/spec,\\nroot preflight or sibling output. Preserve actual settings/source reads/tool outputs\\nand exact original finals, independently from command/hash audits. Requested roles:\\nfresh fork-none GPT-6.1 Sol High, <=250000 active-context advisory target. Backend\\nselection/delivery/enforcement, measured usage/hard context enforcement unavailable;\\nfilesystem isolation advisory. No production tests, harness/backend/refactor/QA.\\n\\nFinite declared history: **four complete eight-case corpora, two guidance versions,\\none report per axis per corpus** if this final trial is performed. G1/C1, G2/C2,\\nG2/C3 and G2/C4 use evolving source; this is not four identical-corpus reliability\\nrepetitions. C1 to C2 changed source and guidance together; C3/C4 are source-only\\ncorrections under G2. No causal wording-effect, general quality/detection guarantee,\\nretrospective clean attestation or runtime effectiveness claim follows. Corrected\\ncontrols do not demonstrate new detection of their original defects. Later refactor\\nreviews, real M1 cumulative assessment and explicit human QA remain separate.\\n''')\\nfor axis in ['spec','standards']:\\n    prompt=(OLD/f'{axis}-c3-input.txt').read_text()\\n    prompt=prompt.replace('/tmp/development-review-19-c3','/tmp/development-review-19-c4')\\n    prompt=prompt.replace((OLD/'corpus-identity.txt').read_text().strip(),identity)\\n    prompt=prompt.replace(f'/tmp/development-review-19-{axis}-c3-report.md',f'/tmp/development-review-19-{axis}-c4-report.md')\\n    (OUT/f'{axis}-c4-input.txt').write_text(prompt)\\n(OUT/'declaration-capture.json').write_text(json.dumps({'declared_at_utc':datetime.datetime.now(datetime.timezone.utc).isoformat(),'guidance_version':'G2','corpus_version':'C4','declaration_sha256':sha(OUT/'declaration.md'),'source_manifest_sha256':sha(OUT/'source-manifest.json'),'corpus_sha256':identity,'known_prompt_sha256':{axis:sha(OUT/f'{axis}-c4-input.txt') for axis in ['spec','standards']},'C3_preservation_sha256':sha(preserved)},indent=2)+'\\\\n')\\nTEMP=Path('/tmp/development-review-19-c4')\\nassert not TEMP.exists()\\nshutil.copytree(OUT/'snapshot',TEMP)\\nfor path in TEMP.rglob('*'):\\n    path.chmod(0o555 if path.is_dir() else 0o444)\\nTEMP.chmod(0o555)\\nprint(json.dumps({'corpus':'C4','guidance':'G2 unchanged','corpus_sha256':identity,'files':len(manifest),'changed_files':list(delta),'declaration_sha256':sha(OUT/'declaration.md')},indent=2))\\nPY\\n/home/ajkerr1/development/agentic_template/.micromamba/envs/dev/bin/python .scratch/ticket-harness/evidence/19-repair-build-c4.py\",\"max_output_tokens\":1200}));\n",
+        "internal_chat_message_metadata_passthrough": {
+          "turn_id": "01a1c657-e8ec-7501-ba73-f4ffe26c3fe6",
+          "create_time": 1794330710.0881567
+        }
+      }
+    },
+    {
+      "timestamp": "2026-11-10T16:57:13.168Z",
+      "ordinal": 375,
+      "type": "response_item",
+      "payload": {
+        "type": "custom_tool_call",
+        "id": "ctc_0fc82f4803010e71016af34ce22e1c87d28faaa2fa9a82dcba",
+        "status": "completed",
+        "call_id": "call_d72d70e00a7d4313a4a8b3227e20c5a5",
+        "name": "exec",
+        "input": "text(await tools.exec_command({cmd:\"cat >> .scratch/ticket-harness/evidence/19-repair-prepare-c3.py <<'PY'\\npath = TARGET/'cases/f6/io_ops.py'\\ntext = path.read_text().replace('import os\\\\n','import math\\\\nimport os\\\\n')\\ntext = text.replace('def invoke(argv, cwd, timeout):\\\\n', '''def invoke(argv, cwd, timeout):\\n    try:\\n        finite = math.isfinite(timeout)\\n    except (TypeError, ValueError, OverflowError):\\n        finite = False\\n    if not finite:\\n        raise ValueError(\\\"finite timeout required\\\")\\n''')\\npath.write_text(text)\\nPY\\n/home/ajkerr1/development/agentic_template/.micromamba/envs/dev/bin/python - <<'PY'\\nfrom pathlib import Path\\npath=Path('/tmp/development-review-19-c3-candidate/cases/f6/io_ops.py')\\ntext=path.read_text().replace('import os\\\\n','import math\\\\nimport os\\\\n')\\ntext=text.replace('def invoke(argv, cwd, timeout):\\\\n','''def invoke(argv, cwd, timeout):\\n    try:\\n        finite = math.isfinite(timeout)\\n    except (TypeError, ValueError, OverflowError):\\n        finite = False\\n    if not finite:\\n        raise ValueError(\\\"finite timeout required\\\")\\n''')\\npath.write_text(text)\\nprint('Prepared finite-timeout guard in candidate only; contracts/G2 unchanged.')\\nPY\",\"max_output_tokens\":1000}));\n",
+        "internal_chat_message_metadata_passthrough": {
+          "turn_id": "01a1c657-e8ec-7501-ba73-f4ffe26c3fe6",
+          "create_time": 1794329826.1865425
+        }
+      }
+    }
+  ],
+  "outputs": [
+    {
+      "timestamp": "2026-11-10T16:56:12.159Z",
+      "ordinal": 350,
+      "type": "response_item",
+      "payload": {
+        "type": "custom_tool_call_output",
+        "id": "ctco_01a1c663-807f-7c50-852f-5d6d8a91b431",
+        "call_id": "call_5d0bb82a74114196bdb26a21e3287800",
+        "output": [
+          {
+            "type": "input_text",
+            "text": "Script completed\nWall time 0.3 seconds\nOutput:\n"
+          },
+          {
+            "type": "input_text",
+            "text": "{\"chunk_id\":\"b65638\",\"wall_time_seconds\":0.071948435,\"exit_code\":0,\"original_token_count\":27,\"output\":\"Prepared complete C3 candidate at /tmp/development-review-19-c3-candidate; no declaration or review yet.\\n\"}"
+          }
+        ],
+        "internal_chat_message_metadata_passthrough": {
+          "turn_id": "01a1c657-e8ec-7501-ba73-f4ffe26c3fe6",
+          "create_time": 1794329772.1591408
+        }
+      },
+      "metadata": {
+        "client_authored": false,
+        "fallback_token_limit_override": 12000
+      }
+    },
+    {
+      "timestamp": "2026-11-10T16:57:13.365Z",
+      "ordinal": 378,
+      "type": "response_item",
+      "payload": {
+        "type": "custom_tool_call_output",
+        "id": "ctco_01a1c664-6f94-7253-9bfe-695baf3ccc75",
+        "call_id": "call_d72d70e00a7d4313a4a8b3227e20c5a5",
+        "output": [
+          {
+            "type": "input_text",
+            "text": "Script completed\nWall time 0.2 seconds\nOutput:\n"
+          },
+          {
+            "type": "input_text",
+            "text": "{\"chunk_id\":\"5023ae\",\"wall_time_seconds\":0.000071704,\"exit_code\":0,\"original_token_count\":19,\"output\":\"Prepared finite-timeout guard in candidate only; contracts/G2 unchanged.\\n\"}"
+          }
+        ],
+        "internal_chat_message_metadata_passthrough": {
+          "turn_id": "01a1c657-e8ec-7501-ba73-f4ffe26c3fe6",
+          "create_time": 1794329833.3648064
+        }
+      },
+      "metadata": {
+        "client_authored": false,
+        "fallback_token_limit_override": 12000
+      }
+    },
+    {
+      "timestamp": "2026-11-10T16:58:09.748Z",
+      "ordinal": 385,
+      "type": "response_item",
+      "payload": {
+        "type": "custom_tool_call_output",
+        "id": "ctco_01a1c665-4bd1-7132-b343-fb67e3bf52f0",
+        "call_id": "call_ac69fda9c18e4666a0eaef8c686f5973",
+        "output": [
+          {
+            "type": "input_text",
+            "text": "Script completed\nWall time 0.5 seconds\nOutput:\n"
+          },
+          {
+            "type": "input_text",
+            "text": "{\"chunk_id\":\"a88fa2\",\"wall_time_seconds\":0.302475831,\"exit_code\":0,\"original_token_count\":79,\"output\":\"{\\n  \\\"preflight\\\": \\\"/home/ajkerr1/development/agentic_template/.scratch/ticket-harness/evidence/19-repair-control-preflight-results.json\\\",\\n  \\\"candidate_files\\\": 36,\\n  \\\"b7_whitespace_fixed\\\": true,\\n  \\\"d9_chain_nodes\\\": 1200,\\n  \\\"d9_empty_operands_reject\\\": true,\\n  \\\"f6_finite_timeout_guard\\\": true,\\n  \\\"h8_isolated\\\": true\\n}\\n\"}"
+          }
+        ],
+        "internal_chat_message_metadata_passthrough": {
+          "turn_id": "01a1c657-e8ec-7501-ba73-f4ffe26c3fe6",
+          "create_time": 1794329889.7457793
+        }
+      },
+      "metadata": {
+        "client_authored": false,
+        "fallback_token_limit_override": 12000
+      }
+    },
+    {
+      "timestamp": "2026-11-10T17:00:06.159Z",
+      "ordinal": 399,
+      "type": "response_item",
+      "payload": {
+        "type": "custom_tool_call_output",
+        "id": "ctco_01a1c667-128f-7a12-a551-637f3e5ff668",
+        "call_id": "call_2b85f46e36e747dcabbee98c4f4cd53c",
+        "output": [
+          {
+            "type": "input_text",
+            "text": "Script completed\nWall time 0.3 seconds\nOutput:\n"
+          },
+          {
+            "type": "input_text",
+            "text": "{\"chunk_id\":\"c4bf70\",\"wall_time_seconds\":0.11640649,\"exit_code\":0,\"original_token_count\":87,\"output\":\"{\\n  \\\"corpus\\\": \\\"C3\\\",\\n  \\\"guidance\\\": \\\"G2 unchanged\\\",\\n  \\\"corpus_sha256\\\": \\\"b33636d1b8fdcacd572de6c063064afd5068b4e1275c2714bf0091651513b5c4\\\",\\n  \\\"files\\\": 36,\\n  \\\"changed_files\\\": [\\n    \\\"cases/b7/git_ops.py\\\",\\n    \\\"cases/d9/plan.py\\\",\\n    \\\"cases/f6/io_ops.py\\\"\\n  ],\\n  \\\"declaration_sha256\\\": \\\"8912cc8679c700a1bce70458faacfa6ab7c7dc1785b919b71252c5d4de69ccbc\\\"\\n}\\n\"}"
+          }
+        ],
+        "internal_chat_message_metadata_passthrough": {
+          "turn_id": "01a1c657-e8ec-7501-ba73-f4ffe26c3fe6",
+          "create_time": 1794330006.1595592
+        }
+      },
+      "metadata": {
+        "client_authored": false,
+        "fallback_token_limit_override": 12000
+      }
+    },
+    {
+      "timestamp": "2026-11-10T17:11:28.785Z",
+      "ordinal": 615,
+      "type": "response_item",
+      "payload": {
+        "type": "custom_tool_call_output",
+        "id": "ctco_01a1c671-7d11-7d40-9169-e42bcefe4a29",
+        "call_id": "call_bcce198ae77c415ebb5fb5808a9011c4",
+        "output": [
+          {
+            "type": "input_text",
+            "text": "Script completed\nWall time 0.3 seconds\nOutput:\n"
+          },
+          {
+            "type": "input_text",
+            "text": "{\"chunk_id\":\"bf101a\",\"wall_time_seconds\":0.11073497,\"exit_code\":0,\"original_token_count\":83,\"output\":\"Prepared C4 candidate with b7 caller-only delta after C3 originals preserved.\\n{\\n  \\\"path\\\": \\\"/home/ajkerr1/development/agentic_template/.scratch/ticket-harness/evidence/19-repair-path-preflight-results.json\\\",\\n  \\\"filesystem_cases\\\": 5,\\n  \\\"candidate_all_roots_equal\\\": true,\\n  \\\"C3_CR_changed_root\\\": true,\\n  \\\"C3_non_UTF8_raises\\\": true\\n}\\n\"}"
+          }
+        ],
+        "internal_chat_message_metadata_passthrough": {
+          "turn_id": "01a1c657-e8ec-7501-ba73-f4ffe26c3fe6",
+          "create_time": 1794330688.7856698
+        }
+      },
+      "metadata": {
+        "client_authored": false,
+        "fallback_token_limit_override": 12000
+      }
+    },
+    {
+      "timestamp": "2026-11-10T17:12:22.628Z",
+      "ordinal": 622,
+      "type": "response_item",
+      "payload": {
+        "type": "custom_tool_call_output",
+        "id": "ctco_01a1c672-4f64-7b82-ae4a-9875f80bdb8d",
+        "call_id": "call_f35b24f83aa14e8fbbea0ab84b98fa3d",
+        "output": [
+          {
+            "type": "input_text",
+            "text": "Script completed\nWall time 0.1 seconds\nOutput:\n"
+          },
+          {
+            "type": "input_text",
+            "text": "{\"chunk_id\":\"271489\",\"wall_time_seconds\":0.000016332,\"exit_code\":0,\"original_token_count\":74,\"output\":\"{\\n  \\\"corpus\\\": \\\"C4\\\",\\n  \\\"guidance\\\": \\\"G2 unchanged\\\",\\n  \\\"corpus_sha256\\\": \\\"bb544f58260e57309be8ffbfb9a2752994b65d8186c899fd7f8ce7e91c33a197\\\",\\n  \\\"files\\\": 36,\\n  \\\"changed_files\\\": [\\n    \\\"cases/b7/caller.py\\\"\\n  ],\\n  \\\"declaration_sha256\\\": \\\"9d9ef2a89a789096d43af685bb6e0aa1905cb156cb494408a5e13fb12e049412\\\"\\n}\\n\"}"
+          }
+        ],
+        "internal_chat_message_metadata_passthrough": {
+          "turn_id": "01a1c657-e8ec-7501-ba73-f4ffe26c3fe6",
+          "create_time": 1794330742.6286497
+        }
+      },
+      "metadata": {
+        "client_authored": false,
+        "fallback_token_limit_override": 12000
+      }
+    }
+  ],
+  "scope": "Actual candidate preparation (including original two-stage C3 construction), all-control audit, exact path audit and C3/C4 declaration commands with raw tool outputs/exit results; no generated findings or extra blind trials."
+}

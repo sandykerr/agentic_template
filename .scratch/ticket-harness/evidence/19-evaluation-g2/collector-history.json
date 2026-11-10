@@ -1,0 +1,59 @@
+{
+  "failed_preparation_capture": {
+    "calls": [
+      {
+        "timestamp": "2026-11-10T16:51:21.740Z",
+        "ordinal": 237,
+        "type": "response_item",
+        "payload": {
+          "type": "custom_tool_call",
+          "id": "ctc_0fc82f4803010e71016af34b8511b487d289e925d8007bd895",
+          "status": "completed",
+          "call_id": "call_aec5def56cee4e43b8008ff461b5bdcd",
+          "name": "exec",
+          "input": "text(await tools.apply_patch(\"*** Begin Patch\\n*** Update File: /home/ajkerr1/development/agentic_template/.scratch/ticket-harness/evidence/19-evaluation-g2/capture_reviews_g2.py\\n@@\\n def create(path, value):\\n@@\\n         path.write_text(data)\\n \\n+if '--preparation' in sys.argv:\\n+    all_rows = rows(OWN)\\n+    calls = [row for row in all_rows if row['type'] == 'response_item'\\n+             and row['payload'].get('type') == 'custom_tool_call'\\n+             and any(marker in row['payload'].get('input','') for marker in [\\n+                 '.micromamba/envs/dev/bin/python /tmp/ticket19-g2-build.py',\\n+                 '.micromamba/envs/dev/bin/python .scratch/ticket-harness/evidence/19-evaluation-g2/observe_control_g2.py'])]\\n+    call_ids = {row['payload']['call_id'] for row in calls}\\n+    outputs = [row for row in all_rows if row['type'] == 'response_item'\\n+               and row['payload'].get('type') == 'custom_tool_call_output'\\n+               and row['payload'].get('call_id') in call_ids]\\n+    assert len(calls) == len(outputs) == 2\\n+    create(OUT/'preparation-command-records.json',{'commands':calls,'outputs':outputs,\\n+        'scope':'Original builder/declaration/prompt capture and disposable alias observation tool records, including actual shell commands, exits and outputs. No finding generation.'})\\n+\\n assignments = []\\n*** End Patch\"));\ntext(await tools.exec_command({cmd:\"/home/ajkerr1/development/agentic_template/.micromamba/envs/dev/bin/python .scratch/ticket-harness/evidence/19-evaluation-g2/capture_reviews_g2.py --preparation\",\"max_output_tokens\":1000}));\n",
+          "internal_chat_message_metadata_passthrough": {
+            "turn_id": "01a1c657-e8ec-7501-ba73-f4ffe26c3fe6",
+            "create_time": 1794329477.0717225
+          }
+        }
+      }
+    ],
+    "outputs": [
+      {
+        "timestamp": "2026-11-10T16:51:22.089Z",
+        "ordinal": 241,
+        "type": "response_item",
+        "payload": {
+          "type": "custom_tool_call_output",
+          "id": "ctco_01a1c65f-1369-79f2-a497-7d7969d9dd61",
+          "call_id": "call_aec5def56cee4e43b8008ff461b5bdcd",
+          "output": [
+            {
+              "type": "input_text",
+              "text": "Script completed\nWall time 0.3 seconds\nOutput:\n"
+            },
+            {
+              "type": "input_text",
+              "text": "{}"
+            },
+            {
+              "type": "input_text",
+              "text": "{\"chunk_id\":\"b39188\",\"wall_time_seconds\":0.000037437,\"exit_code\":1,\"original_token_count\":71,\"output\":\"Traceback (most recent call last):\\n  File \\\"/home/ajkerr1/development/agentic_template/.scratch/ticket-harness/evidence/19-evaluation-g2/capture_reviews_g2.py\\\", line 37, in <module>\\n    assert len(calls) == len(outputs) == 2\\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\\nAssertionError\\n\"}"
+            }
+          ],
+          "internal_chat_message_metadata_passthrough": {
+            "turn_id": "01a1c657-e8ec-7501-ba73-f4ffe26c3fe6",
+            "create_time": 1794329482.0890093
+          }
+        },
+        "metadata": {
+          "client_authored": false,
+          "fallback_token_limit_override": 12000
+        }
+      }
+    ]
+  },
+  "reason": "Broad marker search also selected the collector-writing call containing those marker literals, so expected count assertion failed before any preparation-record output was written. Corrected selection takes the first two chronological original build/observation calls; their two outputs are retained.",
+  "classification": "Evidence collection failure only, no changed snapshot/guidance/reviewer judgment or extra trial. All prior artifacts preserved."
+}

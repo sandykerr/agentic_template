@@ -1,0 +1,351 @@
+
+command: date -u +%FT%TZ
+2026-11-10T17:23:51Z
+exit=0
+
+command: git rev-parse HEAD
+e90abb64ab95c5b15cdb0949b03c6a948365339b
+exit=0
+
+command: git status --short
+ M docs/agents/ownership-review.md
+ M docs/agents/reviewer-evaluation.md
+?? .scratch/ticket-harness/evidence/19-evaluation-g2/
+?? .scratch/ticket-harness/evidence/19-evaluation-g3/
+?? .scratch/ticket-harness/evidence/19-evaluation-g4/
+?? .scratch/ticket-harness/evidence/19-finding-history.md
+?? .scratch/ticket-harness/evidence/19-repair-build-c3.py
+?? .scratch/ticket-harness/evidence/19-repair-build-c4.py
+?? .scratch/ticket-harness/evidence/19-repair-c2-preservation.json
+?? .scratch/ticket-harness/evidence/19-repair-c3-preservation.json
+?? .scratch/ticket-harness/evidence/19-repair-check.py
+?? .scratch/ticket-harness/evidence/19-repair-checks.log
+?? .scratch/ticket-harness/evidence/19-repair-control-preflight-results.json
+?? .scratch/ticket-harness/evidence/19-repair-control-preflight.py
+?? .scratch/ticket-harness/evidence/19-repair-path-preflight-results.json
+?? .scratch/ticket-harness/evidence/19-repair-path-preflight.py
+?? .scratch/ticket-harness/evidence/19-repair-prepare-c3.py
+?? .scratch/ticket-harness/evidence/19-repair-report.md
+?? .scratch/ticket-harness/evidence/19-repair-root-path-audit.py
+?? .scratch/ticket-harness/evidence/19-repair-root-path-capture.json
+?? .scratch/ticket-harness/evidence/19-repair-root-path-command.json
+?? .scratch/ticket-harness/evidence/19-repair-root-path-observation.json
+?? .scratch/ticket-harness/evidence/19-repair-run-checks.sh
+?? .scratch/ticket-harness/evidence/19-repair-workflow-command-records.json
+?? .scratch/ticket-harness/evidence/19-review-capture.json
+?? .scratch/ticket-harness/evidence/19-review-common.txt
+?? .scratch/ticket-harness/evidence/19-review-dispatches.json
+?? .scratch/ticket-harness/evidence/19-review-spec-assignment.txt
+?? .scratch/ticket-harness/evidence/19-review-spec-audit-history.json
+?? .scratch/ticket-harness/evidence/19-review-spec-audit.json
+?? .scratch/ticket-harness/evidence/19-review-spec-audit.py
+?? .scratch/ticket-harness/evidence/19-review-spec-h8-observation.json
+?? .scratch/ticket-harness/evidence/19-review-spec-identities.json
+?? .scratch/ticket-harness/evidence/19-review-spec.md
+?? .scratch/ticket-harness/evidence/19-review-standards-assignment.txt
+?? .scratch/ticket-harness/evidence/19-review-standards-audit.json
+?? .scratch/ticket-harness/evidence/19-review-standards-audit.py
+?? .scratch/ticket-harness/evidence/19-review-standards-check-history.json
+?? .scratch/ticket-harness/evidence/19-review-standards-identities-build.py
+?? .scratch/ticket-harness/evidence/19-review-standards-identities.json
+?? .scratch/ticket-harness/evidence/19-review-standards-parent-provenance.json
+?? .scratch/ticket-harness/evidence/19-review-standards.md
+?? .scratch/ticket-harness/reviews/ticket-19.md
+exit=0
+
+command: bash -n .scratch/ticket-harness/evidence/19-repair-run-checks.sh
+exit=0
+
+command: env PYTHONPATH=/usr/lib/python3/dist-packages /home/ajkerr1/development/agentic_template/.micromamba/envs/dev/bin/python /home/ajkerr1/.codex/skills/.system/skill-creator/scripts/quick_validate.py .agents/skills/custom/implement-with-checkboxes
+Skill is valid!
+exit=0
+
+command: env PYTHONPATH=/usr/lib/python3/dist-packages /home/ajkerr1/development/agentic_template/.micromamba/envs/dev/bin/python /home/ajkerr1/.codex/skills/.system/skill-creator/scripts/quick_validate.py .agents/skills/custom/create-next-agent-prompt
+Skill is valid!
+exit=0
+
+command: /home/ajkerr1/development/agentic_template/.micromamba/envs/dev/bin/python .scratch/ticket-harness/evidence/19-repair-check.py
+{
+  "result": "pass",
+  "protected_paths": 6513,
+  "corpus": "bb544f58260e57309be8ffbfb9a2752994b65d8186c899fd7f8ce7e91c33a197",
+  "local_links": 255,
+  "result_path": ".scratch/ticket-harness/evidence/19-repair-check-results-20261110T172352238671Z.json"
+}
+exit=0
+
+command: git diff --check f2929e79cfd5a68f670862775053ae85ba9582b5
+exit=0
+
+command: git diff --check f2929e79cfd5a68f670862775053ae85ba9582b5 (after staging all new implementation evidence)
+.scratch/ticket-harness/evidence/19-evaluation-g3/spec-c3-reviewer-saved.md:202: new blank line at EOF.
+exit=2
+
+command: date -u +%FT%TZ
+2026-11-10T17:26:26Z
+exit=0
+
+command: git rev-parse HEAD
+e90abb64ab95c5b15cdb0949b03c6a948365339b
+exit=0
+
+command: git status --short
+A  .scratch/ticket-harness/evidence/19-evaluation-g2/README.md
+A  .scratch/ticket-harness/evidence/19-evaluation-g2/assignments.json
+A  .scratch/ticket-harness/evidence/19-evaluation-g2/build_corpus_g2.py
+A  .scratch/ticket-harness/evidence/19-evaluation-g2/capture-provenance.json
+A  .scratch/ticket-harness/evidence/19-evaluation-g2/capture_reviews_g2.py
+A  .scratch/ticket-harness/evidence/19-evaluation-g2/collector-history.json
+A  .scratch/ticket-harness/evidence/19-evaluation-g2/control-observation.json
+A  .scratch/ticket-harness/evidence/19-evaluation-g2/corpus-identity.txt
+A  .scratch/ticket-harness/evidence/19-evaluation-g2/declaration-capture.json
+A  .scratch/ticket-harness/evidence/19-evaluation-g2/declaration.md
+A  .scratch/ticket-harness/evidence/19-evaluation-g2/history.md
+A  .scratch/ticket-harness/evidence/19-evaluation-g2/observe_control_g2.py
+A  .scratch/ticket-harness/evidence/19-evaluation-g2/preparation-command-records.json
+A  .scratch/ticket-harness/evidence/19-evaluation-g2/results.md
+A  .scratch/ticket-harness/evidence/19-evaluation-g2/review-capture.json
+A  .scratch/ticket-harness/evidence/19-evaluation-g2/revision-delta.json
+A  .scratch/ticket-harness/evidence/19-evaluation-g2/snapshot/REVIEW.md
+A  .scratch/ticket-harness/evidence/19-evaluation-g2/snapshot/cases/a3/CONTRACT.md
+A  .scratch/ticket-harness/evidence/19-evaluation-g2/snapshot/cases/a3/qa.py
+A  .scratch/ticket-harness/evidence/19-evaluation-g2/snapshot/cases/a3/run.py
+A  .scratch/ticket-harness/evidence/19-evaluation-g2/snapshot/cases/b7/CONTRACT.md
+A  .scratch/ticket-harness/evidence/19-evaluation-g2/snapshot/cases/b7/caller.py
+A  .scratch/ticket-harness/evidence/19-evaluation-g2/snapshot/cases/b7/git_ops.py
+A  .scratch/ticket-harness/evidence/19-evaluation-g2/snapshot/cases/c2/CONTRACT.md
+A  .scratch/ticket-harness/evidence/19-evaluation-g2/snapshot/cases/c2/checking.py
+A  .scratch/ticket-harness/evidence/19-evaluation-g2/snapshot/cases/c2/execution.py
+A  .scratch/ticket-harness/evidence/19-evaluation-g2/snapshot/cases/d9/CONTRACT.md
+A  .scratch/ticket-harness/evidence/19-evaluation-g2/snapshot/cases/d9/plan.py
+A  .scratch/ticket-harness/evidence/19-evaluation-g2/snapshot/cases/e4/CONTRACT.md
+A  .scratch/ticket-harness/evidence/19-evaluation-g2/snapshot/cases/e4/attempt.py
+A  .scratch/ticket-harness/evidence/19-evaluation-g2/snapshot/cases/e4/repair.py
+A  .scratch/ticket-harness/evidence/19-evaluation-g2/snapshot/cases/e4/worker.py
+A  .scratch/ticket-harness/evidence/19-evaluation-g2/snapshot/cases/f6/CONTRACT.md
+A  .scratch/ticket-harness/evidence/19-evaluation-g2/snapshot/cases/f6/io_ops.py
+A  .scratch/ticket-harness/evidence/19-evaluation-g2/snapshot/cases/g1/CONTRACT.md
+A  .scratch/ticket-harness/evidence/19-evaluation-g2/snapshot/cases/g1/cli.py
+A  .scratch/ticket-harness/evidence/19-evaluation-g2/snapshot/cases/g1/preparation.py
+A  .scratch/ticket-harness/evidence/19-evaluation-g2/snapshot/cases/g1/resume.py
+A  .scratch/ticket-harness/evidence/19-evaluation-g2/snapshot/cases/h8/CONTRACT.md
+A  .scratch/ticket-harness/evidence/19-evaluation-g2/snapshot/cases/h8/attempt.py
+A  .scratch/ticket-harness/evidence/19-evaluation-g2/snapshot/cases/h8/caller.py
+A  .scratch/ticket-harness/evidence/19-evaluation-g2/snapshot/guidance/.agents/skills/custom/test-strategy/SKILL.md
+A  .scratch/ticket-harness/evidence/19-evaluation-g2/snapshot/guidance/.agents/skills/matt-pocock/codebase-design/SKILL.md
+A  .scratch/ticket-harness/evidence/19-evaluation-g2/snapshot/guidance/.agents/skills/microsoft/microsoft_oop/SKILL.md
+A  .scratch/ticket-harness/evidence/19-evaluation-g2/snapshot/guidance/GLOSSARY.md
+A  .scratch/ticket-harness/evidence/19-evaluation-g2/snapshot/guidance/docs/adr/0001-reusable-harness-and-local-integration.md
+A  .scratch/ticket-harness/evidence/19-evaluation-g2/snapshot/guidance/docs/adr/0002-human-qa-gates-feature-promotion.md
+A  .scratch/ticket-harness/evidence/19-evaluation-g2/snapshot/guidance/docs/agents/architecture-checkpoints.md
+A  .scratch/ticket-harness/evidence/19-evaluation-g2/snapshot/guidance/docs/agents/ownership-review.md
+A  .scratch/ticket-harness/evidence/19-evaluation-g2/snapshot/guidance/docs/agents/review-records.md
+A  .scratch/ticket-harness/evidence/19-evaluation-g2/snapshot/guidance/docs/agents/testing.md
+A  .scratch/ticket-harness/evidence/19-evaluation-g2/snapshot/guidance/docs/templates/reviews/report.md
+A  .scratch/ticket-harness/evidence/19-evaluation-g2/source-manifest.json
+A  .scratch/ticket-harness/evidence/19-evaluation-g2/spec-g2-dispatch.json
+A  .scratch/ticket-harness/evidence/19-evaluation-g2/spec-g2-input.txt
+A  .scratch/ticket-harness/evidence/19-evaluation-g2/spec-g2-raw.md
+A  .scratch/ticket-harness/evidence/19-evaluation-g2/spec-g2-reviewer-capture.txt
+A  .scratch/ticket-harness/evidence/19-evaluation-g2/spec-g2-reviewer-manifest.json
+A  .scratch/ticket-harness/evidence/19-evaluation-g2/spec-g2-reviewer-saved.md
+A  .scratch/ticket-harness/evidence/19-evaluation-g2/spec-g2-source-records.json
+A  .scratch/ticket-harness/evidence/19-evaluation-g2/standards-g2-dispatch.json
+A  .scratch/ticket-harness/evidence/19-evaluation-g2/standards-g2-input.txt
+A  .scratch/ticket-harness/evidence/19-evaluation-g2/standards-g2-raw.md
+A  .scratch/ticket-harness/evidence/19-evaluation-g2/standards-g2-reviewer-manifest.json
+A  .scratch/ticket-harness/evidence/19-evaluation-g2/standards-g2-reviewer-saved.md
+A  .scratch/ticket-harness/evidence/19-evaluation-g2/standards-g2-source-records.json
+A  .scratch/ticket-harness/evidence/19-evaluation-g3/README.md
+A  .scratch/ticket-harness/evidence/19-evaluation-g3/assignments.json
+A  .scratch/ticket-harness/evidence/19-evaluation-g3/capture-provenance.json
+A  .scratch/ticket-harness/evidence/19-evaluation-g3/capture_reviews_c3.py
+A  .scratch/ticket-harness/evidence/19-evaluation-g3/corpus-identity.txt
+A  .scratch/ticket-harness/evidence/19-evaluation-g3/declaration-capture.json
+A  .scratch/ticket-harness/evidence/19-evaluation-g3/declaration.md
+A  .scratch/ticket-harness/evidence/19-evaluation-g3/development-review-19-spec-c3-manifest.json
+A  .scratch/ticket-harness/evidence/19-evaluation-g3/development-review-19-standards-c3-source-manifest.json
+A  .scratch/ticket-harness/evidence/19-evaluation-g3/history.md
+A  .scratch/ticket-harness/evidence/19-evaluation-g3/results.md
+A  .scratch/ticket-harness/evidence/19-evaluation-g3/review-capture.json
+A  .scratch/ticket-harness/evidence/19-evaluation-g3/revision-delta.json
+A  .scratch/ticket-harness/evidence/19-evaluation-g3/snapshot/REVIEW.md
+A  .scratch/ticket-harness/evidence/19-evaluation-g3/snapshot/cases/a3/CONTRACT.md
+A  .scratch/ticket-harness/evidence/19-evaluation-g3/snapshot/cases/a3/qa.py
+A  .scratch/ticket-harness/evidence/19-evaluation-g3/snapshot/cases/a3/run.py
+A  .scratch/ticket-harness/evidence/19-evaluation-g3/snapshot/cases/b7/CONTRACT.md
+A  .scratch/ticket-harness/evidence/19-evaluation-g3/snapshot/cases/b7/caller.py
+A  .scratch/ticket-harness/evidence/19-evaluation-g3/snapshot/cases/b7/git_ops.py
+A  .scratch/ticket-harness/evidence/19-evaluation-g3/snapshot/cases/c2/CONTRACT.md
+A  .scratch/ticket-harness/evidence/19-evaluation-g3/snapshot/cases/c2/checking.py
+A  .scratch/ticket-harness/evidence/19-evaluation-g3/snapshot/cases/c2/execution.py
+A  .scratch/ticket-harness/evidence/19-evaluation-g3/snapshot/cases/d9/CONTRACT.md
+A  .scratch/ticket-harness/evidence/19-evaluation-g3/snapshot/cases/d9/plan.py
+A  .scratch/ticket-harness/evidence/19-evaluation-g3/snapshot/cases/e4/CONTRACT.md
+A  .scratch/ticket-harness/evidence/19-evaluation-g3/snapshot/cases/e4/attempt.py
+A  .scratch/ticket-harness/evidence/19-evaluation-g3/snapshot/cases/e4/repair.py
+A  .scratch/ticket-harness/evidence/19-evaluation-g3/snapshot/cases/e4/worker.py
+A  .scratch/ticket-harness/evidence/19-evaluation-g3/snapshot/cases/f6/CONTRACT.md
+A  .scratch/ticket-harness/evidence/19-evaluation-g3/snapshot/cases/f6/io_ops.py
+A  .scratch/ticket-harness/evidence/19-evaluation-g3/snapshot/cases/g1/CONTRACT.md
+A  .scratch/ticket-harness/evidence/19-evaluation-g3/snapshot/cases/g1/cli.py
+A  .scratch/ticket-harness/evidence/19-evaluation-g3/snapshot/cases/g1/preparation.py
+A  .scratch/ticket-harness/evidence/19-evaluation-g3/snapshot/cases/g1/resume.py
+A  .scratch/ticket-harness/evidence/19-evaluation-g3/snapshot/cases/h8/CONTRACT.md
+A  .scratch/ticket-harness/evidence/19-evaluation-g3/snapshot/cases/h8/attempt.py
+A  .scratch/ticket-harness/evidence/19-evaluation-g3/snapshot/cases/h8/caller.py
+A  .scratch/ticket-harness/evidence/19-evaluation-g3/snapshot/guidance/.agents/skills/custom/test-strategy/SKILL.md
+A  .scratch/ticket-harness/evidence/19-evaluation-g3/snapshot/guidance/.agents/skills/matt-pocock/codebase-design/SKILL.md
+A  .scratch/ticket-harness/evidence/19-evaluation-g3/snapshot/guidance/.agents/skills/microsoft/microsoft_oop/SKILL.md
+A  .scratch/ticket-harness/evidence/19-evaluation-g3/snapshot/guidance/GLOSSARY.md
+A  .scratch/ticket-harness/evidence/19-evaluation-g3/snapshot/guidance/docs/adr/0001-reusable-harness-and-local-integration.md
+A  .scratch/ticket-harness/evidence/19-evaluation-g3/snapshot/guidance/docs/adr/0002-human-qa-gates-feature-promotion.md
+A  .scratch/ticket-harness/evidence/19-evaluation-g3/snapshot/guidance/docs/agents/architecture-checkpoints.md
+A  .scratch/ticket-harness/evidence/19-evaluation-g3/snapshot/guidance/docs/agents/ownership-review.md
+A  .scratch/ticket-harness/evidence/19-evaluation-g3/snapshot/guidance/docs/agents/review-records.md
+A  .scratch/ticket-harness/evidence/19-evaluation-g3/snapshot/guidance/docs/agents/testing.md
+A  .scratch/ticket-harness/evidence/19-evaluation-g3/snapshot/guidance/docs/templates/reviews/report.md
+A  .scratch/ticket-harness/evidence/19-evaluation-g3/source-manifest.json
+A  .scratch/ticket-harness/evidence/19-evaluation-g3/spec-c3-dispatch.json
+A  .scratch/ticket-harness/evidence/19-evaluation-g3/spec-c3-input.txt
+A  .scratch/ticket-harness/evidence/19-evaluation-g3/spec-c3-raw.md
+A  .scratch/ticket-harness/evidence/19-evaluation-g3/spec-c3-reviewer-saved.md
+A  .scratch/ticket-harness/evidence/19-evaluation-g3/spec-c3-source-records.json
+A  .scratch/ticket-harness/evidence/19-evaluation-g3/standards-c3-dispatch.json
+A  .scratch/ticket-harness/evidence/19-evaluation-g3/standards-c3-input.txt
+A  .scratch/ticket-harness/evidence/19-evaluation-g3/standards-c3-raw.md
+A  .scratch/ticket-harness/evidence/19-evaluation-g3/standards-c3-reviewer-saved.md
+A  .scratch/ticket-harness/evidence/19-evaluation-g3/standards-c3-source-records.json
+A  .scratch/ticket-harness/evidence/19-evaluation-g4/README.md
+A  .scratch/ticket-harness/evidence/19-evaluation-g4/assignments.json
+A  .scratch/ticket-harness/evidence/19-evaluation-g4/audit-clarification.txt
+A  .scratch/ticket-harness/evidence/19-evaluation-g4/capture-provenance.json
+A  .scratch/ticket-harness/evidence/19-evaluation-g4/capture_reviews_c4.py
+A  .scratch/ticket-harness/evidence/19-evaluation-g4/corpus-identity.txt
+A  .scratch/ticket-harness/evidence/19-evaluation-g4/declaration-capture.json
+A  .scratch/ticket-harness/evidence/19-evaluation-g4/declaration.md
+A  .scratch/ticket-harness/evidence/19-evaluation-g4/development-review-19-c4-source-manifest.json
+A  .scratch/ticket-harness/evidence/19-evaluation-g4/development-review-19-spec-c4-source-manifest.json
+A  .scratch/ticket-harness/evidence/19-evaluation-g4/development-review-19-standards-c4-report.sha256
+A  .scratch/ticket-harness/evidence/19-evaluation-g4/followup-dispatches.json
+A  .scratch/ticket-harness/evidence/19-evaluation-g4/history.md
+A  .scratch/ticket-harness/evidence/19-evaluation-g4/results.md
+A  .scratch/ticket-harness/evidence/19-evaluation-g4/review-capture.json
+A  .scratch/ticket-harness/evidence/19-evaluation-g4/revision-delta.json
+A  .scratch/ticket-harness/evidence/19-evaluation-g4/snapshot/REVIEW.md
+A  .scratch/ticket-harness/evidence/19-evaluation-g4/snapshot/cases/a3/CONTRACT.md
+A  .scratch/ticket-harness/evidence/19-evaluation-g4/snapshot/cases/a3/qa.py
+A  .scratch/ticket-harness/evidence/19-evaluation-g4/snapshot/cases/a3/run.py
+A  .scratch/ticket-harness/evidence/19-evaluation-g4/snapshot/cases/b7/CONTRACT.md
+A  .scratch/ticket-harness/evidence/19-evaluation-g4/snapshot/cases/b7/caller.py
+A  .scratch/ticket-harness/evidence/19-evaluation-g4/snapshot/cases/b7/git_ops.py
+A  .scratch/ticket-harness/evidence/19-evaluation-g4/snapshot/cases/c2/CONTRACT.md
+A  .scratch/ticket-harness/evidence/19-evaluation-g4/snapshot/cases/c2/checking.py
+A  .scratch/ticket-harness/evidence/19-evaluation-g4/snapshot/cases/c2/execution.py
+A  .scratch/ticket-harness/evidence/19-evaluation-g4/snapshot/cases/d9/CONTRACT.md
+A  .scratch/ticket-harness/evidence/19-evaluation-g4/snapshot/cases/d9/plan.py
+A  .scratch/ticket-harness/evidence/19-evaluation-g4/snapshot/cases/e4/CONTRACT.md
+A  .scratch/ticket-harness/evidence/19-evaluation-g4/snapshot/cases/e4/attempt.py
+A  .scratch/ticket-harness/evidence/19-evaluation-g4/snapshot/cases/e4/repair.py
+A  .scratch/ticket-harness/evidence/19-evaluation-g4/snapshot/cases/e4/worker.py
+A  .scratch/ticket-harness/evidence/19-evaluation-g4/snapshot/cases/f6/CONTRACT.md
+A  .scratch/ticket-harness/evidence/19-evaluation-g4/snapshot/cases/f6/io_ops.py
+A  .scratch/ticket-harness/evidence/19-evaluation-g4/snapshot/cases/g1/CONTRACT.md
+A  .scratch/ticket-harness/evidence/19-evaluation-g4/snapshot/cases/g1/cli.py
+A  .scratch/ticket-harness/evidence/19-evaluation-g4/snapshot/cases/g1/preparation.py
+A  .scratch/ticket-harness/evidence/19-evaluation-g4/snapshot/cases/g1/resume.py
+A  .scratch/ticket-harness/evidence/19-evaluation-g4/snapshot/cases/h8/CONTRACT.md
+A  .scratch/ticket-harness/evidence/19-evaluation-g4/snapshot/cases/h8/attempt.py
+A  .scratch/ticket-harness/evidence/19-evaluation-g4/snapshot/cases/h8/caller.py
+A  .scratch/ticket-harness/evidence/19-evaluation-g4/snapshot/guidance/.agents/skills/custom/test-strategy/SKILL.md
+A  .scratch/ticket-harness/evidence/19-evaluation-g4/snapshot/guidance/.agents/skills/matt-pocock/codebase-design/SKILL.md
+A  .scratch/ticket-harness/evidence/19-evaluation-g4/snapshot/guidance/.agents/skills/microsoft/microsoft_oop/SKILL.md
+A  .scratch/ticket-harness/evidence/19-evaluation-g4/snapshot/guidance/GLOSSARY.md
+A  .scratch/ticket-harness/evidence/19-evaluation-g4/snapshot/guidance/docs/adr/0001-reusable-harness-and-local-integration.md
+A  .scratch/ticket-harness/evidence/19-evaluation-g4/snapshot/guidance/docs/adr/0002-human-qa-gates-feature-promotion.md
+A  .scratch/ticket-harness/evidence/19-evaluation-g4/snapshot/guidance/docs/agents/architecture-checkpoints.md
+A  .scratch/ticket-harness/evidence/19-evaluation-g4/snapshot/guidance/docs/agents/ownership-review.md
+A  .scratch/ticket-harness/evidence/19-evaluation-g4/snapshot/guidance/docs/agents/review-records.md
+A  .scratch/ticket-harness/evidence/19-evaluation-g4/snapshot/guidance/docs/agents/testing.md
+A  .scratch/ticket-harness/evidence/19-evaluation-g4/snapshot/guidance/docs/templates/reviews/report.md
+A  .scratch/ticket-harness/evidence/19-evaluation-g4/source-manifest.json
+A  .scratch/ticket-harness/evidence/19-evaluation-g4/spec-c4-dispatch.json
+A  .scratch/ticket-harness/evidence/19-evaluation-g4/spec-c4-input.txt
+A  .scratch/ticket-harness/evidence/19-evaluation-g4/spec-c4-raw.md
+A  .scratch/ticket-harness/evidence/19-evaluation-g4/spec-c4-reviewer-saved.md
+A  .scratch/ticket-harness/evidence/19-evaluation-g4/spec-c4-source-records.json
+A  .scratch/ticket-harness/evidence/19-evaluation-g4/standards-c4-dispatch.json
+A  .scratch/ticket-harness/evidence/19-evaluation-g4/standards-c4-input.txt
+A  .scratch/ticket-harness/evidence/19-evaluation-g4/standards-c4-raw.md
+A  .scratch/ticket-harness/evidence/19-evaluation-g4/standards-c4-reviewer-saved.md
+A  .scratch/ticket-harness/evidence/19-evaluation-g4/standards-c4-source-records.json
+A  .scratch/ticket-harness/evidence/19-finding-history.md
+A  .scratch/ticket-harness/evidence/19-repair-build-c3.py
+A  .scratch/ticket-harness/evidence/19-repair-build-c4.py
+A  .scratch/ticket-harness/evidence/19-repair-c2-preservation.json
+A  .scratch/ticket-harness/evidence/19-repair-c3-preservation.json
+A  .scratch/ticket-harness/evidence/19-repair-check-results-20261110T172352238671Z.json
+A  .scratch/ticket-harness/evidence/19-repair-check.py
+AM .scratch/ticket-harness/evidence/19-repair-checks.log
+A  .scratch/ticket-harness/evidence/19-repair-control-preflight-results.json
+A  .scratch/ticket-harness/evidence/19-repair-control-preflight.py
+A  .scratch/ticket-harness/evidence/19-repair-path-preflight-results.json
+A  .scratch/ticket-harness/evidence/19-repair-path-preflight.py
+A  .scratch/ticket-harness/evidence/19-repair-prepare-c3.py
+A  .scratch/ticket-harness/evidence/19-repair-report.md
+A  .scratch/ticket-harness/evidence/19-repair-root-path-audit.py
+A  .scratch/ticket-harness/evidence/19-repair-root-path-capture.json
+A  .scratch/ticket-harness/evidence/19-repair-root-path-command.json
+A  .scratch/ticket-harness/evidence/19-repair-root-path-observation.json
+A  .scratch/ticket-harness/evidence/19-repair-run-checks.sh
+A  .scratch/ticket-harness/evidence/19-repair-stage-check.json
+A  .scratch/ticket-harness/evidence/19-repair-workflow-command-records.json
+A  .scratch/ticket-harness/evidence/19-review-capture.json
+A  .scratch/ticket-harness/evidence/19-review-common.txt
+A  .scratch/ticket-harness/evidence/19-review-dispatches.json
+A  .scratch/ticket-harness/evidence/19-review-spec-assignment.txt
+A  .scratch/ticket-harness/evidence/19-review-spec-audit-history.json
+A  .scratch/ticket-harness/evidence/19-review-spec-audit.json
+A  .scratch/ticket-harness/evidence/19-review-spec-audit.py
+A  .scratch/ticket-harness/evidence/19-review-spec-h8-observation.json
+A  .scratch/ticket-harness/evidence/19-review-spec-identities.json
+A  .scratch/ticket-harness/evidence/19-review-spec.md
+A  .scratch/ticket-harness/evidence/19-review-standards-assignment.txt
+A  .scratch/ticket-harness/evidence/19-review-standards-audit.json
+A  .scratch/ticket-harness/evidence/19-review-standards-audit.py
+A  .scratch/ticket-harness/evidence/19-review-standards-check-history.json
+A  .scratch/ticket-harness/evidence/19-review-standards-identities-build.py
+A  .scratch/ticket-harness/evidence/19-review-standards-identities.json
+A  .scratch/ticket-harness/evidence/19-review-standards-parent-provenance.json
+A  .scratch/ticket-harness/evidence/19-review-standards.md
+A  .scratch/ticket-harness/reviews/ticket-19.md
+M  docs/agents/ownership-review.md
+M  docs/agents/reviewer-evaluation.md
+exit=0
+
+command: bash -n .scratch/ticket-harness/evidence/19-repair-run-checks.sh
+exit=0
+
+command: env PYTHONPATH=/usr/lib/python3/dist-packages /home/ajkerr1/development/agentic_template/.micromamba/envs/dev/bin/python /home/ajkerr1/.codex/skills/.system/skill-creator/scripts/quick_validate.py .agents/skills/custom/implement-with-checkboxes
+Skill is valid!
+exit=0
+
+command: env PYTHONPATH=/usr/lib/python3/dist-packages /home/ajkerr1/development/agentic_template/.micromamba/envs/dev/bin/python /home/ajkerr1/.codex/skills/.system/skill-creator/scripts/quick_validate.py .agents/skills/custom/create-next-agent-prompt
+Skill is valid!
+exit=0
+
+command: /home/ajkerr1/development/agentic_template/.micromamba/envs/dev/bin/python .scratch/ticket-harness/evidence/19-repair-check.py
+{
+  "result": "pass",
+  "protected_paths": 6513,
+  "corpus": "bb544f58260e57309be8ffbfb9a2752994b65d8186c899fd7f8ce7e91c33a197",
+  "local_links": 256,
+  "result_path": ".scratch/ticket-harness/evidence/19-repair-check-results-20261110T172627119721Z.json"
+}
+exit=0
+
+command: git diff --check f2929e79cfd5a68f670862775053ae85ba9582b5 -- . :\(exclude\).scratch/ticket-harness/evidence/19-evaluation-g3/spec-c3-reviewer-saved.md
+exit=0
+
+command: git -c core.whitespace=-blank-at-eof diff --check f2929e79cfd5a68f670862775053ae85ba9582b5 -- .scratch/ticket-harness/evidence/19-evaluation-g3/spec-c3-reviewer-saved.md
+exit=0

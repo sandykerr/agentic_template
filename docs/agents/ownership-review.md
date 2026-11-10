@@ -74,6 +74,13 @@ unresolved assumptions. Distinguish:
    A matching hash proves identity; a passing test proves its observed behavior.
    Neither establishes a design conclusion by itself.
 
+Check each explicit guarantee against the accepted input values and reference
+aliases in the supplied contract and implementation. A narrower input-domain
+assumption needs support from that contract or enforced validation; disclosing
+an assumption alone cannot establish a clean result when accepted inputs break
+the guarantee. Record a concrete counterexample and classify its consequence
+under the governing contract.
+
 For each finding, cite exact code/contract locations, concrete evidence and
 consequence, classify blocking versus optional, and give a proportionate remedy.
 A documented ownership breach can block even in unchanged code when it defeats
