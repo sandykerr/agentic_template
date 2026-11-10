@@ -1,0 +1,109 @@
+{
+  "result": "pass",
+  "baseline": "f2929e79cfd5a68f670862775053ae85ba9582b5",
+  "source": "8e2c82679a2314e31ebff69accab3743f55f996d",
+  "commits": [
+    "8e2c826 Repair Git evaluation control and add reusable evaluator authoring",
+    "ce4e57d Repair reviewer corpus controls and preserve failed trials",
+    "e90abb6 Evaluate development reviewers on a declared blinded corpus"
+  ],
+  "changed_files": 453,
+  "protected_previous_paths": 6742,
+  "corpora": [
+    {
+      "stage": "19-evaluation",
+      "aggregate": "ebf72b6255ad6c2c6365990f4479c11ddfc52113d13b57f02a4c584119401c23",
+      "files": 36
+    },
+    {
+      "stage": "19-evaluation-g2",
+      "aggregate": "ae5ba62e56cb12c1f58f6d5098ac357faf5f1d8a8815383cb1d4471acc5a467c",
+      "files": 36,
+      "delta": [
+        "cases/h8/attempt.py",
+        "guidance/docs/agents/ownership-review.md"
+      ]
+    },
+    {
+      "stage": "19-evaluation-g3",
+      "aggregate": "b33636d1b8fdcacd572de6c063064afd5068b4e1275c2714bf0091651513b5c4",
+      "files": 36,
+      "delta": [
+        "cases/b7/git_ops.py",
+        "cases/d9/plan.py",
+        "cases/f6/io_ops.py"
+      ]
+    },
+    {
+      "stage": "19-evaluation-g4",
+      "aggregate": "bb544f58260e57309be8ffbfb9a2752994b65d8186c899fd7f8ce7e91c33a197",
+      "files": 36,
+      "delta": [
+        "cases/b7/caller.py"
+      ]
+    },
+    {
+      "stage": "19-evaluation-g5",
+      "aggregate": "332ddabe972f596d86cd09eda809bd2f93d1f57602f01d75ed9f39f2b182510d",
+      "files": 36,
+      "delta": [
+        "cases/b7/caller.py",
+        "cases/b7/git_ops.py"
+      ]
+    }
+  ],
+  "whitespace": [
+    {
+      "args": [
+        "diff",
+        "--check",
+        "f2929e79cfd5a68f670862775053ae85ba9582b5...8e2c82679a2314e31ebff69accab3743f55f996d"
+      ],
+      "exit": 2,
+      "stdout": ".scratch/ticket-harness/evidence/19-evaluation-g3/spec-c3-reviewer-saved.md:202: new blank line at EOF.\n",
+      "stderr": ""
+    },
+    {
+      "args": [
+        "diff",
+        "--check",
+        "f2929e79cfd5a68f670862775053ae85ba9582b5...8e2c82679a2314e31ebff69accab3743f55f996d",
+        "--",
+        ".",
+        ":(exclude).scratch/ticket-harness/evidence/19-evaluation-g3/spec-c3-reviewer-saved.md"
+      ],
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "args": [
+        "-c",
+        "core.whitespace=-blank-at-eof",
+        "diff",
+        "--check",
+        "f2929e79cfd5a68f670862775053ae85ba9582b5...8e2c82679a2314e31ebff69accab3743f55f996d",
+        "--",
+        ".scratch/ticket-harness/evidence/19-evaluation-g3/spec-c3-reviewer-saved.md"
+      ],
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    }
+  ],
+  "C5_report_session_verified": [
+    "spec-c5",
+    "standards-c5"
+  ],
+  "authoring_tested_skill": "7fbe8a937e29a916894c4b397f390bf793379f5b3f7e8edece8c13ae416d36b0",
+  "authoring_final_skill": "5e97caed6be6e4fa0f367bae82d5b2505ab49edbd731923894ce63312899ef5f",
+  "behavior": [
+    "old h8 alias reproduced; current nested ingress/output isolation and invalid transition checks pass",
+    "old C4 branch/tag false rejection reproduced; C5 requested branch/tag accepted",
+    "ambient foreign routing cleared",
+    "space/CR/LF/nonUTF8 Git roots retained",
+    "d9 missing operands/errors/order/repeated dependencies/1501 forward chain",
+    "f6 nonfinite guard/encoding cleanup/complete replacement/nonzero capture"
+  ],
+  "limits": "Bounded exact-fixture observations, no production tests or comprehensive OS/backend proof"
+}

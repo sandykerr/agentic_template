@@ -71,3 +71,46 @@ reviews from the original baseline. No production refactor, contract weakening,
 blocker deferral, human risk acceptance or amendment is authorized/required. Original
 h8 key remains independently fixed at its recorded source; renewed whole-ticket
 review must name the later exact source. M1 cumulative assessment/QA unperformed.
+
+## E06 — Branch-control repair submitted
+
+Actor `/root/repair19_branch` submitted authorized repair
+`8e2c82679a2314e31ebff69accab3743f55f996d` for blocking
+`review-ticket-19/spec-02/F1`. [Repair report](19-repair-c5-report.md),
+[checks](19-repair-c5-checks.log) and [C5 source/results](19-evaluation-g5/results.md)
+retain full-ref branch semantics and supported transport/routing/read-only fixes.
+All C1–C4 sources, reports, old adjudications and prior events remain unchanged.
+The worker claim and passing C5 trial alone did not establish independent fixed
+status. User-requested reusable authoring skill/probe is distinct from frozen G2
+reviewer guidance. No human waiver/deferral or approved-contract change occurred.
+
+## E07 — Exact final source independently verified by Spec
+
+Actor `/root/spec19_round3` independently verifies **both** original blocking keys
+`review-ticket-19/spec-01/F1` and `review-ticket-19/spec-02/F1` repaired at exact
+`8e2c82679a2314e31ebff69accab3743f55f996d`. [Original spec-03](19-review-spec-03.md),
+[identities](19-review-round3-spec-identities.json) and
+[disposable observations](19-review-round3-spec-observations.json) reproduce the
+old h8/C4 failures and verify final alias/transition and branch/tag/path/routing/
+read-only behavior. **Disposition:** fixed for spec-02/F1 and exact-source
+revalidated fixed for spec-01/F1, preserving each original classification/history.
+Whole-ticket baseline remains f2929e7. Spec reports 0 new blockers/0 optional.
+No sibling current output supplied; no authority or M1 acceptance inferred.
+
+## E08 — Independent Standards confirms both fixes
+
+Actor `/root/standards19_round3` separately verifies **both** original blocking keys
+`review-ticket-19/spec-01/F1` and `review-ticket-19/spec-02/F1` fixed/revalidated at
+exact `8e2c82679a2314e31ebff69accab3743f55f996d`. [Original standards-03](19-review-standards-03.md),
+[identities](19-review-round3-standards-identities.json) and its preserved audits
+confirm owning operations/current controls and the evidence chain. This
+corroborates E07, does not overwrite earlier clean/differing judgments and issues
+0 new blockers/0 optional. Original captures/keys and E01–E07 remain unchanged.
+
+**Current actual findings:** none unresolved; both keys are fixed on the final
+exact source with independent verification. No pending relevant revalidation,
+missing required ticket report, human decision, amendment or blocker deferral.
+Further source changes require applicable renewal. The intentionally defective
+historical/seeded fixtures keep their own original keys/scope. Real M1 cumulative
+source provenance/all-file assessment and exact-candidate human QA remain
+unperformed; review completion and ticket completion do not accept a milestone.
