@@ -4,7 +4,7 @@
 
 **Blocked by:** [05: Repair rejected submissions within a bounded allowance](05-repair-rejected-submissions-within-budget.md); [06: Stop for decisions outside approved contracts](06-surface-human-decisions-without-retrying.md); [19: Evaluate reviewers on known and acceptable designs](19-evaluate-reviewers-on-known-and-acceptable-designs.md).
 
-**Status:** ready-for-agent
+**Status:** completed
 
 **Plan version:** [oop-v2](../spec.md).
 
@@ -20,14 +20,14 @@
 
 ## Acceptance criteria
 
-- [ ] Attempt-owned operations maintain the existing Running, Verifying, Rejected and Done observations, revision identities, changed-file observations, and inclusive/exclusive gate ranges. Corresponding current-ticket observations remain consistent, including failures before a submission exists.
-- [ ] The runner retains check execution, report validation, source-evidence invalidation and failure precedence. It communicates validated human-decision evidence to the owning attempt without selecting an attempt through the last entry in shared history or mutating its lifecycle record directly. Report parsing and validation return their findings or failure information; they do not mutate the canonical gate record. The runner records the final report/check status, preserving report content and diagnostics on rejected reports and the current precedence among process exit, timeout, report validity, blocking findings, human decisions and integrity/environment failures.
-- [ ] Implementation and either review axis can stop the correct initial or repair attempt for a validated human decision, including a nonzero process exit. Preserve the complete handoff on both existing record locations, preserved work, diagnostic, Blocked/incomplete outcome, and immediate stop without later gates or extra repairs.
-- [ ] Malformed decision-like reports, optional findings, ordinary report/process failures and timeouts retain their existing distinct validation and bounded-failure behavior; they cannot gain decision authority or produce false success.
-- [ ] Public commands, exit behavior, record keys/values, artifact naming, historical attempt evidence and caller/approved-input protection remain compatible. Atomic persistence still exposes meaningful intermediate observations.
-- [ ] Design review confirms transition rules live with attempt state and callers use those operations; private naming/layout remains an implementation choice, with no getter/setter-only wrapper or inheritance framework.
+- [x] Attempt-owned operations maintain the existing Running, Verifying, Rejected and Done observations, revision identities, changed-file observations, and inclusive/exclusive gate ranges. Corresponding current-ticket observations remain consistent, including failures before a submission exists.
+- [x] The runner retains check execution, report validation, source-evidence invalidation and failure precedence. It communicates validated human-decision evidence to the owning attempt without selecting an attempt through the last entry in shared history or mutating its lifecycle record directly. Report parsing and validation return their findings or failure information; they do not mutate the canonical gate record. The runner records the final report/check status, preserving report content and diagnostics on rejected reports and the current precedence among process exit, timeout, report validity, blocking findings, human decisions and integrity/environment failures.
+- [x] Implementation and either review axis can stop the correct initial or repair attempt for a validated human decision, including a nonzero process exit. Preserve the complete handoff on both existing record locations, preserved work, diagnostic, Blocked/incomplete outcome, and immediate stop without later gates or extra repairs.
+- [x] Malformed decision-like reports, optional findings, ordinary report/process failures and timeouts retain their existing distinct validation and bounded-failure behavior; they cannot gain decision authority or produce false success.
+- [x] Public commands, exit behavior, record keys/values, artifact naming, historical attempt evidence and caller/approved-input protection remain compatible. Atomic persistence still exposes meaningful intermediate observations.
+- [x] Design review confirms transition rules live with attempt state and callers use those operations; private naming/layout remains an implementation choice, with no getter/setter-only wrapper or inheritance framework.
 
-- [ ] Use the evaluated review workflow from tickets 16–19: record the relevant ownership change, independent cross-module review scope, immutable reports and finding dispositions; perform a cumulative assessment when the shared risk triggers apply. Preserve a navigable rationale-to-change-to-verification history and carry unresolved findings into the next handoff.
+- [x] Use the evaluated review workflow from tickets 16–19: record the relevant ownership change, independent cross-module review scope, immutable reports and finding dispositions; perform a cumulative assessment when the shared risk triggers apply. Preserve a navigable rationale-to-change-to-verification history and carry unresolved findings into the next handoff.
 
 ## Verification
 
@@ -38,3 +38,34 @@ Use the existing public CLI with scripted external processes, real temporary Git
 ## Handoff
 
 Use the [shared worker handoff](../README.md#worker-handoff). Preserve completed tickets 01–15 and their evidence. Ticket completion does not accept M1; after all M1 work is verified, prepare QA or a waiting handoff. Do not start M2 before explicit human acceptance of M1.
+
+## Comments
+
+### Verified completion — 2026-11-10
+
+Previous readiness: `ready-for-agent`. All seven acceptance criteria are verified
+at implementation `0aa2660505e4233ca2e321cee439ba51b150e055`, from fixed baseline
+`0d79d016907a03ce39d33c749523a8700e4233a4`. Criterion wording and `Blocked by:`
+dependency history are unchanged.
+
+[Criterion-by-criterion completion evidence](../evidence/20-completion.md) links
+actual ownership/coverage and CLI/Git/record evidence. Final checks: **544 passed
+in 703.66s**, strict mypy, Ruff lint/format and working/staged/committed whitespace
+all exit 0. No tests added; packaging is outside impact scope. The genuine
+baseline-source checkpoint continuation passed; its original capture loss and
+renewed producer timing limit remain explicit in the evidence and both reviews.
+
+Independent whole-ticket [Spec spec-01](../evidence/20-review-spec-01.md): **0
+blocking/0 optional**; independent [Standards standards-01](../evidence/20-review-standards-01.md):
+**0 blocking/0 optional**. [Assessment and immutable report identities](../reviews/ticket-20.md)
+and [finding/authority history](../evidence/20-finding-history.md) preserve originals.
+No unresolved full finding key, unchecked criterion, missing required ticket
+report, pending relevant revalidation or actual human decision remains. All four
+start/final architecture triggers are No. Requested role settings are recorded;
+backend enforcement/delivery and measured context telemetry remain unavailable.
+
+Implementation was committed before review; this bookkeeping is committed
+separately. The next handoff is a third separate commit selecting eligible work
+without launching it. M1 still needs 21–24, actual feature-start provenance and
+all-package cumulative assessment, then explicit human QA. No M1 readiness,
+acceptance, promotion, later-milestone authorization or push is inferred.
