@@ -4,7 +4,7 @@
 
 **Blocked by:** [20: Own implementation-attempt transitions](20-own-implementation-attempt-transitions.md).
 
-**Status:** ready-for-agent
+**Status:** completed
 
 **Plan version:** [oop-v2](../spec.md).
 
@@ -20,14 +20,14 @@
 
 ## Acceptance criteria
 
-- [ ] A ticket execution owns the complete cycle and repair policy through a small interface. The runner coordinates eligible tickets and retains checking; ticket workflow code no longer obtains unrestricted access to the runner merely to manipulate its shared state.
-- [ ] The original ticket base remains fixed across attempts, while a repair starts from the observed rejected submission or preserved uncommitted work as applicable. Fresh assignments and worktrees receive the correct failure, rejected revisions, ticket-scoped evidence and configured check selection.
-- [ ] Initial assignment plus configured repairs remains bounded. Repairable gate/Git/process/timeout failures, exhausted allowance, human decisions, environment/integrity failures and external ref/HEAD movement retain their existing repair-or-stop decisions and preserved history.
-- [ ] Every changed submission receives renewed applicable checks, both independent reviews and an exact candidate suite. Earlier approval cannot authorize a repaired source; approved inputs, earlier evidence and the caller worktree stay protected.
-- [ ] Only successful expected-old advancement of the integration branch records the exact tested candidate as Done and unlocks dependents. Later tickets use the current verified integration revision; existing fail-fast behavior after a blocked ticket remains unchanged until the separate blocked-work-isolation ticket.
-- [ ] CLI behavior, single-/multi-ticket artifact names, baseline reuse, attempt numbering, gate ranges and saved record formats remain compatible. Existing readiness calculations and Git primitives remain functions where they provide no independent state lifetime.
+- [x] A ticket execution owns the complete cycle and repair policy through a small interface. The runner coordinates eligible tickets and retains checking; ticket workflow code no longer obtains unrestricted access to the runner merely to manipulate its shared state.
+- [x] The original ticket base remains fixed across attempts, while a repair starts from the observed rejected submission or preserved uncommitted work as applicable. Fresh assignments and worktrees receive the correct failure, rejected revisions, ticket-scoped evidence and configured check selection.
+- [x] Initial assignment plus configured repairs remains bounded. Repairable gate/Git/process/timeout failures, exhausted allowance, human decisions, environment/integrity failures and external ref/HEAD movement retain their existing repair-or-stop decisions and preserved history.
+- [x] Every changed submission receives renewed applicable checks, both independent reviews and an exact candidate suite. Earlier approval cannot authorize a repaired source; approved inputs, earlier evidence and the caller worktree stay protected.
+- [x] Only successful expected-old advancement of the integration branch records the exact tested candidate as Done and unlocks dependents. Later tickets use the current verified integration revision; existing fail-fast behavior after a blocked ticket remains unchanged until the separate blocked-work-isolation ticket.
+- [x] CLI behavior, single-/multi-ticket artifact names, baseline reuse, attempt numbering, gate ranges and saved record formats remain compatible. Existing readiness calculations and Git primitives remain functions where they provide no independent state lifetime.
 
-- [ ] Use the evaluated review workflow from tickets 16–19: record the relevant ownership change, independent cross-module review scope, immutable reports and finding dispositions; perform a cumulative assessment when the shared risk triggers apply. Preserve a navigable rationale-to-change-to-verification history and carry unresolved findings into the next handoff.
+- [x] Use the evaluated review workflow from tickets 16–19: record the relevant ownership change, independent cross-module review scope, immutable reports and finding dispositions; perform a cumulative assessment when the shared risk triggers apply. Preserve a navigable rationale-to-change-to-verification history and carry unresolved findings into the next handoff.
 
 ## Verification
 
@@ -38,3 +38,28 @@ Use the existing public CLI with scripted external processes, real temporary Git
 ## Handoff
 
 Use the [shared worker handoff](../README.md#worker-handoff). Preserve completed tickets 01–15 and their evidence. Ticket completion does not accept M1; after all M1 work is verified, prepare QA or a waiting handoff. Do not start M2 before explicit human acceptance of M1.
+
+## Comments
+
+Implemented and verified at `10b7050ec1fc06767e473b90217fa0d0bd100a0f` from fixed
+baseline `8574c6e5fb0a55ea3539e52c7c53044f1c036583`. Previous readiness: `ready-for-agent`.
+All seven unchanged criteria are verified in [completion evidence](../evidence/21-completion.md)
+and [criterion observations](../evidence/21-criterion-evidence.md). Required final
+checks: **544 passed in 775.37s**, strict mypy, Ruff lint/format and whitespace all
+passed; all 26 tested identities match committed Git blobs. Genuine pre-edit
+checkpoint continued under final source with earlier history and one baseline
+preserved; original live fixture archives retained. No tests changed.
+
+Separate fresh High [Spec](../evidence/21-review-spec-01.md) and
+[Standards](../evidence/21-review-standards-01.md) each found **0 blocking / 0 optional**.
+[Assessment](../reviews/ticket-21.md), [immutable originals/capture](../evidence/21-review-round1-capture.json)
+and [finding history](../evidence/21-finding-history.md) preserve scope, identities,
+independent reasoning and all four negative start/final triggers. No unchecked
+criterion, unresolved actual key, missing required ticket report, pending relevant
+revalidation or human-owned decision remains.
+
+Bookkeeping is committed separately from implementation; the generated handoff
+will be committed separately after eligibility verification. Next eligible work
+is 22, backed by completed 02/12/19. M1 still requires 22–24, actual cumulative
+provenance/all-package assessment and explicit human QA; no acceptance, promotion,
+runtime orchestration or push is implied. Blocked by remains declared history.
