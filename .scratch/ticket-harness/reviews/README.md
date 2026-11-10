@@ -17,3 +17,4 @@ scope and evidence locations in the [feature index](../README.md#completion-evid
 | Assessment | Scope / assessed source | Review lifecycle | Outstanding findings / history | Milestone assessment |
 | --- | --- | --- | --- | --- |
 | [review-ticket-16](ticket-16.md) | Ticket 16 / `3c8d4ab52c5da112552275d1d5fffdef001c1451` | completed | None; Spec and Standards each 0 blockers/0 optional | M1 not requested/accepted |
+| [review-ticket-17](ticket-17.md) | Ticket 17 / `4814eabd4bf2f196f7fb6915667c4305b7c2d0b9` | completed | None; Spec and Standards each 0 blockers/0 optional; fixture findings retain isolated scope | M1 not requested/accepted |

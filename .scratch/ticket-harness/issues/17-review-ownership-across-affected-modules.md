@@ -4,7 +4,7 @@
 
 **Blocked by:** [16: Record review work, findings and decisions](16-record-review-work-findings-and-decisions.md).
 
-**Status:** ready-for-agent
+**Status:** completed
 
 **Plan version:** [oop-v2](../spec.md), approved review-process-1 revision.
 
@@ -18,12 +18,12 @@
 
 ## Acceptance criteria
 
-- [ ] For consequential mutable state, planning records the owner, permitted writers, operations preserving invariants, persistence/restoration rules and failure behavior. Workers record the ownership change or explain why existing ownership is unchanged; a missing consequential ownership decision is surfaced for the human rather than invented during implementation.
-- [ ] Keep the original-baseline whole-ticket review and separate fresh Spec/Standards assignments. Standards follows affected state and responsibilities through relevant unchanged callers, consumers, other writers and save/restore/invalidation paths; Spec checks approved ownership/behavior contracts as well as acceptance requirements. Reviewer scope is not limited to diff hunks or a universal short-report cap.
-- [ ] Each report states assessed source/baseline, inspected files/flows, explicitly omitted scope and unresolved assumptions. Findings cite the code/contract, concrete consequence, evidence and proportionate remedy; code length or a preference for classes is insufficient. An empty findings list is meaningful only for the recorded inspected scope.
-- [ ] Carry prior findings and append-only dispositions from ticket 16 into scoped review/repair context, and verify claimed fixes against the repaired revision. Preserve report independence before aggregation; separate evidence/provenance auditing from substantive reasoning so successful hashes or tests cannot substitute for design assessment.
-- [ ] Update existing development wrappers and next-agent handoffs to apply the shared contract and expose unresolved review work. Preserve upstream skills, required checks, fresh role settings, bounded authorized repairs, optional suggestions and milestone gates. Any concrete breach or correction stays within existing authorization or is surfaced as a human decision.
-- [ ] Demonstrate an unchanged caller hiding a second state writer, a restoration/invalidation path outside the diff, a documented ownership breach versus an optional design suggestion, and a justified clean review of a long cohesive function. Retain actual scoped assignment/report artifacts and evidence of independence, rather than asserting compliance from added skill links.
+- [x] For consequential mutable state, planning records the owner, permitted writers, operations preserving invariants, persistence/restoration rules and failure behavior. Workers record the ownership change or explain why existing ownership is unchanged; a missing consequential ownership decision is surfaced for the human rather than invented during implementation.
+- [x] Keep the original-baseline whole-ticket review and separate fresh Spec/Standards assignments. Standards follows affected state and responsibilities through relevant unchanged callers, consumers, other writers and save/restore/invalidation paths; Spec checks approved ownership/behavior contracts as well as acceptance requirements. Reviewer scope is not limited to diff hunks or a universal short-report cap.
+- [x] Each report states assessed source/baseline, inspected files/flows, explicitly omitted scope and unresolved assumptions. Findings cite the code/contract, concrete consequence, evidence and proportionate remedy; code length or a preference for classes is insufficient. An empty findings list is meaningful only for the recorded inspected scope.
+- [x] Carry prior findings and append-only dispositions from ticket 16 into scoped review/repair context, and verify claimed fixes against the repaired revision. Preserve report independence before aggregation; separate evidence/provenance auditing from substantive reasoning so successful hashes or tests cannot substitute for design assessment.
+- [x] Update existing development wrappers and next-agent handoffs to apply the shared contract and expose unresolved review work. Preserve upstream skills, required checks, fresh role settings, bounded authorized repairs, optional suggestions and milestone gates. Any concrete breach or correction stays within existing authorization or is surfaced as a human decision.
+- [x] Demonstrate an unchanged caller hiding a second state writer, a restoration/invalidation path outside the diff, a documented ownership breach versus an optional design suggestion, and a justified clean review of a long cohesive function. Retain actual scoped assignment/report artifacts and evidence of independence, rather than asserting compliance from added skill links.
 
 ## Verification
 
@@ -34,3 +34,19 @@ Use the [testing policy](../../../docs/agents/testing.md), [Python environment](
 ## Handoff
 
 Use the [shared worker handoff](../README.md#worker-handoff). Carry pending reviews and unresolved findings without rewriting prior reports. Ticket completion does not accept a milestone. Select further work only through [milestone eligibility](../milestones.md); no automatic next-milestone execution or human acceptance is authorized.
+
+## Comments
+
+### Verified completion
+
+Previous readiness: `ready-for-agent`. Implementation `4814eabd4bf2f196f7fb6915667c4305b7c2d0b9`,
+reviewed from fixed baseline `c82b15f504c29a69e8fb708e10568574150e80d3`.
+All six criteria are verified in [criterion evidence](../evidence/17-completion.md),
+with [actual passing checks](../evidence/17-checks.log) and the
+[real assessment](../reviews/ticket-17.md). Separate fresh High
+[Spec](../evidence/17-review-spec.md) and [Standards](../evidence/17-review-standards.md)
+each found zero blocking or optional findings. No unchecked criteria or unresolved
+actual findings/decisions remain. Representative fixture concerns retain their
+original scope; failed D and exact D2 verification are preserved. Bookkeeping is
+committed separately, followed by the next handoff. M1 remains unaccepted;
+ticket 18 is next only through current milestone/prerequisite eligibility.
