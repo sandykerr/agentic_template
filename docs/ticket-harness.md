@@ -25,7 +25,7 @@ The runtime groups code by the work it owns:
   explicit stopped or promoted outcome to the run. The same review rules protect
   stop, continuation and promotion. It uses the run's verification operations;
   checkpoint export and canonical gate restoration remain in `runner.py`.
-- `git.py` owns worktrees, submission commits, merge validation, and branch updates.
+- `git.py` owns worktrees, submission commits, merge validation, and branch transactions that validate direct destinations while Git holds their locks.
   Integration destinations must be direct branch refs; setup, ticket integration
   and QA stop/continuation/promotion reject symbolic aliases. Expected-old updates
   do not dereference refs, preserving the separation of feature and development.

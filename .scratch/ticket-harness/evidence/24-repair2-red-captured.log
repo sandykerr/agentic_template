@@ -1,0 +1,111 @@
+FF                                                                       [100%]
+=================================== FAILURES ===================================
+_ test_development_alias_after_validation_cannot_follow_automatic_integration[False] _
+
+graph = <test_dependencies.DependencyFixture testMethod=runTest>
+after_prepare = False
+
+    @pytest.mark.parametrize("after_prepare", [False, True])
+    def test_development_alias_after_validation_cannot_follow_automatic_integration(
+        graph, after_prepare
+    ):
+        configure_plan(graph)
+        with foreground(graph) as process:
+            # Exclude setup checks; the first candidate is already tested when this
+            # final destination read runs. This is the original Spec02 interleaving.
+            wait_for(
+                graph,
+                process,
+                lambda record: any(g["stage"] == "candidate" for g in record["gates"]),
+            )
+            with pause_after_git(
+                process,
+                ["for-each-ref", "--format=%(symref)", "refs/heads/dev"],
+                transaction_open=after_prepare,
+            ):
+                before = graph.git("show-ref")
+                mutation = subprocess.run(
+                    [
+                        "git",
+                        "-C",
+                        str(graph.repo),
+                        "symbolic-ref",
+                        "refs/heads/dev",
+                        "refs/heads/integration",
+                    ],
+                    capture_output=True,
+                    text=True,
+                )
+                assert mutation.returncode == (1 if after_prepare else 0), mutation.stderr
+                assert graph.git("show-ref") == before
+            record = wait_for(
+                graph,
+                process,
+                lambda record: record["outcome"] in ("incomplete", "awaiting_human_qa"),
+            )
+>           assert graph.git("rev-parse", "dev") == graph.base
+E           AssertionError: assert '2016fee35cae...e642846558858' == '5f2d4dcc73fa...1e98492ccd0a6'
+E             
+E             - 5f2d4dcc73fa8b874d79b77d6c01e98492ccd0a6
+E             + 2016fee35cae2973c952fe923e0e642846558858
+
+tests/test_milestones.py:153: AssertionError
+_ test_approval_rejects_same_oid_alias_installed_after_destination_validation __
+
+graph = <test_dependencies.DependencyFixture testMethod=runTest>
+
+    def test_approval_rejects_same_oid_alias_installed_after_destination_validation(graph):
+        configure_plan(graph)
+        with foreground(graph) as process:
+            first = waiting(graph, process, "M1")
+            request = json.loads(Path(first["qa_request"]).read_text())
+            graph.git("branch", "same-tip", "dev")
+            refs = graph.git("show-ref")
+            approve(graph, request)
+            with pause_after_git(process, ["for-each-ref", "--format=%(symref)", "refs/heads/dev"]):
+                graph.git("symbolic-ref", "refs/heads/dev", "refs/heads/same-tip")
+                assert graph.git("show-ref") == refs
+>           process.wait(timeout=15)
+
+tests/test_qa_promotion.py:43: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+.micromamba/envs/dev/lib/python3.12/subprocess.py:1264: in wait
+    return self._wait(timeout=timeout)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <Popen: returncode: -15 args: ['/home/ajkerr1/development/agentic_template/....>
+timeout = 15
+
+    def _wait(self, timeout):
+        """Internal implementation of wait() on POSIX."""
+        if self.returncode is not None:
+            return self.returncode
+    
+        if timeout is not None:
+            endtime = _time() + timeout
+            # Enter a busy loop if we have a timeout.  This busy loop was
+            # cribbed from Lib/threading.py in Thread.wait() at r71065.
+            delay = 0.0005 # 500 us -> initial delay of 1 ms
+            while True:
+                if self._waitpid_lock.acquire(False):
+                    try:
+                        if self.returncode is not None:
+                            break  # Another thread waited.
+                        (pid, sts) = self._try_wait(os.WNOHANG)
+                        assert pid == self.pid or pid == 0
+                        if pid == self.pid:
+                            self._handle_exitstatus(sts)
+                            break
+                    finally:
+                        self._waitpid_lock.release()
+                remaining = self._remaining_time(endtime)
+                if remaining <= 0:
+>                   raise TimeoutExpired(self.args, timeout)
+E                   subprocess.TimeoutExpired: Command '['/home/ajkerr1/development/agentic_template/.micromamba/envs/dev/bin/python', '-m', 'ticket_harness', 'run', '--config', '/tmp/ticket-harness-test-xnlddlm_/project.json', '--output', '/tmp/ticket-harness-test-xnlddlm_/run']' timed out after 15 seconds
+
+.micromamba/envs/dev/lib/python3.12/subprocess.py:2045: TimeoutExpired
+=========================== short test summary info ============================
+FAILED tests/test_milestones.py::test_development_alias_after_validation_cannot_follow_automatic_integration[False]
+FAILED tests/test_qa_promotion.py::test_approval_rejects_same_oid_alias_installed_after_destination_validation
+2 failed in 20.26s

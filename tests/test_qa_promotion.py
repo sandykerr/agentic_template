@@ -7,7 +7,7 @@ from pathlib import Path
 import pytest
 import test_dependencies
 from test_dependencies import launches
-from test_milestones import configure_plan, foreground, wait_for
+from test_milestones import configure_plan, foreground, pause_after_git, wait_for
 
 graph = test_dependencies.graph
 
@@ -26,6 +26,37 @@ def waiting(graph, process, milestone):
         graph,
         process,
         lambda r: r["outcome"] == "awaiting_human_qa" and r["milestone"]["id"] == milestone,
+    )
+
+
+def test_approval_rejects_same_oid_alias_installed_after_destination_validation(graph):
+    configure_plan(graph)
+    with foreground(graph) as process:
+        first = waiting(graph, process, "M1")
+        request = json.loads(Path(first["qa_request"]).read_text())
+        graph.git("branch", "same-tip", "dev")
+        refs = graph.git("show-ref")
+        approve(graph, request)
+        with pause_after_git(process, ["for-each-ref", "--format=%(symref)", "refs/heads/dev"]):
+            graph.git("symbolic-ref", "refs/heads/dev", "refs/heads/same-tip")
+            assert graph.git("show-ref") == refs
+        process.wait(timeout=15)
+        assert process.returncode == 1
+    final = graph.record()
+    assert final["outcome"] == "incomplete"
+    assert final["failure"]["stage"] == "milestone-promotion"
+    assert "symbolic" in final["failure"]["message"].lower()
+    assert final.get("qa_decisions", []) == []
+    assert final["milestone"]["state"] == "promotion_failed"
+    assert graph.git("show-ref") == refs
+    assert graph.git("symbolic-ref", "refs/heads/dev") == "refs/heads/same-tip"
+    # Both expected-old updates were aborted; neither branch lock remains held.
+    graph.git("update-ref", "--no-deref", "refs/heads/dev", request["development_revision"])
+    graph.git(
+        "update-ref",
+        "refs/heads/integration",
+        request["feature_revision"],
+        request["feature_revision"],
     )
 
 

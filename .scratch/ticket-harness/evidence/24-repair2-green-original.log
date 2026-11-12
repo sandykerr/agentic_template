@@ -1,0 +1,670 @@
+FFF                                                                      [100%]
+=================================== FAILURES ===================================
+_ test_development_alias_after_validation_cannot_follow_automatic_integration __
+
+graph = <test_dependencies.DependencyFixture testMethod=runTest>
+
+    def test_development_alias_after_validation_cannot_follow_automatic_integration(graph):
+        configure_plan(graph)
+        with foreground(graph) as process:
+            # Exclude setup checks; the first candidate is already tested when this
+            # final destination read runs. This is the original Spec02 interleaving.
+            wait_for(
+                graph,
+                process,
+                lambda record: any(g["stage"] == "candidate" for g in record["gates"]),
+            )
+            with pause_after_git(process, ["for-each-ref", "--format=%(symref)", "refs/heads/dev"]):
+                before = graph.git("show-ref")
+                mutation = subprocess.run(
+                    ["git", "-C", str(graph.repo), "symbolic-ref", "refs/heads/dev", "refs/heads/integration"],
+                    capture_output=True,
+                    text=True,
+                )
+                # A prepared transaction may already hold the destination locks. In
+                # either ordering development must retain its original commit.
+                assert mutation.returncode in (0, 1), mutation.stderr
+                assert graph.git("show-ref") == before
+            record = wait_for(
+                graph,
+                process,
+                lambda record: record["outcome"] in ("incomplete", "awaiting_human_qa"),
+            )
+            assert graph.git("rev-parse", "dev") == graph.base
+>           assert record["qa_decisions"] == []
+                   ^^^^^^^^^^^^^^^^^^^^^^
+E           KeyError: 'qa_decisions'
+
+tests/test_milestones.py:133: KeyError
+_ test_changed_development_base_is_combined_with_feature_using_a_clean_same_file_merge _
+
+graph = <test_dependencies.DependencyFixture testMethod=runTest>
+
+    def test_changed_development_base_is_combined_with_feature_using_a_clean_same_file_merge(graph):
+        from test_dependencies import extend_agent
+    
+        original = "one\ntwo\nthree\nfour\nfive\nsix\n"
+        (graph.repo / "value.txt").write_text(original)
+        graph.git("add", "value.txt")
+        graph.git("commit", "-m", "Shared source")
+        graph.base = graph.git("rev-parse", "HEAD")
+        graph.git("update-ref", "refs/heads/integration", graph.base)
+        configure_plan(graph)
+        # Development changes while ticket work is underway; preparation must use its
+        # current tip rather than the starting development identity.
+        external_tree = graph.home / "development"
+        graph.git("worktree", "add", "--detach", str(external_tree), graph.base)
+        (external_tree / "value.txt").write_text(original.replace("six", "development six"))
+        import subprocess
+    
+        subprocess.run(
+            ["git", "-C", str(external_tree), "commit", "-am", "Development change"],
+            check=True,
+            capture_output=True,
+        )
+        external = graph.git("-C", str(external_tree), "rev-parse", "HEAD")
+        extend_agent(
+            graph,
+            "if a['role'] == 'implementation' and a['ticket'] == '01':\n"
+            "    Path('value.txt').write_text(Path('value.txt').read_text().replace('one', 'feature one'))\n"
+            f"    git('update-ref', 'refs/heads/dev', {external!r})",
+        )
+        result = run_until_wait(graph)
+>       assert result.returncode == 0, result.stdout + result.stderr
+E       AssertionError: {
+E           "outcome": "incomplete",
+E           "artifacts": "/tmp/ticket-harness-test-rf8o_wgi/run/artifacts",
+E           "inputs": {
+E             "configuration": {
+E               "source": "/tmp/ticket-harness-test-rf8o_wgi/project.json",
+E               "artifact": "/tmp/ticket-harness-test-rf8o_wgi/run/inputs/configuration.json",
+E               "sha256": "0700def9ad733c40d3a64385a6828c75de17f448ed09ed2e142d810cf9a8155f"
+E             },
+E             "spec": {
+E               "source": "/tmp/ticket-harness-test-rf8o_wgi/target/spec.md",
+E               "artifact": "/tmp/ticket-harness-test-rf8o_wgi/run/inputs/spec.md",
+E               "sha256": "70fc083432bac5b804dc291e318b27ed5ed439bc44fb6d81f98e39b808c3c363"
+E             },
+E             "ticket": {
+E               "source": "/tmp/ticket-harness-test-rf8o_wgi/target/01-value.md",
+E               "artifact": "/tmp/ticket-harness-test-rf8o_wgi/run/inputs/ticket.md",
+E               "sha256": "c3d58a4513f77911e3c7a915b9d9515fa758f59ff6a4b174233fd7da61b15154"
+E             },
+E             "plan": {
+E               "source": "/tmp/ticket-harness-test-rf8o_wgi/target/plan.json",
+E               "artifact": "/tmp/ticket-harness-test-rf8o_wgi/run/inputs/plan.json",
+E               "sha256": "3ee4d5b011078e4d0bdf1d42199935f71d1cff1ee07cb5ad15af38a9dbe8d5fc"
+E             },
+E             "ticket-0": {
+E               "source": "/tmp/ticket-harness-test-rf8o_wgi/target/04-work.md",
+E               "artifact": "/tmp/ticket-harness-test-rf8o_wgi/run/inputs/ticket-0.md",
+E               "sha256": "38e7b671f24b8549595abeef5ce15d5baa030cfaa6b96d623bb6399be9904ddc"
+E             },
+E             "ticket-1": {
+E               "source": "/tmp/ticket-harness-test-rf8o_wgi/target/02-work.md",
+E               "artifact": "/tmp/ticket-harness-test-rf8o_wgi/run/inputs/ticket-1.md",
+E               "sha256": "308c3c67fa603e2ee190877d9487a58413de51f1b8fc239f728450099e053c4f"
+E             },
+E             "ticket-2": {
+E               "source": "/tmp/ticket-harness-test-rf8o_wgi/target/03-work.md",
+E               "artifact": "/tmp/ticket-harness-test-rf8o_wgi/run/inputs/ticket-2.md",
+E               "sha256": "3d338f0f67ac51bbb3a3c204a71570ed79ba2cb269582a45cd1d577d5d42c4e7"
+E             },
+E             "ticket-4": {
+E               "source": "/tmp/ticket-harness-test-rf8o_wgi/target/05-context.md",
+E               "artifact": "/tmp/ticket-harness-test-rf8o_wgi/run/inputs/ticket-4.md",
+E               "sha256": "6f7b730a1ae19cc725876492213fd51fd150b14244b9b01a444d2e5be9607e48"
+E             },
+E             "ticket-5": {
+E               "source": "/tmp/ticket-harness-test-rf8o_wgi/target/07-context.md",
+E               "artifact": "/tmp/ticket-harness-test-rf8o_wgi/run/inputs/ticket-5.md",
+E               "sha256": "17976a1b7794ab7ea71f3ea60048617568820e11b87d96c8561829766ebd805d"
+E             },
+E             "standards-0": {
+E               "source": "/tmp/ticket-harness-test-rf8o_wgi/target/STANDARDS.md",
+E               "artifact": "/tmp/ticket-harness-test-rf8o_wgi/run/inputs/standards-0.md",
+E               "sha256": "8a5efa5017f12574ff43bab7d9a487d9216a65b74d2e4709ec0dba7d141682d2"
+E             }
+E           },
+E           "ticket": {
+E             "id": "03",
+E             "state": "Blocked",
+E             "attempt": 1,
+E             "ticket": "03",
+E             "starting_revision": "4315a850e2e3e2a039ab8a372b7f186c62d572c8",
+E             "gate_start": 1,
+E             "source": "/tmp/ticket-harness-test-rf8o_wgi/run/worktrees/ticket-03-implementation",
+E             "submitted_revision": "3133d24cd3ef7205926867eada552786d74f9c22",
+E             "changed_files": [
+E               "last-ticket",
+E               "work-03"
+E             ],
+E             "candidate_revision": "39c72b921346cf5618e2ee7faa7f8f53c170e37b"
+E           },
+E           "gates": [
+E             {
+E               "stage": "baseline",
+E               "revision": "4315a850e2e3e2a039ab8a372b7f186c62d572c8",
+E               "argv": [
+E                 "/home/ajkerr1/development/agentic_template/.micromamba/envs/dev/bin/python",
+E                 "/tmp/ticket-harness-test-rf8o_wgi/graph-check.py"
+E               ],
+E               "cwd": "/tmp/ticket-harness-test-rf8o_wgi/run/worktrees/baseline",
+E               "stdout": "/tmp/ticket-harness-test-rf8o_wgi/run/artifacts/baseline.stdout",
+E               "stderr": "/tmp/ticket-harness-test-rf8o_wgi/run/artifacts/baseline.stderr",
+E               "passed": true,
+E               "timeout_seconds": 1800,
+E               "timed_out": false,
+E               "exit_code": 0,
+E               "cleanup": {
+E                 "process_group": 237,
+E                 "signal": "SIGKILL",
+E                 "sent": false
+E               },
+E               "ticket": null,
+E               "attempt": 0,
+E               "timeout_category": "baseline"
+E             },
+E             {
+E               "stage": "implementation",
+E               "revision": "4315a850e2e3e2a039ab8a372b7f186c62d572c8",
+E               "argv": [
+E                 "/home/ajkerr1/development/agentic_template/.micromamba/envs/dev/bin/python",
+E                 "/tmp/ticket-harness-test-rf8o_wgi/graph-agent.py"
+E               ],
+E               "cwd": "/tmp/ticket-harness-test-rf8o_wgi/run/worktrees/ticket-03-implementation",
+E               "stdout": "/tmp/ticket-harness-test-rf8o_wgi/run/artifacts/ticket-03-implementation.stdout",
+E               "stderr": "/tmp/ticket-harness-test-rf8o_wgi/run/artifacts/ticket-03-implementation.stderr",
+E               "passed": true,
+E               "timeout_seconds": 1800,
+E               "timed_out": false,
+E               "assignment": "/tmp/ticket-harness-test-rf8o_wgi/run/artifacts/ticket-03-implementation.assignment.json",
+E               "exit_code": 0,
+E               "cleanup": {
+E                 "process_group": 250,
+E                 "signal": "SIGKILL",
+E                 "sent": false
+E               },
+E               "ticket": "03",
+E               "attempt": 1,
+E               "timeout_category": "implementation",
+E               "report": {
+E                 "role": "implementation",
+E                 "ticket": "03",
+E                 "attempt": 1,
+E                 "base_revision": "4315a850e2e3e2a039ab8a372b7f186c62d572c8",
+E                 "revision": "4315a850e2e3e2a039ab8a372b7f186c62d572c8",
+E                 "pid": 250,
+E                 "result": "submitted",
+E                 "summary": "Delivered ticket",
+E                 "changed_files": [],
+E                 "checks": [],
+E                 "acceptance_evidence": [
+E                   "Delivered cumulative work"
+E                 ],
+E                 "unresolved_questions": []
+E               },
+E               "report_status": "valid"
+E             },
+E             {
+E               "stage": "check-other",
+E               "revision": "3133d24cd3ef7205926867eada552786d74f9c22",
+E               "argv": [
+E                 "/home/ajkerr1/development/agentic_template/.micromamba/envs/dev/bin/python",
+E                 "/tmp/ticket-harness-test-rf8o_wgi/graph-check.py"
+E               ],
+E               "cwd": "/tmp/ticket-harness-test-rf8o_wgi/run/worktrees/ticket-03-implementation",
+E               "stdout": "/tmp/ticket-harness-test-rf8o_wgi/run/artifacts/ticket-03-check-other.stdout",
+E               "stderr": "/tmp/ticket-harness-test-rf8o_wgi/run/artifacts/ticket-03-check-other.stderr",
+E               "passed": true,
+E               "timeout_seconds": 300,
+E               "timed_out": false,
+E               "exit_code": 0,
+E               "cleanup": {
+E                 "process_group": 267,
+E                 "signal": "SIGKILL",
+E                 "sent": false
+E               },
+E               "ticket": "03",
+E               "attempt": 1,
+E               "timeout_category": "checks"
+E             },
+E             {
+E               "stage": "spec",
+E               "revision": "3133d24cd3ef7205926867eada552786d74f9c22",
+E               "argv": [
+E                 "/home/ajkerr1/development/agentic_template/.micromamba/envs/dev/bin/python",
+E                 "/tmp/ticket-harness-test-rf8o_wgi/graph-agent.py"
+E               ],
+E               "cwd": "/tmp/ticket-harness-test-rf8o_wgi/run/worktrees/ticket-03-spec",
+E               "stdout": "/tmp/ticket-harness-test-rf8o_wgi/run/artifacts/ticket-03-spec.stdout",
+E               "stderr": "/tmp/ticket-harness-test-rf8o_wgi/run/artifacts/ticket-03-spec.stderr",
+E               "passed": true,
+E               "timeout_seconds": 900,
+E               "timed_out": false,
+E               "assignment": "/tmp/ticket-harness-test-rf8o_wgi/run/artifacts/ticket-03-spec.assignment.json",
+E               "exit_code": 0,
+E               "cleanup": {
+E                 "process_group": 286,
+E                 "signal": "SIGKILL",
+E                 "sent": false
+E               },
+E               "ticket": "03",
+E               "attempt": 1,
+E               "timeout_category": "spec",
+E               "report": {
+E                 "role": "spec",
+E                 "ticket": "03",
+E                 "attempt": 1,
+E                 "base_revision": "4315a850e2e3e2a039ab8a372b7f186c62d572c8",
+E                 "revision": "3133d24cd3ef7205926867eada552786d74f9c22",
+E                 "pid": 286,
+E                 "findings": []
+E               },
+E               "report_status": "valid"
+E             },
+E             {
+E               "stage": "standards",
+E               "revision": "3133d24cd3ef7205926867eada552786d74f9c22",
+E               "argv": [
+E                 "/home/ajkerr1/development/agentic_template/.micromamba/envs/dev/bin/python",
+E                 "/tmp/ticket-harness-test-rf8o_wgi/graph-agent.py"
+E               ],
+E               "cwd": "/tmp/ticket-harness-test-rf8o_wgi/run/worktrees/ticket-03-standards",
+E               "stdout": "/tmp/ticket-harness-test-rf8o_wgi/run/artifacts/ticket-03-standards.stdout",
+E               "stderr": "/tmp/ticket-harness-test-rf8o_wgi/run/artifacts/ticket-03-standards.stderr",
+E               "passed": true,
+E               "timeout_seconds": 900,
+E               "timed_out": false,
+E               "assignment": "/tmp/ticket-harness-test-rf8o_wgi/run/artifacts/ticket-03-standards.assignment.json",
+E               "exit_code": 0,
+E               "cleanup": {
+E                 "process_group": 312,
+E                 "signal": "SIGKILL",
+E                 "sent": false
+E               },
+E               "ticket": "03",
+E               "attempt": 1,
+E               "timeout_category": "standards",
+E               "report": {
+E                 "role": "standards",
+E                 "ticket": "03",
+E                 "attempt": 1,
+E                 "base_revision": "4315a850e2e3e2a039ab8a372b7f186c62d572c8",
+E                 "revision": "3133d24cd3ef7205926867eada552786d74f9c22",
+E                 "pid": 312,
+E                 "findings": []
+E               },
+E               "report_status": "valid"
+E             },
+E             {
+E               "stage": "candidate",
+E               "revision": "39c72b921346cf5618e2ee7faa7f8f53c170e37b",
+E               "argv": [
+E                 "/home/ajkerr1/development/agentic_template/.micromamba/envs/dev/bin/python",
+E                 "/tmp/ticket-harness-test-rf8o_wgi/graph-check.py"
+E               ],
+E               "cwd": "/tmp/ticket-harness-test-rf8o_wgi/run/worktrees/ticket-03-candidate",
+E               "stdout": "/tmp/ticket-harness-test-rf8o_wgi/run/artifacts/ticket-03-candidate.stdout",
+E               "stderr": "/tmp/ticket-harness-test-rf8o_wgi/run/artifacts/ticket-03-candidate.stderr",
+E               "passed": true,
+E               "timeout_seconds": 1800,
+E               "timed_out": false,
+E               "exit_code": 0,
+E               "cleanup": {
+E                 "process_group": 355,
+E                 "signal": "SIGKILL",
+E                 "sent": false
+E               },
+E               "ticket": "03",
+E               "attempt": 1,
+E               "timeout_category": "candidate"
+E             }
+E           ],
+E           "attempts": [
+E             {
+E               "ticket": "03",
+E               "attempt": 1,
+E               "state": "Rejected",
+E               "starting_revision": "4315a850e2e3e2a039ab8a372b7f186c62d572c8",
+E               "gate_start": 1,
+E               "source": "/tmp/ticket-harness-test-rf8o_wgi/run/worktrees/ticket-03-implementation",
+E               "submitted_revision": "3133d24cd3ef7205926867eada552786d74f9c22",
+E               "changed_files": [
+E                 "last-ticket",
+E                 "work-03"
+E               ],
+E               "candidate_revision": "39c72b921346cf5618e2ee7faa7f8f53c170e37b",
+E               "failure": {
+E                 "stage": "integration",
+E                 "message": "git update-ref rejected: Command '['git', '-C', '/tmp/ticket-harness-test-rf8o_wgi/target', '-c', 'core.hooksPath=/dev/null', 'update-ref', '--stdin']' timed out after 10 seconds"
+E               },
+E               "gate_end": 6
+E             }
+E           ],
+E           "requirements": {
+E             "01": {
+E               "id": "01",
+E               "title": "Work 01",
+E               "readiness": "ready-for-agent",
+E               "dependencies": [],
+E               "acceptance": [
+E                 "Deliver work 01."
+E               ],
+E               "checks": [
+E                 "ticket"
+E               ],
+E               "source": "/tmp/ticket-harness-test-rf8o_wgi/target/01-value.md"
+E             },
+E             "04": {
+E               "id": "04",
+E               "title": "Work 04",
+E               "readiness": "ready-for-agent",
+E               "dependencies": [
+E                 "01"
+E               ],
+E               "acceptance": [
+E                 "Deliver work 04."
+E               ],
+E               "checks": [
+E                 "ticket"
+E               ],
+E               "source": "/tmp/ticket-harness-test-rf8o_wgi/target/04-work.md"
+E             },
+E             "02": {
+E               "id": "02",
+E               "title": "Work 02",
+E               "readiness": "ready-for-agent",
+E               "dependencies": [
+E                 "03",
+E                 "04"
+E               ],
+E               "acceptance": [
+E                 "Deliver work 02."
+E               ],
+E               "checks": [
+E                 "ticket"
+E               ],
+E               "source": "/tmp/ticket-harness-test-rf8o_wgi/target/02-work.md"
+E             },
+E             "03": {
+E               "id": "03",
+E               "title": "Work 03",
+E               "readiness": "ready-for-agent",
+E               "dependencies": [],
+E               "acceptance": [
+E                 "Deliver work 03."
+E               ],
+E               "checks": [
+E                 "other"
+E               ],
+E               "source": "/tmp/ticket-harness-test-rf8o_wgi/target/03-work.md"
+E             },
+E             "05": {
+E               "id": "05",
+E               "title": "Human context",
+E               "readiness": "ready-for-human",
+E               "dependencies": [],
+E               "acceptance": [
+E                 "Human work."
+E               ],
+E               "checks": [
+E                 "ticket",
+E                 "other"
+E               ],
+E               "source": "/tmp/ticket-harness-test-rf8o_wgi/target/05-context.md"
+E             },
+E             "07": {
+E               "id": "07",
+E               "title": "Agent context",
+E               "readiness": "ready-for-agent",
+E               "dependencies": [
+E                 "05"
+E               ],
+E               "acceptance": [
+E                 "Context work."
+E               ],
+E               "checks": [
+E                 "ticket",
+E                 "other"
+E               ],
+E               "source": "/tmp/ticket-harness-test-rf8o_wgi/target/07-context.md"
+E             }
+E           },
+E           "max_repairs": 0,
+E           "timeouts": {
+E             "implementation": 1800,
+E             "repair": 1800,
+E             "spec": 900,
+E             "standards": 900,
+E             "checks": 300,
+E             "baseline": 1800,
+E             "candidate": 1800
+E           },
+E           "selected_tickets": [
+E             "01",
+E             "03"
+E           ],
+E           "run_id": "e2da21d363f644129e345b2e63200045",
+E           "plan": {
+E             "version": "v1",
+E             "approval": "human-approved fixture bundle v1",
+E             "development": "dev",
+E             "required_tickets": [
+E               "01",
+E               "02",
+E               "03",
+E               "04"
+E             ],
+E             "milestones": [
+E               {
+E                 "id": "M1",
+E                 "tickets": [
+E                   "03",
+E                   "01"
+E                 ],
+E                 "qa": {
+E                   "setup": "Inspect disposable feature",
+E                   "actions": [
+E                     "Read delivered work"
+E                   ],
+E                   "pass_conditions": [
+E                     "Work 01 and 03 exist"
+E                   ]
+E                 }
+E               },
+E               {
+E                 "id": "M2",
+E                 "tickets": [
+E                   "04",
+E                   "02"
+E                 ],
+E                 "qa": {
+E                   "setup": "Inspect all work",
+E                   "actions": [
+E                     "Read all delivered work"
+E                   ],
+E                   "pass_conditions": [
+E                     "All required work exists"
+E                   ]
+E                 }
+E               }
+E             ],
+E             "final_milestone": "M2",
+E             "final_coverage": [
+E               "01",
+E               "02",
+E               "03",
+E               "04"
+E             ],
+E             "roles": {
+E               "worker": {
+E                 "model": "scripted-fixture",
+E                 "reasoning": "Medium"
+E               },
+E               "spec": {
+E                 "model": "scripted-spec",
+E                 "reasoning": "High"
+E               },
+E               "standards": {
+E                 "model": "scripted-standards",
+E                 "reasoning": "High"
+E               }
+E             },
+E             "worker_overrides": {
+E               "03": {
+E                 "reasoning": "High",
+E                 "reason": "Fixture override"
+E               }
+E             }
+E           },
+E           "worker_settings": {
+E             "01": {
+E               "model": "scripted-fixture",
+E               "reasoning": "Medium"
+E             },
+E             "02": {
+E               "model": "scripted-fixture",
+E               "reasoning": "Medium"
+E             },
+E             "03": {
+E               "model": "scripted-fixture",
+E               "reasoning": "High"
+E             },
+E             "04": {
+E               "model": "scripted-fixture",
+E               "reasoning": "Medium"
+E             }
+E           },
+E           "feature_complete": false,
+E           "milestone": {
+E             "id": "M1",
+E             "state": "executing"
+E           },
+E           "tickets": {
+E             "01": {
+E               "id": "01",
+E               "state": "Ready",
+E               "attempt": 0
+E             },
+E             "02": {
+E               "id": "02",
+E               "state": "Pending",
+E               "attempt": 0
+E             },
+E             "03": {
+E               "id": "03",
+E               "state": "Blocked",
+E               "attempt": 1,
+E               "ticket": "03",
+E               "starting_revision": "4315a850e2e3e2a039ab8a372b7f186c62d572c8",
+E               "gate_start": 1,
+E               "source": "/tmp/ticket-harness-test-rf8o_wgi/run/worktrees/ticket-03-implementation",
+E               "submitted_revision": "3133d24cd3ef7205926867eada552786d74f9c22",
+E               "changed_files": [
+E                 "last-ticket",
+E                 "work-03"
+E               ],
+E               "candidate_revision": "39c72b921346cf5618e2ee7faa7f8f53c170e37b"
+E             },
+E             "04": {
+E               "id": "04",
+E               "state": "Pending",
+E               "attempt": 0
+E             }
+E           },
+E           "development_branch": "dev",
+E           "development_revision": "4315a850e2e3e2a039ab8a372b7f186c62d572c8",
+E           "base_revision": "4315a850e2e3e2a039ab8a372b7f186c62d572c8",
+E           "integration_revision": "4315a850e2e3e2a039ab8a372b7f186c62d572c8",
+E           "integration_branch": "integration",
+E           "operations": [
+E             {
+E               "stage": "baseline-worktree",
+E               "ticket": null,
+E               "attempt": 0,
+E               "passed": true
+E             },
+E             {
+E               "stage": "ticket-03-implementation-worktree",
+E               "ticket": "03",
+E               "attempt": 1,
+E               "passed": true
+E             },
+E             {
+E               "stage": "ticket-03-submission",
+E               "ticket": "03",
+E               "attempt": 1,
+E               "passed": true
+E             },
+E             {
+E               "stage": "ticket-03-spec-worktree",
+E               "ticket": "03",
+E               "attempt": 1,
+E               "passed": true
+E             },
+E             {
+E               "stage": "ticket-03-standards-worktree",
+E               "ticket": "03",
+E               "attempt": 1,
+E               "passed": true
+E             },
+E             {
+E               "stage": "ticket-03-candidate-merge",
+E               "ticket": "03",
+E               "attempt": 1,
+E               "passed": true
+E             }
+E           ],
+E           "failure": {
+E             "stage": "integration",
+E             "message": "git update-ref rejected: Command '['git', '-C', '/tmp/ticket-harness-test-rf8o_wgi/target', '-c', 'core.hooksPath=/dev/null', 'update-ref', '--stdin']' timed out after 10 seconds"
+E           }
+E         }
+E         
+E       assert 1 == 0
+E        +  where 1 = CompletedProcess(args=['/home/ajkerr1/development/agentic_template/.micromamba/envs/dev/bin/python', '-m', 'ticket_har...\'-c\', \'core.hooksPath=/dev/null\', \'update-ref\', \'--stdin\']\' timed out after 10 seconds"\n  }\n}\n', stderr='').returncode
+
+tests/test_milestones.py:752: AssertionError
+----------------------------- Captured stderr call -----------------------------
+Preparing worktree (detached HEAD 4315a85)
+____ test_deep_invalid_decision_is_rejected_and_later_approval_can_promote _____
+
+graph = <test_dependencies.DependencyFixture testMethod=runTest>
+
+    def test_deep_invalid_decision_is_rejected_and_later_approval_can_promote(graph):
+        configure_plan(graph)
+        with foreground(graph) as process:
+>           first = waiting(graph, process, "M1")
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_qa_promotion.py:35: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/test_qa_promotion.py:25: in waiting
+    return wait_for(
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+graph = <test_dependencies.DependencyFixture testMethod=runTest>
+process = <Popen: returncode: 1 args: ['/home/ajkerr1/development/agentic_template/.mi...>
+predicate = <function waiting.<locals>.<lambda> at 0x77ca9430b060>
+
+    def wait_for(graph, process, predicate):
+        deadline = time.monotonic() + 45
+        while time.monotonic() < deadline:
+            if (graph.output / "run.json").exists():
+                record = graph.record()
+                if predicate(record):
+                    return record
+            if process.poll() is not None:
+>               raise AssertionError(
+                    f"runner exited {process.returncode}: "
+                    + (graph.home / "foreground.stderr").read_text()
+                )
+E               AssertionError: runner exited 1:
+
+tests/test_milestones.py:213: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_milestones.py::test_development_alias_after_validation_cannot_follow_automatic_integration
+FAILED tests/test_milestones.py::test_changed_development_base_is_combined_with_feature_using_a_clean_same_file_merge
+FAILED tests/test_qa_promotion.py::test_deep_invalid_decision_is_rejected_and_later_approval_can_promote
+3 failed in 21.69s

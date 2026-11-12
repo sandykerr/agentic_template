@@ -1,0 +1,42 @@
+F                                                                        [100%]
+=================================== FAILURES ===================================
+_ test_development_alias_after_validation_cannot_follow_automatic_integration __
+
+graph = <test_dependencies.DependencyFixture testMethod=runTest>
+
+    def test_development_alias_after_validation_cannot_follow_automatic_integration(graph):
+        configure_plan(graph)
+        with foreground(graph) as process:
+            # Exclude setup checks; the first candidate is already tested when this
+            # final destination read runs. This is the original Spec02 interleaving.
+            wait_for(
+                graph,
+                process,
+                lambda record: any(g["stage"] == "candidate" for g in record["gates"]),
+            )
+            with pause_after_git(process, ["for-each-ref", "--format=%(symref)", "refs/heads/dev"]):
+                before = graph.git("show-ref")
+                mutation = subprocess.run(
+                    ["git", "-C", str(graph.repo), "symbolic-ref", "refs/heads/dev", "refs/heads/integration"],
+                    capture_output=True,
+                    text=True,
+                )
+                # A prepared transaction may already hold the destination locks. In
+                # either ordering development must retain its original commit.
+                assert mutation.returncode in (0, 1), mutation.stderr
+                assert graph.git("show-ref") == before
+            record = wait_for(
+                graph,
+                process,
+                lambda record: record["outcome"] in ("incomplete", "awaiting_human_qa"),
+            )
+>           assert graph.git("rev-parse", "dev") == graph.base
+E           AssertionError: assert '3c3f97269bda...52c39f4b665ca' == '55b983e27523...5b106115c34e5'
+E             
+E             - 55b983e27523874cad7883f290b5b106115c34e5
+E             + 3c3f97269bdae8f5d2eff546a5352c39f4b665ca
+
+tests/test_milestones.py:132: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_milestones.py::test_development_alias_after_validation_cannot_follow_automatic_integration
+1 failed in 2.03s

@@ -107,17 +107,85 @@ def promote(
     development: str | None = None,
 ) -> None:
     require_direct_branches(repository, branch, *((development,) if development else ()))
-    # No user code may run between final validation and the atomic ref update.
-    git(
-        repository,
-        "-c",
-        "core.hooksPath=/dev/null",
-        "update-ref",
-        "--no-deref",
-        f"refs/heads/{branch}",
-        revision,
-        previous,
-    )
+    refs: dict[str, tuple[str | None, str]] = {branch: (revision, previous)}
+    if development:
+        # Development may legitimately have advanced during ticket work. Protect
+        # its current identity/topology at this write, rather than pinning the
+        # starting development commit used by a later milestone review.
+        refs[development] = (None, git(repository, "rev-parse", f"refs/heads/{development}"))
+    _update_direct_branches(repository, refs, "git update-ref rejected")
+
+
+def _transaction_exchange(process: subprocess.Popen[bytes], command: str, expected: bytes) -> None:
+    """Read Git's protocol acknowledgement without buffering or stderr deadlocks."""
+    assert process.stdin is not None and process.stdout is not None
+    process.stdin.write(command.encode())
+    process.stdin.flush()
+    observed = b""
+    while observed != expected:
+        chunk = os.read(process.stdout.fileno(), 4096)
+        observed += chunk
+        if not chunk or not expected.startswith(observed):
+            raise GateFailure("Git ref transaction rejected: " + observed.decode(errors="replace"))
+
+
+def _update_direct_branches(
+    repository: Path, refs: dict[str, tuple[str | None, str]], failure: str
+) -> None:
+    """Hold all destination locks while validating topology, then commit together.
+
+    A verify entry holds a read-only ref alongside updates. OID verification with
+    no-deref alone still accepts same-OID symbolic refs; validate topology after
+    prepare, when ordinary Git writers cannot replace any of these names.
+    """
+    commands = "start\n"
+    for branch, (revision, previous) in refs.items():
+        commands += "option no-deref\n"
+        commands += (
+            f"update refs/heads/{branch} {revision} {previous}\n"
+            if revision is not None
+            else f"verify refs/heads/{branch} {previous}\n"
+        )
+    with tempfile.TemporaryFile() as diagnostic:
+        process = subprocess.Popen(
+            [
+                "git",
+                "-C",
+                str(repository),
+                "-c",
+                "core.hooksPath=/dev/null",
+                "update-ref",
+                "--stdin",
+            ],
+            stdin=subprocess.PIPE,
+            stdout=subprocess.PIPE,
+            stderr=diagnostic,
+            bufsize=0,
+        )
+        try:
+            _transaction_exchange(process, commands + "prepare\n", b"start: ok\nprepare: ok\n")
+            require_direct_branches(repository, *refs)
+            _transaction_exchange(process, "commit\n", b"commit: ok\n")
+            assert process.stdin is not None
+            process.stdin.close()
+            process.stdin = None
+            process.wait()
+            if process.returncode:
+                raise GateFailure("Git ref transaction failed")
+        except (GateFailure, OSError) as error:
+            diagnostic.seek(0)
+            detail = diagnostic.read().decode(errors="replace").strip()
+            raise GateFailure(f"{failure}: {error}" + (f"\n{detail}" if detail else "")) from error
+        finally:
+            # An uncommitted transaction is explicitly aborted; EOF is Git's
+            # fallback abort if it already rejected input or the pipe is broken.
+            try:
+                process.communicate(
+                    input=b"abort\n" if process.poll() is None else None, timeout=10
+                )
+            except (OSError, subprocess.TimeoutExpired):
+                process.kill()
+                process.communicate()
 
 
 def require_clean_milestone_candidate(
@@ -193,21 +261,8 @@ def promote_milestone(
     for branch in (feature, development):
         if f"branch refs/heads/{branch}" in checked_out:
             raise GateFailure(f"Branch {branch} must not be checked out for promotion")
-    transaction = (
-        "start\noption no-deref\n"
-        f"update refs/heads/{development} {revision} {development_previous}\n"
-        "option no-deref\n"
-        f"update refs/heads/{feature} {revision} {feature_previous}\n"
-        "prepare\ncommit\n"
+    _update_direct_branches(
+        repository,
+        {development: (revision, development_previous), feature: (revision, feature_previous)},
+        "Milestone branches changed externally; promotion rejected",
     )
-    result = subprocess.run(
-        ["git", "-C", str(repository), "-c", "core.hooksPath=/dev/null", "update-ref", "--stdin"],
-        input=transaction,
-        capture_output=True,
-        text=True,
-        check=False,
-    )
-    if result.returncode:
-        raise GateFailure(
-            "Milestone branches changed externally; promotion rejected: " + result.stderr.strip()
-        )

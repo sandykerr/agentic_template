@@ -62,6 +62,119 @@ def test_ticket_integration_rejects_destinations_aliased_during_work(graph, bran
 
 
 @contextmanager
+def pause_after_git(process, arguments, *, transaction_open=False):
+    """Schedule an external writer after a real Git child finishes its read.
+
+    Only the CLI owner is suspended. Its Git child can finish, leaving its result
+    unread until the caller resumes the owner. Bound observation and always resume
+    before the foreground fixture performs its normal process cleanup.
+    """
+    children = Path(f"/proc/{process.pid}/task/{process.pid}/children")
+    deadline = time.monotonic() + 20
+    paused = False
+    scheduled = False
+    try:
+        while time.monotonic() < deadline and process.poll() is None:
+            for child in children.read_text().split():
+                try:
+                    command = Path(f"/proc/{child}/cmdline").read_bytes().split(b"\0")
+                    if command[0] != b"git" or command[-len(arguments) - 1 : -1] != [
+                        part.encode() for part in arguments
+                    ]:
+                        continue
+                    os.kill(process.pid, signal.SIGSTOP)
+                    paused = True
+                    commands = [
+                        Path(f"/proc/{pid}/cmdline").read_bytes().split(b"\0")
+                        for pid in children.read_text().split()
+                    ]
+                    if (
+                        any(c[-3:-1] == [b"update-ref", b"--stdin"] for c in commands)
+                        != transaction_open
+                    ):
+                        continue
+                    # The owner cannot reap this child once stopped. If it already
+                    # did, resume and keep looking rather than claim a schedule.
+                    while time.monotonic() < deadline:
+                        state = Path(f"/proc/{child}/stat").read_text().split(") ", 1)[1][0]
+                        if state == "Z":
+                            scheduled = True
+                            break
+                        time.sleep(0.001)
+                except (FileNotFoundError, ProcessLookupError):
+                    pass
+                finally:
+                    if paused and not scheduled:
+                        os.kill(process.pid, signal.SIGCONT)
+                        paused = False
+                if scheduled:
+                    break
+            if scheduled:
+                break
+        if not scheduled:
+            raise AssertionError(f"Did not observe Git command {arguments}")
+        yield
+    finally:
+        if paused:
+            os.kill(process.pid, signal.SIGCONT)
+
+
+@pytest.mark.parametrize("after_prepare", [False, True])
+def test_development_alias_after_validation_cannot_follow_automatic_integration(
+    graph, after_prepare
+):
+    configure_plan(graph)
+    with foreground(graph) as process:
+        # Exclude setup checks; the first candidate is already tested when this
+        # final destination read runs. This is the original Spec02 interleaving.
+        wait_for(
+            graph,
+            process,
+            lambda record: any(g["stage"] == "candidate" for g in record["gates"]),
+        )
+        with pause_after_git(
+            process,
+            ["for-each-ref", "--format=%(symref)", "refs/heads/dev"],
+            transaction_open=after_prepare,
+        ):
+            before = graph.git("show-ref")
+            mutation = subprocess.run(
+                [
+                    "git",
+                    "-C",
+                    str(graph.repo),
+                    "symbolic-ref",
+                    "refs/heads/dev",
+                    "refs/heads/integration",
+                ],
+                capture_output=True,
+                text=True,
+            )
+            assert mutation.returncode == (1 if after_prepare else 0), mutation.stderr
+            assert graph.git("show-ref") == before
+        record = wait_for(
+            graph,
+            process,
+            lambda record: record["outcome"] in ("incomplete", "awaiting_human_qa"),
+        )
+        assert graph.git("rev-parse", "dev") == graph.base
+        assert record.get("qa_decisions", []) == []
+        if mutation.returncode == 0:
+            assert record["failure"]["stage"] == "integration"
+            assert record["tickets"]["03"]["state"] == "Blocked"
+            assert graph.git("rev-parse", "integration") == graph.base
+            assert not (graph.output / "qa-request.json").exists()
+            process.wait(timeout=10)
+            # Abort must release both refs for subsequent ordinary Git writers.
+            graph.git("update-ref", "--no-deref", "refs/heads/dev", graph.base)
+            graph.git("update-ref", "refs/heads/integration", graph.base, graph.base)
+        else:
+            assert "lock" in mutation.stderr.lower()
+            assert record["outcome"] == "awaiting_human_qa"
+            assert graph.git("rev-parse", "integration") != graph.base
+
+
+@contextmanager
 def foreground(graph, operation="run"):
     """Own a real foreground runner; bound fixture waits and always reap it."""
     if operation == "run":
