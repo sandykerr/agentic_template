@@ -36,8 +36,14 @@ def test_approval_rejects_same_oid_alias_installed_after_destination_validation(
         request = json.loads(Path(first["qa_request"]).read_text())
         graph.git("branch", "same-tip", "dev")
         refs = graph.git("show-ref")
-        approve(graph, request)
-        with pause_after_git(process, ["for-each-ref", "--format=%(symref)", "refs/heads/dev"]):
+        with pause_after_git(
+            process,
+            ["for-each-ref", "--format=%(symref)", "refs/heads/dev"],
+            trigger=lambda: approve(graph, request),
+        ):
+            current = graph.record()
+            assert current["milestone"]["id"] == "M1"
+            assert not current.get("qa_decisions")
             graph.git("symbolic-ref", "refs/heads/dev", "refs/heads/same-tip")
             assert graph.git("show-ref") == refs
         process.wait(timeout=15)

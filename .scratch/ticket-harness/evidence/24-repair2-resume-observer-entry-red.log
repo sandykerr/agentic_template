@@ -1,0 +1,29 @@
+============================= test session starts ==============================
+platform linux -- Python 3.12.16, pytest-9.2.0, pluggy-1.7.0 -- /home/ajkerr1/development/agentic_template/.micromamba/envs/dev/bin/python
+cachedir: .pytest_cache
+rootdir: /home/ajkerr1/development/agentic_template
+configfile: pyproject.toml
+collecting ... collected 1 item
+
+tests/test_qa_promotion.py::test_approval_rejects_same_oid_alias_installed_after_destination_validation FAILED [100%]
+
+=================================== FAILURES ===================================
+_ test_approval_rejects_same_oid_alias_installed_after_destination_validation __
+tests/test_qa_promotion.py:42: in test_approval_rejects_same_oid_alias_installed_after_destination_validation
+    assert graph.git("show-ref") == refs
+E   AssertionError: assert '80a620fa8e64b26cb4de8430327b8d1d8003fc22 refs/heads/dev\n4e67ec57059592dc31878e6f9981cfb61ed57b5e refs/heads/integration\n80a620fa8e64b26cb4de8430327b8d1d8003fc22 refs/heads/main\n80a620fa8e64b26cb4de8430327b8d1d8003fc22 refs/heads/same-tip' == '80a620fa8e64b26cb4de8430327b8d1d8003fc22 refs/heads/dev\nebb7ecfebf78d49ae2ae90c9bdefebff4cbe0325 refs/heads/integration\n80a620fa8e64b26cb4de8430327b8d1d8003fc22 refs/heads/main\n80a620fa8e64b26cb4de8430327b8d1d8003fc22 refs/heads/same-tip'
+E
+E       80a620fa8e64b26cb4de8430327b8d1d8003fc22 refs/heads/dev
+E     - ebb7ecfebf78d49ae2ae90c9bdefebff4cbe0325 refs/heads/integration
+E     + 4e67ec57059592dc31878e6f9981cfb61ed57b5e refs/heads/integration
+E       80a620fa8e64b26cb4de8430327b8d1d8003fc22 refs/heads/main
+E       80a620fa8e64b26cb4de8430327b8d1d8003fc22 refs/heads/same-tip
+=========================== short test summary info ============================
+FAILED tests/test_qa_promotion.py::test_approval_rejects_same_oid_alias_installed_after_destination_validation - AssertionError: assert '80a620fa8e64b26cb4de8430327b8d1d8003fc22 refs/heads/dev\n4e67ec57059592dc31878e6f9981cfb61ed57b5e refs/heads/integration\n80a620fa8e64b26cb4de8430327b8d1d8003fc22 refs/heads/main\n80a620fa8e64b26cb4de8430327b8d1d8003fc22 refs/heads/same-tip' == '80a620fa8e64b26cb4de8430327b8d1d8003fc22 refs/heads/dev\nebb7ecfebf78d49ae2ae90c9bdefebff4cbe0325 refs/heads/integration\n80a620fa8e64b26cb4de8430327b8d1d8003fc22 refs/heads/main\n80a620fa8e64b26cb4de8430327b8d1d8003fc22 refs/heads/same-tip'
+
+    80a620fa8e64b26cb4de8430327b8d1d8003fc22 refs/heads/dev
+  - ebb7ecfebf78d49ae2ae90c9bdefebff4cbe0325 refs/heads/integration
+  + 4e67ec57059592dc31878e6f9981cfb61ed57b5e refs/heads/integration
+    80a620fa8e64b26cb4de8430327b8d1d8003fc22 refs/heads/main
+    80a620fa8e64b26cb4de8430327b8d1d8003fc22 refs/heads/same-tip
+============================== 1 failed in 9.84s ===============================

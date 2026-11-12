@@ -1,0 +1,30 @@
+........................................................................ [ 12%]
+........................................................................ [ 25%]
+........................................................................ [ 38%]
+........................................................................ [ 51%]
+........................................................................ [ 64%]
+........................................................................ [ 77%]
+........................................................................ [ 90%]
+.......................................................                  [100%]
+============================= slowest 20 durations =============================
+41.72s call     tests/test_continuation.py::test_repeated_stops_retain_previous_decisions_and_checkpoint_lineage
+30.81s call     tests/test_dependencies.py::test_dependency_chain_and_independent_work_use_verified_integration_in_stable_order
+18.31s call     tests/test_continuation.py::test_continuation_rejects_changed_checkpoint_without_overwriting_prior_state[request]
+15.02s call     tests/test_continuation.py::test_clean_qa_stop_continues_in_new_process_without_replaying_done_work
+14.30s call     tests/test_continuation.py::test_continuation_rejects_changed_checkpoint_without_overwriting_prior_state[archive]
+13.25s call     tests/test_qa_promotion.py::test_deep_invalid_decision_is_rejected_and_later_approval_can_promote
+11.86s call     tests/test_repairs.py::test_final_default_repair_gets_all_rejected_revision_and_gate_history
+11.82s call     tests/test_repairs.py::test_report_and_process_failures_share_the_repair_allowance[mistyped-standards]
+11.58s call     tests/test_qa_promotion.py::test_two_foreground_milestones_require_exact_acceptance_and_consume_each_decision
+10.53s call     tests/test_milestones.py::test_single_final_group_still_requires_human_qa_and_captures_matching_metadata
+10.11s call     tests/test_qa_promotion.py::test_acceptance_revalidates_the_exact_candidate_evidence_and_both_refs[symbolic-dev]
+10.09s call     tests/test_repairs.py::test_report_and_process_failures_share_the_repair_allowance[overflow-standards]
+9.73s call     tests/test_dependencies.py::test_multi_ticket_completion_evidence_unlocks_only_explicit_follow_up_selection
+9.49s call     tests/test_qa_promotion.py::test_acceptance_revalidates_the_exact_candidate_evidence_and_both_refs[checked-out-feature]
+9.43s call     tests/test_continuation.py::test_continuation_rejects_changed_checkpoint_without_overwriting_prior_state[integration]
+8.57s call     tests/test_dependencies.py::test_repairs_keep_ticket_local_attempts_fixed_bases_and_all_earlier_evidence
+8.40s call     tests/test_qa_promotion.py::test_acceptance_revalidates_the_exact_candidate_evidence_and_both_refs[evidence]
+8.30s call     tests/test_repairs.py::test_report_and_process_failures_share_the_repair_allowance[overflow-spec]
+8.27s call     tests/test_reports.py::test_invalid_document_cannot_pass_on_zero_exit[null-standards]
+8.21s call     tests/test_continuation.py::test_continuation_rejects_changed_checkpoint_without_overwriting_prior_state[record-type]
+559 passed in 1284.57s (0:21:24)

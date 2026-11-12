@@ -17,15 +17,15 @@ graph = <test_dependencies.DependencyFixture testMethod=runTest>
 >           with pause_after_git(process, ["for-each-ref", "--format=%(symref)", "refs/heads/dev"]):
                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-tests/test_milestones.py:116: 
-_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/test_milestones.py:116:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 .micromamba/envs/dev/lib/python3.12/contextlib.py:137: in __enter__
     return next(self.gen)
            ^^^^^^^^^^^^^^
 tests/test_milestones.py:79: in pause_after_git
     command = Path(f"/proc/{child}/cmdline").read_bytes().split(b"\0")
               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 
 self = PosixPath('/proc/170/cmdline')
 

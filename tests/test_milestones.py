@@ -62,18 +62,37 @@ def test_ticket_integration_rejects_destinations_aliased_during_work(graph, bran
 
 
 @contextmanager
-def pause_after_git(process, arguments, *, transaction_open=False):
+def pause_after_git(process, arguments, *, transaction_open=False, trigger=None):
     """Schedule an external writer after a real Git child finishes its read.
 
-    Only the CLI owner is suspended. Its Git child can finish, leaving its result
-    unread until the caller resumes the owner. Bound observation and always resume
-    before the foreground fixture performs its normal process cleanup.
+    Stop the CLI owner before looking for children so it cannot reap a matching
+    Git command during inspection. A trigger publishes input only after the
+    observer is armed. Git children still finish normally; always resume the
+    owner before the foreground fixture performs its normal process cleanup.
     """
     children = Path(f"/proc/{process.pid}/task/{process.pid}/children")
     deadline = time.monotonic() + 20
     paused = False
     scheduled = False
+
+    def suspend_owner():
+        nonlocal paused
+        os.kill(process.pid, signal.SIGSTOP)
+        paused = True
+        while time.monotonic() < deadline and process.poll() is None:
+            try:
+                state = Path(f"/proc/{process.pid}/stat").read_text().split(") ", 1)[1][0]
+                if state in ("T", "t"):
+                    return
+            except FileNotFoundError:
+                break
+            time.sleep(0.001)
+        raise AssertionError("CLI owner did not stop before observer inspection")
+
     try:
+        suspend_owner()
+        if trigger is not None:
+            trigger()
         while time.monotonic() < deadline and process.poll() is None:
             for child in children.read_text().split():
                 try:
@@ -82,8 +101,6 @@ def pause_after_git(process, arguments, *, transaction_open=False):
                         part.encode() for part in arguments
                     ]:
                         continue
-                    os.kill(process.pid, signal.SIGSTOP)
-                    paused = True
                     commands = [
                         Path(f"/proc/{pid}/cmdline").read_bytes().split(b"\0")
                         for pid in children.read_text().split()
@@ -103,20 +120,24 @@ def pause_after_git(process, arguments, *, transaction_open=False):
                         time.sleep(0.001)
                 except (FileNotFoundError, ProcessLookupError):
                     pass
-                finally:
-                    if paused and not scheduled:
-                        os.kill(process.pid, signal.SIGCONT)
-                        paused = False
                 if scheduled:
                     break
             if scheduled:
                 break
+            os.kill(process.pid, signal.SIGCONT)
+            paused = False
+            time.sleep(0.001)
+            if process.poll() is None:
+                suspend_owner()
         if not scheduled:
             raise AssertionError(f"Did not observe Git command {arguments}")
         yield
     finally:
         if paused:
-            os.kill(process.pid, signal.SIGCONT)
+            try:
+                os.kill(process.pid, signal.SIGCONT)
+            except ProcessLookupError:
+                pass
 
 
 @pytest.mark.parametrize("after_prepare", [False, True])
@@ -137,6 +158,7 @@ def test_development_alias_after_validation_cannot_follow_automatic_integration(
             ["for-each-ref", "--format=%(symref)", "refs/heads/dev"],
             transaction_open=after_prepare,
         ):
+            assert graph.record()["tickets"]["03"]["state"] == "Verifying"
             before = graph.git("show-ref")
             mutation = subprocess.run(
                 [

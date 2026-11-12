@@ -42,7 +42,7 @@ graph = <test_dependencies.DependencyFixture testMethod=runTest>
 
     def test_changed_development_base_is_combined_with_feature_using_a_clean_same_file_merge(graph):
         from test_dependencies import extend_agent
-    
+
         original = "one\ntwo\nthree\nfour\nfive\nsix\n"
         (graph.repo / "value.txt").write_text(original)
         graph.git("add", "value.txt")
@@ -56,7 +56,7 @@ graph = <test_dependencies.DependencyFixture testMethod=runTest>
         graph.git("worktree", "add", "--detach", str(external_tree), graph.base)
         (external_tree / "value.txt").write_text(original.replace("six", "development six"))
         import subprocess
-    
+
         subprocess.run(
             ["git", "-C", str(external_tree), "commit", "-am", "Development change"],
             check=True,
@@ -621,7 +621,7 @@ E             "stage": "integration",
 E             "message": "git update-ref rejected: Command '['git', '-C', '/tmp/ticket-harness-test-rf8o_wgi/target', '-c', 'core.hooksPath=/dev/null', 'update-ref', '--stdin']' timed out after 10 seconds"
 E           }
 E         }
-E         
+E
 E       assert 1 == 0
 E        +  where 1 = CompletedProcess(args=['/home/ajkerr1/development/agentic_template/.micromamba/envs/dev/bin/python', '-m', 'ticket_har...\'-c\', \'core.hooksPath=/dev/null\', \'update-ref\', \'--stdin\']\' timed out after 10 seconds"\n  }\n}\n', stderr='').returncode
 
@@ -638,11 +638,11 @@ graph = <test_dependencies.DependencyFixture testMethod=runTest>
 >           first = waiting(graph, process, "M1")
                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-tests/test_qa_promotion.py:35: 
-_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/test_qa_promotion.py:35:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 tests/test_qa_promotion.py:25: in waiting
     return wait_for(
-_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 
 graph = <test_dependencies.DependencyFixture testMethod=runTest>
 process = <Popen: returncode: 1 args: ['/home/ajkerr1/development/agentic_template/.mi...>

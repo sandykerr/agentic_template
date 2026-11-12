@@ -8,7 +8,7 @@ target = 'integration'
     @pytest.mark.parametrize("branch,target", [("dev", "integration"), ("integration", "dev")])
     def test_ticket_integration_rejects_destinations_aliased_during_work(graph, branch, target):
         from test_dependencies import extend_agent
-    
+
         configure_plan(graph)
         extend_agent(
             graph,
@@ -30,7 +30,7 @@ branch = 'integration', target = 'dev'
     @pytest.mark.parametrize("branch,target", [("dev", "integration"), ("integration", "dev")])
     def test_ticket_integration_rejects_destinations_aliased_during_work(graph, branch, target):
         from test_dependencies import extend_agent
-    
+
         configure_plan(graph)
         extend_agent(
             graph,
@@ -101,12 +101,12 @@ changed = 'symbolic-dev'
             approve(graph, request)
 >           process.wait(timeout=15)
 
-tests/test_qa_promotion.py:221: 
-_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/test_qa_promotion.py:221:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 .micromamba/envs/dev/lib/python3.12/subprocess.py:1264: in wait
     return self._wait(timeout=timeout)
            ^^^^^^^^^^^^^^^^^^^^^^^^^^^
-_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 
 self = <Popen: returncode: -15 args: ['/home/ajkerr1/development/agentic_template/....>
 timeout = 15
@@ -115,7 +115,7 @@ timeout = 15
         """Internal implementation of wait() on POSIX."""
         if self.returncode is not None:
             return self.returncode
-    
+
         if timeout is not None:
             endtime = _time() + timeout
             # Enter a busy loop if we have a timeout.  This busy loop was
@@ -196,12 +196,12 @@ changed = 'symbolic-feature'
             approve(graph, request)
 >           process.wait(timeout=15)
 
-tests/test_qa_promotion.py:221: 
-_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/test_qa_promotion.py:221:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 .micromamba/envs/dev/lib/python3.12/subprocess.py:1264: in wait
     return self._wait(timeout=timeout)
            ^^^^^^^^^^^^^^^^^^^^^^^^^^^
-_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 
 self = <Popen: returncode: -15 args: ['/home/ajkerr1/development/agentic_template/....>
 timeout = 15
@@ -210,7 +210,7 @@ timeout = 15
         """Internal implementation of wait() on POSIX."""
         if self.returncode is not None:
             return self.returncode
-    
+
         if timeout is not None:
             endtime = _time() + timeout
             # Enter a busy loop if we have a timeout.  This busy loop was
@@ -281,7 +281,7 @@ changed = 'symbolic-dev'
     )
     def test_continuation_rejects_changed_checkpoint_without_overwriting_prior_state(graph, changed):
         from pathlib import Path
-    
+
         configure_plan(graph)
         stop_at_qa(graph)
         record = graph.record()
@@ -337,12 +337,12 @@ changed = 'symbolic-dev'
             with foreground(graph, operation="continue") as process:
 >               process.wait(timeout=10)
 
-tests/test_continuation.py:190: 
-_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/test_continuation.py:190:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 .micromamba/envs/dev/lib/python3.12/subprocess.py:1264: in wait
     return self._wait(timeout=timeout)
            ^^^^^^^^^^^^^^^^^^^^^^^^^^^
-_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 
 self = <Popen: returncode: -15 args: ['/home/ajkerr1/development/agentic_template/....>
 timeout = 10
@@ -351,7 +351,7 @@ timeout = 10
         """Internal implementation of wait() on POSIX."""
         if self.returncode is not None:
             return self.returncode
-    
+
         if timeout is not None:
             endtime = _time() + timeout
             # Enter a busy loop if we have a timeout.  This busy loop was
@@ -404,7 +404,7 @@ changed = 'symbolic-feature'
     )
     def test_continuation_rejects_changed_checkpoint_without_overwriting_prior_state(graph, changed):
         from pathlib import Path
-    
+
         configure_plan(graph)
         stop_at_qa(graph)
         record = graph.record()
@@ -460,12 +460,12 @@ changed = 'symbolic-feature'
             with foreground(graph, operation="continue") as process:
 >               process.wait(timeout=10)
 
-tests/test_continuation.py:190: 
-_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/test_continuation.py:190:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 .micromamba/envs/dev/lib/python3.12/subprocess.py:1264: in wait
     return self._wait(timeout=timeout)
            ^^^^^^^^^^^^^^^^^^^^^^^^^^^
-_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 
 self = <Popen: returncode: -15 args: ['/home/ajkerr1/development/agentic_template/....>
 timeout = 10
@@ -474,7 +474,7 @@ timeout = 10
         """Internal implementation of wait() on POSIX."""
         if self.returncode is not None:
             return self.returncode
-    
+
         if timeout is not None:
             endtime = _time() + timeout
             # Enter a busy loop if we have a timeout.  This busy loop was
