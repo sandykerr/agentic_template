@@ -18,6 +18,49 @@ from test_preflight import reject
 graph = test_dependencies.graph
 
 
+@pytest.mark.parametrize("alias", ["development", "feature", "feature-chain"])
+def test_symbolic_milestone_destinations_are_rejected_before_ticket_work(graph, alias):
+    configure_plan(graph)
+    if alias == "development":
+        graph.git("symbolic-ref", "refs/heads/dev", "refs/heads/integration")
+    else:
+        target = "dev"
+        if alias == "feature-chain":
+            graph.git("symbolic-ref", "refs/heads/bridge", "refs/heads/dev")
+            target = "bridge"
+        graph.git("symbolic-ref", "refs/heads/integration", "refs/heads/" + target)
+    refs = graph.git("show-ref")
+    result = run_until_wait(graph)
+    assert result.returncode == 1
+    record = graph.record()
+    assert "symbolic" in record["failure"]["message"].lower()
+    assert record["attempts"] == [] and record["gates"] == []
+    assert graph.git("show-ref") == refs
+    assert graph.git("rev-parse", "dev") == graph.base
+    assert not (graph.output / "qa-request.json").exists()
+
+
+@pytest.mark.parametrize("branch,target", [("dev", "integration"), ("integration", "dev")])
+def test_ticket_integration_rejects_destinations_aliased_during_work(graph, branch, target):
+    from test_dependencies import extend_agent
+
+    configure_plan(graph)
+    extend_agent(
+        graph,
+        "if a['role'] == 'standards' and a['ticket'] == '03':\n"
+        f"    subprocess.run(['git', 'symbolic-ref', 'refs/heads/{branch}', "
+        f"'refs/heads/{target}'], check=True)",
+    )
+    result = run_until_wait(graph)
+    assert result.returncode == 1
+    record = graph.record()
+    assert record["failure"]["stage"] == "integration"
+    assert "symbolic" in record["failure"]["message"].lower()
+    assert record["tickets"]["03"]["state"] == "Blocked"
+    assert graph.git("rev-parse", "dev") == graph.git("rev-parse", "integration") == graph.base
+    assert graph.git("symbolic-ref", "refs/heads/" + branch) == "refs/heads/" + target
+
+
 @contextmanager
 def foreground(graph, operation="run"):
     """Own a real foreground runner; bound fixture waits and always reap it."""
@@ -529,6 +572,23 @@ def milestone_suite(graph, action):
         + "\n"
     )
     graph.config["suite"] = [graph.config["agent"][0], str(script)]
+
+
+def test_regression_cannot_present_qa_after_symbolic_destination_replacement(graph):
+    configure_plan(graph)
+    milestone_suite(
+        graph,
+        "subprocess.run(['git', 'branch', 'same-tip', 'dev'], check=True)\n"
+        "subprocess.run(['git', 'symbolic-ref', 'refs/heads/dev', 'refs/heads/same-tip'], check=True)",
+    )
+    result = run_until_wait(graph)
+    assert result.returncode == 1
+    record = graph.record()
+    assert record["failure"]["stage"] == "milestone-readiness"
+    assert "symbolic" in record["failure"]["message"].lower()
+    assert "qa_request" not in record
+    assert graph.git("rev-parse", "dev") == graph.base
+    assert all(record["tickets"][t]["state"] == "Done" for t in ("01", "03"))
 
 
 @pytest.mark.parametrize("branch", ["dev", "integration"])

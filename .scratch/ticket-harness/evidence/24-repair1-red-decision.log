@@ -1,0 +1,80 @@
+F.                                                                       [100%]
+=================================== FAILURES ===================================
+_ test_deep_invalid_decision_is_rejected_and_later_approval_can_promote[decoder-depth] _
+
+graph = <test_dependencies.DependencyFixture testMethod=runTest>
+payload = 'decoder-depth'
+
+    @pytest.mark.parametrize("payload", ["decoder-depth", "request-depth"])
+    def test_deep_invalid_decision_is_rejected_and_later_approval_can_promote(graph, payload):
+        configure_plan(graph)
+        with foreground(graph) as process:
+            first = waiting(graph, process, "M1")
+            request = json.loads(Path(first["qa_request"]).read_text())
+            nested = "[" * 10000 + "0" + "]" * 10000
+            if payload == "request-depth":
+                # The decoder accepts this depth, but request serialization exceeds
+                # its recursion limit. Both failures belong to decision rejection.
+                nested = '{"decision":"APPROVED","request":' + "[" * 2000 + "0" + "]" * 2000 + "}"
+            (graph.output / "qa-decision.json").write_text(nested)
+>           rejected = wait_for(graph, process, lambda r: r.get("qa_decision_status") == "rejected")
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_qa_promotion.py:44: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+graph = <test_dependencies.DependencyFixture testMethod=runTest>
+process = <Popen: returncode: 1 args: ['/home/ajkerr1/development/agentic_template/.mi...>
+predicate = <function test_deep_invalid_decision_is_rejected_and_later_approval_can_promote.<locals>.<lambda> at 0x7791f387f4c0>
+
+    def wait_for(graph, process, predicate):
+        deadline = time.monotonic() + 45
+        while time.monotonic() < deadline:
+            if (graph.output / "run.json").exists():
+                record = graph.record()
+                if predicate(record):
+                    return record
+            if process.poll() is not None:
+>               raise AssertionError(
+                    f"runner exited {process.returncode}: "
+                    + (graph.home / "foreground.stderr").read_text()
+                )
+E               AssertionError: runner exited 1: Traceback (most recent call last):
+E                 File "<frozen runpy>", line 198, in _run_module_as_main
+E                 File "<frozen runpy>", line 88, in _run_code
+E                 File "/home/ajkerr1/development/agentic_template/ticket_harness/__main__.py", line 43, in <module>
+E                   sys.exit(main())
+E                            ^^^^^^
+E                 File "/home/ajkerr1/development/agentic_template/ticket_harness/__main__.py", line 34, in main
+E                   record, code = run(args.config.resolve(), args.output.resolve())
+E                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E                 File "/home/ajkerr1/development/agentic_template/ticket_harness/runner.py", line 460, in run
+E                   return _Run(output, None).execute(config_path)
+E                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E                 File "/home/ajkerr1/development/agentic_template/ticket_harness/runner.py", line 164, in execute
+E                   if review.execute(checkpoint) is qa.ReviewOutcome.STOPPED:
+E                      ^^^^^^^^^^^^^^^^^^^^^^^^^^
+E                 File "/home/ajkerr1/development/agentic_template/ticket_harness/qa.py", line 185, in execute
+E                   return self._await_decision()
+E                          ^^^^^^^^^^^^^^^^^^^^^^
+E                 File "/home/ajkerr1/development/agentic_template/ticket_harness/qa.py", line 291, in _await_decision
+E                   if self._consider_decision(raw):
+E                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E                 File "/home/ajkerr1/development/agentic_template/ticket_harness/qa.py", line 343, in _consider_decision
+E                   decision = json.loads(raw, object_pairs_hook=inputs.unique_object)
+E                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E                 File "/home/ajkerr1/development/agentic_template/.micromamba/envs/dev/lib/python3.12/json/__init__.py", line 359, in loads
+E                   return cls(**kw).decode(s)
+E                          ^^^^^^^^^^^^^^^^^^^
+E                 File "/home/ajkerr1/development/agentic_template/.micromamba/envs/dev/lib/python3.12/json/decoder.py", line 338, in decode
+E                   obj, end = self.raw_decode(s, idx=_w(s, 0).end())
+E                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E                 File "/home/ajkerr1/development/agentic_template/.micromamba/envs/dev/lib/python3.12/json/decoder.py", line 354, in raw_decode
+E                   obj, end = self.scan_once(s, idx)
+E                              ^^^^^^^^^^^^^^^^^^^^^^
+E               RecursionError: maximum recursion depth exceeded while decoding a JSON array from a unicode string
+
+tests/test_milestones.py:89: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_qa_promotion.py::test_deep_invalid_decision_is_rejected_and_later_approval_can_promote[decoder-depth]
+1 failed, 1 passed, 15 deselected in 15.31s

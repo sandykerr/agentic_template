@@ -29,6 +29,29 @@ def waiting(graph, process, milestone):
     )
 
 
+def test_deep_invalid_decision_is_rejected_and_later_approval_can_promote(graph):
+    configure_plan(graph)
+    with foreground(graph) as process:
+        first = waiting(graph, process, "M1")
+        request = json.loads(Path(first["qa_request"]).read_text())
+        nested = "[" * 10000 + "0" + "]" * 10000
+        (graph.output / "qa-decision.json").write_text(nested)
+        rejected = wait_for(graph, process, lambda r: r.get("qa_decision_status") == "rejected")
+        assert rejected["outcome"] == "awaiting_human_qa" and process.poll() is None
+        assert rejected["qa_observations"][0]["status"] == "rejected"
+        assert Path(rejected["qa_observations"][0]["artifact"]).read_text() == nested
+        assert rejected["attempts"] == first["attempts"]
+        assert rejected["tickets"]["02"]["attempt"] == rejected["tickets"]["04"]["attempt"] == 0
+        assert graph.git("rev-parse", "dev") == graph.base
+        assert graph.git("rev-parse", "integration") == request["feature_revision"]
+        approve(graph, request)
+        waiting(graph, process, "M2")
+        assert graph.git("rev-parse", "dev") == request["candidate_revision"]
+        assert graph.cli("stop", graph.output).returncode == 0
+        process.wait(timeout=10)
+        assert process.returncode == 2
+
+
 def test_two_foreground_milestones_require_exact_acceptance_and_consume_each_decision(graph):
     configure_plan(graph)
     graph.config["max_repairs"] = 2
@@ -157,6 +180,8 @@ def test_invalid_decisions_keep_waiting_without_repairs_or_authority_from_incide
         "evidence",
         "checked-out-dev",
         "checked-out-feature",
+        "symbolic-dev",
+        "symbolic-feature",
     ],
 )
 def test_acceptance_revalidates_the_exact_candidate_evidence_and_both_refs(graph, changed):
@@ -164,7 +189,11 @@ def test_acceptance_revalidates_the_exact_candidate_evidence_and_both_refs(graph
     with foreground(graph) as process:
         first = waiting(graph, process, "M1")
         request = json.loads(Path(first["qa_request"]).read_text())
-        if changed in ("dev", "integration"):
+        if changed in ("symbolic-dev", "symbolic-feature"):
+            branch = "dev" if changed == "symbolic-dev" else "integration"
+            graph.git("branch", "same-tip", branch)
+            graph.git("symbolic-ref", "refs/heads/" + branch, "refs/heads/same-tip")
+        elif changed in ("dev", "integration"):
             external = graph.git(
                 "commit-tree", "HEAD^{tree}", "-p", "HEAD", "-m", "External QA-time change"
             )

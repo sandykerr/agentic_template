@@ -164,6 +164,7 @@ class _TicketExecution:
         self._base = base
         self._repository = Path(config["repository"])
         self._integration = config["integration"]
+        self._development = config["plan"]["development"] if "plan" in config else None
         self._max_repairs = config["max_repairs"]
         self._agent = config["agent"]
         self._suite = config["suite"]
@@ -280,7 +281,9 @@ class _TicketExecution:
                 stage = "integration"
                 self._verification.observe(stage)
                 self._verification.validate_sources()
-                promote(self._repository, self._integration, revision, self._base)
+                promote(
+                    self._repository, self._integration, revision, self._base, self._development
+                )
                 current.complete(revision)
                 return revision
             except (GateFailure, OSError, ValueError, KeyError, TypeError) as error:

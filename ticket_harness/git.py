@@ -28,6 +28,15 @@ def worktree(repository: Path, path: Path, revision: str) -> Path:
     return path
 
 
+def require_direct_branches(repository: Path, *branches: str) -> None:
+    """Named integration destinations must not alias another branch."""
+    for branch in branches:
+        ref = f"refs/heads/{branch}"
+        git(repository, "check-ref-format", ref)
+        if git(repository, "for-each-ref", "--format=%(symref)", ref):
+            raise GateFailure(f"Branch {branch} must not be symbolic")
+
+
 def carry_changes(previous: Path, source: Path) -> None:
     """Copy current working contents without altering the rejected tree or Git identity."""
     for path in source.iterdir():
@@ -90,13 +99,21 @@ def require_reviewed_candidate(source: Path, revision: str, base: str, submissio
     require_unchanged(source, revision)
 
 
-def promote(repository: Path, branch: str, revision: str, previous: str) -> None:
+def promote(
+    repository: Path,
+    branch: str,
+    revision: str,
+    previous: str,
+    development: str | None = None,
+) -> None:
+    require_direct_branches(repository, branch, *((development,) if development else ()))
     # No user code may run between final validation and the atomic ref update.
     git(
         repository,
         "-c",
         "core.hooksPath=/dev/null",
         "update-ref",
+        "--no-deref",
         f"refs/heads/{branch}",
         revision,
         previous,
@@ -171,13 +188,15 @@ def promote_milestone(
     development_previous: str,
 ) -> None:
     """Compare and advance both branches atomically, preserving caller worktrees."""
+    require_direct_branches(repository, feature, development)
     checked_out = git(repository, "worktree", "list", "--porcelain").splitlines()
     for branch in (feature, development):
         if f"branch refs/heads/{branch}" in checked_out:
             raise GateFailure(f"Branch {branch} must not be checked out for promotion")
     transaction = (
-        "start\n"
+        "start\noption no-deref\n"
         f"update refs/heads/{development} {revision} {development_previous}\n"
+        "option no-deref\n"
         f"update refs/heads/{feature} {revision} {feature_previous}\n"
         "prepare\ncommit\n"
     )

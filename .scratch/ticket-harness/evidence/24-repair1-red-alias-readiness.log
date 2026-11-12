@@ -1,0 +1,22 @@
+F                                                                        [100%]
+=================================== FAILURES ===================================
+___ test_regression_cannot_present_qa_after_symbolic_destination_replacement ___
+
+graph = <test_dependencies.DependencyFixture testMethod=runTest>
+
+    def test_regression_cannot_present_qa_after_symbolic_destination_replacement(graph):
+        configure_plan(graph)
+        milestone_suite(
+            graph,
+            "subprocess.run(['git', 'branch', 'same-tip', 'dev'], check=True)\n"
+            "subprocess.run(['git', 'symbolic-ref', 'refs/heads/dev', 'refs/heads/same-tip'], check=True)",
+        )
+        result = run_until_wait(graph)
+>       assert result.returncode == 1
+E       assert 0 == 1
+E        +  where 0 = CompletedProcess(args=['/home/ajkerr1/development/agentic_template/.micromamba/envs/dev/bin/python', '-m', 'ticket_har...cision": "/tmp/ticket-harness-test-dfs315qi/run/qa-decision.json",\n  "qa_decision_status": "missing"\n}\n', stderr='').returncode
+
+tests/test_milestones.py:585: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_milestones.py::test_regression_cannot_present_qa_after_symbolic_destination_replacement
+1 failed, 45 deselected in 4.92s

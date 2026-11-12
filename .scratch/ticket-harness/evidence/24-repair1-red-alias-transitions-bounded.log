@@ -1,0 +1,509 @@
+FFFFFFF                                                                  [100%]
+=================================== FAILURES ===================================
+_ test_ticket_integration_rejects_destinations_aliased_during_work[dev-integration] _
+
+graph = <test_dependencies.DependencyFixture testMethod=runTest>, branch = 'dev'
+target = 'integration'
+
+    @pytest.mark.parametrize("branch,target", [("dev", "integration"), ("integration", "dev")])
+    def test_ticket_integration_rejects_destinations_aliased_during_work(graph, branch, target):
+        from test_dependencies import extend_agent
+    
+        configure_plan(graph)
+        extend_agent(
+            graph,
+            "if a['role'] == 'standards' and a['ticket'] == '03':\n"
+            f"    subprocess.run(['git', 'symbolic-ref', 'refs/heads/{branch}', "
+            f"'refs/heads/{target}'], check=True)",
+        )
+        result = run_until_wait(graph)
+>       assert result.returncode == 1
+E       assert 0 == 1
+E        +  where 0 = CompletedProcess(args=['/home/ajkerr1/development/agentic_template/.micromamba/envs/dev/bin/python', '-m', 'ticket_har...cision": "/tmp/ticket-harness-test-uln2yjce/run/qa-decision.json",\n  "qa_decision_status": "missing"\n}\n', stderr='').returncode
+
+tests/test_milestones.py:55: AssertionError
+_ test_ticket_integration_rejects_destinations_aliased_during_work[integration-dev] _
+
+graph = <test_dependencies.DependencyFixture testMethod=runTest>
+branch = 'integration', target = 'dev'
+
+    @pytest.mark.parametrize("branch,target", [("dev", "integration"), ("integration", "dev")])
+    def test_ticket_integration_rejects_destinations_aliased_during_work(graph, branch, target):
+        from test_dependencies import extend_agent
+    
+        configure_plan(graph)
+        extend_agent(
+            graph,
+            "if a['role'] == 'standards' and a['ticket'] == '03':\n"
+            f"    subprocess.run(['git', 'symbolic-ref', 'refs/heads/{branch}', "
+            f"'refs/heads/{target}'], check=True)",
+        )
+        result = run_until_wait(graph)
+>       assert result.returncode == 1
+E       assert 0 == 1
+E        +  where 0 = CompletedProcess(args=['/home/ajkerr1/development/agentic_template/.micromamba/envs/dev/bin/python', '-m', 'ticket_har...cision": "/tmp/ticket-harness-test-oib_ljzw/run/qa-decision.json",\n  "qa_decision_status": "missing"\n}\n', stderr='').returncode
+
+tests/test_milestones.py:55: AssertionError
+_ test_acceptance_revalidates_the_exact_candidate_evidence_and_both_refs[symbolic-dev] _
+
+graph = <test_dependencies.DependencyFixture testMethod=runTest>
+changed = 'symbolic-dev'
+
+    @pytest.mark.parametrize(
+        "changed",
+        [
+            "dev",
+            "integration",
+            "candidate",
+            "baseline",
+            "input",
+            "request",
+            "evidence",
+            "checked-out-dev",
+            "checked-out-feature",
+            "symbolic-dev",
+            "symbolic-feature",
+        ],
+    )
+    def test_acceptance_revalidates_the_exact_candidate_evidence_and_both_refs(graph, changed):
+        configure_plan(graph)
+        with foreground(graph) as process:
+            first = waiting(graph, process, "M1")
+            request = json.loads(Path(first["qa_request"]).read_text())
+            if changed in ("symbolic-dev", "symbolic-feature"):
+                branch = "dev" if changed == "symbolic-dev" else "integration"
+                graph.git("branch", "same-tip", branch)
+                graph.git("symbolic-ref", "refs/heads/" + branch, "refs/heads/same-tip")
+            elif changed in ("dev", "integration"):
+                external = graph.git(
+                    "commit-tree", "HEAD^{tree}", "-p", "HEAD", "-m", "External QA-time change"
+                )
+                graph.git("update-ref", "refs/heads/" + changed, external)
+            elif changed in ("candidate", "baseline"):
+                source = (
+                    Path(request["candidate_worktree"])
+                    if changed == "candidate"
+                    else graph.output / "worktrees/baseline"
+                )
+                (source / "value.txt").write_text("changed during human assessment")
+            elif changed == "input":
+                (graph.repo / "plan.json").write_text("changed plan")
+            elif changed == "request":
+                Path(first["qa_request"]).write_text(
+                    json.dumps(dict(request, candidate_revision=graph.base))
+                )
+            elif changed == "evidence":
+                Path(request["regression_evidence"][0]["stdout"]).write_text("rewritten results")
+            else:
+                branch = "dev" if changed == "checked-out-dev" else "integration"
+                graph.git("worktree", "add", str(graph.home / "caller-tree"), branch)
+            before = {branch: graph.git("rev-parse", branch) for branch in ("dev", "integration")}
+            approve(graph, request)
+>           process.wait(timeout=15)
+
+tests/test_qa_promotion.py:221: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+.micromamba/envs/dev/lib/python3.12/subprocess.py:1264: in wait
+    return self._wait(timeout=timeout)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <Popen: returncode: -15 args: ['/home/ajkerr1/development/agentic_template/....>
+timeout = 15
+
+    def _wait(self, timeout):
+        """Internal implementation of wait() on POSIX."""
+        if self.returncode is not None:
+            return self.returncode
+    
+        if timeout is not None:
+            endtime = _time() + timeout
+            # Enter a busy loop if we have a timeout.  This busy loop was
+            # cribbed from Lib/threading.py in Thread.wait() at r71065.
+            delay = 0.0005 # 500 us -> initial delay of 1 ms
+            while True:
+                if self._waitpid_lock.acquire(False):
+                    try:
+                        if self.returncode is not None:
+                            break  # Another thread waited.
+                        (pid, sts) = self._try_wait(os.WNOHANG)
+                        assert pid == self.pid or pid == 0
+                        if pid == self.pid:
+                            self._handle_exitstatus(sts)
+                            break
+                    finally:
+                        self._waitpid_lock.release()
+                remaining = self._remaining_time(endtime)
+                if remaining <= 0:
+>                   raise TimeoutExpired(self.args, timeout)
+E                   subprocess.TimeoutExpired: Command '['/home/ajkerr1/development/agentic_template/.micromamba/envs/dev/bin/python', '-m', 'ticket_harness', 'run', '--config', '/tmp/ticket-harness-test-_69py1_y/project.json', '--output', '/tmp/ticket-harness-test-_69py1_y/run']' timed out after 15 seconds
+
+.micromamba/envs/dev/lib/python3.12/subprocess.py:2045: TimeoutExpired
+_ test_acceptance_revalidates_the_exact_candidate_evidence_and_both_refs[symbolic-feature] _
+
+graph = <test_dependencies.DependencyFixture testMethod=runTest>
+changed = 'symbolic-feature'
+
+    @pytest.mark.parametrize(
+        "changed",
+        [
+            "dev",
+            "integration",
+            "candidate",
+            "baseline",
+            "input",
+            "request",
+            "evidence",
+            "checked-out-dev",
+            "checked-out-feature",
+            "symbolic-dev",
+            "symbolic-feature",
+        ],
+    )
+    def test_acceptance_revalidates_the_exact_candidate_evidence_and_both_refs(graph, changed):
+        configure_plan(graph)
+        with foreground(graph) as process:
+            first = waiting(graph, process, "M1")
+            request = json.loads(Path(first["qa_request"]).read_text())
+            if changed in ("symbolic-dev", "symbolic-feature"):
+                branch = "dev" if changed == "symbolic-dev" else "integration"
+                graph.git("branch", "same-tip", branch)
+                graph.git("symbolic-ref", "refs/heads/" + branch, "refs/heads/same-tip")
+            elif changed in ("dev", "integration"):
+                external = graph.git(
+                    "commit-tree", "HEAD^{tree}", "-p", "HEAD", "-m", "External QA-time change"
+                )
+                graph.git("update-ref", "refs/heads/" + changed, external)
+            elif changed in ("candidate", "baseline"):
+                source = (
+                    Path(request["candidate_worktree"])
+                    if changed == "candidate"
+                    else graph.output / "worktrees/baseline"
+                )
+                (source / "value.txt").write_text("changed during human assessment")
+            elif changed == "input":
+                (graph.repo / "plan.json").write_text("changed plan")
+            elif changed == "request":
+                Path(first["qa_request"]).write_text(
+                    json.dumps(dict(request, candidate_revision=graph.base))
+                )
+            elif changed == "evidence":
+                Path(request["regression_evidence"][0]["stdout"]).write_text("rewritten results")
+            else:
+                branch = "dev" if changed == "checked-out-dev" else "integration"
+                graph.git("worktree", "add", str(graph.home / "caller-tree"), branch)
+            before = {branch: graph.git("rev-parse", branch) for branch in ("dev", "integration")}
+            approve(graph, request)
+>           process.wait(timeout=15)
+
+tests/test_qa_promotion.py:221: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+.micromamba/envs/dev/lib/python3.12/subprocess.py:1264: in wait
+    return self._wait(timeout=timeout)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <Popen: returncode: -15 args: ['/home/ajkerr1/development/agentic_template/....>
+timeout = 15
+
+    def _wait(self, timeout):
+        """Internal implementation of wait() on POSIX."""
+        if self.returncode is not None:
+            return self.returncode
+    
+        if timeout is not None:
+            endtime = _time() + timeout
+            # Enter a busy loop if we have a timeout.  This busy loop was
+            # cribbed from Lib/threading.py in Thread.wait() at r71065.
+            delay = 0.0005 # 500 us -> initial delay of 1 ms
+            while True:
+                if self._waitpid_lock.acquire(False):
+                    try:
+                        if self.returncode is not None:
+                            break  # Another thread waited.
+                        (pid, sts) = self._try_wait(os.WNOHANG)
+                        assert pid == self.pid or pid == 0
+                        if pid == self.pid:
+                            self._handle_exitstatus(sts)
+                            break
+                    finally:
+                        self._waitpid_lock.release()
+                remaining = self._remaining_time(endtime)
+                if remaining <= 0:
+>                   raise TimeoutExpired(self.args, timeout)
+E                   subprocess.TimeoutExpired: Command '['/home/ajkerr1/development/agentic_template/.micromamba/envs/dev/bin/python', '-m', 'ticket_harness', 'run', '--config', '/tmp/ticket-harness-test-aapzm2xl/project.json', '--output', '/tmp/ticket-harness-test-aapzm2xl/run']' timed out after 15 seconds
+
+.micromamba/envs/dev/lib/python3.12/subprocess.py:2045: TimeoutExpired
+_______ test_clean_stop_rejects_symbolic_destination_with_unchanged_tip ________
+
+graph = <test_dependencies.DependencyFixture testMethod=runTest>
+
+    def test_clean_stop_rejects_symbolic_destination_with_unchanged_tip(graph):
+        configure_plan(graph)
+        with foreground(graph) as process:
+            waiting(graph, process, "M1")
+            graph.git("branch", "same-tip", "dev")
+            graph.git("symbolic-ref", "refs/heads/dev", "refs/heads/same-tip")
+            refs = graph.git("show-ref")
+            assert graph.cli("stop", graph.output).returncode == 0
+            process.wait(timeout=10)
+>           assert process.returncode == 1
+E           AssertionError: assert 2 == 1
+E            +  where 2 = <Popen: returncode: 2 args: ['/home/ajkerr1/development/agentic_template/.mi...>.returncode
+
+tests/test_continuation.py:87: AssertionError
+_ test_continuation_rejects_changed_checkpoint_without_overwriting_prior_state[symbolic-dev] _
+
+graph = <test_dependencies.DependencyFixture testMethod=runTest>
+changed = 'symbolic-dev'
+
+    @pytest.mark.parametrize(
+        "changed",
+        [
+            "plan",
+            "snapshot",
+            "record",
+            "record-type",
+            "malformed-record",
+            "checkpoint",
+            "archive",
+            "request",
+            "evidence",
+            "observation",
+            "baseline",
+            "candidate",
+            "dev",
+            "integration",
+            "checked-out",
+            "symbolic-dev",
+            "symbolic-feature",
+        ],
+    )
+    def test_continuation_rejects_changed_checkpoint_without_overwriting_prior_state(graph, changed):
+        from pathlib import Path
+    
+        configure_plan(graph)
+        stop_at_qa(graph)
+        record = graph.record()
+        request = json.loads((graph.output / "qa-request.json").read_text())
+        if changed in ("symbolic-dev", "symbolic-feature"):
+            branch = "dev" if changed == "symbolic-dev" else "integration"
+            graph.git("branch", "same-tip", branch)
+            graph.git("symbolic-ref", "refs/heads/" + branch, "refs/heads/same-tip")
+        elif changed == "plan":
+            (graph.repo / "plan.json").write_text("changed approved plan")
+        elif changed == "snapshot":
+            Path(record["inputs"]["plan"]["artifact"]).write_text("changed snapshot")
+        elif changed == "malformed-record":
+            (graph.output / "run.json").write_text("[]")
+        elif changed == "record-type":
+            record["tickets"]["03"]["attempt"] = True
+            (graph.output / "run.json").write_text(json.dumps(record))
+        elif changed == "record":
+            record["tickets"]["02"]["state"] = "Done"
+            (graph.output / "run.json").write_text(json.dumps(record))
+        elif changed == "archive":
+            next((graph.output / "checkpoints").glob("*.json")).write_text("changed archive")
+        elif changed in ("checkpoint", "request"):
+            path = graph.output / (
+                "qa-checkpoint.json" if changed == "checkpoint" else "qa-request.json"
+            )
+            path.write_text("{}")
+        elif changed == "evidence":
+            Path(request["regression_evidence"][0]["stdout"]).write_text("rewritten")
+        elif changed == "observation":
+            # There are no decisions at this checkpoint; fabricated consumption must not unlock work.
+            record["qa_decisions"] = [{"request_id": request["request_id"]}]
+            (graph.output / "run.json").write_text(json.dumps(record))
+        elif changed in ("baseline", "candidate"):
+            tree = (
+                graph.output / "worktrees/baseline"
+                if changed == "baseline"
+                else Path(request["candidate_worktree"])
+            )
+            (tree / "value.txt").write_text("changed verified source")
+        elif changed == "checked-out":
+            graph.git("worktree", "add", str(graph.home / "caller-tree"), "dev")
+        else:
+            revision = graph.git("commit-tree", "HEAD^{tree}", "-p", "HEAD", "-m", "External")
+            graph.git("update-ref", "refs/heads/" + changed, revision)
+        before = {
+            p: p.read_bytes()
+            for p in graph.output.rglob("*")
+            if p.is_file() and "/worktrees/" not in str(p)
+        }
+        refs = {branch: graph.git("rev-parse", branch) for branch in ("dev", "integration")}
+        if changed in ("symbolic-dev", "symbolic-feature"):
+            with foreground(graph, operation="continue") as process:
+>               process.wait(timeout=10)
+
+tests/test_continuation.py:190: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+.micromamba/envs/dev/lib/python3.12/subprocess.py:1264: in wait
+    return self._wait(timeout=timeout)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <Popen: returncode: -15 args: ['/home/ajkerr1/development/agentic_template/....>
+timeout = 10
+
+    def _wait(self, timeout):
+        """Internal implementation of wait() on POSIX."""
+        if self.returncode is not None:
+            return self.returncode
+    
+        if timeout is not None:
+            endtime = _time() + timeout
+            # Enter a busy loop if we have a timeout.  This busy loop was
+            # cribbed from Lib/threading.py in Thread.wait() at r71065.
+            delay = 0.0005 # 500 us -> initial delay of 1 ms
+            while True:
+                if self._waitpid_lock.acquire(False):
+                    try:
+                        if self.returncode is not None:
+                            break  # Another thread waited.
+                        (pid, sts) = self._try_wait(os.WNOHANG)
+                        assert pid == self.pid or pid == 0
+                        if pid == self.pid:
+                            self._handle_exitstatus(sts)
+                            break
+                    finally:
+                        self._waitpid_lock.release()
+                remaining = self._remaining_time(endtime)
+                if remaining <= 0:
+>                   raise TimeoutExpired(self.args, timeout)
+E                   subprocess.TimeoutExpired: Command '['/home/ajkerr1/development/agentic_template/.micromamba/envs/dev/bin/python', '-m', 'ticket_harness', 'continue', '/tmp/ticket-harness-test-f9mdwmdq/run']' timed out after 10 seconds
+
+.micromamba/envs/dev/lib/python3.12/subprocess.py:2045: TimeoutExpired
+_ test_continuation_rejects_changed_checkpoint_without_overwriting_prior_state[symbolic-feature] _
+
+graph = <test_dependencies.DependencyFixture testMethod=runTest>
+changed = 'symbolic-feature'
+
+    @pytest.mark.parametrize(
+        "changed",
+        [
+            "plan",
+            "snapshot",
+            "record",
+            "record-type",
+            "malformed-record",
+            "checkpoint",
+            "archive",
+            "request",
+            "evidence",
+            "observation",
+            "baseline",
+            "candidate",
+            "dev",
+            "integration",
+            "checked-out",
+            "symbolic-dev",
+            "symbolic-feature",
+        ],
+    )
+    def test_continuation_rejects_changed_checkpoint_without_overwriting_prior_state(graph, changed):
+        from pathlib import Path
+    
+        configure_plan(graph)
+        stop_at_qa(graph)
+        record = graph.record()
+        request = json.loads((graph.output / "qa-request.json").read_text())
+        if changed in ("symbolic-dev", "symbolic-feature"):
+            branch = "dev" if changed == "symbolic-dev" else "integration"
+            graph.git("branch", "same-tip", branch)
+            graph.git("symbolic-ref", "refs/heads/" + branch, "refs/heads/same-tip")
+        elif changed == "plan":
+            (graph.repo / "plan.json").write_text("changed approved plan")
+        elif changed == "snapshot":
+            Path(record["inputs"]["plan"]["artifact"]).write_text("changed snapshot")
+        elif changed == "malformed-record":
+            (graph.output / "run.json").write_text("[]")
+        elif changed == "record-type":
+            record["tickets"]["03"]["attempt"] = True
+            (graph.output / "run.json").write_text(json.dumps(record))
+        elif changed == "record":
+            record["tickets"]["02"]["state"] = "Done"
+            (graph.output / "run.json").write_text(json.dumps(record))
+        elif changed == "archive":
+            next((graph.output / "checkpoints").glob("*.json")).write_text("changed archive")
+        elif changed in ("checkpoint", "request"):
+            path = graph.output / (
+                "qa-checkpoint.json" if changed == "checkpoint" else "qa-request.json"
+            )
+            path.write_text("{}")
+        elif changed == "evidence":
+            Path(request["regression_evidence"][0]["stdout"]).write_text("rewritten")
+        elif changed == "observation":
+            # There are no decisions at this checkpoint; fabricated consumption must not unlock work.
+            record["qa_decisions"] = [{"request_id": request["request_id"]}]
+            (graph.output / "run.json").write_text(json.dumps(record))
+        elif changed in ("baseline", "candidate"):
+            tree = (
+                graph.output / "worktrees/baseline"
+                if changed == "baseline"
+                else Path(request["candidate_worktree"])
+            )
+            (tree / "value.txt").write_text("changed verified source")
+        elif changed == "checked-out":
+            graph.git("worktree", "add", str(graph.home / "caller-tree"), "dev")
+        else:
+            revision = graph.git("commit-tree", "HEAD^{tree}", "-p", "HEAD", "-m", "External")
+            graph.git("update-ref", "refs/heads/" + changed, revision)
+        before = {
+            p: p.read_bytes()
+            for p in graph.output.rglob("*")
+            if p.is_file() and "/worktrees/" not in str(p)
+        }
+        refs = {branch: graph.git("rev-parse", branch) for branch in ("dev", "integration")}
+        if changed in ("symbolic-dev", "symbolic-feature"):
+            with foreground(graph, operation="continue") as process:
+>               process.wait(timeout=10)
+
+tests/test_continuation.py:190: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+.micromamba/envs/dev/lib/python3.12/subprocess.py:1264: in wait
+    return self._wait(timeout=timeout)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <Popen: returncode: -15 args: ['/home/ajkerr1/development/agentic_template/....>
+timeout = 10
+
+    def _wait(self, timeout):
+        """Internal implementation of wait() on POSIX."""
+        if self.returncode is not None:
+            return self.returncode
+    
+        if timeout is not None:
+            endtime = _time() + timeout
+            # Enter a busy loop if we have a timeout.  This busy loop was
+            # cribbed from Lib/threading.py in Thread.wait() at r71065.
+            delay = 0.0005 # 500 us -> initial delay of 1 ms
+            while True:
+                if self._waitpid_lock.acquire(False):
+                    try:
+                        if self.returncode is not None:
+                            break  # Another thread waited.
+                        (pid, sts) = self._try_wait(os.WNOHANG)
+                        assert pid == self.pid or pid == 0
+                        if pid == self.pid:
+                            self._handle_exitstatus(sts)
+                            break
+                    finally:
+                        self._waitpid_lock.release()
+                remaining = self._remaining_time(endtime)
+                if remaining <= 0:
+>                   raise TimeoutExpired(self.args, timeout)
+E                   subprocess.TimeoutExpired: Command '['/home/ajkerr1/development/agentic_template/.micromamba/envs/dev/bin/python', '-m', 'ticket_harness', 'continue', '/tmp/ticket-harness-test-1kku8y4w/run']' timed out after 10 seconds
+
+.micromamba/envs/dev/lib/python3.12/subprocess.py:2045: TimeoutExpired
+=========================== short test summary info ============================
+FAILED tests/test_milestones.py::test_ticket_integration_rejects_destinations_aliased_during_work[dev-integration]
+FAILED tests/test_milestones.py::test_ticket_integration_rejects_destinations_aliased_during_work[integration-dev]
+FAILED tests/test_qa_promotion.py::test_acceptance_revalidates_the_exact_candidate_evidence_and_both_refs[symbolic-dev]
+FAILED tests/test_qa_promotion.py::test_acceptance_revalidates_the_exact_candidate_evidence_and_both_refs[symbolic-feature]
+FAILED tests/test_continuation.py::test_clean_stop_rejects_symbolic_destination_with_unchanged_tip
+FAILED tests/test_continuation.py::test_continuation_rejects_changed_checkpoint_without_overwriting_prior_state[symbolic-dev]
+FAILED tests/test_continuation.py::test_continuation_rejects_changed_checkpoint_without_overwriting_prior_state[symbolic-feature]
+7 failed, 79 deselected in 64.63s (0:01:04)

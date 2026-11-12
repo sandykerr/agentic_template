@@ -75,6 +75,21 @@ def stop_at_qa(graph):
         assert process.returncode == 2
 
 
+def test_clean_stop_rejects_symbolic_destination_with_unchanged_tip(graph):
+    configure_plan(graph)
+    with foreground(graph) as process:
+        waiting(graph, process, "M1")
+        graph.git("branch", "same-tip", "dev")
+        graph.git("symbolic-ref", "refs/heads/dev", "refs/heads/same-tip")
+        refs = graph.git("show-ref")
+        assert graph.cli("stop", graph.output).returncode == 0
+        process.wait(timeout=10)
+        assert process.returncode == 1
+    assert graph.record()["outcome"] == "incomplete"
+    assert not (graph.output / "qa-checkpoint.json").exists()
+    assert graph.git("show-ref") == refs
+
+
 def test_continued_run_records_invalidation_of_earlier_verified_source(graph):
     configure_plan(graph)
     stop_at_qa(graph)
@@ -112,6 +127,8 @@ def test_continued_run_records_invalidation_of_earlier_verified_source(graph):
         "dev",
         "integration",
         "checked-out",
+        "symbolic-dev",
+        "symbolic-feature",
     ],
 )
 def test_continuation_rejects_changed_checkpoint_without_overwriting_prior_state(graph, changed):
@@ -121,7 +138,11 @@ def test_continuation_rejects_changed_checkpoint_without_overwriting_prior_state
     stop_at_qa(graph)
     record = graph.record()
     request = json.loads((graph.output / "qa-request.json").read_text())
-    if changed == "plan":
+    if changed in ("symbolic-dev", "symbolic-feature"):
+        branch = "dev" if changed == "symbolic-dev" else "integration"
+        graph.git("branch", "same-tip", branch)
+        graph.git("symbolic-ref", "refs/heads/" + branch, "refs/heads/same-tip")
+    elif changed == "plan":
         (graph.repo / "plan.json").write_text("changed approved plan")
     elif changed == "snapshot":
         Path(record["inputs"]["plan"]["artifact"]).write_text("changed snapshot")
@@ -164,9 +185,15 @@ def test_continuation_rejects_changed_checkpoint_without_overwriting_prior_state
         if p.is_file() and "/worktrees/" not in str(p)
     }
     refs = {branch: graph.git("rev-parse", branch) for branch in ("dev", "integration")}
-    result = graph.cli("continue", graph.output)
-    assert result.returncode == 1
-    assert result.stderr.strip()
+    if changed in ("symbolic-dev", "symbolic-feature"):
+        with foreground(graph, operation="continue") as process:
+            process.wait(timeout=10)
+            assert process.returncode == 1
+        assert graph.foreground_observations[-1]["stderr"].strip()
+    else:
+        result = graph.cli("continue", graph.output)
+        assert result.returncode == 1
+        assert result.stderr.strip()
     assert all(path.read_bytes() == raw for path, raw in before.items())
     assert {branch: graph.git("rev-parse", branch) for branch in refs} == refs
     assert list((graph.output / "rejections").glob("*.json"))

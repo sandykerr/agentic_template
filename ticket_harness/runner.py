@@ -7,7 +7,7 @@ from typing import Any
 from uuid import uuid4
 
 from ticket_harness import agents, inputs, qa, tickets
-from ticket_harness.git import git, require_unchanged, worktree
+from ticket_harness.git import git, require_direct_branches, require_unchanged, worktree
 from ticket_harness.records import (
     GateFailure,
     NonRepairableFailure,
@@ -94,7 +94,7 @@ class _Run:
             integration = config["integration"]
             planned = "plan" in config
             if checkpoint is None:
-                git(repository, "check-ref-format", f"refs/heads/{integration}")
+                require_direct_branches(repository, integration)
                 if (
                     f"branch refs/heads/{integration}"
                     in git(repository, "worktree", "list", "--porcelain").splitlines()
@@ -110,7 +110,7 @@ class _Run:
                     )
                 if planned:
                     development = config["plan"]["development"]
-                    git(repository, "check-ref-format", f"refs/heads/{development}")
+                    require_direct_branches(repository, development)
                     record["development_branch"] = development
                     record["development_revision"] = git(
                         repository, "rev-parse", "--verify", f"refs/heads/{development}^{{commit}}"

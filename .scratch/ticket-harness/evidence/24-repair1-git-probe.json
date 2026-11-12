@@ -1,0 +1,273 @@
+{
+  "commands": [
+    {
+      "command": [
+        "git",
+        "-C",
+        "/tmp/ticket24-repair1-git-xr6o_0v7",
+        "init",
+        "-q",
+        "-b",
+        "main"
+      ],
+      "stdin": null,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "git",
+        "-C",
+        "/tmp/ticket24-repair1-git-xr6o_0v7",
+        "-c",
+        "user.name=Probe",
+        "-c",
+        "user.email=probe@example.invalid",
+        "commit",
+        "--allow-empty",
+        "-qm",
+        "Baseline"
+      ],
+      "stdin": null,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "git",
+        "-C",
+        "/tmp/ticket24-repair1-git-xr6o_0v7",
+        "rev-parse",
+        "HEAD"
+      ],
+      "stdin": null,
+      "exit": 0,
+      "stdout": "88b8a27a7a7a94c81e8ff6b5d06b6b4ef77114a2\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "git",
+        "-C",
+        "/tmp/ticket24-repair1-git-xr6o_0v7",
+        "-c",
+        "user.name=Probe",
+        "-c",
+        "user.email=probe@example.invalid",
+        "commit-tree",
+        "HEAD^{tree}",
+        "-p",
+        "HEAD",
+        "-m",
+        "Candidate"
+      ],
+      "stdin": null,
+      "exit": 0,
+      "stdout": "9c0319a8f14b1d9d80db3082f45d6cd26eb50785\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "git",
+        "-C",
+        "/tmp/ticket24-repair1-git-xr6o_0v7",
+        "branch",
+        "dev",
+        "88b8a27a7a7a94c81e8ff6b5d06b6b4ef77114a2"
+      ],
+      "stdin": null,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "git",
+        "-C",
+        "/tmp/ticket24-repair1-git-xr6o_0v7",
+        "branch",
+        "feature",
+        "88b8a27a7a7a94c81e8ff6b5d06b6b4ef77114a2"
+      ],
+      "stdin": null,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "git",
+        "-C",
+        "/tmp/ticket24-repair1-git-xr6o_0v7",
+        "symbolic-ref",
+        "refs/heads/feature",
+        "refs/heads/dev"
+      ],
+      "stdin": null,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "git",
+        "-C",
+        "/tmp/ticket24-repair1-git-xr6o_0v7",
+        "update-ref",
+        "--no-deref",
+        "refs/heads/feature",
+        "9c0319a8f14b1d9d80db3082f45d6cd26eb50785",
+        "88b8a27a7a7a94c81e8ff6b5d06b6b4ef77114a2"
+      ],
+      "stdin": null,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "git",
+        "-C",
+        "/tmp/ticket24-repair1-git-xr6o_0v7",
+        "rev-parse",
+        "refs/heads/dev"
+      ],
+      "stdin": null,
+      "exit": 0,
+      "stdout": "88b8a27a7a7a94c81e8ff6b5d06b6b4ef77114a2\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "git",
+        "-C",
+        "/tmp/ticket24-repair1-git-xr6o_0v7",
+        "rev-parse",
+        "refs/heads/feature"
+      ],
+      "stdin": null,
+      "exit": 0,
+      "stdout": "9c0319a8f14b1d9d80db3082f45d6cd26eb50785\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "git",
+        "-C",
+        "/tmp/ticket24-repair1-git-xr6o_0v7",
+        "symbolic-ref",
+        "-q",
+        "refs/heads/feature"
+      ],
+      "stdin": null,
+      "exit": 1,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "git",
+        "-C",
+        "/tmp/ticket24-repair1-git-xr6o_0v7",
+        "update-ref",
+        "--no-deref",
+        "refs/heads/feature",
+        "88b8a27a7a7a94c81e8ff6b5d06b6b4ef77114a2",
+        "88b8a27a7a7a94c81e8ff6b5d06b6b4ef77114a2"
+      ],
+      "stdin": null,
+      "exit": 128,
+      "stdout": "",
+      "stderr": "fatal: update_ref failed for ref 'refs/heads/feature': cannot lock ref 'refs/heads/feature': is at 9c0319a8f14b1d9d80db3082f45d6cd26eb50785 but expected 88b8a27a7a7a94c81e8ff6b5d06b6b4ef77114a2\n"
+    },
+    {
+      "command": [
+        "git",
+        "-C",
+        "/tmp/ticket24-repair1-git-xr6o_0v7",
+        "rev-parse",
+        "refs/heads/feature"
+      ],
+      "stdin": null,
+      "exit": 0,
+      "stdout": "9c0319a8f14b1d9d80db3082f45d6cd26eb50785\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "git",
+        "-C",
+        "/tmp/ticket24-repair1-git-xr6o_0v7",
+        "symbolic-ref",
+        "refs/heads/feature",
+        "refs/heads/dev"
+      ],
+      "stdin": null,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "git",
+        "-C",
+        "/tmp/ticket24-repair1-git-xr6o_0v7",
+        "update-ref",
+        "--stdin"
+      ],
+      "stdin": "start\noption no-deref\nupdate refs/heads/feature 9c0319a8f14b1d9d80db3082f45d6cd26eb50785 88b8a27a7a7a94c81e8ff6b5d06b6b4ef77114a2\noption no-deref\nupdate refs/heads/dev 9c0319a8f14b1d9d80db3082f45d6cd26eb50785 88b8a27a7a7a94c81e8ff6b5d06b6b4ef77114a2\nprepare\ncommit\n",
+      "exit": 0,
+      "stdout": "start: ok\nprepare: ok\ncommit: ok\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "git",
+        "-C",
+        "/tmp/ticket24-repair1-git-xr6o_0v7",
+        "rev-parse",
+        "refs/heads/dev"
+      ],
+      "stdin": null,
+      "exit": 0,
+      "stdout": "9c0319a8f14b1d9d80db3082f45d6cd26eb50785\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "git",
+        "-C",
+        "/tmp/ticket24-repair1-git-xr6o_0v7",
+        "rev-parse",
+        "refs/heads/feature"
+      ],
+      "stdin": null,
+      "exit": 0,
+      "stdout": "9c0319a8f14b1d9d80db3082f45d6cd26eb50785\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "git",
+        "-C",
+        "/tmp/ticket24-repair1-git-xr6o_0v7",
+        "symbolic-ref",
+        "-q",
+        "refs/heads/feature"
+      ],
+      "stdin": null,
+      "exit": 1,
+      "stdout": "",
+      "stderr": ""
+    }
+  ],
+  "observations": {
+    "no_deref_feature_update_did_not_advance_development_referent": true,
+    "matching_symbol_itself_replaced": true,
+    "stale_expected_old_rejected": true,
+    "two_update_no_deref_transaction_operates_on_named_refs": true
+  },
+  "scope": "Installed Git primitives only, not private production seam; no atomic direct-ref type locking guarantee"
+}

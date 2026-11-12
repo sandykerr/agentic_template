@@ -22,6 +22,7 @@ from ticket_harness.git import (
     git,
     promote_milestone,
     require_clean_milestone_candidate,
+    require_direct_branches,
     require_unchanged,
 )
 from ticket_harness.records import GateFailure, write_json
@@ -79,6 +80,7 @@ def stop(output: Path) -> dict[str, Any]:
 def _validate_request(config: dict[str, Any], request: dict[str, Any]) -> None:
     """Validate both refs at clean stop/restoration as well as at promotion."""
     repository = Path(config["repository"])
+    require_direct_branches(repository, request["feature_branch"], request["development_branch"])
     for branch_key, revision_key in (
         ("feature_branch", "feature_revision"),
         ("development_branch", "development_revision"),
@@ -187,6 +189,7 @@ class MilestoneReview:
     def _prepare(self, checkpoint: dict[str, Any] | None) -> None:
         # Milestone preparation has no ticket repair budget and never changes refs.
         self._verification.stage = "milestone-candidate"
+        require_direct_branches(self._repository, self._integration, self._development)
         if checkpoint is None:
             self._milestone.update(state="preparing", feature_revision=self._previous)
             self._development_base = git(
@@ -229,6 +232,7 @@ class MilestoneReview:
             self._verification.stage = "milestone-readiness"
             inputs.require_approved(self._snapshots)
             self._verification.validate_sources()
+            require_direct_branches(self._repository, self._integration, self._development)
             for branch, expected in (
                 (self._integration, self._previous),
                 (self._development, self._development_base),
@@ -357,7 +361,7 @@ class MilestoneReview:
                 for d in self._record.get("qa_decisions", [])
             ):
                 raise GateFailure("Decision request was already consumed")
-        except (ValueError, GateFailure) as error:
+        except (ValueError, RecursionError, GateFailure) as error:
             decision_observation["diagnostic"] = str(error)
             self._record["qa_decision_status"] = "rejected"
             self._verification.save()

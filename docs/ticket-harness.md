@@ -26,6 +26,9 @@ The runtime groups code by the work it owns:
   stop, continuation and promotion. It uses the run's verification operations;
   checkpoint export and canonical gate restoration remain in `runner.py`.
 - `git.py` owns worktrees, submission commits, merge validation, and branch updates.
+  Integration destinations must be direct branch refs; setup, ticket integration
+  and QA stop/continuation/promotion reject symbolic aliases. Expected-old updates
+  do not dereference refs, preserving the separation of feature and development.
 - `records.py` owns process cleanup, output artifacts, file protection, and atomic
   record writes. `agents.py` owns assignment content and report formats.
 - `inputs.py` and `plans.py` capture approved inputs and reject invalid requirements,

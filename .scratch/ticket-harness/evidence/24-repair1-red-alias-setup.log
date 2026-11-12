@@ -1,0 +1,76 @@
+FFF                                                                      [100%]
+=================================== FAILURES ===================================
+_ test_symbolic_milestone_destinations_are_rejected_before_ticket_work[development] _
+
+graph = <test_dependencies.DependencyFixture testMethod=runTest>
+alias = 'development'
+
+    @pytest.mark.parametrize("alias", ["development", "feature", "feature-chain"])
+    def test_symbolic_milestone_destinations_are_rejected_before_ticket_work(graph, alias):
+        configure_plan(graph)
+        if alias == "development":
+            graph.git("symbolic-ref", "refs/heads/dev", "refs/heads/integration")
+        else:
+            target = "dev"
+            if alias == "feature-chain":
+                graph.git("symbolic-ref", "refs/heads/bridge", "refs/heads/dev")
+                target = "bridge"
+            graph.git("symbolic-ref", "refs/heads/integration", "refs/heads/" + target)
+        refs = graph.git("show-ref")
+        result = run_until_wait(graph)
+>       assert result.returncode == 1
+E       assert 0 == 1
+E        +  where 0 = CompletedProcess(args=['/home/ajkerr1/development/agentic_template/.micromamba/envs/dev/bin/python', '-m', 'ticket_har...cision": "/tmp/ticket-harness-test-poslmu0u/run/qa-decision.json",\n  "qa_decision_status": "missing"\n}\n', stderr='').returncode
+
+tests/test_milestones.py:34: AssertionError
+_ test_symbolic_milestone_destinations_are_rejected_before_ticket_work[feature] _
+
+graph = <test_dependencies.DependencyFixture testMethod=runTest>
+alias = 'feature'
+
+    @pytest.mark.parametrize("alias", ["development", "feature", "feature-chain"])
+    def test_symbolic_milestone_destinations_are_rejected_before_ticket_work(graph, alias):
+        configure_plan(graph)
+        if alias == "development":
+            graph.git("symbolic-ref", "refs/heads/dev", "refs/heads/integration")
+        else:
+            target = "dev"
+            if alias == "feature-chain":
+                graph.git("symbolic-ref", "refs/heads/bridge", "refs/heads/dev")
+                target = "bridge"
+            graph.git("symbolic-ref", "refs/heads/integration", "refs/heads/" + target)
+        refs = graph.git("show-ref")
+        result = run_until_wait(graph)
+>       assert result.returncode == 1
+E       assert 0 == 1
+E        +  where 0 = CompletedProcess(args=['/home/ajkerr1/development/agentic_template/.micromamba/envs/dev/bin/python', '-m', 'ticket_har...cision": "/tmp/ticket-harness-test-3w7wpvh3/run/qa-decision.json",\n  "qa_decision_status": "missing"\n}\n', stderr='').returncode
+
+tests/test_milestones.py:34: AssertionError
+_ test_symbolic_milestone_destinations_are_rejected_before_ticket_work[feature-chain] _
+
+graph = <test_dependencies.DependencyFixture testMethod=runTest>
+alias = 'feature-chain'
+
+    @pytest.mark.parametrize("alias", ["development", "feature", "feature-chain"])
+    def test_symbolic_milestone_destinations_are_rejected_before_ticket_work(graph, alias):
+        configure_plan(graph)
+        if alias == "development":
+            graph.git("symbolic-ref", "refs/heads/dev", "refs/heads/integration")
+        else:
+            target = "dev"
+            if alias == "feature-chain":
+                graph.git("symbolic-ref", "refs/heads/bridge", "refs/heads/dev")
+                target = "bridge"
+            graph.git("symbolic-ref", "refs/heads/integration", "refs/heads/" + target)
+        refs = graph.git("show-ref")
+        result = run_until_wait(graph)
+>       assert result.returncode == 1
+E       assert 0 == 1
+E        +  where 0 = CompletedProcess(args=['/home/ajkerr1/development/agentic_template/.micromamba/envs/dev/bin/python', '-m', 'ticket_har...cision": "/tmp/ticket-harness-test-onw_rkmn/run/qa-decision.json",\n  "qa_decision_status": "missing"\n}\n', stderr='').returncode
+
+tests/test_milestones.py:34: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_milestones.py::test_symbolic_milestone_destinations_are_rejected_before_ticket_work[development]
+FAILED tests/test_milestones.py::test_symbolic_milestone_destinations_are_rejected_before_ticket_work[feature]
+FAILED tests/test_milestones.py::test_symbolic_milestone_destinations_are_rejected_before_ticket_work[feature-chain]
+3 failed, 40 deselected in 7.88s
