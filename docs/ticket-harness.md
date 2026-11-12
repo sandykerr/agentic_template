@@ -19,9 +19,12 @@ The runtime groups code by the work it owns:
   It also protects saved evidence and reconnects restored results to the run record.
 - `tickets.py` chooses eligible tickets and carries out each ticket's complete
   implementation, verification, and bounded repair cycle.
-- `qa.py` prepares milestone candidates, requests human review, checks decisions,
-  and handles deliberate stop/continuation. Stop, continuation, and promotion use
-  the same check for unchanged review requests and evidence.
+- `qa.py` gives each `MilestoneReview` its tested candidate, feature/development
+  inputs, exact request, frozen evidence and decision observations. It prepares
+  or restores that review, waits for matching human approval, and returns an
+  explicit stopped or promoted outcome to the run. The same review rules protect
+  stop, continuation and promotion. It uses the run's verification operations;
+  checkpoint export and canonical gate restoration remain in `runner.py`.
 - `git.py` owns worktrees, submission commits, merge validation, and branch updates.
 - `records.py` owns process cleanup, output artifacts, file protection, and atomic
   record writes. `agents.py` owns assignment content and report formats.

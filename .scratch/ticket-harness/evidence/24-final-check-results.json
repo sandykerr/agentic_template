@@ -1,0 +1,110 @@
+[
+  {
+    "command": [
+      "/home/ajkerr1/development/agentic_template/.micromamba/envs/dev/bin/python",
+      "-m",
+      "pytest",
+      "-q",
+      "--durations=20",
+      "-p",
+      "capture24"
+    ],
+    "exit": 0,
+    "seconds": 516.2553815841675,
+    "log": ".scratch/ticket-harness/evidence/24-final-check-0.log",
+    "source": "24-final-source.json",
+    "environment": {
+      "PYTHONPATH": "tests:/tmp/ticket23-tools:.scratch/ticket-harness/evidence/24-tools",
+      "TICKET24_RAW": "/tmp/ticket24-final-raw"
+    }
+  },
+  {
+    "command": [
+      "/home/ajkerr1/development/agentic_template/.micromamba/envs/dev/bin/python",
+      "-m",
+      "mypy"
+    ],
+    "exit": 0,
+    "seconds": 0.38815808296203613,
+    "log": ".scratch/ticket-harness/evidence/24-final-check-1.log",
+    "source": "24-final-source.json",
+    "environment": {
+      "PYTHONPATH": "tests:/tmp/ticket23-tools:.scratch/ticket-harness/evidence/24-tools",
+      "TICKET24_RAW": "/tmp/ticket24-final-raw"
+    }
+  },
+  {
+    "command": [
+      "/home/ajkerr1/development/agentic_template/.micromamba/envs/dev/bin/python",
+      "-m",
+      "ruff",
+      "check",
+      "ticket_harness",
+      "tests",
+      "examples"
+    ],
+    "exit": 0,
+    "seconds": 0.04697751998901367,
+    "log": ".scratch/ticket-harness/evidence/24-final-check-2.log",
+    "source": "24-final-source.json",
+    "environment": {
+      "PYTHONPATH": "tests:/tmp/ticket23-tools:.scratch/ticket-harness/evidence/24-tools",
+      "TICKET24_RAW": "/tmp/ticket24-final-raw"
+    }
+  },
+  {
+    "command": [
+      "/home/ajkerr1/development/agentic_template/.micromamba/envs/dev/bin/python",
+      "-m",
+      "ruff",
+      "format",
+      "--check",
+      "ticket_harness",
+      "tests",
+      "examples"
+    ],
+    "exit": 0,
+    "seconds": 0.035988807678222656,
+    "log": ".scratch/ticket-harness/evidence/24-final-check-3.log",
+    "source": "24-final-source.json",
+    "environment": {
+      "PYTHONPATH": "tests:/tmp/ticket23-tools:.scratch/ticket-harness/evidence/24-tools",
+      "TICKET24_RAW": "/tmp/ticket24-final-raw"
+    }
+  },
+  {
+    "command": [
+      "git",
+      "diff",
+      "--check"
+    ],
+    "exit": 0,
+    "seconds": 0.014474630355834961,
+    "log": ".scratch/ticket-harness/evidence/24-final-check-4.log",
+    "source": "24-final-source.json",
+    "environment": {
+      "PYTHONPATH": "tests:/tmp/ticket23-tools:.scratch/ticket-harness/evidence/24-tools",
+      "TICKET24_RAW": "/tmp/ticket24-final-raw"
+    }
+  },
+  {
+    "command": [
+      "git",
+      "diff",
+      "--check",
+      "ed017ae0c2b96769f31c710cfb4ff4708989b446",
+      "--",
+      "ticket_harness",
+      "tests",
+      "examples"
+    ],
+    "exit": 0,
+    "seconds": 0.00514674186706543,
+    "log": ".scratch/ticket-harness/evidence/24-final-check-5.log",
+    "source": "24-final-source.json",
+    "environment": {
+      "PYTHONPATH": "tests:/tmp/ticket23-tools:.scratch/ticket-harness/evidence/24-tools",
+      "TICKET24_RAW": "/tmp/ticket24-final-raw"
+    }
+  }
+]

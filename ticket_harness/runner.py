@@ -151,8 +151,18 @@ class _Run:
                     tickets.unlock(record, config)
                     self.save()
                 record["outcome"] = "preparing_milestone" if planned else "completed"
-                if planned and qa.review(self, checkpoint):
-                    return record, 2
+                if planned:
+                    review = qa.MilestoneReview(
+                        record,
+                        config,
+                        output,
+                        index,
+                        self.trees / self.artifact_name("milestone-candidate"),
+                        self.artifacts / self.artifact_name("qa-request.json"),
+                        self,
+                    )
+                    if review.execute(checkpoint) is qa.ReviewOutcome.STOPPED:
+                        return record, 2
                 checkpoint = None
             if planned:
                 record.update(outcome="completed", feature_complete=True)
@@ -453,7 +463,7 @@ def run(config_path: Path, output: Path) -> tuple[dict[str, Any], int]:
 def continue_run(output: Path) -> tuple[dict[str, Any], int]:
     try:
         with qa.ownership(output):
-            checkpoint = qa.restore(output)
+            checkpoint = qa.MilestoneReview.restore_checkpoint(output)
             return _Run(output, checkpoint).execute()
     except (GateFailure, OSError, ValueError, KeyError, TypeError) as error:
         qa.reject(output, "continue", error)
