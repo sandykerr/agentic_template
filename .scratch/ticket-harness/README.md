@@ -8,11 +8,11 @@ Review the [spec](spec.md), [complete ticket bodies/dependencies](ticket-proposa
 
 ## Implementation status
 
-Completed 01–15 retain their IDs and evidence. New development review work 16–19 precedes five refactors 20–24 in M1; new runtime review enforcement 33 precedes real-agent work 34 in M3. Thirteen inherited open tickets are renumbered coherently; after ticket 23 completion, 15 open tickets 24–38 remain. M1 contains fourteen completed 10–23 and one remaining ticket 24. Human M1 QA is not requested/accepted, and later milestones remain gated.
+Completed 01–15 retain their IDs and evidence. New development review work 16–19 precedes five refactors 20–24 in M1; new runtime review enforcement 33 precedes real-agent work 34 in M3. Thirteen inherited open tickets are renumbered coherently; after ticket 24 completion, 14 open tickets 25–38 remain. All fifteen required M1 tickets 10–24 are verified complete. Human M1 QA is not requested/accepted, and later milestones remain gated.
 
-The next eligible implementation ticket is 24, backed by completed 15 and 23. Prefer ascending prerequisite-ready work, respecting human milestone acceptance. Publication launches no review evaluation, implementation or harness run.
+No implementation ticket is currently eligible. M1 requires feature-start provenance, cumulative all-package High assessment and explicit human QA before M2 tickets 25–29 can execute. The next handoff is preparation/waiting, not QA-ready or M2 execution.
 
-Ticket24 implementation is paused by user at unverified WIP `0385516`; [resume evidence and open findings](evidence/24-pause.md), [assessment](reviews/ticket-24.md), and root `next_agent_prompt.md` preserve the current state. Required final checks/reviews remain pending; ticket24 and M1 are not complete. No owned test process remains active.
+Ticket24 is verified complete at `ab08f7f`; [completion evidence](evidence/24-completion.md), [assessment](reviews/ticket-24.md) and [history](evidence/24-finding-history.md) preserve all checks, three review rounds and fixed findings. The [prior pause](evidence/24-pause.md) remains historical. M1 cumulative work and actual QA acceptance remain unperformed; root `next_agent_prompt.md` carries the waiting status.
 
 ## Complete ticket index
 
@@ -41,7 +41,7 @@ Ticket24 implementation is paused by user at unverified WIP `0385516`; [resume e
 | [21: Own ticket execution and bounded repairs](issues/21-own-ticket-execution-and-bounded-repairs.md) | 20 | completed | M1 |
 | [22: Return clearly prepared inputs](issues/22-return-clearly-prepared-inputs.md) | 02, 12, 19 | completed | M1 |
 | [23: Own the complete run lifecycle](issues/23-own-the-complete-run-lifecycle.md) | 15, 21, 22 | completed | M1 |
-| [24: Own milestone review and checkpoint continuation](issues/24-own-milestone-review-and-checkpoint-continuation.md) | 15, 23 | ready-for-agent | M1 |
+| [24: Own milestone review and checkpoint continuation](issues/24-own-milestone-review-and-checkpoint-continuation.md) | 15, 23 | completed | M1 |
 | [25: Guide a human through milestone QA](issues/25-guide-and-record-human-milestone-qa.md) | 10, 14 | ready-for-agent | M2 |
 | [26: Propose a versioned correction plan](issues/26-propose-versioned-qa-corrections.md) | 10, 25 | ready-for-agent | M2 |
 | [27: Execute approved QA corrections](issues/27-execute-approved-qa-corrections.md) | 15, 26 | ready-for-agent | M2 |
@@ -190,3 +190,5 @@ Verify whether the installed backend enforces a hard limit, applies a compaction
   interrupted captures retain no-pass limits. All four start/final triggers
   independently No. Next is M1 ticket 24, backed by completed 15 and 23;
   actual M1 cumulative work and human QA remain unperformed.
+
+- [24: Own milestone review and checkpoint continuation — completed](evidence/24-completion.md): final reviewed source `ab08f7f`;559 passed/1284.57s, strict mypy, Ruff lint/format and whitespace passed. Independent fresh High Spec0/0 and Standards0/0; all3 prior full keys independently fixed, originals/history preserved. Genuine pre-refactor checkpoint renewed; no unchecked criterion. All four start/final triggersNo. All M1 tickets10–24 complete; feature-start/cumulative all-package assessment and actual human QA remain absent. Next is M1 preparation/waiting; M2 remains ineligible.

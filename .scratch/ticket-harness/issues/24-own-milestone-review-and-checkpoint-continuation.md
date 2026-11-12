@@ -4,7 +4,7 @@
 
 **Blocked by:** [15: Continue after a deliberate QA stop](15-continue-from-a-planned-qa-checkpoint.md); [23: Own the complete run lifecycle](23-own-the-complete-run-lifecycle.md).
 
-**Status:** ready-for-agent
+**Status:** completed
 
 **Plan version:** [oop-v2](../spec.md).
 
@@ -20,14 +20,14 @@
 
 ## Acceptance criteria
 
-- [ ] A milestone review keeps its candidate/feature/development identities, request content and digest, evidence identities and last observed decision together. Fresh and restored reviews use the same approval, unchanged-source/evidence and expected-ref rules; the caller receives an explicit stopped-versus-promoted outcome instead of a Boolean whose meaning depends on implementation knowledge. Use the run-owned verification export/restoration interface from ticket 23 instead of reading the runner's internal verified-check collection.
-- [ ] Only an explicit matching, unconsumed human approval advances both expected feature/development refs to the exact regression-tested candidate. Missing, unreadable, malformed, mismatched, stale and replayed decisions retain observable waiting/rejection behavior without consuming ticket repairs or starting later milestones.
-- [ ] Deliberate stop preserves the existing checkpoint version/format, identities, observations and archived lineage. Continue in a new process validates all approved inputs, record/request/evidence/source identities, both refs and exclusive ownership, without replaying completed assignments, completed baseline work or consumed decisions.
-- [ ] Continue a genuine deliberate checkpoint written by pre-refactor code as well as one written by the new code. After JSON restoration, later source invalidation updates the canonical gate in the durable run record rather than a detached copy; changed evidence/checkpoints/refs cannot authorize continuation or promotion.
-- [ ] Milestone preparation/regression/promotion failure observations, indefinite waits, stop exit behavior, status, ticket-Done versus milestone-promoted versus feature-complete distinctions, command interfaces and record/artifact formats remain compatible.
-- [ ] Keep runner-owned checking and source-validation authority. Do not introduce arbitrary crash recovery, background execution, correction-plan execution, new approval authority, or later milestone features in this refactor. Update code wayfinding to describe the final responsibilities.
+- [x] A milestone review keeps its candidate/feature/development identities, request content and digest, evidence identities and last observed decision together. Fresh and restored reviews use the same approval, unchanged-source/evidence and expected-ref rules; the caller receives an explicit stopped-versus-promoted outcome instead of a Boolean whose meaning depends on implementation knowledge. Use the run-owned verification export/restoration interface from ticket 23 instead of reading the runner's internal verified-check collection.
+- [x] Only an explicit matching, unconsumed human approval advances both expected feature/development refs to the exact regression-tested candidate. Missing, unreadable, malformed, mismatched, stale and replayed decisions retain observable waiting/rejection behavior without consuming ticket repairs or starting later milestones.
+- [x] Deliberate stop preserves the existing checkpoint version/format, identities, observations and archived lineage. Continue in a new process validates all approved inputs, record/request/evidence/source identities, both refs and exclusive ownership, without replaying completed assignments, completed baseline work or consumed decisions.
+- [x] Continue a genuine deliberate checkpoint written by pre-refactor code as well as one written by the new code. After JSON restoration, later source invalidation updates the canonical gate in the durable run record rather than a detached copy; changed evidence/checkpoints/refs cannot authorize continuation or promotion.
+- [x] Milestone preparation/regression/promotion failure observations, indefinite waits, stop exit behavior, status, ticket-Done versus milestone-promoted versus feature-complete distinctions, command interfaces and record/artifact formats remain compatible.
+- [x] Keep runner-owned checking and source-validation authority. Do not introduce arbitrary crash recovery, background execution, correction-plan execution, new approval authority, or later milestone features in this refactor. Update code wayfinding to describe the final responsibilities.
 
-- [ ] Use the evaluated review workflow from tickets 16–19: record the relevant ownership change, independent cross-module review scope, immutable reports and finding dispositions; perform a cumulative assessment when the shared risk triggers apply. Preserve a navigable rationale-to-change-to-verification history and carry unresolved findings into the next handoff.
+- [x] Use the evaluated review workflow from tickets 16–19: record the relevant ownership change, independent cross-module review scope, immutable reports and finding dispositions; perform a cumulative assessment when the shared risk triggers apply. Preserve a navigable rationale-to-change-to-verification history and carry unresolved findings into the next handoff.
 
 ## Verification
 
@@ -42,3 +42,5 @@ Use the [shared worker handoff](../README.md#worker-handoff). Preserve completed
 ## Comments
 
 User pause/resume checkpoint: unverified WIP `0385516c20fc54d054c8e3fe6aca9ddcb6bfcf76`; original fixed baseline `ed017ae0c2b96769f31c710cfb4ff4708989b446`. [Pause/evidence/remaining work](../evidence/24-pause.md) and [assessment/history](../reviews/ticket-24.md) retain both original review rounds and open alias findings. Full559 check interrupted130 after225 captured cases; no completion inferred. All owned test processes stopped. Readiness remains ready-for-agent and all seven criteria unchecked pending complete final checks and fresh whole-ticket independent reviews. Resume through root next_agent_prompt.md; no M1 acceptance or later-milestone execution implied.
+
+Completion: all seven criteria verified at `ab08f7f03b5248709cdde3f5a65e4f632b8198b4`; previous readiness ready-for-agent. [Criterion evidence/checks](../evidence/24-completion.md), [assessment](../reviews/ticket-24.md), [immutable third-pair capture](../evidence/24-review-round3-capture.json), [full finding history](../evidence/24-finding-history.md).559 tests/1284.57s and all required static/whitespace checks passed; independent fresh High Spec0/0 and Standards0/0, all3 full keys independently fixed at this source. Original pause/failed campaigns remain historical. No unchecked criteria or unresolved ticket24 finding remains. M1 feature-start/cumulative assessment and explicit human QA are still absent; later milestones remain held. Implementation/repair commits65951f6/564c0a9/0385516/ab08f7f; this separate bookkeeping records completion, not milestone acceptance.
