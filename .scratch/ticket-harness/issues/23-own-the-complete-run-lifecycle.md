@@ -4,7 +4,7 @@
 
 **Blocked by:** [15: Continue after a deliberate QA stop](15-continue-from-a-planned-qa-checkpoint.md); [21: Own ticket execution and bounded repairs](21-own-ticket-execution-and-bounded-repairs.md); [22: Return clearly prepared inputs](22-return-clearly-prepared-inputs.md).
 
-**Status:** ready-for-agent
+**Status:** completed
 
 **Plan version:** [oop-v2](../spec.md).
 
@@ -20,14 +20,14 @@
 
 ## Acceptance criteria
 
-- [ ] The run owns initialization and deliberate continuation through cohesive operations; an external orchestration function no longer patches configuration, source protection, milestone index and lifecycle records in a required sequence. Public run/continue functions retain output creation, exclusive ownership and existing rejection behavior as appropriate, then invoke the run lifecycle through a small interface.
-- [ ] Fresh execution retains branch validation, the required matching base/integration commit, approved-input protection, exactly one baseline and no worker launches/repairs after a failed baseline. Baseline, invalid-input, environment/integrity and later workflow failures preserve their existing stage diagnostics, outcomes, blocked/pending observations and exit codes.
-- [ ] The run coordinates the ticket-execution interface from ticket 21 using the prepared inputs from ticket 22. It owns current milestone progression and finalization while ticket and attempt operations own their lifecycle records; it retains current fail-fast scheduling and never starts later-milestone work before exact human acceptance.
-- [ ] Continuation consumes a deliberate validated checkpoint without replaying completed tickets, baseline work, artifacts or decisions. It invalidates the stopped marker before resumed work and preserves milestone position, history, feature/development identities, stop exit 2, success exit 0 and existing failed/rejected-continuation behavior.
-- [ ] The run provides the existing checkpoint-shaped export and reconstruction of verified-check information. QA no longer inspects the runner's internal tuple/list organization. Restoration resolves references to the canonical gates in the durable run record; later source invalidation changes those actual records, including after repeated stop/continue cycles.
-- [ ] Commands, saved JSON schemas/values, checkpoint version and filenames, single-/multi-ticket and milestone artifact naming, process ownership, integrity safeguards and atomic persistence remain compatible. Leave Git/process/filesystem primitives as functions and avoid a separate checker object or generic lifecycle framework.
+- [x] The run owns initialization and deliberate continuation through cohesive operations; an external orchestration function no longer patches configuration, source protection, milestone index and lifecycle records in a required sequence. Public run/continue functions retain output creation, exclusive ownership and existing rejection behavior as appropriate, then invoke the run lifecycle through a small interface.
+- [x] Fresh execution retains branch validation, the required matching base/integration commit, approved-input protection, exactly one baseline and no worker launches/repairs after a failed baseline. Baseline, invalid-input, environment/integrity and later workflow failures preserve their existing stage diagnostics, outcomes, blocked/pending observations and exit codes.
+- [x] The run coordinates the ticket-execution interface from ticket 21 using the prepared inputs from ticket 22. It owns current milestone progression and finalization while ticket and attempt operations own their lifecycle records; it retains current fail-fast scheduling and never starts later-milestone work before exact human acceptance.
+- [x] Continuation consumes a deliberate validated checkpoint without replaying completed tickets, baseline work, artifacts or decisions. It invalidates the stopped marker before resumed work and preserves milestone position, history, feature/development identities, stop exit 2, success exit 0 and existing failed/rejected-continuation behavior.
+- [x] The run provides the existing checkpoint-shaped export and reconstruction of verified-check information. QA no longer inspects the runner's internal tuple/list organization. Restoration resolves references to the canonical gates in the durable run record; later source invalidation changes those actual records, including after repeated stop/continue cycles.
+- [x] Commands, saved JSON schemas/values, checkpoint version and filenames, single-/multi-ticket and milestone artifact naming, process ownership, integrity safeguards and atomic persistence remain compatible. Leave Git/process/filesystem primitives as functions and avoid a separate checker object or generic lifecycle framework.
 
-- [ ] Use the evaluated review workflow from tickets 16–19: record the relevant ownership change, independent cross-module review scope, immutable reports and finding dispositions; perform a cumulative assessment when the shared risk triggers apply. Preserve a navigable rationale-to-change-to-verification history and carry unresolved findings into the next handoff.
+- [x] Use the evaluated review workflow from tickets 16–19: record the relevant ownership change, independent cross-module review scope, immutable reports and finding dispositions; perform a cumulative assessment when the shared risk triggers apply. Preserve a navigable rationale-to-change-to-verification history and carry unresolved findings into the next handoff.
 
 ## Verification
 
@@ -38,3 +38,26 @@ Use the existing public CLI with scripted external processes, real temporary Git
 ## Handoff
 
 Use the [shared worker handoff](../README.md#worker-handoff). Preserve completed tickets 01–15 and their evidence. Ticket completion does not accept M1; after all M1 work is verified, prepare QA or a waiting handoff. Do not start M2 before explicit human acceptance of M1.
+
+## Comments
+
+### Verified completion
+
+Previous readiness: `ready-for-agent`. Implemented and verified at
+`8b1b37becb544299e8981144e4ad56da42e2d45f` from original baseline
+`851a855889b1ec99ae78ce415da1d66a3cf06687`.
+[Completion reconciliation](../evidence/23-completion.md) maps all seven original
+criteria to exact source, behavioral observations and independent reviews;
+[detailed criterion evidence](../evidence/23-criterion-evidence.md) and
+[assessment/history](../reviews/ticket-23.md) retain the ownership rationale.
+Full final-source suite: **544 passed in 706.22s**; strict mypy, Ruff lint/format
+and both whitespace checks passed. Genuine pre-refactor checkpoint continued under
+final source with prior work preserved and one baseline. Separate fresh High Spec
+and Standards each report **0 blocking / 0 optional**; immutable originals and
+instruction/assignment identities are linked from the assessment. All four
+start/final architecture triggers independently No. No unchecked criterion,
+unresolved actual full finding key, missing required ticket report or pending
+relevant revalidation remains. Original criterion wording and Blocked by history
+are preserved. Bookkeeping is committed separately from implementation; its
+commit is available in this ticket's Git history. M1 still needs ticket 24,
+actual cumulative assessment and explicit human QA; none is accepted here.
