@@ -38,3 +38,7 @@ Use the existing public CLI with scripted external processes, real temporary Git
 ## Handoff
 
 Use the [shared worker handoff](../README.md#worker-handoff). Preserve completed tickets 01–15 and their evidence. Ticket completion does not accept M1; after all M1 work is verified, prepare QA or a waiting handoff. Do not start M2 before explicit human acceptance of M1.
+
+## Comments
+
+User pause/resume checkpoint: unverified WIP `0385516c20fc54d054c8e3fe6aca9ddcb6bfcf76`; original fixed baseline `ed017ae0c2b96769f31c710cfb4ff4708989b446`. [Pause/evidence/remaining work](../evidence/24-pause.md) and [assessment/history](../reviews/ticket-24.md) retain both original review rounds and open alias findings. Full559 check interrupted130 after225 captured cases; no completion inferred. All owned test processes stopped. Readiness remains ready-for-agent and all seven criteria unchecked pending complete final checks and fresh whole-ticket independent reviews. Resume through root next_agent_prompt.md; no M1 acceptance or later-milestone execution implied.

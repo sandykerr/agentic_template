@@ -1,0 +1,52 @@
+[
+  {
+    "kind": "one-shot",
+    "symbolic": false,
+    "exit": 0,
+    "stdout": "start: ok\nprepare: ok\ncommit: ok\n",
+    "stderr": "",
+    "dev": "3035d52e79ab3782d51f7091f15ee0d39045e844",
+    "new": "189d7f51ce68c2c1cb1614b201c734e34484dd36"
+  },
+  {
+    "kind": "one-shot",
+    "symbolic": true,
+    "exit": 0,
+    "stdout": "start: ok\nprepare: ok\ncommit: ok\n",
+    "stderr": "",
+    "dev": "189d7f51ce68c2c1cb1614b201c734e34484dd36",
+    "new": "189d7f51ce68c2c1cb1614b201c734e34484dd36"
+  },
+  {
+    "kind": "prepared-guard",
+    "symbolic": false,
+    "start": "start: ok\n",
+    "prepared": "prepare: ok\n",
+    "direct": true,
+    "concurrent_alias_exit": 1,
+    "concurrent_alias_stderr": "error: cannot lock ref 'refs/heads/dev': Unable to create '/tmp/ticket24-atomic-xsdtihxv/.git/refs/heads/dev.lock': File exists.\n\nAnother git process seems to be running in this repository, e.g.\nan editor opened by 'git commit'. Please make sure all processes\nare terminated then try again. If it still fails, a git process\nmay have crashed in this repository earlier:\nremove the file manually to continue.\n",
+    "child_exit": 0,
+    "stdout": "commit: ok\n",
+    "stderr": "",
+    "dev": "3035d52e79ab3782d51f7091f15ee0d39045e844",
+    "feature": "189d7f51ce68c2c1cb1614b201c734e34484dd36",
+    "old": "3035d52e79ab3782d51f7091f15ee0d39045e844",
+    "new": "189d7f51ce68c2c1cb1614b201c734e34484dd36"
+  },
+  {
+    "kind": "prepared-guard",
+    "symbolic": true,
+    "start": "start: ok\n",
+    "prepared": "prepare: ok\n",
+    "direct": false,
+    "concurrent_alias_exit": 1,
+    "concurrent_alias_stderr": "error: cannot lock ref 'refs/heads/dev': Unable to create '/tmp/ticket24-atomic-xsdtihxv/.git/refs/heads/dev.lock': File exists.\n\nAnother git process seems to be running in this repository, e.g.\nan editor opened by 'git commit'. Please make sure all processes\nare terminated then try again. If it still fails, a git process\nmay have crashed in this repository earlier:\nremove the file manually to continue.\n",
+    "child_exit": 0,
+    "stdout": "abort: ok\n",
+    "stderr": "",
+    "dev": "3035d52e79ab3782d51f7091f15ee0d39045e844",
+    "feature": "3035d52e79ab3782d51f7091f15ee0d39045e844",
+    "old": "3035d52e79ab3782d51f7091f15ee0d39045e844",
+    "new": "189d7f51ce68c2c1cb1614b201c734e34484dd36"
+  }
+]

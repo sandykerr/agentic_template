@@ -1,0 +1,3 @@
+Spec axis: assess every original ticket24 criterion and the approved behavior/ownership contracts. Identify missing/partial requirements, scope expansion and incorrect implementations with exact contract/source evidence. Trace unchanged collaborators where required for actual behavior. Save original report `24-review-spec-02.md` (report ID spec-02, assessment review-ticket-24), optional unique audit `24-review-spec-02-audit.json`. Root handles capture before aggregation.
+
+Review all changes from original baseline, independently verify both original full finding keys and cite exact repaired source. Save original before root aggregation; no source edits/delegation.

@@ -12,6 +12,8 @@ Completed 01â€“15 retain their IDs and evidence. New development review work 16â
 
 The next eligible implementation ticket is 24, backed by completed 15 and 23. Prefer ascending prerequisite-ready work, respecting human milestone acceptance. Publication launches no review evaluation, implementation or harness run.
 
+Ticket24 implementation is paused by user at unverified WIP `0385516`; [resume evidence and open findings](evidence/24-pause.md), [assessment](reviews/ticket-24.md), and root `next_agent_prompt.md` preserve the current state. Required final checks/reviews remain pending; ticket24 and M1 are not complete. No owned test process remains active.
+
 ## Complete ticket index
 
 | ID and title | Prerequisites | Readiness/completion | Milestone |
