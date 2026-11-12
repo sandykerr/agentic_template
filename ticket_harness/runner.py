@@ -18,10 +18,11 @@ from ticket_harness.records import (
 
 
 class _Run:
-    """Own canonical check evidence, protected operations, and durable run observations."""
+    """Own start/continuation, scheduling, outcomes and canonical verification evidence."""
 
     def __init__(self, output: Path, checkpoint: dict[str, Any] | None) -> None:
         self.output = output
+        self._checkpoint = checkpoint
         (output / "inputs").mkdir(exist_ok=checkpoint is not None)
         self.artifacts = output / "artifacts"
         self.artifacts.mkdir(exist_ok=checkpoint is not None)
@@ -45,8 +46,143 @@ class _Run:
         self.milestone_index = 0
         self.stage = "inputs"
 
+    def execute(self, config_path: Path | None = None) -> tuple[dict[str, Any], int]:
+        """Start from prepared inputs or continue the validated deliberate checkpoint."""
+        output = self.output
+        checkpoint = self._checkpoint
+        record = self.record
+        if checkpoint is None:
+            self.save()
+        try:
+            if checkpoint is None:
+                if config_path is None:
+                    raise ValueError("Fresh execution requires a configuration path")
+                prepared = inputs.load(config_path, output)
+                config = prepared.execution_config()
+                snapshots = prepared.snapshots
+                record["inputs"] = snapshots
+                for field in ("requirements", "max_repairs", "timeouts", "selected_tickets"):
+                    record[field] = config[field]
+                if "plan" in config:
+                    record.update(
+                        run_id=uuid4().hex,
+                        plan=config["plan"],
+                        worker_settings=config["worker_settings"],
+                        feature_complete=False,
+                        milestone={
+                            "id": config["plan"]["milestones"][0]["id"],
+                            "state": "executing",
+                        },
+                    )
+                tickets.initialize(record, config, prepared.primary)
+            else:
+                config = checkpoint["config"]
+                snapshots = record["inputs"]
+                self.restore_checks(checkpoint)
+                self.milestone_index = checkpoint["milestone_index"]
+                record.pop("checkpoint_sha256", None)
+                # Invalidate the stopped state before executing any continuation work.
+                record["outcome"] = "awaiting_human_qa"
+                self.save()
+            self.config = config
+            repository = Path(config["repository"])
+            for snapshot in snapshots.values():
+                try:
+                    self.approved_source.add(str(Path(snapshot["source"]).relative_to(repository)))
+                except ValueError:
+                    continue
+            integration = config["integration"]
+            planned = "plan" in config
+            if checkpoint is None:
+                git(repository, "check-ref-format", f"refs/heads/{integration}")
+                if (
+                    f"branch refs/heads/{integration}"
+                    in git(repository, "worktree", "list", "--porcelain").splitlines()
+                ):
+                    raise GateFailure("Integration branch must not be checked out")
+                base = git(repository, "rev-parse", "--verify", f"{config['base']}^{{commit}}")
+                previous = git(
+                    repository, "rev-parse", "--verify", f"refs/heads/{integration}^{{commit}}"
+                )
+                if previous != base:
+                    raise GateFailure(
+                        "This slice requires base and integration to name the same commit"
+                    )
+                if planned:
+                    development = config["plan"]["development"]
+                    git(repository, "check-ref-format", f"refs/heads/{development}")
+                    record["development_branch"] = development
+                    record["development_revision"] = git(
+                        repository, "rev-parse", "--verify", f"refs/heads/{development}^{{commit}}"
+                    )
+                record.update(
+                    base_revision=base, integration_revision=base, integration_branch=integration
+                )
+                self.stage = "baseline"
+                with self.git_operation("baseline-worktree"):
+                    baseline = worktree(repository, self.trees / "baseline", base)
+                self.check("baseline", config["suite"], baseline, base)
+                require_unchanged(baseline, base)
+            for index in range(
+                self.milestone_index, len(config["plan"]["milestones"]) if planned else 1
+            ):
+                self.milestone_index = index
+                if planned and index and checkpoint is None:
+                    group = config["plan"]["milestones"][index]
+                    record["selected_tickets"] = sorted(group["tickets"], key=int)
+                    record["milestone"] = {"id": group["id"], "state": "executing"}
+                    record["outcome"] = "running"
+                    tickets.unlock(record, config)
+                    self.save()
+                while (ticket := tickets.next_ready(record, config, index)) is not None:
+                    record["ticket"] = record["tickets"][ticket]
+                    candidate_revision = tickets._TicketExecution(
+                        ticket,
+                        record["integration_revision"],
+                        config,
+                        snapshots,
+                        record["ticket"],
+                        record["attempts"],
+                        record["gates"],
+                        self.approved_source,
+                        _TicketVerification(self, ticket),
+                    ).execute()
+                    record["integration_revision"] = candidate_revision
+                    tickets.unlock(record, config)
+                    self.save()
+                record["outcome"] = "preparing_milestone" if planned else "completed"
+                if planned and qa.review(self, checkpoint):
+                    return record, 2
+                checkpoint = None
+            if planned:
+                record.update(outcome="completed", feature_complete=True)
+            self.save()
+            return record, 0
+        except (GateFailure, OSError, ValueError, KeyError, TypeError) as error:
+            stage = self.stage
+            outcome = (
+                "invalid-input"
+                if stage == "inputs"
+                else "environment"
+                if stage == "baseline" or record.get("environment_failure")
+                else "incomplete"
+            )
+            record.update(outcome=outcome, failure={"stage": stage, "message": str(error)})
+            if record["ticket"]["state"] != "Done":
+                record["ticket"]["state"] = "Blocked"
+            if stage.startswith("milestone-") and "milestone" in record:
+                record["milestone"]["state"] = (
+                    "promotion_failed" if stage == "milestone-promotion" else "preparation_failed"
+                )
+            self.save()
+            return record, 1
+
     def save(self) -> None:
         write_json(self.output / "run.json", self.record)
+
+    def export_checks(self) -> list[list[Any]]:
+        """Return verification references in the existing JSON-safe checkpoint shape."""
+        return [[item, str(source), revision] for item, source, revision in self.verified]
 
     def restore_checks(self, checkpoint: dict[str, Any]) -> None:
         # Only canonical gate records may be invalidated, including after JSON restoration.
@@ -311,143 +447,14 @@ def run(config_path: Path, output: Path) -> tuple[dict[str, Any], int]:
     # Never overwrite an existing run, including its preserved rejected work.
     output.mkdir(parents=True, exist_ok=False)
     with qa.ownership(output):
-        return _run(config_path, output)
+        return _Run(output, None).execute(config_path)
 
 
 def continue_run(output: Path) -> tuple[dict[str, Any], int]:
     try:
         with qa.ownership(output):
             checkpoint = qa.restore(output)
-            return _run(
-                Path(checkpoint["record"]["inputs"]["configuration"]["source"]), output, checkpoint
-            )
+            return _Run(output, checkpoint).execute()
     except (GateFailure, OSError, ValueError, KeyError, TypeError) as error:
         qa.reject(output, "continue", error)
         raise ValueError(str(error)) from error
-
-
-def _run(
-    config_path: Path, output: Path, checkpoint: dict[str, Any] | None = None
-) -> tuple[dict[str, Any], int]:
-    execution = _Run(output, checkpoint)
-    record = execution.record
-    if checkpoint is None:
-        execution.save()
-    try:
-        if checkpoint is None:
-            prepared = inputs.load(config_path, output)
-            config = prepared.execution_config()
-            snapshots = prepared.snapshots
-            record["inputs"] = snapshots
-            for field in ("requirements", "max_repairs", "timeouts", "selected_tickets"):
-                record[field] = config[field]
-            if "plan" in config:
-                record.update(
-                    run_id=uuid4().hex,
-                    plan=config["plan"],
-                    worker_settings=config["worker_settings"],
-                    feature_complete=False,
-                    milestone={"id": config["plan"]["milestones"][0]["id"], "state": "executing"},
-                )
-            tickets.initialize(record, config, prepared.primary)
-        else:
-            config = checkpoint["config"]
-            snapshots = record["inputs"]
-            execution.restore_checks(checkpoint)
-            execution.milestone_index = checkpoint["milestone_index"]
-            record.pop("checkpoint_sha256", None)
-            # Invalidate the stopped state before executing any continuation work.
-            record["outcome"] = "awaiting_human_qa"
-            execution.save()
-        execution.config = config
-        repository = Path(config["repository"])
-        for snapshot in snapshots.values():
-            try:
-                execution.approved_source.add(str(Path(snapshot["source"]).relative_to(repository)))
-            except ValueError:
-                continue
-        integration = config["integration"]
-        planned = "plan" in config
-        if checkpoint is None:
-            git(repository, "check-ref-format", f"refs/heads/{integration}")
-            if (
-                f"branch refs/heads/{integration}"
-                in git(repository, "worktree", "list", "--porcelain").splitlines()
-            ):
-                raise GateFailure("Integration branch must not be checked out")
-            base = git(repository, "rev-parse", "--verify", f"{config['base']}^{{commit}}")
-            previous = git(
-                repository, "rev-parse", "--verify", f"refs/heads/{integration}^{{commit}}"
-            )
-            if previous != base:
-                raise GateFailure(
-                    "This slice requires base and integration to name the same commit"
-                )
-            if planned:
-                development = config["plan"]["development"]
-                git(repository, "check-ref-format", f"refs/heads/{development}")
-                record["development_branch"] = development
-                record["development_revision"] = git(
-                    repository, "rev-parse", "--verify", f"refs/heads/{development}^{{commit}}"
-                )
-            record.update(
-                base_revision=base, integration_revision=base, integration_branch=integration
-            )
-            execution.stage = "baseline"
-            with execution.git_operation("baseline-worktree"):
-                baseline = worktree(repository, execution.trees / "baseline", base)
-            execution.check("baseline", config["suite"], baseline, base)
-            require_unchanged(baseline, base)
-        for index in range(
-            execution.milestone_index, len(config["plan"]["milestones"]) if planned else 1
-        ):
-            execution.milestone_index = index
-            if planned and index and checkpoint is None:
-                group = config["plan"]["milestones"][index]
-                record["selected_tickets"] = sorted(group["tickets"], key=int)
-                record["milestone"] = {"id": group["id"], "state": "executing"}
-                record["outcome"] = "running"
-                tickets.unlock(record, config)
-                execution.save()
-            while (ticket := tickets.next_ready(record, config, index)) is not None:
-                record["ticket"] = record["tickets"][ticket]
-                candidate_revision = tickets._TicketExecution(
-                    ticket,
-                    record["integration_revision"],
-                    config,
-                    snapshots,
-                    record["ticket"],
-                    record["attempts"],
-                    record["gates"],
-                    execution.approved_source,
-                    _TicketVerification(execution, ticket),
-                ).execute()
-                record["integration_revision"] = candidate_revision
-                tickets.unlock(record, config)
-                execution.save()
-            record["outcome"] = "preparing_milestone" if planned else "completed"
-            if planned and qa.review(execution, checkpoint):
-                return record, 2
-            checkpoint = None
-        if planned:
-            record.update(outcome="completed", feature_complete=True)
-        execution.save()
-        return record, 0
-    except (GateFailure, OSError, ValueError, KeyError, TypeError) as error:
-        stage = execution.stage
-        outcome = (
-            "invalid-input"
-            if stage == "inputs"
-            else "environment"
-            if stage == "baseline" or record.get("environment_failure")
-            else "incomplete"
-        )
-        record.update(outcome=outcome, failure={"stage": stage, "message": str(error)})
-        if record["ticket"]["state"] != "Done":
-            record["ticket"]["state"] = "Blocked"
-        if stage.startswith("milestone-") and "milestone" in record:
-            record["milestone"]["state"] = (
-                "promotion_failed" if stage == "milestone-promotion" else "preparation_failed"
-            )
-        execution.save()
-        return record, 1

@@ -1,0 +1,86 @@
+[
+  {
+    "command": [
+      "/home/ajkerr1/development/agentic_template/.micromamba/envs/dev/bin/python",
+      "-m",
+      "pytest",
+      "-q",
+      "--durations=20",
+      "-p",
+      "capture23"
+    ],
+    "exit": 3,
+    "seconds": 0.5081052780151367,
+    "log": ".scratch/ticket-harness/evidence/23-final-check-0.log",
+    "source": "23-final-source.json"
+  },
+  {
+    "command": [
+      "/home/ajkerr1/development/agentic_template/.micromamba/envs/dev/bin/python",
+      "-m",
+      "mypy"
+    ],
+    "exit": 0,
+    "seconds": 0.3747429847717285,
+    "log": ".scratch/ticket-harness/evidence/23-final-check-1.log",
+    "source": "23-final-source.json"
+  },
+  {
+    "command": [
+      "/home/ajkerr1/development/agentic_template/.micromamba/envs/dev/bin/python",
+      "-m",
+      "ruff",
+      "check",
+      "ticket_harness",
+      "tests",
+      "examples"
+    ],
+    "exit": 0,
+    "seconds": 0.06858539581298828,
+    "log": ".scratch/ticket-harness/evidence/23-final-check-2.log",
+    "source": "23-final-source.json"
+  },
+  {
+    "command": [
+      "/home/ajkerr1/development/agentic_template/.micromamba/envs/dev/bin/python",
+      "-m",
+      "ruff",
+      "format",
+      "--check",
+      "ticket_harness",
+      "tests",
+      "examples"
+    ],
+    "exit": 0,
+    "seconds": 0.03794264793395996,
+    "log": ".scratch/ticket-harness/evidence/23-final-check-3.log",
+    "source": "23-final-source.json"
+  },
+  {
+    "command": [
+      "git",
+      "diff",
+      "--check"
+    ],
+    "exit": 0,
+    "seconds": 3.8463799953460693,
+    "log": ".scratch/ticket-harness/evidence/23-final-check-4.log",
+    "source": "23-final-source.json"
+  },
+  {
+    "command": [
+      "git",
+      "diff",
+      "--check",
+      "851a855889b1ec99ae78ce415da1d66a3cf06687",
+      "--",
+      "ticket_harness",
+      "tests",
+      "examples"
+    ],
+    "exit": 0,
+    "seconds": 0.005457639694213867,
+    "log": ".scratch/ticket-harness/evidence/23-final-check-5.log",
+    "source": "23-final-source.json"
+  }
+]
