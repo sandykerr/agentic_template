@@ -9,7 +9,7 @@
 Completed 01–15 retain their evidence. M1 gains nine required tickets 16–24 before its still-unrequested QA. Review workflow/evaluation precedes the five refactors; later milestones wait for explicit human acceptance of the previous one. Required architecture assessments and disposition rules precede QA readiness, while review completion and review decisions never equal candidate acceptance. E1 remains independent, immediately after verified 34.
 
 Before any required milestone QA request, use the shared
-[development checkpoint contract](../../docs/agents/architecture-checkpoints.md).
+[development checkpoint contract](../../docs/agents/review-records.md#architecture-checkpoints).
 Record cumulative baseline provenance, exact source, all package Python files,
 prior findings and a fresh High Standards report. Missing/incomplete/stale work
 or unresolved in-scope blockers holds readiness, even with all tickets completed.
@@ -32,7 +32,10 @@ Every required ticket 10–34 and 36–38 has exactly one required membership (2
 
 **Required tickets:** [10: Turn one grilling session into an approved plan](issues/10-produce-approved-harness-inputs-with-planning-skill.md), [11: Stop development handoffs at human checkpoints](issues/11-stop-development-handoffs-at-qa-milestones.md), [12: Execute only the first eligible milestone](issues/12-execute-only-the-current-qa-milestone.md), [13: Present a tested feature-to-dev candidate](issues/13-prepare-a-tested-feature-to-dev-candidate.md), [14: Consume approval, promote, and continue](issues/14-promote-only-the-human-approved-milestone.md), [15: Continue after a deliberate QA stop](issues/15-continue-from-a-planned-qa-checkpoint.md), [16: Record review work, findings and decisions](issues/16-record-review-work-findings-and-decisions.md), [17: Review ownership across affected modules](issues/17-review-ownership-across-affected-modules.md), [18: Gate development on cumulative architecture review](issues/18-gate-development-on-cumulative-architecture-review.md), [19: Evaluate reviewers on known and acceptable designs](issues/19-evaluate-reviewers-on-known-and-acceptable-designs.md), [20: Own implementation-attempt transitions](issues/20-own-implementation-attempt-transitions.md), [21: Own ticket execution and bounded repairs](issues/21-own-ticket-execution-and-bounded-repairs.md), [22: Return clearly prepared inputs](issues/22-return-clearly-prepared-inputs.md), [23: Own the complete run lifecycle](issues/23-own-the-complete-run-lifecycle.md), [24: Own milestone review and checkpoint continuation](issues/24-own-milestone-review-and-checkpoint-continuation.md)
 
-**QA status:** Not yet requested or accepted.
+**QA status:** Human code/documentation review complete, reported 2026-11-13
+([record](../../docs/human_qa/m1_review.md#human-review-completion--2026-11-13)).
+Milestone acceptance remains pending: the caller-index blocker is open, renewed
+cumulative review is required, and no exact current candidate has been accepted.
 
 **QA setup:** Use an isolated miniature tracker and actual development reviewer evaluation artifacts, then a disposable foreground scripted two-milestone target repository with the refactored final source. Include the nine new ticket outcomes, genuine pre-refactor checkpoint evidence and a cumulative all-file architecture assessment.
 
@@ -97,3 +100,7 @@ Every required ticket 10–34 and 36–38 has exactly one required membership (2
 **Pass conditions:** Document actual enforcement/compaction/advisory limits and independent experiment acceptance without making E1 a release prerequisite or silently changing role/context defaults.
 
 **Acceptance evidence:** Retain assessed source/feature/development/candidate revisions, plan/run/request identities, actual gate results, cumulative review scope/baseline, immutable reports and finding/decision history, observed human checks and explicit request-specific QA decision. Changed source or accepted corrections require renewed applicable review/candidate checks and human acceptance. Historical fixture decisions are not development milestone acceptance.
+
+## M1 QA preparation history
+
+2026-11-12: human requested beginning QA after ticket24. [Current cumulative work](reviews/M1-architecture-01.md) assesses `d02e61e` from established starting snapshot `1a623ba`; [QA guide/evidence](evidence/m1-qa-01/qa-guide.md) retains the stopped disposable demonstration. Required cumulative assessment completed with open/blocking `review-M1-architecture-01/standards-01/F1`; finding gate unresolved, readiness held, no human acceptance and no M2 authorization. Approved membership, setup, actions and pass conditions above remain unchanged.
