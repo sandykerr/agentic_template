@@ -48,17 +48,17 @@ at implementation `0aa2660505e4233ca2e321cee439ba51b150e055`, from fixed baselin
 `0d79d016907a03ce39d33c749523a8700e4233a4`. Criterion wording and `Blocked by:`
 dependency history are unchanged.
 
-[Criterion-by-criterion completion evidence](../evidence/20-completion.md) links
+[Criterion-by-criterion completion evidence](../evidence/ticket-20/20-completion.md) links
 actual ownership/coverage and CLI/Git/record evidence. Final checks: **544 passed
 in 703.66s**, strict mypy, Ruff lint/format and working/staged/committed whitespace
 all exit 0. No tests added; packaging is outside impact scope. The genuine
 baseline-source checkpoint continuation passed; its original capture loss and
 renewed producer timing limit remain explicit in the evidence and both reviews.
 
-Independent whole-ticket [Spec spec-01](../evidence/20-review-spec-01.md): **0
-blocking/0 optional**; independent [Standards standards-01](../evidence/20-review-standards-01.md):
+Independent whole-ticket [Spec spec-01](../evidence/ticket-20/20-review-spec-01.md): **0
+blocking/0 optional**; independent [Standards standards-01](../evidence/ticket-20/20-review-standards-01.md):
 **0 blocking/0 optional**. [Assessment and immutable report identities](../reviews/ticket-20.md)
-and [finding/authority history](../evidence/20-finding-history.md) preserve originals.
+and [finding/authority history](../evidence/ticket-20/20-finding-history.md) preserve originals.
 No unresolved full finding key, unchecked criterion, missing required ticket
 report, pending relevant revalidation or actual human decision remains. All four
 start/final architecture triggers are No. Requested role settings are recorded;
@@ -69,3 +69,5 @@ separately. The next handoff is a third separate commit selecting eligible work
 without launching it. M1 still needs 21–24, actual feature-start provenance and
 all-package cumulative assessment, then explicit human QA. No M1 readiness,
 acceptance, promotion, later-milestone authorization or push is inferred.
+
+M1 QA preparation, 2026-11-12: this ticket contributes to [cumulative assessment review-M1-architecture-01](../reviews/M1-architecture-01.md) at `d02e61e`, fixed feature-start baseline `1a623ba`. [Current QA preparation and observations](../evidence/m1-qa-01/qa-guide.md). Ticket completion retains its original verification; this cross-ticket assessment and actual human QA are separate gates.

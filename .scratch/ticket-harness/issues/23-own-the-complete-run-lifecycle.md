@@ -46,9 +46,9 @@ Use the [shared worker handoff](../README.md#worker-handoff). Preserve completed
 Previous readiness: `ready-for-agent`. Implemented and verified at
 `8b1b37becb544299e8981144e4ad56da42e2d45f` from original baseline
 `851a855889b1ec99ae78ce415da1d66a3cf06687`.
-[Completion reconciliation](../evidence/23-completion.md) maps all seven original
+[Completion reconciliation](../evidence/ticket-23/23-completion.md) maps all seven original
 criteria to exact source, behavioral observations and independent reviews;
-[detailed criterion evidence](../evidence/23-criterion-evidence.md) and
+[detailed criterion evidence](../evidence/ticket-23/23-criterion-evidence.md) and
 [assessment/history](../reviews/ticket-23.md) retain the ownership rationale.
 Full final-source suite: **544 passed in 706.22s**; strict mypy, Ruff lint/format
 and both whitespace checks passed. Genuine pre-refactor checkpoint continued under
@@ -61,3 +61,5 @@ relevant revalidation remains. Original criterion wording and Blocked by history
 are preserved. Bookkeeping is committed separately from implementation; its
 commit is available in this ticket's Git history. M1 still needs ticket 24,
 actual cumulative assessment and explicit human QA; none is accepted here.
+
+M1 QA preparation, 2026-11-12: this ticket contributes to [cumulative assessment review-M1-architecture-01](../reviews/M1-architecture-01.md) at `d02e61e`, fixed feature-start baseline `1a623ba`. [Current QA preparation and observations](../evidence/m1-qa-01/qa-guide.md). Ticket completion retains its original verification; this cross-ticket assessment and actual human QA are separate gates.

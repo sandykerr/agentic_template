@@ -4,6 +4,10 @@ Python development uses a reusable micromamba environment. See [Python environme
 
 This is my template for how I do agentic work. Currently, this uses Matt Pocock's skills which allow humans to "stay in the loop" while also taking advantage of the efficiency gains of automated agentic development. Commands below are in the codex `$skill` format, but other platforms may invoke skills differently.
 
+See the [harness guide](docs/ticket-harness.md) for runtime commands and contracts.
+The [archived origin context](.scratch/ticket-harness/archive/README.md#origin-context)
+retains the earlier design conversation and source URL losslessly.
+
 # Basic workflow for a single feature:
 
 ## 1. Setup skills (if this is the first time using the repo)
@@ -32,7 +36,7 @@ With the tickets, agents can work autonomously on issues after we've brainstorme
 
 ## 5. Implementing the tickets/project spec - MOST OF THE WORKFLOW
 
-For one local Markdown ticket, run `$implement-with-checkboxes <ticket-path>`. This wraps Matt's implementation workflow with independent review and evidence-backed acceptance checkbox updates after verification. See the [skill](.agents/skills/implement-with-checkboxes/SKILL.md) and [completion bookkeeping rules](docs/agents/issue-tracker.md#completion-bookkeeping).
+For one local Markdown ticket, run `$implement-with-checkboxes <ticket-path>`. This wraps Matt's implementation workflow with independent review and evidence-backed acceptance checkbox updates after verification. See the [skill](.agents/skills/custom/implement-with-checkboxes/SKILL.md) and [completion bookkeeping rules](docs/agents/issue-tracker.md#completion-bookkeeping).
 
 Run: `$implement-spec <prompt>` to start agentic development. At this point, we are ready to start generating code, using subagents to more efficiently manage context. There are multiple advantages to subagent-driven development:
 
@@ -66,16 +70,14 @@ The hook checks blobs throughout outgoing history and rejects files over GitHub'
 and awk. If you already use a hooks directory, integrate this check into your
 existing pre-push hook instead of replacing that configuration.
 
-The ticket 19 round-two Spec identity JSON is now a locator for its adjacent
-`.json.gz` archive. Decompress it before checking the original capture hash:
+The human-directed [retroactive evidence cleanup](.scratch/ticket-harness/evidence-cleanup-and-organization-decisions.md#retroactive-archival-and-selective-retirement)
+retires selected unnecessary raw captures after their useful results are recorded.
+Use the [current evidence index](.scratch/ticket-harness/evidence/README.md) and
+ticket retirement notes to distinguish retained originals from derived summaries.
+Ticket 19's command-heavy round-two identity captures were replaced by explicitly
+lossy extracts; their original full-output hashes no longer identify locally
+available captures to decompress.
 
-```bash
-gzip -dc .scratch/ticket-harness/evidence/19-review-round2-spec-identities.json.gz > /tmp/19-review-round2-spec-identities.json
-sha256sum /tmp/19-review-round2-spec-identities.json
-```
-
-The expected SHA-256 is
-`94736e1eefbee407abcc23e0ece23508f2db1733af895269f332257700d20e47`.
 The [history migration record](docs/history/2026-11-10-large-file-rewrite.json)
 maps the original unpublished commit IDs to their replacements. Historical review
 records retain their original source IDs and hashes; this storage migration does

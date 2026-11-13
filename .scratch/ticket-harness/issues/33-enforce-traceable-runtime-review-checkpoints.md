@@ -34,3 +34,16 @@ Use the [testing policy](../../../docs/agents/testing.md), [Python environment](
 ## Handoff
 
 Use the [shared worker handoff](../README.md#worker-handoff). Carry pending reviews and unresolved findings without rewriting prior reports. Ticket completion does not accept a milestone. Select further work only through [milestone eligibility](../milestones.md); no automatic next-milestone execution or human acceptance is authorized.
+
+## Comments
+
+### Related development-workflow evidence
+
+The completed [workflow-efficiency follow-up](../archive/workflow-efficiency/README.md)
+retains the preparation, repair-diagnosis and evidence-reuse lessons learned after
+ticket 19, including original independent reviews. The current
+[development procedure](../../../docs/agents/review-records.md#prepare-review-and-repair) is reached
+through existing skill/handoff routes. Consult the archive for rationale when
+implementing this ticket's approved runtime review contract; the development
+guidance is not evidence that runtime enforcement already exists. This context
+adds no acceptance criterion or dependency.

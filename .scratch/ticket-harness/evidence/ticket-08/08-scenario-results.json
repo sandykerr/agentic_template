@@ -1,0 +1,1404 @@
+{
+  "kind": "executed lossy historical observation extract",
+  "ticket": "08",
+  "original_path": ".scratch/ticket-harness/evidence/ticket-08/08-fixture-observations.json",
+  "original_sha256": "1170f5747fb52b569faedee89845cf0e2f54043e1665146e898b15e150878602",
+  "original_bytes": 204525,
+  "identity": {
+    "implementation": "fbfc088de61f50636ec2f8557fdf2e119976fc58",
+    "fixed_review_baseline": "3d78722ae2e0f53c40eb169234aebec50e2140fb",
+    "source_manifest": {
+      "ticket_harness/inputs.py": "67b615b63d14f686e4e4239fb5077b2299d41123394b6041629253462337d267",
+      "ticket_harness/records.py": "a57abe1ac90ebe3936ca23af0e9f16833c8513d1559467441f0a98307284f538",
+      "ticket_harness/runner.py": "e28f2531824041edf0e8a34c6af759e431b19ab2ed3a2818c6bfbba1945b3d21",
+      "tests/test_timeouts.py": "783abc75a99c7c519e31e99ff2869f2dbeeadf9b78cfa79a0c9d09ca1e4ec2b9",
+      "docs/ticket-harness.md": "0f8501210a5fb373e6bd9256ca28345ca82c05227b4d594e088015abce466b20"
+    }
+  },
+  "completion_record": "08-completion.md",
+  "source_identity_records": [],
+  "limits": "Mechanical projection of observed historical fields, not new execution or proof all requirements passed. Deliberately omits raw command output, assignments, complete input/run/QA records and process internals. Original pointers identify derivation after original payload retirement. Fixture approvals are synthetic, not development M1 acceptance. Original independent development reviews/source/result records remain separate.",
+  "scenario_count": 27,
+  "scenarios": [
+    {
+      "original_pointer": "/scenarios/0",
+      "scenario": "test_baseline_timeout_is_environment_failure_without_spending_repairs",
+      "integration": "8f8bd248068fe8fddf52e648a985805144af9313",
+      "caller_status": "",
+      "record_facts": {
+        "outcome": "environment",
+        "failure": {
+          "stage": "baseline",
+          "message": "Required gate failed: baseline; baseline timed out after 1 seconds"
+        },
+        "base_revision": "8f8bd248068fe8fddf52e648a985805144af9313",
+        "integration_branch": "integration"
+      },
+      "ticket": {
+        "id": "01",
+        "state": "Blocked",
+        "attempt": 0
+      },
+      "gates": [
+        {
+          "stage": "baseline",
+          "attempt": 0,
+          "revision": "8f8bd248068fe8fddf52e648a985805144af9313",
+          "passed": false,
+          "exit_code": -9,
+          "timed_out": true,
+          "timeout_category": "baseline",
+          "timeout_seconds": 1,
+          "diagnostic": "baseline timed out after 1 seconds"
+        }
+      ],
+      "attempt_count": 0,
+      "recorded_assertions": {}
+    },
+    {
+      "original_pointer": "/scenarios/1",
+      "scenario": "test_check_timeout_can_repair_and_test_the_exact_new_candidate[candidate]",
+      "integration": "ee5b18ce4931921065962ee2a7e6fc66c6f452c0",
+      "caller_status": "",
+      "record_facts": {
+        "outcome": "completed",
+        "base_revision": "b952014681d6568b5e403e5e3b2554c1611fbadf",
+        "integration_branch": "integration"
+      },
+      "ticket": {
+        "id": "01",
+        "state": "Done",
+        "attempt": 2,
+        "starting_revision": "7d96137961f0a8cd7444fbcfc0c25b763fc05229",
+        "submitted_revision": "6bbcf63627088bfc8b1e4f12009ffe96c2f98ddf",
+        "candidate_revision": "ee5b18ce4931921065962ee2a7e6fc66c6f452c0",
+        "done_revision": "ee5b18ce4931921065962ee2a7e6fc66c6f452c0"
+      },
+      "gates": [
+        {
+          "stage": "baseline",
+          "attempt": 0,
+          "revision": "b952014681d6568b5e403e5e3b2554c1611fbadf",
+          "passed": true,
+          "exit_code": 0,
+          "timed_out": false,
+          "timeout_category": "baseline",
+          "timeout_seconds": 1800
+        },
+        {
+          "stage": "implementation",
+          "attempt": 1,
+          "revision": "b952014681d6568b5e403e5e3b2554c1611fbadf",
+          "passed": true,
+          "exit_code": 0,
+          "timed_out": false,
+          "timeout_category": "implementation",
+          "timeout_seconds": 1800
+        },
+        {
+          "stage": "check-ticket",
+          "attempt": 1,
+          "revision": "7d96137961f0a8cd7444fbcfc0c25b763fc05229",
+          "passed": true,
+          "exit_code": 0,
+          "timed_out": false,
+          "timeout_category": "checks",
+          "timeout_seconds": 300
+        },
+        {
+          "stage": "spec",
+          "attempt": 1,
+          "revision": "7d96137961f0a8cd7444fbcfc0c25b763fc05229",
+          "passed": true,
+          "exit_code": 0,
+          "timed_out": false,
+          "timeout_category": "spec",
+          "timeout_seconds": 900
+        },
+        {
+          "stage": "standards",
+          "attempt": 1,
+          "revision": "7d96137961f0a8cd7444fbcfc0c25b763fc05229",
+          "passed": true,
+          "exit_code": 0,
+          "timed_out": false,
+          "timeout_category": "standards",
+          "timeout_seconds": 900
+        },
+        {
+          "stage": "candidate",
+          "attempt": 1,
+          "revision": "dfce51e219d8702e5167d48bda2df9e84d805bdc",
+          "passed": false,
+          "exit_code": -9,
+          "timed_out": true,
+          "timeout_category": "candidate",
+          "timeout_seconds": 1,
+          "diagnostic": "candidate timed out after 1 seconds"
+        },
+        {
+          "stage": "implementation",
+          "attempt": 2,
+          "revision": "7d96137961f0a8cd7444fbcfc0c25b763fc05229",
+          "passed": true,
+          "exit_code": 0,
+          "timed_out": false,
+          "timeout_category": "repair",
+          "timeout_seconds": 1800
+        },
+        {
+          "stage": "check-ticket",
+          "attempt": 2,
+          "revision": "6bbcf63627088bfc8b1e4f12009ffe96c2f98ddf",
+          "passed": true,
+          "exit_code": 0,
+          "timed_out": false,
+          "timeout_category": "checks",
+          "timeout_seconds": 300
+        },
+        {
+          "stage": "spec",
+          "attempt": 2,
+          "revision": "6bbcf63627088bfc8b1e4f12009ffe96c2f98ddf",
+          "passed": true,
+          "exit_code": 0,
+          "timed_out": false,
+          "timeout_category": "spec",
+          "timeout_seconds": 900
+        },
+        {
+          "stage": "standards",
+          "attempt": 2,
+          "revision": "6bbcf63627088bfc8b1e4f12009ffe96c2f98ddf",
+          "passed": true,
+          "exit_code": 0,
+          "timed_out": false,
+          "timeout_category": "standards",
+          "timeout_seconds": 900
+        },
+        {
+          "stage": "candidate",
+          "attempt": 2,
+          "revision": "ee5b18ce4931921065962ee2a7e6fc66c6f452c0",
+          "passed": true,
+          "exit_code": 0,
+          "timed_out": false,
+          "timeout_category": "candidate",
+          "timeout_seconds": 1
+        }
+      ],
+      "attempt_count": 2,
+      "recorded_assertions": {}
+    },
+    {
+      "original_pointer": "/scenarios/2",
+      "scenario": "test_check_timeout_can_repair_and_test_the_exact_new_candidate[check-ticket]",
+      "integration": "3c076efa4f752cc3131091d58aa44c3f3afeb389",
+      "caller_status": "",
+      "record_facts": {
+        "outcome": "completed",
+        "base_revision": "63269fa40b607d4c0ccdd127f399496e768448a9",
+        "integration_branch": "integration"
+      },
+      "ticket": {
+        "id": "01",
+        "state": "Done",
+        "attempt": 2,
+        "starting_revision": "9ff33413c79429295641c3ee2aed7dae5d77acc8",
+        "submitted_revision": "62b02d513a2cdd008a1b124217e683f1a42c573f",
+        "candidate_revision": "3c076efa4f752cc3131091d58aa44c3f3afeb389",
+        "done_revision": "3c076efa4f752cc3131091d58aa44c3f3afeb389"
+      },
+      "gates": [
+        {
+          "stage": "baseline",
+          "attempt": 0,
+          "revision": "63269fa40b607d4c0ccdd127f399496e768448a9",
+          "passed": true,
+          "exit_code": 0,
+          "timed_out": false,
+          "timeout_category": "baseline",
+          "timeout_seconds": 1800
+        },
+        {
+          "stage": "implementation",
+          "attempt": 1,
+          "revision": "63269fa40b607d4c0ccdd127f399496e768448a9",
+          "passed": true,
+          "exit_code": 0,
+          "timed_out": false,
+          "timeout_category": "implementation",
+          "timeout_seconds": 1800
+        },
+        {
+          "stage": "check-ticket",
+          "attempt": 1,
+          "revision": "9ff33413c79429295641c3ee2aed7dae5d77acc8",
+          "passed": false,
+          "exit_code": -9,
+          "timed_out": true,
+          "timeout_category": "checks",
+          "timeout_seconds": 1,
+          "diagnostic": "check-ticket timed out after 1 seconds"
+        },
+        {
+          "stage": "implementation",
+          "attempt": 2,
+          "revision": "9ff33413c79429295641c3ee2aed7dae5d77acc8",
+          "passed": true,
+          "exit_code": 0,
+          "timed_out": false,
+          "timeout_category": "repair",
+          "timeout_seconds": 1800
+        },
+        {
+          "stage": "check-ticket",
+          "attempt": 2,
+          "revision": "62b02d513a2cdd008a1b124217e683f1a42c573f",
+          "passed": true,
+          "exit_code": 0,
+          "timed_out": false,
+          "timeout_category": "checks",
+          "timeout_seconds": 1
+        },
+        {
+          "stage": "spec",
+          "attempt": 2,
+          "revision": "62b02d513a2cdd008a1b124217e683f1a42c573f",
+          "passed": true,
+          "exit_code": 0,
+          "timed_out": false,
+          "timeout_category": "spec",
+          "timeout_seconds": 900
+        },
+        {
+          "stage": "standards",
+          "attempt": 2,
+          "revision": "62b02d513a2cdd008a1b124217e683f1a42c573f",
+          "passed": true,
+          "exit_code": 0,
+          "timed_out": false,
+          "timeout_category": "standards",
+          "timeout_seconds": 900
+        },
+        {
+          "stage": "candidate",
+          "attempt": 2,
+          "revision": "3c076efa4f752cc3131091d58aa44c3f3afeb389",
+          "passed": true,
+          "exit_code": 0,
+          "timed_out": false,
+          "timeout_category": "candidate",
+          "timeout_seconds": 1800
+        }
+      ],
+      "attempt_count": 2,
+      "recorded_assertions": {}
+    },
+    {
+      "original_pointer": "/scenarios/3",
+      "scenario": "test_default_timeouts_are_normalized_and_visible_on_each_successful_gate",
+      "integration": "3c62f56535b8190c2ee8a7e54ba9f7d20f46fc41",
+      "caller_status": "",
+      "record_facts": {
+        "outcome": "completed",
+        "base_revision": "3727a6b12b6c695674e5c9d4b25696c934181d53",
+        "integration_branch": "integration"
+      },
+      "ticket": {
+        "id": "01",
+        "state": "Done",
+        "attempt": 1,
+        "starting_revision": "3727a6b12b6c695674e5c9d4b25696c934181d53",
+        "submitted_revision": "3b21cd5ddffc1ba16d3479a79390a7740714d932",
+        "candidate_revision": "3c62f56535b8190c2ee8a7e54ba9f7d20f46fc41",
+        "done_revision": "3c62f56535b8190c2ee8a7e54ba9f7d20f46fc41"
+      },
+      "gates": [
+        {
+          "stage": "baseline",
+          "attempt": 0,
+          "revision": "3727a6b12b6c695674e5c9d4b25696c934181d53",
+          "passed": true,
+          "exit_code": 0,
+          "timed_out": false,
+          "timeout_category": "baseline",
+          "timeout_seconds": 1800
+        },
+        {
+          "stage": "implementation",
+          "attempt": 1,
+          "revision": "3727a6b12b6c695674e5c9d4b25696c934181d53",
+          "passed": true,
+          "exit_code": 0,
+          "timed_out": false,
+          "timeout_category": "implementation",
+          "timeout_seconds": 1800
+        },
+        {
+          "stage": "check-ticket",
+          "attempt": 1,
+          "revision": "3b21cd5ddffc1ba16d3479a79390a7740714d932",
+          "passed": true,
+          "exit_code": 0,
+          "timed_out": false,
+          "timeout_category": "checks",
+          "timeout_seconds": 300
+        },
+        {
+          "stage": "spec",
+          "attempt": 1,
+          "revision": "3b21cd5ddffc1ba16d3479a79390a7740714d932",
+          "passed": true,
+          "exit_code": 0,
+          "timed_out": false,
+          "timeout_category": "spec",
+          "timeout_seconds": 900
+        },
+        {
+          "stage": "standards",
+          "attempt": 1,
+          "revision": "3b21cd5ddffc1ba16d3479a79390a7740714d932",
+          "passed": true,
+          "exit_code": 0,
+          "timed_out": false,
+          "timeout_category": "standards",
+          "timeout_seconds": 900
+        },
+        {
+          "stage": "candidate",
+          "attempt": 1,
+          "revision": "3c62f56535b8190c2ee8a7e54ba9f7d20f46fc41",
+          "passed": true,
+          "exit_code": 0,
+          "timed_out": false,
+          "timeout_category": "candidate",
+          "timeout_seconds": 1800
+        }
+      ],
+      "attempt_count": 1,
+      "recorded_assertions": {}
+    },
+    {
+      "original_pointer": "/scenarios/4",
+      "scenario": "test_exited_worker_with_child_holding_output_cannot_approve_or_request_decision[human-decision]",
+      "integration": "506854cafa3ded093a12eaaeedcaf43b2be92a2c",
+      "caller_status": "",
+      "record_facts": {
+        "outcome": "completed",
+        "base_revision": "fb13867cd71d3681114b0232ba52f1e98d5efd0b",
+        "integration_branch": "integration"
+      },
+      "ticket": {
+        "id": "01",
+        "state": "Done",
+        "attempt": 2,
+        "starting_revision": "fb13867cd71d3681114b0232ba52f1e98d5efd0b",
+        "submitted_revision": "b6777a2a24eb5f9191b5f86be14cf2554b8ecb10",
+        "candidate_revision": "506854cafa3ded093a12eaaeedcaf43b2be92a2c",
+        "done_revision": "506854cafa3ded093a12eaaeedcaf43b2be92a2c"
+      },
+      "gates": [
+        {
+          "stage": "baseline",
+          "attempt": 0,
+          "revision": "fb13867cd71d3681114b0232ba52f1e98d5efd0b",
+          "passed": true,
+          "exit_code": 0,
+          "timed_out": false,
+          "timeout_category": "baseline",
+          "timeout_seconds": 1800
+        },
+        {
+          "stage": "implementation",
+          "attempt": 1,
+          "revision": "fb13867cd71d3681114b0232ba52f1e98d5efd0b",
+          "passed": false,
+          "exit_code": 0,
+          "timed_out": true,
+          "timeout_category": "implementation",
+          "timeout_seconds": 1,
+          "diagnostic": "implementation timed out after 1 seconds"
+        },
+        {
+          "stage": "implementation",
+          "attempt": 2,
+          "revision": "fb13867cd71d3681114b0232ba52f1e98d5efd0b",
+          "passed": true,
+          "exit_code": 0,
+          "timed_out": false,
+          "timeout_category": "repair",
+          "timeout_seconds": 1800
+        },
+        {
+          "stage": "check-ticket",
+          "attempt": 2,
+          "revision": "b6777a2a24eb5f9191b5f86be14cf2554b8ecb10",
+          "passed": true,
+          "exit_code": 0,
+          "timed_out": false,
+          "timeout_category": "checks",
+          "timeout_seconds": 300
+        },
+        {
+          "stage": "spec",
+          "attempt": 2,
+          "revision": "b6777a2a24eb5f9191b5f86be14cf2554b8ecb10",
+          "passed": true,
+          "exit_code": 0,
+          "timed_out": false,
+          "timeout_category": "spec",
+          "timeout_seconds": 900
+        },
+        {
+          "stage": "standards",
+          "attempt": 2,
+          "revision": "b6777a2a24eb5f9191b5f86be14cf2554b8ecb10",
+          "passed": true,
+          "exit_code": 0,
+          "timed_out": false,
+          "timeout_category": "standards",
+          "timeout_seconds": 900
+        },
+        {
+          "stage": "candidate",
+          "attempt": 2,
+          "revision": "506854cafa3ded093a12eaaeedcaf43b2be92a2c",
+          "passed": true,
+          "exit_code": 0,
+          "timed_out": false,
+          "timeout_category": "candidate",
+          "timeout_seconds": 1800
+        }
+      ],
+      "attempt_count": 2,
+      "recorded_assertions": {}
+    },
+    {
+      "original_pointer": "/scenarios/5",
+      "scenario": "test_exited_worker_with_child_holding_output_cannot_approve_or_request_decision[submitted]",
+      "integration": "923bd6156a0b362fb8911c833796ba48529c212c",
+      "caller_status": "",
+      "record_facts": {
+        "outcome": "completed",
+        "base_revision": "0f5fe8f5703ca54dbd9be6fa12a289e6105abab1",
+        "integration_branch": "integration"
+      },
+      "ticket": {
+        "id": "01",
+        "state": "Done",
+        "attempt": 2,
+        "starting_revision": "0f5fe8f5703ca54dbd9be6fa12a289e6105abab1",
+        "submitted_revision": "04e1e21877a1ddadc7ec2c52a8b018fe2103429a",
+        "candidate_revision": "923bd6156a0b362fb8911c833796ba48529c212c",
+        "done_revision": "923bd6156a0b362fb8911c833796ba48529c212c"
+      },
+      "gates": [
+        {
+          "stage": "baseline",
+          "attempt": 0,
+          "revision": "0f5fe8f5703ca54dbd9be6fa12a289e6105abab1",
+          "passed": true,
+          "exit_code": 0,
+          "timed_out": false,
+          "timeout_category": "baseline",
+          "timeout_seconds": 1800
+        },
+        {
+          "stage": "implementation",
+          "attempt": 1,
+          "revision": "0f5fe8f5703ca54dbd9be6fa12a289e6105abab1",
+          "passed": false,
+          "exit_code": 0,
+          "timed_out": true,
+          "timeout_category": "implementation",
+          "timeout_seconds": 1,
+          "diagnostic": "implementation timed out after 1 seconds"
+        },
+        {
+          "stage": "implementation",
+          "attempt": 2,
+          "revision": "0f5fe8f5703ca54dbd9be6fa12a289e6105abab1",
+          "passed": true,
+          "exit_code": 0,
+          "timed_out": false,
+          "timeout_category": "repair",
+          "timeout_seconds": 1800
+        },
+        {
+          "stage": "check-ticket",
+          "attempt": 2,
+          "revision": "04e1e21877a1ddadc7ec2c52a8b018fe2103429a",
+          "passed": true,
+          "exit_code": 0,
+          "timed_out": false,
+          "timeout_category": "checks",
+          "timeout_seconds": 300
+        },
+        {
+          "stage": "spec",
+          "attempt": 2,
+          "revision": "04e1e21877a1ddadc7ec2c52a8b018fe2103429a",
+          "passed": true,
+          "exit_code": 0,
+          "timed_out": false,
+          "timeout_category": "spec",
+          "timeout_seconds": 900
+        },
+        {
+          "stage": "standards",
+          "attempt": 2,
+          "revision": "04e1e21877a1ddadc7ec2c52a8b018fe2103429a",
+          "passed": true,
+          "exit_code": 0,
+          "timed_out": false,
+          "timeout_category": "standards",
+          "timeout_seconds": 900
+        },
+        {
+          "stage": "candidate",
+          "attempt": 2,
+          "revision": "923bd6156a0b362fb8911c833796ba48529c212c",
+          "passed": true,
+          "exit_code": 0,
+          "timed_out": false,
+          "timeout_category": "candidate",
+          "timeout_seconds": 1800
+        }
+      ],
+      "attempt_count": 2,
+      "recorded_assertions": {}
+    },
+    {
+      "original_pointer": "/scenarios/6",
+      "scenario": "test_invalid_timeout_is_rejected_before_any_process[-1]",
+      "integration": "ec19f7808996a0721d159aa19f68c8098893d482",
+      "caller_status": "",
+      "record_facts": {
+        "outcome": "invalid-input",
+        "failure": {
+          "stage": "inputs",
+          "message": "configuration.timeouts.implementation: expected positive finite seconds <= 604800"
+        }
+      },
+      "ticket": {
+        "state": "Blocked",
+        "attempt": 0
+      },
+      "gates": [],
+      "attempt_count": 0,
+      "recorded_assertions": {}
+    },
+    {
+      "original_pointer": "/scenarios/7",
+      "scenario": "test_invalid_timeout_is_rejected_before_any_process[0]",
+      "integration": "ec19f7808996a0721d159aa19f68c8098893d482",
+      "caller_status": "",
+      "record_facts": {
+        "outcome": "invalid-input",
+        "failure": {
+          "stage": "inputs",
+          "message": "configuration.timeouts.implementation: expected positive finite seconds <= 604800"
+        }
+      },
+      "ticket": {
+        "state": "Blocked",
+        "attempt": 0
+      },
+      "gates": [],
+      "attempt_count": 0,
+      "recorded_assertions": {}
+    },
+    {
+      "original_pointer": "/scenarios/8",
+      "scenario": "test_invalid_timeout_is_rejected_before_any_process[10000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000]",
+      "integration": "04e772f46fa0a15d5df546dc3c3942b8523f06c0",
+      "caller_status": "",
+      "record_facts": {
+        "outcome": "invalid-input",
+        "failure": {
+          "stage": "inputs",
+          "message": "configuration.timeouts.implementation: expected positive finite seconds <= 604800"
+        }
+      },
+      "ticket": {
+        "state": "Blocked",
+        "attempt": 0
+      },
+      "gates": [],
+      "attempt_count": 0,
+      "recorded_assertions": {}
+    },
+    {
+      "original_pointer": "/scenarios/9",
+      "scenario": "test_invalid_timeout_is_rejected_before_any_process[1]",
+      "integration": "4a6c252ff7c27f1438b4e13d0ad41b57cf80f724",
+      "caller_status": "",
+      "record_facts": {
+        "outcome": "invalid-input",
+        "failure": {
+          "stage": "inputs",
+          "message": "configuration.timeouts.implementation: expected positive finite seconds <= 604800"
+        }
+      },
+      "ticket": {
+        "state": "Blocked",
+        "attempt": 0
+      },
+      "gates": [],
+      "attempt_count": 0,
+      "recorded_assertions": {}
+    },
+    {
+      "original_pointer": "/scenarios/10",
+      "scenario": "test_invalid_timeout_is_rejected_before_any_process[1e+308]",
+      "integration": "04e772f46fa0a15d5df546dc3c3942b8523f06c0",
+      "caller_status": "",
+      "record_facts": {
+        "outcome": "invalid-input",
+        "failure": {
+          "stage": "inputs",
+          "message": "configuration.timeouts.implementation: expected positive finite seconds <= 604800"
+        }
+      },
+      "ticket": {
+        "state": "Blocked",
+        "attempt": 0
+      },
+      "gates": [],
+      "attempt_count": 0,
+      "recorded_assertions": {}
+    },
+    {
+      "original_pointer": "/scenarios/11",
+      "scenario": "test_invalid_timeout_is_rejected_before_any_process[None]",
+      "integration": "4a6c252ff7c27f1438b4e13d0ad41b57cf80f724",
+      "caller_status": "",
+      "record_facts": {
+        "outcome": "invalid-input",
+        "failure": {
+          "stage": "inputs",
+          "message": "configuration.timeouts.implementation: expected positive finite seconds <= 604800"
+        }
+      },
+      "ticket": {
+        "state": "Blocked",
+        "attempt": 0
+      },
+      "gates": [],
+      "attempt_count": 0,
+      "recorded_assertions": {}
+    },
+    {
+      "original_pointer": "/scenarios/12",
+      "scenario": "test_invalid_timeout_is_rejected_before_any_process[True]",
+      "integration": "4a6c252ff7c27f1438b4e13d0ad41b57cf80f724",
+      "caller_status": "",
+      "record_facts": {
+        "outcome": "invalid-input",
+        "failure": {
+          "stage": "inputs",
+          "message": "configuration.timeouts.implementation: expected positive finite seconds <= 604800"
+        }
+      },
+      "ticket": {
+        "state": "Blocked",
+        "attempt": 0
+      },
+      "gates": [],
+      "attempt_count": 0,
+      "recorded_assertions": {}
+    },
+    {
+      "original_pointer": "/scenarios/13",
+      "scenario": "test_invalid_timeout_is_rejected_before_any_process[inf]",
+      "integration": "4a6c252ff7c27f1438b4e13d0ad41b57cf80f724",
+      "caller_status": "",
+      "record_facts": {
+        "outcome": "invalid-input",
+        "failure": {
+          "stage": "inputs",
+          "message": "configuration.timeouts.implementation: expected positive finite seconds <= 604800"
+        }
+      },
+      "ticket": {
+        "state": "Blocked",
+        "attempt": 0
+      },
+      "gates": [],
+      "attempt_count": 0,
+      "recorded_assertions": {}
+    },
+    {
+      "original_pointer": "/scenarios/14",
+      "scenario": "test_invalid_timeout_is_rejected_before_any_process[nan]",
+      "integration": "04e772f46fa0a15d5df546dc3c3942b8523f06c0",
+      "caller_status": "",
+      "record_facts": {
+        "outcome": "invalid-input",
+        "failure": {
+          "stage": "inputs",
+          "message": "configuration.timeouts.implementation: expected positive finite seconds <= 604800"
+        }
+      },
+      "ticket": {
+        "state": "Blocked",
+        "attempt": 0
+      },
+      "gates": [],
+      "attempt_count": 0,
+      "recorded_assertions": {}
+    },
+    {
+      "original_pointer": "/scenarios/15",
+      "scenario": "test_invalid_timeout_object_or_stage_is_rejected_before_execution[None]",
+      "integration": "04e772f46fa0a15d5df546dc3c3942b8523f06c0",
+      "caller_status": "",
+      "record_facts": {
+        "outcome": "invalid-input",
+        "failure": {
+          "stage": "inputs",
+          "message": "configuration.timeouts: expected an object of stage seconds"
+        }
+      },
+      "ticket": {
+        "state": "Blocked",
+        "attempt": 0
+      },
+      "gates": [],
+      "attempt_count": 0,
+      "recorded_assertions": {}
+    },
+    {
+      "original_pointer": "/scenarios/16",
+      "scenario": "test_invalid_timeout_object_or_stage_is_rejected_before_execution[value1]",
+      "integration": "2bad4a36081c4c32ce4d7b6ca222b4af0d011a59",
+      "caller_status": "",
+      "record_facts": {
+        "outcome": "invalid-input",
+        "failure": {
+          "stage": "inputs",
+          "message": "configuration.timeouts: expected an object of stage seconds"
+        }
+      },
+      "ticket": {
+        "state": "Blocked",
+        "attempt": 0
+      },
+      "gates": [],
+      "attempt_count": 0,
+      "recorded_assertions": {}
+    },
+    {
+      "original_pointer": "/scenarios/17",
+      "scenario": "test_invalid_timeout_object_or_stage_is_rejected_before_execution[value2]",
+      "integration": "2bad4a36081c4c32ce4d7b6ca222b4af0d011a59",
+      "caller_status": "",
+      "record_facts": {
+        "outcome": "invalid-input",
+        "failure": {
+          "stage": "inputs",
+          "message": "configuration.timeouts.typo: unsupported timeout stage"
+        }
+      },
+      "ticket": {
+        "state": "Blocked",
+        "attempt": 0
+      },
+      "gates": [],
+      "attempt_count": 0,
+      "recorded_assertions": {}
+    },
+    {
+      "original_pointer": "/scenarios/18",
+      "scenario": "test_invalid_timeout_object_or_stage_is_rejected_before_execution[value3]",
+      "integration": "2bad4a36081c4c32ce4d7b6ca222b4af0d011a59",
+      "caller_status": "",
+      "record_facts": {
+        "outcome": "invalid-input",
+        "failure": {
+          "stage": "inputs",
+          "message": "configuration.timeouts.repair: expected positive finite seconds <= 604800"
+        }
+      },
+      "ticket": {
+        "state": "Blocked",
+        "attempt": 0
+      },
+      "gates": [],
+      "attempt_count": 0,
+      "recorded_assertions": {}
+    },
+    {
+      "original_pointer": "/scenarios/19",
+      "scenario": "test_invalid_timeout_object_or_stage_is_rejected_before_execution[value4]",
+      "integration": "2bad4a36081c4c32ce4d7b6ca222b4af0d011a59",
+      "caller_status": "",
+      "record_facts": {
+        "outcome": "invalid-input",
+        "failure": {
+          "stage": "inputs",
+          "message": "configuration.timeouts.checks: expected positive finite seconds <= 604800"
+        }
+      },
+      "ticket": {
+        "state": "Blocked",
+        "attempt": 0
+      },
+      "gates": [],
+      "attempt_count": 0,
+      "recorded_assertions": {}
+    },
+    {
+      "original_pointer": "/scenarios/20",
+      "scenario": "test_timed_out_assignment_repairs_current_work_with_fresh_verification[implementation]",
+      "integration": "209e672c531cabfd58f41336b27f4931694eeae8",
+      "caller_status": "MM value.txt\n?? unrelated",
+      "record_facts": {
+        "outcome": "completed",
+        "base_revision": "2bad4a36081c4c32ce4d7b6ca222b4af0d011a59",
+        "integration_branch": "integration"
+      },
+      "ticket": {
+        "id": "01",
+        "state": "Done",
+        "attempt": 2,
+        "starting_revision": "2bad4a36081c4c32ce4d7b6ca222b4af0d011a59",
+        "submitted_revision": "cb527f986d7df276fe764e54ccc35e42130629ce",
+        "candidate_revision": "209e672c531cabfd58f41336b27f4931694eeae8",
+        "done_revision": "209e672c531cabfd58f41336b27f4931694eeae8"
+      },
+      "gates": [
+        {
+          "stage": "baseline",
+          "attempt": 0,
+          "revision": "2bad4a36081c4c32ce4d7b6ca222b4af0d011a59",
+          "passed": true,
+          "exit_code": 0,
+          "timed_out": false,
+          "timeout_category": "baseline",
+          "timeout_seconds": 13
+        },
+        {
+          "stage": "implementation",
+          "attempt": 1,
+          "revision": "2bad4a36081c4c32ce4d7b6ca222b4af0d011a59",
+          "passed": false,
+          "exit_code": -9,
+          "timed_out": true,
+          "timeout_category": "implementation",
+          "timeout_seconds": 1,
+          "diagnostic": "implementation timed out after 1 seconds"
+        },
+        {
+          "stage": "implementation",
+          "attempt": 2,
+          "revision": "2bad4a36081c4c32ce4d7b6ca222b4af0d011a59",
+          "passed": true,
+          "exit_code": 0,
+          "timed_out": false,
+          "timeout_category": "repair",
+          "timeout_seconds": 9
+        },
+        {
+          "stage": "check-ticket",
+          "attempt": 2,
+          "revision": "cb527f986d7df276fe764e54ccc35e42130629ce",
+          "passed": true,
+          "exit_code": 0,
+          "timed_out": false,
+          "timeout_category": "checks",
+          "timeout_seconds": 12
+        },
+        {
+          "stage": "spec",
+          "attempt": 2,
+          "revision": "cb527f986d7df276fe764e54ccc35e42130629ce",
+          "passed": true,
+          "exit_code": 0,
+          "timed_out": false,
+          "timeout_category": "spec",
+          "timeout_seconds": 10
+        },
+        {
+          "stage": "standards",
+          "attempt": 2,
+          "revision": "cb527f986d7df276fe764e54ccc35e42130629ce",
+          "passed": true,
+          "exit_code": 0,
+          "timed_out": false,
+          "timeout_category": "standards",
+          "timeout_seconds": 11
+        },
+        {
+          "stage": "candidate",
+          "attempt": 2,
+          "revision": "209e672c531cabfd58f41336b27f4931694eeae8",
+          "passed": true,
+          "exit_code": 0,
+          "timed_out": false,
+          "timeout_category": "candidate",
+          "timeout_seconds": 14
+        }
+      ],
+      "attempt_count": 2,
+      "recorded_assertions": {}
+    },
+    {
+      "original_pointer": "/scenarios/21",
+      "scenario": "test_timed_out_assignment_repairs_current_work_with_fresh_verification[spec]",
+      "integration": "bc7d1436066e33efa17e9ed6eab575502e1e3fd3",
+      "caller_status": "MM value.txt\n?? unrelated",
+      "record_facts": {
+        "outcome": "completed",
+        "base_revision": "e96ed811c63465c3dde79c683f96ebcf3f16ea25",
+        "integration_branch": "integration"
+      },
+      "ticket": {
+        "id": "01",
+        "state": "Done",
+        "attempt": 2,
+        "starting_revision": "6b803f0d93d6d64f5a11b6cfa251397ca16247d9",
+        "submitted_revision": "fc06d1121dc58ad3f2d9e197cd2a5f275938c9dd",
+        "candidate_revision": "bc7d1436066e33efa17e9ed6eab575502e1e3fd3",
+        "done_revision": "bc7d1436066e33efa17e9ed6eab575502e1e3fd3"
+      },
+      "gates": [
+        {
+          "stage": "baseline",
+          "attempt": 0,
+          "revision": "e96ed811c63465c3dde79c683f96ebcf3f16ea25",
+          "passed": true,
+          "exit_code": 0,
+          "timed_out": false,
+          "timeout_category": "baseline",
+          "timeout_seconds": 13
+        },
+        {
+          "stage": "implementation",
+          "attempt": 1,
+          "revision": "e96ed811c63465c3dde79c683f96ebcf3f16ea25",
+          "passed": true,
+          "exit_code": 0,
+          "timed_out": false,
+          "timeout_category": "implementation",
+          "timeout_seconds": 8
+        },
+        {
+          "stage": "check-ticket",
+          "attempt": 1,
+          "revision": "6b803f0d93d6d64f5a11b6cfa251397ca16247d9",
+          "passed": true,
+          "exit_code": 0,
+          "timed_out": false,
+          "timeout_category": "checks",
+          "timeout_seconds": 12
+        },
+        {
+          "stage": "spec",
+          "attempt": 1,
+          "revision": "6b803f0d93d6d64f5a11b6cfa251397ca16247d9",
+          "passed": false,
+          "exit_code": -9,
+          "timed_out": true,
+          "timeout_category": "spec",
+          "timeout_seconds": 1,
+          "diagnostic": "spec timed out after 1 seconds"
+        },
+        {
+          "stage": "implementation",
+          "attempt": 2,
+          "revision": "6b803f0d93d6d64f5a11b6cfa251397ca16247d9",
+          "passed": true,
+          "exit_code": 0,
+          "timed_out": false,
+          "timeout_category": "repair",
+          "timeout_seconds": 9
+        },
+        {
+          "stage": "check-ticket",
+          "attempt": 2,
+          "revision": "fc06d1121dc58ad3f2d9e197cd2a5f275938c9dd",
+          "passed": true,
+          "exit_code": 0,
+          "timed_out": false,
+          "timeout_category": "checks",
+          "timeout_seconds": 12
+        },
+        {
+          "stage": "spec",
+          "attempt": 2,
+          "revision": "fc06d1121dc58ad3f2d9e197cd2a5f275938c9dd",
+          "passed": true,
+          "exit_code": 0,
+          "timed_out": false,
+          "timeout_category": "spec",
+          "timeout_seconds": 1
+        },
+        {
+          "stage": "standards",
+          "attempt": 2,
+          "revision": "fc06d1121dc58ad3f2d9e197cd2a5f275938c9dd",
+          "passed": true,
+          "exit_code": 0,
+          "timed_out": false,
+          "timeout_category": "standards",
+          "timeout_seconds": 11
+        },
+        {
+          "stage": "candidate",
+          "attempt": 2,
+          "revision": "bc7d1436066e33efa17e9ed6eab575502e1e3fd3",
+          "passed": true,
+          "exit_code": 0,
+          "timed_out": false,
+          "timeout_category": "candidate",
+          "timeout_seconds": 14
+        }
+      ],
+      "attempt_count": 2,
+      "recorded_assertions": {}
+    },
+    {
+      "original_pointer": "/scenarios/22",
+      "scenario": "test_timed_out_assignment_repairs_current_work_with_fresh_verification[standards]",
+      "integration": "5a27a62d55ae1bf3a5661769f9c7e007bd741b6a",
+      "caller_status": "MM value.txt\n?? unrelated",
+      "record_facts": {
+        "outcome": "completed",
+        "base_revision": "7d08451334688ae1ca48c5c6fbe7e4e581fc1a9c",
+        "integration_branch": "integration"
+      },
+      "ticket": {
+        "id": "01",
+        "state": "Done",
+        "attempt": 2,
+        "starting_revision": "9fe3b30fde04bb08f5f129291d4af3622990d89a",
+        "submitted_revision": "fb5f2330a95865f227c701c8d6306148581791de",
+        "candidate_revision": "5a27a62d55ae1bf3a5661769f9c7e007bd741b6a",
+        "done_revision": "5a27a62d55ae1bf3a5661769f9c7e007bd741b6a"
+      },
+      "gates": [
+        {
+          "stage": "baseline",
+          "attempt": 0,
+          "revision": "7d08451334688ae1ca48c5c6fbe7e4e581fc1a9c",
+          "passed": true,
+          "exit_code": 0,
+          "timed_out": false,
+          "timeout_category": "baseline",
+          "timeout_seconds": 13
+        },
+        {
+          "stage": "implementation",
+          "attempt": 1,
+          "revision": "7d08451334688ae1ca48c5c6fbe7e4e581fc1a9c",
+          "passed": true,
+          "exit_code": 0,
+          "timed_out": false,
+          "timeout_category": "implementation",
+          "timeout_seconds": 8
+        },
+        {
+          "stage": "check-ticket",
+          "attempt": 1,
+          "revision": "9fe3b30fde04bb08f5f129291d4af3622990d89a",
+          "passed": true,
+          "exit_code": 0,
+          "timed_out": false,
+          "timeout_category": "checks",
+          "timeout_seconds": 12
+        },
+        {
+          "stage": "spec",
+          "attempt": 1,
+          "revision": "9fe3b30fde04bb08f5f129291d4af3622990d89a",
+          "passed": true,
+          "exit_code": 0,
+          "timed_out": false,
+          "timeout_category": "spec",
+          "timeout_seconds": 10
+        },
+        {
+          "stage": "standards",
+          "attempt": 1,
+          "revision": "9fe3b30fde04bb08f5f129291d4af3622990d89a",
+          "passed": false,
+          "exit_code": -9,
+          "timed_out": true,
+          "timeout_category": "standards",
+          "timeout_seconds": 1,
+          "diagnostic": "standards timed out after 1 seconds"
+        },
+        {
+          "stage": "implementation",
+          "attempt": 2,
+          "revision": "9fe3b30fde04bb08f5f129291d4af3622990d89a",
+          "passed": true,
+          "exit_code": 0,
+          "timed_out": false,
+          "timeout_category": "repair",
+          "timeout_seconds": 9
+        },
+        {
+          "stage": "check-ticket",
+          "attempt": 2,
+          "revision": "fb5f2330a95865f227c701c8d6306148581791de",
+          "passed": true,
+          "exit_code": 0,
+          "timed_out": false,
+          "timeout_category": "checks",
+          "timeout_seconds": 12
+        },
+        {
+          "stage": "spec",
+          "attempt": 2,
+          "revision": "fb5f2330a95865f227c701c8d6306148581791de",
+          "passed": true,
+          "exit_code": 0,
+          "timed_out": false,
+          "timeout_category": "spec",
+          "timeout_seconds": 10
+        },
+        {
+          "stage": "standards",
+          "attempt": 2,
+          "revision": "fb5f2330a95865f227c701c8d6306148581791de",
+          "passed": true,
+          "exit_code": 0,
+          "timed_out": false,
+          "timeout_category": "standards",
+          "timeout_seconds": 1
+        },
+        {
+          "stage": "candidate",
+          "attempt": 2,
+          "revision": "5a27a62d55ae1bf3a5661769f9c7e007bd741b6a",
+          "passed": true,
+          "exit_code": 0,
+          "timed_out": false,
+          "timeout_category": "candidate",
+          "timeout_seconds": 14
+        }
+      ],
+      "attempt_count": 2,
+      "recorded_assertions": {}
+    },
+    {
+      "original_pointer": "/scenarios/23",
+      "scenario": "test_timeout_cannot_hide_evidence_tampering_or_authorize_repair",
+      "integration": "56457d4391c5583958aab0c1f0ede6dd40ab0a0d",
+      "caller_status": "",
+      "record_facts": {
+        "outcome": "incomplete",
+        "failure": {
+          "stage": "implementation",
+          "message": "Required gate failed: implementation; Integrity violation: protected files changed"
+        },
+        "base_revision": "56457d4391c5583958aab0c1f0ede6dd40ab0a0d",
+        "integration_branch": "integration"
+      },
+      "ticket": {
+        "id": "01",
+        "state": "Blocked",
+        "attempt": 1
+      },
+      "gates": [
+        {
+          "stage": "baseline",
+          "attempt": 0,
+          "revision": "56457d4391c5583958aab0c1f0ede6dd40ab0a0d",
+          "passed": true,
+          "exit_code": 0,
+          "timed_out": false,
+          "timeout_category": "baseline",
+          "timeout_seconds": 1800
+        },
+        {
+          "stage": "implementation",
+          "attempt": 1,
+          "revision": "56457d4391c5583958aab0c1f0ede6dd40ab0a0d",
+          "passed": false,
+          "exit_code": -9,
+          "timed_out": true,
+          "timeout_category": "implementation",
+          "timeout_seconds": 1,
+          "diagnostic": "Integrity violation: protected files changed"
+        }
+      ],
+      "attempt_count": 1,
+      "recorded_assertions": {}
+    },
+    {
+      "original_pointer": "/scenarios/24",
+      "scenario": "test_timeout_exhaustion_uses_repair_deadline_and_preserves_all_attempts",
+      "integration": "d33b20e63d387126b368c05f6285cd2488ceed18",
+      "caller_status": "",
+      "record_facts": {
+        "outcome": "incomplete",
+        "failure": {
+          "stage": "implementation",
+          "message": "Required gate failed: implementation; implementation timed out after 1.5 seconds"
+        },
+        "base_revision": "d33b20e63d387126b368c05f6285cd2488ceed18",
+        "integration_branch": "integration"
+      },
+      "ticket": {
+        "id": "01",
+        "state": "Blocked",
+        "attempt": 3
+      },
+      "gates": [
+        {
+          "stage": "baseline",
+          "attempt": 0,
+          "revision": "d33b20e63d387126b368c05f6285cd2488ceed18",
+          "passed": true,
+          "exit_code": 0,
+          "timed_out": false,
+          "timeout_category": "baseline",
+          "timeout_seconds": 1800
+        },
+        {
+          "stage": "implementation",
+          "attempt": 1,
+          "revision": "d33b20e63d387126b368c05f6285cd2488ceed18",
+          "passed": false,
+          "exit_code": -9,
+          "timed_out": true,
+          "timeout_category": "implementation",
+          "timeout_seconds": 1,
+          "diagnostic": "implementation timed out after 1 seconds"
+        },
+        {
+          "stage": "implementation",
+          "attempt": 2,
+          "revision": "d33b20e63d387126b368c05f6285cd2488ceed18",
+          "passed": false,
+          "exit_code": -9,
+          "timed_out": true,
+          "timeout_category": "repair",
+          "timeout_seconds": 1.5,
+          "diagnostic": "implementation timed out after 1.5 seconds"
+        },
+        {
+          "stage": "implementation",
+          "attempt": 3,
+          "revision": "d33b20e63d387126b368c05f6285cd2488ceed18",
+          "passed": false,
+          "exit_code": -9,
+          "timed_out": true,
+          "timeout_category": "repair",
+          "timeout_seconds": 1.5,
+          "diagnostic": "implementation timed out after 1.5 seconds"
+        }
+      ],
+      "attempt_count": 3,
+      "recorded_assertions": {}
+    },
+    {
+      "original_pointer": "/scenarios/25",
+      "scenario": "test_unavailable_shared_executable_stops_run_without_repairs",
+      "integration": "d1ac6731bb1c882f4df4ac2be9beab15e5c6f596",
+      "caller_status": "",
+      "record_facts": {
+        "outcome": "environment",
+        "failure": {
+          "stage": "check-ticket",
+          "message": "Execution environment failure: [Errno 2] No such file or directory: '/tmp/ticket-harness-test-3b8wo6q8/shared-check'"
+        },
+        "base_revision": "d1ac6731bb1c882f4df4ac2be9beab15e5c6f596",
+        "integration_branch": "integration"
+      },
+      "ticket": {
+        "id": "01",
+        "state": "Blocked",
+        "attempt": 1,
+        "starting_revision": "d1ac6731bb1c882f4df4ac2be9beab15e5c6f596",
+        "submitted_revision": "45d4217ed0b570829c7585b495c4f13385fd07f6"
+      },
+      "gates": [
+        {
+          "stage": "baseline",
+          "attempt": 0,
+          "revision": "d1ac6731bb1c882f4df4ac2be9beab15e5c6f596",
+          "passed": true,
+          "exit_code": 0,
+          "timed_out": false,
+          "timeout_category": "baseline",
+          "timeout_seconds": 1800
+        },
+        {
+          "stage": "implementation",
+          "attempt": 1,
+          "revision": "d1ac6731bb1c882f4df4ac2be9beab15e5c6f596",
+          "passed": true,
+          "exit_code": 0,
+          "timed_out": false,
+          "timeout_category": "implementation",
+          "timeout_seconds": 1800
+        },
+        {
+          "stage": "check-ticket",
+          "attempt": 1,
+          "revision": "45d4217ed0b570829c7585b495c4f13385fd07f6",
+          "passed": false,
+          "exit_code": null,
+          "timed_out": false,
+          "timeout_category": "checks",
+          "timeout_seconds": 300
+        }
+      ],
+      "attempt_count": 1,
+      "recorded_assertions": {}
+    },
+    {
+      "original_pointer": "/scenarios/26",
+      "scenario": "test_worker_timeout_stops_children_preserves_output_and_blocks",
+      "integration": "c91dc246dd64a2b717e7a3713bab1ba98fc33e4d",
+      "caller_status": "",
+      "record_facts": {
+        "outcome": "incomplete",
+        "failure": {
+          "stage": "implementation",
+          "message": "Required gate failed: implementation; implementation timed out after 1 seconds"
+        },
+        "base_revision": "c91dc246dd64a2b717e7a3713bab1ba98fc33e4d",
+        "integration_branch": "integration"
+      },
+      "ticket": {
+        "id": "01",
+        "state": "Blocked",
+        "attempt": 1
+      },
+      "gates": [
+        {
+          "stage": "baseline",
+          "attempt": 0,
+          "revision": "c91dc246dd64a2b717e7a3713bab1ba98fc33e4d",
+          "passed": true,
+          "exit_code": 0,
+          "timed_out": false,
+          "timeout_category": "baseline",
+          "timeout_seconds": 1800
+        },
+        {
+          "stage": "implementation",
+          "attempt": 1,
+          "revision": "c91dc246dd64a2b717e7a3713bab1ba98fc33e4d",
+          "passed": false,
+          "exit_code": -9,
+          "timed_out": true,
+          "timeout_category": "implementation",
+          "timeout_seconds": 1,
+          "diagnostic": "implementation timed out after 1 seconds"
+        }
+      ],
+      "attempt_count": 1,
+      "recorded_assertions": {}
+    }
+  ],
+  "retirement_date": "2026-11-13",
+  "authority": "Human retroactive C1\u2013C10 cleanup request; explicit overseer approval after independent original-pointer validation",
+  "original_payload_retired": true
+}

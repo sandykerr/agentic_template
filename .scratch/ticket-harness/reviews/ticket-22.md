@@ -7,14 +7,14 @@
 | Purpose and origin | Whole [ticket 22](../issues/22-return-clearly-prepared-inputs.md), approved oop-v2 / review-process-1, M1; complete prepared inputs and returned checked-plan consumption |
 | Fixed original baseline | `803c6ff9a4e5e057124aefc5bb96f2c9518162dd`, captured before edits; existing unrelated changes preserved |
 | Assessed source | `33fa0ea6e667a3879564ed4628c10f6d59ada21b`, committed after final checks and before both fresh reviews |
-| Assignments/settings | Separate fresh `/root/spec22` and `/root/standards22`, fork-none GPT-6.1 Sol High independently configured, advisory <=250000 active-context target; [dispatch record](../evidence/22-review-round1-assignments.json). Backend delivery/enforcement and measured active-context telemetry unavailable. |
-| Instructions | [Common contract](../evidence/22-review-common.md), [Spec](../evidence/22-review-spec-instructions.md), [Standards](../evidence/22-review-standards-instructions.md), [instruction identities](../evidence/22-review-round1-instructions.json); substantive G2/final C5 with finite limitations |
+| Assignments/settings | Separate fresh `/root/spec22` and `/root/standards22`, fork-none GPT-6.1 Sol High independently configured, advisory <=250000 active-context target; [dispatch record](../evidence/ticket-22/22-review-round1-assignments.json). Backend delivery/enforcement and measured active-context telemetry unavailable. |
+| Instructions | [Common contract](../evidence/ticket-22/22-review-common.md), [Spec](../evidence/ticket-22/22-review-spec-instructions.md), [Standards](../evidence/ticket-22/22-review-standards-instructions.md), [instruction identities](../evidence/ticket-22/22-review-round1-instructions.json); substantive G2/final C5 with finite limitations |
 | Scope | Changed inputs.py/runner.py; relevant unchanged plans.py, tickets.py, agents.py, qa.py, records.py, git.py and __main__.py; preparation entry/callers/writers/consumers, saved shape/restoration/invalidation and public CLI behavior. Each original report must record actual inspection and omissions. |
-| Architecture triggers | [Worker start/final inventory](../evidence/22-implementation-report.md): all four No; existing lifecycle, persistence and state remain with no additional writer. Both independent originals confirm all four No. No real M1 cumulative assessment or acceptance inferred. |
+| Architecture triggers | [Worker start/final inventory](../evidence/ticket-22/22-implementation-report.md): all four No; existing lifecycle, persistence and state remain with no additional writer. Both independent originals confirm all four No. No real M1 cumulative assessment or acceptance inferred. |
 | Cumulative baseline | Not applicable to this ordinary ticket assessment. Actual M1 feature-start provenance/all-package assessment remains unperformed and required before QA readiness. |
-| Evidence | [Canonical packet](../evidence/22-review-packet.md), [criterion observations](../evidence/22-criterion-evidence.md), [root committed-source audit](../evidence/22-root-source-audit.json), [raw audit](../evidence/22-root-raw-audit.json), [final checkpoint audit](../evidence/22-root-checkpoint-final-audit.json), [eligibility/history map audit](../evidence/22-root-eligibility.json) |
-| Original reports | [Spec spec-01](../evidence/22-review-spec-01.md): 0 blocking/0 optional; [Standards standards-01](../evidence/22-review-standards-01.md): 0 blocking/0 optional; [immutable capture](../evidence/22-review-round1-capture.json), both originals preserved before aggregation |
-| Finding history/decisions | No unresolved actual inherited finding, missing prerequisite report, pending relevant revalidation or human-owned decision. Historical fixed/fixture keys retain their original source scopes; [explicit history](../evidence/22-finding-history.md). |
+| Evidence | [Canonical packet](../evidence/ticket-22/22-review-packet.md), [criterion observations](../evidence/ticket-22/22-criterion-evidence.md), [root committed-source audit](../evidence/ticket-22/22-root-source-audit.json), [raw audit](../evidence/ticket-22/22-root-raw-audit.json), [final checkpoint audit](../evidence/ticket-22/22-root-checkpoint-final-audit.json), [eligibility/history map audit](../evidence/ticket-22/22-root-eligibility.json) |
+| Original reports | [Spec spec-01](../evidence/ticket-22/22-review-spec-01.md): 0 blocking/0 optional; [Standards standards-01](../evidence/ticket-22/22-review-standards-01.md): 0 blocking/0 optional; [immutable capture](../evidence/ticket-22/22-review-round1-capture.json), both originals preserved before aggregation |
+| Finding history/decisions | No unresolved actual inherited finding, missing prerequisite report, pending relevant revalidation or human-owned decision. Historical fixed/fixture keys retain their original source scopes; [explicit history](../evidence/ticket-22/22-finding-history.md). |
 | Milestone assessment | Real M1 cumulative assessment and human QA remain unperformed; ticket review supplies no readiness, acceptance or promotion |
 
 ## Current findings
@@ -22,7 +22,7 @@
 Both independent originals report zero blocking findings and zero optional
 suggestions. No full ticket 22 finding key was created. No missing required ticket
 report, unresolved in-scope assumption, pending relevant revalidation or human-owned
-decision remains. [Completion reconciliation](../evidence/22-completion.md) maps all
+decision remains. [Completion reconciliation](../evidence/ticket-22/22-completion.md) maps all
 seven criteria to verified source and evidence.
 
 **Integration/milestone eligibility:** required final checks and both independent
@@ -35,7 +35,7 @@ feature-start provenance/all-package assessment and explicit human QA.
 - A01 — `/root` captured the original baseline and preserved unrelated changes.
   Fresh Medium `/root/implement22` retained a genuine pre-edit deliberate checkpoint,
   implemented only the assigned slice and committed verified source at `33fa0ea`.
-  [Checkpoint history](../evidence/22-checkpoint/history.md) preserves the initial
+  [Checkpoint history](../evidence/ticket-22/22-checkpoint/history.md) preserves the initial
   pre-format continuation and final-source continuation from the genuine saved
   archive as separate observations.
 - A02 — `/root` independently matched all 26 tested identities to committed Git

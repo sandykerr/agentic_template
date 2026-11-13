@@ -1,0 +1,3106 @@
+{
+  "kind": "executed lossy historical observation extract",
+  "ticket": "09",
+  "original_path": ".scratch/ticket-harness/evidence/ticket-09/09-fixture-observations.json",
+  "original_sha256": "7d96aa185bb99c03ecd51ba7b42fa0cff3f8d091d0442a93b27512d46c8630d4",
+  "original_bytes": 778934,
+  "identity": {
+    "implementation_revision": "7f4eac025cfccd0912f25e3bdd602c1e2b3e516f",
+    "tested_source_identity": {
+      "baseline": "be2244f10bd9231e7408e9939e11ca8b9723e5a2",
+      "files": {
+        "ticket_harness/inputs.py": "337547eb7c8d4957a7a53b316e00e03658da684f67abf647b059af92da5aad41",
+        "ticket_harness/runner.py": "6e5a001d4bad02c1c3e638bb1f623c000ee93e4245cc3cb814b6939e112b3b15",
+        "tests/test_dependencies.py": "36f133b8d779c9028494b591639377e11c8768976772d7c7646818c8cdd2f309",
+        "docs/ticket-harness.md": "ad0be8b5118b069b671e586631603cb9e408970d3ad0fb49a70f97fe26905d23"
+      },
+      "worktree_status": " M docs/ticket-harness.md\n M ticket_harness/inputs.py\n M ticket_harness/runner.py\n?? tests/test_dependencies.py\n"
+    }
+  },
+  "completion_record": "09-completion.md",
+  "source_identity_records": [],
+  "limits": "Mechanical projection of observed historical fields, not new execution or proof all requirements passed. Deliberately omits raw command output, assignments, complete input/run/QA records and process internals. Original pointers identify derivation after original payload retirement. Fixture approvals are synthetic, not development M1 acceptance. Original independent development reviews/source/result records remain separate.",
+  "scenario_count": 21,
+  "scenarios": [
+    {
+      "original_pointer": "/scenarios/0",
+      "scenario": "test_decision_stops_affected_ticket_without_unlocking_dependents_or_erasing_done_work",
+      "integration": "ee05b9060ce2efd6a9e9d250ff75098e7cfb252f",
+      "caller_status": "",
+      "record_facts": {
+        "outcome": "incomplete",
+        "failure": {
+          "stage": "implementation",
+          "message": "Required gate failed: implementation; human decision needed: Which interface does the approved contract require?"
+        },
+        "base_revision": "b0569f6fb1417991429c2bad2234d3172d1073a1",
+        "integration_branch": "integration"
+      },
+      "ticket": {
+        "id": "03",
+        "state": "Blocked",
+        "attempt": 1
+      },
+      "tickets": {
+        "01": {
+          "id": "01",
+          "state": "Done",
+          "attempt": 1,
+          "starting_revision": "b0569f6fb1417991429c2bad2234d3172d1073a1",
+          "submitted_revision": "4907eac6968c2e61138ede1dccb408d78fc453e7",
+          "candidate_revision": "ee05b9060ce2efd6a9e9d250ff75098e7cfb252f",
+          "done_revision": "ee05b9060ce2efd6a9e9d250ff75098e7cfb252f"
+        },
+        "02": {
+          "id": "02",
+          "state": "Pending",
+          "attempt": 0
+        },
+        "03": {
+          "id": "03",
+          "state": "Blocked",
+          "attempt": 1
+        },
+        "04": {
+          "id": "04",
+          "state": "Ready",
+          "attempt": 0
+        }
+      },
+      "gates": [
+        {
+          "stage": "baseline",
+          "ticket": null,
+          "attempt": 0,
+          "revision": "b0569f6fb1417991429c2bad2234d3172d1073a1",
+          "passed": true,
+          "exit_code": 0,
+          "timed_out": false,
+          "timeout_category": "baseline",
+          "timeout_seconds": 1800
+        },
+        {
+          "stage": "implementation",
+          "ticket": "01",
+          "attempt": 1,
+          "revision": "b0569f6fb1417991429c2bad2234d3172d1073a1",
+          "passed": true,
+          "exit_code": 0,
+          "timed_out": false,
+          "timeout_category": "implementation",
+          "timeout_seconds": 1800
+        },
+        {
+          "stage": "check-ticket",
+          "ticket": "01",
+          "attempt": 1,
+          "revision": "4907eac6968c2e61138ede1dccb408d78fc453e7",
+          "passed": true,
+          "exit_code": 0,
+          "timed_out": false,
+          "timeout_category": "checks",
+          "timeout_seconds": 300
+        },
+        {
+          "stage": "spec",
+          "ticket": "01",
+          "attempt": 1,
+          "revision": "4907eac6968c2e61138ede1dccb408d78fc453e7",
+          "passed": true,
+          "exit_code": 0,
+          "timed_out": false,
+          "timeout_category": "spec",
+          "timeout_seconds": 900
+        },
+        {
+          "stage": "standards",
+          "ticket": "01",
+          "attempt": 1,
+          "revision": "4907eac6968c2e61138ede1dccb408d78fc453e7",
+          "passed": true,
+          "exit_code": 0,
+          "timed_out": false,
+          "timeout_category": "standards",
+          "timeout_seconds": 900
+        },
+        {
+          "stage": "candidate",
+          "ticket": "01",
+          "attempt": 1,
+          "revision": "ee05b9060ce2efd6a9e9d250ff75098e7cfb252f",
+          "passed": true,
+          "exit_code": 0,
+          "timed_out": false,
+          "timeout_category": "candidate",
+          "timeout_seconds": 1800
+        },
+        {
+          "stage": "implementation",
+          "ticket": "03",
+          "attempt": 1,
+          "revision": "ee05b9060ce2efd6a9e9d250ff75098e7cfb252f",
+          "passed": false,
+          "exit_code": 0,
+          "timed_out": false,
+          "timeout_category": "implementation",
+          "timeout_seconds": 1800,
+          "diagnostic": "human decision needed: Which interface does the approved contract require?"
+        }
+      ],
+      "attempt_count": 2,
+      "recorded_assertions": {},
+      "launches": [
+        {
+          "ticket": "01",
+          "role": "implementation",
+          "attempt": 1,
+          "head": "b0569f6fb1417991429c2bad2234d3172d1073a1"
+        },
+        {
+          "ticket": "01",
+          "role": "implementation",
+          "attempt": 1,
+          "head": "b0569f6fb1417991429c2bad2234d3172d1073a1"
+        },
+        {
+          "ticket": "01",
+          "role": "spec",
+          "attempt": 1,
+          "head": "4907eac6968c2e61138ede1dccb408d78fc453e7"
+        },
+        {
+          "ticket": "01",
+          "role": "spec",
+          "attempt": 1,
+          "head": "4907eac6968c2e61138ede1dccb408d78fc453e7"
+        },
+        {
+          "ticket": "01",
+          "role": "standards",
+          "attempt": 1,
+          "head": "4907eac6968c2e61138ede1dccb408d78fc453e7"
+        },
+        {
+          "ticket": "01",
+          "role": "standards",
+          "attempt": 1,
+          "head": "4907eac6968c2e61138ede1dccb408d78fc453e7"
+        },
+        {
+          "ticket": "03",
+          "role": "implementation",
+          "attempt": 1,
+          "head": "ee05b9060ce2efd6a9e9d250ff75098e7cfb252f"
+        },
+        {
+          "ticket": "03",
+          "role": "implementation",
+          "attempt": 1,
+          "head": "ee05b9060ce2efd6a9e9d250ff75098e7cfb252f"
+        }
+      ],
+      "cli_observations": [
+        {
+          "exit_code": 1
+        },
+        {
+          "exit_code": 0
+        }
+      ]
+    },
+    {
+      "original_pointer": "/scenarios/1",
+      "scenario": "test_dependency_chain_and_independent_work_use_verified_integration_in_stable_order",
+      "integration": "e907dc6603c3e7ec5191cfd0966d8870a6a06e01",
+      "caller_status": "MM value.txt\n?? untracked",
+      "record_facts": {
+        "outcome": "completed",
+        "base_revision": "2e45ed9b215919fae7d213e1827a8063e7941671",
+        "integration_branch": "integration"
+      },
+      "ticket": {
+        "id": "02",
+        "state": "Done",
+        "attempt": 1,
+        "starting_revision": "f811890242cb3e8f2076757ff7fca625e770a518",
+        "submitted_revision": "f99a386f62183a80d299d7493cadf70043e8bd74",
+        "candidate_revision": "e907dc6603c3e7ec5191cfd0966d8870a6a06e01",
+        "done_revision": "e907dc6603c3e7ec5191cfd0966d8870a6a06e01"
+      },
+      "tickets": {
+        "01": {
+          "id": "01",
+          "state": "Done",
+          "attempt": 1,
+          "starting_revision": "2e45ed9b215919fae7d213e1827a8063e7941671",
+          "submitted_revision": "d0dbf04e7215cf66a849de83f05f5cbfb40333c2",
+          "candidate_revision": "2891af154d42557026f19311ac71a12d15f9792e",
+          "done_revision": "2891af154d42557026f19311ac71a12d15f9792e"
+        },
+        "02": {
+          "id": "02",
+          "state": "Done",
+          "attempt": 1,
+          "starting_revision": "f811890242cb3e8f2076757ff7fca625e770a518",
+          "submitted_revision": "f99a386f62183a80d299d7493cadf70043e8bd74",
+          "candidate_revision": "e907dc6603c3e7ec5191cfd0966d8870a6a06e01",
+          "done_revision": "e907dc6603c3e7ec5191cfd0966d8870a6a06e01"
+        },
+        "03": {
+          "id": "03",
+          "state": "Done",
+          "attempt": 1,
+          "starting_revision": "2891af154d42557026f19311ac71a12d15f9792e",
+          "submitted_revision": "86a6a211a1e266542d08ea0f6f7eae87b675fa0c",
+          "candidate_revision": "12e4acb48de6f8de96dddba7ec33bdf22e3e58b2",
+          "done_revision": "12e4acb48de6f8de96dddba7ec33bdf22e3e58b2"
+        },
+        "04": {
+          "id": "04",
+          "state": "Done",
+          "attempt": 1,
+          "starting_revision": "12e4acb48de6f8de96dddba7ec33bdf22e3e58b2",
+          "submitted_revision": "03410ddc42cfcaef7f9f5909db51dfc1a101e08f",
+          "candidate_revision": "f811890242cb3e8f2076757ff7fca625e770a518",
+          "done_revision": "f811890242cb3e8f2076757ff7fca625e770a518"
+        }
+      },
+      "gates": [
+        {
+          "stage": "baseline",
+          "ticket": null,
+          "attempt": 0,
+          "revision": "2e45ed9b215919fae7d213e1827a8063e7941671",
+          "passed": true,
+          "exit_code": 0,
+          "timed_out": false,
+          "timeout_category": "baseline",
+          "timeout_seconds": 1800
+        },
+        {
+          "stage": "implementation",
+          "ticket": "01",
+          "attempt": 1,
+          "revision": "2e45ed9b215919fae7d213e1827a8063e7941671",
+          "passed": true,
+          "exit_code": 0,
+          "timed_out": false,
+          "timeout_category": "implementation",
+          "timeout_seconds": 1800
+        },
+        {
+          "stage": "check-ticket",
+          "ticket": "01",
+          "attempt": 1,
+          "revision": "d0dbf04e7215cf66a849de83f05f5cbfb40333c2",
+          "passed": true,
+          "exit_code": 0,
+          "timed_out": false,
+          "timeout_category": "checks",
+          "timeout_seconds": 300
+        },
+        {
+          "stage": "spec",
+          "ticket": "01",
+          "attempt": 1,
+          "revision": "d0dbf04e7215cf66a849de83f05f5cbfb40333c2",
+          "passed": true,
+          "exit_code": 0,
+          "timed_out": false,
+          "timeout_category": "spec",
+          "timeout_seconds": 900
+        },
+        {
+          "stage": "standards",
+          "ticket": "01",
+          "attempt": 1,
+          "revision": "d0dbf04e7215cf66a849de83f05f5cbfb40333c2",
+          "passed": true,
+          "exit_code": 0,
+          "timed_out": false,
+          "timeout_category": "standards",
+          "timeout_seconds": 900
+        },
+        {
+          "stage": "candidate",
+          "ticket": "01",
+          "attempt": 1,
+          "revision": "2891af154d42557026f19311ac71a12d15f9792e",
+          "passed": true,
+          "exit_code": 0,
+          "timed_out": false,
+          "timeout_category": "candidate",
+          "timeout_seconds": 1800
+        },
+        {
+          "stage": "implementation",
+          "ticket": "03",
+          "attempt": 1,
+          "revision": "2891af154d42557026f19311ac71a12d15f9792e",
+          "passed": true,
+          "exit_code": 0,
+          "timed_out": false,
+          "timeout_category": "implementation",
+          "timeout_seconds": 1800
+        },
+        {
+          "stage": "check-other",
+          "ticket": "03",
+          "attempt": 1,
+          "revision": "86a6a211a1e266542d08ea0f6f7eae87b675fa0c",
+          "passed": true,
+          "exit_code": 0,
+          "timed_out": false,
+          "timeout_category": "checks",
+          "timeout_seconds": 300
+        },
+        {
+          "stage": "spec",
+          "ticket": "03",
+          "attempt": 1,
+          "revision": "86a6a211a1e266542d08ea0f6f7eae87b675fa0c",
+          "passed": true,
+          "exit_code": 0,
+          "timed_out": false,
+          "timeout_category": "spec",
+          "timeout_seconds": 900
+        },
+        {
+          "stage": "standards",
+          "ticket": "03",
+          "attempt": 1,
+          "revision": "86a6a211a1e266542d08ea0f6f7eae87b675fa0c",
+          "passed": true,
+          "exit_code": 0,
+          "timed_out": false,
+          "timeout_category": "standards",
+          "timeout_seconds": 900
+        },
+        {
+          "stage": "candidate",
+          "ticket": "03",
+          "attempt": 1,
+          "revision": "12e4acb48de6f8de96dddba7ec33bdf22e3e58b2",
+          "passed": true,
+          "exit_code": 0,
+          "timed_out": false,
+          "timeout_category": "candidate",
+          "timeout_seconds": 1800
+        },
+        {
+          "stage": "implementation",
+          "ticket": "04",
+          "attempt": 1,
+          "revision": "12e4acb48de6f8de96dddba7ec33bdf22e3e58b2",
+          "passed": true,
+          "exit_code": 0,
+          "timed_out": false,
+          "timeout_category": "implementation",
+          "timeout_seconds": 1800
+        },
+        {
+          "stage": "check-ticket",
+          "ticket": "04",
+          "attempt": 1,
+          "revision": "03410ddc42cfcaef7f9f5909db51dfc1a101e08f",
+          "passed": true,
+          "exit_code": 0,
+          "timed_out": false,
+          "timeout_category": "checks",
+          "timeout_seconds": 300
+        },
+        {
+          "stage": "spec",
+          "ticket": "04",
+          "attempt": 1,
+          "revision": "03410ddc42cfcaef7f9f5909db51dfc1a101e08f",
+          "passed": true,
+          "exit_code": 0,
+          "timed_out": false,
+          "timeout_category": "spec",
+          "timeout_seconds": 900
+        },
+        {
+          "stage": "standards",
+          "ticket": "04",
+          "attempt": 1,
+          "revision": "03410ddc42cfcaef7f9f5909db51dfc1a101e08f",
+          "passed": true,
+          "exit_code": 0,
+          "timed_out": false,
+          "timeout_category": "standards",
+          "timeout_seconds": 900
+        },
+        {
+          "stage": "candidate",
+          "ticket": "04",
+          "attempt": 1,
+          "revision": "f811890242cb3e8f2076757ff7fca625e770a518",
+          "passed": true,
+          "exit_code": 0,
+          "timed_out": false,
+          "timeout_category": "candidate",
+          "timeout_seconds": 1800
+        },
+        {
+          "stage": "implementation",
+          "ticket": "02",
+          "attempt": 1,
+          "revision": "f811890242cb3e8f2076757ff7fca625e770a518",
+          "passed": true,
+          "exit_code": 0,
+          "timed_out": false,
+          "timeout_category": "implementation",
+          "timeout_seconds": 1800
+        },
+        {
+          "stage": "check-ticket",
+          "ticket": "02",
+          "attempt": 1,
+          "revision": "f99a386f62183a80d299d7493cadf70043e8bd74",
+          "passed": true,
+          "exit_code": 0,
+          "timed_out": false,
+          "timeout_category": "checks",
+          "timeout_seconds": 300
+        },
+        {
+          "stage": "spec",
+          "ticket": "02",
+          "attempt": 1,
+          "revision": "f99a386f62183a80d299d7493cadf70043e8bd74",
+          "passed": true,
+          "exit_code": 0,
+          "timed_out": false,
+          "timeout_category": "spec",
+          "timeout_seconds": 900
+        },
+        {
+          "stage": "standards",
+          "ticket": "02",
+          "attempt": 1,
+          "revision": "f99a386f62183a80d299d7493cadf70043e8bd74",
+          "passed": true,
+          "exit_code": 0,
+          "timed_out": false,
+          "timeout_category": "standards",
+          "timeout_seconds": 900
+        },
+        {
+          "stage": "candidate",
+          "ticket": "02",
+          "attempt": 1,
+          "revision": "e907dc6603c3e7ec5191cfd0966d8870a6a06e01",
+          "passed": true,
+          "exit_code": 0,
+          "timed_out": false,
+          "timeout_category": "candidate",
+          "timeout_seconds": 1800
+        }
+      ],
+      "attempt_count": 4,
+      "recorded_assertions": {},
+      "launches": [
+        {
+          "ticket": "01",
+          "role": "implementation",
+          "attempt": 1,
+          "head": "2e45ed9b215919fae7d213e1827a8063e7941671"
+        },
+        {
+          "ticket": "01",
+          "role": "implementation",
+          "attempt": 1,
+          "head": "2e45ed9b215919fae7d213e1827a8063e7941671"
+        },
+        {
+          "ticket": "01",
+          "role": "spec",
+          "attempt": 1,
+          "head": "d0dbf04e7215cf66a849de83f05f5cbfb40333c2"
+        },
+        {
+          "ticket": "01",
+          "role": "spec",
+          "attempt": 1,
+          "head": "d0dbf04e7215cf66a849de83f05f5cbfb40333c2"
+        },
+        {
+          "ticket": "01",
+          "role": "standards",
+          "attempt": 1,
+          "head": "d0dbf04e7215cf66a849de83f05f5cbfb40333c2"
+        },
+        {
+          "ticket": "01",
+          "role": "standards",
+          "attempt": 1,
+          "head": "d0dbf04e7215cf66a849de83f05f5cbfb40333c2"
+        },
+        {
+          "ticket": "03",
+          "role": "implementation",
+          "attempt": 1,
+          "head": "2891af154d42557026f19311ac71a12d15f9792e"
+        },
+        {
+          "ticket": "03",
+          "role": "implementation",
+          "attempt": 1,
+          "head": "2891af154d42557026f19311ac71a12d15f9792e"
+        },
+        {
+          "ticket": "03",
+          "role": "spec",
+          "attempt": 1,
+          "head": "86a6a211a1e266542d08ea0f6f7eae87b675fa0c"
+        },
+        {
+          "ticket": "03",
+          "role": "spec",
+          "attempt": 1,
+          "head": "86a6a211a1e266542d08ea0f6f7eae87b675fa0c"
+        },
+        {
+          "ticket": "03",
+          "role": "standards",
+          "attempt": 1,
+          "head": "86a6a211a1e266542d08ea0f6f7eae87b675fa0c"
+        },
+        {
+          "ticket": "03",
+          "role": "standards",
+          "attempt": 1,
+          "head": "86a6a211a1e266542d08ea0f6f7eae87b675fa0c"
+        },
+        {
+          "ticket": "04",
+          "role": "implementation",
+          "attempt": 1,
+          "head": "12e4acb48de6f8de96dddba7ec33bdf22e3e58b2"
+        },
+        {
+          "ticket": "04",
+          "role": "implementation",
+          "attempt": 1,
+          "head": "12e4acb48de6f8de96dddba7ec33bdf22e3e58b2"
+        },
+        {
+          "ticket": "04",
+          "role": "spec",
+          "attempt": 1,
+          "head": "03410ddc42cfcaef7f9f5909db51dfc1a101e08f"
+        },
+        {
+          "ticket": "04",
+          "role": "spec",
+          "attempt": 1,
+          "head": "03410ddc42cfcaef7f9f5909db51dfc1a101e08f"
+        },
+        {
+          "ticket": "04",
+          "role": "standards",
+          "attempt": 1,
+          "head": "03410ddc42cfcaef7f9f5909db51dfc1a101e08f"
+        },
+        {
+          "ticket": "04",
+          "role": "standards",
+          "attempt": 1,
+          "head": "03410ddc42cfcaef7f9f5909db51dfc1a101e08f"
+        },
+        {
+          "ticket": "02",
+          "role": "implementation",
+          "attempt": 1,
+          "head": "f811890242cb3e8f2076757ff7fca625e770a518"
+        },
+        {
+          "ticket": "02",
+          "role": "implementation",
+          "attempt": 1,
+          "head": "f811890242cb3e8f2076757ff7fca625e770a518"
+        },
+        {
+          "ticket": "02",
+          "role": "spec",
+          "attempt": 1,
+          "head": "f99a386f62183a80d299d7493cadf70043e8bd74"
+        },
+        {
+          "ticket": "02",
+          "role": "spec",
+          "attempt": 1,
+          "head": "f99a386f62183a80d299d7493cadf70043e8bd74"
+        },
+        {
+          "ticket": "02",
+          "role": "standards",
+          "attempt": 1,
+          "head": "f99a386f62183a80d299d7493cadf70043e8bd74"
+        },
+        {
+          "ticket": "02",
+          "role": "standards",
+          "attempt": 1,
+          "head": "f99a386f62183a80d299d7493cadf70043e8bd74"
+        }
+      ],
+      "cli_observations": [
+        {
+          "exit_code": 0
+        },
+        {
+          "exit_code": 0
+        }
+      ]
+    },
+    {
+      "original_pointer": "/scenarios/2",
+      "scenario": "test_failed_shared_baseline_does_not_launch_any_ticket_or_consume_repairs",
+      "integration": "3cd67068b9de9b7084d14bce868279af1bd2511b",
+      "caller_status": "",
+      "record_facts": {
+        "outcome": "environment",
+        "failure": {
+          "stage": "baseline",
+          "message": "Required gate failed: baseline; see /tmp/ticket-harness-test-kw40kyej/run/artifacts/baseline.stderr"
+        },
+        "base_revision": "3cd67068b9de9b7084d14bce868279af1bd2511b",
+        "integration_branch": "integration"
+      },
+      "ticket": {
+        "id": "02",
+        "state": "Blocked",
+        "attempt": 0
+      },
+      "tickets": {
+        "01": {
+          "id": "01",
+          "state": "Ready",
+          "attempt": 0
+        },
+        "02": {
+          "id": "02",
+          "state": "Blocked",
+          "attempt": 0
+        },
+        "03": {
+          "id": "03",
+          "state": "Ready",
+          "attempt": 0
+        },
+        "04": {
+          "id": "04",
+          "state": "Pending",
+          "attempt": 0
+        }
+      },
+      "gates": [
+        {
+          "stage": "baseline",
+          "ticket": null,
+          "attempt": 0,
+          "revision": "3cd67068b9de9b7084d14bce868279af1bd2511b",
+          "passed": false,
+          "exit_code": 7,
+          "timed_out": false,
+          "timeout_category": "baseline",
+          "timeout_seconds": 1800
+        }
+      ],
+      "attempt_count": 0,
+      "recorded_assertions": {},
+      "launches": [],
+      "cli_observations": [
+        {
+          "exit_code": 1
+        }
+      ]
+    },
+    {
+      "original_pointer": "/scenarios/3",
+      "scenario": "test_invalid_selection_rejects_before_workers_checks_or_git_changes[01-value.md-expected an array]",
+      "integration": "5697c2ace9e21452a14650d7a984b40c7de6b664",
+      "caller_status": "",
+      "record_facts": {
+        "outcome": "invalid-input",
+        "failure": {
+          "stage": "inputs",
+          "message": "configuration.selected_tickets: expected an array of nonempty paths"
+        }
+      },
+      "ticket": {
+        "state": "Blocked",
+        "attempt": 0
+      },
+      "gates": [],
+      "attempt_count": 0,
+      "recorded_assertions": {},
+      "launches": [],
+      "cli_observations": [
+        {
+          "exit_code": 1
+        },
+        {
+          "exit_code": 0
+        }
+      ]
+    },
+    {
+      "original_pointer": "/scenarios/4",
+      "scenario": "test_invalid_selection_rejects_before_workers_checks_or_git_changes[selection0-nonempty and include ticket]",
+      "integration": "5697c2ace9e21452a14650d7a984b40c7de6b664",
+      "caller_status": "",
+      "record_facts": {
+        "outcome": "invalid-input",
+        "failure": {
+          "stage": "inputs",
+          "message": "configuration.selected_tickets must be nonempty and include ticket"
+        }
+      },
+      "ticket": {
+        "state": "Blocked",
+        "attempt": 0
+      },
+      "gates": [],
+      "attempt_count": 0,
+      "recorded_assertions": {},
+      "launches": [],
+      "cli_observations": [
+        {
+          "exit_code": 1
+        },
+        {
+          "exit_code": 0
+        }
+      ]
+    },
+    {
+      "original_pointer": "/scenarios/5",
+      "scenario": "test_invalid_selection_rejects_before_workers_checks_or_git_changes[selection2-expected an array]",
+      "integration": "b07d5e1acbb9e0890f1456dbed37d7fcfe314d8b",
+      "caller_status": "",
+      "record_facts": {
+        "outcome": "invalid-input",
+        "failure": {
+          "stage": "inputs",
+          "message": "configuration.selected_tickets: expected an array of nonempty paths"
+        }
+      },
+      "ticket": {
+        "state": "Blocked",
+        "attempt": 0
+      },
+      "gates": [],
+      "attempt_count": 0,
+      "recorded_assertions": {},
+      "launches": [],
+      "cli_observations": [
+        {
+          "exit_code": 1
+        },
+        {
+          "exit_code": 0
+        }
+      ]
+    },
+    {
+      "original_pointer": "/scenarios/6",
+      "scenario": "test_invalid_selection_rejects_before_workers_checks_or_git_changes[selection3-nonempty and include ticket]",
+      "integration": "b07d5e1acbb9e0890f1456dbed37d7fcfe314d8b",
+      "caller_status": "",
+      "record_facts": {
+        "outcome": "invalid-input",
+        "failure": {
+          "stage": "inputs",
+          "message": "configuration.selected_tickets must be nonempty and include ticket"
+        }
+      },
+      "ticket": {
+        "state": "Blocked",
+        "attempt": 0
+      },
+      "gates": [],
+      "attempt_count": 0,
+      "recorded_assertions": {},
+      "launches": [],
+      "cli_observations": [
+        {
+          "exit_code": 1
+        },
+        {
+          "exit_code": 0
+        }
+      ]
+    },
+    {
+      "original_pointer": "/scenarios/7",
+      "scenario": "test_invalid_selection_rejects_before_workers_checks_or_git_changes[selection4-duplicate ticket paths]",
+      "integration": "b07d5e1acbb9e0890f1456dbed37d7fcfe314d8b",
+      "caller_status": "",
+      "record_facts": {
+        "outcome": "invalid-input",
+        "failure": {
+          "stage": "inputs",
+          "message": "configuration.selected_tickets contains duplicate ticket paths"
+        }
+      },
+      "ticket": {
+        "state": "Blocked",
+        "attempt": 0
+      },
+      "gates": [],
+      "attempt_count": 0,
+      "recorded_assertions": {},
+      "launches": [],
+      "cli_observations": [
+        {
+          "exit_code": 1
+        },
+        {
+          "exit_code": 0
+        }
+      ]
+    },
+    {
+      "original_pointer": "/scenarios/8",
+      "scenario": "test_invalid_selection_rejects_before_workers_checks_or_git_changes[selection5-subset of tickets]",
+      "integration": "ae73c2a3419215f5334878624701a1382cfcd448",
+      "caller_status": "",
+      "record_facts": {
+        "outcome": "invalid-input",
+        "failure": {
+          "stage": "inputs",
+          "message": "configuration.selected_tickets must be a subset of tickets"
+        }
+      },
+      "ticket": {
+        "state": "Blocked",
+        "attempt": 0
+      },
+      "gates": [],
+      "attempt_count": 0,
+      "recorded_assertions": {},
+      "launches": [],
+      "cli_observations": [
+        {
+          "exit_code": 1
+        },
+        {
+          "exit_code": 0
+        }
+      ]
+    },
+    {
+      "original_pointer": "/scenarios/9",
+      "scenario": "test_invalid_selection_rejects_before_workers_checks_or_git_changes[selection6-selected Status must be ready-for-agent]",
+      "integration": "ae73c2a3419215f5334878624701a1382cfcd448",
+      "caller_status": "",
+      "record_facts": {
+        "outcome": "invalid-input",
+        "failure": {
+          "stage": "inputs",
+          "message": "ticket 05: selected Status must be ready-for-agent; found 'ready-for-human'"
+        }
+      },
+      "ticket": {
+        "state": "Blocked",
+        "attempt": 0
+      },
+      "gates": [],
+      "attempt_count": 0,
+      "recorded_assertions": {},
+      "launches": [],
+      "cli_observations": [
+        {
+          "exit_code": 1
+        },
+        {
+          "exit_code": 0
+        }
+      ]
+    },
+    {
+      "original_pointer": "/scenarios/10",
+      "scenario": "test_invalid_selection_rejects_before_workers_checks_or_git_changes[selection7-unsatisfied prerequisites]",
+      "integration": "dfce8a6a31567076abf133ef37f355894a9b6f8e",
+      "caller_status": "",
+      "record_facts": {
+        "outcome": "invalid-input",
+        "failure": {
+          "stage": "inputs",
+          "message": "ticket 02: unsatisfied prerequisites ['03', '04']; select prerequisites or supply completed_runs with integrated Done evidence"
+        }
+      },
+      "ticket": {
+        "state": "Blocked",
+        "attempt": 0
+      },
+      "gates": [],
+      "attempt_count": 0,
+      "recorded_assertions": {},
+      "launches": [],
+      "cli_observations": [
+        {
+          "exit_code": 1
+        },
+        {
+          "exit_code": 0
+        }
+      ]
+    },
+    {
+      "original_pointer": "/scenarios/11",
+      "scenario": "test_later_candidate_cannot_overwrite_external_integration_movement",
+      "integration": "ffa1fd83ff725ee23e21e9dd718844a3adfb9aec",
+      "caller_status": "",
+      "record_facts": {
+        "outcome": "incomplete",
+        "failure": {
+          "stage": "integration",
+          "message": "git -c core.hooksPath=/dev/null update-ref refs/heads/integration 0965c2c9d86cc76089806d5eb8c3b8619c5db1ab fa23bc7775de013c41290cb238e2c0f646d75c04: fatal: update_ref failed for ref 'refs/heads/integration': cannot lock ref 'refs/heads/integration': is at ffa1fd83ff725ee23e21e9dd718844a3adfb9aec but expected fa23bc7775de013c41290cb238e2c0f646d75c04"
+        },
+        "base_revision": "ffa1fd83ff725ee23e21e9dd718844a3adfb9aec",
+        "integration_branch": "integration"
+      },
+      "ticket": {
+        "id": "03",
+        "state": "Blocked",
+        "attempt": 1,
+        "starting_revision": "fa23bc7775de013c41290cb238e2c0f646d75c04",
+        "submitted_revision": "97e1af13d670c9da0468a1148549b1e7c6e3b167",
+        "candidate_revision": "0965c2c9d86cc76089806d5eb8c3b8619c5db1ab"
+      },
+      "tickets": {
+        "01": {
+          "id": "01",
+          "state": "Done",
+          "attempt": 1,
+          "starting_revision": "ffa1fd83ff725ee23e21e9dd718844a3adfb9aec",
+          "submitted_revision": "07332714a7a3b0f03f50958c31abce5132c509bd",
+          "candidate_revision": "fa23bc7775de013c41290cb238e2c0f646d75c04",
+          "done_revision": "fa23bc7775de013c41290cb238e2c0f646d75c04"
+        },
+        "02": {
+          "id": "02",
+          "state": "Pending",
+          "attempt": 0
+        },
+        "03": {
+          "id": "03",
+          "state": "Blocked",
+          "attempt": 1,
+          "starting_revision": "fa23bc7775de013c41290cb238e2c0f646d75c04",
+          "submitted_revision": "97e1af13d670c9da0468a1148549b1e7c6e3b167",
+          "candidate_revision": "0965c2c9d86cc76089806d5eb8c3b8619c5db1ab"
+        },
+        "04": {
+          "id": "04",
+          "state": "Ready",
+          "attempt": 0
+        }
+      },
+      "gates": [
+        {
+          "stage": "baseline",
+          "ticket": null,
+          "attempt": 0,
+          "revision": "ffa1fd83ff725ee23e21e9dd718844a3adfb9aec",
+          "passed": true,
+          "exit_code": 0,
+          "timed_out": false,
+          "timeout_category": "baseline",
+          "timeout_seconds": 1800
+        },
+        {
+          "stage": "implementation",
+          "ticket": "01",
+          "attempt": 1,
+          "revision": "ffa1fd83ff725ee23e21e9dd718844a3adfb9aec",
+          "passed": true,
+          "exit_code": 0,
+          "timed_out": false,
+          "timeout_category": "implementation",
+          "timeout_seconds": 1800
+        },
+        {
+          "stage": "check-ticket",
+          "ticket": "01",
+          "attempt": 1,
+          "revision": "07332714a7a3b0f03f50958c31abce5132c509bd",
+          "passed": true,
+          "exit_code": 0,
+          "timed_out": false,
+          "timeout_category": "checks",
+          "timeout_seconds": 300
+        },
+        {
+          "stage": "spec",
+          "ticket": "01",
+          "attempt": 1,
+          "revision": "07332714a7a3b0f03f50958c31abce5132c509bd",
+          "passed": true,
+          "exit_code": 0,
+          "timed_out": false,
+          "timeout_category": "spec",
+          "timeout_seconds": 900
+        },
+        {
+          "stage": "standards",
+          "ticket": "01",
+          "attempt": 1,
+          "revision": "07332714a7a3b0f03f50958c31abce5132c509bd",
+          "passed": true,
+          "exit_code": 0,
+          "timed_out": false,
+          "timeout_category": "standards",
+          "timeout_seconds": 900
+        },
+        {
+          "stage": "candidate",
+          "ticket": "01",
+          "attempt": 1,
+          "revision": "fa23bc7775de013c41290cb238e2c0f646d75c04",
+          "passed": true,
+          "exit_code": 0,
+          "timed_out": false,
+          "timeout_category": "candidate",
+          "timeout_seconds": 1800
+        },
+        {
+          "stage": "implementation",
+          "ticket": "03",
+          "attempt": 1,
+          "revision": "fa23bc7775de013c41290cb238e2c0f646d75c04",
+          "passed": true,
+          "exit_code": 0,
+          "timed_out": false,
+          "timeout_category": "implementation",
+          "timeout_seconds": 1800
+        },
+        {
+          "stage": "check-other",
+          "ticket": "03",
+          "attempt": 1,
+          "revision": "97e1af13d670c9da0468a1148549b1e7c6e3b167",
+          "passed": true,
+          "exit_code": 0,
+          "timed_out": false,
+          "timeout_category": "checks",
+          "timeout_seconds": 300
+        },
+        {
+          "stage": "spec",
+          "ticket": "03",
+          "attempt": 1,
+          "revision": "97e1af13d670c9da0468a1148549b1e7c6e3b167",
+          "passed": true,
+          "exit_code": 0,
+          "timed_out": false,
+          "timeout_category": "spec",
+          "timeout_seconds": 900
+        },
+        {
+          "stage": "standards",
+          "ticket": "03",
+          "attempt": 1,
+          "revision": "97e1af13d670c9da0468a1148549b1e7c6e3b167",
+          "passed": true,
+          "exit_code": 0,
+          "timed_out": false,
+          "timeout_category": "standards",
+          "timeout_seconds": 900
+        },
+        {
+          "stage": "candidate",
+          "ticket": "03",
+          "attempt": 1,
+          "revision": "0965c2c9d86cc76089806d5eb8c3b8619c5db1ab",
+          "passed": true,
+          "exit_code": 0,
+          "timed_out": false,
+          "timeout_category": "candidate",
+          "timeout_seconds": 1800
+        }
+      ],
+      "attempt_count": 2,
+      "recorded_assertions": {},
+      "launches": [
+        {
+          "ticket": "01",
+          "role": "implementation",
+          "attempt": 1,
+          "head": "ffa1fd83ff725ee23e21e9dd718844a3adfb9aec"
+        },
+        {
+          "ticket": "01",
+          "role": "implementation",
+          "attempt": 1,
+          "head": "ffa1fd83ff725ee23e21e9dd718844a3adfb9aec"
+        },
+        {
+          "ticket": "01",
+          "role": "spec",
+          "attempt": 1,
+          "head": "07332714a7a3b0f03f50958c31abce5132c509bd"
+        },
+        {
+          "ticket": "01",
+          "role": "spec",
+          "attempt": 1,
+          "head": "07332714a7a3b0f03f50958c31abce5132c509bd"
+        },
+        {
+          "ticket": "01",
+          "role": "standards",
+          "attempt": 1,
+          "head": "07332714a7a3b0f03f50958c31abce5132c509bd"
+        },
+        {
+          "ticket": "01",
+          "role": "standards",
+          "attempt": 1,
+          "head": "07332714a7a3b0f03f50958c31abce5132c509bd"
+        },
+        {
+          "ticket": "03",
+          "role": "implementation",
+          "attempt": 1,
+          "head": "fa23bc7775de013c41290cb238e2c0f646d75c04"
+        },
+        {
+          "ticket": "03",
+          "role": "implementation",
+          "attempt": 1,
+          "head": "fa23bc7775de013c41290cb238e2c0f646d75c04"
+        },
+        {
+          "ticket": "03",
+          "role": "spec",
+          "attempt": 1,
+          "head": "97e1af13d670c9da0468a1148549b1e7c6e3b167"
+        },
+        {
+          "ticket": "03",
+          "role": "spec",
+          "attempt": 1,
+          "head": "97e1af13d670c9da0468a1148549b1e7c6e3b167"
+        },
+        {
+          "ticket": "03",
+          "role": "standards",
+          "attempt": 1,
+          "head": "97e1af13d670c9da0468a1148549b1e7c6e3b167"
+        },
+        {
+          "ticket": "03",
+          "role": "standards",
+          "attempt": 1,
+          "head": "97e1af13d670c9da0468a1148549b1e7c6e3b167"
+        }
+      ],
+      "cli_observations": [
+        {
+          "exit_code": 1
+        }
+      ]
+    },
+    {
+      "original_pointer": "/scenarios/12",
+      "scenario": "test_later_ticket_cannot_destroy_earlier_evidence_or_reuse_invalidated_approval[delete]",
+      "integration": "9fcd820c86c08b705cb812207a17837b34913afb",
+      "caller_status": "",
+      "record_facts": {
+        "outcome": "incomplete",
+        "failure": {
+          "stage": "implementation",
+          "message": "Required gate failed: implementation; Integrity violation: protected files changed"
+        },
+        "base_revision": "1dad01c86df96248bb214d980a5fe3b2c430a9bf",
+        "integration_branch": "integration"
+      },
+      "ticket": {
+        "id": "03",
+        "state": "Blocked",
+        "attempt": 1
+      },
+      "tickets": {
+        "01": {
+          "id": "01",
+          "state": "Done",
+          "attempt": 1,
+          "starting_revision": "1dad01c86df96248bb214d980a5fe3b2c430a9bf",
+          "submitted_revision": "2afe79e6f33146564041301c9830b9799fe427a2",
+          "candidate_revision": "9fcd820c86c08b705cb812207a17837b34913afb",
+          "done_revision": "9fcd820c86c08b705cb812207a17837b34913afb"
+        },
+        "02": {
+          "id": "02",
+          "state": "Pending",
+          "attempt": 0
+        },
+        "03": {
+          "id": "03",
+          "state": "Blocked",
+          "attempt": 1
+        },
+        "04": {
+          "id": "04",
+          "state": "Ready",
+          "attempt": 0
+        }
+      },
+      "gates": [
+        {
+          "stage": "baseline",
+          "ticket": null,
+          "attempt": 0,
+          "revision": "1dad01c86df96248bb214d980a5fe3b2c430a9bf",
+          "passed": true,
+          "exit_code": 0,
+          "timed_out": false,
+          "timeout_category": "baseline",
+          "timeout_seconds": 1800
+        },
+        {
+          "stage": "implementation",
+          "ticket": "01",
+          "attempt": 1,
+          "revision": "1dad01c86df96248bb214d980a5fe3b2c430a9bf",
+          "passed": true,
+          "exit_code": 0,
+          "timed_out": false,
+          "timeout_category": "implementation",
+          "timeout_seconds": 1800
+        },
+        {
+          "stage": "check-ticket",
+          "ticket": "01",
+          "attempt": 1,
+          "revision": "2afe79e6f33146564041301c9830b9799fe427a2",
+          "passed": true,
+          "exit_code": 0,
+          "timed_out": false,
+          "timeout_category": "checks",
+          "timeout_seconds": 300
+        },
+        {
+          "stage": "spec",
+          "ticket": "01",
+          "attempt": 1,
+          "revision": "2afe79e6f33146564041301c9830b9799fe427a2",
+          "passed": true,
+          "exit_code": 0,
+          "timed_out": false,
+          "timeout_category": "spec",
+          "timeout_seconds": 900
+        },
+        {
+          "stage": "standards",
+          "ticket": "01",
+          "attempt": 1,
+          "revision": "2afe79e6f33146564041301c9830b9799fe427a2",
+          "passed": true,
+          "exit_code": 0,
+          "timed_out": false,
+          "timeout_category": "standards",
+          "timeout_seconds": 900
+        },
+        {
+          "stage": "candidate",
+          "ticket": "01",
+          "attempt": 1,
+          "revision": "9fcd820c86c08b705cb812207a17837b34913afb",
+          "passed": true,
+          "exit_code": 0,
+          "timed_out": false,
+          "timeout_category": "candidate",
+          "timeout_seconds": 1800
+        },
+        {
+          "stage": "implementation",
+          "ticket": "03",
+          "attempt": 1,
+          "revision": "9fcd820c86c08b705cb812207a17837b34913afb",
+          "passed": false,
+          "exit_code": 0,
+          "timed_out": false,
+          "timeout_category": "implementation",
+          "timeout_seconds": 1800,
+          "diagnostic": "Integrity violation: protected files changed"
+        }
+      ],
+      "attempt_count": 2,
+      "recorded_assertions": {},
+      "launches": [
+        {
+          "ticket": "01",
+          "role": "implementation",
+          "attempt": 1,
+          "head": "1dad01c86df96248bb214d980a5fe3b2c430a9bf"
+        },
+        {
+          "ticket": "01",
+          "role": "implementation",
+          "attempt": 1,
+          "head": "1dad01c86df96248bb214d980a5fe3b2c430a9bf"
+        },
+        {
+          "ticket": "01",
+          "role": "spec",
+          "attempt": 1,
+          "head": "2afe79e6f33146564041301c9830b9799fe427a2"
+        },
+        {
+          "ticket": "01",
+          "role": "spec",
+          "attempt": 1,
+          "head": "2afe79e6f33146564041301c9830b9799fe427a2"
+        },
+        {
+          "ticket": "01",
+          "role": "standards",
+          "attempt": 1,
+          "head": "2afe79e6f33146564041301c9830b9799fe427a2"
+        },
+        {
+          "ticket": "01",
+          "role": "standards",
+          "attempt": 1,
+          "head": "2afe79e6f33146564041301c9830b9799fe427a2"
+        },
+        {
+          "ticket": "03",
+          "role": "implementation",
+          "attempt": 1,
+          "head": "9fcd820c86c08b705cb812207a17837b34913afb"
+        },
+        {
+          "ticket": "03",
+          "role": "implementation",
+          "attempt": 1,
+          "head": "9fcd820c86c08b705cb812207a17837b34913afb"
+        }
+      ],
+      "cli_observations": [
+        {
+          "exit_code": 1
+        },
+        {
+          "exit_code": 0
+        }
+      ]
+    },
+    {
+      "original_pointer": "/scenarios/13",
+      "scenario": "test_later_ticket_cannot_destroy_earlier_evidence_or_reuse_invalidated_approval[directory]",
+      "integration": "46b96efd7fef62434642563f59ea9c9bb99d9590",
+      "caller_status": "",
+      "record_facts": {
+        "outcome": "incomplete",
+        "failure": {
+          "stage": "implementation",
+          "message": "Required gate failed: implementation; Integrity violation: protected files changed"
+        },
+        "base_revision": "9c1db871290dc17adeede7345c07a6bbe2c89a1d",
+        "integration_branch": "integration"
+      },
+      "ticket": {
+        "id": "03",
+        "state": "Blocked",
+        "attempt": 1
+      },
+      "tickets": {
+        "01": {
+          "id": "01",
+          "state": "Done",
+          "attempt": 1,
+          "starting_revision": "9c1db871290dc17adeede7345c07a6bbe2c89a1d",
+          "submitted_revision": "4cde9416b82fe774c23ff2da5207d6cdad6a6ecf",
+          "candidate_revision": "46b96efd7fef62434642563f59ea9c9bb99d9590",
+          "done_revision": "46b96efd7fef62434642563f59ea9c9bb99d9590"
+        },
+        "02": {
+          "id": "02",
+          "state": "Pending",
+          "attempt": 0
+        },
+        "03": {
+          "id": "03",
+          "state": "Blocked",
+          "attempt": 1
+        },
+        "04": {
+          "id": "04",
+          "state": "Ready",
+          "attempt": 0
+        }
+      },
+      "gates": [
+        {
+          "stage": "baseline",
+          "ticket": null,
+          "attempt": 0,
+          "revision": "9c1db871290dc17adeede7345c07a6bbe2c89a1d",
+          "passed": true,
+          "exit_code": 0,
+          "timed_out": false,
+          "timeout_category": "baseline",
+          "timeout_seconds": 1800
+        },
+        {
+          "stage": "implementation",
+          "ticket": "01",
+          "attempt": 1,
+          "revision": "9c1db871290dc17adeede7345c07a6bbe2c89a1d",
+          "passed": true,
+          "exit_code": 0,
+          "timed_out": false,
+          "timeout_category": "implementation",
+          "timeout_seconds": 1800
+        },
+        {
+          "stage": "check-ticket",
+          "ticket": "01",
+          "attempt": 1,
+          "revision": "4cde9416b82fe774c23ff2da5207d6cdad6a6ecf",
+          "passed": true,
+          "exit_code": 0,
+          "timed_out": false,
+          "timeout_category": "checks",
+          "timeout_seconds": 300
+        },
+        {
+          "stage": "spec",
+          "ticket": "01",
+          "attempt": 1,
+          "revision": "4cde9416b82fe774c23ff2da5207d6cdad6a6ecf",
+          "passed": true,
+          "exit_code": 0,
+          "timed_out": false,
+          "timeout_category": "spec",
+          "timeout_seconds": 900
+        },
+        {
+          "stage": "standards",
+          "ticket": "01",
+          "attempt": 1,
+          "revision": "4cde9416b82fe774c23ff2da5207d6cdad6a6ecf",
+          "passed": true,
+          "exit_code": 0,
+          "timed_out": false,
+          "timeout_category": "standards",
+          "timeout_seconds": 900
+        },
+        {
+          "stage": "candidate",
+          "ticket": "01",
+          "attempt": 1,
+          "revision": "46b96efd7fef62434642563f59ea9c9bb99d9590",
+          "passed": true,
+          "exit_code": 0,
+          "timed_out": false,
+          "timeout_category": "candidate",
+          "timeout_seconds": 1800
+        },
+        {
+          "stage": "implementation",
+          "ticket": "03",
+          "attempt": 1,
+          "revision": "46b96efd7fef62434642563f59ea9c9bb99d9590",
+          "passed": false,
+          "exit_code": 0,
+          "timed_out": false,
+          "timeout_category": "implementation",
+          "timeout_seconds": 1800,
+          "diagnostic": "Integrity violation: protected files changed"
+        }
+      ],
+      "attempt_count": 2,
+      "recorded_assertions": {},
+      "launches": [
+        {
+          "ticket": "01",
+          "role": "implementation",
+          "attempt": 1,
+          "head": "9c1db871290dc17adeede7345c07a6bbe2c89a1d"
+        },
+        {
+          "ticket": "01",
+          "role": "implementation",
+          "attempt": 1,
+          "head": "9c1db871290dc17adeede7345c07a6bbe2c89a1d"
+        },
+        {
+          "ticket": "01",
+          "role": "spec",
+          "attempt": 1,
+          "head": "4cde9416b82fe774c23ff2da5207d6cdad6a6ecf"
+        },
+        {
+          "ticket": "01",
+          "role": "spec",
+          "attempt": 1,
+          "head": "4cde9416b82fe774c23ff2da5207d6cdad6a6ecf"
+        },
+        {
+          "ticket": "01",
+          "role": "standards",
+          "attempt": 1,
+          "head": "4cde9416b82fe774c23ff2da5207d6cdad6a6ecf"
+        },
+        {
+          "ticket": "01",
+          "role": "standards",
+          "attempt": 1,
+          "head": "4cde9416b82fe774c23ff2da5207d6cdad6a6ecf"
+        },
+        {
+          "ticket": "03",
+          "role": "implementation",
+          "attempt": 1,
+          "head": "46b96efd7fef62434642563f59ea9c9bb99d9590"
+        },
+        {
+          "ticket": "03",
+          "role": "implementation",
+          "attempt": 1,
+          "head": "46b96efd7fef62434642563f59ea9c9bb99d9590"
+        }
+      ],
+      "cli_observations": [
+        {
+          "exit_code": 1
+        },
+        {
+          "exit_code": 0
+        }
+      ]
+    },
+    {
+      "original_pointer": "/scenarios/14",
+      "scenario": "test_later_ticket_cannot_destroy_earlier_evidence_or_reuse_invalidated_approval[hook]",
+      "integration": "022a7005c9f7625fbea6305a3e6247be72e7d2bd",
+      "caller_status": "",
+      "record_facts": {
+        "outcome": "incomplete",
+        "failure": {
+          "stage": "implementation",
+          "message": "Integrity violation: protected files changed"
+        },
+        "base_revision": "cfb83d66517db37ff3e20e0069372ac95f2ef84f",
+        "integration_branch": "integration"
+      },
+      "ticket": {
+        "id": "03",
+        "state": "Blocked",
+        "attempt": 1,
+        "starting_revision": "022a7005c9f7625fbea6305a3e6247be72e7d2bd",
+        "submitted_revision": "c3bc120eda0611eb0fc430ae9d05583e3fff6a02"
+      },
+      "tickets": {
+        "01": {
+          "id": "01",
+          "state": "Done",
+          "attempt": 1,
+          "starting_revision": "cfb83d66517db37ff3e20e0069372ac95f2ef84f",
+          "submitted_revision": "ca105a0165afce4eb95894591f9ea0ef5d47db8e",
+          "candidate_revision": "022a7005c9f7625fbea6305a3e6247be72e7d2bd",
+          "done_revision": "022a7005c9f7625fbea6305a3e6247be72e7d2bd"
+        },
+        "02": {
+          "id": "02",
+          "state": "Pending",
+          "attempt": 0
+        },
+        "03": {
+          "id": "03",
+          "state": "Blocked",
+          "attempt": 1,
+          "starting_revision": "022a7005c9f7625fbea6305a3e6247be72e7d2bd",
+          "submitted_revision": "c3bc120eda0611eb0fc430ae9d05583e3fff6a02"
+        },
+        "04": {
+          "id": "04",
+          "state": "Ready",
+          "attempt": 0
+        }
+      },
+      "gates": [
+        {
+          "stage": "baseline",
+          "ticket": null,
+          "attempt": 0,
+          "revision": "cfb83d66517db37ff3e20e0069372ac95f2ef84f",
+          "passed": true,
+          "exit_code": 0,
+          "timed_out": false,
+          "timeout_category": "baseline",
+          "timeout_seconds": 1800
+        },
+        {
+          "stage": "implementation",
+          "ticket": "01",
+          "attempt": 1,
+          "revision": "cfb83d66517db37ff3e20e0069372ac95f2ef84f",
+          "passed": true,
+          "exit_code": 0,
+          "timed_out": false,
+          "timeout_category": "implementation",
+          "timeout_seconds": 1800
+        },
+        {
+          "stage": "check-ticket",
+          "ticket": "01",
+          "attempt": 1,
+          "revision": "ca105a0165afce4eb95894591f9ea0ef5d47db8e",
+          "passed": true,
+          "exit_code": 0,
+          "timed_out": false,
+          "timeout_category": "checks",
+          "timeout_seconds": 300
+        },
+        {
+          "stage": "spec",
+          "ticket": "01",
+          "attempt": 1,
+          "revision": "ca105a0165afce4eb95894591f9ea0ef5d47db8e",
+          "passed": true,
+          "exit_code": 0,
+          "timed_out": false,
+          "timeout_category": "spec",
+          "timeout_seconds": 900
+        },
+        {
+          "stage": "standards",
+          "ticket": "01",
+          "attempt": 1,
+          "revision": "ca105a0165afce4eb95894591f9ea0ef5d47db8e",
+          "passed": true,
+          "exit_code": 0,
+          "timed_out": false,
+          "timeout_category": "standards",
+          "timeout_seconds": 900
+        },
+        {
+          "stage": "candidate",
+          "ticket": "01",
+          "attempt": 1,
+          "revision": "022a7005c9f7625fbea6305a3e6247be72e7d2bd",
+          "passed": true,
+          "exit_code": 0,
+          "timed_out": false,
+          "timeout_category": "candidate",
+          "timeout_seconds": 1800
+        },
+        {
+          "stage": "implementation",
+          "ticket": "03",
+          "attempt": 1,
+          "revision": "022a7005c9f7625fbea6305a3e6247be72e7d2bd",
+          "passed": true,
+          "exit_code": 0,
+          "timed_out": false,
+          "timeout_category": "implementation",
+          "timeout_seconds": 1800
+        }
+      ],
+      "attempt_count": 2,
+      "recorded_assertions": {},
+      "launches": [
+        {
+          "ticket": "01",
+          "role": "implementation",
+          "attempt": 1,
+          "head": "cfb83d66517db37ff3e20e0069372ac95f2ef84f"
+        },
+        {
+          "ticket": "01",
+          "role": "implementation",
+          "attempt": 1,
+          "head": "cfb83d66517db37ff3e20e0069372ac95f2ef84f"
+        },
+        {
+          "ticket": "01",
+          "role": "spec",
+          "attempt": 1,
+          "head": "ca105a0165afce4eb95894591f9ea0ef5d47db8e"
+        },
+        {
+          "ticket": "01",
+          "role": "spec",
+          "attempt": 1,
+          "head": "ca105a0165afce4eb95894591f9ea0ef5d47db8e"
+        },
+        {
+          "ticket": "01",
+          "role": "standards",
+          "attempt": 1,
+          "head": "ca105a0165afce4eb95894591f9ea0ef5d47db8e"
+        },
+        {
+          "ticket": "01",
+          "role": "standards",
+          "attempt": 1,
+          "head": "ca105a0165afce4eb95894591f9ea0ef5d47db8e"
+        },
+        {
+          "ticket": "03",
+          "role": "implementation",
+          "attempt": 1,
+          "head": "022a7005c9f7625fbea6305a3e6247be72e7d2bd"
+        },
+        {
+          "ticket": "03",
+          "role": "implementation",
+          "attempt": 1,
+          "head": "022a7005c9f7625fbea6305a3e6247be72e7d2bd"
+        }
+      ],
+      "cli_observations": [
+        {
+          "exit_code": 1
+        },
+        {
+          "exit_code": 0
+        }
+      ]
+    },
+    {
+      "original_pointer": "/scenarios/15",
+      "scenario": "test_later_ticket_cannot_destroy_earlier_evidence_or_reuse_invalidated_approval[source]",
+      "integration": "5c064b29c3a227ac7b7a9d566b15e0f9f60e4c24",
+      "caller_status": "",
+      "record_facts": {
+        "outcome": "incomplete",
+        "failure": {
+          "stage": "implementation",
+          "message": "Verified source changed at /tmp/ticket-harness-test-2hmgp772/run/worktrees/ticket-01-spec"
+        },
+        "base_revision": "ddf00e4c1cba9c1cab0d126e67bb1b31d4b5eaf6",
+        "integration_branch": "integration"
+      },
+      "ticket": {
+        "id": "03",
+        "state": "Blocked",
+        "attempt": 1
+      },
+      "tickets": {
+        "01": {
+          "id": "01",
+          "state": "Done",
+          "attempt": 1,
+          "starting_revision": "ddf00e4c1cba9c1cab0d126e67bb1b31d4b5eaf6",
+          "submitted_revision": "5e3e2775dcc59ad6189ac6144ee62eefae1a8c16",
+          "candidate_revision": "5c064b29c3a227ac7b7a9d566b15e0f9f60e4c24",
+          "done_revision": "5c064b29c3a227ac7b7a9d566b15e0f9f60e4c24"
+        },
+        "02": {
+          "id": "02",
+          "state": "Pending",
+          "attempt": 0
+        },
+        "03": {
+          "id": "03",
+          "state": "Blocked",
+          "attempt": 1
+        },
+        "04": {
+          "id": "04",
+          "state": "Ready",
+          "attempt": 0
+        }
+      },
+      "gates": [
+        {
+          "stage": "baseline",
+          "ticket": null,
+          "attempt": 0,
+          "revision": "ddf00e4c1cba9c1cab0d126e67bb1b31d4b5eaf6",
+          "passed": true,
+          "exit_code": 0,
+          "timed_out": false,
+          "timeout_category": "baseline",
+          "timeout_seconds": 1800
+        },
+        {
+          "stage": "implementation",
+          "ticket": "01",
+          "attempt": 1,
+          "revision": "ddf00e4c1cba9c1cab0d126e67bb1b31d4b5eaf6",
+          "passed": true,
+          "exit_code": 0,
+          "timed_out": false,
+          "timeout_category": "implementation",
+          "timeout_seconds": 1800
+        },
+        {
+          "stage": "check-ticket",
+          "ticket": "01",
+          "attempt": 1,
+          "revision": "5e3e2775dcc59ad6189ac6144ee62eefae1a8c16",
+          "passed": true,
+          "exit_code": 0,
+          "timed_out": false,
+          "timeout_category": "checks",
+          "timeout_seconds": 300
+        },
+        {
+          "stage": "spec",
+          "ticket": "01",
+          "attempt": 1,
+          "revision": "5e3e2775dcc59ad6189ac6144ee62eefae1a8c16",
+          "passed": false,
+          "exit_code": 0,
+          "timed_out": false,
+          "timeout_category": "spec",
+          "timeout_seconds": 900,
+          "verification_status": "invalidated",
+          "diagnostic": "Verified source changed at /tmp/ticket-harness-test-2hmgp772/run/worktrees/ticket-01-spec"
+        },
+        {
+          "stage": "standards",
+          "ticket": "01",
+          "attempt": 1,
+          "revision": "5e3e2775dcc59ad6189ac6144ee62eefae1a8c16",
+          "passed": true,
+          "exit_code": 0,
+          "timed_out": false,
+          "timeout_category": "standards",
+          "timeout_seconds": 900
+        },
+        {
+          "stage": "candidate",
+          "ticket": "01",
+          "attempt": 1,
+          "revision": "5c064b29c3a227ac7b7a9d566b15e0f9f60e4c24",
+          "passed": true,
+          "exit_code": 0,
+          "timed_out": false,
+          "timeout_category": "candidate",
+          "timeout_seconds": 1800
+        },
+        {
+          "stage": "implementation",
+          "ticket": "03",
+          "attempt": 1,
+          "revision": "5c064b29c3a227ac7b7a9d566b15e0f9f60e4c24",
+          "passed": false,
+          "exit_code": 0,
+          "timed_out": false,
+          "timeout_category": "implementation",
+          "timeout_seconds": 1800,
+          "diagnostic": "Verified source changed at /tmp/ticket-harness-test-2hmgp772/run/worktrees/ticket-01-spec"
+        }
+      ],
+      "attempt_count": 2,
+      "recorded_assertions": {},
+      "launches": [
+        {
+          "ticket": "01",
+          "role": "implementation",
+          "attempt": 1,
+          "head": "ddf00e4c1cba9c1cab0d126e67bb1b31d4b5eaf6"
+        },
+        {
+          "ticket": "01",
+          "role": "implementation",
+          "attempt": 1,
+          "head": "ddf00e4c1cba9c1cab0d126e67bb1b31d4b5eaf6"
+        },
+        {
+          "ticket": "01",
+          "role": "spec",
+          "attempt": 1,
+          "head": "5e3e2775dcc59ad6189ac6144ee62eefae1a8c16"
+        },
+        {
+          "ticket": "01",
+          "role": "spec",
+          "attempt": 1,
+          "head": "5e3e2775dcc59ad6189ac6144ee62eefae1a8c16"
+        },
+        {
+          "ticket": "01",
+          "role": "standards",
+          "attempt": 1,
+          "head": "5e3e2775dcc59ad6189ac6144ee62eefae1a8c16"
+        },
+        {
+          "ticket": "01",
+          "role": "standards",
+          "attempt": 1,
+          "head": "5e3e2775dcc59ad6189ac6144ee62eefae1a8c16"
+        },
+        {
+          "ticket": "03",
+          "role": "implementation",
+          "attempt": 1,
+          "head": "5c064b29c3a227ac7b7a9d566b15e0f9f60e4c24"
+        },
+        {
+          "ticket": "03",
+          "role": "implementation",
+          "attempt": 1,
+          "head": "5c064b29c3a227ac7b7a9d566b15e0f9f60e4c24"
+        }
+      ],
+      "cli_observations": [
+        {
+          "exit_code": 1
+        },
+        {
+          "exit_code": 0
+        }
+      ]
+    },
+    {
+      "original_pointer": "/scenarios/16",
+      "scenario": "test_legacy_completion_evidence_without_ticket_mapping_still_accepts_normalized_id",
+      "integration": "07c281a1a87d4c471d199453f3d82f2fc1c1a3ec",
+      "caller_status": "?? 06-follow-up.md",
+      "record_facts": {
+        "outcome": "completed",
+        "base_revision": "be988537edcdf50fb0a61b8ff310ee9d00f926cb",
+        "integration_branch": "integration"
+      },
+      "ticket": {
+        "id": "06",
+        "state": "Done",
+        "attempt": 1,
+        "starting_revision": "be988537edcdf50fb0a61b8ff310ee9d00f926cb",
+        "submitted_revision": "068d98f8760236428b05f704e014e70b6c9a8c0d",
+        "candidate_revision": "07c281a1a87d4c471d199453f3d82f2fc1c1a3ec",
+        "done_revision": "07c281a1a87d4c471d199453f3d82f2fc1c1a3ec"
+      },
+      "tickets": {
+        "06": {
+          "id": "06",
+          "state": "Done",
+          "attempt": 1,
+          "starting_revision": "be988537edcdf50fb0a61b8ff310ee9d00f926cb",
+          "submitted_revision": "068d98f8760236428b05f704e014e70b6c9a8c0d",
+          "candidate_revision": "07c281a1a87d4c471d199453f3d82f2fc1c1a3ec",
+          "done_revision": "07c281a1a87d4c471d199453f3d82f2fc1c1a3ec"
+        }
+      },
+      "gates": [
+        {
+          "stage": "baseline",
+          "ticket": null,
+          "attempt": 0,
+          "revision": "be988537edcdf50fb0a61b8ff310ee9d00f926cb",
+          "passed": true,
+          "exit_code": 0,
+          "timed_out": false,
+          "timeout_category": "baseline",
+          "timeout_seconds": 1800
+        },
+        {
+          "stage": "implementation",
+          "ticket": "06",
+          "attempt": 1,
+          "revision": "be988537edcdf50fb0a61b8ff310ee9d00f926cb",
+          "passed": true,
+          "exit_code": 0,
+          "timed_out": false,
+          "timeout_category": "implementation",
+          "timeout_seconds": 1800
+        },
+        {
+          "stage": "check-ticket",
+          "ticket": "06",
+          "attempt": 1,
+          "revision": "068d98f8760236428b05f704e014e70b6c9a8c0d",
+          "passed": true,
+          "exit_code": 0,
+          "timed_out": false,
+          "timeout_category": "checks",
+          "timeout_seconds": 300
+        },
+        {
+          "stage": "spec",
+          "ticket": "06",
+          "attempt": 1,
+          "revision": "068d98f8760236428b05f704e014e70b6c9a8c0d",
+          "passed": true,
+          "exit_code": 0,
+          "timed_out": false,
+          "timeout_category": "spec",
+          "timeout_seconds": 900
+        },
+        {
+          "stage": "standards",
+          "ticket": "06",
+          "attempt": 1,
+          "revision": "068d98f8760236428b05f704e014e70b6c9a8c0d",
+          "passed": true,
+          "exit_code": 0,
+          "timed_out": false,
+          "timeout_category": "standards",
+          "timeout_seconds": 900
+        },
+        {
+          "stage": "candidate",
+          "ticket": "06",
+          "attempt": 1,
+          "revision": "07c281a1a87d4c471d199453f3d82f2fc1c1a3ec",
+          "passed": true,
+          "exit_code": 0,
+          "timed_out": false,
+          "timeout_category": "candidate",
+          "timeout_seconds": 1800
+        }
+      ],
+      "attempt_count": 1,
+      "recorded_assertions": {},
+      "launches": [
+        {
+          "ticket": "03",
+          "role": "implementation",
+          "attempt": 1,
+          "head": "3cd67068b9de9b7084d14bce868279af1bd2511b"
+        },
+        {
+          "ticket": "03",
+          "role": "implementation",
+          "attempt": 1,
+          "head": "3cd67068b9de9b7084d14bce868279af1bd2511b"
+        },
+        {
+          "ticket": "03",
+          "role": "spec",
+          "attempt": 1,
+          "head": "3beb525eb6254225b1fccadec906847c84846ab2"
+        },
+        {
+          "ticket": "03",
+          "role": "spec",
+          "attempt": 1,
+          "head": "3beb525eb6254225b1fccadec906847c84846ab2"
+        },
+        {
+          "ticket": "03",
+          "role": "standards",
+          "attempt": 1,
+          "head": "3beb525eb6254225b1fccadec906847c84846ab2"
+        },
+        {
+          "ticket": "03",
+          "role": "standards",
+          "attempt": 1,
+          "head": "3beb525eb6254225b1fccadec906847c84846ab2"
+        },
+        {
+          "ticket": "06",
+          "role": "implementation",
+          "attempt": 1,
+          "head": "be988537edcdf50fb0a61b8ff310ee9d00f926cb"
+        },
+        {
+          "ticket": "06",
+          "role": "implementation",
+          "attempt": 1,
+          "head": "be988537edcdf50fb0a61b8ff310ee9d00f926cb"
+        },
+        {
+          "ticket": "06",
+          "role": "spec",
+          "attempt": 1,
+          "head": "068d98f8760236428b05f704e014e70b6c9a8c0d"
+        },
+        {
+          "ticket": "06",
+          "role": "spec",
+          "attempt": 1,
+          "head": "068d98f8760236428b05f704e014e70b6c9a8c0d"
+        },
+        {
+          "ticket": "06",
+          "role": "standards",
+          "attempt": 1,
+          "head": "068d98f8760236428b05f704e014e70b6c9a8c0d"
+        },
+        {
+          "ticket": "06",
+          "role": "standards",
+          "attempt": 1,
+          "head": "068d98f8760236428b05f704e014e70b6c9a8c0d"
+        }
+      ],
+      "cli_observations": [
+        {
+          "exit_code": 0
+        },
+        {
+          "exit_code": 0
+        }
+      ]
+    },
+    {
+      "original_pointer": "/scenarios/17",
+      "scenario": "test_malformed_external_snapshot_mapping_rejects_before_any_new_execution",
+      "integration": "5066b3ffa68dbcbed719ada220647c6cd69db736",
+      "caller_status": "",
+      "record_facts": {
+        "outcome": "invalid-input",
+        "failure": {
+          "stage": "inputs",
+          "message": "/tmp/ticket-harness-test-ffm62v40/run/run.json: invalid prerequisite completion evidence: expected approved input snapshots"
+        }
+      },
+      "ticket": {
+        "state": "Blocked",
+        "attempt": 0
+      },
+      "gates": [],
+      "attempt_count": 0,
+      "recorded_assertions": {},
+      "launches": [
+        {
+          "ticket": "03",
+          "role": "implementation",
+          "attempt": 1,
+          "head": "64844c3f67e62b97ff312e623997c231c3e4b23a"
+        },
+        {
+          "ticket": "03",
+          "role": "implementation",
+          "attempt": 1,
+          "head": "64844c3f67e62b97ff312e623997c231c3e4b23a"
+        },
+        {
+          "ticket": "03",
+          "role": "spec",
+          "attempt": 1,
+          "head": "e7533551f7f2216ddcfffcdf2d940b9632fc462e"
+        },
+        {
+          "ticket": "03",
+          "role": "spec",
+          "attempt": 1,
+          "head": "e7533551f7f2216ddcfffcdf2d940b9632fc462e"
+        },
+        {
+          "ticket": "03",
+          "role": "standards",
+          "attempt": 1,
+          "head": "e7533551f7f2216ddcfffcdf2d940b9632fc462e"
+        },
+        {
+          "ticket": "03",
+          "role": "standards",
+          "attempt": 1,
+          "head": "e7533551f7f2216ddcfffcdf2d940b9632fc462e"
+        }
+      ],
+      "cli_observations": [
+        {
+          "exit_code": 0
+        },
+        {
+          "exit_code": 1
+        },
+        {
+          "exit_code": 0
+        }
+      ]
+    },
+    {
+      "original_pointer": "/scenarios/18",
+      "scenario": "test_multi_ticket_completion_evidence_unlocks_only_explicit_follow_up_selection",
+      "integration": "27ee4f2b64c797f9a7eaa19105c51a8fc10d3763",
+      "caller_status": "?? 06-follow-up.md",
+      "record_facts": {
+        "outcome": "completed",
+        "base_revision": "9302b6089b206f8053b6ea2bc9694b2b2ed1c5a1",
+        "integration_branch": "integration"
+      },
+      "ticket": {
+        "id": "06",
+        "state": "Done",
+        "attempt": 1,
+        "starting_revision": "9302b6089b206f8053b6ea2bc9694b2b2ed1c5a1",
+        "submitted_revision": "695edf393452b4ea4d06185bfcf6deb806bc3957",
+        "candidate_revision": "27ee4f2b64c797f9a7eaa19105c51a8fc10d3763",
+        "done_revision": "27ee4f2b64c797f9a7eaa19105c51a8fc10d3763"
+      },
+      "tickets": {
+        "06": {
+          "id": "06",
+          "state": "Done",
+          "attempt": 1,
+          "starting_revision": "9302b6089b206f8053b6ea2bc9694b2b2ed1c5a1",
+          "submitted_revision": "695edf393452b4ea4d06185bfcf6deb806bc3957",
+          "candidate_revision": "27ee4f2b64c797f9a7eaa19105c51a8fc10d3763",
+          "done_revision": "27ee4f2b64c797f9a7eaa19105c51a8fc10d3763"
+        }
+      },
+      "gates": [
+        {
+          "stage": "baseline",
+          "ticket": null,
+          "attempt": 0,
+          "revision": "9302b6089b206f8053b6ea2bc9694b2b2ed1c5a1",
+          "passed": true,
+          "exit_code": 0,
+          "timed_out": false,
+          "timeout_category": "baseline",
+          "timeout_seconds": 1800
+        },
+        {
+          "stage": "implementation",
+          "ticket": "06",
+          "attempt": 1,
+          "revision": "9302b6089b206f8053b6ea2bc9694b2b2ed1c5a1",
+          "passed": true,
+          "exit_code": 0,
+          "timed_out": false,
+          "timeout_category": "implementation",
+          "timeout_seconds": 1800
+        },
+        {
+          "stage": "check-ticket",
+          "ticket": "06",
+          "attempt": 1,
+          "revision": "695edf393452b4ea4d06185bfcf6deb806bc3957",
+          "passed": true,
+          "exit_code": 0,
+          "timed_out": false,
+          "timeout_category": "checks",
+          "timeout_seconds": 300
+        },
+        {
+          "stage": "spec",
+          "ticket": "06",
+          "attempt": 1,
+          "revision": "695edf393452b4ea4d06185bfcf6deb806bc3957",
+          "passed": true,
+          "exit_code": 0,
+          "timed_out": false,
+          "timeout_category": "spec",
+          "timeout_seconds": 900
+        },
+        {
+          "stage": "standards",
+          "ticket": "06",
+          "attempt": 1,
+          "revision": "695edf393452b4ea4d06185bfcf6deb806bc3957",
+          "passed": true,
+          "exit_code": 0,
+          "timed_out": false,
+          "timeout_category": "standards",
+          "timeout_seconds": 900
+        },
+        {
+          "stage": "candidate",
+          "ticket": "06",
+          "attempt": 1,
+          "revision": "27ee4f2b64c797f9a7eaa19105c51a8fc10d3763",
+          "passed": true,
+          "exit_code": 0,
+          "timed_out": false,
+          "timeout_category": "candidate",
+          "timeout_seconds": 1800
+        }
+      ],
+      "attempt_count": 1,
+      "recorded_assertions": {},
+      "launches": [
+        {
+          "ticket": "01",
+          "role": "implementation",
+          "attempt": 1,
+          "head": "b62c86cc0e6c7bbc694aad60784931b0308ee046"
+        },
+        {
+          "ticket": "01",
+          "role": "implementation",
+          "attempt": 1,
+          "head": "b62c86cc0e6c7bbc694aad60784931b0308ee046"
+        },
+        {
+          "ticket": "01",
+          "role": "spec",
+          "attempt": 1,
+          "head": "c23f9f78bd7176e8aa374110d959ddf08d3573e4"
+        },
+        {
+          "ticket": "01",
+          "role": "spec",
+          "attempt": 1,
+          "head": "c23f9f78bd7176e8aa374110d959ddf08d3573e4"
+        },
+        {
+          "ticket": "01",
+          "role": "standards",
+          "attempt": 1,
+          "head": "c23f9f78bd7176e8aa374110d959ddf08d3573e4"
+        },
+        {
+          "ticket": "01",
+          "role": "standards",
+          "attempt": 1,
+          "head": "c23f9f78bd7176e8aa374110d959ddf08d3573e4"
+        },
+        {
+          "ticket": "03",
+          "role": "implementation",
+          "attempt": 1,
+          "head": "bb071ca7e1d7c5b3cf3d329cfeff26a8c30e9f77"
+        },
+        {
+          "ticket": "03",
+          "role": "implementation",
+          "attempt": 1,
+          "head": "bb071ca7e1d7c5b3cf3d329cfeff26a8c30e9f77"
+        },
+        {
+          "ticket": "03",
+          "role": "spec",
+          "attempt": 1,
+          "head": "b068d63504ec5ffc3beec597d078551c89381612"
+        },
+        {
+          "ticket": "03",
+          "role": "spec",
+          "attempt": 1,
+          "head": "b068d63504ec5ffc3beec597d078551c89381612"
+        },
+        {
+          "ticket": "03",
+          "role": "standards",
+          "attempt": 1,
+          "head": "b068d63504ec5ffc3beec597d078551c89381612"
+        },
+        {
+          "ticket": "03",
+          "role": "standards",
+          "attempt": 1,
+          "head": "b068d63504ec5ffc3beec597d078551c89381612"
+        },
+        {
+          "ticket": "04",
+          "role": "implementation",
+          "attempt": 1,
+          "head": "ca5284abc4cc547c004966f4047bbe64f61ad580"
+        },
+        {
+          "ticket": "04",
+          "role": "implementation",
+          "attempt": 1,
+          "head": "ca5284abc4cc547c004966f4047bbe64f61ad580"
+        },
+        {
+          "ticket": "04",
+          "role": "spec",
+          "attempt": 1,
+          "head": "d0f68202214abdfc555323596848cbfbf638dd65"
+        },
+        {
+          "ticket": "04",
+          "role": "spec",
+          "attempt": 1,
+          "head": "d0f68202214abdfc555323596848cbfbf638dd65"
+        },
+        {
+          "ticket": "04",
+          "role": "standards",
+          "attempt": 1,
+          "head": "d0f68202214abdfc555323596848cbfbf638dd65"
+        },
+        {
+          "ticket": "04",
+          "role": "standards",
+          "attempt": 1,
+          "head": "d0f68202214abdfc555323596848cbfbf638dd65"
+        },
+        {
+          "ticket": "02",
+          "role": "implementation",
+          "attempt": 1,
+          "head": "455fa902d5325cea6d16c96538a57bcefd5a668f"
+        },
+        {
+          "ticket": "02",
+          "role": "implementation",
+          "attempt": 1,
+          "head": "455fa902d5325cea6d16c96538a57bcefd5a668f"
+        },
+        {
+          "ticket": "02",
+          "role": "spec",
+          "attempt": 1,
+          "head": "602a7219ca1dfae8733596cc98651f46a8ca7208"
+        },
+        {
+          "ticket": "02",
+          "role": "spec",
+          "attempt": 1,
+          "head": "602a7219ca1dfae8733596cc98651f46a8ca7208"
+        },
+        {
+          "ticket": "02",
+          "role": "standards",
+          "attempt": 1,
+          "head": "602a7219ca1dfae8733596cc98651f46a8ca7208"
+        },
+        {
+          "ticket": "02",
+          "role": "standards",
+          "attempt": 1,
+          "head": "602a7219ca1dfae8733596cc98651f46a8ca7208"
+        },
+        {
+          "ticket": "06",
+          "role": "implementation",
+          "attempt": 1,
+          "head": "9302b6089b206f8053b6ea2bc9694b2b2ed1c5a1"
+        },
+        {
+          "ticket": "06",
+          "role": "implementation",
+          "attempt": 1,
+          "head": "9302b6089b206f8053b6ea2bc9694b2b2ed1c5a1"
+        },
+        {
+          "ticket": "06",
+          "role": "spec",
+          "attempt": 1,
+          "head": "695edf393452b4ea4d06185bfcf6deb806bc3957"
+        },
+        {
+          "ticket": "06",
+          "role": "spec",
+          "attempt": 1,
+          "head": "695edf393452b4ea4d06185bfcf6deb806bc3957"
+        },
+        {
+          "ticket": "06",
+          "role": "standards",
+          "attempt": 1,
+          "head": "695edf393452b4ea4d06185bfcf6deb806bc3957"
+        },
+        {
+          "ticket": "06",
+          "role": "standards",
+          "attempt": 1,
+          "head": "695edf393452b4ea4d06185bfcf6deb806bc3957"
+        }
+      ],
+      "cli_observations": [
+        {
+          "exit_code": 0
+        },
+        {
+          "exit_code": 0
+        },
+        {
+          "exit_code": 0
+        }
+      ]
+    },
+    {
+      "original_pointer": "/scenarios/19",
+      "scenario": "test_repairs_keep_ticket_local_attempts_fixed_bases_and_all_earlier_evidence",
+      "integration": "12a076382975fdf99f745fcee40056c2be641422",
+      "caller_status": "",
+      "record_facts": {
+        "outcome": "completed",
+        "base_revision": "3b1123d03046e044c8411c3148c747a59946ea0a",
+        "integration_branch": "integration"
+      },
+      "ticket": {
+        "id": "02",
+        "state": "Done",
+        "attempt": 1,
+        "starting_revision": "9fe661febc2c90b74779f8c31e653ed5434e4375",
+        "submitted_revision": "b147e11670b3aa1cb39e16bc55ca284047414242",
+        "candidate_revision": "12a076382975fdf99f745fcee40056c2be641422",
+        "done_revision": "12a076382975fdf99f745fcee40056c2be641422"
+      },
+      "tickets": {
+        "01": {
+          "id": "01",
+          "state": "Done",
+          "attempt": 2,
+          "starting_revision": "ea74ed573936251fde727ba9b783a1023e96e4c1",
+          "submitted_revision": "cd1c42d5ed350ed0cb25289e7ca81a2596254201",
+          "candidate_revision": "9cefc15eefaefabebde4347bb024906505149f36",
+          "done_revision": "9cefc15eefaefabebde4347bb024906505149f36"
+        },
+        "02": {
+          "id": "02",
+          "state": "Done",
+          "attempt": 1,
+          "starting_revision": "9fe661febc2c90b74779f8c31e653ed5434e4375",
+          "submitted_revision": "b147e11670b3aa1cb39e16bc55ca284047414242",
+          "candidate_revision": "12a076382975fdf99f745fcee40056c2be641422",
+          "done_revision": "12a076382975fdf99f745fcee40056c2be641422"
+        },
+        "03": {
+          "id": "03",
+          "state": "Done",
+          "attempt": 2,
+          "starting_revision": "d4e17b1cb1200e59cdf1e4b05b8432df23c2ef83",
+          "submitted_revision": "003c4c72ec619ee4646533ad015df5ec8e7d1169",
+          "candidate_revision": "71ce1005b5fbf5e516ceb4e03c10a1feb5fb8fd9",
+          "done_revision": "71ce1005b5fbf5e516ceb4e03c10a1feb5fb8fd9"
+        },
+        "04": {
+          "id": "04",
+          "state": "Done",
+          "attempt": 1,
+          "starting_revision": "71ce1005b5fbf5e516ceb4e03c10a1feb5fb8fd9",
+          "submitted_revision": "7abb56e511b9ff5ecb98cdf7e28bae3a906a1f75",
+          "candidate_revision": "9fe661febc2c90b74779f8c31e653ed5434e4375",
+          "done_revision": "9fe661febc2c90b74779f8c31e653ed5434e4375"
+        }
+      },
+      "gates": [
+        {
+          "stage": "baseline",
+          "ticket": null,
+          "attempt": 0,
+          "revision": "3b1123d03046e044c8411c3148c747a59946ea0a",
+          "passed": true,
+          "exit_code": 0,
+          "timed_out": false,
+          "timeout_category": "baseline",
+          "timeout_seconds": 1800
+        },
+        {
+          "stage": "implementation",
+          "ticket": "01",
+          "attempt": 1,
+          "revision": "3b1123d03046e044c8411c3148c747a59946ea0a",
+          "passed": true,
+          "exit_code": 0,
+          "timed_out": false,
+          "timeout_category": "implementation",
+          "timeout_seconds": 1800
+        },
+        {
+          "stage": "check-ticket",
+          "ticket": "01",
+          "attempt": 1,
+          "revision": "ea74ed573936251fde727ba9b783a1023e96e4c1",
+          "passed": true,
+          "exit_code": 0,
+          "timed_out": false,
+          "timeout_category": "checks",
+          "timeout_seconds": 300
+        },
+        {
+          "stage": "spec",
+          "ticket": "01",
+          "attempt": 1,
+          "revision": "ea74ed573936251fde727ba9b783a1023e96e4c1",
+          "passed": false,
+          "exit_code": 0,
+          "timed_out": false,
+          "timeout_category": "spec",
+          "timeout_seconds": 900,
+          "diagnostic": "blocking review finding; see report"
+        },
+        {
+          "stage": "implementation",
+          "ticket": "01",
+          "attempt": 2,
+          "revision": "ea74ed573936251fde727ba9b783a1023e96e4c1",
+          "passed": true,
+          "exit_code": 0,
+          "timed_out": false,
+          "timeout_category": "repair",
+          "timeout_seconds": 1800
+        },
+        {
+          "stage": "check-ticket",
+          "ticket": "01",
+          "attempt": 2,
+          "revision": "cd1c42d5ed350ed0cb25289e7ca81a2596254201",
+          "passed": true,
+          "exit_code": 0,
+          "timed_out": false,
+          "timeout_category": "checks",
+          "timeout_seconds": 300
+        },
+        {
+          "stage": "spec",
+          "ticket": "01",
+          "attempt": 2,
+          "revision": "cd1c42d5ed350ed0cb25289e7ca81a2596254201",
+          "passed": true,
+          "exit_code": 0,
+          "timed_out": false,
+          "timeout_category": "spec",
+          "timeout_seconds": 900
+        },
+        {
+          "stage": "standards",
+          "ticket": "01",
+          "attempt": 2,
+          "revision": "cd1c42d5ed350ed0cb25289e7ca81a2596254201",
+          "passed": true,
+          "exit_code": 0,
+          "timed_out": false,
+          "timeout_category": "standards",
+          "timeout_seconds": 900
+        },
+        {
+          "stage": "candidate",
+          "ticket": "01",
+          "attempt": 2,
+          "revision": "9cefc15eefaefabebde4347bb024906505149f36",
+          "passed": true,
+          "exit_code": 0,
+          "timed_out": false,
+          "timeout_category": "candidate",
+          "timeout_seconds": 1800
+        },
+        {
+          "stage": "implementation",
+          "ticket": "03",
+          "attempt": 1,
+          "revision": "9cefc15eefaefabebde4347bb024906505149f36",
+          "passed": true,
+          "exit_code": 0,
+          "timed_out": false,
+          "timeout_category": "implementation",
+          "timeout_seconds": 1800
+        },
+        {
+          "stage": "check-other",
+          "ticket": "03",
+          "attempt": 1,
+          "revision": "d4e17b1cb1200e59cdf1e4b05b8432df23c2ef83",
+          "passed": true,
+          "exit_code": 0,
+          "timed_out": false,
+          "timeout_category": "checks",
+          "timeout_seconds": 300
+        },
+        {
+          "stage": "spec",
+          "ticket": "03",
+          "attempt": 1,
+          "revision": "d4e17b1cb1200e59cdf1e4b05b8432df23c2ef83",
+          "passed": false,
+          "exit_code": 0,
+          "timed_out": false,
+          "timeout_category": "spec",
+          "timeout_seconds": 900,
+          "diagnostic": "blocking review finding; see report"
+        },
+        {
+          "stage": "implementation",
+          "ticket": "03",
+          "attempt": 2,
+          "revision": "d4e17b1cb1200e59cdf1e4b05b8432df23c2ef83",
+          "passed": true,
+          "exit_code": 0,
+          "timed_out": false,
+          "timeout_category": "repair",
+          "timeout_seconds": 1800
+        },
+        {
+          "stage": "check-other",
+          "ticket": "03",
+          "attempt": 2,
+          "revision": "003c4c72ec619ee4646533ad015df5ec8e7d1169",
+          "passed": true,
+          "exit_code": 0,
+          "timed_out": false,
+          "timeout_category": "checks",
+          "timeout_seconds": 300
+        },
+        {
+          "stage": "spec",
+          "ticket": "03",
+          "attempt": 2,
+          "revision": "003c4c72ec619ee4646533ad015df5ec8e7d1169",
+          "passed": true,
+          "exit_code": 0,
+          "timed_out": false,
+          "timeout_category": "spec",
+          "timeout_seconds": 900
+        },
+        {
+          "stage": "standards",
+          "ticket": "03",
+          "attempt": 2,
+          "revision": "003c4c72ec619ee4646533ad015df5ec8e7d1169",
+          "passed": true,
+          "exit_code": 0,
+          "timed_out": false,
+          "timeout_category": "standards",
+          "timeout_seconds": 900
+        },
+        {
+          "stage": "candidate",
+          "ticket": "03",
+          "attempt": 2,
+          "revision": "71ce1005b5fbf5e516ceb4e03c10a1feb5fb8fd9",
+          "passed": true,
+          "exit_code": 0,
+          "timed_out": false,
+          "timeout_category": "candidate",
+          "timeout_seconds": 1800
+        },
+        {
+          "stage": "implementation",
+          "ticket": "04",
+          "attempt": 1,
+          "revision": "71ce1005b5fbf5e516ceb4e03c10a1feb5fb8fd9",
+          "passed": true,
+          "exit_code": 0,
+          "timed_out": false,
+          "timeout_category": "implementation",
+          "timeout_seconds": 1800
+        },
+        {
+          "stage": "check-ticket",
+          "ticket": "04",
+          "attempt": 1,
+          "revision": "7abb56e511b9ff5ecb98cdf7e28bae3a906a1f75",
+          "passed": true,
+          "exit_code": 0,
+          "timed_out": false,
+          "timeout_category": "checks",
+          "timeout_seconds": 300
+        },
+        {
+          "stage": "spec",
+          "ticket": "04",
+          "attempt": 1,
+          "revision": "7abb56e511b9ff5ecb98cdf7e28bae3a906a1f75",
+          "passed": true,
+          "exit_code": 0,
+          "timed_out": false,
+          "timeout_category": "spec",
+          "timeout_seconds": 900
+        },
+        {
+          "stage": "standards",
+          "ticket": "04",
+          "attempt": 1,
+          "revision": "7abb56e511b9ff5ecb98cdf7e28bae3a906a1f75",
+          "passed": true,
+          "exit_code": 0,
+          "timed_out": false,
+          "timeout_category": "standards",
+          "timeout_seconds": 900
+        },
+        {
+          "stage": "candidate",
+          "ticket": "04",
+          "attempt": 1,
+          "revision": "9fe661febc2c90b74779f8c31e653ed5434e4375",
+          "passed": true,
+          "exit_code": 0,
+          "timed_out": false,
+          "timeout_category": "candidate",
+          "timeout_seconds": 1800
+        },
+        {
+          "stage": "implementation",
+          "ticket": "02",
+          "attempt": 1,
+          "revision": "9fe661febc2c90b74779f8c31e653ed5434e4375",
+          "passed": true,
+          "exit_code": 0,
+          "timed_out": false,
+          "timeout_category": "implementation",
+          "timeout_seconds": 1800
+        },
+        {
+          "stage": "check-ticket",
+          "ticket": "02",
+          "attempt": 1,
+          "revision": "b147e11670b3aa1cb39e16bc55ca284047414242",
+          "passed": true,
+          "exit_code": 0,
+          "timed_out": false,
+          "timeout_category": "checks",
+          "timeout_seconds": 300
+        },
+        {
+          "stage": "spec",
+          "ticket": "02",
+          "attempt": 1,
+          "revision": "b147e11670b3aa1cb39e16bc55ca284047414242",
+          "passed": true,
+          "exit_code": 0,
+          "timed_out": false,
+          "timeout_category": "spec",
+          "timeout_seconds": 900
+        },
+        {
+          "stage": "standards",
+          "ticket": "02",
+          "attempt": 1,
+          "revision": "b147e11670b3aa1cb39e16bc55ca284047414242",
+          "passed": true,
+          "exit_code": 0,
+          "timed_out": false,
+          "timeout_category": "standards",
+          "timeout_seconds": 900
+        },
+        {
+          "stage": "candidate",
+          "ticket": "02",
+          "attempt": 1,
+          "revision": "12a076382975fdf99f745fcee40056c2be641422",
+          "passed": true,
+          "exit_code": 0,
+          "timed_out": false,
+          "timeout_category": "candidate",
+          "timeout_seconds": 1800
+        }
+      ],
+      "attempt_count": 6,
+      "recorded_assertions": {},
+      "launches": [
+        {
+          "ticket": "01",
+          "role": "implementation",
+          "attempt": 1,
+          "head": "3b1123d03046e044c8411c3148c747a59946ea0a"
+        },
+        {
+          "ticket": "01",
+          "role": "implementation",
+          "attempt": 1,
+          "head": "3b1123d03046e044c8411c3148c747a59946ea0a"
+        },
+        {
+          "ticket": "01",
+          "role": "spec",
+          "attempt": 1,
+          "head": "ea74ed573936251fde727ba9b783a1023e96e4c1"
+        },
+        {
+          "ticket": "01",
+          "role": "spec",
+          "attempt": 1,
+          "head": "ea74ed573936251fde727ba9b783a1023e96e4c1"
+        },
+        {
+          "ticket": "01",
+          "role": "implementation",
+          "attempt": 2,
+          "head": "ea74ed573936251fde727ba9b783a1023e96e4c1"
+        },
+        {
+          "ticket": "01",
+          "role": "implementation",
+          "attempt": 2,
+          "head": "ea74ed573936251fde727ba9b783a1023e96e4c1"
+        },
+        {
+          "ticket": "01",
+          "role": "spec",
+          "attempt": 2,
+          "head": "cd1c42d5ed350ed0cb25289e7ca81a2596254201"
+        },
+        {
+          "ticket": "01",
+          "role": "spec",
+          "attempt": 2,
+          "head": "cd1c42d5ed350ed0cb25289e7ca81a2596254201"
+        },
+        {
+          "ticket": "01",
+          "role": "standards",
+          "attempt": 2,
+          "head": "cd1c42d5ed350ed0cb25289e7ca81a2596254201"
+        },
+        {
+          "ticket": "01",
+          "role": "standards",
+          "attempt": 2,
+          "head": "cd1c42d5ed350ed0cb25289e7ca81a2596254201"
+        },
+        {
+          "ticket": "03",
+          "role": "implementation",
+          "attempt": 1,
+          "head": "9cefc15eefaefabebde4347bb024906505149f36"
+        },
+        {
+          "ticket": "03",
+          "role": "implementation",
+          "attempt": 1,
+          "head": "9cefc15eefaefabebde4347bb024906505149f36"
+        },
+        {
+          "ticket": "03",
+          "role": "spec",
+          "attempt": 1,
+          "head": "d4e17b1cb1200e59cdf1e4b05b8432df23c2ef83"
+        },
+        {
+          "ticket": "03",
+          "role": "spec",
+          "attempt": 1,
+          "head": "d4e17b1cb1200e59cdf1e4b05b8432df23c2ef83"
+        },
+        {
+          "ticket": "03",
+          "role": "implementation",
+          "attempt": 2,
+          "head": "d4e17b1cb1200e59cdf1e4b05b8432df23c2ef83"
+        },
+        {
+          "ticket": "03",
+          "role": "implementation",
+          "attempt": 2,
+          "head": "d4e17b1cb1200e59cdf1e4b05b8432df23c2ef83"
+        },
+        {
+          "ticket": "03",
+          "role": "spec",
+          "attempt": 2,
+          "head": "003c4c72ec619ee4646533ad015df5ec8e7d1169"
+        },
+        {
+          "ticket": "03",
+          "role": "spec",
+          "attempt": 2,
+          "head": "003c4c72ec619ee4646533ad015df5ec8e7d1169"
+        },
+        {
+          "ticket": "03",
+          "role": "standards",
+          "attempt": 2,
+          "head": "003c4c72ec619ee4646533ad015df5ec8e7d1169"
+        },
+        {
+          "ticket": "03",
+          "role": "standards",
+          "attempt": 2,
+          "head": "003c4c72ec619ee4646533ad015df5ec8e7d1169"
+        },
+        {
+          "ticket": "04",
+          "role": "implementation",
+          "attempt": 1,
+          "head": "71ce1005b5fbf5e516ceb4e03c10a1feb5fb8fd9"
+        },
+        {
+          "ticket": "04",
+          "role": "implementation",
+          "attempt": 1,
+          "head": "71ce1005b5fbf5e516ceb4e03c10a1feb5fb8fd9"
+        },
+        {
+          "ticket": "04",
+          "role": "spec",
+          "attempt": 1,
+          "head": "7abb56e511b9ff5ecb98cdf7e28bae3a906a1f75"
+        },
+        {
+          "ticket": "04",
+          "role": "spec",
+          "attempt": 1,
+          "head": "7abb56e511b9ff5ecb98cdf7e28bae3a906a1f75"
+        },
+        {
+          "ticket": "04",
+          "role": "standards",
+          "attempt": 1,
+          "head": "7abb56e511b9ff5ecb98cdf7e28bae3a906a1f75"
+        },
+        {
+          "ticket": "04",
+          "role": "standards",
+          "attempt": 1,
+          "head": "7abb56e511b9ff5ecb98cdf7e28bae3a906a1f75"
+        },
+        {
+          "ticket": "02",
+          "role": "implementation",
+          "attempt": 1,
+          "head": "9fe661febc2c90b74779f8c31e653ed5434e4375"
+        },
+        {
+          "ticket": "02",
+          "role": "implementation",
+          "attempt": 1,
+          "head": "9fe661febc2c90b74779f8c31e653ed5434e4375"
+        },
+        {
+          "ticket": "02",
+          "role": "spec",
+          "attempt": 1,
+          "head": "b147e11670b3aa1cb39e16bc55ca284047414242"
+        },
+        {
+          "ticket": "02",
+          "role": "spec",
+          "attempt": 1,
+          "head": "b147e11670b3aa1cb39e16bc55ca284047414242"
+        },
+        {
+          "ticket": "02",
+          "role": "standards",
+          "attempt": 1,
+          "head": "b147e11670b3aa1cb39e16bc55ca284047414242"
+        },
+        {
+          "ticket": "02",
+          "role": "standards",
+          "attempt": 1,
+          "head": "b147e11670b3aa1cb39e16bc55ca284047414242"
+        }
+      ],
+      "cli_observations": [
+        {
+          "exit_code": 0
+        },
+        {
+          "exit_code": 0
+        }
+      ]
+    },
+    {
+      "original_pointer": "/scenarios/20",
+      "scenario": "test_unselected_context_cycles_and_unavailable_unused_checks_still_reject",
+      "integration": "dfce8a6a31567076abf133ef37f355894a9b6f8e",
+      "caller_status": "",
+      "record_facts": {
+        "outcome": "invalid-input",
+        "failure": {
+          "stage": "inputs",
+          "message": "checks.unused: executable unavailable: '/missing/ticket09-check'"
+        }
+      },
+      "ticket": {
+        "state": "Blocked",
+        "attempt": 0
+      },
+      "gates": [],
+      "attempt_count": 0,
+      "recorded_assertions": {},
+      "launches": [],
+      "cli_observations": [
+        {
+          "exit_code": 1
+        },
+        {
+          "exit_code": 0
+        },
+        {
+          "exit_code": 1
+        },
+        {
+          "exit_code": 0
+        }
+      ]
+    }
+  ],
+  "retirement_date": "2026-11-13",
+  "authority": "Human retroactive C1\u2013C10 cleanup request; explicit overseer approval after independent original-pointer validation",
+  "original_payload_retired": true
+}

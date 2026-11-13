@@ -1,0 +1,53 @@
+{
+  "request_id": "ab28c720bf0d4d2c8e2b3609bab2f3c3",
+  "run_id": "1638d6acc5a24cb09b02501278f6b655",
+  "run_directory": "/tmp/ticket-harness-m1-human-qa-yjwh5cr2/run",
+  "plan_version": "v1",
+  "plan_approval": "User requested M1 QA preparation; disposable demonstration inputs, not development acceptance",
+  "plan_input": {
+    "source": "/tmp/ticket-harness-m1-human-qa-yjwh5cr2/target/plan.json",
+    "artifact": "/tmp/ticket-harness-m1-human-qa-yjwh5cr2/run/inputs/plan.json",
+    "sha256": "637e9de03b0b116f0ba4925adf56c5478134e12a4f77cb7c017e8ea43fc4ae15"
+  },
+  "milestone": "M1",
+  "feature_branch": "integration",
+  "feature_revision": "08858e827a685130efb08d9fe7ccfa596e269746",
+  "development_branch": "dev",
+  "development_revision": "2574bcee408a0582295ba6322747bf3570a8d478",
+  "candidate_revision": "7f14c90426e1d030637033494460e221e83db46d",
+  "candidate_worktree": "/tmp/ticket-harness-m1-human-qa-yjwh5cr2/run/worktrees/milestone-candidate",
+  "human_checks": {
+    "setup": "Inspect the disposable candidate worktree",
+    "actions": [
+      "Read value.txt and work-01; confirm work-02 is absent"
+    ],
+    "pass_conditions": [
+      "value.txt is 2, work-01 delivered, dev unchanged, ticket02 unstarted"
+    ]
+  },
+  "regression_evidence": [
+    {
+      "stage": "milestone-regression",
+      "revision": "7f14c90426e1d030637033494460e221e83db46d",
+      "argv": [
+        "/home/ajkerr1/development/agentic_template/.micromamba/envs/dev/bin/python",
+        "/tmp/ticket-harness-m1-human-qa-yjwh5cr2/check.py"
+      ],
+      "cwd": "/tmp/ticket-harness-m1-human-qa-yjwh5cr2/run/worktrees/milestone-candidate",
+      "stdout": "/tmp/ticket-harness-m1-human-qa-yjwh5cr2/run/artifacts/milestone-regression.stdout",
+      "stderr": "/tmp/ticket-harness-m1-human-qa-yjwh5cr2/run/artifacts/milestone-regression.stderr",
+      "passed": true,
+      "timeout_seconds": 1800,
+      "timed_out": false,
+      "exit_code": 0,
+      "cleanup": {
+        "process_group": 220,
+        "signal": "SIGKILL",
+        "sent": false
+      },
+      "ticket": null,
+      "attempt": 0,
+      "timeout_category": "candidate"
+    }
+  ]
+}

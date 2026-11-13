@@ -43,17 +43,17 @@ Use the [shared worker handoff](../README.md#worker-handoff). Preserve completed
 
 Implemented and verified at `10b7050ec1fc06767e473b90217fa0d0bd100a0f` from fixed
 baseline `8574c6e5fb0a55ea3539e52c7c53044f1c036583`. Previous readiness: `ready-for-agent`.
-All seven unchanged criteria are verified in [completion evidence](../evidence/21-completion.md)
-and [criterion observations](../evidence/21-criterion-evidence.md). Required final
+All seven unchanged criteria are verified in [completion evidence](../evidence/ticket-21/21-completion.md)
+and [criterion observations](../evidence/ticket-21/21-criterion-evidence.md). Required final
 checks: **544 passed in 775.37s**, strict mypy, Ruff lint/format and whitespace all
 passed; all 26 tested identities match committed Git blobs. Genuine pre-edit
 checkpoint continued under final source with earlier history and one baseline
 preserved; original live fixture archives retained. No tests changed.
 
-Separate fresh High [Spec](../evidence/21-review-spec-01.md) and
-[Standards](../evidence/21-review-standards-01.md) each found **0 blocking / 0 optional**.
-[Assessment](../reviews/ticket-21.md), [immutable originals/capture](../evidence/21-review-round1-capture.json)
-and [finding history](../evidence/21-finding-history.md) preserve scope, identities,
+Separate fresh High [Spec](../evidence/ticket-21/21-review-spec-01.md) and
+[Standards](../evidence/ticket-21/21-review-standards-01.md) each found **0 blocking / 0 optional**.
+[Assessment](../reviews/ticket-21.md), [immutable originals/capture](../evidence/ticket-21/21-review-round1-capture.json)
+and [finding history](../evidence/ticket-21/21-finding-history.md) preserve scope, identities,
 independent reasoning and all four negative start/final triggers. No unchecked
 criterion, unresolved actual key, missing required ticket report, pending relevant
 revalidation or human-owned decision remains.
@@ -63,3 +63,5 @@ will be committed separately after eligibility verification. Next eligible work
 is 22, backed by completed 02/12/19. M1 still requires 22–24, actual cumulative
 provenance/all-package assessment and explicit human QA; no acceptance, promotion,
 runtime orchestration or push is implied. Blocked by remains declared history.
+
+M1 QA preparation, 2026-11-12: this ticket contributes to [cumulative assessment review-M1-architecture-01](../reviews/M1-architecture-01.md) at `d02e61e`, fixed feature-start baseline `1a623ba`. [Current QA preparation and observations](../evidence/m1-qa-01/qa-guide.md). Ticket completion retains its original verification; this cross-ticket assessment and actual human QA are separate gates.

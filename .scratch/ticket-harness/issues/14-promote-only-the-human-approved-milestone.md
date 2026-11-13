@@ -41,7 +41,7 @@ Completed at implementation `29fb5569cf53c75bd351d6bd176bb29889c42a65`, reviewed
 against fixed starting baseline `d67c12d91495af00557b279d0bf0e1da518e6fcc`.
 Previous readiness: `ready-for-agent`; declared dependency history is unchanged.
 
-All six criteria are verified in [criterion-specific completion evidence](../evidence/14-completion.md):
+All six criteria are verified in [criterion-specific completion evidence](../evidence/ticket-14/14-completion.md):
 strict separate decisions reject incidental/malformed/mismatched/stale/replayed
 approvals; observable indefinite waits consume no repairs and workers cannot
 write QA authority; one expected-old transaction advances dev and aligns feature
@@ -49,11 +49,11 @@ to the tested accepted candidate before later work; stale source/evidence/ref
 states preserve external movement and consume no approval; final acceptance alone
 completes the feature; a two-milestone foreground fixture demonstrates the cycle.
 
-[Actual checks](../evidence/14-checks.log): **524 passed in 684.03s**, strict mypy,
+[Actual checks (retirement summary)](../evidence/ticket-14/README.md#retired-evidence): **524 passed in 684.03s**, strict mypy,
 Ruff lint/format and whitespace all passed. All 21 final source hashes match the
 implementation and all 103 retained scenarios match raw observations. Separate
-fresh High [Spec](../evidence/14-review-spec.md) and
-[Standards](../evidence/14-review-standards.md) reviews found zero blockers.
+fresh High [Spec](../evidence/ticket-14/14-review-spec.md) and
+[Standards](../evidence/ticket-14/14-review-standards.md) reviews found zero blockers.
 Spec recorded zero optional suggestions and independently passed the two-group
 CLI scenario; Standards recorded one optional polling-helper consolidation.
 No unchecked criterion or required unresolved item remains.
@@ -63,3 +63,5 @@ this comment's Git history identifies the bookkeeping commit. Next-agent handoff
 receives a separate commit and does not launch ticket 15. Ticket 15 is next within
 M1; M1 and final feature human QA remain unaccepted. Scripted fixture decisions do
 not accept this development milestone. No push occurred.
+
+M1 QA preparation, 2026-11-12: this ticket contributes to [cumulative assessment review-M1-architecture-01](../reviews/M1-architecture-01.md) at `d02e61e`, fixed feature-start baseline `1a623ba`. [Current QA preparation and observations](../evidence/m1-qa-01/qa-guide.md). Ticket completion retains its original verification; this cross-ticket assessment and actual human QA are separate gates.

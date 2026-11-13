@@ -44,19 +44,21 @@ Use the [shared worker handoff](../README.md#worker-handoff). Preserve completed
 Completed at implementation `33fa0ea6e667a3879564ed4628c10f6d59ada21b`, reviewed
 from fixed original baseline `803c6ff9a4e5e057124aefc5bb96f2c9518162dd`. Previous
 readiness: `ready-for-agent`; original criterion wording and Blocked by retained.
-[Seven-criterion evidence and exact checks](../evidence/22-completion.md),
-[ownership/coverage](../evidence/22-implementation-report.md),
-[criterion observations](../evidence/22-criterion-evidence.md) and
+[Seven-criterion evidence and exact checks](../evidence/ticket-22/22-completion.md),
+[ownership/coverage](../evidence/ticket-22/22-implementation-report.md),
+[criterion observations](../evidence/ticket-22/22-criterion-evidence.md) and
 [assessment](../reviews/ticket-22.md) establish completion. Full suite: **544 passed
 in 709.21s**, strict mypy/Ruff lint/format/whitespace passed; 126 focused tests passed.
 Genuine pre-edit checkpoint continued under final source with preserved prior work.
-Separate fresh High [Spec](../evidence/22-review-spec-01.md) and
-[Standards](../evidence/22-review-standards-01.md): each **0 blocking / 0 optional**;
-[immutable originals](../evidence/22-review-round1-capture.json) and
-[explicit finding history](../evidence/22-finding-history.md). All four start/final
+Separate fresh High [Spec](../evidence/ticket-22/22-review-spec-01.md) and
+[Standards](../evidence/ticket-22/22-review-standards-01.md): each **0 blocking / 0 optional**;
+[immutable originals](../evidence/ticket-22/22-review-round1-capture.json) and
+[explicit finding history](../evidence/ticket-22/22-finding-history.md). All four start/final
 architecture triggers independently No. No unchecked criterion, unresolved full key,
 pending relevant revalidation or human-owned decision remains. Implementation and
 bookkeeping commits are separate. Next eligible work is 23 after completed 15/21/22;
 generating its separately committed handoff starts no assignment. M1 still needs
 23–24, actual cumulative assessment and explicit human QA; no acceptance, promotion
 or push is inferred.
+
+M1 QA preparation, 2026-11-12: this ticket contributes to [cumulative assessment review-M1-architecture-01](../reviews/M1-architecture-01.md) at `d02e61e`, fixed feature-start baseline `1a623ba`. [Current QA preparation and observations](../evidence/m1-qa-01/qa-guide.md). Ticket completion retains its original verification; this cross-ticket assessment and actual human QA are separate gates.

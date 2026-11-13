@@ -43,13 +43,13 @@ Implementation `36ed3e72c278cf147c84ae9c282cd2899af23ad0`; review repair/final
 implementation `d11f0bc60a2c11c40683e58581dffa10e36a91be`; original fixed review
 baseline `90255aaf6faf9aedce18f7159093f5dbfde294b7`.
 
-[Completion evidence](../evidence/15-completion.md) maps each criterion to actual
+[Completion evidence](../evidence/ticket-15/15-completion.md) maps each criterion to actual
 CLI/Git/checkpoint/request/decision/ownership observations. The renewed final suite
 passed **544 tests**, with strict mypy, Ruff lint/format, working/staged/committed
 whitespace, pinned wheel/isolated install and installed CLI continuation/invalidation.
 All 23 final source identities and 123 retained scenarios agree with final source.
-Separate fresh High [Spec](../evidence/15-review-spec.md) and
-[Standards](../evidence/15-review-standards.md) reviews of the whole implementation
+Separate fresh High [Spec](../evidence/ticket-15/15-review-spec.md) and
+[Standards](../evidence/ticket-15/15-review-standards.md) reviews of the whole implementation
 against the original baseline each report **0 blockers and 0 optional suggestions**.
 Initial Standards blocker STD15-01 was reproduced and fixed by a fresh Medium repair,
 with renewed required gates; initial evidence is retained separately.
@@ -59,3 +59,5 @@ is preserved. M1 work is complete, but M1 human QA has not been requested or acc
 The next handoff is M1 QA preparation/waiting; ticket 16 and M2 remain ineligible
 until recorded human acceptance. Scripted fixture decisions do not accept this
 development milestone. No development QA, next ticket or push was launched.
+
+M1 QA preparation, 2026-11-12: this ticket contributes to [cumulative assessment review-M1-architecture-01](../reviews/M1-architecture-01.md) at `d02e61e`, fixed feature-start baseline `1a623ba`. [Current QA preparation and observations](../evidence/m1-qa-01/qa-guide.md). Ticket completion retains its original verification; this cross-ticket assessment and actual human QA are separate gates.

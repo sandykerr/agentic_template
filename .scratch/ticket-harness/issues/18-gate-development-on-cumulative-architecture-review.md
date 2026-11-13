@@ -42,15 +42,15 @@ against original baseline `02d76205a1c40e45c607ef2a5d11ec282393edcd`.
 Previous readiness: `ready-for-agent`. Declared dependencies and criterion wording
 are preserved.
 
-All six criteria are verified in the [criterion-specific completion evidence](../evidence/18-completion.md).
-[Actual checks](../evidence/18-checks.log) passed two skill validators, shell syntax,
+All six criteria are verified in the [criterion-specific completion evidence](../evidence/ticket-18/18-completion.md).
+[Actual checks](../evidence/ticket-18/18-checks.log) passed two skill validators, shell syntax,
 392 links/anchors, routing/source/bundle/report identities, 6,314 protected paths,
 six process and seven guidance observations, and whitespace. All 15 checked source
 hashes match the committed implementation. Standalone guidance validation applies;
 no harness runtime/tests/dependencies changed or runtime-suite result is claimed.
 
-Separate fresh High [Spec](../evidence/18-review-spec.md) and
-[Standards](../evidence/18-review-standards.md) each report **0 blocking / 0 optional**;
+Separate fresh High [Spec](../evidence/ticket-18/18-review-spec.md) and
+[Standards](../evidence/ticket-18/18-review-standards.md) each report **0 blocking / 0 optional**;
 [assessment](../reviews/ticket-18.md) preserves both original axes and identities.
 No unresolved actual findings, missing reports, pending relevant revalidation,
 required human decision or unchecked criterion remains. Fixture F1 is independently
@@ -62,3 +62,5 @@ handoff in its own commit. Next eligible work is M1 ticket 19 after this verifie
 completion. Real M1 cumulative assessment, feature-start provenance and human QA
 remain pending, with 19–24 still required. This ticket accepts no milestone and
 launches no runtime run, promotion or push.
+
+M1 QA preparation, 2026-11-12: this ticket contributes to [cumulative assessment review-M1-architecture-01](../reviews/M1-architecture-01.md) at `d02e61e`, fixed feature-start baseline `1a623ba`. [Current QA preparation and observations](../evidence/m1-qa-01/qa-guide.md). Ticket completion retains its original verification; this cross-ticket assessment and actual human QA are separate gates.

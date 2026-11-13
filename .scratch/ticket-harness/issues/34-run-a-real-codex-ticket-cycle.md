@@ -48,3 +48,13 @@ Use the [shared worker handoff](../README.md#worker-handoff). Verify and record 
 ### QA realignment
 
 Reconciled with approved slice R15; the [previous definition](../archive/issues-before-milestone-qa/13-run-a-real-codex-ticket-cycle.md) is retained for history. This revision supersedes the old product-first execution order without reopening completed tickets 01–09.
+
+### Related development-workflow evidence
+
+The completed [workflow-efficiency follow-up](../archive/workflow-efficiency/README.md)
+retains original development-instruction reviews and a finite preparation
+exercise. It supplies background for the current
+[development procedure](../../../docs/agents/review-records.md#prepare-review-and-repair), not live
+runtime proof or measured cost savings. This ticket still requires its own actual
+role-delivery and runtime evidence under the existing acceptance criteria; no
+additional calibration campaign or dependency is introduced by this archive.

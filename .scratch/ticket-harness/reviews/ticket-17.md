@@ -8,11 +8,11 @@
 | Fixed original baseline | `c82b15f504c29a69e8fb708e10568574150e80d3` |
 | Exact assessed source | `4814eabd4bf2f196f7fb6915667c4305b7c2d0b9`, both reports |
 | Assignments | Fresh independent `/root/spec17` and `/root/standards17`; fork-none, GPT-6.1 Sol High, each <=250K active-context target; independent backend telemetry and observed context unavailable |
-| Instructions | [Spec assignment](../evidence/17-review-spec-assignment.txt), [Standards assignment](../evidence/17-review-standards-assignment.txt), [Spec identities](../evidence/17-review-spec-identities.json), [Standards identities](../evidence/17-review-standards-identities.json); [capture manifest](../evidence/17-review-capture.json) maps original temporary outputs to immutable durable copies and external digests |
-| Reports | [spec-01 original](../evidence/17-review-spec.md), [standards-01 original](../evidence/17-review-standards.md) |
+| Instructions | [Spec assignment](../evidence/ticket-17/17-review-spec-assignment.txt), [Standards assignment](../evidence/ticket-17/17-review-standards-assignment.txt), [Spec identities](../evidence/ticket-17/17-review-spec-identities.json), [Standards identities](../evidence/ticket-17/17-review-standards-identities.json); [capture manifest](../evidence/ticket-17/17-review-capture.json) maps original temporary outputs to immutable durable copies and external digests |
+| Reports | [spec-01 original](../evidence/ticket-17/17-review-spec.md), [standards-01 original](../evidence/ticket-17/17-review-standards.md) |
 | Inspected scope | Whole committed diff; shared contract, custom workflows and unchanged routing consumers, report/finding lifecycle, helpers/checks, all five walkthrough trials and two supplements; exact inventories and substantive reasoning in reports |
 | Omissions and assumptions | Unchanged runtime/suite; broad calibration, cumulative architecture assessment and runtime delivery remain later work. No unresolved consequential decision. Configured settings are not backend telemetry. |
-| Evidence | [Coverage/ownership explanation](../evidence/17-implementation-report.md), [actual checks](../evidence/17-checks.log), [walkthroughs](../evidence/17-walkthroughs/README.md) |
+| Evidence | [Coverage/ownership explanation](../evidence/ticket-17/17-implementation-report.md), [actual checks](../evidence/ticket-17/17-checks.log), [walkthroughs](../evidence/ticket-17/17-walkthroughs/README.md) |
 | Prior context/history | [Ticket16](ticket-16.md) has no outstanding real findings; its miniature remains synthetic. No new actual finding or human decision required. |
 | Milestone assessment | Not performed; M1 QA not requested/accepted. Remaining 18–24, cumulative assessment and human acceptance are still required. |
 
@@ -27,7 +27,7 @@ Representative A/B/C concerns remain open in intentionally defective fixtures,
 with their full keys/dispositions in the original reports and walkthrough index;
 they are not harness blockers. D's `walkthrough-case-d/standards-01/F1` is independently
 fixed only at fixture source `45e518804a7b4011861940065d07237287454e14` through its
-preserved [E01–E03 history](../evidence/17-walkthroughs/case-d/history.md).
+preserved [E01–E03 history](../evidence/ticket-17/17-walkthroughs/case-d/history.md).
 C's optional proposal does not downgrade its original blocker.
 
 **Integration/milestone eligibility:** Ticket reviews/checks passed at the exact

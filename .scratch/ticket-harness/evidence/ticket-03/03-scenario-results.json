@@ -1,0 +1,971 @@
+{
+  "kind": "executed lossy historical observation extract",
+  "ticket": "03",
+  "original_path": ".scratch/ticket-harness/evidence/ticket-03/03-fixture-observations.json",
+  "original_sha256": "21c121b2891f4e75f601ff56225e8181f675e245912d79d540332ef6e156f09f",
+  "original_bytes": 166872,
+  "identity": {
+    "implementation_revision": "07094fa3594219f6d3b57600d2d7f212f2ce54fc"
+  },
+  "completion_record": "03-completion.md",
+  "source_identity_records": [],
+  "limits": "Mechanical projection of observed historical fields, not new execution or proof all requirements passed. Deliberately omits raw command output, assignments, complete input/run/QA records and process internals. Original pointers identify derivation after original payload retirement. Fixture approvals are synthetic, not development M1 acceptance. Original independent development reviews/source/result records remain separate.",
+  "scenario_count": 18,
+  "scenarios": [
+    {
+      "original_pointer": "/scenarios/0",
+      "scenario": "submitted",
+      "run_exit": 0,
+      "base": "9828916a4d7a74b54d607bb12c589a956afe9c38",
+      "integration": "0b1f8158526ab56a402c393ea9447e46abc9a6a8",
+      "record_facts": {
+        "outcome": "completed",
+        "base_revision": "9828916a4d7a74b54d607bb12c589a956afe9c38",
+        "integration_branch": "integration"
+      },
+      "ticket": {
+        "id": "01",
+        "state": "Done",
+        "attempt": 1,
+        "submitted_revision": "87bd717da8d4bcba2c4693341e4920e52fbbce45",
+        "candidate_revision": "0b1f8158526ab56a402c393ea9447e46abc9a6a8",
+        "done_revision": "0b1f8158526ab56a402c393ea9447e46abc9a6a8"
+      },
+      "gates": [
+        {
+          "stage": "baseline",
+          "revision": "9828916a4d7a74b54d607bb12c589a956afe9c38",
+          "passed": true,
+          "exit_code": 0
+        },
+        {
+          "stage": "implementation",
+          "revision": "9828916a4d7a74b54d607bb12c589a956afe9c38",
+          "passed": true,
+          "exit_code": 0
+        },
+        {
+          "stage": "check-ticket",
+          "revision": "87bd717da8d4bcba2c4693341e4920e52fbbce45",
+          "passed": true,
+          "exit_code": 0
+        },
+        {
+          "stage": "spec",
+          "revision": "87bd717da8d4bcba2c4693341e4920e52fbbce45",
+          "passed": true,
+          "exit_code": 0
+        },
+        {
+          "stage": "standards",
+          "revision": "87bd717da8d4bcba2c4693341e4920e52fbbce45",
+          "passed": true,
+          "exit_code": 0
+        },
+        {
+          "stage": "candidate",
+          "revision": "0b1f8158526ab56a402c393ea9447e46abc9a6a8",
+          "passed": true,
+          "exit_code": 0
+        }
+      ],
+      "recorded_assertions": {
+        "caller_unchanged": true,
+        "status_matches": true
+      }
+    },
+    {
+      "original_pointer": "/scenarios/1",
+      "scenario": "human-decision",
+      "run_exit": 1,
+      "base": "c9b5ca6951c4486208ac5e4ecd2274eb840f90b9",
+      "integration": "c9b5ca6951c4486208ac5e4ecd2274eb840f90b9",
+      "record_facts": {
+        "outcome": "incomplete",
+        "failure": {
+          "stage": "implementation",
+          "message": "Required gate failed: implementation; human decision needed: Which requirement takes priority?"
+        },
+        "base_revision": "c9b5ca6951c4486208ac5e4ecd2274eb840f90b9",
+        "integration_branch": "integration"
+      },
+      "ticket": {
+        "id": "01",
+        "state": "Blocked",
+        "attempt": 1
+      },
+      "gates": [
+        {
+          "stage": "baseline",
+          "revision": "c9b5ca6951c4486208ac5e4ecd2274eb840f90b9",
+          "passed": true,
+          "exit_code": 0
+        },
+        {
+          "stage": "implementation",
+          "revision": "c9b5ca6951c4486208ac5e4ecd2274eb840f90b9",
+          "passed": false,
+          "exit_code": 0,
+          "diagnostic": "human decision needed: Which requirement takes priority?"
+        }
+      ],
+      "recorded_assertions": {
+        "caller_unchanged": true,
+        "status_matches": true
+      }
+    },
+    {
+      "original_pointer": "/scenarios/2",
+      "scenario": "incomplete-human-decision",
+      "run_exit": 1,
+      "base": "c9b5ca6951c4486208ac5e4ecd2274eb840f90b9",
+      "integration": "c9b5ca6951c4486208ac5e4ecd2274eb840f90b9",
+      "record_facts": {
+        "outcome": "incomplete",
+        "failure": {
+          "stage": "implementation",
+          "message": "implementation report rejected: unresolved_questions must describe the required human decision"
+        },
+        "base_revision": "c9b5ca6951c4486208ac5e4ecd2274eb840f90b9",
+        "integration_branch": "integration"
+      },
+      "ticket": {
+        "id": "01",
+        "state": "Blocked",
+        "attempt": 1
+      },
+      "gates": [
+        {
+          "stage": "baseline",
+          "revision": "c9b5ca6951c4486208ac5e4ecd2274eb840f90b9",
+          "passed": true,
+          "exit_code": 0
+        },
+        {
+          "stage": "implementation",
+          "revision": "c9b5ca6951c4486208ac5e4ecd2274eb840f90b9",
+          "passed": false,
+          "exit_code": 0,
+          "diagnostic": "unresolved_questions must describe the required human decision"
+        }
+      ],
+      "recorded_assertions": {
+        "caller_unchanged": true,
+        "status_matches": true
+      }
+    },
+    {
+      "original_pointer": "/scenarios/3",
+      "scenario": "missing-implementation-evidence",
+      "run_exit": 1,
+      "base": "650f393c7d65eb0e9566ef75cbfaebc9e466b3e3",
+      "integration": "650f393c7d65eb0e9566ef75cbfaebc9e466b3e3",
+      "record_facts": {
+        "outcome": "incomplete",
+        "failure": {
+          "stage": "implementation",
+          "message": "implementation report rejected: 'acceptance_evidence'"
+        },
+        "base_revision": "650f393c7d65eb0e9566ef75cbfaebc9e466b3e3",
+        "integration_branch": "integration"
+      },
+      "ticket": {
+        "id": "01",
+        "state": "Blocked",
+        "attempt": 1
+      },
+      "gates": [
+        {
+          "stage": "baseline",
+          "revision": "650f393c7d65eb0e9566ef75cbfaebc9e466b3e3",
+          "passed": true,
+          "exit_code": 0
+        },
+        {
+          "stage": "implementation",
+          "revision": "650f393c7d65eb0e9566ef75cbfaebc9e466b3e3",
+          "passed": false,
+          "exit_code": 0,
+          "diagnostic": "'acceptance_evidence'"
+        }
+      ],
+      "recorded_assertions": {
+        "caller_unchanged": true,
+        "status_matches": true
+      }
+    },
+    {
+      "original_pointer": "/scenarios/4",
+      "scenario": "nonzero-implementation",
+      "run_exit": 1,
+      "base": "650f393c7d65eb0e9566ef75cbfaebc9e466b3e3",
+      "integration": "650f393c7d65eb0e9566ef75cbfaebc9e466b3e3",
+      "record_facts": {
+        "outcome": "incomplete",
+        "failure": {
+          "stage": "implementation",
+          "message": "Required gate failed: implementation; process exit 7; see /tmp/ticket-harness-03-evidence-5b_71dnl/nonzero-implementation/run/artifacts/implementation.stderr"
+        },
+        "base_revision": "650f393c7d65eb0e9566ef75cbfaebc9e466b3e3",
+        "integration_branch": "integration"
+      },
+      "ticket": {
+        "id": "01",
+        "state": "Blocked",
+        "attempt": 1
+      },
+      "gates": [
+        {
+          "stage": "baseline",
+          "revision": "650f393c7d65eb0e9566ef75cbfaebc9e466b3e3",
+          "passed": true,
+          "exit_code": 0
+        },
+        {
+          "stage": "implementation",
+          "revision": "650f393c7d65eb0e9566ef75cbfaebc9e466b3e3",
+          "passed": false,
+          "exit_code": 7,
+          "diagnostic": "process exit 7; see /tmp/ticket-harness-03-evidence-5b_71dnl/nonzero-implementation/run/artifacts/implementation.stderr"
+        }
+      ],
+      "recorded_assertions": {
+        "caller_unchanged": true,
+        "status_matches": true
+      }
+    },
+    {
+      "original_pointer": "/scenarios/5",
+      "scenario": "malformed-spec",
+      "run_exit": 1,
+      "base": "650f393c7d65eb0e9566ef75cbfaebc9e466b3e3",
+      "integration": "650f393c7d65eb0e9566ef75cbfaebc9e466b3e3",
+      "record_facts": {
+        "outcome": "incomplete",
+        "failure": {
+          "stage": "spec",
+          "message": "spec report rejected: Expecting property name enclosed in double quotes: line 1 column 2 (char 1)"
+        },
+        "base_revision": "650f393c7d65eb0e9566ef75cbfaebc9e466b3e3",
+        "integration_branch": "integration"
+      },
+      "ticket": {
+        "id": "01",
+        "state": "Blocked",
+        "attempt": 1,
+        "submitted_revision": "bece289bc6d49bac5ee0164380cf4b0ac743699d"
+      },
+      "gates": [
+        {
+          "stage": "baseline",
+          "revision": "650f393c7d65eb0e9566ef75cbfaebc9e466b3e3",
+          "passed": true,
+          "exit_code": 0
+        },
+        {
+          "stage": "implementation",
+          "revision": "650f393c7d65eb0e9566ef75cbfaebc9e466b3e3",
+          "passed": true,
+          "exit_code": 0
+        },
+        {
+          "stage": "check-ticket",
+          "revision": "bece289bc6d49bac5ee0164380cf4b0ac743699d",
+          "passed": true,
+          "exit_code": 0
+        },
+        {
+          "stage": "spec",
+          "revision": "bece289bc6d49bac5ee0164380cf4b0ac743699d",
+          "passed": false,
+          "exit_code": 0,
+          "diagnostic": "Expecting property name enclosed in double quotes: line 1 column 2 (char 1)"
+        }
+      ],
+      "recorded_assertions": {
+        "caller_unchanged": true,
+        "status_matches": true
+      }
+    },
+    {
+      "original_pointer": "/scenarios/6",
+      "scenario": "missing-standards",
+      "run_exit": 1,
+      "base": "d8d74c34f5fdc17a4d0c1b66abe33c4e95ab06b4",
+      "integration": "d8d74c34f5fdc17a4d0c1b66abe33c4e95ab06b4",
+      "record_facts": {
+        "outcome": "incomplete",
+        "failure": {
+          "stage": "standards",
+          "message": "standards report rejected: Expecting value: line 1 column 1 (char 0)"
+        },
+        "base_revision": "d8d74c34f5fdc17a4d0c1b66abe33c4e95ab06b4",
+        "integration_branch": "integration"
+      },
+      "ticket": {
+        "id": "01",
+        "state": "Blocked",
+        "attempt": 1,
+        "submitted_revision": "c5a008416448e65f99b029bb79a1f1f0e089ff96"
+      },
+      "gates": [
+        {
+          "stage": "baseline",
+          "revision": "d8d74c34f5fdc17a4d0c1b66abe33c4e95ab06b4",
+          "passed": true,
+          "exit_code": 0
+        },
+        {
+          "stage": "implementation",
+          "revision": "d8d74c34f5fdc17a4d0c1b66abe33c4e95ab06b4",
+          "passed": true,
+          "exit_code": 0
+        },
+        {
+          "stage": "check-ticket",
+          "revision": "c5a008416448e65f99b029bb79a1f1f0e089ff96",
+          "passed": true,
+          "exit_code": 0
+        },
+        {
+          "stage": "spec",
+          "revision": "c5a008416448e65f99b029bb79a1f1f0e089ff96",
+          "passed": true,
+          "exit_code": 0
+        },
+        {
+          "stage": "standards",
+          "revision": "c5a008416448e65f99b029bb79a1f1f0e089ff96",
+          "passed": false,
+          "exit_code": 0,
+          "diagnostic": "Expecting value: line 1 column 1 (char 0)"
+        }
+      ],
+      "recorded_assertions": {
+        "caller_unchanged": true,
+        "status_matches": true
+      }
+    },
+    {
+      "original_pointer": "/scenarios/7",
+      "scenario": "stale-spec",
+      "run_exit": 1,
+      "base": "d8d74c34f5fdc17a4d0c1b66abe33c4e95ab06b4",
+      "integration": "d8d74c34f5fdc17a4d0c1b66abe33c4e95ab06b4",
+      "record_facts": {
+        "outcome": "incomplete",
+        "failure": {
+          "stage": "spec",
+          "message": "spec report rejected: mismatched revision"
+        },
+        "base_revision": "d8d74c34f5fdc17a4d0c1b66abe33c4e95ab06b4",
+        "integration_branch": "integration"
+      },
+      "ticket": {
+        "id": "01",
+        "state": "Blocked",
+        "attempt": 1,
+        "submitted_revision": "7020bdf1daf27b107789abb31ee57dcd6319c591"
+      },
+      "gates": [
+        {
+          "stage": "baseline",
+          "revision": "d8d74c34f5fdc17a4d0c1b66abe33c4e95ab06b4",
+          "passed": true,
+          "exit_code": 0
+        },
+        {
+          "stage": "implementation",
+          "revision": "d8d74c34f5fdc17a4d0c1b66abe33c4e95ab06b4",
+          "passed": true,
+          "exit_code": 0
+        },
+        {
+          "stage": "check-ticket",
+          "revision": "7020bdf1daf27b107789abb31ee57dcd6319c591",
+          "passed": true,
+          "exit_code": 0
+        },
+        {
+          "stage": "spec",
+          "revision": "7020bdf1daf27b107789abb31ee57dcd6319c591",
+          "passed": false,
+          "exit_code": 0,
+          "diagnostic": "mismatched revision"
+        }
+      ],
+      "recorded_assertions": {
+        "caller_unchanged": true,
+        "status_matches": true
+      }
+    },
+    {
+      "original_pointer": "/scenarios/8",
+      "scenario": "mismatched-standards",
+      "run_exit": 1,
+      "base": "2bb9da56e3e025de45f4b8cac93264493ca1929f",
+      "integration": "2bb9da56e3e025de45f4b8cac93264493ca1929f",
+      "record_facts": {
+        "outcome": "incomplete",
+        "failure": {
+          "stage": "standards",
+          "message": "standards report rejected: mismatched ticket"
+        },
+        "base_revision": "2bb9da56e3e025de45f4b8cac93264493ca1929f",
+        "integration_branch": "integration"
+      },
+      "ticket": {
+        "id": "01",
+        "state": "Blocked",
+        "attempt": 1,
+        "submitted_revision": "2b62245ea9228ffa6e63494a0afbc3fe4cbeb565"
+      },
+      "gates": [
+        {
+          "stage": "baseline",
+          "revision": "2bb9da56e3e025de45f4b8cac93264493ca1929f",
+          "passed": true,
+          "exit_code": 0
+        },
+        {
+          "stage": "implementation",
+          "revision": "2bb9da56e3e025de45f4b8cac93264493ca1929f",
+          "passed": true,
+          "exit_code": 0
+        },
+        {
+          "stage": "check-ticket",
+          "revision": "2b62245ea9228ffa6e63494a0afbc3fe4cbeb565",
+          "passed": true,
+          "exit_code": 0
+        },
+        {
+          "stage": "spec",
+          "revision": "2b62245ea9228ffa6e63494a0afbc3fe4cbeb565",
+          "passed": true,
+          "exit_code": 0
+        },
+        {
+          "stage": "standards",
+          "revision": "2b62245ea9228ffa6e63494a0afbc3fe4cbeb565",
+          "passed": false,
+          "exit_code": 0,
+          "diagnostic": "mismatched ticket"
+        }
+      ],
+      "recorded_assertions": {
+        "caller_unchanged": true,
+        "status_matches": true
+      }
+    },
+    {
+      "original_pointer": "/scenarios/9",
+      "scenario": "incomplete-optional-spec",
+      "run_exit": 1,
+      "base": "70349e154a34c16b8ce795c13ad54ca26761d5bc",
+      "integration": "70349e154a34c16b8ce795c13ad54ca26761d5bc",
+      "record_facts": {
+        "outcome": "incomplete",
+        "failure": {
+          "stage": "spec",
+          "message": "spec report rejected: findings[0].id must be a nonempty string"
+        },
+        "base_revision": "70349e154a34c16b8ce795c13ad54ca26761d5bc",
+        "integration_branch": "integration"
+      },
+      "ticket": {
+        "id": "01",
+        "state": "Blocked",
+        "attempt": 1,
+        "submitted_revision": "9d2141fa9afbd064ba06e3bfcfc958d1aabdfd6c"
+      },
+      "gates": [
+        {
+          "stage": "baseline",
+          "revision": "70349e154a34c16b8ce795c13ad54ca26761d5bc",
+          "passed": true,
+          "exit_code": 0
+        },
+        {
+          "stage": "implementation",
+          "revision": "70349e154a34c16b8ce795c13ad54ca26761d5bc",
+          "passed": true,
+          "exit_code": 0
+        },
+        {
+          "stage": "check-ticket",
+          "revision": "9d2141fa9afbd064ba06e3bfcfc958d1aabdfd6c",
+          "passed": true,
+          "exit_code": 0
+        },
+        {
+          "stage": "spec",
+          "revision": "9d2141fa9afbd064ba06e3bfcfc958d1aabdfd6c",
+          "passed": false,
+          "exit_code": 0,
+          "diagnostic": "findings[0].id must be a nonempty string"
+        }
+      ],
+      "recorded_assertions": {
+        "caller_unchanged": true,
+        "status_matches": true
+      }
+    },
+    {
+      "original_pointer": "/scenarios/10",
+      "scenario": "incomplete-blocking-standards",
+      "run_exit": 1,
+      "base": "70349e154a34c16b8ce795c13ad54ca26761d5bc",
+      "integration": "70349e154a34c16b8ce795c13ad54ca26761d5bc",
+      "record_facts": {
+        "outcome": "incomplete",
+        "failure": {
+          "stage": "standards",
+          "message": "standards report rejected: findings[0].id must be a nonempty string"
+        },
+        "base_revision": "70349e154a34c16b8ce795c13ad54ca26761d5bc",
+        "integration_branch": "integration"
+      },
+      "ticket": {
+        "id": "01",
+        "state": "Blocked",
+        "attempt": 1,
+        "submitted_revision": "9d2141fa9afbd064ba06e3bfcfc958d1aabdfd6c"
+      },
+      "gates": [
+        {
+          "stage": "baseline",
+          "revision": "70349e154a34c16b8ce795c13ad54ca26761d5bc",
+          "passed": true,
+          "exit_code": 0
+        },
+        {
+          "stage": "implementation",
+          "revision": "70349e154a34c16b8ce795c13ad54ca26761d5bc",
+          "passed": true,
+          "exit_code": 0
+        },
+        {
+          "stage": "check-ticket",
+          "revision": "9d2141fa9afbd064ba06e3bfcfc958d1aabdfd6c",
+          "passed": true,
+          "exit_code": 0
+        },
+        {
+          "stage": "spec",
+          "revision": "9d2141fa9afbd064ba06e3bfcfc958d1aabdfd6c",
+          "passed": true,
+          "exit_code": 0
+        },
+        {
+          "stage": "standards",
+          "revision": "9d2141fa9afbd064ba06e3bfcfc958d1aabdfd6c",
+          "passed": false,
+          "exit_code": 0,
+          "diagnostic": "findings[0].id must be a nonempty string"
+        }
+      ],
+      "recorded_assertions": {
+        "caller_unchanged": true,
+        "status_matches": true
+      }
+    },
+    {
+      "original_pointer": "/scenarios/11",
+      "scenario": "optional-spec",
+      "run_exit": 0,
+      "base": "4f5676d5641ae0519a6b89055878609d77e5548b",
+      "integration": "b8ec2aecccea3c213e57e2b1a1013a1a9f3905cf",
+      "record_facts": {
+        "outcome": "completed",
+        "base_revision": "4f5676d5641ae0519a6b89055878609d77e5548b",
+        "integration_branch": "integration"
+      },
+      "ticket": {
+        "id": "01",
+        "state": "Done",
+        "attempt": 1,
+        "submitted_revision": "1516a7c5fb9ed9d5522d34ac25bccd55b233b65a",
+        "candidate_revision": "b8ec2aecccea3c213e57e2b1a1013a1a9f3905cf",
+        "done_revision": "b8ec2aecccea3c213e57e2b1a1013a1a9f3905cf"
+      },
+      "gates": [
+        {
+          "stage": "baseline",
+          "revision": "4f5676d5641ae0519a6b89055878609d77e5548b",
+          "passed": true,
+          "exit_code": 0
+        },
+        {
+          "stage": "implementation",
+          "revision": "4f5676d5641ae0519a6b89055878609d77e5548b",
+          "passed": true,
+          "exit_code": 0
+        },
+        {
+          "stage": "check-ticket",
+          "revision": "1516a7c5fb9ed9d5522d34ac25bccd55b233b65a",
+          "passed": true,
+          "exit_code": 0
+        },
+        {
+          "stage": "spec",
+          "revision": "1516a7c5fb9ed9d5522d34ac25bccd55b233b65a",
+          "passed": true,
+          "exit_code": 0
+        },
+        {
+          "stage": "standards",
+          "revision": "1516a7c5fb9ed9d5522d34ac25bccd55b233b65a",
+          "passed": true,
+          "exit_code": 0
+        },
+        {
+          "stage": "candidate",
+          "revision": "b8ec2aecccea3c213e57e2b1a1013a1a9f3905cf",
+          "passed": true,
+          "exit_code": 0
+        }
+      ],
+      "recorded_assertions": {
+        "caller_unchanged": true,
+        "status_matches": true
+      }
+    },
+    {
+      "original_pointer": "/scenarios/12",
+      "scenario": "blocking-standards",
+      "run_exit": 1,
+      "base": "4f5676d5641ae0519a6b89055878609d77e5548b",
+      "integration": "4f5676d5641ae0519a6b89055878609d77e5548b",
+      "record_facts": {
+        "outcome": "incomplete",
+        "failure": {
+          "stage": "standards",
+          "message": "Required gate failed: standards; blocking review finding; see report"
+        },
+        "base_revision": "4f5676d5641ae0519a6b89055878609d77e5548b",
+        "integration_branch": "integration"
+      },
+      "ticket": {
+        "id": "01",
+        "state": "Blocked",
+        "attempt": 1,
+        "submitted_revision": "9451dcc31ec9507b39df8a98f3508d1ae7226517"
+      },
+      "gates": [
+        {
+          "stage": "baseline",
+          "revision": "4f5676d5641ae0519a6b89055878609d77e5548b",
+          "passed": true,
+          "exit_code": 0
+        },
+        {
+          "stage": "implementation",
+          "revision": "4f5676d5641ae0519a6b89055878609d77e5548b",
+          "passed": true,
+          "exit_code": 0
+        },
+        {
+          "stage": "check-ticket",
+          "revision": "9451dcc31ec9507b39df8a98f3508d1ae7226517",
+          "passed": true,
+          "exit_code": 0
+        },
+        {
+          "stage": "spec",
+          "revision": "9451dcc31ec9507b39df8a98f3508d1ae7226517",
+          "passed": true,
+          "exit_code": 0
+        },
+        {
+          "stage": "standards",
+          "revision": "9451dcc31ec9507b39df8a98f3508d1ae7226517",
+          "passed": false,
+          "exit_code": 0,
+          "diagnostic": "blocking review finding; see report"
+        }
+      ],
+      "recorded_assertions": {
+        "caller_unchanged": true,
+        "status_matches": true
+      }
+    },
+    {
+      "original_pointer": "/scenarios/13",
+      "scenario": "deep-implementation",
+      "run_exit": 1,
+      "base": "68ea405a4ba804e5f969da33c75b5d8867d433eb",
+      "integration": "68ea405a4ba804e5f969da33c75b5d8867d433eb",
+      "record_facts": {
+        "outcome": "incomplete",
+        "failure": {
+          "stage": "implementation",
+          "message": "implementation report rejected: report nesting exceeds 100 object/array levels; see stdout"
+        },
+        "base_revision": "68ea405a4ba804e5f969da33c75b5d8867d433eb",
+        "integration_branch": "integration"
+      },
+      "ticket": {
+        "id": "01",
+        "state": "Blocked",
+        "attempt": 1
+      },
+      "gates": [
+        {
+          "stage": "baseline",
+          "revision": "68ea405a4ba804e5f969da33c75b5d8867d433eb",
+          "passed": true,
+          "exit_code": 0
+        },
+        {
+          "stage": "implementation",
+          "revision": "68ea405a4ba804e5f969da33c75b5d8867d433eb",
+          "passed": false,
+          "exit_code": 0,
+          "diagnostic": "report nesting exceeds 100 object/array levels; see stdout"
+        }
+      ],
+      "recorded_assertions": {
+        "caller_unchanged": true,
+        "status_matches": true
+      }
+    },
+    {
+      "original_pointer": "/scenarios/14",
+      "scenario": "deep-mismatched-standards",
+      "run_exit": 1,
+      "base": "68ea405a4ba804e5f969da33c75b5d8867d433eb",
+      "integration": "68ea405a4ba804e5f969da33c75b5d8867d433eb",
+      "record_facts": {
+        "outcome": "incomplete",
+        "failure": {
+          "stage": "standards",
+          "message": "standards report rejected: report nesting exceeds 100 object/array levels; see stdout"
+        },
+        "base_revision": "68ea405a4ba804e5f969da33c75b5d8867d433eb",
+        "integration_branch": "integration"
+      },
+      "ticket": {
+        "id": "01",
+        "state": "Blocked",
+        "attempt": 1,
+        "submitted_revision": "58defd29e73185301b4c4ecbf27e5edc0e10e7fb"
+      },
+      "gates": [
+        {
+          "stage": "baseline",
+          "revision": "68ea405a4ba804e5f969da33c75b5d8867d433eb",
+          "passed": true,
+          "exit_code": 0
+        },
+        {
+          "stage": "implementation",
+          "revision": "68ea405a4ba804e5f969da33c75b5d8867d433eb",
+          "passed": true,
+          "exit_code": 0
+        },
+        {
+          "stage": "check-ticket",
+          "revision": "58defd29e73185301b4c4ecbf27e5edc0e10e7fb",
+          "passed": true,
+          "exit_code": 0
+        },
+        {
+          "stage": "spec",
+          "revision": "58defd29e73185301b4c4ecbf27e5edc0e10e7fb",
+          "passed": true,
+          "exit_code": 0
+        },
+        {
+          "stage": "standards",
+          "revision": "58defd29e73185301b4c4ecbf27e5edc0e10e7fb",
+          "passed": false,
+          "exit_code": 0,
+          "diagnostic": "report nesting exceeds 100 object/array levels; see stdout"
+        }
+      ],
+      "recorded_assertions": {
+        "caller_unchanged": true,
+        "status_matches": true
+      }
+    },
+    {
+      "original_pointer": "/scenarios/15",
+      "scenario": "overflow-spec",
+      "run_exit": 1,
+      "base": "9591c7aa0e4b7a83cfa8df2b6c2afc0da9926686",
+      "integration": "9591c7aa0e4b7a83cfa8df2b6c2afc0da9926686",
+      "record_facts": {
+        "outcome": "incomplete",
+        "failure": {
+          "stage": "spec",
+          "message": "spec report rejected: nonfinite JSON number 1e400"
+        },
+        "base_revision": "9591c7aa0e4b7a83cfa8df2b6c2afc0da9926686",
+        "integration_branch": "integration"
+      },
+      "ticket": {
+        "id": "01",
+        "state": "Blocked",
+        "attempt": 1,
+        "submitted_revision": "3b32a8d1a1d2d539dec07ec9723a1dcd9cc5551e"
+      },
+      "gates": [
+        {
+          "stage": "baseline",
+          "revision": "9591c7aa0e4b7a83cfa8df2b6c2afc0da9926686",
+          "passed": true,
+          "exit_code": 0
+        },
+        {
+          "stage": "implementation",
+          "revision": "9591c7aa0e4b7a83cfa8df2b6c2afc0da9926686",
+          "passed": true,
+          "exit_code": 0
+        },
+        {
+          "stage": "check-ticket",
+          "revision": "3b32a8d1a1d2d539dec07ec9723a1dcd9cc5551e",
+          "passed": true,
+          "exit_code": 0
+        },
+        {
+          "stage": "spec",
+          "revision": "3b32a8d1a1d2d539dec07ec9723a1dcd9cc5551e",
+          "passed": false,
+          "exit_code": 0,
+          "diagnostic": "nonfinite JSON number 1e400"
+        }
+      ],
+      "recorded_assertions": {
+        "caller_unchanged": true,
+        "status_matches": true
+      }
+    },
+    {
+      "original_pointer": "/scenarios/16",
+      "scenario": "nested-overflow-standards",
+      "run_exit": 1,
+      "base": "9591c7aa0e4b7a83cfa8df2b6c2afc0da9926686",
+      "integration": "9591c7aa0e4b7a83cfa8df2b6c2afc0da9926686",
+      "record_facts": {
+        "outcome": "incomplete",
+        "failure": {
+          "stage": "standards",
+          "message": "standards report rejected: nonfinite JSON number -1e400"
+        },
+        "base_revision": "9591c7aa0e4b7a83cfa8df2b6c2afc0da9926686",
+        "integration_branch": "integration"
+      },
+      "ticket": {
+        "id": "01",
+        "state": "Blocked",
+        "attempt": 1,
+        "submitted_revision": "3b32a8d1a1d2d539dec07ec9723a1dcd9cc5551e"
+      },
+      "gates": [
+        {
+          "stage": "baseline",
+          "revision": "9591c7aa0e4b7a83cfa8df2b6c2afc0da9926686",
+          "passed": true,
+          "exit_code": 0
+        },
+        {
+          "stage": "implementation",
+          "revision": "9591c7aa0e4b7a83cfa8df2b6c2afc0da9926686",
+          "passed": true,
+          "exit_code": 0
+        },
+        {
+          "stage": "check-ticket",
+          "revision": "3b32a8d1a1d2d539dec07ec9723a1dcd9cc5551e",
+          "passed": true,
+          "exit_code": 0
+        },
+        {
+          "stage": "spec",
+          "revision": "3b32a8d1a1d2d539dec07ec9723a1dcd9cc5551e",
+          "passed": true,
+          "exit_code": 0
+        },
+        {
+          "stage": "standards",
+          "revision": "3b32a8d1a1d2d539dec07ec9723a1dcd9cc5551e",
+          "passed": false,
+          "exit_code": 0,
+          "diagnostic": "nonfinite JSON number -1e400"
+        }
+      ],
+      "recorded_assertions": {
+        "caller_unchanged": true,
+        "status_matches": true
+      }
+    },
+    {
+      "original_pointer": "/scenarios/17",
+      "scenario": "git-overrides-claims",
+      "run_exit": 0,
+      "base": "8cfc06f34360f57a8865d7e99b03358260fc7be2",
+      "integration": "d3d5114acbcc171673486522fadb1083b2cc4899",
+      "record_facts": {
+        "outcome": "completed",
+        "base_revision": "8cfc06f34360f57a8865d7e99b03358260fc7be2",
+        "integration_branch": "integration"
+      },
+      "ticket": {
+        "id": "01",
+        "state": "Done",
+        "attempt": 1,
+        "submitted_revision": "73bede33f3c7ee17f36db6c1a119cff15eb44477",
+        "candidate_revision": "d3d5114acbcc171673486522fadb1083b2cc4899",
+        "done_revision": "d3d5114acbcc171673486522fadb1083b2cc4899"
+      },
+      "gates": [
+        {
+          "stage": "baseline",
+          "revision": "8cfc06f34360f57a8865d7e99b03358260fc7be2",
+          "passed": true,
+          "exit_code": 0
+        },
+        {
+          "stage": "implementation",
+          "revision": "8cfc06f34360f57a8865d7e99b03358260fc7be2",
+          "passed": true,
+          "exit_code": 0
+        },
+        {
+          "stage": "check-ticket",
+          "revision": "73bede33f3c7ee17f36db6c1a119cff15eb44477",
+          "passed": true,
+          "exit_code": 0
+        },
+        {
+          "stage": "spec",
+          "revision": "73bede33f3c7ee17f36db6c1a119cff15eb44477",
+          "passed": true,
+          "exit_code": 0
+        },
+        {
+          "stage": "standards",
+          "revision": "73bede33f3c7ee17f36db6c1a119cff15eb44477",
+          "passed": true,
+          "exit_code": 0
+        },
+        {
+          "stage": "candidate",
+          "revision": "d3d5114acbcc171673486522fadb1083b2cc4899",
+          "passed": true,
+          "exit_code": 0
+        }
+      ],
+      "recorded_assertions": {
+        "caller_unchanged": true,
+        "status_matches": true
+      }
+    }
+  ],
+  "retirement_date": "2026-11-13",
+  "authority": "Human retroactive C1\u2013C10 cleanup request; explicit overseer approval after independent original-pointer validation",
+  "original_payload_retired": true
+}

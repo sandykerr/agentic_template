@@ -1,0 +1,872 @@
+{
+  "kind": "executed lossy historical observation extract",
+  "ticket": "04",
+  "original_path": ".scratch/ticket-harness/evidence/ticket-04/04-fixture-observations.json",
+  "original_sha256": "10b0adfd51155746bafc3f5418433a79f547228dc025469f718ada165c068c0d",
+  "original_bytes": 69529,
+  "identity": {
+    "implementation_revision": "8d345bddabd3d7fdc9cfb049e3cc7ce70f66e54a"
+  },
+  "completion_record": "04-completion.md",
+  "source_identity_records": [],
+  "limits": "Mechanical projection of observed historical fields, not new execution or proof all requirements passed. Deliberately omits raw command output, assignments, complete input/run/QA records and process internals. Original pointers identify derivation after original payload retirement. Fixture approvals are synthetic, not development M1 acceptance. Original independent development reviews/source/result records remain separate.",
+  "scenario_count": 16,
+  "scenarios": [
+    {
+      "original_pointer": "/scenarios/passing",
+      "scenario": "passing",
+      "exit_code": 0,
+      "outcome": "completed",
+      "base_revision": "ece9e9e5acf1c825dedd668416d9afb85dcf54fe",
+      "integration_revision": "8b159c9b4100c2dc2c0c59f1eef126f4fb6b1c3c",
+      "record_facts": {
+        "outcome": "completed",
+        "failure": null,
+        "base_revision": "ece9e9e5acf1c825dedd668416d9afb85dcf54fe"
+      },
+      "ticket": {
+        "id": "01",
+        "state": "Done",
+        "attempt": 1,
+        "submitted_revision": "9d094122e07fd201a852d342970dc771c7ac942e",
+        "candidate_revision": "8b159c9b4100c2dc2c0c59f1eef126f4fb6b1c3c",
+        "done_revision": "8b159c9b4100c2dc2c0c59f1eef126f4fb6b1c3c"
+      },
+      "gates": [
+        {
+          "stage": "baseline",
+          "revision": "ece9e9e5acf1c825dedd668416d9afb85dcf54fe",
+          "passed": true,
+          "exit_code": 0
+        },
+        {
+          "stage": "implementation",
+          "revision": "ece9e9e5acf1c825dedd668416d9afb85dcf54fe",
+          "passed": true,
+          "exit_code": 0
+        },
+        {
+          "stage": "check-ticket",
+          "revision": "9d094122e07fd201a852d342970dc771c7ac942e",
+          "passed": true,
+          "exit_code": 0
+        },
+        {
+          "stage": "spec",
+          "revision": "9d094122e07fd201a852d342970dc771c7ac942e",
+          "passed": true,
+          "exit_code": 0
+        },
+        {
+          "stage": "standards",
+          "revision": "9d094122e07fd201a852d342970dc771c7ac942e",
+          "passed": true,
+          "exit_code": 0
+        },
+        {
+          "stage": "candidate",
+          "revision": "8b159c9b4100c2dc2c0c59f1eef126f4fb6b1c3c",
+          "passed": true,
+          "exit_code": 0
+        }
+      ],
+      "recorded_assertions": {
+        "caller_preserved": true,
+        "status_equals_record": true
+      }
+    },
+    {
+      "original_pointer": "/scenarios/snapshot-tamper",
+      "scenario": "snapshot-tamper",
+      "exit_code": 1,
+      "outcome": "incomplete",
+      "base_revision": "2e076a7e3c04438366c08e3e0016d0044c7cc76c",
+      "integration_revision": "2e076a7e3c04438366c08e3e0016d0044c7cc76c",
+      "record_facts": {
+        "outcome": "incomplete",
+        "failure": {
+          "stage": "implementation",
+          "message": "Required gate failed: implementation; Integrity violation: protected files changed"
+        },
+        "base_revision": "2e076a7e3c04438366c08e3e0016d0044c7cc76c"
+      },
+      "ticket": {
+        "id": "01",
+        "state": "Blocked",
+        "attempt": 1
+      },
+      "gates": [
+        {
+          "stage": "baseline",
+          "revision": "2e076a7e3c04438366c08e3e0016d0044c7cc76c",
+          "passed": true,
+          "exit_code": 0
+        },
+        {
+          "stage": "implementation",
+          "revision": "2e076a7e3c04438366c08e3e0016d0044c7cc76c",
+          "passed": false,
+          "exit_code": 0,
+          "diagnostic": "Integrity violation: protected files changed"
+        }
+      ],
+      "recorded_assertions": {
+        "caller_preserved": true,
+        "status_equals_record": true
+      }
+    },
+    {
+      "original_pointer": "/scenarios/record-tamper",
+      "scenario": "record-tamper",
+      "exit_code": 1,
+      "outcome": "incomplete",
+      "base_revision": "2e076a7e3c04438366c08e3e0016d0044c7cc76c",
+      "integration_revision": "2e076a7e3c04438366c08e3e0016d0044c7cc76c",
+      "record_facts": {
+        "outcome": "incomplete",
+        "failure": {
+          "stage": "implementation",
+          "message": "Required gate failed: implementation; Integrity violation: protected files changed"
+        },
+        "base_revision": "2e076a7e3c04438366c08e3e0016d0044c7cc76c"
+      },
+      "ticket": {
+        "id": "01",
+        "state": "Blocked",
+        "attempt": 1
+      },
+      "gates": [
+        {
+          "stage": "baseline",
+          "revision": "2e076a7e3c04438366c08e3e0016d0044c7cc76c",
+          "passed": true,
+          "exit_code": 0
+        },
+        {
+          "stage": "implementation",
+          "revision": "2e076a7e3c04438366c08e3e0016d0044c7cc76c",
+          "passed": false,
+          "exit_code": 0,
+          "diagnostic": "Integrity violation: protected files changed"
+        }
+      ],
+      "recorded_assertions": {
+        "caller_preserved": true,
+        "status_equals_record": true
+      }
+    },
+    {
+      "original_pointer": "/scenarios/late-review-edit",
+      "scenario": "late-review-edit",
+      "exit_code": 1,
+      "outcome": "incomplete",
+      "base_revision": "091ba1dd2dac8b0a4985aa1baac72c3a245e1e69",
+      "integration_revision": "091ba1dd2dac8b0a4985aa1baac72c3a245e1e69",
+      "record_facts": {
+        "outcome": "incomplete",
+        "failure": {
+          "stage": "standards",
+          "message": "Verified source changed at /tmp/ticket-harness-test-7tob6xhn/run/worktrees/spec"
+        },
+        "base_revision": "091ba1dd2dac8b0a4985aa1baac72c3a245e1e69"
+      },
+      "ticket": {
+        "id": "01",
+        "state": "Blocked",
+        "attempt": 1,
+        "submitted_revision": "8d9c88c53f9ad19f6008ce9a409a8f88c4bf2dd6"
+      },
+      "gates": [
+        {
+          "stage": "baseline",
+          "revision": "091ba1dd2dac8b0a4985aa1baac72c3a245e1e69",
+          "passed": true,
+          "exit_code": 0
+        },
+        {
+          "stage": "implementation",
+          "revision": "091ba1dd2dac8b0a4985aa1baac72c3a245e1e69",
+          "passed": true,
+          "exit_code": 0
+        },
+        {
+          "stage": "check-ticket",
+          "revision": "8d9c88c53f9ad19f6008ce9a409a8f88c4bf2dd6",
+          "passed": true,
+          "exit_code": 0
+        },
+        {
+          "stage": "spec",
+          "revision": "8d9c88c53f9ad19f6008ce9a409a8f88c4bf2dd6",
+          "passed": false,
+          "exit_code": 0,
+          "verification_status": "invalidated",
+          "diagnostic": "Verified source changed at /tmp/ticket-harness-test-7tob6xhn/run/worktrees/spec"
+        },
+        {
+          "stage": "standards",
+          "revision": "8d9c88c53f9ad19f6008ce9a409a8f88c4bf2dd6",
+          "passed": false,
+          "exit_code": 0,
+          "diagnostic": "Verified source changed at /tmp/ticket-harness-test-7tob6xhn/run/worktrees/spec"
+        }
+      ],
+      "recorded_assertions": {
+        "caller_preserved": true,
+        "status_equals_record": true
+      }
+    },
+    {
+      "original_pointer": "/scenarios/external-movement",
+      "scenario": "external-movement",
+      "exit_code": 1,
+      "outcome": "incomplete",
+      "base_revision": "9905ca0e7989396cc84ddd4f52a880336184e5dd",
+      "integration_revision": "68498a10328a7749a76c722c1b46b41c9b0a2df3",
+      "record_facts": {
+        "outcome": "incomplete",
+        "failure": {
+          "stage": "integration",
+          "message": "git -c core.hooksPath=/dev/null update-ref refs/heads/integration cc373475b14723d3acc7c1fbd1519d3ccd97565a 9905ca0e7989396cc84ddd4f52a880336184e5dd: fatal: update_ref failed for ref 'refs/heads/integration': cannot lock ref 'refs/heads/integration': is at 68498a10328a7749a76c722c1b46b41c9b0a2df3 but expected 9905ca0e7989396cc84ddd4f52a880336184e5dd"
+        },
+        "base_revision": "9905ca0e7989396cc84ddd4f52a880336184e5dd"
+      },
+      "ticket": {
+        "id": "01",
+        "state": "Blocked",
+        "attempt": 1,
+        "submitted_revision": "691baa57179da1c83f9534068dc4a6c0cb4d4b67",
+        "candidate_revision": "cc373475b14723d3acc7c1fbd1519d3ccd97565a"
+      },
+      "gates": [
+        {
+          "stage": "baseline",
+          "revision": "9905ca0e7989396cc84ddd4f52a880336184e5dd",
+          "passed": true,
+          "exit_code": 0
+        },
+        {
+          "stage": "implementation",
+          "revision": "9905ca0e7989396cc84ddd4f52a880336184e5dd",
+          "passed": true,
+          "exit_code": 0
+        },
+        {
+          "stage": "check-ticket",
+          "revision": "691baa57179da1c83f9534068dc4a6c0cb4d4b67",
+          "passed": true,
+          "exit_code": 0
+        },
+        {
+          "stage": "spec",
+          "revision": "691baa57179da1c83f9534068dc4a6c0cb4d4b67",
+          "passed": true,
+          "exit_code": 0
+        },
+        {
+          "stage": "standards",
+          "revision": "691baa57179da1c83f9534068dc4a6c0cb4d4b67",
+          "passed": true,
+          "exit_code": 0
+        },
+        {
+          "stage": "candidate",
+          "revision": "cc373475b14723d3acc7c1fbd1519d3ccd97565a",
+          "passed": true,
+          "exit_code": 0
+        }
+      ],
+      "recorded_assertions": {
+        "caller_preserved": true,
+        "status_equals_record": true
+      }
+    },
+    {
+      "original_pointer": "/scenarios/failed-merge",
+      "scenario": "failed-merge",
+      "exit_code": 1,
+      "outcome": "incomplete",
+      "base_revision": "ba1dcdba0e33bf557df3fdfbcdd71066a49f91e3",
+      "integration_revision": "ba1dcdba0e33bf557df3fdfbcdd71066a49f91e3",
+      "record_facts": {
+        "outcome": "incomplete",
+        "failure": {
+          "stage": "candidate",
+          "message": "git -c user.name=Ticket Harness -c user.email=harness@example.invalid merge --no-ff -m Verified ticket candidate fa4ba39f34c5b901946c4d2951ca7ad8b938296c: Controlled merge failure\nNot committing merge; use 'git commit' to complete the merge."
+        },
+        "base_revision": "ba1dcdba0e33bf557df3fdfbcdd71066a49f91e3"
+      },
+      "ticket": {
+        "id": "01",
+        "state": "Blocked",
+        "attempt": 1,
+        "submitted_revision": "fa4ba39f34c5b901946c4d2951ca7ad8b938296c"
+      },
+      "gates": [
+        {
+          "stage": "baseline",
+          "revision": "ba1dcdba0e33bf557df3fdfbcdd71066a49f91e3",
+          "passed": true,
+          "exit_code": 0
+        },
+        {
+          "stage": "implementation",
+          "revision": "ba1dcdba0e33bf557df3fdfbcdd71066a49f91e3",
+          "passed": true,
+          "exit_code": 0
+        },
+        {
+          "stage": "check-ticket",
+          "revision": "fa4ba39f34c5b901946c4d2951ca7ad8b938296c",
+          "passed": true,
+          "exit_code": 0
+        },
+        {
+          "stage": "spec",
+          "revision": "fa4ba39f34c5b901946c4d2951ca7ad8b938296c",
+          "passed": true,
+          "exit_code": 0
+        },
+        {
+          "stage": "standards",
+          "revision": "fa4ba39f34c5b901946c4d2951ca7ad8b938296c",
+          "passed": true,
+          "exit_code": 0
+        }
+      ],
+      "recorded_assertions": {
+        "caller_preserved": true,
+        "status_equals_record": true
+      }
+    },
+    {
+      "original_pointer": "/scenarios/merge-resolution",
+      "scenario": "merge-resolution",
+      "exit_code": 1,
+      "outcome": "incomplete",
+      "base_revision": "ba1dcdba0e33bf557df3fdfbcdd71066a49f91e3",
+      "integration_revision": "ba1dcdba0e33bf557df3fdfbcdd71066a49f91e3",
+      "record_facts": {
+        "outcome": "incomplete",
+        "failure": {
+          "stage": "candidate",
+          "message": "Candidate 156a376da4e0eaf358b1f48d41ef45411a624c96 differs from reviewed source; renewed review required"
+        },
+        "base_revision": "ba1dcdba0e33bf557df3fdfbcdd71066a49f91e3"
+      },
+      "ticket": {
+        "id": "01",
+        "state": "Blocked",
+        "attempt": 1,
+        "submitted_revision": "1aa27fa7166775594c6e95ee84bd62b41af75eaf",
+        "candidate_revision": "156a376da4e0eaf358b1f48d41ef45411a624c96"
+      },
+      "gates": [
+        {
+          "stage": "baseline",
+          "revision": "ba1dcdba0e33bf557df3fdfbcdd71066a49f91e3",
+          "passed": true,
+          "exit_code": 0
+        },
+        {
+          "stage": "implementation",
+          "revision": "ba1dcdba0e33bf557df3fdfbcdd71066a49f91e3",
+          "passed": true,
+          "exit_code": 0
+        },
+        {
+          "stage": "check-ticket",
+          "revision": "1aa27fa7166775594c6e95ee84bd62b41af75eaf",
+          "passed": true,
+          "exit_code": 0
+        },
+        {
+          "stage": "spec",
+          "revision": "1aa27fa7166775594c6e95ee84bd62b41af75eaf",
+          "passed": true,
+          "exit_code": 0
+        },
+        {
+          "stage": "standards",
+          "revision": "1aa27fa7166775594c6e95ee84bd62b41af75eaf",
+          "passed": true,
+          "exit_code": 0
+        }
+      ],
+      "recorded_assertions": {
+        "caller_preserved": true,
+        "status_equals_record": true
+      }
+    },
+    {
+      "original_pointer": "/scenarios/failed-candidate",
+      "scenario": "failed-candidate",
+      "exit_code": 1,
+      "outcome": "incomplete",
+      "base_revision": "569511b57672a07ba01c0d1758b15b919efdf210",
+      "integration_revision": "569511b57672a07ba01c0d1758b15b919efdf210",
+      "record_facts": {
+        "outcome": "incomplete",
+        "failure": {
+          "stage": "candidate",
+          "message": "Required gate failed: candidate; see /tmp/ticket-harness-test-ij3i4q7_/run/artifacts/candidate.stderr"
+        },
+        "base_revision": "569511b57672a07ba01c0d1758b15b919efdf210"
+      },
+      "ticket": {
+        "id": "01",
+        "state": "Blocked",
+        "attempt": 1,
+        "submitted_revision": "de110d9191a056665a2338cf6ec114fcea9753d7",
+        "candidate_revision": "bd5a771bf4fcdcd1bffdcb6c368db91787dadfd8"
+      },
+      "gates": [
+        {
+          "stage": "baseline",
+          "revision": "569511b57672a07ba01c0d1758b15b919efdf210",
+          "passed": true,
+          "exit_code": 0
+        },
+        {
+          "stage": "implementation",
+          "revision": "569511b57672a07ba01c0d1758b15b919efdf210",
+          "passed": true,
+          "exit_code": 0
+        },
+        {
+          "stage": "check-ticket",
+          "revision": "de110d9191a056665a2338cf6ec114fcea9753d7",
+          "passed": true,
+          "exit_code": 0
+        },
+        {
+          "stage": "spec",
+          "revision": "de110d9191a056665a2338cf6ec114fcea9753d7",
+          "passed": true,
+          "exit_code": 0
+        },
+        {
+          "stage": "standards",
+          "revision": "de110d9191a056665a2338cf6ec114fcea9753d7",
+          "passed": true,
+          "exit_code": 0
+        },
+        {
+          "stage": "candidate",
+          "revision": "bd5a771bf4fcdcd1bffdcb6c368db91787dadfd8",
+          "passed": false,
+          "exit_code": 1
+        }
+      ],
+      "recorded_assertions": {
+        "caller_preserved": true,
+        "status_equals_record": true
+      }
+    },
+    {
+      "original_pointer": "/scenarios/submission-hook",
+      "scenario": "submission-hook",
+      "exit_code": 1,
+      "outcome": "incomplete",
+      "base_revision": "4e5a272626f17c363140f6f7157350a650fdc861",
+      "integration_revision": "4e5a272626f17c363140f6f7157350a650fdc861",
+      "record_facts": {
+        "outcome": "incomplete",
+        "failure": {
+          "stage": "implementation",
+          "message": "Integrity violation: protected files changed"
+        },
+        "base_revision": "4e5a272626f17c363140f6f7157350a650fdc861"
+      },
+      "ticket": {
+        "id": "01",
+        "state": "Blocked",
+        "attempt": 1,
+        "submitted_revision": "c2fcd1c02dff5c033d56421a559601e6450b4d3c"
+      },
+      "gates": [
+        {
+          "stage": "baseline",
+          "revision": "4e5a272626f17c363140f6f7157350a650fdc861",
+          "passed": true,
+          "exit_code": 0
+        },
+        {
+          "stage": "implementation",
+          "revision": "4e5a272626f17c363140f6f7157350a650fdc861",
+          "passed": true,
+          "exit_code": 0
+        }
+      ],
+      "recorded_assertions": {
+        "caller_preserved": true,
+        "status_equals_record": true
+      }
+    },
+    {
+      "original_pointer": "/scenarios/hidden-assume-unchanged",
+      "scenario": "hidden-assume-unchanged",
+      "exit_code": 1,
+      "outcome": "incomplete",
+      "base_revision": "07397fcae3169b9f4efa4d2e10f1e8a129099ed3",
+      "integration_revision": "07397fcae3169b9f4efa4d2e10f1e8a129099ed3",
+      "record_facts": {
+        "outcome": "incomplete",
+        "failure": {
+          "stage": "spec",
+          "message": "Verified source changed index visibility flags at /tmp/ticket-harness-test-oc6_k78v/run/worktrees/spec"
+        },
+        "base_revision": "07397fcae3169b9f4efa4d2e10f1e8a129099ed3"
+      },
+      "ticket": {
+        "id": "01",
+        "state": "Blocked",
+        "attempt": 1,
+        "submitted_revision": "a337e8496a21c1b2d0d1c32cc2941a479a3e868f"
+      },
+      "gates": [
+        {
+          "stage": "baseline",
+          "revision": "07397fcae3169b9f4efa4d2e10f1e8a129099ed3",
+          "passed": true,
+          "exit_code": 0
+        },
+        {
+          "stage": "implementation",
+          "revision": "07397fcae3169b9f4efa4d2e10f1e8a129099ed3",
+          "passed": true,
+          "exit_code": 0
+        },
+        {
+          "stage": "check-ticket",
+          "revision": "a337e8496a21c1b2d0d1c32cc2941a479a3e868f",
+          "passed": true,
+          "exit_code": 0
+        },
+        {
+          "stage": "spec",
+          "revision": "a337e8496a21c1b2d0d1c32cc2941a479a3e868f",
+          "passed": false,
+          "exit_code": 0,
+          "verification_status": "invalidated",
+          "diagnostic": "Verified source changed index visibility flags at /tmp/ticket-harness-test-oc6_k78v/run/worktrees/spec"
+        }
+      ],
+      "recorded_assertions": {
+        "caller_preserved": true,
+        "status_equals_record": true
+      }
+    },
+    {
+      "original_pointer": "/scenarios/hidden-skip-worktree",
+      "scenario": "hidden-skip-worktree",
+      "exit_code": 1,
+      "outcome": "incomplete",
+      "base_revision": "07397fcae3169b9f4efa4d2e10f1e8a129099ed3",
+      "integration_revision": "07397fcae3169b9f4efa4d2e10f1e8a129099ed3",
+      "record_facts": {
+        "outcome": "incomplete",
+        "failure": {
+          "stage": "spec",
+          "message": "Verified source changed index visibility flags at /tmp/ticket-harness-test-04z4w7ex/run/worktrees/spec"
+        },
+        "base_revision": "07397fcae3169b9f4efa4d2e10f1e8a129099ed3"
+      },
+      "ticket": {
+        "id": "01",
+        "state": "Blocked",
+        "attempt": 1,
+        "submitted_revision": "754bd23e4eba7cdd90c948335ad25563f87a320f"
+      },
+      "gates": [
+        {
+          "stage": "baseline",
+          "revision": "07397fcae3169b9f4efa4d2e10f1e8a129099ed3",
+          "passed": true,
+          "exit_code": 0
+        },
+        {
+          "stage": "implementation",
+          "revision": "07397fcae3169b9f4efa4d2e10f1e8a129099ed3",
+          "passed": true,
+          "exit_code": 0
+        },
+        {
+          "stage": "check-ticket",
+          "revision": "754bd23e4eba7cdd90c948335ad25563f87a320f",
+          "passed": true,
+          "exit_code": 0
+        },
+        {
+          "stage": "spec",
+          "revision": "754bd23e4eba7cdd90c948335ad25563f87a320f",
+          "passed": false,
+          "exit_code": 0,
+          "verification_status": "invalidated",
+          "diagnostic": "Verified source changed index visibility flags at /tmp/ticket-harness-test-04z4w7ex/run/worktrees/spec"
+        }
+      ],
+      "recorded_assertions": {
+        "caller_preserved": true,
+        "status_equals_record": true
+      }
+    },
+    {
+      "original_pointer": "/scenarios/hook-evidence",
+      "scenario": "hook-evidence",
+      "exit_code": 1,
+      "outcome": "incomplete",
+      "base_revision": "3728376414e59926cb90a3943945b9639f393467",
+      "integration_revision": "3728376414e59926cb90a3943945b9639f393467",
+      "record_facts": {
+        "outcome": "incomplete",
+        "failure": {
+          "stage": "candidate",
+          "message": "Integrity violation: protected files changed"
+        },
+        "base_revision": "3728376414e59926cb90a3943945b9639f393467"
+      },
+      "ticket": {
+        "id": "01",
+        "state": "Blocked",
+        "attempt": 1,
+        "submitted_revision": "b02b20dbfa60465b744fc5ad7477cb936bfa66a9",
+        "candidate_revision": "4cdb389ab83b2e5005d77185bae2d7b862c11104"
+      },
+      "gates": [
+        {
+          "stage": "baseline",
+          "revision": "3728376414e59926cb90a3943945b9639f393467",
+          "passed": true,
+          "exit_code": 0
+        },
+        {
+          "stage": "implementation",
+          "revision": "3728376414e59926cb90a3943945b9639f393467",
+          "passed": true,
+          "exit_code": 0
+        },
+        {
+          "stage": "check-ticket",
+          "revision": "b02b20dbfa60465b744fc5ad7477cb936bfa66a9",
+          "passed": true,
+          "exit_code": 0
+        },
+        {
+          "stage": "spec",
+          "revision": "b02b20dbfa60465b744fc5ad7477cb936bfa66a9",
+          "passed": true,
+          "exit_code": 0
+        },
+        {
+          "stage": "standards",
+          "revision": "b02b20dbfa60465b744fc5ad7477cb936bfa66a9",
+          "passed": true,
+          "exit_code": 0
+        }
+      ],
+      "recorded_assertions": {
+        "caller_preserved": true,
+        "status_equals_record": true
+      }
+    },
+    {
+      "original_pointer": "/scenarios/checkout-hook",
+      "scenario": "checkout-hook",
+      "exit_code": 1,
+      "outcome": "incomplete",
+      "base_revision": "4cc8d94fb5349ebe64d5a6f157889fdab87b8c48",
+      "integration_revision": "4cc8d94fb5349ebe64d5a6f157889fdab87b8c48",
+      "record_facts": {
+        "outcome": "incomplete",
+        "failure": {
+          "stage": "standards",
+          "message": "Integrity violation: protected files changed"
+        },
+        "base_revision": "4cc8d94fb5349ebe64d5a6f157889fdab87b8c48"
+      },
+      "ticket": {
+        "id": "01",
+        "state": "Blocked",
+        "attempt": 1,
+        "submitted_revision": "d36123c9e6167fa70da6b6855d7fac9fabf65863"
+      },
+      "gates": [
+        {
+          "stage": "baseline",
+          "revision": "4cc8d94fb5349ebe64d5a6f157889fdab87b8c48",
+          "passed": true,
+          "exit_code": 0
+        },
+        {
+          "stage": "implementation",
+          "revision": "4cc8d94fb5349ebe64d5a6f157889fdab87b8c48",
+          "passed": true,
+          "exit_code": 0
+        },
+        {
+          "stage": "check-ticket",
+          "revision": "d36123c9e6167fa70da6b6855d7fac9fabf65863",
+          "passed": true,
+          "exit_code": 0
+        },
+        {
+          "stage": "spec",
+          "revision": "d36123c9e6167fa70da6b6855d7fac9fabf65863",
+          "passed": true,
+          "exit_code": 0
+        }
+      ],
+      "recorded_assertions": {
+        "caller_preserved": true,
+        "status_equals_record": true
+      }
+    },
+    {
+      "original_pointer": "/scenarios/final-ref-hook",
+      "scenario": "final-ref-hook",
+      "exit_code": 0,
+      "outcome": "completed",
+      "base_revision": "9c41e65eaba4c206656dfe48c872816d0b43964a",
+      "integration_revision": "dc6ed9204a430dd1619e123fdf7b085b169aeef2",
+      "record_facts": {
+        "outcome": "completed",
+        "failure": null,
+        "base_revision": "9c41e65eaba4c206656dfe48c872816d0b43964a"
+      },
+      "ticket": {
+        "id": "01",
+        "state": "Done",
+        "attempt": 1,
+        "submitted_revision": "8b58abfdfd088fd7611bcafc733468cb929c0c80",
+        "candidate_revision": "dc6ed9204a430dd1619e123fdf7b085b169aeef2",
+        "done_revision": "dc6ed9204a430dd1619e123fdf7b085b169aeef2"
+      },
+      "gates": [
+        {
+          "stage": "baseline",
+          "revision": "9c41e65eaba4c206656dfe48c872816d0b43964a",
+          "passed": true,
+          "exit_code": 0
+        },
+        {
+          "stage": "implementation",
+          "revision": "9c41e65eaba4c206656dfe48c872816d0b43964a",
+          "passed": true,
+          "exit_code": 0
+        },
+        {
+          "stage": "check-ticket",
+          "revision": "8b58abfdfd088fd7611bcafc733468cb929c0c80",
+          "passed": true,
+          "exit_code": 0
+        },
+        {
+          "stage": "spec",
+          "revision": "8b58abfdfd088fd7611bcafc733468cb929c0c80",
+          "passed": true,
+          "exit_code": 0
+        },
+        {
+          "stage": "standards",
+          "revision": "8b58abfdfd088fd7611bcafc733468cb929c0c80",
+          "passed": true,
+          "exit_code": 0
+        },
+        {
+          "stage": "candidate",
+          "revision": "dc6ed9204a430dd1619e123fdf7b085b169aeef2",
+          "passed": true,
+          "exit_code": 0
+        }
+      ],
+      "recorded_assertions": {
+        "caller_preserved": true,
+        "status_equals_record": true
+      }
+    },
+    {
+      "original_pointer": "/scenarios/deleted-snapshot",
+      "scenario": "deleted-snapshot",
+      "exit_code": 1,
+      "outcome": "incomplete",
+      "base_revision": "071c305ffe1356e63e4e0945ac913105399790bb",
+      "integration_revision": "071c305ffe1356e63e4e0945ac913105399790bb",
+      "record_facts": {
+        "outcome": "incomplete",
+        "failure": {
+          "stage": "implementation",
+          "message": "Required gate failed: implementation; Integrity violation: protected files changed"
+        },
+        "base_revision": "071c305ffe1356e63e4e0945ac913105399790bb"
+      },
+      "ticket": {
+        "id": "01",
+        "state": "Blocked",
+        "attempt": 1
+      },
+      "gates": [
+        {
+          "stage": "baseline",
+          "revision": "071c305ffe1356e63e4e0945ac913105399790bb",
+          "passed": true,
+          "exit_code": 0
+        },
+        {
+          "stage": "implementation",
+          "revision": "071c305ffe1356e63e4e0945ac913105399790bb",
+          "passed": false,
+          "exit_code": 0,
+          "diagnostic": "Integrity violation: protected files changed"
+        }
+      ],
+      "recorded_assertions": {
+        "caller_preserved": true,
+        "status_equals_record": true
+      }
+    },
+    {
+      "original_pointer": "/scenarios/directory-snapshot",
+      "scenario": "directory-snapshot",
+      "exit_code": 1,
+      "outcome": "incomplete",
+      "base_revision": "e132dabcca10bff7e68b907f6154fd2d6bcd49b6",
+      "integration_revision": "e132dabcca10bff7e68b907f6154fd2d6bcd49b6",
+      "record_facts": {
+        "outcome": "incomplete",
+        "failure": {
+          "stage": "implementation",
+          "message": "Required gate failed: implementation; Integrity violation: protected files changed"
+        },
+        "base_revision": "e132dabcca10bff7e68b907f6154fd2d6bcd49b6"
+      },
+      "ticket": {
+        "id": "01",
+        "state": "Blocked",
+        "attempt": 1
+      },
+      "gates": [
+        {
+          "stage": "baseline",
+          "revision": "e132dabcca10bff7e68b907f6154fd2d6bcd49b6",
+          "passed": true,
+          "exit_code": 0
+        },
+        {
+          "stage": "implementation",
+          "revision": "e132dabcca10bff7e68b907f6154fd2d6bcd49b6",
+          "passed": false,
+          "exit_code": 0,
+          "diagnostic": "Integrity violation: protected files changed"
+        }
+      ],
+      "recorded_assertions": {
+        "caller_preserved": true,
+        "status_equals_record": true
+      }
+    }
+  ],
+  "retirement_date": "2026-11-13",
+  "authority": "Human retroactive C1\u2013C10 cleanup request; explicit overseer approval after independent original-pointer validation",
+  "original_payload_retired": true
+}

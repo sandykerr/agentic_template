@@ -41,22 +41,22 @@ Completed and verified at final implementation `8e2c82679a2314e31ebff69accab3743
 following checkpoints `e90abb6` and `ce4e57d`. Previous readiness: `ready-for-agent`.
 Declared `Blocked by:` history and all criterion wording preserved.
 
-All six criteria map to [completion evidence](../evidence/19-completion.md): exact
+All six criteria map to [completion evidence](../evidence/ticket-19/19-completion.md): exact
 predeclared G2/C5 source/key, actual fresh independent High corpus reports, all
 required detections/four supported clean controls, all five source versions and
 failed trial/adjudication histories, planning/implementation/both-handoff routing
-and development/runtime separation. [Final actual checks](../evidence/19-repair-c5-checks.log)
+and development/runtime separation. [Final actual checks](../evidence/ticket-19/19-repair-c5-checks.log)
 pass three skill validators, syntax, identity/preservation/routing and 182 links,
 protecting 6742 prior paths. The preserved immutable C3 EOF blank/default whitespace
 failure and precise two-part passing whitespace checks are explicitly disclosed;
 no broad/default-whole-diff pass is claimed.
 
-Separate fresh final High [Spec](../evidence/19-review-spec-03.md) and
-[Standards](../evidence/19-review-standards-03.md) each report 0 new blockers/0 optional,
+Separate fresh final High [Spec](../evidence/ticket-19/19-review-spec-03.md) and
+[Standards](../evidence/ticket-19/19-review-standards-03.md) each report 0 new blockers/0 optional,
 independently verify both original actual full keys fixed at final source, and
 accept finite G2/C5 evaluation, skill/probe limits and bounded EOF handling.
 [Assessment](../reviews/ticket-19.md) and
-[append-only history](../evidence/19-finding-history.md) retain all original reports,
+[append-only history](../evidence/ticket-19/19-finding-history.md) retain all original reports,
 differing axes and exact repair verification. No unresolved actual key, unchecked
 criterion, missing required ticket report, pending relevant revalidation or actual
 human decision remains.
@@ -65,7 +65,7 @@ User-requested reusable [evaluate-reviewers skill](../../../.agents/skills/custo
 is wired conditionally through the existing evaluation reference reached from
 custom planning/implementation/handoff workflows. Use it for future calibration
 or corpus authoring; ordinary implementation keeps its existing independent axes.
-The [separate preparation-only observation](../evidence/19-repair-c5-skill-observation.md)
+The [separate preparation-only observation](../evidence/ticket-19/19-repair-c5-skill-observation.md)
 and tested/final byte distinction are preserved. No retroactive C5 use, extra
 per-ticket gate or runtime role selection is claimed.
 
@@ -73,3 +73,15 @@ Implementation, completion bookkeeping and generated next handoff are separate
 commits. Next eligible preferred ticket 20 has completed 05/06/19 prerequisites;
 the handoff starts no next assignment. M1 cumulative assessment/source provenance
 and human QA remain unperformed; no acceptance, promotion or push authorized.
+
+### Later workflow-efficiency follow-up
+
+The separately completed [workflow-efficiency follow-up](../archive/workflow-efficiency/README.md)
+applied lessons from this ticket to preparation, diagnosis and evidence reuse in
+the ordinary development workflow. Its original independent reviews and checks
+are archived with this feature. It does not change this ticket's completed
+criteria or frozen evaluation results. Use the current
+[development procedure](../../../docs/agents/review-records.md#prepare-review-and-repair) for new
+work; runtime adoption remains tickets 33/34.
+
+M1 QA preparation, 2026-11-12: this ticket contributes to [cumulative assessment review-M1-architecture-01](../reviews/M1-architecture-01.md) at `d02e61e`, fixed feature-start baseline `1a623ba`. [Current QA preparation and observations](../evidence/m1-qa-01/qa-guide.md). Ticket completion retains its original verification; this cross-ticket assessment and actual human QA are separate gates.

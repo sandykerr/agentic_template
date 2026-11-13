@@ -1,0 +1,2264 @@
+diff --git a/tests/test_milestones.py b/tests/test_milestones.py
+index 238317c..199c162 100644
+--- a/tests/test_milestones.py
++++ b/tests/test_milestones.py
+@@ -62,19 +62,41 @@ def test_ticket_integration_rejects_destinations_aliased_during_work(graph, bran
+ 
+ 
+ @contextmanager
+-def pause_after_git(process, arguments, *, transaction_open=False, trigger=None):
++def pause_after_git(process, arguments, *, transaction_open=False, trigger=None, git_trace=None):
+     """Schedule an external writer after a real Git child finishes its read.
+ 
+     Stop the CLI owner before looking for children so it cannot reap a matching
+     Git command during inspection. A trigger publishes input only after the
+     observer is armed. Git children still finish normally; always resume the
+     owner before the foreground fixture performs its normal process cleanup.
++    Optional real Git Trace2 events recover argv after a direct child becomes a
++    zombie with empty cmdline; trace history alone never establishes a child.
+     """
+     children = Path(f"/proc/{process.pid}/task/{process.pid}/children")
+     deadline = time.monotonic() + 20
+     paused = False
+     scheduled = False
+ 
++    def child_command(child):
++        child_path = Path(f"/proc/{child}")
++        command = (child_path / "cmdline").read_bytes().split(b"\0")
++        if command[0] or git_trace is None or (child_path / "comm").read_text().strip() != "git":
++            return command
++        if not git_trace.exists():
++            return command
++        # Git 2.53 Trace2's final SID component ends in -P<hex process PID>.
++        # Keep the last start for this still-present child, never a reaped PID.
++        for line in git_trace.read_text().splitlines():
++            try:
++                event = json.loads(line)
++                pid = event.get("sid", "").rsplit("/", 1)[-1].rpartition("-P")[2]
++                if event.get("event") == "start" and pid and int(pid, 16) == int(child):
++                    command = [part.encode() for part in event["argv"]] + [b""]
++            except (ValueError, KeyError):
++                # A live Git child can still be appending its final trace line.
++                continue
++        return command
++
+     def suspend_owner():
+         nonlocal paused
+         os.kill(process.pid, signal.SIGSTOP)
+@@ -96,15 +118,12 @@ def pause_after_git(process, arguments, *, transaction_open=False, trigger=None)
+         while time.monotonic() < deadline and process.poll() is None:
+             for child in children.read_text().split():
+                 try:
+-                    command = Path(f"/proc/{child}/cmdline").read_bytes().split(b"\0")
++                    command = child_command(child)
+                     if command[0] != b"git" or command[-len(arguments) - 1 : -1] != [
+                         part.encode() for part in arguments
+                     ]:
+                         continue
+-                    commands = [
+-                        Path(f"/proc/{pid}/cmdline").read_bytes().split(b"\0")
+-                        for pid in children.read_text().split()
+-                    ]
++                    commands = [child_command(pid) for pid in children.read_text().split()]
+                     if (
+                         any(c[-3:-1] == [b"update-ref", b"--stdin"] for c in commands)
+                         != transaction_open
+@@ -145,18 +164,33 @@ def test_development_alias_after_validation_cannot_follow_automatic_integration(
+     graph, after_prepare
+ ):
+     configure_plan(graph)
+-    with foreground(graph) as process:
+-        # Exclude setup checks; the first candidate is already tested when this
+-        # final destination read runs. This is the original Spec02 interleaving.
+-        wait_for(
+-            graph,
+-            process,
+-            lambda record: any(g["stage"] == "candidate" for g in record["gates"]),
+-        )
++    ready = graph.home / "candidate-ready"
++    release = graph.home / "candidate-release"
++    suite = graph.home / "candidate-barrier.py"
++    suite.write_text(
++        "import os, subprocess, sys, time\nfrom pathlib import Path\n"
++        f"subprocess.run({graph.config['suite']!r}, check=True)\n"
++        "if os.environ['TICKET_HARNESS_STAGE'] == 'candidate' "
++        "and Path('last-ticket').read_text() == '03':\n"
++        f"    Path({str(ready)!r}).write_text('checked')\n"
++        "    deadline = time.monotonic() + 20\n"
++        f"    while not Path({str(release)!r}).exists():\n"
++        "        if time.monotonic() >= deadline:\n"
++        "            raise TimeoutError('candidate observer did not release suite')\n"
++        "        time.sleep(0.001)\n"
++    )
++    graph.config["suite"] = [sys.executable, str(suite)]
++    git_trace = graph.home / "observer-git.jsonl"
++    with foreground(graph, git_trace=git_trace) as process:
++        # Hold the first checked candidate until the observer confirms the owner
++        # is stopped. Polling a completed gate can miss its integration interval.
++        wait_for(graph, process, lambda record: ready.exists())
+         with pause_after_git(
+             process,
+             ["for-each-ref", "--format=%(symref)", "refs/heads/dev"],
+             transaction_open=after_prepare,
++            git_trace=git_trace,
++            trigger=lambda: release.write_text("observer armed"),
+         ):
+             assert graph.record()["tickets"]["03"]["state"] == "Verifying"
+             before = graph.git("show-ref")
+@@ -197,7 +231,7 @@ def test_development_alias_after_validation_cannot_follow_automatic_integration(
+ 
+ 
+ @contextmanager
+-def foreground(graph, operation="run"):
++def foreground(graph, operation="run", *, git_trace=None):
+     """Own a real foreground runner; bound fixture waits and always reap it."""
+     if operation == "run":
+         graph.config_path.write_text(json.dumps(graph.config))
+@@ -214,9 +248,15 @@ def foreground(graph, operation="run"):
+     if operation != "run":
+         command = command[:4] + [str(graph.output)]
+     stdout_path, stderr_path = graph.home / "foreground.stdout", graph.home / "foreground.stderr"
++    environment = None if git_trace is None else {**os.environ, "GIT_TRACE2_EVENT": str(git_trace)}
+     with stdout_path.open("w") as stdout, stderr_path.open("w") as stderr:
+         process = subprocess.Popen(
+-            command, stdout=stdout, stderr=stderr, text=True, start_new_session=True
++            command,
++            stdout=stdout,
++            stderr=stderr,
++            text=True,
++            start_new_session=True,
++            env=environment,
+         )
+     try:
+         yield process
+diff --git a/tests/test_qa_promotion.py b/tests/test_qa_promotion.py
+index a60a620..a9d7a58 100644
+--- a/tests/test_qa_promotion.py
++++ b/tests/test_qa_promotion.py
+@@ -31,7 +31,8 @@ def waiting(graph, process, milestone):
+ 
+ def test_approval_rejects_same_oid_alias_installed_after_destination_validation(graph):
+     configure_plan(graph)
+-    with foreground(graph) as process:
++    git_trace = graph.home / "observer-git.jsonl"
++    with foreground(graph, git_trace=git_trace) as process:
+         first = waiting(graph, process, "M1")
+         request = json.loads(Path(first["qa_request"]).read_text())
+         graph.git("branch", "same-tip", "dev")
+@@ -40,6 +41,7 @@ def test_approval_rejects_same_oid_alias_installed_after_destination_validation(
+             process,
+             ["for-each-ref", "--format=%(symref)", "refs/heads/dev"],
+             trigger=lambda: approve(graph, request),
++            git_trace=git_trace,
+         ):
+             current = graph.record()
+             assert current["milestone"]["id"] == "M1"
+diff --git a/ticket_harness/__main__.py b/ticket_harness/__main__.py
+index 37ba8ee..540a3ab 100644
+--- a/ticket_harness/__main__.py
++++ b/ticket_harness/__main__.py
+@@ -11,6 +11,12 @@ from ticket_harness.runner import continue_run, run
+ 
+ 
+ def main() -> int:
++    """Dispatch run/status/stop/continue from process arguments and return an exit code.
++
++    Print the resulting record as JSON on stdout. Operational/input failures print
++    a diagnostic on stderr and return 1; argparse handles invalid CLI arguments.
++    Status reads existing state; other operations can write run or repository state.
++    """
+     parser = argparse.ArgumentParser(prog="ticket-harness")
+     operations = parser.add_subparsers(dest="operation", required=True)
+     start = operations.add_parser("run")
+diff --git a/ticket_harness/agents.py b/ticket_harness/agents.py
+index 7ac100a..add6689 100644
+--- a/ticket_harness/agents.py
++++ b/ticket_harness/agents.py
+@@ -32,6 +32,11 @@ def assignment(
+     attempt: int = 1,
+     repair_context: dict[str, Any] | None = None,
+ ) -> dict[str, Any]:
++    """Build fresh role guidance and captured inputs for one revision-bound assignment.
++
++    Snapshot artifacts must be readable. Gate/check/repair values retain their supplied
++    references; only the harness interprets returned agent claims as evidence.
++    """
+     return {
+         "role": role,
+         "ticket": ticket,
+@@ -55,66 +60,76 @@ def assignment(
+         },
+         "check_results": gates,
+         "required_checks": checks,
+-        "report_contract": {
+-            "identity_fields": ["role", "ticket", "attempt", "base_revision", "revision"],
+-            "result": ["submitted", "human-decision-needed"]
+-            if role == "implementation"
+-            else "findings list",
+-            "fields": [
+-                "result",
+-                "summary",
+-                "changed_files",
+-                "checks",
+-                "acceptance_evidence",
+-                "unresolved_questions",
+-            ]
+-            if role == "implementation"
+-            else ["findings"],
+-            "finding_fields": [
+-                "id",
+-                "classification",
+-                "location",
+-                "requirement",
+-                "consequence",
+-                "evidence",
+-                "resolution",
+-                "human_decision_needed",
+-            ],
+-            "field_types": {
+-                "role": "string: copy assignment role; spec/standards is the review axis",
+-                "ticket": "string: copy assignment ticket, including leading zeros",
+-                "attempt": "integer: copy assignment attempt; booleans/floats are invalid",
+-                "base_revision": "string: copy assignment base_revision",
+-                "revision": "string: copy assignment revision (starting source for implementation)",
+-                "result": "string: submitted or human-decision-needed; never Done",
+-                "summary": "nonempty string",
+-                "changed_files": "list of nonempty strings; claims only, may be empty",
+-                "checks": "list of nonempty strings; claims only, may be empty",
+-                "acceptance_evidence": "list of nonempty strings; nonempty for submitted",
+-                "unresolved_questions": "list of nonempty strings; nonempty for human-decision-needed",
+-                "findings": "list of complete finding objects; may be empty",
+-            },
+-            "finding_field_types": {
+-                "id": "nonempty string; stable and unique within this review",
+-                "classification": "blocking or optional",
+-                "location": "nonempty string",
+-                "requirement": "nonempty string",
+-                "consequence": "nonempty string",
+-                "evidence": "nonempty string",
+-                "resolution": "nonempty string",
+-                "human_decision_needed": "boolean",
+-            },
+-            "instructions": "Emit one JSON object to stdout; diagnostics go to stderr. "
+-            "Copy assignment identity fields exactly, including their JSON types. "
+-            "Identity fields and fields listed in fields are required. "
+-            "Every finding requires finding_fields. Maximum object/array nesting: 100 levels. "
+-            "No duplicate keys or nonfinite "
+-            "numbers. Extra diagnostic metadata is allowed but has no authority.",
++        "report_contract": _report_contract(role),
++    }
++
++
++def _report_contract(role: str) -> dict[str, Any]:
++    """Build fresh report guidance for an implementation or review assignment.
++
++    Keep wire field names/types and role-specific required fields together; no
++    caller shares mutable contract dictionaries with another assignment.
++    """
++    return {
++        "identity_fields": ["role", "ticket", "attempt", "base_revision", "revision"],
++        "result": ["submitted", "human-decision-needed"]
++        if role == "implementation"
++        else "findings list",
++        "fields": [
++            "result",
++            "summary",
++            "changed_files",
++            "checks",
++            "acceptance_evidence",
++            "unresolved_questions",
++        ]
++        if role == "implementation"
++        else ["findings"],
++        "finding_fields": [
++            "id",
++            "classification",
++            "location",
++            "requirement",
++            "consequence",
++            "evidence",
++            "resolution",
++            "human_decision_needed",
++        ],
++        "field_types": {
++            "role": "string: copy assignment role; spec/standards is the review axis",
++            "ticket": "string: copy assignment ticket, including leading zeros",
++            "attempt": "integer: copy assignment attempt; booleans/floats are invalid",
++            "base_revision": "string: copy assignment base_revision",
++            "revision": "string: copy assignment revision (starting source for implementation)",
++            "result": "string: submitted or human-decision-needed; never Done",
++            "summary": "nonempty string",
++            "changed_files": "list of nonempty strings; claims only, may be empty",
++            "checks": "list of nonempty strings; claims only, may be empty",
++            "acceptance_evidence": "list of nonempty strings; nonempty for submitted",
++            "unresolved_questions": "list of nonempty strings; nonempty for human-decision-needed",
++            "findings": "list of complete finding objects; may be empty",
+         },
++        "finding_field_types": {
++            "id": "nonempty string; stable and unique within this review",
++            "classification": "blocking or optional",
++            "location": "nonempty string",
++            "requirement": "nonempty string",
++            "consequence": "nonempty string",
++            "evidence": "nonempty string",
++            "resolution": "nonempty string",
++            "human_decision_needed": "boolean",
++        },
++        "instructions": "Emit one JSON object to stdout; diagnostics go to stderr. "
++        "Copy assignment identity fields exactly, including their JSON types. "
++        "Identity fields and fields listed in fields are required. "
++        "Every finding requires finding_fields. Maximum object/array nesting: 100 levels. "
++        "No duplicate keys or nonfinite "
++        "numbers. Extra diagnostic metadata is allowed but has no authority.",
+     }
+ 
+ 
+ def text_list(value: Any, field: str) -> None:
++    """Reject values other than a list of nonblank strings; empty lists are allowed."""
+     if not isinstance(value, list) or any(
+         not isinstance(item, str) or not item.strip() for item in value
+     ):
+@@ -122,6 +137,7 @@ def text_list(value: Any, field: str) -> None:
+ 
+ 
+ def implementation(value: dict[str, Any]) -> None:
++    """Validate implementation claims and result-specific evidence, raising ValueError."""
+     if not isinstance(value.get("summary"), str) or not value["summary"].strip():
+         raise ValueError("summary must be a nonempty string")
+     for field in ("changed_files", "checks", "acceptance_evidence", "unresolved_questions"):
+@@ -134,6 +150,7 @@ def implementation(value: dict[str, Any]) -> None:
+ 
+ 
+ def review(value: dict[str, Any]) -> None:
++    """Require complete findings with unique IDs and typed decision flags; allow no findings."""
+     if not isinstance(value["findings"], list):
+         raise ValueError("findings must be a list")
+     identifiers = set()
+@@ -154,6 +171,7 @@ def review(value: dict[str, Any]) -> None:
+ 
+ 
+ def report_object(pairs: list[tuple[str, Any]]) -> dict[str, Any]:
++    """Decode object pairs while rejecting duplicate keys at every JSON object level."""
+     value: dict[str, Any] = {}
+     for key, item in pairs:
+         if key in value:
+@@ -163,10 +181,12 @@ def report_object(pairs: list[tuple[str, Any]]) -> dict[str, Any]:
+ 
+ 
+ def invalid_constant(value: str) -> None:
++    """Reject JSON nonfinite constants rather than accepting decoder extensions."""
+     raise ValueError(f"invalid JSON constant {value}")
+ 
+ 
+ def finite_number(value: str) -> float:
++    """Parse a JSON float and reject overflow to a nonfinite value."""
+     number = float(value)
+     if not isfinite(number):
+         raise ValueError(f"nonfinite JSON number {value}")
+@@ -174,6 +194,7 @@ def finite_number(value: str) -> float:
+ 
+ 
+ def require_bounded_nesting(value: Any) -> None:
++    """Reject object/array nesting beyond 100 levels without recursive traversal."""
+     # Leave headroom for the enclosing run record and later assignment check results.
+     pending = [(value, 1)]
+     while pending:
+@@ -187,7 +208,12 @@ def require_bounded_nesting(value: Any) -> None:
+ 
+ 
+ def report(stdout: Path, expected: dict[str, Any]) -> dict[str, Any]:
+-    """Return parsed content and validation observations without editing a gate."""
++    """Return parsed content and validation observations without editing a gate.
++
++    Require exact assignment identities and complete role-specific fields. Invalid
++    JSON/schema content returns a failed observation; unreadable stdout propagates
++    its filesystem error. A valid report alone does not establish gate success.
++    """
+     observation: dict[str, Any] = {}
+     try:
+         value = json.loads(
+diff --git a/ticket_harness/git.py b/ticket_harness/git.py
+index c963ac6..a9ce418 100644
+--- a/ticket_harness/git.py
++++ b/ticket_harness/git.py
+@@ -12,6 +12,7 @@ IDENTITY = ["-c", "user.name=Ticket Harness", "-c", "user.email=harness@example.
+ 
+ 
+ def git(repository: Path, *args: str) -> str:
++    """Run Git in the target repository; return stripped stdout or raise GateFailure."""
+     result = subprocess.run(
+         ["git", "-C", str(repository), *args], capture_output=True, text=True, check=False
+     )
+@@ -24,6 +25,7 @@ def git(repository: Path, *args: str) -> str:
+ 
+ 
+ def worktree(repository: Path, path: Path, revision: str) -> Path:
++    """Create a detached worktree at the revision and return its path."""
+     git(repository, "worktree", "add", "--detach", str(path), revision)
+     return path
+ 
+@@ -57,6 +59,7 @@ def carry_changes(previous: Path, source: Path) -> None:
+ 
+ 
+ def require_unchanged(source: Path, revision: str) -> None:
++    """Reject changed HEAD, worktree contents, or hidden index visibility flags."""
+     flags = git(source, "ls-files", "-v", "-z").split("\0")
+     if any(entry and (entry[0].islower() or entry[0] == "S") for entry in flags):
+         raise GateFailure(f"Verified source changed index visibility flags at {source}")
+@@ -67,6 +70,11 @@ def require_unchanged(source: Path, revision: str) -> None:
+ def capture(
+     source: Path, start: str, ticket: str, base: str | None = None
+ ) -> tuple[str, list[str]]:
++    """Commit the submitted working tree without permitting worker-owned HEAD changes.
++
++    Stage all changes and return the submission revision with paths changed since
++    base (or start); an initial empty submission is rejected.
++    """
+     if git(source, "rev-parse", "HEAD") != start:
+         raise GateFailure("Implementation changed HEAD; the harness owns submission commits")
+     git(source, "add", "--all")
+@@ -81,6 +89,10 @@ def capture(
+ 
+ 
+ def candidate(repository: Path, source: Path, base: str, submission: str) -> str:
++    """Create a detached merge candidate; leave destination refs unchanged.
++
++    Merge failures propagate while the candidate remains available for diagnosis.
++    """
+     worktree(repository, source, base)
+     git(source, *IDENTITY, "merge", "--no-ff", "-m", "Verified ticket candidate", submission)
+     return git(source, "rev-parse", "HEAD")
+@@ -89,6 +101,10 @@ def candidate(repository: Path, source: Path, base: str, submission: str) -> str
+ def require_reviewed_candidate(source: Path, revision: str, base: str, submission: str) -> None:
+     # In this sequential slice submission descends directly from the starting base.
+     # Any different merge tree introduces source that neither reviewer approved.
++    """Reject a candidate whose parents or tree differ from the reviewed submission.
++
++    Also require its detached worktree to retain the verified revision unchanged.
++    """
+     parents = git(source, "show", "-s", "--format=%P", revision).split()
+     if parents != [base, submission] or git(source, "rev-parse", f"{revision}^{{tree}}") != git(
+         source, "rev-parse", f"{submission}^{{tree}}"
+@@ -106,6 +122,11 @@ def promote(
+     previous: str,
+     development: str | None = None,
+ ) -> None:
++    """Advance the integration ref only while its expected identity remains current.
++
++    If provided, lock and verify the development ref at its current tip in the same
++    transaction; destination names must remain direct branches.
++    """
+     require_direct_branches(repository, branch, *((development,) if development else ()))
+     refs: dict[str, tuple[str | None, str]] = {branch: (revision, previous)}
+     if development:
+diff --git a/ticket_harness/inputs.py b/ticket_harness/inputs.py
+index c79f79e..96d7019 100644
+--- a/ticket_harness/inputs.py
++++ b/ticket_harness/inputs.py
+@@ -27,6 +27,11 @@ MAX_TIMEOUT_SECONDS = 604800
+ 
+ 
+ def timeouts(value: Any) -> dict[str, int | float]:
++    """Return timeout defaults merged with validated stage seconds.
++
++    Reject unknown stages and nonpositive, nonfinite or oversized values with
++    GateFailure; leave the supplied mapping unchanged.
++    """
+     if not isinstance(value, dict):
+         raise GateFailure("configuration.timeouts: expected an object of stage seconds")
+     for name, seconds in value.items():
+@@ -49,6 +54,10 @@ def timeouts(value: Any) -> dict[str, int | float]:
+ 
+ 
+ def unique_object(pairs: list[tuple[str, Any]]) -> dict[str, Any]:
++    """Build one JSON object, rejecting duplicate keys with GateFailure.
++
++    Used as object_pairs_hook so duplicates cannot silently overwrite approval data.
++    """
+     value: dict[str, Any] = {}
+     for key, item in pairs:
+         if key in value:
+@@ -58,12 +67,21 @@ def unique_object(pairs: list[tuple[str, Any]]) -> dict[str, Any]:
+ 
+ 
+ def identifier(value: str) -> str:
++    """Normalize a positive numeric string to an ID padded to at least two digits.
++
++    Raise GateFailure for invalid numeric text; preserve IDs wider than two digits.
++    """
+     if not re.fullmatch(r"[0-9]+", value) or int(value) < 1:
+         raise GateFailure(f"Invalid ticket ID {value!r}; use a positive numeric identifier")
+     return str(int(value)).zfill(2)
+ 
+ 
+ def command(value: Any, field: str, repository: Path, base: str) -> None:
++    """Validate argv and executable availability without launching the command.
++
++    Relative executable paths must be executable blobs at base in repository;
++    other commands must resolve absolutely on PATH. Raise GateFailure on rejection.
++    """
+     if (
+         not isinstance(value, list)
+         or not value
+@@ -92,6 +110,11 @@ def command(value: Any, field: str, repository: Path, base: str) -> None:
+ 
+ 
+ def configuration(value: Any) -> dict[str, Any]:
++    """Validate raw configuration and return that mapping with timeout/repair defaults.
++
++    Mutates defaults in place; executable and filesystem checks belong to load.
++    Raise GateFailure on the first invalid field in contract validation order.
++    """
+     if not isinstance(value, dict):
+         raise GateFailure("configuration: expected a JSON object")
+     required = {
+@@ -137,6 +160,8 @@ def configuration(value: Any) -> dict[str, Any]:
+ 
+ @dataclass(frozen=True)
+ class Dependency:
++    """Declared prerequisite identity plus optional title/link for later graph checks."""
++
+     id: str
+     title: str | None
+     path: Path | None
+@@ -166,46 +191,11 @@ def requirement_text(text: str) -> str:
+     return "\n".join(lines) + "\n"
+ 
+ 
+-def normalize_ticket(
+-    text: str, path: Path, checks: dict[str, Any]
+-) -> tuple[dict[str, Any], list[Dependency]]:
+-    if text.lstrip().startswith("---\n"):
+-        raise GateFailure(
+-            f"{path}: YAML front matter is unsupported; use the Markdown metadata contract"
+-        )
+-    text = requirement_text(text)
+-    header = re.split(r"^## ", text, maxsplit=1, flags=re.M)[0]
+-    if len(re.findall(r"^# ", text, re.M)) != 1:
+-        raise GateFailure(f"{path}: expected exactly one ticket heading '# NN: Title'")
+-    title = re.search(r"^# ([0-9]+): (\S.*?)\s*$", header, re.M)
+-    if not title:
+-        raise GateFailure(f"{path}: expected '# NN: Title'")
+-    ticket_id = identifier(title[1])
+-    filename = re.match(r"([0-9]+)-", path.name)
+-    if filename and identifier(filename[1]) != ticket_id:
+-        raise GateFailure(
+-            f"{path}: filename ID {identifier(filename[1])} conflicts with heading ID {ticket_id}"
+-        )
+-    metadata: dict[str, str] = {}
+-    for key, value in re.findall(r"^(?:\*\*)?([A-Za-z ]+):(?:\*\*)?[ \t]*([^\n]*)", header, re.M):
+-        if key in metadata:
+-            raise GateFailure(f"{path}: duplicate {key} metadata; keep one authoritative value")
+-        metadata[key] = value.strip()
+-    for key, expected in (("ID", ticket_id), ("Title", title[2])):
+-        if key in metadata:
+-            actual = identifier(metadata[key]) if key == "ID" else metadata[key]
+-            if actual != expected:
+-                raise GateFailure(f"{path}: {key} metadata conflicts with heading")
+-    readiness = metadata.get("Status", "")
+-    if readiness not in {
+-        "needs-triage",
+-        "needs-info",
+-        "ready-for-agent",
+-        "ready-for-human",
+-        "wontfix",
+-    }:
+-        raise GateFailure(f"{path}: Status must be a triage readiness label; found {readiness!r}")
+-    declaration = metadata.get("Blocked by", "")
++def _ticket_dependencies(declaration: str, path: Path) -> tuple[list[str], list[Dependency]]:
++    """Parse Blocked by labels/links, retaining order and duplicate references.
++
++    Resolve links relative to the ticket; reject malformed labels with GateFailure.
++    """
+     dependencies = []
+     dependency_references = []
+     if not re.fullmatch(r"None(?: \(can start immediately\))?\.?", declaration):
+@@ -225,6 +215,17 @@ def normalize_ticket(
+                     (path.parent / link[2]).resolve() if link else None,
+                 )
+             )
++    return dependencies, dependency_references
++
++
++def _ticket_acceptance(
++    text: str, metadata: dict[str, str], path: Path, checks: dict[str, Any]
++) -> tuple[list[str], list[str]]:
++    """Return checklist content and ordered check names, validating each declaration.
++
++    Missing Checks metadata selects all configured checks. Raises GateFailure for
++    malformed acceptance content or unknown/duplicate check references.
++    """
+     if len(re.findall(r"^## Acceptance criteria[ \t]*$", text, re.M)) > 1:
+         raise GateFailure(f"{path}: duplicate Acceptance criteria section")
+     acceptance = re.search(r"^## Acceptance criteria[ \t]*\n(.*?)(?=^## |\Z)", text, re.M | re.S)
+@@ -245,6 +246,57 @@ def normalize_ticket(
+             raise GateFailure(f"{path}: unknown check reference {name!r}; configure it in checks")
+     if len(set(references)) != len(references):
+         raise GateFailure(f"{path}: duplicate check reference; list each check once")
++    return requirements, references
++
++
++def normalize_ticket(
++    text: str, path: Path, checks: dict[str, Any]
++) -> tuple[dict[str, Any], list[Dependency]]:
++    """Return normalized Markdown requirements and unresolved dependency references.
++
++    Ignore examples/comments, then validate heading, metadata, dependencies and
++    acceptance/check declarations in that order. Source text and checks remain
++    unchanged; GateFailure identifies invalid or conflicting declarations. Graph
++    consistency and execution eligibility are checked later by load.
++    """
++    if text.lstrip().startswith("---\n"):
++        raise GateFailure(
++            f"{path}: YAML front matter is unsupported; use the Markdown metadata contract"
++        )
++    text = requirement_text(text)
++    header = re.split(r"^## ", text, maxsplit=1, flags=re.M)[0]
++    if len(re.findall(r"^# ", text, re.M)) != 1:
++        raise GateFailure(f"{path}: expected exactly one ticket heading '# NN: Title'")
++    title = re.search(r"^# ([0-9]+): (\S.*?)\s*$", header, re.M)
++    if not title:
++        raise GateFailure(f"{path}: expected '# NN: Title'")
++    ticket_id = identifier(title[1])
++    filename = re.match(r"([0-9]+)-", path.name)
++    if filename and identifier(filename[1]) != ticket_id:
++        raise GateFailure(
++            f"{path}: filename ID {identifier(filename[1])} conflicts with heading ID {ticket_id}"
++        )
++    metadata: dict[str, str] = {}
++    for key, value in re.findall(r"^(?:\*\*)?([A-Za-z ]+):(?:\*\*)?[ \t]*([^\n]*)", header, re.M):
++        if key in metadata:
++            raise GateFailure(f"{path}: duplicate {key} metadata; keep one authoritative value")
++        metadata[key] = value.strip()
++    for key, expected in (("ID", ticket_id), ("Title", title[2])):
++        if key in metadata:
++            actual = identifier(metadata[key]) if key == "ID" else metadata[key]
++            if actual != expected:
++                raise GateFailure(f"{path}: {key} metadata conflicts with heading")
++    readiness = metadata.get("Status", "")
++    if readiness not in {
++        "needs-triage",
++        "needs-info",
++        "ready-for-agent",
++        "ready-for-human",
++        "wontfix",
++    }:
++        raise GateFailure(f"{path}: Status must be a triage readiness label; found {readiness!r}")
++    dependencies, dependency_references = _ticket_dependencies(metadata.get("Blocked by", ""), path)
++    requirements, references = _ticket_acceptance(text, metadata, path, checks)
+     plan_metadata = {
+         key: metadata[key]
+         for key in ("Plan version", "Milestone", "Worker reasoning")
+@@ -263,6 +315,11 @@ def normalize_ticket(
+ 
+ 
+ def validate_graph(requirements: dict[str, Any], references: dict[str, list[Dependency]]) -> None:
++    """Reject missing/mismatched references and cycles across the entire bundle.
++
++    Read requirements and resolved link references without mutation. Validate
++    reference identity before iterative cycle detection, raising GateFailure.
++    """
+     for item in requirements.values():
+         for dependency in item["dependencies"]:
+             if dependency not in requirements:
+@@ -300,46 +357,69 @@ def validate_graph(requirements: dict[str, Any], references: dict[str, list[Depe
+                 )
+ 
+ 
++def _collect_completed(
++    record: Any,
++    requirements: dict[str, Any],
++    repository: Path,
++    base: str,
++    completed: set[str],
++) -> None:
++    """Add evidence-backed Done IDs after checking approval hashes and ancestry.
++
++    Mutates completed in record order, rejecting duplicates across records. Errors
++    propagate to completed_tickets for source attribution; prior additions remain
++    local to that preparation operation when a later entry fails.
++    """
++    if not isinstance(record, dict):
++        raise ValueError("expected a completed run object")
++    if not isinstance(record.get("inputs"), dict):
++        raise ValueError("expected approved input snapshots")
++    entries = record.get("tickets", {record["ticket"]["id"]: record["ticket"]})
++    if not isinstance(entries, dict) or not entries or record["outcome"] != "completed":
++        raise ValueError("expected a completed run with Done tickets")
++    for key, ticket in entries.items():
++        ticket_id = identifier(ticket["id"])
++        if "tickets" in record and key != ticket_id:
++            raise ValueError("completion ticket key conflicts with its ID")
++        revision = ticket["done_revision"]
++        source = Path(requirements[ticket_id]["source"])
++        approved = [
++            item
++            for name, item in record["inputs"].items()
++            if (name == "ticket" or name.startswith("ticket-"))
++            and Path(item["source"]).resolve() == source
++        ]
++        if (
++            ticket["state"] != "Done"
++            or not isinstance(revision, str)
++            or not re.fullmatch(r"[0-9a-f]{40,64}", revision)
++            or len(approved) != 1
++            or approved[0]["sha256"] != hashlib.sha256(source.read_bytes()).hexdigest()
++        ):
++            raise ValueError("expected Done for the current approved ticket")
++        git(repository, "merge-base", "--is-ancestor", revision, base)
++        if ticket_id in completed:
++            raise ValueError(f"duplicate completion evidence for ticket {ticket_id}")
++        completed.add(ticket_id)
++
++
+ def completed_tickets(
+     snapshots: dict[str, Any], requirements: dict[str, Any], repository: Path, base: str
+ ) -> set[str]:
++    """Return prerequisite IDs backed by captured completed runs integrated at base.
++
++    Read saved records and current ticket bytes; validate approval hashes, Done
++    revisions and Git ancestry before accepting each ID. Evidence errors become
++    source-attributed GateFailure; JSON decoding and filesystem errors propagate.
++    The caller subsequently removes tickets that this run must verify again.
++    """
+     completed: set[str] = set()
+     for name, snapshot in snapshots.items():
+         if not name.startswith("completed-run-"):
+             continue
+         record = json.loads(Path(snapshot["artifact"]).read_text(), object_pairs_hook=unique_object)
+         try:
+-            if not isinstance(record, dict):
+-                raise ValueError("expected a completed run object")
+-            if not isinstance(record.get("inputs"), dict):
+-                raise ValueError("expected approved input snapshots")
+-            entries = record.get("tickets", {record["ticket"]["id"]: record["ticket"]})
+-            if not isinstance(entries, dict) or not entries or record["outcome"] != "completed":
+-                raise ValueError("expected a completed run with Done tickets")
+-            for key, ticket in entries.items():
+-                ticket_id = identifier(ticket["id"])
+-                if "tickets" in record and key != ticket_id:
+-                    raise ValueError("completion ticket key conflicts with its ID")
+-                revision = ticket["done_revision"]
+-                source = Path(requirements[ticket_id]["source"])
+-                approved = [
+-                    item
+-                    for name, item in record["inputs"].items()
+-                    if (name == "ticket" or name.startswith("ticket-"))
+-                    and Path(item["source"]).resolve() == source
+-                ]
+-                if (
+-                    ticket["state"] != "Done"
+-                    or not isinstance(revision, str)
+-                    or not re.fullmatch(r"[0-9a-f]{40,64}", revision)
+-                    or len(approved) != 1
+-                    or approved[0]["sha256"] != hashlib.sha256(source.read_bytes()).hexdigest()
+-                ):
+-                    raise ValueError("expected Done for the current approved ticket")
+-                git(repository, "merge-base", "--is-ancestor", revision, base)
+-                if ticket_id in completed:
+-                    raise ValueError(f"duplicate completion evidence for ticket {ticket_id}")
+-                completed.add(ticket_id)
++            _collect_completed(record, requirements, repository, base, completed)
+         except (KeyError, TypeError, ValueError, GateFailure) as error:
+             raise GateFailure(
+                 f"{snapshot['source']}: invalid prerequisite completion evidence: {error}"
+@@ -348,6 +428,11 @@ def completed_tickets(
+ 
+ 
+ def require_approved(snapshots: dict[str, Any]) -> None:
++    """Recheck source and captured bytes against every recorded approval hash.
++
++    Raise GateFailure on the first changed input; filesystem errors propagate.
++    Neither the input records nor files are modified.
++    """
+     for snapshot in snapshots.values():
+         for field in ("source", "artifact"):
+             path = Path(snapshot[field])
+@@ -360,7 +445,9 @@ class PreparedInputs:
+     """Validated settings and derived execution inputs from one preparation operation.
+ 
+     Settings retain configuration paths/selections; normalized values live in their
+-    own fields. The execution mapping preserves the existing durable checkpoint
++    own fields. The frozen carrier retains mutable nested values; load alone
++    initializes them, and consumers must preserve their checked invariants.
++    The execution mapping preserves the existing durable checkpoint
+     shape without enriching the settings or serializing this in-memory carrier.
+     """
+ 
+@@ -374,6 +461,11 @@ class PreparedInputs:
+     worker_settings: dict[str, Any] | None
+ 
+     def execution_config(self) -> dict[str, Any]:
++        """Return the existing JSON-safe execution/checkpoint mapping.
++
++        Create a new outer mapping without enriching raw settings. Nested prepared
++        values retain their identities; this conversion does not copy or revalidate them.
++        """
+         config = self.settings | {
+             "requirements": self.requirements,
+             "selected_tickets": self.selected,
+@@ -384,24 +476,14 @@ class PreparedInputs:
+         return config
+ 
+ 
+-def load(config_path: Path, output: Path) -> PreparedInputs:
+-    """Prepare inputs before execution, copying approved bytes into output/inputs.
++def _input_paths(
++    config: dict[str, Any], config_path: Path, repository: Path
++) -> tuple[dict[str, Path], list[Path]]:
++    """Resolve bundle/selection membership and name all approved input sources.
+ 
+-    The caller must create output/inputs first. Output must be outside the target
+-    repository and separate from every approved input; violations reject before
+-    any worker/check execution or ref advancement. Source files are never written.
++    Retain declaration order and artifact names; reject invalid selection before
++    any snapshot is copied. Completed-run paths are relative to configuration.
+     """
+-    config = configuration(json.loads(config_path.read_text(), object_pairs_hook=unique_object))
+-    repository = (config_path.parent / config["repository"]).resolve()
+-    for name in config["checks"]:
+-        if not re.fullmatch(r"[A-Za-z0-9]+(?:-[A-Za-z0-9]+)*", name):
+-            raise GateFailure(f"checks.{name}: invalid check name; use letters, numbers, hyphens")
+-        command(config["checks"][name], f"checks.{name}", repository, config["base"])
+-    command(config["agent"], "agent", repository, config["base"])
+-    command(config["suite"], "suite", repository, config["base"])
+-    config["repository"] = str(repository)
+-    if output == repository or repository in output.parents:
+-        raise GateFailure("Run output must be outside the target repository")
+     paths = {
+         "configuration": config_path,
+         "spec": repository / config["spec"],
+@@ -431,6 +513,15 @@ def load(config_path: Path, output: Path) -> PreparedInputs:
+         paths[f"standards-{index}"] = repository / path
+     for index, path in enumerate(config.get("completed_runs", [])):
+         paths[f"completed-run-{index}"] = config_path.parent / path
++    return paths, selection
++
++
++def _capture_inputs(paths: dict[str, Path], output: Path) -> dict[str, Any]:
++    """Copy approved bytes to an existing inputs directory and return hash records.
++
++    Reject source/output overlap before each copy. Filesystem errors propagate;
++    earlier copies can remain when a later source fails. Never write source files.
++    """
+     snapshots: dict[str, Any] = {}
+     for name, path in paths.items():
+         path = path.resolve()
+@@ -444,12 +535,23 @@ def load(config_path: Path, output: Path) -> PreparedInputs:
+             "artifact": str(artifact),
+             "sha256": hashlib.sha256(data).hexdigest(),
+         }
++    return snapshots
++
++
++def _ticket_requirements(
++    snapshots: dict[str, Any], checks: dict[str, Any]
++) -> tuple[dict[str, Any], dict[str, list[Dependency]], str]:
++    """Normalize captured ticket bytes and return requirements, links and primary ID.
++
++    Requires the primary ticket snapshot. Reject duplicate normalized IDs before
++    graph/plan validation; only newly created requirement mappings are populated.
++    """
+     requirements: dict[str, Any] = {}
+     references: dict[str, list[Dependency]] = {}
+     for name, snapshot in snapshots.items():
+         if name == "ticket" or name.startswith("ticket-"):
+             normalized, dependencies = normalize_ticket(
+-                Path(snapshot["artifact"]).read_text(), Path(snapshot["source"]), config["checks"]
++                Path(snapshot["artifact"]).read_text(), Path(snapshot["source"]), checks
+             )
+             if normalized["id"] in requirements:
+                 raise GateFailure(
+@@ -459,7 +561,62 @@ def load(config_path: Path, output: Path) -> PreparedInputs:
+             requirements[normalized["id"]] = normalized
+             references[normalized["id"]] = dependencies
+             if name == "ticket":
+-                ticket = normalized
++                primary = normalized["id"]
++    return requirements, references, primary
++
++
++def _require_executable(
++    requirements: dict[str, Any], executable: list[str], completed: set[str]
++) -> None:
++    """Require agent readiness and satisfied prerequisites for every executable ID.
++
++    Read prepared values without mutation. A plan supplies all required tickets,
++    including later milestones; legacy runs supply only their selected tickets.
++    Raise GateFailure on the first readiness or missing-prerequisite failure.
++    """
++    for ticket_id in executable:
++        item = requirements[ticket_id]
++        if item["readiness"] != "ready-for-agent":
++            raise GateFailure(
++                f"ticket {ticket_id}: selected Status must be ready-for-agent; "
++                f"found {item['readiness']!r}"
++            )
++        missing = [
++            dependency
++            for dependency in item["dependencies"]
++            if dependency not in completed and dependency not in executable
++        ]
++        if missing:
++            raise GateFailure(
++                f"ticket {ticket_id}: unsatisfied prerequisites {missing}; "
++                "select prerequisites or supply completed_runs with integrated Done evidence"
++            )
++
++
++def load(config_path: Path, output: Path) -> PreparedInputs:
++    """Prepare inputs before execution, copying approved bytes into output/inputs.
++
++    The caller must create output/inputs first. Output must be outside the target
++    repository and separate from every approved input; violations reject before
++    any worker/check execution or ref advancement. Source files are never written.
++    Return a complete PreparedInputs only after plan, graph, completion and
++    eligibility checks. GateFailure rejects invalid contracts; JSON/filesystem
++    errors propagate, and partial captures can remain if preparation fails.
++    """
++    config = configuration(json.loads(config_path.read_text(), object_pairs_hook=unique_object))
++    repository = (config_path.parent / config["repository"]).resolve()
++    for name in config["checks"]:
++        if not re.fullmatch(r"[A-Za-z0-9]+(?:-[A-Za-z0-9]+)*", name):
++            raise GateFailure(f"checks.{name}: invalid check name; use letters, numbers, hyphens")
++        command(config["checks"][name], f"checks.{name}", repository, config["base"])
++    command(config["agent"], "agent", repository, config["base"])
++    command(config["suite"], "suite", repository, config["base"])
++    config["repository"] = str(repository)
++    if output == repository or repository in output.parents:
++        raise GateFailure("Run output must be outside the target repository")
++    paths, selection = _input_paths(config, config_path, repository)
++    snapshots = _capture_inputs(paths, output)
++    requirements, references, primary = _ticket_requirements(snapshots, config["checks"])
+     checked_plan = None
+     worker_settings = None
+     if "plan" in snapshots:
+@@ -468,7 +625,7 @@ def load(config_path: Path, output: Path) -> PreparedInputs:
+         )
+         from ticket_harness import plans
+ 
+-        checked_plan, worker_settings = plans.validate(plan, requirements, config, ticket["id"])
++        checked_plan, worker_settings = plans.validate(plan, requirements, config, primary)
+         selection = [
+             Path(requirements[t]["source"]) for t in checked_plan["milestones"][0]["tickets"]
+         ]
+@@ -481,28 +638,12 @@ def load(config_path: Path, output: Path) -> PreparedInputs:
+     # A selected prerequisite must be verified again by this run before it can unlock work.
+     executable = checked_plan["required_tickets"] if checked_plan is not None else selected
+     completed.difference_update(executable)
+-    for ticket_id in executable:
+-        item = requirements[ticket_id]
+-        if item["readiness"] != "ready-for-agent":
+-            raise GateFailure(
+-                f"ticket {ticket_id}: selected Status must be ready-for-agent; "
+-                f"found {item['readiness']!r}"
+-            )
+-        missing = [
+-            dependency
+-            for dependency in item["dependencies"]
+-            if dependency not in completed and dependency not in executable
+-        ]
+-        if missing:
+-            raise GateFailure(
+-                f"ticket {ticket_id}: unsatisfied prerequisites {missing}; "
+-                "select prerequisites or supply completed_runs with integrated Done evidence"
+-            )
++    _require_executable(requirements, executable, completed)
+     return PreparedInputs(
+         config,
+         snapshots,
+         requirements,
+-        ticket["id"],
++        primary,
+         selected,
+         sorted(completed, key=int),
+         checked_plan,
+diff --git a/ticket_harness/plans.py b/ticket_harness/plans.py
+index 79e4d1b..55bd392 100644
+--- a/ticket_harness/plans.py
++++ b/ticket_harness/plans.py
+@@ -8,6 +8,7 @@ from ticket_harness.records import GateFailure
+ 
+ 
+ def object_fields(value: Any, required: set[str], optional: set[str], field: str) -> None:
++    """Require an object with exactly the declared fields; raise GateFailure on mismatch."""
+     if not isinstance(value, dict):
+         raise GateFailure(f"{field}: expected an object")
+     if missing := required - value.keys():
+@@ -17,11 +18,13 @@ def object_fields(value: Any, required: set[str], optional: set[str], field: str
+ 
+ 
+ def text(value: Any, field: str) -> None:
++    """Require nonblank, NUL-free string content; raise field-attributed GateFailure."""
+     if not isinstance(value, str) or not value.strip() or "\0" in value:
+         raise GateFailure(f"{field}: expected a nonempty string")
+ 
+ 
+ def strings(value: Any, field: str) -> None:
++    """Validate a nonempty string array without mutation, raising GateFailure on failure."""
+     if not isinstance(value, list) or not value:
+         raise GateFailure(f"{field}: expected a nonempty array")
+     for item in value:
+@@ -29,6 +32,7 @@ def strings(value: Any, field: str) -> None:
+ 
+ 
+ def ticket_ids(value: Any, field: str) -> list[str]:
++    """Return normalized IDs in declared order, rejecting invalid or duplicate membership."""
+     strings(value, field)
+     result = [identifier(item) for item in value]
+     if len(set(result)) != len(result):
+@@ -37,6 +41,11 @@ def ticket_ids(value: Any, field: str) -> list[str]:
+ 
+ 
+ def settings(value: Any, field: str, override: bool = False) -> None:
++    """Validate a role profile or reason-bearing override without inserting defaults.
++
++    Raise GateFailure for unsupported fields, invalid targets or empty overrides;
++    role default inheritance is applied later by plan validation.
++    """
+     object_fields(
+         value,
+         {"reason"} if override else {"model"},
+@@ -56,33 +65,11 @@ def settings(value: Any, field: str, override: bool = False) -> None:
+         raise GateFailure(f"{field}: override must change worker settings")
+ 
+ 
+-def validate(
+-    value: Any, requirements: dict[str, Any], config: dict[str, Any], primary: str
+-) -> tuple[dict[str, Any], dict[str, Any]]:
+-    """Return normalized plan/settings; no candidate or QA acceptance is inferred."""
+-    object_fields(
+-        value,
+-        {
+-            "version",
+-            "approval",
+-            "development",
+-            "required_tickets",
+-            "milestones",
+-            "final_milestone",
+-            "final_coverage",
+-            "roles",
+-        },
+-        {"worker_overrides"},
+-        "plan",
+-    )
+-    for field in ("version", "approval", "development", "final_milestone"):
+-        text(value[field], f"plan.{field}")
+-    if value["development"] == config["integration"]:
+-        raise GateFailure("Plan development branch must differ from feature integration")
+-    required = ticket_ids(value["required_tickets"], "plan.required_tickets")
+-    if unknown := set(required) - requirements.keys():
+-        raise GateFailure(f"plan.required_tickets: unknown ticket IDs {sorted(unknown)}")
+-    milestones = value["milestones"]
++def _milestone_membership(milestones: Any) -> dict[str, int]:
++    """Validate QA groups, normalize ticket lists in place, and return their indexes.
++
++    Raises GateFailure at the first malformed group or repeated membership.
++    """
+     if not isinstance(milestones, list) or not milestones:
+         raise GateFailure("plan.milestones: expected a nonempty array")
+     membership: dict[str, int] = {}
+@@ -104,15 +91,14 @@ def validate(
+         text(qa["setup"], f"{field}.qa.setup")
+         for name in ("actions", "pass_conditions"):
+             strings(qa[name], f"{field}.qa.{name}")
+-    if set(membership) != set(required):
+-        raise GateFailure(
+-            "plan: milestone membership must assign every required ticket exactly once"
+-        )
+-    if value["final_milestone"] != milestones[-1]["id"]:
+-        raise GateFailure("plan.final_milestone: must identify the last milestone")
+-    coverage = ticket_ids(value["final_coverage"], "plan.final_coverage")
+-    if set(coverage) != set(required):
+-        raise GateFailure("plan.final_coverage: must cover every required ticket cumulatively")
++    return membership
++
++
++def _validate_dependency_order(membership: dict[str, int], requirements: dict[str, Any]) -> None:
++    """Reject transitive prerequisites assigned after their dependent milestone.
++
++    Traversal tolerates cycles here; input preparation separately rejects them.
++    """
+     for ticket, index in membership.items():
+         pending = list(requirements[ticket]["dependencies"])
+         visited = set()
+@@ -127,6 +113,15 @@ def validate(
+                 )
+             if dependency in requirements:
+                 pending.extend(requirements[dependency]["dependencies"])
++
++
++def _worker_settings(
++    value: dict[str, Any], membership: dict[str, int], required: list[str]
++) -> dict[str, Any]:
++    """Normalize role defaults/overrides in place and return per-ticket profiles.
++
++    Validate profiles in declaration order, raising GateFailure on invalid settings.
++    """
+     roles = value["roles"]
+     object_fields(roles, {"worker", "spec", "standards"}, set(), "plan.roles")
+     for role, profile in roles.items():
+@@ -145,11 +140,57 @@ def validate(
+         settings(profile, f"plan.worker_overrides.{ticket}", override=True)
+         normalized_overrides[ticket] = profile
+     value["worker_overrides"] = normalized_overrides
+-    workers = {
++    return {
+         ticket: roles["worker"]
+         | {k: v for k, v in normalized_overrides.get(ticket, {}).items() if k != "reason"}
+         for ticket in required
+     }
++
++
++def validate(
++    value: Any, requirements: dict[str, Any], config: dict[str, Any], primary: str
++) -> tuple[dict[str, Any], dict[str, Any]]:
++    """Validate a plan against prepared tickets and return it with worker settings.
++
++    Mutates membership, role defaults and overrides in the supplied plan. Checks
++    run in contract order and raise GateFailure on the first conflict. Call before
++    execution; the returned plan conveys no candidate or human QA acceptance.
++    """
++    object_fields(
++        value,
++        {
++            "version",
++            "approval",
++            "development",
++            "required_tickets",
++            "milestones",
++            "final_milestone",
++            "final_coverage",
++            "roles",
++        },
++        {"worker_overrides"},
++        "plan",
++    )
++    for field in ("version", "approval", "development", "final_milestone"):
++        text(value[field], f"plan.{field}")
++    if value["development"] == config["integration"]:
++        raise GateFailure("Plan development branch must differ from feature integration")
++    required = ticket_ids(value["required_tickets"], "plan.required_tickets")
++    if unknown := set(required) - requirements.keys():
++        raise GateFailure(f"plan.required_tickets: unknown ticket IDs {sorted(unknown)}")
++    milestones = value["milestones"]
++    membership = _milestone_membership(milestones)
++    if set(membership) != set(required):
++        raise GateFailure(
++            "plan: milestone membership must assign every required ticket exactly once"
++        )
++    if value["final_milestone"] != milestones[-1]["id"]:
++        raise GateFailure("plan.final_milestone: must identify the last milestone")
++    coverage = ticket_ids(value["final_coverage"], "plan.final_coverage")
++    if set(coverage) != set(required):
++        raise GateFailure("plan.final_coverage: must cover every required ticket cumulatively")
++    _validate_dependency_order(membership, requirements)
++    workers = _worker_settings(value, membership, required)
+     for ticket, index in membership.items():
+         metadata = requirements[ticket].get("plan_metadata", {})
+         for field, expected in (
+diff --git a/ticket_harness/qa.py b/ticket_harness/qa.py
+index 14c6f22..5e0d9c8 100644
+--- a/ticket_harness/qa.py
++++ b/ticket_harness/qa.py
+@@ -29,6 +29,7 @@ from ticket_harness.records import GateFailure, write_json
+ 
+ 
+ def _digest(path: Path) -> str:
++    """Hash regular evidence bytes; reject missing, nonregular, or symbolic paths."""
+     if path.is_symlink() or not path.is_file():
+         raise GateFailure(f"Expected regular checkpoint evidence: {path}")
+     return hashlib.sha256(path.read_bytes()).hexdigest()
+@@ -37,6 +38,10 @@ def _digest(path: Path) -> str:
+ @contextmanager
+ def ownership(output: Path) -> Iterator[None]:
+     # Lock the directory inode: no removable lock-file race or stale PID takeover.
++    """Exclusively lock the run directory inode until context exit.
++
++    Reject another active owner without waiting; always close the lock descriptor.
++    """
+     descriptor = os.open(output, os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW)
+     try:
+         try:
+@@ -58,6 +63,10 @@ def reject(output: Path, operation: str, error: Exception) -> None:
+ 
+ 
+ def stop(output: Path) -> dict[str, Any]:
++    """Request a deliberate stop from the active QA owner for its exact request.
++
++    Reject inactive or nonwaiting runs; the owner validates and persists the stop.
++    """
+     active = False
+     try:
+         with ownership(output):
+@@ -96,6 +105,7 @@ def _validate_request(config: dict[str, Any], request: dict[str, Any]) -> None:
+ 
+ 
+ def _evidence_files(output: Path) -> list[Path]:
++    """List current artifacts and checkpoint archives whose identities must be frozen."""
+     return [*(output / "artifacts").iterdir(), *(output / "checkpoints").glob("*.json")]
+ 
+ 
+@@ -135,15 +145,25 @@ class ReviewVerification(Protocol):
+ 
+     stage: str
+ 
+-    def save(self) -> None: ...
++    def save(self) -> None:
++        """Persist the shared run record after a review-owned state transition."""
++        ...
+ 
+-    def git_operation(self, name: str) -> AbstractContextManager[None]: ...
++    def git_operation(self, name: str) -> AbstractContextManager[None]:
++        """Bracket a named Git operation with the run's protected-input checks."""
++        ...
+ 
+-    def check(self, stage: str, argv: list[str], source: Path, revision: str) -> dict[str, Any]: ...
++    def check(self, stage: str, argv: list[str], source: Path, revision: str) -> dict[str, Any]:
++        """Run and register an exact-source gate, rejecting failure through run policy."""
++        ...
+ 
+-    def validate_sources(self) -> None: ...
++    def validate_sources(self) -> None:
++        """Invalidate canonical run checks whose source identity no longer holds."""
++        ...
+ 
+-    def export_checks(self) -> list[list[Any]]: ...
++    def export_checks(self) -> list[list[Any]]:
++        """Serialize canonical verified checks for the deliberate checkpoint."""
++        ...
+ 
+ 
+ class MilestoneReview:
+@@ -163,6 +183,11 @@ class MilestoneReview:
+         request_artifact: Path,
+         verification: ReviewVerification,
+     ) -> None:
++        """Bind the run-owned record and verification operations for one milestone.
++
++        Keep the shared milestone identity; request and evidence state belongs to
++        this review until promotion or a deliberate checkpoint stop.
++        """
+         self._record = record
+         self._config = config
+         self._output = output
+@@ -183,107 +208,134 @@ class MilestoneReview:
+         self._observed_decision: bytes | None = None
+ 
+     def execute(self, checkpoint: dict[str, Any] | None) -> ReviewOutcome:
++        """Prepare or restore the request, then wait for a stop or exact human approval."""
+         self._prepare(checkpoint)
+         return self._await_decision()
+ 
+     def _prepare(self, checkpoint: dict[str, Any] | None) -> None:
+-        # Milestone preparation has no ticket repair budget and never changes refs.
++        """Prepare a fresh candidate or reopen the same frozen request without replay.
++
++        Preparation never advances refs or spends a ticket repair attempt.
++        """
+         self._verification.stage = "milestone-candidate"
+         require_direct_branches(self._repository, self._integration, self._development)
+         if checkpoint is None:
+-            self._milestone.update(state="preparing", feature_revision=self._previous)
+-            self._development_base = git(
+-                self._repository, "rev-parse", f"refs/heads/{self._development}"
+-            )
+-            self._record.setdefault(
+-                "starting_development_revision", self._record["development_revision"]
+-            )
+-            self._record["development_revision"] = self._development_base
+-            self._milestone["development_revision"] = self._development_base
+-            self._verification.save()
+-            try:
+-                with self._verification.git_operation("milestone-candidate-merge"):
+-                    self._revision = candidate(
+-                        self._repository,
+-                        self._candidate_source,
+-                        self._development_base,
+-                        self._previous,
+-                    )
+-                    self._milestone["candidate_revision"] = self._revision
+-            except GateFailure as error:
+-                raise GateFailure(
+-                    f"Milestone merge failed; renewed checks and reviews required: {error}"
+-                ) from error
+-            with self._verification.git_operation("milestone-candidate-validation"):
+-                require_clean_milestone_candidate(
++            regression = self._verify_candidate()
++            self._publish_request(regression)
++        else:
++            self._restore_request(checkpoint)
++
++    def _verify_candidate(self) -> dict[str, Any]:
++        """Merge and regress the candidate, then reject changed inputs or branch tips.
++
++        Save preparation state before Git work; merge failures require renewed
++        verification rather than entering ticket repair.
++        """
++        self._milestone.update(state="preparing", feature_revision=self._previous)
++        self._development_base = git(
++            self._repository, "rev-parse", f"refs/heads/{self._development}"
++        )
++        self._record.setdefault(
++            "starting_development_revision", self._record["development_revision"]
++        )
++        self._record["development_revision"] = self._development_base
++        self._milestone["development_revision"] = self._development_base
++        self._verification.save()
++        try:
++            with self._verification.git_operation("milestone-candidate-merge"):
++                self._revision = candidate(
+                     self._repository,
+                     self._candidate_source,
+-                    self._revision,
+                     self._development_base,
+                     self._previous,
+                 )
+-            self._verification.stage = "milestone-regression"
+-            regression = self._verification.check(
+-                self._verification.stage,
+-                self._config["suite"],
++                self._milestone["candidate_revision"] = self._revision
++        except GateFailure as error:
++            raise GateFailure(
++                f"Milestone merge failed; renewed checks and reviews required: {error}"
++            ) from error
++        with self._verification.git_operation("milestone-candidate-validation"):
++            require_clean_milestone_candidate(
++                self._repository,
+                 self._candidate_source,
+                 self._revision,
++                self._development_base,
++                self._previous,
+             )
+-            self._verification.stage = "milestone-readiness"
+-            inputs.require_approved(self._snapshots)
+-            self._verification.validate_sources()
+-            require_direct_branches(self._repository, self._integration, self._development)
+-            for branch, expected in (
+-                (self._integration, self._previous),
+-                (self._development, self._development_base),
+-            ):
+-                if git(self._repository, "rev-parse", f"refs/heads/{branch}") != expected:
+-                    raise GateFailure(f"Branch {branch} changed externally; candidate invalidated")
+-            self._request = {
+-                "request_id": uuid4().hex,
+-                "run_id": self._record["run_id"],
+-                "run_directory": str(self._output),
+-                "plan_version": self._config["plan"]["version"],
+-                "plan_approval": self._config["plan"]["approval"],
+-                "plan_input": self._snapshots["plan"],
+-                "milestone": self._milestone["id"],
+-                "feature_branch": self._integration,
+-                "feature_revision": self._previous,
+-                "development_branch": self._development,
+-                "development_revision": self._development_base,
+-                "candidate_revision": self._revision,
+-                "candidate_worktree": str(self._candidate_source),
+-                "human_checks": self._config["plan"]["milestones"][self._milestone_index]["qa"],
+-                "regression_evidence": [regression],
+-            }
+-            request_path = self._output / "qa-request.json"
+-            write_json(request_path, self._request)
+-            self._record["qa_request"] = str(request_path)
+-            self._record["outcome"] = "awaiting_human_qa"
+-            self._milestone["state"] = "awaiting_human_qa"
+-            write_json(self._request_artifact, self._request)
+-            self._record["qa_decision"] = str(self._output / "qa-decision.json")
+-            self._record["qa_decision_status"] = "missing"
+-            # Freeze content identities while the human assesses this request.
+-            self._evidence = {path: _digest(path) for path in _evidence_files(self._output)}
+-            self._request_sha256 = _digest(request_path)
+-            self._verification.save()
+-        else:
+-            request_path = self._output / "qa-request.json"
+-            self._request_sha256 = _digest(request_path)
+-            self._request = json.loads(request_path.read_bytes())
+-            self._candidate_source = Path(self._request["candidate_worktree"])
+-            self._revision = self._request["candidate_revision"]
+-            self._development_base = self._request["development_revision"]
+-            self._evidence = {
+-                Path(name): expected for name, expected in checkpoint["evidence"].items()
+-            }
+-            archive_path = self._output / "checkpoints" / f"{self._record['checkpoint_id']}.json"
+-            self._evidence[archive_path] = _digest(archive_path)
+-            self._record["outcome"] = "awaiting_human_qa"
+-            self._verification.save()
++        self._verification.stage = "milestone-regression"
++        regression = self._verification.check(
++            self._verification.stage,
++            self._config["suite"],
++            self._candidate_source,
++            self._revision,
++        )
++        self._verification.stage = "milestone-readiness"
++        inputs.require_approved(self._snapshots)
++        self._verification.validate_sources()
++        require_direct_branches(self._repository, self._integration, self._development)
++        for branch, expected in (
++            (self._integration, self._previous),
++            (self._development, self._development_base),
++        ):
++            if git(self._repository, "rev-parse", f"refs/heads/{branch}") != expected:
++                raise GateFailure(f"Branch {branch} changed externally; candidate invalidated")
++        return regression
++
++    def _publish_request(self, regression: dict[str, Any]) -> None:
++        """Publish the exact QA request and freeze evidence before saving the wait state."""
++        self._request = {
++            "request_id": uuid4().hex,
++            "run_id": self._record["run_id"],
++            "run_directory": str(self._output),
++            "plan_version": self._config["plan"]["version"],
++            "plan_approval": self._config["plan"]["approval"],
++            "plan_input": self._snapshots["plan"],
++            "milestone": self._milestone["id"],
++            "feature_branch": self._integration,
++            "feature_revision": self._previous,
++            "development_branch": self._development,
++            "development_revision": self._development_base,
++            "candidate_revision": self._revision,
++            "candidate_worktree": str(self._candidate_source),
++            "human_checks": self._config["plan"]["milestones"][self._milestone_index]["qa"],
++            "regression_evidence": [regression],
++        }
++        request_path = self._output / "qa-request.json"
++        write_json(request_path, self._request)
++        self._record["qa_request"] = str(request_path)
++        self._record["outcome"] = "awaiting_human_qa"
++        self._milestone["state"] = "awaiting_human_qa"
++        write_json(self._request_artifact, self._request)
++        self._record["qa_decision"] = str(self._output / "qa-decision.json")
++        self._record["qa_decision_status"] = "missing"
++        # Freeze content identities while the human assesses this request.
++        self._evidence = {path: _digest(path) for path in _evidence_files(self._output)}
++        self._request_sha256 = _digest(request_path)
++        self._verification.save()
++
++    def _restore_request(self, checkpoint: dict[str, Any]) -> None:
++        """Reopen a validated request and add its archive identity to frozen evidence.
++
++        Reuse the existing candidate and regression evidence; only the run's wait
++        state is saved, with no candidate creation or check replay.
++        """
++        request_path = self._output / "qa-request.json"
++        self._request_sha256 = _digest(request_path)
++        self._request = json.loads(request_path.read_bytes())
++        self._candidate_source = Path(self._request["candidate_worktree"])
++        self._revision = self._request["candidate_revision"]
++        self._development_base = self._request["development_revision"]
++        self._evidence = {Path(name): expected for name, expected in checkpoint["evidence"].items()}
++        archive_path = self._output / "checkpoints" / f"{self._record['checkpoint_id']}.json"
++        self._evidence[archive_path] = _digest(archive_path)
++        self._record["outcome"] = "awaiting_human_qa"
++        self._verification.save()
+ 
+     def _await_decision(self) -> ReviewOutcome:
++        """Poll for a clean stop or changed decision bytes until promotion succeeds.
++
++        Invalid decisions remain observations and do not authorize repairs or refs.
++        """
+         while True:
+             if self._stop_if_requested():
+                 return ReviewOutcome.STOPPED
+@@ -296,6 +348,10 @@ class MilestoneReview:
+                 return ReviewOutcome.PROMOTED
+ 
+     def _stop_if_requested(self) -> bool:
++        """Consume a matching stop request only after revalidating frozen inputs.
++
++        Discard stale requests; persist current observations in a deliberate checkpoint.
++        """
+         stop_path = self._output / "stop-request.json"
+         if stop_path.exists():
+             stopping = json.loads(stop_path.read_text())
+@@ -313,6 +369,10 @@ class MilestoneReview:
+         return False
+ 
+     def _read_decision(self) -> bytes | None:
++        """Read regular decision bytes, saving missing/unreadable status transitions.
++
++        Reset the observed identity on read failure so a restored file is reconsidered.
++        """
+         try:
+             decision_path = self._output / "qa-decision.json"
+             if decision_path.is_symlink() or not stat.S_ISREG(decision_path.stat().st_mode):
+@@ -329,6 +389,11 @@ class MilestoneReview:
+         return raw
+ 
+     def _consider_decision(self, raw: bytes) -> bool:
++        """Archive decision bytes and promote only an unconsumed exact approval.
++
++        Rejections are saved and leave the wait active. Accepted input is revalidated
++        before the atomic ref transaction; consumption is recorded after it succeeds.
++        """
+         decision_observation: dict[str, Any] = {
+             "sha256": hashlib.sha256(raw).hexdigest(),
+             "milestone": self._milestone["id"],
+@@ -388,6 +453,10 @@ class MilestoneReview:
+         return True
+ 
+     def _require_current(self, *, before_stop: bool = False) -> None:
++        """Reject stale approvals, verified sources, request bytes, or evidence.
++
++        A deliberate stop also validates destination refs before checkpoint creation.
++        """
+         inputs.require_approved(self._snapshots)
+         self._verification.validate_sources()
+         _require_frozen(self._output, self._request_sha256, self._evidence, before_stop=before_stop)
+@@ -395,6 +464,10 @@ class MilestoneReview:
+             _validate_request(self._config, self._request)
+ 
+     def _persist(self) -> None:
++        """Write and archive a version-1 deliberate checkpoint, then save its digest.
++
++        Export run-owned canonical checks without changing their identity or ownership.
++        """
+         self._record["outcome"] = "stopped_at_qa"
+         self._record["checkpoint_id"] = uuid4().hex
+         checkpoint = {
+@@ -417,6 +490,11 @@ class MilestoneReview:
+ 
+     @staticmethod
+     def restore_checkpoint(output: Path) -> dict[str, Any]:
++        """Validate a deliberate checkpoint and its frozen inputs before returning it.
++
++        Reject arbitrary interruption recovery, changed records/evidence/sources or
++        destination refs. Reconstruction of canonical checks remains run-owned.
++        """
+         record = json.loads(
+             (output / "run.json").read_text(), object_pairs_hook=inputs.unique_object
+         )
+@@ -430,6 +508,29 @@ class MilestoneReview:
+         checkpoint: dict[str, Any] = json.loads(
+             path.read_text(), object_pairs_hook=inputs.unique_object
+         )
++        MilestoneReview._require_checkpoint_identity(output, record, checkpoint)
++        inputs.require_approved(record["inputs"])
++        _require_frozen(
++            output,
++            checkpoint["request_sha256"],
++            {Path(name): expected for name, expected in checkpoint["evidence"].items()},
++        )
++        for _, source, revision in checkpoint["verified"]:
++            require_unchanged(Path(source), revision)
++        _validate_request(
++            checkpoint["config"], json.loads((output / "qa-request.json").read_text())
++        )
++        return checkpoint
++
++    @staticmethod
++    def _require_checkpoint_identity(
++        output: Path, record: dict[str, Any], checkpoint: dict[str, Any]
++    ) -> None:
++        """Reject a different checkpoint schema, run record, directory, or archive.
++
++        The live record alone carries checkpoint_sha256; exclude only that field
++        when comparing it with the record embedded before the checkpoint was hashed.
++        """
+         expected_record = dict(record)
+         del expected_record["checkpoint_sha256"]
+         if (
+@@ -444,15 +545,3 @@ class MilestoneReview:
+             != record["checkpoint_sha256"]
+         ):
+             raise GateFailure("Archived checkpoint identity changed")
+-        inputs.require_approved(record["inputs"])
+-        _require_frozen(
+-            output,
+-            checkpoint["request_sha256"],
+-            {Path(name): expected for name, expected in checkpoint["evidence"].items()},
+-        )
+-        for _, source, revision in checkpoint["verified"]:
+-            require_unchanged(Path(source), revision)
+-        _validate_request(
+-            checkpoint["config"], json.loads((output / "qa-request.json").read_text())
+-        )
+-        return checkpoint
+diff --git a/ticket_harness/records.py b/ticket_harness/records.py
+index 85c40a1..96f94dc 100644
+--- a/ticket_harness/records.py
++++ b/ticket_harness/records.py
+@@ -20,6 +20,7 @@ class NonRepairableFailure(GateFailure):
+ 
+ 
+ def write_json(path: Path, value: Any) -> None:
++    """Replace a JSON record via a sibling temporary file; propagate filesystem errors."""
+     temporary = path.with_suffix(".tmp")
+     temporary.write_text(json.dumps(value, indent=2) + "\n")
+     temporary.replace(path)
+@@ -32,7 +33,12 @@ def protect(
+     stage: str,
+     evidence: dict[str, Any],
+ ) -> Iterator[None]:
+-    """Bracket external execution; True paths are restored, False paths stay inspectable."""
++    """Snapshot protected paths and existing artifacts around external execution.
++
++    On every exit, preserve observed violations and mark evidence failed. Restore
++    prior bytes for True paths (including existing artifacts); False paths remain
++    inspectable. Restoration errors propagate rather than claiming intact evidence.
++    """
+     protected = dict(restore_on_violation_by_path)
+     protected.update({path: True for path in artifacts.iterdir()})
+     originals = {path: path.read_bytes() if path.exists() else None for path in protected}
+@@ -89,6 +95,13 @@ def execute(
+     restore_on_violation_by_path: dict[Path, bool] | None = None,
+     artifact_name: str | None = None,
+ ) -> dict[str, Any]:
++    """Run one command in a new session and return its gate with captured artifacts.
++
++    Assignments are persisted and sent as JSON stdin. Deadlines kill the process
++    group; final cleanup also removes background children after successful exits.
++    Spawn/communication OS errors become failed evidence, and integrity checks run
++    after process cleanup before the gate is returned.
++    """
+     artifact_name = artifact_name or stage
+     stdout = artifacts / f"{artifact_name}.stdout"
+     stderr = artifacts / f"{artifact_name}.stderr"
+@@ -125,23 +138,9 @@ def execute(
+                 env={**os.environ, "TICKET_HARNESS_STAGE": stage},
+                 start_new_session=True,
+             )
+-            try:
+-                captured_out, captured_err = process.communicate(
+-                    payload.encode() if payload is not None else None, timeout=timeout_seconds
+-                )
+-            except subprocess.TimeoutExpired:
+-                gate.update(
+-                    timed_out=True,
+-                    diagnostic=f"{stage} timed out after {timeout_seconds} seconds",
+-                )
+-                stop_group(process, gate)
+-                try:
+-                    # A dead leader can leave children holding the output pipes open.
+-                    # Bound the final drain too; never wait indefinitely for EOF.
+-                    captured_out, captured_err = process.communicate(timeout=5)
+-                except subprocess.TimeoutExpired as error:
+-                    captured_out, captured_err = error.output or b"", error.stderr or b""
+-                    gate["execution_error"] = "process cleanup/output drain did not finish"
++            captured_out, captured_err = _communicate(
++                process, payload, timeout_seconds, stage, gate
++            )
+             out.write(captured_out)
+             err.write(captured_err)
+             gate["exit_code"] = process.returncode
+@@ -152,19 +151,59 @@ def execute(
+             gate["execution_error"] = str(error)
+         finally:
+             if process is not None:
+-                # Also stop background children of an otherwise completed command.
+-                stop_group(process, gate)
+-                try:
+-                    process.wait(timeout=5)
+-                except subprocess.TimeoutExpired:
+-                    gate["execution_error"] = "process did not stop after SIGKILL"
+-                for stream in (process.stdin, process.stdout, process.stderr):
+-                    if stream is not None:
+-                        stream.close()
+-                gate["exit_code"] = process.returncode
++                _finish_process(process, gate)
+     return gate
+ 
+ 
++def _communicate(
++    process: subprocess.Popen[bytes],
++    payload: str | None,
++    timeout_seconds: int | float,
++    stage: str,
++    gate: dict[str, Any],
++) -> tuple[bytes, bytes]:
++    """Capture output by the deadline, killing the group and bounding its final drain.
++
++    Timeout and cleanup failures update the shared gate; partial output is retained.
++    """
++    try:
++        captured_out, captured_err = process.communicate(
++            payload.encode() if payload is not None else None, timeout=timeout_seconds
++        )
++    except subprocess.TimeoutExpired:
++        gate.update(
++            timed_out=True,
++            diagnostic=f"{stage} timed out after {timeout_seconds} seconds",
++        )
++        stop_group(process, gate)
++        try:
++            # A dead leader can leave children holding the output pipes open.
++            # Bound the final drain too; never wait indefinitely for EOF.
++            captured_out, captured_err = process.communicate(timeout=5)
++        except subprocess.TimeoutExpired as error:
++            captured_out, captured_err = error.output or b"", error.stderr or b""
++            gate["execution_error"] = "process cleanup/output drain did not finish"
++    return captured_out, captured_err
++
++
++def _finish_process(process: subprocess.Popen[bytes], gate: dict[str, Any]) -> None:
++    """Stop remaining group members, bound leader reaping, and close every pipe.
++
++    Called from execution's finally block even after normal completion; records the
++    final exit code and any failure to reap after SIGKILL.
++    """
++    # Also stop background children of an otherwise completed command.
++    stop_group(process, gate)
++    try:
++        process.wait(timeout=5)
++    except subprocess.TimeoutExpired:
++        gate["execution_error"] = "process did not stop after SIGKILL"
++    for stream in (process.stdin, process.stdout, process.stderr):
++        if stream is not None:
++            stream.close()
++    gate["exit_code"] = process.returncode
++
++
+ def stop_group(process: subprocess.Popen[bytes], gate: dict[str, Any]) -> None:
+     """Kill the entire assignment's POSIX process group, including an exited leader's children."""
+     cleanup = gate.setdefault(
+diff --git a/ticket_harness/runner.py b/ticket_harness/runner.py
+index e87dd0a..d659ba6 100644
+--- a/ticket_harness/runner.py
++++ b/ticket_harness/runner.py
+@@ -21,6 +21,7 @@ class _Run:
+     """Own start/continuation, scheduling, outcomes and canonical verification evidence."""
+ 
+     def __init__(self, output: Path, checkpoint: dict[str, Any] | None) -> None:
++        """Prepare run directories and bind a restored record, or create a fresh run record."""
+         self.output = output
+         self._checkpoint = checkpoint
+         (output / "inputs").mkdir(exist_ok=checkpoint is not None)
+@@ -47,7 +48,12 @@ class _Run:
+         self.stage = "inputs"
+ 
+     def execute(self, config_path: Path | None = None) -> tuple[dict[str, Any], int]:
+-        """Start from prepared inputs or continue the validated deliberate checkpoint."""
++        """Execute eligible tickets and milestone QA from fresh inputs or a checkpoint.
++
++        The caller must hold run ownership. Save canonical outcomes on success,
++        deliberate QA stop, or handled failure; return the record and CLI exit code.
++        Continuation uses restored verification authority before admitting more work.
++        """
+         output = self.output
+         checkpoint = self._checkpoint
+         record = self.record
+@@ -188,6 +194,7 @@ class _Run:
+             return record, 1
+ 
+     def save(self) -> None:
++        """Atomically replace run.json with the current canonical run observations."""
+         write_json(self.output / "run.json", self.record)
+ 
+     def export_checks(self) -> list[list[Any]]:
+@@ -195,6 +202,7 @@ class _Run:
+         return [[item, str(source), revision] for item, source, revision in self.verified]
+ 
+     def restore_checks(self, checkpoint: dict[str, Any]) -> None:
++        """Rebind checkpoint verification references to canonical gates for later invalidation."""
+         # Only canonical gate records may be invalidated, including after JSON restoration.
+         self.verified = [
+             (self.record["gates"][self.record["gates"].index(item)], Path(source), revision)
+@@ -202,11 +210,13 @@ class _Run:
+         ]
+ 
+     def reject_checks(self, ticket: str) -> None:
++        """Discard this ticket's verification authority, then validate retained shared sources."""
+         # Prior reports remain inspectable but cannot authorize another submission.
+         self.verified[:] = [entry for entry in self.verified if entry[0].get("ticket") != ticket]
+         self.validate_sources()
+ 
+     def artifact_name(self, stage: str, ticket: str | None = None, attempt: int = 0) -> str:
++        """Derive collision-free evidence names for ticket attempts and later milestones."""
+         name = stage if attempt <= 1 else f"attempt-{attempt}-{stage}"
+         if attempt and len(self.record["tickets"]) > 1:
+             name = f"ticket-{ticket}-{name}"
+@@ -215,6 +225,7 @@ class _Run:
+         return name
+ 
+     def protected_paths(self) -> dict[Path, bool]:
++        """Map run evidence to restoration and approved originals/worktree copies to retention."""
+         protected = {
+             self.output / name: True
+             for name in (
+@@ -237,6 +248,11 @@ class _Run:
+     def git_operation(
+         self, name: str, ticket: str | None = None, attempt: int = 0
+     ) -> Iterator[None]:
++        """Persist a Git operation and bracket it with integrity protection.
++
++        Always save its final observations; integrity violations are nonrepairable even
++        when the enclosed operation also fails.
++        """
+         name = self.artifact_name(name, ticket, attempt)
+         operation: dict[str, Any] = {
+             "stage": name,
+@@ -261,6 +277,7 @@ class _Run:
+             self.save()
+ 
+     def validate_sources(self) -> None:
++        """Invalidate canonical gates whose verified Git sources changed; save before raising."""
+         failures = []
+         for evidence, source, revision in self.verified:
+             try:
+@@ -286,6 +303,12 @@ class _Run:
+         attempt: int = 0,
+         owner: tickets._Attempt | None = None,
+     ) -> dict[str, Any]:
++        """Run a required gate after validating approved inputs and earlier sources.
++
++        Persist execution before report evaluation; register nonimplementation sources
++        only after report handling, then revalidate sources before accepting the gate.
++        Environment/integrity failures and trusted human decisions prevent repair.
++        """
+         self.stage = stage
+         repairable = True
+         inputs.require_approved(self.record["inputs"])
+@@ -326,58 +349,9 @@ class _Run:
+                 result["report_status"] = "not-evaluated"
+                 self.save()
+             if prompt is not None and not result["timed_out"]:
+-                observation = agents.report(Path(result["stdout"]), prompt)
+-                result.update(observation)
+-                if observation["report_status"] == "invalid":
+-                    self.save()
+-                    raise GateFailure(f"{stage} report rejected: {observation['diagnostic']}")
+-                report = observation["report"]
+-                questions = []
+-                if stage == "implementation" and report["result"] == "human-decision-needed":
+-                    questions = report["unresolved_questions"]
+-                elif stage in ("spec", "standards"):
+-                    questions = [
+-                        f"{finding['requirement']}: {finding['resolution']}"
+-                        for finding in report["findings"]
+-                        if finding["classification"] == "blocking"
+-                        and finding["human_decision_needed"]
+-                    ]
+-                if questions:
+-                    repairable = False
+-                    decision = {
+-                        "role": stage,
+-                        "attempt": attempt,
+-                        "revision": revision,
+-                        "report": report,
+-                        "approved_inputs": self.record["inputs"],
+-                        "assignment": result["assignment"],
+-                        "stdout": result["stdout"],
+-                        "stderr": result["stderr"],
+-                    }
+-                    if owner is None:
+-                        raise NonRepairableFailure("Human decision has no owning attempt")
+-                    owner.attach_human_decision(decision)
+-                if result["exit_code"] != 0:
+-                    result.update(
+-                        passed=False,
+-                        diagnostic=f"process exit {result['exit_code']}; see {result['stderr']}",
+-                    )
+-                if questions:
+-                    result.update(
+-                        passed=False,
+-                        diagnostic="human decision needed: "
+-                        + "; ".join(questions)
+-                        + (f"; {result['diagnostic']}" if result["exit_code"] != 0 else ""),
+-                    )
+-                elif (
+-                    result["exit_code"] == 0
+-                    and stage in ("spec", "standards")
+-                    and any(
+-                        finding["classification"] == "blocking" for finding in report["findings"]
+-                    )
+-                ):
+-                    result.update(passed=False, diagnostic="blocking review finding; see report")
+-                self.save()
++                repairable = self._evaluate_report(
++                    result, prompt, stage, attempt, revision, owner, repairable
++                )
+             if stage != "implementation":
+                 self.verified.append((result, source, revision))
+             try:
+@@ -397,6 +371,78 @@ class _Run:
+             raise
+         return result
+ 
++    def _evaluate_report(
++        self,
++        result: dict[str, Any],
++        prompt: dict[str, Any],
++        stage: str,
++        attempt: int,
++        revision: str,
++        owner: tickets._Attempt | None,
++        repairable: bool,
++    ) -> bool:
++        """Validate a completed report and save its gate/decision observations.
++
++        Process failure still rejects a valid report; blocking human decisions
++        attach to their owning attempt and make subsequent failures nonrepairable.
++        Return the updated repair classification without registering verification.
++        """
++        try:
++            observation = agents.report(Path(result["stdout"]), prompt)
++            result.update(observation)
++            if observation["report_status"] == "invalid":
++                self.save()
++                raise GateFailure(f"{stage} report rejected: {observation['diagnostic']}")
++            report = observation["report"]
++            questions = []
++            if stage == "implementation" and report["result"] == "human-decision-needed":
++                questions = report["unresolved_questions"]
++            elif stage in ("spec", "standards"):
++                questions = [
++                    f"{finding['requirement']}: {finding['resolution']}"
++                    for finding in report["findings"]
++                    if finding["classification"] == "blocking" and finding["human_decision_needed"]
++                ]
++            if questions:
++                repairable = False
++                decision = {
++                    "role": stage,
++                    "attempt": attempt,
++                    "revision": revision,
++                    "report": report,
++                    "approved_inputs": self.record["inputs"],
++                    "assignment": result["assignment"],
++                    "stdout": result["stdout"],
++                    "stderr": result["stderr"],
++                }
++                if owner is None:
++                    raise NonRepairableFailure("Human decision has no owning attempt")
++                owner.attach_human_decision(decision)
++            if result["exit_code"] != 0:
++                result.update(
++                    passed=False,
++                    diagnostic=f"process exit {result['exit_code']}; see {result['stderr']}",
++                )
++            if questions:
++                result.update(
++                    passed=False,
++                    diagnostic="human decision needed: "
++                    + "; ".join(questions)
++                    + (f"; {result['diagnostic']}" if result["exit_code"] != 0 else ""),
++                )
++            elif (
++                result["exit_code"] == 0
++                and stage in ("spec", "standards")
++                and any(finding["classification"] == "blocking" for finding in report["findings"])
++            ):
++                result.update(passed=False, diagnostic="blocking review finding; see report")
++            self.save()
++        except (GateFailure, OSError, ValueError, KeyError, TypeError) as error:
++            if not repairable:
++                raise NonRepairableFailure(str(error)) from error
++            raise
++        return repairable
++
+ 
+ class _TicketVerification:
+     """Limit a ticket to scoped verification and durable observation operations.
+@@ -407,15 +453,18 @@ class _TicketVerification:
+     """
+ 
+     def __init__(self, execution: _Run, ticket: str) -> None:
++        """Bind verification operations to one ticket without exposing runner-owned state."""
+         self.__execution = execution
+         self.__ticket = ticket
+ 
+     def observe(self, stage: str) -> None:
++        """Persist the current ticket stage through the owning run."""
+         self.__execution.stage = stage
+         self.__execution.save()
+ 
+     @contextmanager
+     def operation(self, name: str, attempt: int) -> Iterator[Path]:
++        """Yield this attempt's worktree path inside the run-owned protected Git operation."""
+         # Worktree/artifact naming and protected Git observations remain run-owned.
+         stage = "candidate" if name == "candidate-merge" else name.removesuffix("-worktree")
+         destination = self.__execution.trees / self.__execution.artifact_name(
+@@ -434,6 +483,7 @@ class _TicketVerification:
+         owner: tickets._Attempt,
+         prompt: dict[str, Any] | None = None,
+     ) -> None:
++        """Run and record this ticket's gate; propagate the runner's failure classification."""
+         self.__execution.check(
+             stage,
+             argv,
+@@ -446,6 +496,7 @@ class _TicketVerification:
+         )
+ 
+     def validate_sources(self, *, rejected: bool = False) -> None:
++        """Validate approved inputs and either current authority or retained repair evidence."""
+         inputs.require_approved(self.__execution.record["inputs"])
+         if rejected:
+             self.__execution.reject_checks(self.__ticket)
+@@ -454,6 +505,7 @@ class _TicketVerification:
+ 
+ 
+ def run(config_path: Path, output: Path) -> tuple[dict[str, Any], int]:
++    """Create a new output directory and execute with exclusive run ownership."""
+     # Never overwrite an existing run, including its preserved rejected work.
+     output.mkdir(parents=True, exist_ok=False)
+     with qa.ownership(output):
+@@ -461,6 +513,10 @@ def run(config_path: Path, output: Path) -> tuple[dict[str, Any], int]:
+ 
+ 
+ def continue_run(output: Path) -> tuple[dict[str, Any], int]:
++    """Restore and execute a deliberate QA checkpoint under exclusive ownership.
++
++    Preserve rejection diagnostics separately and expose failed continuation as ValueError.
++    """
+     try:
+         with qa.ownership(output):
+             checkpoint = qa.MilestoneReview.restore_checkpoint(output)
+diff --git a/ticket_harness/tickets.py b/ticket_harness/tickets.py
+index 34a3caa..15c51a0 100644
+--- a/ticket_harness/tickets.py
++++ b/ticket_harness/tickets.py
+@@ -37,6 +37,7 @@ class _Attempt:
+         history: list[dict[str, Any]],
+         gates: list[dict[str, Any]],
+     ) -> None:
++        """Register a Running attempt in history and reset its shared ticket projection."""
+         self._ticket = current_ticket
+         self._gates = gates
+         self._record: dict[str, Any] = {
+@@ -51,24 +52,29 @@ class _Attempt:
+         self._ticket.update(id=ticket, state="Running", attempt=number)
+ 
+     def observe_source(self, source: Path) -> None:
++        """Retain the implementation worktree on attempt evidence for rejection/repair."""
+         # Source remains attempt evidence, not part of the public ticket projection.
+         self._record["source"] = str(source)
+ 
+     def submit(self, revision: str, changed_files: list[str]) -> None:
++        """Record Git-derived submission facts and expose them on the current ticket."""
+         self._record.update(
+             state="Verifying", submitted_revision=revision, changed_files=changed_files
+         )
+         self._ticket.update(self._record)
+ 
+     def observe_candidate(self, revision: str) -> None:
++        """Attach the candidate revision to both attempt and current ticket evidence."""
+         self._record["candidate_revision"] = revision
+         self._ticket["candidate_revision"] = revision
+ 
+     def complete(self, revision: str) -> None:
++        """Mark attempt and ticket Done after integration; close the attempt gate range."""
+         self._record.update(state="Done", done_revision=revision, gate_end=len(self._gates))
+         self._ticket.update(state="Done", done_revision=revision)
+ 
+     def reject(self, stage: str, error: Exception) -> None:
++        """Close rejected attempt evidence while leaving terminal ticket policy to the run."""
+         self._record.update(
+             state="Rejected",
+             failure={"stage": stage, "message": str(error)},
+@@ -87,6 +93,7 @@ class _Attempt:
+         )
+ 
+     def attach_human_decision(self, decision: dict[str, Any]) -> None:
++        """Attach a validated decision to this attempt and ticket, rejecting mismatched identity."""
+         report = decision["report"]
+         revision = self._record[
+             "starting_revision" if decision["role"] == "implementation" else "submitted_revision"
+@@ -104,12 +111,14 @@ class _Attempt:
+ 
+ 
+ def _completed(record: dict[str, Any], config: dict[str, Any]) -> set[str]:
++    """Combine externally completed prerequisites with this run's Done tickets."""
+     return set(config["completed_tickets"]) | {
+         key for key, item in record["tickets"].items() if item["state"] == "Done"
+     }
+ 
+ 
+ def initialize(record: dict[str, Any], config: dict[str, Any], primary: str) -> None:
++    """Create Pending ticket records, unlock prerequisites, and alias the active ticket."""
+     selected = config["selected_tickets"]
+     record["tickets"] = {
+         ticket: {"id": ticket, "state": "Pending", "attempt": 0}
+@@ -120,6 +129,7 @@ def initialize(record: dict[str, Any], config: dict[str, Any], primary: str) ->
+ 
+ 
+ def unlock(record: dict[str, Any], config: dict[str, Any]) -> None:
++    """Move selected Pending tickets to Ready when every prerequisite is completed."""
+     completed = _completed(record, config)
+     for ticket in record["selected_tickets"]:
+         state = record["tickets"][ticket]
+@@ -131,6 +141,7 @@ def unlock(record: dict[str, Any], config: dict[str, Any]) -> None:
+ 
+ 
+ def next_ready(record: dict[str, Any], config: dict[str, Any], index: int) -> str | None:
++    """Select the next Ready ticket in milestone/numeric order, or reject stalled work."""
+     active = record["selected_tickets"]
+     if all(record["tickets"][ticket]["state"] == "Done" for ticket in active):
+         return None
+@@ -160,6 +171,11 @@ class _TicketExecution:
+         approved_source: set[str],
+         verification: "_TicketVerification",
+     ) -> None:
++        """Bind a fixed-base ticket cycle to shared evidence and scoped verification.
++
++        Select its approved ticket snapshot without mutating the run snapshot mapping;
++        attempt records and current-ticket observations retain their shared identity.
++        """
+         self._ticket = ticket
+         self._base = base
+         self._repository = Path(config["repository"])
+@@ -193,11 +209,17 @@ class _TicketExecution:
+         self._repair_context: dict[str, Any] | None = None
+ 
+     def _ticket_gates(self) -> list[dict[str, Any]]:
++        """Select shared and current-ticket evidence without copying canonical gate records."""
+         # Earlier ticket reports stay inspectable without authorizing this assignment.
+         return [gate for gate in self._gates if gate["ticket"] in (None, self._ticket)]
+ 
+     def execute(self) -> str:
+-        """Return the tested candidate only after expected-old integration succeeds."""
++        """Run bounded attempts through submission, checks, reviews and candidate testing.
++
++        Return the tested revision only after expected-old integration succeeds.
++        Reject failed attempts before deciding whether preserved work may be repaired;
++        nonrepairable failures, integration failures and exhaustion propagate.
++        """
+         for attempt in range(1, self._max_repairs + 2):
+             current = _Attempt(
+                 self._ticket,
+@@ -210,41 +232,7 @@ class _TicketExecution:
+             self._current = current
+             try:
+                 stage = "implementation"
+-                self._verification.observe(stage)
+-                with self._verification.operation(
+-                    "implementation-worktree", attempt
+-                ) as destination:
+-                    source = worktree(self._repository, destination, self._start_revision)
+-                    if self._previous_source is not None:
+-                        carry_changes(self._previous_source, source)
+-                    current.observe_source(source)
+-                prompt = agents.assignment(
+-                    stage,
+-                    self._ticket,
+-                    self._base,
+-                    self._start_revision,
+-                    self._snapshots,
+-                    self._ticket_gates(),
+-                    self._checks,
+-                    attempt,
+-                    self._repair_context,
+-                )
+-                self._verification.check(
+-                    stage, self._agent, source, self._start_revision, attempt, current, prompt
+-                )
+-                with self._verification.operation("submission", attempt):
+-                    submitted, changed = capture(
+-                        source,
+-                        self._start_revision,
+-                        self._ticket,
+-                        self._base if attempt > 1 else None,
+-                    )
+-                    current.submit(submitted, changed)
+-                self._verification.observe(stage)
+-                if self._approved_source.intersection(changed):
+-                    raise NonRepairableFailure(
+-                        "Submission changed approved input source; human decision required"
+-                    )
++                source, submitted = self._implement(attempt, current)
+                 for name, argv in self._checks.items():
+                     stage = f"check-{name}"
+                     self._verification.check(stage, argv, source, submitted, attempt, current)
+@@ -295,32 +283,74 @@ class _TicketExecution:
+                     or attempt > self._max_repairs
+                 ):
+                     raise
+-                self._verification.validate_sources(rejected=True)
+-                if (
+-                    git(self._repository, "rev-parse", f"refs/heads/{self._integration}")
+-                    != self._base
+-                ):
+-                    raise GateFailure(
+-                        "Integration branch changed externally; repair stopped"
+-                    ) from error
+-                self._start_revision, self._previous_source, failure = current.repair_start(
+-                    self._previous_source
+-                )
+-                if (
+-                    self._previous_source is not None
+-                    and git(self._previous_source, "rev-parse", "HEAD") != self._start_revision
+-                ):
+-                    raise GateFailure(
+-                        "Rejected implementation changed HEAD; repair stopped"
+-                    ) from error
+-                self._repair_context = {
+-                    "failure": failure,
+-                    "rejected_revisions": [
+-                        item[key]
+-                        for item in self._history
+-                        if item["ticket"] == self._ticket
+-                        for key in ("submitted_revision", "candidate_revision")
+-                        if key in item
+-                    ],
+-                }
++                self._prepare_repair(current, error)
+         raise AssertionError("Ticket execution requires an initial attempt")
++
++    def _implement(self, attempt: int, current: _Attempt) -> tuple[Path, str]:
++        """Prepare preserved work, run implementation and capture its submission.
++
++        Register source/submission observations before validating approved paths,
++        so rejected work remains available to the existing repair policy.
++        """
++        self._verification.observe("implementation")
++        with self._verification.operation("implementation-worktree", attempt) as destination:
++            source = worktree(self._repository, destination, self._start_revision)
++            if self._previous_source is not None:
++                carry_changes(self._previous_source, source)
++            current.observe_source(source)
++        prompt = agents.assignment(
++            "implementation",
++            self._ticket,
++            self._base,
++            self._start_revision,
++            self._snapshots,
++            self._ticket_gates(),
++            self._checks,
++            attempt,
++            self._repair_context,
++        )
++        self._verification.check(
++            "implementation", self._agent, source, self._start_revision, attempt, current, prompt
++        )
++        with self._verification.operation("submission", attempt):
++            submitted, changed = capture(
++                source,
++                self._start_revision,
++                self._ticket,
++                self._base if attempt > 1 else None,
++            )
++            current.submit(submitted, changed)
++        self._verification.observe("implementation")
++        if self._approved_source.intersection(changed):
++            raise NonRepairableFailure(
++                "Submission changed approved input source; human decision required"
++            )
++        return source, submitted
++
++    def _prepare_repair(self, current: _Attempt, error: Exception) -> None:
++        """Invalidate rejected approvals and retain the next repair starting point.
++
++        Refuse repair if integration or the preserved implementation HEAD moved;
++        leave prior attempts and gate evidence intact for the next assignment.
++        """
++        self._verification.validate_sources(rejected=True)
++        if git(self._repository, "rev-parse", f"refs/heads/{self._integration}") != self._base:
++            raise GateFailure("Integration branch changed externally; repair stopped") from error
++        self._start_revision, self._previous_source, failure = current.repair_start(
++            self._previous_source
++        )
++        if (
++            self._previous_source is not None
++            and git(self._previous_source, "rev-parse", "HEAD") != self._start_revision
++        ):
++            raise GateFailure("Rejected implementation changed HEAD; repair stopped") from error
++        self._repair_context = {
++            "failure": failure,
++            "rejected_revisions": [
++                item[key]
++                for item in self._history
++                if item["ticket"] == self._ticket
++                for key in ("submitted_revision", "candidate_revision")
++                if key in item
++            ],
++        }

@@ -1,0 +1,63 @@
+{
+  "starting_head": "d02e61ea27de4febd17e337bd51529d07861226b",
+  "source_files": {
+    "ticket_harness/__init__.py": "b1f3af041fd386f5f49297b9e691959bf2d501f436999a1c904f7a14867fcc7c",
+    "ticket_harness/__main__.py": "ff1c89f2d67aae74ef681d5a67706a2f9f326099d8bbbf688b1487d62ae45855",
+    "ticket_harness/agents.py": "157eb41423b097e6bfcc4d1c88c7d1977a5d18714fcc541da81032e8d2811f19",
+    "ticket_harness/git.py": "277e596ff024b7f2fc9ac560c5535c778468628043709324c57deeb533d13d78",
+    "ticket_harness/inputs.py": "195b0c7235c421bd7c264f2bcd44bf016590a4a5bac2cefebeca7d407bc15192",
+    "ticket_harness/plans.py": "95ad9992c89c44146ed0c3caf29eed4c0a0deb01fdc79724064194f19a640240",
+    "ticket_harness/qa.py": "c9c8c97998e8741b8205e34e1882062a15d768957d40ed9c85f5ebe7de26c52d",
+    "ticket_harness/records.py": "964e90ab14885a4739e005372d953135a5a3395ad51307542ef7535163d034e4",
+    "ticket_harness/runner.py": "d30fc99afa31e48b1f4f008a8f60bd6cf1addf81fe15254cc5468f0f78fb4ff9",
+    "ticket_harness/tickets.py": "27b57c3a72d2b834c3989893de4b06fb61aca335f55aacdc5cac60ae71680ed8"
+  },
+  "original_human_review": "docs/human_qa/m1_review.md",
+  "original_human_review_bytes": 966,
+  "original_human_review_sha256": "8b5e1e1d02a9772ea50aacb3946f0205c70f30ac77629de4a3220ffb88c46aae",
+  "authorization": "Human requested reading/responding using fresh subagents like previous operation; review explicitly directs implementation with Medium GPT6.1Sol workers and root as reviewer. Readability/helper extraction and docstrings preserve behavior; separate assignment abstraction suggestion evaluated on merit.",
+  "assignments": [
+    {
+      "id": "/root/m1_helpers_execution",
+      "model": "gpt-6.1-sol",
+      "reasoning": "medium",
+      "fresh_context": true,
+      "files": [
+        "tickets.py",
+        "runner.py",
+        "agents.py"
+      ]
+    },
+    {
+      "id": "/root/m1_helpers_process_qa",
+      "model": "gpt-6.1-sol",
+      "reasoning": "medium",
+      "fresh_context": true,
+      "files": [
+        "records.py",
+        "qa.py",
+        "git.py"
+      ]
+    },
+    {
+      "id": "/root/m1_helpers_inputs",
+      "model": "gpt-6.1-sol",
+      "reasoning": "medium",
+      "fresh_context": true,
+      "files": [
+        "inputs.py",
+        "plans.py",
+        "__main__.py"
+      ]
+    }
+  ],
+  "root_role": "Reviewer of all three workers and final public behavior/check evidence. Backend delivery/measured context telemetry unavailable.",
+  "ownership_triggers_start": {
+    "new_lifecycle": false,
+    "new_persistence_restoration": false,
+    "new_shared_mutable_state": false,
+    "additional_writer": false
+  },
+  "scope_reason": "Extract existing phases into private functions/methods in their existing owners, preserve canonical dict identity and exact public schemas/checkpoint behavior. No new workflow/state/writers intended; reassess final source.",
+  "known_unresolved_finding": "review-M1-architecture-01/standards-01/F1 remains open and outside this correction; no M1 acceptance or later milestone eligibility inferred."
+}

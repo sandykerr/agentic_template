@@ -39,12 +39,14 @@ Use the [shared worker handoff](../README.md#worker-handoff). Carry pending revi
 
 Completed against implementation `3c8d4ab52c5da112552275d1d5fffdef001c1451`;
 previous readiness: `ready-for-agent`. All six acceptance criteria verified in
-[criterion-specific completion evidence](../evidence/16-completion.md).
-[Actual checks](../evidence/16-checks.log) passed standalone document/skill and
+[criterion-specific completion evidence](../evidence/ticket-16/16-completion.md).
+[Actual checks](../evidence/ticket-16/16-checks.log) passed standalone document/skill and
 six-case workflow validation (316 links/anchors); runtime suite is outside this
-standalone documentation scope. Separate fresh High [Spec](../evidence/16-review-spec.md)
-and [Standards](../evidence/16-review-standards.md) reviews each found zero blocking
+standalone documentation scope. Separate fresh High [Spec](../evidence/ticket-16/16-review-spec.md)
+and [Standards](../evidence/ticket-16/16-review-standards.md) reviews each found zero blocking
 or optional findings. [Assessment and report provenance](../reviews/ticket-16.md)
 are retained. No unchecked criteria or unresolved real findings remain. Declared
 dependencies are preserved. Implementation, bookkeeping and handoff commits are
 separate; ticket completion does not accept M1 or launch ticket 17.
+
+M1 QA preparation, 2026-11-12: this ticket contributes to [cumulative assessment review-M1-architecture-01](../reviews/M1-architecture-01.md) at `d02e61e`, fixed feature-start baseline `1a623ba`. [Current QA preparation and observations](../evidence/m1-qa-01/qa-guide.md). Ticket completion retains its original verification; this cross-ticket assessment and actual human QA are separate gates.

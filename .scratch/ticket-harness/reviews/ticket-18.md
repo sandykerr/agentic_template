@@ -8,11 +8,11 @@
 | Fixed original baseline | `02d76205a1c40e45c607ef2a5d11ec282393edcd` |
 | Exact assessed source | `816aecbaa67f79ca5fd97c78f40593cdb007c45a`, both axes |
 | Assignments | Fresh independent `/root/spec18` and `/root/standards18`, fork-none GPT-6.1 Sol High, each <=250K active-context target; independent backend telemetry/observed context unavailable |
-| Instructions/identities | [Spec assignment](../evidence/18-review-spec-assignment.txt), [Standards assignment](../evidence/18-review-standards-assignment.txt), [Spec identities](../evidence/18-review-spec-identities.json), [Standards identities](../evidence/18-review-standards-identities.json), [capture manifest](../evidence/18-review-capture.json) |
-| Original reports | [spec-01](../evidence/18-review-spec.md), [standards-01](../evidence/18-review-standards.md) |
+| Instructions/identities | [Spec assignment](../evidence/ticket-18/18-review-spec-assignment.txt), [Standards assignment](../evidence/ticket-18/18-review-standards-assignment.txt), [Spec identities](../evidence/ticket-18/18-review-spec-identities.json), [Standards identities](../evidence/ticket-18/18-review-standards-identities.json), [capture manifest](../evidence/ticket-18/18-review-capture.json) |
+| Original reports | [spec-01](../evidence/ticket-18/18-review-spec.md), [standards-01](../evidence/ticket-18/18-review-standards.md) |
 | Inspected scope | Complete committed ticket diff; shared checkpoint contract, changed and unchanged planning/implementation/review/milestone/handoff consumers; isolated sources, actual assignments/reports, history, readiness observations and helpers. Detailed inspection/reasoning in each original report. |
 | Omissions/assumptions | Real package architecture assessment/runtime suite, broad calibration and actual backend delivery remain later work. Outside-active-run workspace condition is observed, not general external-run discovery. No unresolved consequential decision for this implementation. |
-| Ownership/check evidence | [Implementation coverage, trigger and ownership report](../evidence/18-implementation-report.md), [actual checks](../evidence/18-checks.log), [finite walkthrough](../evidence/18-walkthrough/README.md) |
+| Ownership/check evidence | [Implementation coverage, trigger and ownership report](../evidence/ticket-18/18-implementation-report.md), [actual checks](../evidence/ticket-18/18-checks.log), [finite walkthrough](../evidence/ticket-18/18-walkthrough/README.md) |
 | Prior context/history | Prerequisite [16](ticket-16.md) and [17](ticket-17.md) have no outstanding real findings. Isolated historical concerns retain their original scope. |
 | Milestone assessment | Real M1 unperformed. Feature starting-source provenance must be established before readiness; all ten package Python files require actual inspection on that future exact source. M1 QA not requested/accepted. |
 
@@ -26,7 +26,7 @@ implementation. Future source changes require relevant revalidation.
 Isolated key `review-18-fixture-cumulative/standards-risk-01/F1` remains an immutable
 blocking observation at fixture risk source. Its original-contract repair is
 independently fixed only at fixture clean `8078239cfc1062acbf8e3f59ac2392925da4586a`,
-through [E04](../evidence/18-walkthrough/finding-history.md#e04--independent-exact-source-fix-verification).
+through [E04](../evidence/ticket-18/18-walkthrough/finding-history.md#e04--independent-exact-source-fix-verification).
 The synthetic alternate branch retains deferred D, missing alternate-scope review
 and absent actual human authority. Neither is a real harness finding or M1 acceptance.
 
