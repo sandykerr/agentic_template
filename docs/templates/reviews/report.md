@@ -23,7 +23,7 @@ or manifest after capture, outside the hashed file itself.
 {{Approved behavior/ownership contract; traced callers, writers, persistence/restore
 and invalidation; reasoning about invariant preservation, including a justified
 clean conclusion when appropriate. Apply the shared
-[scope contract](../../agents/ownership-review.md#report-substantive-reasoning).}}
+[scope contract](../../agents/review-records.md#report-substantive-reasoning).}}
 
 ## Evidence audit
 

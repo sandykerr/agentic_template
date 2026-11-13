@@ -11,39 +11,21 @@ Read the [shared planning reference](../references/planning.md#milestone-members
 
 Use fresh implementation and repair assignments with Medium reasoning by default; apply an explicit ticket worker override to both. Configure the separate fresh Spec and Standards assignments independently, each defaulting to High. Carry the approved model, role guidance and context target; report missing configuration rather than inventing it. These are development assignment settings, not proof of runtime profile enforcement or skill capture.
 
-Read and apply the shared [ownership and review-scope contract](../../../../docs/agents/ownership-review.md)
-before implementation/repair and when preparing both upstream `code-review`
-assignments. Record the affected flow and changed/unchanged ownership in the
-implementation evidence; supply the shared contract to each fresh reviewer. Its
-whole-ticket scope and report requirements take precedence over upstream
-diff-hunk-only wording and the under-400-word report briefs; retain a concise
-summary with enough linked detail for the required evidence.
+Apply the [development review contract](../../../../docs/agents/review-records.md)
+when planning ownership, preparing implementation/repair reviews, recording findings
+and handing off integration or QA. Supply it to both fresh reviewers. Its whole-ticket
+scope and substantive report requirements override upstream diff-hunk-only wording
+and under-400-word briefs. Record architecture triggers at ticket start and after
+implementation; satisfy triggered integration and cumulative milestone checkpoints.
 
-For this repository's ownership refactors 20–24, use the
-[evaluated development-review guidance and corpus](../../../../docs/agents/reviewer-evaluation.md)
-when preparing both fresh review assignments. Carry the evaluated guidance
-identity and finite limitations; corpus reports do not review the new refactor.
-
-Apply [development architecture checkpoints](../../../../docs/agents/architecture-checkpoints.md)
-at ticket start and after implementation. Record each risk trigger and required
-broader assessment before integration; no-trigger tickets retain the two existing
-review axes. At milestone readiness, carry the cumulative assessment, exact source,
-prior findings and missing/stale work into the handoff; a completed review alone
-never accepts a milestone.
+For refactors 20–24, preserve the [historical G2/C5 identity and limits](../evaluate-reviewers/SKILL.md#repository-evaluation-history)
+in implementation evidence and handoffs. Current reviewers use the current review
+contract; historical corpus outcomes neither assess new source nor add calibration work.
 
 ## Implement and review
 
-Apply [efficient ticket development](../../../../docs/agents/development-efficiency.md)
-before the first review and each repair round: finish local preparation/checks,
-share canonical evidence, and batch the complete authorized diagnosis before
-requesting fresh review. Preserve the role settings and review gates below.
-
-Read the repo-owned [review record contract](../../../../docs/agents/review-records.md)
-when preparing assessments, saving reports or handling findings. Use its templates
-to attach routine Spec/Standards reports to one ticket assessment, preserve the
-original baseline/reports and carry full finding keys/history into repairs and
-independent re-review. Keep assessment completion, outstanding findings and human
-QA separate; record human-owned decisions rather than inferring authority.
+Finish the review contract's local preparation before each fresh review round;
+preserve the role settings and review gates below.
 
 1. Follow `AGENTS.md` and the ticket's scoped spec references. Read the repository's [issue-tracker conventions](../../../../docs/agents/issue-tracker.md) and [testing policy](../../../../docs/agents/testing.md). Capture the starting `HEAD` as the review baseline and inspect the worktree, preserving unrelated changes. When adding or changing tests, use [test-strategy](../test-strategy/SKILL.md) to map existing coverage and choose verification scope before the upstream TDD workflow. Implement only the assigned ticket. Use the testing policy's focused development checks and required completion checks; standalone documentation/skill work receives its documented validation rather than an artificial TDD cycle or runtime suite replay.
 2. After checks pass, create a checkpoint commit containing only this implementation **before** invoking `code-review`: its current committed-diff review cannot see uncommitted changes. Supply the captured baseline, ticket, and relevant spec requirements. For later repairs, keep that original baseline so the review covers the whole implementation.

@@ -23,7 +23,7 @@ instructions, not claims. Use relative links for saved records.
 | Milestone assessment | {{link or pending/not yet performed}} |
 
 For cumulative work, complete the checkpoint fields using
-[architecture checkpoints](../../agents/architecture-checkpoints.md); the fixed
+[architecture checkpoints](../../agents/review-records.md#architecture-checkpoints); the fixed
 ticket baseline and cumulative baseline have different purposes.
 
 ## Current findings

@@ -34,7 +34,7 @@ internal mocks are not a shortcut around it. Then use TDD for the missing behavi
 ## Verification and evidence
 
 For ticket review/repair preparation, apply
-[efficient ticket development](../../../../docs/agents/development-efficiency.md).
+[efficient ticket development](../../../../docs/agents/review-records.md#prepare-review-and-repair).
 Use the existing worker and canonical check artifacts for mechanical work;
 fresh reviewers still provide the required independent source assessment.
 

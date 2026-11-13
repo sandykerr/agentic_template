@@ -10,12 +10,8 @@ Before adding or changing tests, or choosing verification scope, read `docs/agen
 
 ### Issue tracker
 
-Specs and tickets live in `.scratch/<feature>/`. Before publishing, fetching, or updating issues, read `docs/agents/issue-tracker.md`.
+Before publishing, fetching, updating or triaging issues, or assigning readiness, read `docs/agents/issue-tracker.md` for local Markdown conventions and readiness labels.
 
-### Triage labels
+### Domain
 
-Before triaging issues or assigning readiness, read `docs/agents/triage-labels.md`.
-
-### Domain docs
-
-This repo uses one domain context: `GLOSSARY.md` and `docs/adr/`. Before exploring the codebase or designing changes, read `docs/agents/domain.md`.
+Before exploring or designing, read `GLOSSARY.md` and relevant `docs/adr/` decisions; proceed if absent. Use canonical terms and check existing meanings before proposing terms through `domain-modeling`; create domain docs when a term or decision is resolved. Surface ADR conflicts with the decision identifier and reason to revisit it; preserve the decision until the human agrees to change it.

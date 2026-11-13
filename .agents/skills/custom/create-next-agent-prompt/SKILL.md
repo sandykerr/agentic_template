@@ -20,38 +20,17 @@ For eligible implementation work, read the selected ticket, its referenced spec 
 
 Identify every acceptance criterion, the public testing seam, compatibility requirements, explicit scope exclusions, and any unresolved decisions. Use the existing approved testing seam when one exists; otherwise tell the next agent to establish it with the user before writing tests. Preserve requirement wording and scope when translating criteria into implementation instructions.
 
-Carry [efficient ticket development](../../../../docs/agents/development-efficiency.md)
-into the implementation handoff. Include any recorded review rounds, repeated
-failure pattern, agreed bounds and outstanding preparation so the next worker
-resolves those before another dispatch; preserve all required fresh review gates.
+Apply the [development review contract](../../../../docs/agents/review-records.md)
+to ownership, preparation/repair, findings and architecture checkpoints in either
+handoff branch. Carry its required source/scope/history and next responsible action,
+plus recorded rounds, repeated failures, agreed bounds and outstanding preparation.
+Direct fresh reviewers to that contract. Missing/incomplete/stale required review
+holds affected integration/readiness; completed tickets with missing cumulative work
+receive a preparation/waiting status. Review completion never supplies QA acceptance.
 
-For ownership and review context, apply the shared
-[ownership and review-scope contract](../../../../docs/agents/ownership-review.md#repair-and-handoff).
-Include the current approved owner/writer contract, affected unchanged flows and
-changed/unchanged ownership explanation; direct both fresh reviewers to the shared
-contract. Expose missing consequential decisions, omitted scope and pending work
-with the next responsible action, using an explicit absence where none exists.
-
-For review context, follow the [review record contract](../../../../docs/agents/review-records.md).
-Carry assessment/report identities, current unresolved full finding keys, history,
-human decision/amendment links and pending exact-source revalidation into the
-handoff. Link original reports without rewriting them. A completed assessment or
-risk disposition does not establish milestone acceptance or implementation eligibility.
-
-For this repository's refactors 20–24 and their M1 checkpoint, carry the
-[evaluated development-review guidance and corpus](../../../../docs/agents/reviewer-evaluation.md)
-into either handoff branch. Name the evaluated version, original corpus/reports,
-finite results and any unresolved limits. Keep new refactor reviews, cumulative
-architecture assessment and human QA separate from the corpus evaluation.
-
-Apply [development architecture checkpoints](../../../../docs/agents/architecture-checkpoints.md)
-when selecting work and drafting either handoff branch. Carry start/post-change
-trigger observations, required cumulative work, exact cumulative baseline/source,
-inspected inventory and outstanding/deferred full finding keys. Missing/incomplete
-or stale required assessment blocks affected integration/readiness; include the
-next responsible action. When tickets are complete but cumulative work is absent,
-write a preparation/waiting status, not a ready QA claim. A clean assessment can
-progress autonomously within scope; actual candidate acceptance remains human-owned.
+For refactors 20–24 and M1, carry the [historical G2/C5 identity and limits](../evaluate-reviewers/SKILL.md#repository-evaluation-history).
+Preserve original corpus/reports and finite results separately from current source
+review, cumulative assessment and human QA; this adds no calibration assignment.
 
 ## Draft an implementation prompt
 
@@ -73,7 +52,7 @@ Adapt these instructions to the selected ticket rather than copying the previous
 Begin with the actual status, such as **Awaiting milestone QA**, **Awaiting final QA**, or **Waiting: prerequisite evidence missing**. Identify the approved plan/version, milestone and membership, verified completion evidence, pending acceptance/blockers and which later work remains ineligible. Use the milestone's planned human checks, setup, expected observations and acceptance conditions; distinguish development checkpoints from target-repository runtime QA in fixtures.
 
 Carry outstanding review work and the inspected/omitted scope using the shared
-[ownership and review-scope contract](../../../../docs/agents/ownership-review.md#repair-and-handoff),
+[ownership and review-scope contract](../../../../docs/agents/review-records.md#repair-progression-and-handoff),
 including unresolved full finding keys, missing reports, pending revalidation and
 human decisions or their explicit absence. Keep the next responsible action
 visible without treating review completion as QA acceptance.

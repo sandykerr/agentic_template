@@ -14,23 +14,20 @@ heuristics. Reuse existing custom guidance before proposing another policy.
 Resolve environment facts by inspection; decisions belong to the human.
 
 For consequential mutable state, apply the repo-owned
-[ownership and review-scope contract](../../../../docs/agents/ownership-review.md#planning-and-implementation)
+[ownership and review-scope contract](../../../../docs/agents/review-records.md#planning-and-implementation)
 when grilling decisions and drafting implementation contracts. Carry the owner,
 permitted writers, invariant-preserving operations, persistence/restoration and
 failure rules into the spec; resolve consequential gaps before approval.
 
-For this repository, read [domain guidance](../../../../docs/agents/domain.md),
+For this repository, read [domain guidance](../../../../AGENTS.md#domain),
 [tracker conventions](../../../../docs/agents/issue-tracker.md),
-[triage vocabulary](../../../../docs/agents/triage-labels.md), and
+[triage vocabulary](../../../../docs/agents/issue-tracker.md#triage-readiness), and
 [testing policy](../../../../docs/agents/testing.md) before the corresponding work.
 For another target, use that project's equivalents; ask only for missing
 decisions that cannot be inferred from its guidance or the conversation.
 
-For this repository's ownership refactors 20–24, carry the
-[evaluated development-review guidance and corpus](../../../../docs/agents/reviewer-evaluation.md)
-into the implementation/review context. Preserve its exact guidance identity,
-finite observations and unresolved limits; later refactor evidence and M1 QA
-remain separate required work.
+For ownership refactors 20–24, preserve the [historical G2/C5 identity and limits](../evaluate-reviewers/SKILL.md#repository-evaluation-history)
+in implementation/handoff context. Current source reviews and M1 QA remain separate.
 
 Keep proposals in the conversation or an explicitly marked draft location,
 separate from published inputs. A suitable local staging location is
@@ -128,7 +125,7 @@ does not accept a candidate. Actual request identities, candidates, decisions,
 execution, promotion and continuation are owned by later runtime/QA workflows.
 
 Before required milestone QA readiness, apply
-[development architecture checkpoints](../../../../docs/agents/architecture-checkpoints.md).
+[development architecture checkpoints](../../../../docs/agents/review-records.md#architecture-checkpoints).
 Plan cumulative work with the prior accepted milestone or feature starting revision,
 complete workflow inventory and carried findings. Assess lifecycle, restoration,
 shared-state and writer risks at ticket start and after implementation; triggered
@@ -164,7 +161,7 @@ without rewriting historical identities or active-run inputs.
 
 ## Role and testing contracts
 
-Use [efficient ticket development](../../../../docs/agents/development-efficiency.md)
+Use [efficient ticket development](../../../../docs/agents/review-records.md#prepare-review-and-repair)
 to plan required assignments, check reuse and review preparation. Record agreed
 resource/repair bounds without substituting them for accuracy or acceptance gates.
 
