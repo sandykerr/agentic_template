@@ -21,6 +21,7 @@ class _Run:
     """Own start/continuation, scheduling, outcomes and canonical verification evidence."""
 
     def __init__(self, output: Path, checkpoint: dict[str, Any] | None) -> None:
+        """Prepare run directories and bind a restored record, or create a fresh run record."""
         self.output = output
         self._checkpoint = checkpoint
         (output / "inputs").mkdir(exist_ok=checkpoint is not None)
@@ -47,7 +48,12 @@ class _Run:
         self.stage = "inputs"
 
     def execute(self, config_path: Path | None = None) -> tuple[dict[str, Any], int]:
-        """Start from prepared inputs or continue the validated deliberate checkpoint."""
+        """Execute eligible tickets and milestone QA from fresh inputs or a checkpoint.
+
+        The caller must hold run ownership. Save canonical outcomes on success,
+        deliberate QA stop, or handled failure; return the record and CLI exit code.
+        Continuation uses restored verification authority before admitting more work.
+        """
         output = self.output
         checkpoint = self._checkpoint
         record = self.record
@@ -188,6 +194,7 @@ class _Run:
             return record, 1
 
     def save(self) -> None:
+        """Atomically replace run.json with the current canonical run observations."""
         write_json(self.output / "run.json", self.record)
 
     def export_checks(self) -> list[list[Any]]:
@@ -195,6 +202,7 @@ class _Run:
         return [[item, str(source), revision] for item, source, revision in self.verified]
 
     def restore_checks(self, checkpoint: dict[str, Any]) -> None:
+        """Rebind checkpoint verification references to canonical gates for later invalidation."""
         # Only canonical gate records may be invalidated, including after JSON restoration.
         self.verified = [
             (self.record["gates"][self.record["gates"].index(item)], Path(source), revision)
@@ -202,11 +210,13 @@ class _Run:
         ]
 
     def reject_checks(self, ticket: str) -> None:
+        """Discard this ticket's verification authority, then validate retained shared sources."""
         # Prior reports remain inspectable but cannot authorize another submission.
         self.verified[:] = [entry for entry in self.verified if entry[0].get("ticket") != ticket]
         self.validate_sources()
 
     def artifact_name(self, stage: str, ticket: str | None = None, attempt: int = 0) -> str:
+        """Derive collision-free evidence names for ticket attempts and later milestones."""
         name = stage if attempt <= 1 else f"attempt-{attempt}-{stage}"
         if attempt and len(self.record["tickets"]) > 1:
             name = f"ticket-{ticket}-{name}"
@@ -215,6 +225,7 @@ class _Run:
         return name
 
     def protected_paths(self) -> dict[Path, bool]:
+        """Map run evidence to restoration and approved originals/worktree copies to retention."""
         protected = {
             self.output / name: True
             for name in (
@@ -237,6 +248,11 @@ class _Run:
     def git_operation(
         self, name: str, ticket: str | None = None, attempt: int = 0
     ) -> Iterator[None]:
+        """Persist a Git operation and bracket it with integrity protection.
+
+        Always save its final observations; integrity violations are nonrepairable even
+        when the enclosed operation also fails.
+        """
         name = self.artifact_name(name, ticket, attempt)
         operation: dict[str, Any] = {
             "stage": name,
@@ -261,6 +277,7 @@ class _Run:
             self.save()
 
     def validate_sources(self) -> None:
+        """Invalidate canonical gates whose verified Git sources changed; save before raising."""
         failures = []
         for evidence, source, revision in self.verified:
             try:
@@ -286,6 +303,12 @@ class _Run:
         attempt: int = 0,
         owner: tickets._Attempt | None = None,
     ) -> dict[str, Any]:
+        """Run a required gate after validating approved inputs and earlier sources.
+
+        Persist execution before report evaluation; register nonimplementation sources
+        only after report handling, then revalidate sources before accepting the gate.
+        Environment/integrity failures and trusted human decisions prevent repair.
+        """
         self.stage = stage
         repairable = True
         inputs.require_approved(self.record["inputs"])
@@ -326,58 +349,9 @@ class _Run:
                 result["report_status"] = "not-evaluated"
                 self.save()
             if prompt is not None and not result["timed_out"]:
-                observation = agents.report(Path(result["stdout"]), prompt)
-                result.update(observation)
-                if observation["report_status"] == "invalid":
-                    self.save()
-                    raise GateFailure(f"{stage} report rejected: {observation['diagnostic']}")
-                report = observation["report"]
-                questions = []
-                if stage == "implementation" and report["result"] == "human-decision-needed":
-                    questions = report["unresolved_questions"]
-                elif stage in ("spec", "standards"):
-                    questions = [
-                        f"{finding['requirement']}: {finding['resolution']}"
-                        for finding in report["findings"]
-                        if finding["classification"] == "blocking"
-                        and finding["human_decision_needed"]
-                    ]
-                if questions:
-                    repairable = False
-                    decision = {
-                        "role": stage,
-                        "attempt": attempt,
-                        "revision": revision,
-                        "report": report,
-                        "approved_inputs": self.record["inputs"],
-                        "assignment": result["assignment"],
-                        "stdout": result["stdout"],
-                        "stderr": result["stderr"],
-                    }
-                    if owner is None:
-                        raise NonRepairableFailure("Human decision has no owning attempt")
-                    owner.attach_human_decision(decision)
-                if result["exit_code"] != 0:
-                    result.update(
-                        passed=False,
-                        diagnostic=f"process exit {result['exit_code']}; see {result['stderr']}",
-                    )
-                if questions:
-                    result.update(
-                        passed=False,
-                        diagnostic="human decision needed: "
-                        + "; ".join(questions)
-                        + (f"; {result['diagnostic']}" if result["exit_code"] != 0 else ""),
-                    )
-                elif (
-                    result["exit_code"] == 0
-                    and stage in ("spec", "standards")
-                    and any(
-                        finding["classification"] == "blocking" for finding in report["findings"]
-                    )
-                ):
-                    result.update(passed=False, diagnostic="blocking review finding; see report")
-                self.save()
+                repairable = self._evaluate_report(
+                    result, prompt, stage, attempt, revision, owner, repairable
+                )
             if stage != "implementation":
                 self.verified.append((result, source, revision))
             try:
@@ -397,6 +371,78 @@ class _Run:
             raise
         return result
 
+    def _evaluate_report(
+        self,
+        result: dict[str, Any],
+        prompt: dict[str, Any],
+        stage: str,
+        attempt: int,
+        revision: str,
+        owner: tickets._Attempt | None,
+        repairable: bool,
+    ) -> bool:
+        """Validate a completed report and save its gate/decision observations.
+
+        Process failure still rejects a valid report; blocking human decisions
+        attach to their owning attempt and make subsequent failures nonrepairable.
+        Return the updated repair classification without registering verification.
+        """
+        try:
+            observation = agents.report(Path(result["stdout"]), prompt)
+            result.update(observation)
+            if observation["report_status"] == "invalid":
+                self.save()
+                raise GateFailure(f"{stage} report rejected: {observation['diagnostic']}")
+            report = observation["report"]
+            questions = []
+            if stage == "implementation" and report["result"] == "human-decision-needed":
+                questions = report["unresolved_questions"]
+            elif stage in ("spec", "standards"):
+                questions = [
+                    f"{finding['requirement']}: {finding['resolution']}"
+                    for finding in report["findings"]
+                    if finding["classification"] == "blocking" and finding["human_decision_needed"]
+                ]
+            if questions:
+                repairable = False
+                decision = {
+                    "role": stage,
+                    "attempt": attempt,
+                    "revision": revision,
+                    "report": report,
+                    "approved_inputs": self.record["inputs"],
+                    "assignment": result["assignment"],
+                    "stdout": result["stdout"],
+                    "stderr": result["stderr"],
+                }
+                if owner is None:
+                    raise NonRepairableFailure("Human decision has no owning attempt")
+                owner.attach_human_decision(decision)
+            if result["exit_code"] != 0:
+                result.update(
+                    passed=False,
+                    diagnostic=f"process exit {result['exit_code']}; see {result['stderr']}",
+                )
+            if questions:
+                result.update(
+                    passed=False,
+                    diagnostic="human decision needed: "
+                    + "; ".join(questions)
+                    + (f"; {result['diagnostic']}" if result["exit_code"] != 0 else ""),
+                )
+            elif (
+                result["exit_code"] == 0
+                and stage in ("spec", "standards")
+                and any(finding["classification"] == "blocking" for finding in report["findings"])
+            ):
+                result.update(passed=False, diagnostic="blocking review finding; see report")
+            self.save()
+        except (GateFailure, OSError, ValueError, KeyError, TypeError) as error:
+            if not repairable:
+                raise NonRepairableFailure(str(error)) from error
+            raise
+        return repairable
+
 
 class _TicketVerification:
     """Limit a ticket to scoped verification and durable observation operations.
@@ -407,15 +453,18 @@ class _TicketVerification:
     """
 
     def __init__(self, execution: _Run, ticket: str) -> None:
+        """Bind verification operations to one ticket without exposing runner-owned state."""
         self.__execution = execution
         self.__ticket = ticket
 
     def observe(self, stage: str) -> None:
+        """Persist the current ticket stage through the owning run."""
         self.__execution.stage = stage
         self.__execution.save()
 
     @contextmanager
     def operation(self, name: str, attempt: int) -> Iterator[Path]:
+        """Yield this attempt's worktree path inside the run-owned protected Git operation."""
         # Worktree/artifact naming and protected Git observations remain run-owned.
         stage = "candidate" if name == "candidate-merge" else name.removesuffix("-worktree")
         destination = self.__execution.trees / self.__execution.artifact_name(
@@ -434,6 +483,7 @@ class _TicketVerification:
         owner: tickets._Attempt,
         prompt: dict[str, Any] | None = None,
     ) -> None:
+        """Run and record this ticket's gate; propagate the runner's failure classification."""
         self.__execution.check(
             stage,
             argv,
@@ -446,6 +496,7 @@ class _TicketVerification:
         )
 
     def validate_sources(self, *, rejected: bool = False) -> None:
+        """Validate approved inputs and either current authority or retained repair evidence."""
         inputs.require_approved(self.__execution.record["inputs"])
         if rejected:
             self.__execution.reject_checks(self.__ticket)
@@ -454,6 +505,7 @@ class _TicketVerification:
 
 
 def run(config_path: Path, output: Path) -> tuple[dict[str, Any], int]:
+    """Create a new output directory and execute with exclusive run ownership."""
     # Never overwrite an existing run, including its preserved rejected work.
     output.mkdir(parents=True, exist_ok=False)
     with qa.ownership(output):
@@ -461,6 +513,10 @@ def run(config_path: Path, output: Path) -> tuple[dict[str, Any], int]:
 
 
 def continue_run(output: Path) -> tuple[dict[str, Any], int]:
+    """Restore and execute a deliberate QA checkpoint under exclusive ownership.
+
+    Preserve rejection diagnostics separately and expose failed continuation as ValueError.
+    """
     try:
         with qa.ownership(output):
             checkpoint = qa.MilestoneReview.restore_checkpoint(output)

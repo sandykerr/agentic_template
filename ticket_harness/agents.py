@@ -32,6 +32,11 @@ def assignment(
     attempt: int = 1,
     repair_context: dict[str, Any] | None = None,
 ) -> dict[str, Any]:
+    """Build fresh role guidance and captured inputs for one revision-bound assignment.
+
+    Snapshot artifacts must be readable. Gate/check/repair values retain their supplied
+    references; only the harness interprets returned agent claims as evidence.
+    """
     return {
         "role": role,
         "ticket": ticket,
@@ -55,66 +60,76 @@ def assignment(
         },
         "check_results": gates,
         "required_checks": checks,
-        "report_contract": {
-            "identity_fields": ["role", "ticket", "attempt", "base_revision", "revision"],
-            "result": ["submitted", "human-decision-needed"]
-            if role == "implementation"
-            else "findings list",
-            "fields": [
-                "result",
-                "summary",
-                "changed_files",
-                "checks",
-                "acceptance_evidence",
-                "unresolved_questions",
-            ]
-            if role == "implementation"
-            else ["findings"],
-            "finding_fields": [
-                "id",
-                "classification",
-                "location",
-                "requirement",
-                "consequence",
-                "evidence",
-                "resolution",
-                "human_decision_needed",
-            ],
-            "field_types": {
-                "role": "string: copy assignment role; spec/standards is the review axis",
-                "ticket": "string: copy assignment ticket, including leading zeros",
-                "attempt": "integer: copy assignment attempt; booleans/floats are invalid",
-                "base_revision": "string: copy assignment base_revision",
-                "revision": "string: copy assignment revision (starting source for implementation)",
-                "result": "string: submitted or human-decision-needed; never Done",
-                "summary": "nonempty string",
-                "changed_files": "list of nonempty strings; claims only, may be empty",
-                "checks": "list of nonempty strings; claims only, may be empty",
-                "acceptance_evidence": "list of nonempty strings; nonempty for submitted",
-                "unresolved_questions": "list of nonempty strings; nonempty for human-decision-needed",
-                "findings": "list of complete finding objects; may be empty",
-            },
-            "finding_field_types": {
-                "id": "nonempty string; stable and unique within this review",
-                "classification": "blocking or optional",
-                "location": "nonempty string",
-                "requirement": "nonempty string",
-                "consequence": "nonempty string",
-                "evidence": "nonempty string",
-                "resolution": "nonempty string",
-                "human_decision_needed": "boolean",
-            },
-            "instructions": "Emit one JSON object to stdout; diagnostics go to stderr. "
-            "Copy assignment identity fields exactly, including their JSON types. "
-            "Identity fields and fields listed in fields are required. "
-            "Every finding requires finding_fields. Maximum object/array nesting: 100 levels. "
-            "No duplicate keys or nonfinite "
-            "numbers. Extra diagnostic metadata is allowed but has no authority.",
+        "report_contract": _report_contract(role),
+    }
+
+
+def _report_contract(role: str) -> dict[str, Any]:
+    """Build fresh report guidance for an implementation or review assignment.
+
+    Keep wire field names/types and role-specific required fields together; no
+    caller shares mutable contract dictionaries with another assignment.
+    """
+    return {
+        "identity_fields": ["role", "ticket", "attempt", "base_revision", "revision"],
+        "result": ["submitted", "human-decision-needed"]
+        if role == "implementation"
+        else "findings list",
+        "fields": [
+            "result",
+            "summary",
+            "changed_files",
+            "checks",
+            "acceptance_evidence",
+            "unresolved_questions",
+        ]
+        if role == "implementation"
+        else ["findings"],
+        "finding_fields": [
+            "id",
+            "classification",
+            "location",
+            "requirement",
+            "consequence",
+            "evidence",
+            "resolution",
+            "human_decision_needed",
+        ],
+        "field_types": {
+            "role": "string: copy assignment role; spec/standards is the review axis",
+            "ticket": "string: copy assignment ticket, including leading zeros",
+            "attempt": "integer: copy assignment attempt; booleans/floats are invalid",
+            "base_revision": "string: copy assignment base_revision",
+            "revision": "string: copy assignment revision (starting source for implementation)",
+            "result": "string: submitted or human-decision-needed; never Done",
+            "summary": "nonempty string",
+            "changed_files": "list of nonempty strings; claims only, may be empty",
+            "checks": "list of nonempty strings; claims only, may be empty",
+            "acceptance_evidence": "list of nonempty strings; nonempty for submitted",
+            "unresolved_questions": "list of nonempty strings; nonempty for human-decision-needed",
+            "findings": "list of complete finding objects; may be empty",
         },
+        "finding_field_types": {
+            "id": "nonempty string; stable and unique within this review",
+            "classification": "blocking or optional",
+            "location": "nonempty string",
+            "requirement": "nonempty string",
+            "consequence": "nonempty string",
+            "evidence": "nonempty string",
+            "resolution": "nonempty string",
+            "human_decision_needed": "boolean",
+        },
+        "instructions": "Emit one JSON object to stdout; diagnostics go to stderr. "
+        "Copy assignment identity fields exactly, including their JSON types. "
+        "Identity fields and fields listed in fields are required. "
+        "Every finding requires finding_fields. Maximum object/array nesting: 100 levels. "
+        "No duplicate keys or nonfinite "
+        "numbers. Extra diagnostic metadata is allowed but has no authority.",
     }
 
 
 def text_list(value: Any, field: str) -> None:
+    """Reject values other than a list of nonblank strings; empty lists are allowed."""
     if not isinstance(value, list) or any(
         not isinstance(item, str) or not item.strip() for item in value
     ):
@@ -122,6 +137,7 @@ def text_list(value: Any, field: str) -> None:
 
 
 def implementation(value: dict[str, Any]) -> None:
+    """Validate implementation claims and result-specific evidence, raising ValueError."""
     if not isinstance(value.get("summary"), str) or not value["summary"].strip():
         raise ValueError("summary must be a nonempty string")
     for field in ("changed_files", "checks", "acceptance_evidence", "unresolved_questions"):
@@ -134,6 +150,7 @@ def implementation(value: dict[str, Any]) -> None:
 
 
 def review(value: dict[str, Any]) -> None:
+    """Require complete findings with unique IDs and typed decision flags; allow no findings."""
     if not isinstance(value["findings"], list):
         raise ValueError("findings must be a list")
     identifiers = set()
@@ -154,6 +171,7 @@ def review(value: dict[str, Any]) -> None:
 
 
 def report_object(pairs: list[tuple[str, Any]]) -> dict[str, Any]:
+    """Decode object pairs while rejecting duplicate keys at every JSON object level."""
     value: dict[str, Any] = {}
     for key, item in pairs:
         if key in value:
@@ -163,10 +181,12 @@ def report_object(pairs: list[tuple[str, Any]]) -> dict[str, Any]:
 
 
 def invalid_constant(value: str) -> None:
+    """Reject JSON nonfinite constants rather than accepting decoder extensions."""
     raise ValueError(f"invalid JSON constant {value}")
 
 
 def finite_number(value: str) -> float:
+    """Parse a JSON float and reject overflow to a nonfinite value."""
     number = float(value)
     if not isfinite(number):
         raise ValueError(f"nonfinite JSON number {value}")
@@ -174,6 +194,7 @@ def finite_number(value: str) -> float:
 
 
 def require_bounded_nesting(value: Any) -> None:
+    """Reject object/array nesting beyond 100 levels without recursive traversal."""
     # Leave headroom for the enclosing run record and later assignment check results.
     pending = [(value, 1)]
     while pending:
@@ -187,7 +208,12 @@ def require_bounded_nesting(value: Any) -> None:
 
 
 def report(stdout: Path, expected: dict[str, Any]) -> dict[str, Any]:
-    """Return parsed content and validation observations without editing a gate."""
+    """Return parsed content and validation observations without editing a gate.
+
+    Require exact assignment identities and complete role-specific fields. Invalid
+    JSON/schema content returns a failed observation; unreadable stdout propagates
+    its filesystem error. A valid report alone does not establish gate success.
+    """
     observation: dict[str, Any] = {}
     try:
         value = json.loads(

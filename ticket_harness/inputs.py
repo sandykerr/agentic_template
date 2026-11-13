@@ -27,6 +27,11 @@ MAX_TIMEOUT_SECONDS = 604800
 
 
 def timeouts(value: Any) -> dict[str, int | float]:
+    """Return timeout defaults merged with validated stage seconds.
+
+    Reject unknown stages and nonpositive, nonfinite or oversized values with
+    GateFailure; leave the supplied mapping unchanged.
+    """
     if not isinstance(value, dict):
         raise GateFailure("configuration.timeouts: expected an object of stage seconds")
     for name, seconds in value.items():
@@ -49,6 +54,10 @@ def timeouts(value: Any) -> dict[str, int | float]:
 
 
 def unique_object(pairs: list[tuple[str, Any]]) -> dict[str, Any]:
+    """Build one JSON object, rejecting duplicate keys with GateFailure.
+
+    Used as object_pairs_hook so duplicates cannot silently overwrite approval data.
+    """
     value: dict[str, Any] = {}
     for key, item in pairs:
         if key in value:
@@ -58,12 +67,21 @@ def unique_object(pairs: list[tuple[str, Any]]) -> dict[str, Any]:
 
 
 def identifier(value: str) -> str:
+    """Normalize a positive numeric string to an ID padded to at least two digits.
+
+    Raise GateFailure for invalid numeric text; preserve IDs wider than two digits.
+    """
     if not re.fullmatch(r"[0-9]+", value) or int(value) < 1:
         raise GateFailure(f"Invalid ticket ID {value!r}; use a positive numeric identifier")
     return str(int(value)).zfill(2)
 
 
 def command(value: Any, field: str, repository: Path, base: str) -> None:
+    """Validate argv and executable availability without launching the command.
+
+    Relative executable paths must be executable blobs at base in repository;
+    other commands must resolve absolutely on PATH. Raise GateFailure on rejection.
+    """
     if (
         not isinstance(value, list)
         or not value
@@ -92,6 +110,11 @@ def command(value: Any, field: str, repository: Path, base: str) -> None:
 
 
 def configuration(value: Any) -> dict[str, Any]:
+    """Validate raw configuration and return that mapping with timeout/repair defaults.
+
+    Mutates defaults in place; executable and filesystem checks belong to load.
+    Raise GateFailure on the first invalid field in contract validation order.
+    """
     if not isinstance(value, dict):
         raise GateFailure("configuration: expected a JSON object")
     required = {
@@ -137,6 +160,8 @@ def configuration(value: Any) -> dict[str, Any]:
 
 @dataclass(frozen=True)
 class Dependency:
+    """Declared prerequisite identity plus optional title/link for later graph checks."""
+
     id: str
     title: str | None
     path: Path | None
@@ -166,9 +191,74 @@ def requirement_text(text: str) -> str:
     return "\n".join(lines) + "\n"
 
 
+def _ticket_dependencies(declaration: str, path: Path) -> tuple[list[str], list[Dependency]]:
+    """Parse Blocked by labels/links, retaining order and duplicate references.
+
+    Resolve links relative to the ticket; reject malformed labels with GateFailure.
+    """
+    dependencies = []
+    dependency_references = []
+    if not re.fullmatch(r"None(?: \(can start immediately\))?\.?", declaration):
+        for reference in declaration.split(","):
+            reference = reference.strip()
+            link = re.fullmatch(r"\[([^\]]+)\]\(([^)]+)\)", reference)
+            label = link[1] if link else reference
+            match = re.fullmatch(r"([0-9]+)(?:: (\S.*))?", label)
+            if not match:
+                raise GateFailure(f"{path}: invalid Blocked by reference {reference!r}")
+            dependency_id = identifier(match[1])
+            dependencies.append(dependency_id)
+            dependency_references.append(
+                Dependency(
+                    dependency_id,
+                    match[2],
+                    (path.parent / link[2]).resolve() if link else None,
+                )
+            )
+    return dependencies, dependency_references
+
+
+def _ticket_acceptance(
+    text: str, metadata: dict[str, str], path: Path, checks: dict[str, Any]
+) -> tuple[list[str], list[str]]:
+    """Return checklist content and ordered check names, validating each declaration.
+
+    Missing Checks metadata selects all configured checks. Raises GateFailure for
+    malformed acceptance content or unknown/duplicate check references.
+    """
+    if len(re.findall(r"^## Acceptance criteria[ \t]*$", text, re.M)) > 1:
+        raise GateFailure(f"{path}: duplicate Acceptance criteria section")
+    acceptance = re.search(r"^## Acceptance criteria[ \t]*\n(.*?)(?=^## |\Z)", text, re.M | re.S)
+    if acceptance and re.search(r"^[-*] \[[ xX]\][ \t]*$", acceptance[1], re.M):
+        raise GateFailure(f"{path}: empty acceptance requirement; supply concrete content")
+    requirements = (
+        re.findall(r"^[-*] \[[ xX]\] (\S.*?)\s*$", acceptance[1], re.M) if acceptance else []
+    )
+    if not requirements:
+        raise GateFailure(f"{path}: Acceptance criteria needs nonempty checklist items")
+    references = (
+        [name.strip() for name in metadata["Checks"].split(",")]
+        if "Checks" in metadata
+        else list(checks)
+    )
+    for name in references:
+        if name not in checks:
+            raise GateFailure(f"{path}: unknown check reference {name!r}; configure it in checks")
+    if len(set(references)) != len(references):
+        raise GateFailure(f"{path}: duplicate check reference; list each check once")
+    return requirements, references
+
+
 def normalize_ticket(
     text: str, path: Path, checks: dict[str, Any]
 ) -> tuple[dict[str, Any], list[Dependency]]:
+    """Return normalized Markdown requirements and unresolved dependency references.
+
+    Ignore examples/comments, then validate heading, metadata, dependencies and
+    acceptance/check declarations in that order. Source text and checks remain
+    unchanged; GateFailure identifies invalid or conflicting declarations. Graph
+    consistency and execution eligibility are checked later by load.
+    """
     if text.lstrip().startswith("---\n"):
         raise GateFailure(
             f"{path}: YAML front matter is unsupported; use the Markdown metadata contract"
@@ -205,46 +295,8 @@ def normalize_ticket(
         "wontfix",
     }:
         raise GateFailure(f"{path}: Status must be a triage readiness label; found {readiness!r}")
-    declaration = metadata.get("Blocked by", "")
-    dependencies = []
-    dependency_references = []
-    if not re.fullmatch(r"None(?: \(can start immediately\))?\.?", declaration):
-        for reference in declaration.split(","):
-            reference = reference.strip()
-            link = re.fullmatch(r"\[([^\]]+)\]\(([^)]+)\)", reference)
-            label = link[1] if link else reference
-            match = re.fullmatch(r"([0-9]+)(?:: (\S.*))?", label)
-            if not match:
-                raise GateFailure(f"{path}: invalid Blocked by reference {reference!r}")
-            dependency_id = identifier(match[1])
-            dependencies.append(dependency_id)
-            dependency_references.append(
-                Dependency(
-                    dependency_id,
-                    match[2],
-                    (path.parent / link[2]).resolve() if link else None,
-                )
-            )
-    if len(re.findall(r"^## Acceptance criteria[ \t]*$", text, re.M)) > 1:
-        raise GateFailure(f"{path}: duplicate Acceptance criteria section")
-    acceptance = re.search(r"^## Acceptance criteria[ \t]*\n(.*?)(?=^## |\Z)", text, re.M | re.S)
-    if acceptance and re.search(r"^[-*] \[[ xX]\][ \t]*$", acceptance[1], re.M):
-        raise GateFailure(f"{path}: empty acceptance requirement; supply concrete content")
-    requirements = (
-        re.findall(r"^[-*] \[[ xX]\] (\S.*?)\s*$", acceptance[1], re.M) if acceptance else []
-    )
-    if not requirements:
-        raise GateFailure(f"{path}: Acceptance criteria needs nonempty checklist items")
-    references = (
-        [name.strip() for name in metadata["Checks"].split(",")]
-        if "Checks" in metadata
-        else list(checks)
-    )
-    for name in references:
-        if name not in checks:
-            raise GateFailure(f"{path}: unknown check reference {name!r}; configure it in checks")
-    if len(set(references)) != len(references):
-        raise GateFailure(f"{path}: duplicate check reference; list each check once")
+    dependencies, dependency_references = _ticket_dependencies(metadata.get("Blocked by", ""), path)
+    requirements, references = _ticket_acceptance(text, metadata, path, checks)
     plan_metadata = {
         key: metadata[key]
         for key in ("Plan version", "Milestone", "Worker reasoning")
@@ -263,6 +315,11 @@ def normalize_ticket(
 
 
 def validate_graph(requirements: dict[str, Any], references: dict[str, list[Dependency]]) -> None:
+    """Reject missing/mismatched references and cycles across the entire bundle.
+
+    Read requirements and resolved link references without mutation. Validate
+    reference identity before iterative cycle detection, raising GateFailure.
+    """
     for item in requirements.values():
         for dependency in item["dependencies"]:
             if dependency not in requirements:
@@ -300,46 +357,69 @@ def validate_graph(requirements: dict[str, Any], references: dict[str, list[Depe
                 )
 
 
+def _collect_completed(
+    record: Any,
+    requirements: dict[str, Any],
+    repository: Path,
+    base: str,
+    completed: set[str],
+) -> None:
+    """Add evidence-backed Done IDs after checking approval hashes and ancestry.
+
+    Mutates completed in record order, rejecting duplicates across records. Errors
+    propagate to completed_tickets for source attribution; prior additions remain
+    local to that preparation operation when a later entry fails.
+    """
+    if not isinstance(record, dict):
+        raise ValueError("expected a completed run object")
+    if not isinstance(record.get("inputs"), dict):
+        raise ValueError("expected approved input snapshots")
+    entries = record.get("tickets", {record["ticket"]["id"]: record["ticket"]})
+    if not isinstance(entries, dict) or not entries or record["outcome"] != "completed":
+        raise ValueError("expected a completed run with Done tickets")
+    for key, ticket in entries.items():
+        ticket_id = identifier(ticket["id"])
+        if "tickets" in record and key != ticket_id:
+            raise ValueError("completion ticket key conflicts with its ID")
+        revision = ticket["done_revision"]
+        source = Path(requirements[ticket_id]["source"])
+        approved = [
+            item
+            for name, item in record["inputs"].items()
+            if (name == "ticket" or name.startswith("ticket-"))
+            and Path(item["source"]).resolve() == source
+        ]
+        if (
+            ticket["state"] != "Done"
+            or not isinstance(revision, str)
+            or not re.fullmatch(r"[0-9a-f]{40,64}", revision)
+            or len(approved) != 1
+            or approved[0]["sha256"] != hashlib.sha256(source.read_bytes()).hexdigest()
+        ):
+            raise ValueError("expected Done for the current approved ticket")
+        git(repository, "merge-base", "--is-ancestor", revision, base)
+        if ticket_id in completed:
+            raise ValueError(f"duplicate completion evidence for ticket {ticket_id}")
+        completed.add(ticket_id)
+
+
 def completed_tickets(
     snapshots: dict[str, Any], requirements: dict[str, Any], repository: Path, base: str
 ) -> set[str]:
+    """Return prerequisite IDs backed by captured completed runs integrated at base.
+
+    Read saved records and current ticket bytes; validate approval hashes, Done
+    revisions and Git ancestry before accepting each ID. Evidence errors become
+    source-attributed GateFailure; JSON decoding and filesystem errors propagate.
+    The caller subsequently removes tickets that this run must verify again.
+    """
     completed: set[str] = set()
     for name, snapshot in snapshots.items():
         if not name.startswith("completed-run-"):
             continue
         record = json.loads(Path(snapshot["artifact"]).read_text(), object_pairs_hook=unique_object)
         try:
-            if not isinstance(record, dict):
-                raise ValueError("expected a completed run object")
-            if not isinstance(record.get("inputs"), dict):
-                raise ValueError("expected approved input snapshots")
-            entries = record.get("tickets", {record["ticket"]["id"]: record["ticket"]})
-            if not isinstance(entries, dict) or not entries or record["outcome"] != "completed":
-                raise ValueError("expected a completed run with Done tickets")
-            for key, ticket in entries.items():
-                ticket_id = identifier(ticket["id"])
-                if "tickets" in record and key != ticket_id:
-                    raise ValueError("completion ticket key conflicts with its ID")
-                revision = ticket["done_revision"]
-                source = Path(requirements[ticket_id]["source"])
-                approved = [
-                    item
-                    for name, item in record["inputs"].items()
-                    if (name == "ticket" or name.startswith("ticket-"))
-                    and Path(item["source"]).resolve() == source
-                ]
-                if (
-                    ticket["state"] != "Done"
-                    or not isinstance(revision, str)
-                    or not re.fullmatch(r"[0-9a-f]{40,64}", revision)
-                    or len(approved) != 1
-                    or approved[0]["sha256"] != hashlib.sha256(source.read_bytes()).hexdigest()
-                ):
-                    raise ValueError("expected Done for the current approved ticket")
-                git(repository, "merge-base", "--is-ancestor", revision, base)
-                if ticket_id in completed:
-                    raise ValueError(f"duplicate completion evidence for ticket {ticket_id}")
-                completed.add(ticket_id)
+            _collect_completed(record, requirements, repository, base, completed)
         except (KeyError, TypeError, ValueError, GateFailure) as error:
             raise GateFailure(
                 f"{snapshot['source']}: invalid prerequisite completion evidence: {error}"
@@ -348,6 +428,11 @@ def completed_tickets(
 
 
 def require_approved(snapshots: dict[str, Any]) -> None:
+    """Recheck source and captured bytes against every recorded approval hash.
+
+    Raise GateFailure on the first changed input; filesystem errors propagate.
+    Neither the input records nor files are modified.
+    """
     for snapshot in snapshots.values():
         for field in ("source", "artifact"):
             path = Path(snapshot[field])
@@ -360,7 +445,9 @@ class PreparedInputs:
     """Validated settings and derived execution inputs from one preparation operation.
 
     Settings retain configuration paths/selections; normalized values live in their
-    own fields. The execution mapping preserves the existing durable checkpoint
+    own fields. The frozen carrier retains mutable nested values; load alone
+    initializes them, and consumers must preserve their checked invariants.
+    The execution mapping preserves the existing durable checkpoint
     shape without enriching the settings or serializing this in-memory carrier.
     """
 
@@ -374,6 +461,11 @@ class PreparedInputs:
     worker_settings: dict[str, Any] | None
 
     def execution_config(self) -> dict[str, Any]:
+        """Return the existing JSON-safe execution/checkpoint mapping.
+
+        Create a new outer mapping without enriching raw settings. Nested prepared
+        values retain their identities; this conversion does not copy or revalidate them.
+        """
         config = self.settings | {
             "requirements": self.requirements,
             "selected_tickets": self.selected,
@@ -384,24 +476,14 @@ class PreparedInputs:
         return config
 
 
-def load(config_path: Path, output: Path) -> PreparedInputs:
-    """Prepare inputs before execution, copying approved bytes into output/inputs.
+def _input_paths(
+    config: dict[str, Any], config_path: Path, repository: Path
+) -> tuple[dict[str, Path], list[Path]]:
+    """Resolve bundle/selection membership and name all approved input sources.
 
-    The caller must create output/inputs first. Output must be outside the target
-    repository and separate from every approved input; violations reject before
-    any worker/check execution or ref advancement. Source files are never written.
+    Retain declaration order and artifact names; reject invalid selection before
+    any snapshot is copied. Completed-run paths are relative to configuration.
     """
-    config = configuration(json.loads(config_path.read_text(), object_pairs_hook=unique_object))
-    repository = (config_path.parent / config["repository"]).resolve()
-    for name in config["checks"]:
-        if not re.fullmatch(r"[A-Za-z0-9]+(?:-[A-Za-z0-9]+)*", name):
-            raise GateFailure(f"checks.{name}: invalid check name; use letters, numbers, hyphens")
-        command(config["checks"][name], f"checks.{name}", repository, config["base"])
-    command(config["agent"], "agent", repository, config["base"])
-    command(config["suite"], "suite", repository, config["base"])
-    config["repository"] = str(repository)
-    if output == repository or repository in output.parents:
-        raise GateFailure("Run output must be outside the target repository")
     paths = {
         "configuration": config_path,
         "spec": repository / config["spec"],
@@ -431,6 +513,15 @@ def load(config_path: Path, output: Path) -> PreparedInputs:
         paths[f"standards-{index}"] = repository / path
     for index, path in enumerate(config.get("completed_runs", [])):
         paths[f"completed-run-{index}"] = config_path.parent / path
+    return paths, selection
+
+
+def _capture_inputs(paths: dict[str, Path], output: Path) -> dict[str, Any]:
+    """Copy approved bytes to an existing inputs directory and return hash records.
+
+    Reject source/output overlap before each copy. Filesystem errors propagate;
+    earlier copies can remain when a later source fails. Never write source files.
+    """
     snapshots: dict[str, Any] = {}
     for name, path in paths.items():
         path = path.resolve()
@@ -444,12 +535,23 @@ def load(config_path: Path, output: Path) -> PreparedInputs:
             "artifact": str(artifact),
             "sha256": hashlib.sha256(data).hexdigest(),
         }
+    return snapshots
+
+
+def _ticket_requirements(
+    snapshots: dict[str, Any], checks: dict[str, Any]
+) -> tuple[dict[str, Any], dict[str, list[Dependency]], str]:
+    """Normalize captured ticket bytes and return requirements, links and primary ID.
+
+    Requires the primary ticket snapshot. Reject duplicate normalized IDs before
+    graph/plan validation; only newly created requirement mappings are populated.
+    """
     requirements: dict[str, Any] = {}
     references: dict[str, list[Dependency]] = {}
     for name, snapshot in snapshots.items():
         if name == "ticket" or name.startswith("ticket-"):
             normalized, dependencies = normalize_ticket(
-                Path(snapshot["artifact"]).read_text(), Path(snapshot["source"]), config["checks"]
+                Path(snapshot["artifact"]).read_text(), Path(snapshot["source"]), checks
             )
             if normalized["id"] in requirements:
                 raise GateFailure(
@@ -459,28 +561,19 @@ def load(config_path: Path, output: Path) -> PreparedInputs:
             requirements[normalized["id"]] = normalized
             references[normalized["id"]] = dependencies
             if name == "ticket":
-                ticket = normalized
-    checked_plan = None
-    worker_settings = None
-    if "plan" in snapshots:
-        plan = json.loads(
-            Path(snapshots["plan"]["artifact"]).read_text(), object_pairs_hook=unique_object
-        )
-        from ticket_harness import plans
+                primary = normalized["id"]
+    return requirements, references, primary
 
-        checked_plan, worker_settings = plans.validate(plan, requirements, config, ticket["id"])
-        selection = [
-            Path(requirements[t]["source"]) for t in checked_plan["milestones"][0]["tickets"]
-        ]
-    validate_graph(requirements, references)
-    selected = sorted(
-        (item["id"] for item in requirements.values() if Path(item["source"]) in selection),
-        key=int,
-    )
-    completed = completed_tickets(snapshots, requirements, repository, config["base"])
-    # A selected prerequisite must be verified again by this run before it can unlock work.
-    executable = checked_plan["required_tickets"] if checked_plan is not None else selected
-    completed.difference_update(executable)
+
+def _require_executable(
+    requirements: dict[str, Any], executable: list[str], completed: set[str]
+) -> None:
+    """Require agent readiness and satisfied prerequisites for every executable ID.
+
+    Read prepared values without mutation. A plan supplies all required tickets,
+    including later milestones; legacy runs supply only their selected tickets.
+    Raise GateFailure on the first readiness or missing-prerequisite failure.
+    """
     for ticket_id in executable:
         item = requirements[ticket_id]
         if item["readiness"] != "ready-for-agent":
@@ -498,11 +591,59 @@ def load(config_path: Path, output: Path) -> PreparedInputs:
                 f"ticket {ticket_id}: unsatisfied prerequisites {missing}; "
                 "select prerequisites or supply completed_runs with integrated Done evidence"
             )
+
+
+def load(config_path: Path, output: Path) -> PreparedInputs:
+    """Prepare inputs before execution, copying approved bytes into output/inputs.
+
+    The caller must create output/inputs first. Output must be outside the target
+    repository and separate from every approved input; violations reject before
+    any worker/check execution or ref advancement. Source files are never written.
+    Return a complete PreparedInputs only after plan, graph, completion and
+    eligibility checks. GateFailure rejects invalid contracts; JSON/filesystem
+    errors propagate, and partial captures can remain if preparation fails.
+    """
+    config = configuration(json.loads(config_path.read_text(), object_pairs_hook=unique_object))
+    repository = (config_path.parent / config["repository"]).resolve()
+    for name in config["checks"]:
+        if not re.fullmatch(r"[A-Za-z0-9]+(?:-[A-Za-z0-9]+)*", name):
+            raise GateFailure(f"checks.{name}: invalid check name; use letters, numbers, hyphens")
+        command(config["checks"][name], f"checks.{name}", repository, config["base"])
+    command(config["agent"], "agent", repository, config["base"])
+    command(config["suite"], "suite", repository, config["base"])
+    config["repository"] = str(repository)
+    if output == repository or repository in output.parents:
+        raise GateFailure("Run output must be outside the target repository")
+    paths, selection = _input_paths(config, config_path, repository)
+    snapshots = _capture_inputs(paths, output)
+    requirements, references, primary = _ticket_requirements(snapshots, config["checks"])
+    checked_plan = None
+    worker_settings = None
+    if "plan" in snapshots:
+        plan = json.loads(
+            Path(snapshots["plan"]["artifact"]).read_text(), object_pairs_hook=unique_object
+        )
+        from ticket_harness import plans
+
+        checked_plan, worker_settings = plans.validate(plan, requirements, config, primary)
+        selection = [
+            Path(requirements[t]["source"]) for t in checked_plan["milestones"][0]["tickets"]
+        ]
+    validate_graph(requirements, references)
+    selected = sorted(
+        (item["id"] for item in requirements.values() if Path(item["source"]) in selection),
+        key=int,
+    )
+    completed = completed_tickets(snapshots, requirements, repository, config["base"])
+    # A selected prerequisite must be verified again by this run before it can unlock work.
+    executable = checked_plan["required_tickets"] if checked_plan is not None else selected
+    completed.difference_update(executable)
+    _require_executable(requirements, executable, completed)
     return PreparedInputs(
         config,
         snapshots,
         requirements,
-        ticket["id"],
+        primary,
         selected,
         sorted(completed, key=int),
         checked_plan,

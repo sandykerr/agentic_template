@@ -31,7 +31,8 @@ def waiting(graph, process, milestone):
 
 def test_approval_rejects_same_oid_alias_installed_after_destination_validation(graph):
     configure_plan(graph)
-    with foreground(graph) as process:
+    git_trace = graph.home / "observer-git.jsonl"
+    with foreground(graph, git_trace=git_trace) as process:
         first = waiting(graph, process, "M1")
         request = json.loads(Path(first["qa_request"]).read_text())
         graph.git("branch", "same-tip", "dev")
@@ -40,6 +41,7 @@ def test_approval_rejects_same_oid_alias_installed_after_destination_validation(
             process,
             ["for-each-ref", "--format=%(symref)", "refs/heads/dev"],
             trigger=lambda: approve(graph, request),
+            git_trace=git_trace,
         ):
             current = graph.record()
             assert current["milestone"]["id"] == "M1"

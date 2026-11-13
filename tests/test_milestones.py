@@ -62,18 +62,40 @@ def test_ticket_integration_rejects_destinations_aliased_during_work(graph, bran
 
 
 @contextmanager
-def pause_after_git(process, arguments, *, transaction_open=False, trigger=None):
+def pause_after_git(process, arguments, *, transaction_open=False, trigger=None, git_trace=None):
     """Schedule an external writer after a real Git child finishes its read.
 
     Stop the CLI owner before looking for children so it cannot reap a matching
     Git command during inspection. A trigger publishes input only after the
     observer is armed. Git children still finish normally; always resume the
     owner before the foreground fixture performs its normal process cleanup.
+    Optional real Git Trace2 events recover argv after a direct child becomes a
+    zombie with empty cmdline; trace history alone never establishes a child.
     """
     children = Path(f"/proc/{process.pid}/task/{process.pid}/children")
     deadline = time.monotonic() + 20
     paused = False
     scheduled = False
+
+    def child_command(child):
+        child_path = Path(f"/proc/{child}")
+        command = (child_path / "cmdline").read_bytes().split(b"\0")
+        if command[0] or git_trace is None or (child_path / "comm").read_text().strip() != "git":
+            return command
+        if not git_trace.exists():
+            return command
+        # Git 2.53 Trace2's final SID component ends in -P<hex process PID>.
+        # Keep the last start for this still-present child, never a reaped PID.
+        for line in git_trace.read_text().splitlines():
+            try:
+                event = json.loads(line)
+                pid = event.get("sid", "").rsplit("/", 1)[-1].rpartition("-P")[2]
+                if event.get("event") == "start" and pid and int(pid, 16) == int(child):
+                    command = [part.encode() for part in event["argv"]] + [b""]
+            except (ValueError, KeyError):
+                # A live Git child can still be appending its final trace line.
+                continue
+        return command
 
     def suspend_owner():
         nonlocal paused
@@ -96,15 +118,12 @@ def pause_after_git(process, arguments, *, transaction_open=False, trigger=None)
         while time.monotonic() < deadline and process.poll() is None:
             for child in children.read_text().split():
                 try:
-                    command = Path(f"/proc/{child}/cmdline").read_bytes().split(b"\0")
+                    command = child_command(child)
                     if command[0] != b"git" or command[-len(arguments) - 1 : -1] != [
                         part.encode() for part in arguments
                     ]:
                         continue
-                    commands = [
-                        Path(f"/proc/{pid}/cmdline").read_bytes().split(b"\0")
-                        for pid in children.read_text().split()
-                    ]
+                    commands = [child_command(pid) for pid in children.read_text().split()]
                     if (
                         any(c[-3:-1] == [b"update-ref", b"--stdin"] for c in commands)
                         != transaction_open
@@ -145,18 +164,33 @@ def test_development_alias_after_validation_cannot_follow_automatic_integration(
     graph, after_prepare
 ):
     configure_plan(graph)
-    with foreground(graph) as process:
-        # Exclude setup checks; the first candidate is already tested when this
-        # final destination read runs. This is the original Spec02 interleaving.
-        wait_for(
-            graph,
-            process,
-            lambda record: any(g["stage"] == "candidate" for g in record["gates"]),
-        )
+    ready = graph.home / "candidate-ready"
+    release = graph.home / "candidate-release"
+    suite = graph.home / "candidate-barrier.py"
+    suite.write_text(
+        "import os, subprocess, sys, time\nfrom pathlib import Path\n"
+        f"subprocess.run({graph.config['suite']!r}, check=True)\n"
+        "if os.environ['TICKET_HARNESS_STAGE'] == 'candidate' "
+        "and Path('last-ticket').read_text() == '03':\n"
+        f"    Path({str(ready)!r}).write_text('checked')\n"
+        "    deadline = time.monotonic() + 20\n"
+        f"    while not Path({str(release)!r}).exists():\n"
+        "        if time.monotonic() >= deadline:\n"
+        "            raise TimeoutError('candidate observer did not release suite')\n"
+        "        time.sleep(0.001)\n"
+    )
+    graph.config["suite"] = [sys.executable, str(suite)]
+    git_trace = graph.home / "observer-git.jsonl"
+    with foreground(graph, git_trace=git_trace) as process:
+        # Hold the first checked candidate until the observer confirms the owner
+        # is stopped. Polling a completed gate can miss its integration interval.
+        wait_for(graph, process, lambda record: ready.exists())
         with pause_after_git(
             process,
             ["for-each-ref", "--format=%(symref)", "refs/heads/dev"],
             transaction_open=after_prepare,
+            git_trace=git_trace,
+            trigger=lambda: release.write_text("observer armed"),
         ):
             assert graph.record()["tickets"]["03"]["state"] == "Verifying"
             before = graph.git("show-ref")
@@ -197,7 +231,7 @@ def test_development_alias_after_validation_cannot_follow_automatic_integration(
 
 
 @contextmanager
-def foreground(graph, operation="run"):
+def foreground(graph, operation="run", *, git_trace=None):
     """Own a real foreground runner; bound fixture waits and always reap it."""
     if operation == "run":
         graph.config_path.write_text(json.dumps(graph.config))
@@ -214,9 +248,15 @@ def foreground(graph, operation="run"):
     if operation != "run":
         command = command[:4] + [str(graph.output)]
     stdout_path, stderr_path = graph.home / "foreground.stdout", graph.home / "foreground.stderr"
+    environment = None if git_trace is None else {**os.environ, "GIT_TRACE2_EVENT": str(git_trace)}
     with stdout_path.open("w") as stdout, stderr_path.open("w") as stderr:
         process = subprocess.Popen(
-            command, stdout=stdout, stderr=stderr, text=True, start_new_session=True
+            command,
+            stdout=stdout,
+            stderr=stderr,
+            text=True,
+            start_new_session=True,
+            env=environment,
         )
     try:
         yield process

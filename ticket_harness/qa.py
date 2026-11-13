@@ -29,6 +29,7 @@ from ticket_harness.records import GateFailure, write_json
 
 
 def _digest(path: Path) -> str:
+    """Hash regular evidence bytes; reject missing, nonregular, or symbolic paths."""
     if path.is_symlink() or not path.is_file():
         raise GateFailure(f"Expected regular checkpoint evidence: {path}")
     return hashlib.sha256(path.read_bytes()).hexdigest()
@@ -37,6 +38,10 @@ def _digest(path: Path) -> str:
 @contextmanager
 def ownership(output: Path) -> Iterator[None]:
     # Lock the directory inode: no removable lock-file race or stale PID takeover.
+    """Exclusively lock the run directory inode until context exit.
+
+    Reject another active owner without waiting; always close the lock descriptor.
+    """
     descriptor = os.open(output, os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW)
     try:
         try:
@@ -58,6 +63,10 @@ def reject(output: Path, operation: str, error: Exception) -> None:
 
 
 def stop(output: Path) -> dict[str, Any]:
+    """Request a deliberate stop from the active QA owner for its exact request.
+
+    Reject inactive or nonwaiting runs; the owner validates and persists the stop.
+    """
     active = False
     try:
         with ownership(output):
@@ -96,6 +105,7 @@ def _validate_request(config: dict[str, Any], request: dict[str, Any]) -> None:
 
 
 def _evidence_files(output: Path) -> list[Path]:
+    """List current artifacts and checkpoint archives whose identities must be frozen."""
     return [*(output / "artifacts").iterdir(), *(output / "checkpoints").glob("*.json")]
 
 
@@ -135,15 +145,25 @@ class ReviewVerification(Protocol):
 
     stage: str
 
-    def save(self) -> None: ...
+    def save(self) -> None:
+        """Persist the shared run record after a review-owned state transition."""
+        ...
 
-    def git_operation(self, name: str) -> AbstractContextManager[None]: ...
+    def git_operation(self, name: str) -> AbstractContextManager[None]:
+        """Bracket a named Git operation with the run's protected-input checks."""
+        ...
 
-    def check(self, stage: str, argv: list[str], source: Path, revision: str) -> dict[str, Any]: ...
+    def check(self, stage: str, argv: list[str], source: Path, revision: str) -> dict[str, Any]:
+        """Run and register an exact-source gate, rejecting failure through run policy."""
+        ...
 
-    def validate_sources(self) -> None: ...
+    def validate_sources(self) -> None:
+        """Invalidate canonical run checks whose source identity no longer holds."""
+        ...
 
-    def export_checks(self) -> list[list[Any]]: ...
+    def export_checks(self) -> list[list[Any]]:
+        """Serialize canonical verified checks for the deliberate checkpoint."""
+        ...
 
 
 class MilestoneReview:
@@ -163,6 +183,11 @@ class MilestoneReview:
         request_artifact: Path,
         verification: ReviewVerification,
     ) -> None:
+        """Bind the run-owned record and verification operations for one milestone.
+
+        Keep the shared milestone identity; request and evidence state belongs to
+        this review until promotion or a deliberate checkpoint stop.
+        """
         self._record = record
         self._config = config
         self._output = output
@@ -183,107 +208,134 @@ class MilestoneReview:
         self._observed_decision: bytes | None = None
 
     def execute(self, checkpoint: dict[str, Any] | None) -> ReviewOutcome:
+        """Prepare or restore the request, then wait for a stop or exact human approval."""
         self._prepare(checkpoint)
         return self._await_decision()
 
     def _prepare(self, checkpoint: dict[str, Any] | None) -> None:
-        # Milestone preparation has no ticket repair budget and never changes refs.
+        """Prepare a fresh candidate or reopen the same frozen request without replay.
+
+        Preparation never advances refs or spends a ticket repair attempt.
+        """
         self._verification.stage = "milestone-candidate"
         require_direct_branches(self._repository, self._integration, self._development)
         if checkpoint is None:
-            self._milestone.update(state="preparing", feature_revision=self._previous)
-            self._development_base = git(
-                self._repository, "rev-parse", f"refs/heads/{self._development}"
-            )
-            self._record.setdefault(
-                "starting_development_revision", self._record["development_revision"]
-            )
-            self._record["development_revision"] = self._development_base
-            self._milestone["development_revision"] = self._development_base
-            self._verification.save()
-            try:
-                with self._verification.git_operation("milestone-candidate-merge"):
-                    self._revision = candidate(
-                        self._repository,
-                        self._candidate_source,
-                        self._development_base,
-                        self._previous,
-                    )
-                    self._milestone["candidate_revision"] = self._revision
-            except GateFailure as error:
-                raise GateFailure(
-                    f"Milestone merge failed; renewed checks and reviews required: {error}"
-                ) from error
-            with self._verification.git_operation("milestone-candidate-validation"):
-                require_clean_milestone_candidate(
+            regression = self._verify_candidate()
+            self._publish_request(regression)
+        else:
+            self._restore_request(checkpoint)
+
+    def _verify_candidate(self) -> dict[str, Any]:
+        """Merge and regress the candidate, then reject changed inputs or branch tips.
+
+        Save preparation state before Git work; merge failures require renewed
+        verification rather than entering ticket repair.
+        """
+        self._milestone.update(state="preparing", feature_revision=self._previous)
+        self._development_base = git(
+            self._repository, "rev-parse", f"refs/heads/{self._development}"
+        )
+        self._record.setdefault(
+            "starting_development_revision", self._record["development_revision"]
+        )
+        self._record["development_revision"] = self._development_base
+        self._milestone["development_revision"] = self._development_base
+        self._verification.save()
+        try:
+            with self._verification.git_operation("milestone-candidate-merge"):
+                self._revision = candidate(
                     self._repository,
                     self._candidate_source,
-                    self._revision,
                     self._development_base,
                     self._previous,
                 )
-            self._verification.stage = "milestone-regression"
-            regression = self._verification.check(
-                self._verification.stage,
-                self._config["suite"],
+                self._milestone["candidate_revision"] = self._revision
+        except GateFailure as error:
+            raise GateFailure(
+                f"Milestone merge failed; renewed checks and reviews required: {error}"
+            ) from error
+        with self._verification.git_operation("milestone-candidate-validation"):
+            require_clean_milestone_candidate(
+                self._repository,
                 self._candidate_source,
                 self._revision,
+                self._development_base,
+                self._previous,
             )
-            self._verification.stage = "milestone-readiness"
-            inputs.require_approved(self._snapshots)
-            self._verification.validate_sources()
-            require_direct_branches(self._repository, self._integration, self._development)
-            for branch, expected in (
-                (self._integration, self._previous),
-                (self._development, self._development_base),
-            ):
-                if git(self._repository, "rev-parse", f"refs/heads/{branch}") != expected:
-                    raise GateFailure(f"Branch {branch} changed externally; candidate invalidated")
-            self._request = {
-                "request_id": uuid4().hex,
-                "run_id": self._record["run_id"],
-                "run_directory": str(self._output),
-                "plan_version": self._config["plan"]["version"],
-                "plan_approval": self._config["plan"]["approval"],
-                "plan_input": self._snapshots["plan"],
-                "milestone": self._milestone["id"],
-                "feature_branch": self._integration,
-                "feature_revision": self._previous,
-                "development_branch": self._development,
-                "development_revision": self._development_base,
-                "candidate_revision": self._revision,
-                "candidate_worktree": str(self._candidate_source),
-                "human_checks": self._config["plan"]["milestones"][self._milestone_index]["qa"],
-                "regression_evidence": [regression],
-            }
-            request_path = self._output / "qa-request.json"
-            write_json(request_path, self._request)
-            self._record["qa_request"] = str(request_path)
-            self._record["outcome"] = "awaiting_human_qa"
-            self._milestone["state"] = "awaiting_human_qa"
-            write_json(self._request_artifact, self._request)
-            self._record["qa_decision"] = str(self._output / "qa-decision.json")
-            self._record["qa_decision_status"] = "missing"
-            # Freeze content identities while the human assesses this request.
-            self._evidence = {path: _digest(path) for path in _evidence_files(self._output)}
-            self._request_sha256 = _digest(request_path)
-            self._verification.save()
-        else:
-            request_path = self._output / "qa-request.json"
-            self._request_sha256 = _digest(request_path)
-            self._request = json.loads(request_path.read_bytes())
-            self._candidate_source = Path(self._request["candidate_worktree"])
-            self._revision = self._request["candidate_revision"]
-            self._development_base = self._request["development_revision"]
-            self._evidence = {
-                Path(name): expected for name, expected in checkpoint["evidence"].items()
-            }
-            archive_path = self._output / "checkpoints" / f"{self._record['checkpoint_id']}.json"
-            self._evidence[archive_path] = _digest(archive_path)
-            self._record["outcome"] = "awaiting_human_qa"
-            self._verification.save()
+        self._verification.stage = "milestone-regression"
+        regression = self._verification.check(
+            self._verification.stage,
+            self._config["suite"],
+            self._candidate_source,
+            self._revision,
+        )
+        self._verification.stage = "milestone-readiness"
+        inputs.require_approved(self._snapshots)
+        self._verification.validate_sources()
+        require_direct_branches(self._repository, self._integration, self._development)
+        for branch, expected in (
+            (self._integration, self._previous),
+            (self._development, self._development_base),
+        ):
+            if git(self._repository, "rev-parse", f"refs/heads/{branch}") != expected:
+                raise GateFailure(f"Branch {branch} changed externally; candidate invalidated")
+        return regression
+
+    def _publish_request(self, regression: dict[str, Any]) -> None:
+        """Publish the exact QA request and freeze evidence before saving the wait state."""
+        self._request = {
+            "request_id": uuid4().hex,
+            "run_id": self._record["run_id"],
+            "run_directory": str(self._output),
+            "plan_version": self._config["plan"]["version"],
+            "plan_approval": self._config["plan"]["approval"],
+            "plan_input": self._snapshots["plan"],
+            "milestone": self._milestone["id"],
+            "feature_branch": self._integration,
+            "feature_revision": self._previous,
+            "development_branch": self._development,
+            "development_revision": self._development_base,
+            "candidate_revision": self._revision,
+            "candidate_worktree": str(self._candidate_source),
+            "human_checks": self._config["plan"]["milestones"][self._milestone_index]["qa"],
+            "regression_evidence": [regression],
+        }
+        request_path = self._output / "qa-request.json"
+        write_json(request_path, self._request)
+        self._record["qa_request"] = str(request_path)
+        self._record["outcome"] = "awaiting_human_qa"
+        self._milestone["state"] = "awaiting_human_qa"
+        write_json(self._request_artifact, self._request)
+        self._record["qa_decision"] = str(self._output / "qa-decision.json")
+        self._record["qa_decision_status"] = "missing"
+        # Freeze content identities while the human assesses this request.
+        self._evidence = {path: _digest(path) for path in _evidence_files(self._output)}
+        self._request_sha256 = _digest(request_path)
+        self._verification.save()
+
+    def _restore_request(self, checkpoint: dict[str, Any]) -> None:
+        """Reopen a validated request and add its archive identity to frozen evidence.
+
+        Reuse the existing candidate and regression evidence; only the run's wait
+        state is saved, with no candidate creation or check replay.
+        """
+        request_path = self._output / "qa-request.json"
+        self._request_sha256 = _digest(request_path)
+        self._request = json.loads(request_path.read_bytes())
+        self._candidate_source = Path(self._request["candidate_worktree"])
+        self._revision = self._request["candidate_revision"]
+        self._development_base = self._request["development_revision"]
+        self._evidence = {Path(name): expected for name, expected in checkpoint["evidence"].items()}
+        archive_path = self._output / "checkpoints" / f"{self._record['checkpoint_id']}.json"
+        self._evidence[archive_path] = _digest(archive_path)
+        self._record["outcome"] = "awaiting_human_qa"
+        self._verification.save()
 
     def _await_decision(self) -> ReviewOutcome:
+        """Poll for a clean stop or changed decision bytes until promotion succeeds.
+
+        Invalid decisions remain observations and do not authorize repairs or refs.
+        """
         while True:
             if self._stop_if_requested():
                 return ReviewOutcome.STOPPED
@@ -296,6 +348,10 @@ class MilestoneReview:
                 return ReviewOutcome.PROMOTED
 
     def _stop_if_requested(self) -> bool:
+        """Consume a matching stop request only after revalidating frozen inputs.
+
+        Discard stale requests; persist current observations in a deliberate checkpoint.
+        """
         stop_path = self._output / "stop-request.json"
         if stop_path.exists():
             stopping = json.loads(stop_path.read_text())
@@ -313,6 +369,10 @@ class MilestoneReview:
         return False
 
     def _read_decision(self) -> bytes | None:
+        """Read regular decision bytes, saving missing/unreadable status transitions.
+
+        Reset the observed identity on read failure so a restored file is reconsidered.
+        """
         try:
             decision_path = self._output / "qa-decision.json"
             if decision_path.is_symlink() or not stat.S_ISREG(decision_path.stat().st_mode):
@@ -329,6 +389,11 @@ class MilestoneReview:
         return raw
 
     def _consider_decision(self, raw: bytes) -> bool:
+        """Archive decision bytes and promote only an unconsumed exact approval.
+
+        Rejections are saved and leave the wait active. Accepted input is revalidated
+        before the atomic ref transaction; consumption is recorded after it succeeds.
+        """
         decision_observation: dict[str, Any] = {
             "sha256": hashlib.sha256(raw).hexdigest(),
             "milestone": self._milestone["id"],
@@ -388,6 +453,10 @@ class MilestoneReview:
         return True
 
     def _require_current(self, *, before_stop: bool = False) -> None:
+        """Reject stale approvals, verified sources, request bytes, or evidence.
+
+        A deliberate stop also validates destination refs before checkpoint creation.
+        """
         inputs.require_approved(self._snapshots)
         self._verification.validate_sources()
         _require_frozen(self._output, self._request_sha256, self._evidence, before_stop=before_stop)
@@ -395,6 +464,10 @@ class MilestoneReview:
             _validate_request(self._config, self._request)
 
     def _persist(self) -> None:
+        """Write and archive a version-1 deliberate checkpoint, then save its digest.
+
+        Export run-owned canonical checks without changing their identity or ownership.
+        """
         self._record["outcome"] = "stopped_at_qa"
         self._record["checkpoint_id"] = uuid4().hex
         checkpoint = {
@@ -417,6 +490,11 @@ class MilestoneReview:
 
     @staticmethod
     def restore_checkpoint(output: Path) -> dict[str, Any]:
+        """Validate a deliberate checkpoint and its frozen inputs before returning it.
+
+        Reject arbitrary interruption recovery, changed records/evidence/sources or
+        destination refs. Reconstruction of canonical checks remains run-owned.
+        """
         record = json.loads(
             (output / "run.json").read_text(), object_pairs_hook=inputs.unique_object
         )
@@ -430,6 +508,29 @@ class MilestoneReview:
         checkpoint: dict[str, Any] = json.loads(
             path.read_text(), object_pairs_hook=inputs.unique_object
         )
+        MilestoneReview._require_checkpoint_identity(output, record, checkpoint)
+        inputs.require_approved(record["inputs"])
+        _require_frozen(
+            output,
+            checkpoint["request_sha256"],
+            {Path(name): expected for name, expected in checkpoint["evidence"].items()},
+        )
+        for _, source, revision in checkpoint["verified"]:
+            require_unchanged(Path(source), revision)
+        _validate_request(
+            checkpoint["config"], json.loads((output / "qa-request.json").read_text())
+        )
+        return checkpoint
+
+    @staticmethod
+    def _require_checkpoint_identity(
+        output: Path, record: dict[str, Any], checkpoint: dict[str, Any]
+    ) -> None:
+        """Reject a different checkpoint schema, run record, directory, or archive.
+
+        The live record alone carries checkpoint_sha256; exclude only that field
+        when comparing it with the record embedded before the checkpoint was hashed.
+        """
         expected_record = dict(record)
         del expected_record["checkpoint_sha256"]
         if (
@@ -444,15 +545,3 @@ class MilestoneReview:
             != record["checkpoint_sha256"]
         ):
             raise GateFailure("Archived checkpoint identity changed")
-        inputs.require_approved(record["inputs"])
-        _require_frozen(
-            output,
-            checkpoint["request_sha256"],
-            {Path(name): expected for name, expected in checkpoint["evidence"].items()},
-        )
-        for _, source, revision in checkpoint["verified"]:
-            require_unchanged(Path(source), revision)
-        _validate_request(
-            checkpoint["config"], json.loads((output / "qa-request.json").read_text())
-        )
-        return checkpoint

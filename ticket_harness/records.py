@@ -20,6 +20,7 @@ class NonRepairableFailure(GateFailure):
 
 
 def write_json(path: Path, value: Any) -> None:
+    """Replace a JSON record via a sibling temporary file; propagate filesystem errors."""
     temporary = path.with_suffix(".tmp")
     temporary.write_text(json.dumps(value, indent=2) + "\n")
     temporary.replace(path)
@@ -32,7 +33,12 @@ def protect(
     stage: str,
     evidence: dict[str, Any],
 ) -> Iterator[None]:
-    """Bracket external execution; True paths are restored, False paths stay inspectable."""
+    """Snapshot protected paths and existing artifacts around external execution.
+
+    On every exit, preserve observed violations and mark evidence failed. Restore
+    prior bytes for True paths (including existing artifacts); False paths remain
+    inspectable. Restoration errors propagate rather than claiming intact evidence.
+    """
     protected = dict(restore_on_violation_by_path)
     protected.update({path: True for path in artifacts.iterdir()})
     originals = {path: path.read_bytes() if path.exists() else None for path in protected}
@@ -89,6 +95,13 @@ def execute(
     restore_on_violation_by_path: dict[Path, bool] | None = None,
     artifact_name: str | None = None,
 ) -> dict[str, Any]:
+    """Run one command in a new session and return its gate with captured artifacts.
+
+    Assignments are persisted and sent as JSON stdin. Deadlines kill the process
+    group; final cleanup also removes background children after successful exits.
+    Spawn/communication OS errors become failed evidence, and integrity checks run
+    after process cleanup before the gate is returned.
+    """
     artifact_name = artifact_name or stage
     stdout = artifacts / f"{artifact_name}.stdout"
     stderr = artifacts / f"{artifact_name}.stderr"
@@ -125,23 +138,9 @@ def execute(
                 env={**os.environ, "TICKET_HARNESS_STAGE": stage},
                 start_new_session=True,
             )
-            try:
-                captured_out, captured_err = process.communicate(
-                    payload.encode() if payload is not None else None, timeout=timeout_seconds
-                )
-            except subprocess.TimeoutExpired:
-                gate.update(
-                    timed_out=True,
-                    diagnostic=f"{stage} timed out after {timeout_seconds} seconds",
-                )
-                stop_group(process, gate)
-                try:
-                    # A dead leader can leave children holding the output pipes open.
-                    # Bound the final drain too; never wait indefinitely for EOF.
-                    captured_out, captured_err = process.communicate(timeout=5)
-                except subprocess.TimeoutExpired as error:
-                    captured_out, captured_err = error.output or b"", error.stderr or b""
-                    gate["execution_error"] = "process cleanup/output drain did not finish"
+            captured_out, captured_err = _communicate(
+                process, payload, timeout_seconds, stage, gate
+            )
             out.write(captured_out)
             err.write(captured_err)
             gate["exit_code"] = process.returncode
@@ -152,17 +151,57 @@ def execute(
             gate["execution_error"] = str(error)
         finally:
             if process is not None:
-                # Also stop background children of an otherwise completed command.
-                stop_group(process, gate)
-                try:
-                    process.wait(timeout=5)
-                except subprocess.TimeoutExpired:
-                    gate["execution_error"] = "process did not stop after SIGKILL"
-                for stream in (process.stdin, process.stdout, process.stderr):
-                    if stream is not None:
-                        stream.close()
-                gate["exit_code"] = process.returncode
+                _finish_process(process, gate)
     return gate
+
+
+def _communicate(
+    process: subprocess.Popen[bytes],
+    payload: str | None,
+    timeout_seconds: int | float,
+    stage: str,
+    gate: dict[str, Any],
+) -> tuple[bytes, bytes]:
+    """Capture output by the deadline, killing the group and bounding its final drain.
+
+    Timeout and cleanup failures update the shared gate; partial output is retained.
+    """
+    try:
+        captured_out, captured_err = process.communicate(
+            payload.encode() if payload is not None else None, timeout=timeout_seconds
+        )
+    except subprocess.TimeoutExpired:
+        gate.update(
+            timed_out=True,
+            diagnostic=f"{stage} timed out after {timeout_seconds} seconds",
+        )
+        stop_group(process, gate)
+        try:
+            # A dead leader can leave children holding the output pipes open.
+            # Bound the final drain too; never wait indefinitely for EOF.
+            captured_out, captured_err = process.communicate(timeout=5)
+        except subprocess.TimeoutExpired as error:
+            captured_out, captured_err = error.output or b"", error.stderr or b""
+            gate["execution_error"] = "process cleanup/output drain did not finish"
+    return captured_out, captured_err
+
+
+def _finish_process(process: subprocess.Popen[bytes], gate: dict[str, Any]) -> None:
+    """Stop remaining group members, bound leader reaping, and close every pipe.
+
+    Called from execution's finally block even after normal completion; records the
+    final exit code and any failure to reap after SIGKILL.
+    """
+    # Also stop background children of an otherwise completed command.
+    stop_group(process, gate)
+    try:
+        process.wait(timeout=5)
+    except subprocess.TimeoutExpired:
+        gate["execution_error"] = "process did not stop after SIGKILL"
+    for stream in (process.stdin, process.stdout, process.stderr):
+        if stream is not None:
+            stream.close()
+    gate["exit_code"] = process.returncode
 
 
 def stop_group(process: subprocess.Popen[bytes], gate: dict[str, Any]) -> None:

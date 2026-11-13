@@ -12,6 +12,7 @@ IDENTITY = ["-c", "user.name=Ticket Harness", "-c", "user.email=harness@example.
 
 
 def git(repository: Path, *args: str) -> str:
+    """Run Git in the target repository; return stripped stdout or raise GateFailure."""
     result = subprocess.run(
         ["git", "-C", str(repository), *args], capture_output=True, text=True, check=False
     )
@@ -24,6 +25,7 @@ def git(repository: Path, *args: str) -> str:
 
 
 def worktree(repository: Path, path: Path, revision: str) -> Path:
+    """Create a detached worktree at the revision and return its path."""
     git(repository, "worktree", "add", "--detach", str(path), revision)
     return path
 
@@ -57,6 +59,7 @@ def carry_changes(previous: Path, source: Path) -> None:
 
 
 def require_unchanged(source: Path, revision: str) -> None:
+    """Reject changed HEAD, worktree contents, or hidden index visibility flags."""
     flags = git(source, "ls-files", "-v", "-z").split("\0")
     if any(entry and (entry[0].islower() or entry[0] == "S") for entry in flags):
         raise GateFailure(f"Verified source changed index visibility flags at {source}")
@@ -67,6 +70,11 @@ def require_unchanged(source: Path, revision: str) -> None:
 def capture(
     source: Path, start: str, ticket: str, base: str | None = None
 ) -> tuple[str, list[str]]:
+    """Commit the submitted working tree without permitting worker-owned HEAD changes.
+
+    Stage all changes and return the submission revision with paths changed since
+    base (or start); an initial empty submission is rejected.
+    """
     if git(source, "rev-parse", "HEAD") != start:
         raise GateFailure("Implementation changed HEAD; the harness owns submission commits")
     git(source, "add", "--all")
@@ -81,6 +89,10 @@ def capture(
 
 
 def candidate(repository: Path, source: Path, base: str, submission: str) -> str:
+    """Create a detached merge candidate; leave destination refs unchanged.
+
+    Merge failures propagate while the candidate remains available for diagnosis.
+    """
     worktree(repository, source, base)
     git(source, *IDENTITY, "merge", "--no-ff", "-m", "Verified ticket candidate", submission)
     return git(source, "rev-parse", "HEAD")
@@ -89,6 +101,10 @@ def candidate(repository: Path, source: Path, base: str, submission: str) -> str
 def require_reviewed_candidate(source: Path, revision: str, base: str, submission: str) -> None:
     # In this sequential slice submission descends directly from the starting base.
     # Any different merge tree introduces source that neither reviewer approved.
+    """Reject a candidate whose parents or tree differ from the reviewed submission.
+
+    Also require its detached worktree to retain the verified revision unchanged.
+    """
     parents = git(source, "show", "-s", "--format=%P", revision).split()
     if parents != [base, submission] or git(source, "rev-parse", f"{revision}^{{tree}}") != git(
         source, "rev-parse", f"{submission}^{{tree}}"
@@ -106,6 +122,11 @@ def promote(
     previous: str,
     development: str | None = None,
 ) -> None:
+    """Advance the integration ref only while its expected identity remains current.
+
+    If provided, lock and verify the development ref at its current tip in the same
+    transaction; destination names must remain direct branches.
+    """
     require_direct_branches(repository, branch, *((development,) if development else ()))
     refs: dict[str, tuple[str | None, str]] = {branch: (revision, previous)}
     if development:

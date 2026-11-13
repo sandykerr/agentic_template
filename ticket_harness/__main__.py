@@ -11,6 +11,12 @@ from ticket_harness.runner import continue_run, run
 
 
 def main() -> int:
+    """Dispatch run/status/stop/continue from process arguments and return an exit code.
+
+    Print the resulting record as JSON on stdout. Operational/input failures print
+    a diagnostic on stderr and return 1; argparse handles invalid CLI arguments.
+    Status reads existing state; other operations can write run or repository state.
+    """
     parser = argparse.ArgumentParser(prog="ticket-harness")
     operations = parser.add_subparsers(dest="operation", required=True)
     start = operations.add_parser("run")
