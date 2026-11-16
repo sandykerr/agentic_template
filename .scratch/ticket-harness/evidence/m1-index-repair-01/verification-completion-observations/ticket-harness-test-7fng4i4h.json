@@ -1,0 +1,61 @@
+{
+  "scenario": "test_later_milestone_eligibility_is_validated_before_execution[not-ready]",
+  "record": {
+    "outcome": "invalid-input",
+    "artifacts": "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.scratch/ticket-harness/evidence/m1-index-repair-01/test-tmp/ticket-harness-test-7fng4i4h/run/artifacts",
+    "inputs": {},
+    "ticket": {
+      "state": "Blocked",
+      "attempt": 0
+    },
+    "gates": [],
+    "attempts": [],
+    "failure": {
+      "stage": "inputs",
+      "message": "ticket 02: selected Status must be ready-for-agent; found 'ready-for-human'"
+    }
+  },
+  "cli_observations": [
+    {
+      "command": [
+        "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.venv/bin/python",
+        "-m",
+        "ticket_harness",
+        "run",
+        "--config",
+        "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.scratch/ticket-harness/evidence/m1-index-repair-01/test-tmp/ticket-harness-test-7fng4i4h/project.json",
+        "--output",
+        "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.scratch/ticket-harness/evidence/m1-index-repair-01/test-tmp/ticket-harness-test-7fng4i4h/run"
+      ],
+      "exit_code": 1,
+      "stderr": "",
+      "stdout_matches_record": true,
+      "record": {
+        "outcome": "invalid-input",
+        "artifacts": "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.scratch/ticket-harness/evidence/m1-index-repair-01/test-tmp/ticket-harness-test-7fng4i4h/run/artifacts",
+        "inputs": {},
+        "ticket": {
+          "state": "Blocked",
+          "attempt": 0
+        },
+        "gates": [],
+        "attempts": [],
+        "failure": {
+          "stage": "inputs",
+          "message": "ticket 02: selected Status must be ready-for-agent; found 'ready-for-human'"
+        }
+      }
+    }
+  ],
+  "foreground_observations": [],
+  "qa_artifacts": {},
+  "integration": "4aabf00929bbe24d373a771e865ef685643a480e",
+  "history": "4aabf00929bbe24d373a771e865ef685643a480e 2337996d022cb3fafda0f61f693434df54633cee Approved dependency graph\n2337996d022cb3fafda0f61f693434df54633cee  Fixture baseline",
+  "caller_status": "M 02-work.md\n?? plan.json",
+  "launches": [],
+  "assignments": {},
+  "qa_request": null,
+  "milestone_candidate": null,
+  "development": "4aabf00929bbe24d373a771e865ef685643a480e",
+  "outputs": {}
+}

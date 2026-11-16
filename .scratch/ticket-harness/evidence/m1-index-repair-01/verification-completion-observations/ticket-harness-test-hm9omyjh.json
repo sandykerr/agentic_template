@@ -1,0 +1,88 @@
+{
+  "scenario": "test_invalid_plans_reject_before_processes_or_branch_changes[later-dependency-later milestone]",
+  "record": {
+    "outcome": "invalid-input",
+    "artifacts": "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.scratch/ticket-harness/evidence/m1-index-repair-01/test-tmp/ticket-harness-test-hm9omyjh/run/artifacts",
+    "inputs": {},
+    "ticket": {
+      "state": "Blocked",
+      "attempt": 0
+    },
+    "gates": [],
+    "attempts": [],
+    "failure": {
+      "stage": "inputs",
+      "message": "ticket 01: dependency 02 belongs to a later milestone"
+    }
+  },
+  "cli_observations": [
+    {
+      "command": [
+        "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.venv/bin/python",
+        "-m",
+        "ticket_harness",
+        "run",
+        "--config",
+        "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.scratch/ticket-harness/evidence/m1-index-repair-01/test-tmp/ticket-harness-test-hm9omyjh/project.json",
+        "--output",
+        "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.scratch/ticket-harness/evidence/m1-index-repair-01/test-tmp/ticket-harness-test-hm9omyjh/run"
+      ],
+      "exit_code": 1,
+      "stderr": "",
+      "stdout_matches_record": true,
+      "record": {
+        "outcome": "invalid-input",
+        "artifacts": "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.scratch/ticket-harness/evidence/m1-index-repair-01/test-tmp/ticket-harness-test-hm9omyjh/run/artifacts",
+        "inputs": {},
+        "ticket": {
+          "state": "Blocked",
+          "attempt": 0
+        },
+        "gates": [],
+        "attempts": [],
+        "failure": {
+          "stage": "inputs",
+          "message": "ticket 01: dependency 02 belongs to a later milestone"
+        }
+      }
+    },
+    {
+      "command": [
+        "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.venv/bin/python",
+        "-m",
+        "ticket_harness",
+        "status",
+        "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.scratch/ticket-harness/evidence/m1-index-repair-01/test-tmp/ticket-harness-test-hm9omyjh/run"
+      ],
+      "exit_code": 0,
+      "stderr": "",
+      "stdout_matches_record": true,
+      "record": {
+        "outcome": "invalid-input",
+        "artifacts": "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.scratch/ticket-harness/evidence/m1-index-repair-01/test-tmp/ticket-harness-test-hm9omyjh/run/artifacts",
+        "inputs": {},
+        "ticket": {
+          "state": "Blocked",
+          "attempt": 0
+        },
+        "gates": [],
+        "attempts": [],
+        "failure": {
+          "stage": "inputs",
+          "message": "ticket 01: dependency 02 belongs to a later milestone"
+        }
+      }
+    }
+  ],
+  "foreground_observations": [],
+  "qa_artifacts": {},
+  "integration": "b39901396c810d1339d1c2b74a5eb43dd6aeb473",
+  "history": "b39901396c810d1339d1c2b74a5eb43dd6aeb473 81b9f788e943f2bfcb11c3853d08451f6e7dfa31 Approved dependency graph\n81b9f788e943f2bfcb11c3853d08451f6e7dfa31  Fixture baseline",
+  "caller_status": "M 01-value.md\n M 04-work.md\n?? plan.json",
+  "launches": [],
+  "assignments": {},
+  "qa_request": null,
+  "milestone_candidate": null,
+  "development": "b39901396c810d1339d1c2b74a5eb43dd6aeb473",
+  "outputs": {}
+}

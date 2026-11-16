@@ -1,0 +1,197 @@
+{
+  "cwd": "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template",
+  "checks": [
+    {
+      "argv": [
+        ".venv/bin/python",
+        "-m",
+        "pytest",
+        "tests/test_transaction.py::test_inherited_caller_index_is_preserved_during_ticket_execution",
+        "-q"
+      ],
+      "exit": 1,
+      "log": "red-caller-index.log",
+      "result": "1 failed in0.42s",
+      "source": "e2b0a26 production + starting.patch initial test"
+    },
+    {
+      "argv": [
+        ".venv/bin/python",
+        "-m",
+        "pytest",
+        "tests/test_transaction.py::test_inherited_caller_index_is_preserved_during_ticket_execution",
+        "-q"
+      ],
+      "exit": 0,
+      "log": "green-caller-index.log",
+      "result": "1 passed in0.76s",
+      "source": "final production + starting.patch initial test"
+    },
+    {
+      "argv": [
+        ".venv/bin/python",
+        "-m",
+        "pytest",
+        "tests/test_transaction.py::test_inherited_caller_index_is_preserved_during_ticket_execution",
+        "-q"
+      ],
+      "exit": 1,
+      "log": "red-external-processes.log",
+      "result": "3 failed,3 passed in4.09s",
+      "source": "intermediate-source-identities.json explicitly derived reconstruction"
+    },
+    {
+      "argv": [
+        ".venv/bin/python",
+        "-m",
+        "pytest",
+        "tests/test_transaction.py::test_inherited_caller_index_is_preserved_during_ticket_execution",
+        "-q"
+      ],
+      "exit": 0,
+      "log": "green-external-processes.log",
+      "result": "4 passed in2.74s",
+      "source": "worker-source.json"
+    },
+    {
+      "argv": [
+        ".venv/bin/python",
+        "-m",
+        "pytest",
+        "tests/test_cli.py",
+        "tests/test_transaction.py",
+        "tests/test_repairs.py",
+        "tests/test_milestones.py::test_changed_development_base_is_combined_with_feature_using_a_clean_same_file_merge",
+        "tests/test_milestones.py::test_conflicting_development_preserves_resolution_and_requires_renewed_reviews",
+        "tests/test_milestones.py::test_development_alias_after_validation_cannot_follow_automatic_integration",
+        "tests/test_qa_promotion.py::test_approval_rejects_same_oid_alias_installed_after_destination_validation",
+        "tests/test_continuation.py::test_continued_run_records_invalidation_of_earlier_verified_source",
+        "-q",
+        "--junitxml=.scratch/ticket-harness/evidence/m1-index-repair-01/focused-pytest.xml"
+      ],
+      "exit": 1,
+      "environment_delta": {},
+      "log": "focused-pytest.log",
+      "junit": "focused-pytest.xml",
+      "junit_attributes": {
+        "name": "pytest",
+        "errors": "0",
+        "failures": "15",
+        "skipped": "0",
+        "tests": "125",
+        "time": "100.851",
+        "timestamp": "2026-11-13T12:41:41.809901-05:00",
+        "hostname": "gpu012"
+      },
+      "source": "worker-source.json",
+      "failure_explanation": "/tmp noexec ignored executable hooks"
+    },
+    {
+      "argv": [
+        ".venv/bin/python",
+        "-m",
+        "pytest",
+        "tests/test_cli.py",
+        "tests/test_transaction.py",
+        "tests/test_repairs.py",
+        "tests/test_milestones.py::test_changed_development_base_is_combined_with_feature_using_a_clean_same_file_merge",
+        "tests/test_milestones.py::test_conflicting_development_preserves_resolution_and_requires_renewed_reviews",
+        "tests/test_milestones.py::test_development_alias_after_validation_cannot_follow_automatic_integration",
+        "tests/test_qa_promotion.py::test_approval_rejects_same_oid_alias_installed_after_destination_validation",
+        "tests/test_continuation.py::test_continued_run_records_invalidation_of_earlier_verified_source",
+        "-q",
+        "--junitxml=.scratch/ticket-harness/evidence/m1-index-repair-01/focused-exec-tmp-pytest.xml"
+      ],
+      "exit": 0,
+      "environment_delta": {
+        "TMPDIR": "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.scratch/ticket-harness/evidence/m1-index-repair-01/test-tmp"
+      },
+      "log": "focused-exec-tmp-pytest.log",
+      "junit": "focused-exec-tmp-pytest.xml",
+      "junit_attributes": {
+        "name": "pytest",
+        "errors": "0",
+        "failures": "0",
+        "skipped": "0",
+        "tests": "125",
+        "time": "563.102",
+        "timestamp": "2026-11-13T12:45:40.926174-05:00",
+        "hostname": "gpu012"
+      },
+      "source": "worker-source.json",
+      "failure_explanation": null
+    },
+    {
+      "argv": [
+        ".venv/bin/python",
+        "-m",
+        "mypy"
+      ],
+      "exit": 0,
+      "log": "worker-mypy.log",
+      "source": "worker-source.json"
+    },
+    {
+      "argv": [
+        ".venv/bin/python",
+        "-m",
+        "ruff",
+        "check",
+        "ticket_harness",
+        "tests",
+        "examples"
+      ],
+      "exit": 0,
+      "log": "worker-ruff.log",
+      "source": "worker-source.json"
+    },
+    {
+      "argv": [
+        ".venv/bin/python",
+        "-m",
+        "ruff",
+        "format",
+        "--check",
+        "ticket_harness",
+        "tests",
+        "examples"
+      ],
+      "exit": 0,
+      "log": "worker-format.log",
+      "source": "worker-source.json"
+    },
+    {
+      "argv": [
+        "git",
+        "diff",
+        "--check"
+      ],
+      "exit": 0,
+      "log": "worker-whitespace.log",
+      "source": "worker-source.json"
+    },
+    {
+      "argv": [
+        ".venv/bin/python",
+        ".scratch/ticket-harness/evidence/m1-index-repair-01/observe-routing.py"
+      ],
+      "exit": 0,
+      "log": "routing-observations.log",
+      "source": "routing-observations/source.json",
+      "result": "8 public CLI routing cases passed; both repositories preserved and fixture cleanup completed"
+    }
+  ],
+  "source_unchanged_at_completion": true,
+  "debug_prefix_search": {
+    "argv": [
+      "rg",
+      "-n",
+      "\\[DEBUG-",
+      "ticket_harness",
+      "tests"
+    ],
+    "exit": 1,
+    "meaning": "no debug instrumentation matches"
+  },
+  "full_suite": "parent owns canonical full-suite and final static gates; not complete by this worker"
+}

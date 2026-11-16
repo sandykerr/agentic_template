@@ -14,8 +14,9 @@ Record cumulative baseline provenance, exact source, all package Python files,
 prior findings and a fresh High Standards report. Missing/incomplete/stale work
 or unresolved in-scope blockers holds readiness, even with all tickets completed.
 Assessment completed, findings dispositioned, candidate ready and milestone
-accepted are separate observations. Real M1 cumulative assessment remains
-unperformed; ticket 18's isolated examples cannot substitute for it.
+accepted are separate observations. Current M1 cumulative renewal is complete at `88e4cd8` with no unresolved
+in-scope blocker; [report/assessment](reviews/M1-architecture-01.md). Ticket 18's
+isolated examples remain historical fixtures and do not substitute for it.
 
 ## Required release membership
 
@@ -32,10 +33,15 @@ Every required ticket 10–34 and 36–38 has exactly one required membership (2
 
 **Required tickets:** [10: Turn one grilling session into an approved plan](issues/10-produce-approved-harness-inputs-with-planning-skill.md), [11: Stop development handoffs at human checkpoints](issues/11-stop-development-handoffs-at-qa-milestones.md), [12: Execute only the first eligible milestone](issues/12-execute-only-the-current-qa-milestone.md), [13: Present a tested feature-to-dev candidate](issues/13-prepare-a-tested-feature-to-dev-candidate.md), [14: Consume approval, promote, and continue](issues/14-promote-only-the-human-approved-milestone.md), [15: Continue after a deliberate QA stop](issues/15-continue-from-a-planned-qa-checkpoint.md), [16: Record review work, findings and decisions](issues/16-record-review-work-findings-and-decisions.md), [17: Review ownership across affected modules](issues/17-review-ownership-across-affected-modules.md), [18: Gate development on cumulative architecture review](issues/18-gate-development-on-cumulative-architecture-review.md), [19: Evaluate reviewers on known and acceptable designs](issues/19-evaluate-reviewers-on-known-and-acceptable-designs.md), [20: Own implementation-attempt transitions](issues/20-own-implementation-attempt-transitions.md), [21: Own ticket execution and bounded repairs](issues/21-own-ticket-execution-and-bounded-repairs.md), [22: Return clearly prepared inputs](issues/22-return-clearly-prepared-inputs.md), [23: Own the complete run lifecycle](issues/23-own-the-complete-run-lifecycle.md), [24: Own milestone review and checkpoint continuation](issues/24-own-milestone-review-and-checkpoint-continuation.md)
 
-**QA status:** Human code/documentation review complete, reported 2026-11-13
-([record](../../docs/human_qa/m1_review.md#human-review-completion--2026-11-13)).
-Milestone acceptance remains pending: the caller-index blocker is open, renewed
-cumulative review is required, and no exact current candidate has been accepted.
+**QA status:** **Accepted 2026-11-16** for source
+`88e4cd8aabc78e76e66efc02983fec3900ab0a23`, development request
+`41a556a9352d44a3922a9c41f30f36af`.
+[Actual human decisions and fulfilled condition](evidence/m1-final-review-01/m1-qa-decision.md),
+[exact promotion/completion/no-replay result](evidence/m1-final-review-01/m1-acceptance-result.json).
+Human code/documentation review was completed earlier. Caller-index F1 is
+independently fixed, all required reviews/checks pass, and the fresh two-milestone
+demo completed only after both actual exact-request human approvals. M2 is now
+eligible; no M2 implementation has started.
 
 **QA setup:** Use an isolated miniature tracker and actual development reviewer evaluation artifacts, then a disposable foreground scripted two-milestone target repository with the refactored final source. Include the nine new ticket outcomes, genuine pre-refactor checkpoint evidence and a cumulative all-file architecture assessment.
 
@@ -104,3 +110,18 @@ cumulative review is required, and no exact current candidate has been accepted.
 ## M1 QA preparation history
 
 2026-11-12: human requested beginning QA after ticket24. [Current cumulative work](reviews/M1-architecture-01.md) assesses `d02e61e` from established starting snapshot `1a623ba`; [QA guide/evidence](evidence/m1-qa-01/qa-guide.md) retains the stopped disposable demonstration. Required cumulative assessment completed with open/blocking `review-M1-architecture-01/standards-01/F1`; finding gate unresolved, readiness held, no human acceptance and no M2 authorization. Approved membership, setup, actions and pass conditions above remain unchanged.
+
+2026-11-16: [Fresh exact-source repair reviews and cumulative renewal](evidence/m1-final-review-01/README.md)
+completed with zero new blocking/optional findings. [Original cumulative F1 fixed](reviews/M1-architecture-01-history.md#event06--independent-exact-source-repair-verification)
+at `88e4cd8`, repair `e06eeaf`; same-source 563/full and required statics retained.
+[Fresh candidate/request and human actions](evidence/m1-final-review-01/qa-guide.md)
+replace the absent historical live demo. Human code/documentation review remains
+complete; no fixture approval or development M1 acceptance is inferred.
+
+2026-11-16: the human approved the first exact demo request, then approved the
+final exact demo and conditionally accepted development M1 request
+`41a556a9352d44a3922a9c41f30f36af` at `88e4cd8`. Both demo refs advanced exactly
+to `2338f88cce672b05ca2fb44127f35ce3659a8cfa`; final continuation exited0 with
+completed/true and no replay. [Condition fulfilled; M1 accepted](evidence/m1-final-review-01/m1-qa-decision.md).
+This decision admits M2 under approved ordering but starts no later ticket and
+accepts no later milestone or final feature release.

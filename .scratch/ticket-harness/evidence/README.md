@@ -16,8 +16,11 @@ findings or human acceptance.
 
 Cross-ticket bundles stay separate:
 
+- [M1 caller-index repair verification](m1-index-repair-01/README.md): frozen
+  source confirmed, 563/full and static checks passed; [independent reviews](m1-final-review-01/README.md) now complete.
 - [M1 cumulative assessment](../reviews/M1-architecture-01.md) and
-  [M1 QA captures](m1-qa-01/): open caller-index finding and demonstration records.
+  [M1 QA captures](m1-qa-01/): historical original finding and demonstration records;
+  [current independent review and candidate](m1-final-review-01/qa-guide.md).
 - [M1 human correction](../reviews/M1-human-readability-01.md) and
   [source/check captures](m1-human-review-01/): retained source-specific results.
 - [Retention audit](evidence-retention-audit-01/README.md) and
@@ -102,6 +105,17 @@ Use these current destinations for its ticket-level inputs:
   [archive audit](ticket-24/24-resume-checkpoint/audit.json).
 - Final ticket 24 context: [resumed packet](ticket-24/24-resume-review-packet.md).
 
-M1 remains unaccepted and its caller-index finding remains open. The named
+M1 is accepted on 2026-11-16. Its caller-index finding is independently fixed at
+`88e4cd8`; [fresh cumulative review and exact candidate](m1-final-review-01/qa-guide.md)
+are complete with [actual human acceptance](m1-final-review-01/m1-qa-decision.md). The named
 temporary demonstration environment is absent as of the 2026-11-13 check; retained
 records and archives describe historical observations, not a live continuation.
+
+## Current M1 review and candidate — 2026-11-16
+
+[Canonical fresh review packet](m1-final-review-01/README.md) and
+[human QA guide](m1-final-review-01/qa-guide.md) supersede historical pending-repair
+navigation. Fresh Spec/Standards/cumulative Standards each 0/0; original F1 fixed,
+563/full and static passes bound to the same source. The new exact demo request is
+completed after both actual human approvals; development M1 is accepted after
+all final exact-promotion/completion/no-replay conditions passed. M2 ticket25 is next.

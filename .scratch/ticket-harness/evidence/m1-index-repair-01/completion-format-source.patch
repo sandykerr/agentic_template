@@ -1,0 +1,134 @@
+diff --git a/tests/test_transaction.py b/tests/test_transaction.py
+index 41a3eab..51edd4a 100644
+--- a/tests/test_transaction.py
++++ b/tests/test_transaction.py
+@@ -235,6 +235,48 @@ def test_rejected_candidate_preserves_caller_index_and_file_bytes(harness):
+     assert harness.git("show", record["ticket"]["submitted_revision"] + ":value.txt") == "2"
+ 
+ 
++@pytest.mark.parametrize(
++    ("writer", "rejected"),
++    [("harness", False), ("harness", True), ("agent", False), ("check", False)],
++)
++def test_inherited_caller_index_is_preserved_during_ticket_execution(
++    harness, monkeypatch, writer, rejected
++):
++    if writer == "agent":
++        harness.agent_report(
++            "implementation",
++            "import subprocess\nsubprocess.run(['git', 'add', '--all'], check=True)",
++        )
++    if writer == "check":
++        suite_script(harness, "subprocess.run(['git', 'add', '--all'], check=True)")
++    if rejected:
++        harness.config["agent"] += ["--reject", "standards"]
++    (harness.repo / "value.txt").write_text("caller staged\n")
++    harness.git("add", "value.txt")
++    (harness.repo / "value.txt").write_text("caller unstaged\n")
++    (harness.repo / "unrelated.txt").write_text("caller untracked\n")
++    index = harness.repo / ".git/index"
++    before = index.read_bytes()
++    with monkeypatch.context() as environment:
++        environment.setenv("GIT_INDEX_FILE", str(index))
++        result = harness.run_ticket()
++    assert index.read_bytes() == before
++    assert harness.git("rev-parse", "HEAD") == harness.base
++    assert harness.git("show", ":value.txt") == "caller staged"
++    assert (harness.repo / "value.txt").read_text() == "caller unstaged\n"
++    assert (harness.repo / "unrelated.txt").read_text() == "caller untracked\n"
++    record = harness.record()
++    if rejected:
++        assert result.returncode != 0
++        assert record["failure"]["stage"] == "standards"
++        assert harness.git("rev-parse", "integration") == harness.base
++    else:
++        assert result.returncode == 0, result.stdout + result.stderr
++        assert record["outcome"] == "completed"
++        assert harness.git("rev-parse", "integration") == record["ticket"]["candidate_revision"]
++        assert harness.git("show", "integration:value.txt") == "2"
++
++
+ @pytest.mark.parametrize("flag", ["--assume-unchanged", "--skip-worktree"])
+ def test_index_flags_cannot_hide_unreviewed_source(harness, flag):
+     harness.agent_report(
+diff --git a/ticket_harness/git.py b/ticket_harness/git.py
+index a9ce418..895cf7f 100644
+--- a/ticket_harness/git.py
++++ b/ticket_harness/git.py
+@@ -6,7 +6,7 @@ import subprocess
+ import tempfile
+ from pathlib import Path
+ 
+-from ticket_harness.records import GateFailure
++from ticket_harness.records import GateFailure, worktree_environment
+ 
+ IDENTITY = ["-c", "user.name=Ticket Harness", "-c", "user.email=harness@example.invalid"]
+ 
+@@ -14,7 +14,11 @@ IDENTITY = ["-c", "user.name=Ticket Harness", "-c", "user.email=harness@example.
+ def git(repository: Path, *args: str) -> str:
+     """Run Git in the target repository; return stripped stdout or raise GateFailure."""
+     result = subprocess.run(
+-        ["git", "-C", str(repository), *args], capture_output=True, text=True, check=False
++        ["git", "-C", str(repository), *args],
++        env=worktree_environment(),
++        capture_output=True,
++        text=True,
++        check=False,
+     )
+     if result.returncode:
+         diagnostic = "\n".join(
+@@ -182,6 +186,7 @@ def _update_direct_branches(
+             stdout=subprocess.PIPE,
+             stderr=diagnostic,
+             bufsize=0,
++            env=worktree_environment(),
+         )
+         try:
+             _transaction_exchange(process, commands + "prepare\n", b"start: ok\nprepare: ok\n")
+diff --git a/ticket_harness/records.py b/ticket_harness/records.py
+index 96f94dc..52a4366 100644
+--- a/ticket_harness/records.py
++++ b/ticket_harness/records.py
+@@ -19,6 +19,33 @@ class NonRepairableFailure(GateFailure):
+     """A failure that another implementation attempt cannot resolve."""
+ 
+ 
++def worktree_environment() -> dict[str, str]:
++    """Copy the environment without Git's repository-local routing and config.
++
++    Git's ``rev-parse --local-env-vars`` identifies these variables as local to
++    the caller's repository. Neither ``git -C`` nor a subprocess cwd overrides
++    them. Keep nonlocal settings, including identities and diagnostic tracing.
++    """
++    local = {
++        "GIT_ALTERNATE_OBJECT_DIRECTORIES",
++        "GIT_CONFIG",
++        "GIT_CONFIG_PARAMETERS",
++        "GIT_CONFIG_COUNT",
++        "GIT_OBJECT_DIRECTORY",
++        "GIT_DIR",
++        "GIT_WORK_TREE",
++        "GIT_IMPLICIT_WORK_TREE",
++        "GIT_GRAFT_FILE",
++        "GIT_INDEX_FILE",
++        "GIT_NO_REPLACE_OBJECTS",
++        "GIT_REPLACE_REF_BASE",
++        "GIT_PREFIX",
++        "GIT_SHALLOW_FILE",
++        "GIT_COMMON_DIR",
++    }
++    return {key: value for key, value in os.environ.items() if key not in local}
++
++
+ def write_json(path: Path, value: Any) -> None:
+     """Replace a JSON record via a sibling temporary file; propagate filesystem errors."""
+     temporary = path.with_suffix(".tmp")
+@@ -135,7 +162,7 @@ def execute(
+                 stdin=subprocess.PIPE if payload is not None else subprocess.DEVNULL,
+                 stdout=subprocess.PIPE,
+                 stderr=subprocess.PIPE,
+-                env={**os.environ, "TICKET_HARNESS_STAGE": stage},
++                env={**worktree_environment(), "TICKET_HARNESS_STAGE": stage},
+                 start_new_session=True,
+             )
+             captured_out, captured_err = _communicate(

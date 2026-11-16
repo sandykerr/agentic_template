@@ -7,6 +7,13 @@ failures and saved evidence. See [inputs](inputs.md) for approved configuration,
 
 ## Assignment and report contracts
 
+Harness Git operations and configured agent/check processes receive a copied
+environment with Git's repository-local routing and configuration variables
+removed. An inherited `GIT_INDEX_FILE`, `GIT_DIR`, or `GIT_WORK_TREE` therefore
+cannot redirect them away from their assigned repository or worktree. Nonlocal
+settings, including Git identity and diagnostic tracing, remain available. The
+isolated milestone merge comparison supplies its own explicit environment.
+
 Each assignment starts a fresh process without conversation history. Standard
 input is one JSON object containing `role` (`implementation`, `spec`, or
 `standards`), `ticket`, `attempt` (initially 1, then 2, 3, ...), `base_revision`,

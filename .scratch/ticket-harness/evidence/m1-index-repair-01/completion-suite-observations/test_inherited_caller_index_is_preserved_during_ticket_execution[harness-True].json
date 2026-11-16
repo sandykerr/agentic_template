@@ -1,0 +1,340 @@
+{
+  "nodeid": "tests/test_transaction.py::test_inherited_caller_index_is_preserved_during_ticket_execution[harness-True]",
+  "result": "passed",
+  "record": {
+    "outcome": "incomplete",
+    "artifacts": "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.scratch/ticket-harness/evidence/m1-index-repair-01/test-tmp/ticket-harness-test-06nrzuqq/run/artifacts",
+    "inputs": {
+      "configuration": {
+        "source": "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.scratch/ticket-harness/evidence/m1-index-repair-01/test-tmp/ticket-harness-test-06nrzuqq/project.json",
+        "artifact": "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.scratch/ticket-harness/evidence/m1-index-repair-01/test-tmp/ticket-harness-test-06nrzuqq/run/inputs/configuration.json",
+        "sha256": "644f361593ff33f26fadd509f315332df59096391080c0a479ebe4a5924033f4"
+      },
+      "spec": {
+        "source": "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.scratch/ticket-harness/evidence/m1-index-repair-01/test-tmp/ticket-harness-test-06nrzuqq/target/spec.md",
+        "artifact": "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.scratch/ticket-harness/evidence/m1-index-repair-01/test-tmp/ticket-harness-test-06nrzuqq/run/inputs/spec.md",
+        "sha256": "70fc083432bac5b804dc291e318b27ed5ed439bc44fb6d81f98e39b808c3c363"
+      },
+      "ticket": {
+        "source": "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.scratch/ticket-harness/evidence/m1-index-repair-01/test-tmp/ticket-harness-test-06nrzuqq/target/01-value.md",
+        "artifact": "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.scratch/ticket-harness/evidence/m1-index-repair-01/test-tmp/ticket-harness-test-06nrzuqq/run/inputs/ticket.md",
+        "sha256": "f6b0b71fb8923adc649d922cd69ebdbb51e1635b766b5e9d666b781101a80bb3"
+      },
+      "standards-0": {
+        "source": "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.scratch/ticket-harness/evidence/m1-index-repair-01/test-tmp/ticket-harness-test-06nrzuqq/target/STANDARDS.md",
+        "artifact": "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.scratch/ticket-harness/evidence/m1-index-repair-01/test-tmp/ticket-harness-test-06nrzuqq/run/inputs/standards-0.md",
+        "sha256": "8a5efa5017f12574ff43bab7d9a487d9216a65b74d2e4709ec0dba7d141682d2"
+      }
+    },
+    "ticket": {
+      "id": "01",
+      "state": "Blocked",
+      "attempt": 1,
+      "ticket": "01",
+      "starting_revision": "f06ad0e27b6ef085d21e84d5435b868bb374d73e",
+      "gate_start": 1,
+      "source": "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.scratch/ticket-harness/evidence/m1-index-repair-01/test-tmp/ticket-harness-test-06nrzuqq/run/worktrees/implementation",
+      "submitted_revision": "9b4eef14bca5fd51088fd787425734fe354a082c",
+      "changed_files": [
+        "value.txt"
+      ]
+    },
+    "gates": [
+      {
+        "stage": "baseline",
+        "revision": "f06ad0e27b6ef085d21e84d5435b868bb374d73e",
+        "argv": [
+          "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.venv/bin/python",
+          "check.py",
+          "suite"
+        ],
+        "cwd": "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.scratch/ticket-harness/evidence/m1-index-repair-01/test-tmp/ticket-harness-test-06nrzuqq/run/worktrees/baseline",
+        "stdout": "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.scratch/ticket-harness/evidence/m1-index-repair-01/test-tmp/ticket-harness-test-06nrzuqq/run/artifacts/baseline.stdout",
+        "stderr": "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.scratch/ticket-harness/evidence/m1-index-repair-01/test-tmp/ticket-harness-test-06nrzuqq/run/artifacts/baseline.stderr",
+        "passed": true,
+        "timeout_seconds": 1800,
+        "timed_out": false,
+        "exit_code": 0,
+        "cleanup": {
+          "process_group": 90240,
+          "signal": "SIGKILL",
+          "sent": false
+        },
+        "ticket": null,
+        "attempt": 0,
+        "timeout_category": "baseline"
+      },
+      {
+        "stage": "implementation",
+        "revision": "f06ad0e27b6ef085d21e84d5435b868bb374d73e",
+        "argv": [
+          "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.venv/bin/python",
+          "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.scratch/ticket-harness/evidence/m1-index-repair-01/test-tmp/ticket-harness-test-06nrzuqq/target/agent.py",
+          "--reject",
+          "standards"
+        ],
+        "cwd": "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.scratch/ticket-harness/evidence/m1-index-repair-01/test-tmp/ticket-harness-test-06nrzuqq/run/worktrees/implementation",
+        "stdout": "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.scratch/ticket-harness/evidence/m1-index-repair-01/test-tmp/ticket-harness-test-06nrzuqq/run/artifacts/implementation.stdout",
+        "stderr": "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.scratch/ticket-harness/evidence/m1-index-repair-01/test-tmp/ticket-harness-test-06nrzuqq/run/artifacts/implementation.stderr",
+        "passed": true,
+        "timeout_seconds": 1800,
+        "timed_out": false,
+        "assignment": "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.scratch/ticket-harness/evidence/m1-index-repair-01/test-tmp/ticket-harness-test-06nrzuqq/run/artifacts/implementation.assignment.json",
+        "exit_code": 0,
+        "cleanup": {
+          "process_group": 90254,
+          "signal": "SIGKILL",
+          "sent": false
+        },
+        "ticket": "01",
+        "attempt": 1,
+        "timeout_category": "implementation",
+        "report": {
+          "role": "implementation",
+          "ticket": "01",
+          "attempt": 1,
+          "base_revision": "f06ad0e27b6ef085d21e84d5435b868bb374d73e",
+          "revision": "f06ad0e27b6ef085d21e84d5435b868bb374d73e",
+          "pid": 90254,
+          "result": "submitted",
+          "summary": "Changed value to 2",
+          "changed_files": [
+            "value.txt"
+          ],
+          "checks": [],
+          "acceptance_evidence": [
+            "value.txt contains 2"
+          ],
+          "unresolved_questions": []
+        },
+        "report_status": "valid"
+      },
+      {
+        "stage": "check-ticket",
+        "revision": "9b4eef14bca5fd51088fd787425734fe354a082c",
+        "argv": [
+          "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.venv/bin/python",
+          "check.py",
+          "ticket"
+        ],
+        "cwd": "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.scratch/ticket-harness/evidence/m1-index-repair-01/test-tmp/ticket-harness-test-06nrzuqq/run/worktrees/implementation",
+        "stdout": "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.scratch/ticket-harness/evidence/m1-index-repair-01/test-tmp/ticket-harness-test-06nrzuqq/run/artifacts/check-ticket.stdout",
+        "stderr": "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.scratch/ticket-harness/evidence/m1-index-repair-01/test-tmp/ticket-harness-test-06nrzuqq/run/artifacts/check-ticket.stderr",
+        "passed": true,
+        "timeout_seconds": 300,
+        "timed_out": false,
+        "exit_code": 0,
+        "cleanup": {
+          "process_group": 90268,
+          "signal": "SIGKILL",
+          "sent": false
+        },
+        "ticket": "01",
+        "attempt": 1,
+        "timeout_category": "checks"
+      },
+      {
+        "stage": "spec",
+        "revision": "9b4eef14bca5fd51088fd787425734fe354a082c",
+        "argv": [
+          "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.venv/bin/python",
+          "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.scratch/ticket-harness/evidence/m1-index-repair-01/test-tmp/ticket-harness-test-06nrzuqq/target/agent.py",
+          "--reject",
+          "standards"
+        ],
+        "cwd": "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.scratch/ticket-harness/evidence/m1-index-repair-01/test-tmp/ticket-harness-test-06nrzuqq/run/worktrees/spec",
+        "stdout": "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.scratch/ticket-harness/evidence/m1-index-repair-01/test-tmp/ticket-harness-test-06nrzuqq/run/artifacts/spec.stdout",
+        "stderr": "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.scratch/ticket-harness/evidence/m1-index-repair-01/test-tmp/ticket-harness-test-06nrzuqq/run/artifacts/spec.stderr",
+        "passed": true,
+        "timeout_seconds": 900,
+        "timed_out": false,
+        "assignment": "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.scratch/ticket-harness/evidence/m1-index-repair-01/test-tmp/ticket-harness-test-06nrzuqq/run/artifacts/spec.assignment.json",
+        "exit_code": 0,
+        "cleanup": {
+          "process_group": 90288,
+          "signal": "SIGKILL",
+          "sent": false
+        },
+        "ticket": "01",
+        "attempt": 1,
+        "timeout_category": "spec",
+        "report": {
+          "role": "spec",
+          "ticket": "01",
+          "attempt": 1,
+          "base_revision": "f06ad0e27b6ef085d21e84d5435b868bb374d73e",
+          "revision": "9b4eef14bca5fd51088fd787425734fe354a082c",
+          "pid": 90288,
+          "findings": []
+        },
+        "report_status": "valid"
+      },
+      {
+        "stage": "standards",
+        "revision": "9b4eef14bca5fd51088fd787425734fe354a082c",
+        "argv": [
+          "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.venv/bin/python",
+          "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.scratch/ticket-harness/evidence/m1-index-repair-01/test-tmp/ticket-harness-test-06nrzuqq/target/agent.py",
+          "--reject",
+          "standards"
+        ],
+        "cwd": "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.scratch/ticket-harness/evidence/m1-index-repair-01/test-tmp/ticket-harness-test-06nrzuqq/run/worktrees/standards",
+        "stdout": "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.scratch/ticket-harness/evidence/m1-index-repair-01/test-tmp/ticket-harness-test-06nrzuqq/run/artifacts/standards.stdout",
+        "stderr": "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.scratch/ticket-harness/evidence/m1-index-repair-01/test-tmp/ticket-harness-test-06nrzuqq/run/artifacts/standards.stderr",
+        "passed": false,
+        "timeout_seconds": 900,
+        "timed_out": false,
+        "assignment": "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.scratch/ticket-harness/evidence/m1-index-repair-01/test-tmp/ticket-harness-test-06nrzuqq/run/artifacts/standards.assignment.json",
+        "exit_code": 0,
+        "cleanup": {
+          "process_group": 90313,
+          "signal": "SIGKILL",
+          "sent": false
+        },
+        "ticket": "01",
+        "attempt": 1,
+        "timeout_category": "standards",
+        "report": {
+          "role": "standards",
+          "ticket": "01",
+          "attempt": 1,
+          "base_revision": "f06ad0e27b6ef085d21e84d5435b868bb374d73e",
+          "revision": "9b4eef14bca5fd51088fd787425734fe354a082c",
+          "pid": 90313,
+          "findings": [
+            {
+              "id": "fixture-blocker",
+              "classification": "blocking",
+              "location": "value.txt",
+              "requirement": "Fixture gate",
+              "consequence": "Scripted rejection must prevent integration",
+              "evidence": "Explicit fixture rejection requested",
+              "resolution": "Remove rejection for a passing fixture",
+              "human_decision_needed": false
+            }
+          ]
+        },
+        "report_status": "valid",
+        "diagnostic": "blocking review finding; see report"
+      }
+    ],
+    "attempts": [
+      {
+        "ticket": "01",
+        "attempt": 1,
+        "state": "Rejected",
+        "starting_revision": "f06ad0e27b6ef085d21e84d5435b868bb374d73e",
+        "gate_start": 1,
+        "source": "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.scratch/ticket-harness/evidence/m1-index-repair-01/test-tmp/ticket-harness-test-06nrzuqq/run/worktrees/implementation",
+        "submitted_revision": "9b4eef14bca5fd51088fd787425734fe354a082c",
+        "changed_files": [
+          "value.txt"
+        ],
+        "failure": {
+          "stage": "standards",
+          "message": "Required gate failed: standards; blocking review finding; see report"
+        },
+        "gate_end": 5
+      }
+    ],
+    "requirements": {
+      "01": {
+        "id": "01",
+        "title": "Change value",
+        "readiness": "ready-for-agent",
+        "dependencies": [],
+        "acceptance": [
+          "value.txt contains 2."
+        ],
+        "checks": [
+          "ticket"
+        ],
+        "source": "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.scratch/ticket-harness/evidence/m1-index-repair-01/test-tmp/ticket-harness-test-06nrzuqq/target/01-value.md"
+      }
+    },
+    "max_repairs": 0,
+    "timeouts": {
+      "implementation": 1800,
+      "repair": 1800,
+      "spec": 900,
+      "standards": 900,
+      "checks": 300,
+      "baseline": 1800,
+      "candidate": 1800
+    },
+    "selected_tickets": [
+      "01"
+    ],
+    "tickets": {
+      "01": {
+        "id": "01",
+        "state": "Blocked",
+        "attempt": 1,
+        "ticket": "01",
+        "starting_revision": "f06ad0e27b6ef085d21e84d5435b868bb374d73e",
+        "gate_start": 1,
+        "source": "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.scratch/ticket-harness/evidence/m1-index-repair-01/test-tmp/ticket-harness-test-06nrzuqq/run/worktrees/implementation",
+        "submitted_revision": "9b4eef14bca5fd51088fd787425734fe354a082c",
+        "changed_files": [
+          "value.txt"
+        ]
+      }
+    },
+    "base_revision": "f06ad0e27b6ef085d21e84d5435b868bb374d73e",
+    "integration_revision": "f06ad0e27b6ef085d21e84d5435b868bb374d73e",
+    "integration_branch": "integration",
+    "operations": [
+      {
+        "stage": "baseline-worktree",
+        "ticket": null,
+        "attempt": 0,
+        "passed": true
+      },
+      {
+        "stage": "implementation-worktree",
+        "ticket": "01",
+        "attempt": 1,
+        "passed": true
+      },
+      {
+        "stage": "submission",
+        "ticket": "01",
+        "attempt": 1,
+        "passed": true
+      },
+      {
+        "stage": "spec-worktree",
+        "ticket": "01",
+        "attempt": 1,
+        "passed": true
+      },
+      {
+        "stage": "standards-worktree",
+        "ticket": "01",
+        "attempt": 1,
+        "passed": true
+      }
+    ],
+    "failure": {
+      "stage": "standards",
+      "message": "Required gate failed: standards; blocking review finding; see report"
+    }
+  },
+  "caller_head": "f06ad0e27b6ef085d21e84d5435b868bb374d73e",
+  "integration": "f06ad0e27b6ef085d21e84d5435b868bb374d73e",
+  "caller_status": "MM value.txt\n?? unrelated.txt",
+  "caller_index_sha256": "198fe1be15677f8f11f27f0bb8fb6aa0e0aa8c7ff4222845f69b3d21b815e671",
+  "qa_artifacts": {},
+  "gate_outputs": {
+    "artifacts/baseline.stdout": "baseline f06ad0e27b6ef085d21e84d5435b868bb374d73e\n",
+    "artifacts/baseline.stderr": "",
+    "artifacts/implementation.stdout": "{\"role\": \"implementation\", \"ticket\": \"01\", \"attempt\": 1, \"base_revision\": \"f06ad0e27b6ef085d21e84d5435b868bb374d73e\", \"revision\": \"f06ad0e27b6ef085d21e84d5435b868bb374d73e\", \"pid\": 90254, \"result\": \"submitted\", \"summary\": \"Changed value to 2\", \"changed_files\": [\"value.txt\"], \"checks\": [], \"acceptance_evidence\": [\"value.txt contains 2\"], \"unresolved_questions\": []}\n",
+    "artifacts/implementation.stderr": "",
+    "artifacts/check-ticket.stdout": "check-ticket 9b4eef14bca5fd51088fd787425734fe354a082c\n",
+    "artifacts/check-ticket.stderr": "",
+    "artifacts/spec.stdout": "{\"role\": \"spec\", \"ticket\": \"01\", \"attempt\": 1, \"base_revision\": \"f06ad0e27b6ef085d21e84d5435b868bb374d73e\", \"revision\": \"9b4eef14bca5fd51088fd787425734fe354a082c\", \"pid\": 90288, \"findings\": []}\n",
+    "artifacts/spec.stderr": "",
+    "artifacts/standards.stdout": "{\"role\": \"standards\", \"ticket\": \"01\", \"attempt\": 1, \"base_revision\": \"f06ad0e27b6ef085d21e84d5435b868bb374d73e\", \"revision\": \"9b4eef14bca5fd51088fd787425734fe354a082c\", \"pid\": 90313, \"findings\": [{\"id\": \"fixture-blocker\", \"classification\": \"blocking\", \"location\": \"value.txt\", \"requirement\": \"Fixture gate\", \"consequence\": \"Scripted rejection must prevent integration\", \"evidence\": \"Explicit fixture rejection requested\", \"resolution\": \"Remove rejection for a passing fixture\", \"human_decision_needed\": false}]}\n",
+    "artifacts/standards.stderr": ""
+  }
+}

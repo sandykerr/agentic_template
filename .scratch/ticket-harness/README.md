@@ -11,17 +11,23 @@ Selected historical raw captures have been retired; ticket READMEs identify the
 surviving results and deliberately discarded detail. Historical completion
 statements below describe their original checkpoints, not current raw availability.
 
-Next M1 work: [caller-index repair and final verification handoff](handoff-m1-caller-index-repair-and-final-verification.md).
+**M1 accepted 2026-11-16** at `88e4cd8`; [human decision and exact-source evidence](evidence/m1-final-review-01/m1-qa-decision.md).
+Next eligible work is [25: Guide a human through milestone QA](issues/25-guide-and-record-human-milestone-qa.md)
+in M2. The generated root handoff prepares ticket25; it has not started.
 
 Review the [spec](spec.md), [complete ticket bodies/dependencies](ticket-proposal.md), [milestones](milestones.md), [numbering map](archive/oop-numbering-history.md), domain additions and supporting updates together. The human approved this complete expansion for local publication; the approval record identifies its scope and reviewed source.
 
 ## Implementation status
 
-Completed 01–15 retain their IDs and evidence. New development review work 16–19 precedes five refactors 20–24 in M1; new runtime review enforcement 33 precedes real-agent work 34 in M3. Thirteen inherited open tickets are renumbered coherently; after ticket 24 completion, 14 open tickets 25–38 remain. All fifteen required M1 tickets 10–24 are verified complete. Human M1 QA is not requested/accepted, and later milestones remain gated.
+Completed 01–15 retain their IDs and evidence. New development review work 16–19 precedes five refactors 20–24 in M1; new runtime review enforcement 33 precedes real-agent work 34 in M3. Thirteen inherited open tickets are renumbered coherently; after ticket 24 completion, 14 open tickets 25–38 remain. All fifteen required M1 tickets 10–24 are verified complete. Human M1 QA is accepted; M2 is eligible, while M3/M4 retain their later acceptance gates.
 
-No implementation ticket is currently eligible. M1 requires feature-start provenance, cumulative all-package High assessment and explicit human QA before M2 tickets 25–29 can execute. The next handoff is preparation/waiting, not QA-ready or M2 execution.
+Ticket25 is the next eligible agent-ready implementation: prerequisite tickets
+10/14 are verified complete and actual M1 acceptance is recorded. M1 caller-index
+repair, independent review/cumulative assessment, exact demo and human acceptance
+are complete. No M2 work is started by this bookkeeping or handoff.
 
-Ticket24 is verified complete at `ab08f7f`; [completion evidence](evidence/ticket-24/24-completion.md), [assessment](reviews/ticket-24.md) and [history](evidence/ticket-24/24-finding-history.md) preserve all checks, three review rounds and fixed findings. The [prior pause](evidence/ticket-24/24-pause.md) remains historical. M1 cumulative work and actual QA acceptance remain unperformed; root `next_agent_prompt.md` carries the waiting status.
+Ticket24 is verified complete at `ab08f7f`; [completion evidence](evidence/ticket-24/24-completion.md), [assessment](reviews/ticket-24.md) and [history](evidence/ticket-24/24-finding-history.md) preserve all checks, three review rounds and fixed findings. The [prior pause](evidence/ticket-24/24-pause.md) remains historical. Current M1 cumulative renewal and actual human QA acceptance are complete.
+Root `next_agent_prompt.md` carries the current checkpoint status.
 
 ## Complete ticket index
 
@@ -95,14 +101,14 @@ Start from the latest integrated prerequisite work. Read the current interface a
 
 Return a compact report with the outcome, commit references/changed files, actual check commands and exit results, and remaining decisions or risks. Preserve verbose logs as artifacts and link to them when needed.
 
-During approved harness execution, source specs and tickets remain unchanged and the harness owns execution records. A ready-for-agent label or published ticket alone does not start a run. Concurrency, arbitrary interruption/crash recovery, hosted PRs, and email remain deferred. Planned-QA checkpoint stop/continuation is implemented by ticket 15; development M1 and final feature human acceptance remain pending.
+During approved harness execution, source specs and tickets remain unchanged and the harness owns execution records. A ready-for-agent label or published ticket alone does not start a run. Concurrency, arbitrary interruption/crash recovery, hosted PRs, and email remain deferred. Planned-QA checkpoint stop/continuation is implemented by ticket 15; development M1 is accepted, while later milestones and final feature acceptance remain pending.
 
 ## Review records
 
 Apply [development architecture checkpoints](../../docs/agents/review-records.md#architecture-checkpoints)
 for ticket risk triggers and milestone readiness. Cumulative work belongs in the
 [review index](reviews/README.md); missing/stale assessments and unresolved blockers
-remain visible in handoffs. Real M1 cumulative assessment and human QA are pending.
+remain visible in handoffs. Current cumulative renewal and human M1 acceptance are complete.
 
 
 Development assessments use the [review index](reviews/README.md) and repo-owned
@@ -208,6 +214,23 @@ Verify whether the installed backend enforces a hard limit, applies a compaction
 
 - [24: Own milestone review and checkpoint continuation — completed](evidence/ticket-24/24-completion.md): final reviewed source `ab08f7f`;559 passed/1284.57s, strict mypy, Ruff lint/format and whitespace passed. Independent fresh High Spec0/0 and Standards0/0; all3 prior full keys independently fixed, originals/history preserved. Genuine pre-refactor checkpoint renewed; no unchecked criterion. All four start/final triggersNo. All M1 tickets10–24 complete; feature-start/cumulative all-package assessment and actual human QA remain absent. Next is M1 preparation/waiting; M2 remains ineligible.
 
-## Current M1 QA preparation
+## M1 acceptance — 2026-11-16
 
-Human requested beginning QA after ticket24 on 2026-11-12. [QA guide and observations](evidence/m1-qa-01/qa-guide.md), [cumulative work item](reviews/M1-architecture-01.md), [captured source/baseline/instructions](evidence/m1-qa-01/start.json). Required cumulative assessment completed with one open/blocking Git environment/index finding, `review-M1-architecture-01/standards-01/F1`; [original report](evidence/m1-qa-01/standards-01-original.md) and [history](reviews/M1-architecture-01-history.md) preserve its evidence. Candidate readiness is held and M1 remains unaccepted. The isolated demonstration is deliberately stopped. M2 stays ineligible. Historical completion evidence above retains its original scope.
+[Human QA decision](evidence/m1-final-review-01/m1-qa-decision.md) accepts source
+`88e4cd8aabc78e76e66efc02983fec3900ab0a23` and development request
+`41a556a9352d44a3922a9c41f30f36af` after the explicit final condition passed.
+[Mechanical acceptance result](evidence/m1-final-review-01/m1-acceptance-result.json)
+retains both exact final refs, exit0/completed/true, two consumed actual human
+demo approvals and no baseline/attempt/gate/agent-launch replay.
+
+Caller-index repair `e06eeaf` is independently fixed. Fresh High Spec, Standards
+and all-package cumulative Standards each report zero blocking/optional findings;
+[originals and identities](evidence/m1-final-review-01/README.md),
+[cumulative assessment](reviews/M1-architecture-01.md),
+[repair assessment](reviews/M1-index-repair-01.md),
+[append-only finding history](reviews/M1-architecture-01-history.md).
+All 28 executable/test/configuration hashes match retained 563/full and static
+passes. The reviewed instruction snapshot and later status-only bookkeeping remain
+separately identified. Historical completion summaries above preserve their original
+then-pending scope, not current acceptance status. M2 ticket25 is next; the overall
+feature still requires M2/M3/M4 and final acceptance.

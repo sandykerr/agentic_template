@@ -1,0 +1,1385 @@
+{
+  "version": 1,
+  "run_directory": "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.scratch/ticket-harness/evidence/m1-index-repair-01/test-tmp/ticket-harness-test-dyczcup1/run",
+  "config": {
+    "repository": "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.scratch/ticket-harness/evidence/m1-index-repair-01/test-tmp/ticket-harness-test-dyczcup1/target",
+    "base": "main",
+    "integration": "integration",
+    "spec": "spec.md",
+    "ticket": "01-value.md",
+    "standards": [
+      "STANDARDS.md"
+    ],
+    "agent": [
+      "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.venv/bin/python",
+      "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.scratch/ticket-harness/evidence/m1-index-repair-01/test-tmp/ticket-harness-test-dyczcup1/graph-agent.py"
+    ],
+    "suite": [
+      "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.venv/bin/python",
+      "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.scratch/ticket-harness/evidence/m1-index-repair-01/test-tmp/ticket-harness-test-dyczcup1/graph-check.py"
+    ],
+    "checks": {
+      "ticket": [
+        "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.venv/bin/python",
+        "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.scratch/ticket-harness/evidence/m1-index-repair-01/test-tmp/ticket-harness-test-dyczcup1/graph-check.py"
+      ],
+      "other": [
+        "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.venv/bin/python",
+        "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.scratch/ticket-harness/evidence/m1-index-repair-01/test-tmp/ticket-harness-test-dyczcup1/graph-check.py"
+      ]
+    },
+    "max_repairs": 0,
+    "tickets": [
+      "04-work.md",
+      "02-work.md",
+      "03-work.md",
+      "01-value.md",
+      "05-context.md",
+      "07-context.md"
+    ],
+    "plan": {
+      "version": "v1",
+      "approval": "human-approved fixture bundle v1",
+      "development": "dev",
+      "required_tickets": [
+        "01",
+        "02",
+        "03",
+        "04"
+      ],
+      "milestones": [
+        {
+          "id": "M1",
+          "tickets": [
+            "03",
+            "01"
+          ],
+          "qa": {
+            "setup": "Inspect disposable feature",
+            "actions": [
+              "Read delivered work"
+            ],
+            "pass_conditions": [
+              "Work 01 and 03 exist"
+            ]
+          }
+        },
+        {
+          "id": "M2",
+          "tickets": [
+            "04",
+            "02"
+          ],
+          "qa": {
+            "setup": "Inspect all work",
+            "actions": [
+              "Read all delivered work"
+            ],
+            "pass_conditions": [
+              "All required work exists"
+            ]
+          }
+        }
+      ],
+      "final_milestone": "M2",
+      "final_coverage": [
+        "01",
+        "02",
+        "03",
+        "04"
+      ],
+      "roles": {
+        "worker": {
+          "model": "scripted-fixture",
+          "reasoning": "Medium"
+        },
+        "spec": {
+          "model": "scripted-spec",
+          "reasoning": "High"
+        },
+        "standards": {
+          "model": "scripted-standards",
+          "reasoning": "High"
+        }
+      },
+      "worker_overrides": {
+        "03": {
+          "reasoning": "High",
+          "reason": "Fixture override"
+        }
+      }
+    },
+    "timeouts": {
+      "implementation": 1800,
+      "repair": 1800,
+      "spec": 900,
+      "standards": 900,
+      "checks": 300,
+      "baseline": 1800,
+      "candidate": 1800
+    },
+    "requirements": {
+      "01": {
+        "id": "01",
+        "title": "Work 01",
+        "readiness": "ready-for-agent",
+        "dependencies": [],
+        "acceptance": [
+          "Deliver work 01."
+        ],
+        "checks": [
+          "ticket"
+        ],
+        "source": "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.scratch/ticket-harness/evidence/m1-index-repair-01/test-tmp/ticket-harness-test-dyczcup1/target/01-value.md"
+      },
+      "04": {
+        "id": "04",
+        "title": "Work 04",
+        "readiness": "ready-for-agent",
+        "dependencies": [
+          "01"
+        ],
+        "acceptance": [
+          "Deliver work 04."
+        ],
+        "checks": [
+          "ticket"
+        ],
+        "source": "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.scratch/ticket-harness/evidence/m1-index-repair-01/test-tmp/ticket-harness-test-dyczcup1/target/04-work.md"
+      },
+      "02": {
+        "id": "02",
+        "title": "Work 02",
+        "readiness": "ready-for-agent",
+        "dependencies": [
+          "03",
+          "04"
+        ],
+        "acceptance": [
+          "Deliver work 02."
+        ],
+        "checks": [
+          "ticket"
+        ],
+        "source": "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.scratch/ticket-harness/evidence/m1-index-repair-01/test-tmp/ticket-harness-test-dyczcup1/target/02-work.md"
+      },
+      "03": {
+        "id": "03",
+        "title": "Work 03",
+        "readiness": "ready-for-agent",
+        "dependencies": [],
+        "acceptance": [
+          "Deliver work 03."
+        ],
+        "checks": [
+          "other"
+        ],
+        "source": "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.scratch/ticket-harness/evidence/m1-index-repair-01/test-tmp/ticket-harness-test-dyczcup1/target/03-work.md"
+      },
+      "05": {
+        "id": "05",
+        "title": "Human context",
+        "readiness": "ready-for-human",
+        "dependencies": [],
+        "acceptance": [
+          "Human work."
+        ],
+        "checks": [
+          "ticket",
+          "other"
+        ],
+        "source": "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.scratch/ticket-harness/evidence/m1-index-repair-01/test-tmp/ticket-harness-test-dyczcup1/target/05-context.md"
+      },
+      "07": {
+        "id": "07",
+        "title": "Agent context",
+        "readiness": "ready-for-agent",
+        "dependencies": [
+          "05"
+        ],
+        "acceptance": [
+          "Context work."
+        ],
+        "checks": [
+          "ticket",
+          "other"
+        ],
+        "source": "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.scratch/ticket-harness/evidence/m1-index-repair-01/test-tmp/ticket-harness-test-dyczcup1/target/07-context.md"
+      }
+    },
+    "selected_tickets": [
+      "01",
+      "03"
+    ],
+    "completed_tickets": [],
+    "worker_settings": {
+      "01": {
+        "model": "scripted-fixture",
+        "reasoning": "Medium"
+      },
+      "02": {
+        "model": "scripted-fixture",
+        "reasoning": "Medium"
+      },
+      "03": {
+        "model": "scripted-fixture",
+        "reasoning": "High"
+      },
+      "04": {
+        "model": "scripted-fixture",
+        "reasoning": "Medium"
+      }
+    }
+  },
+  "record": {
+    "outcome": "stopped_at_qa",
+    "artifacts": "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.scratch/ticket-harness/evidence/m1-index-repair-01/test-tmp/ticket-harness-test-dyczcup1/run/artifacts",
+    "inputs": {
+      "configuration": {
+        "source": "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.scratch/ticket-harness/evidence/m1-index-repair-01/test-tmp/ticket-harness-test-dyczcup1/project.json",
+        "artifact": "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.scratch/ticket-harness/evidence/m1-index-repair-01/test-tmp/ticket-harness-test-dyczcup1/run/inputs/configuration.json",
+        "sha256": "680b2b863a04a800f5ee5e258393e90db31d6b48a7153f4384bbf4eb9237dae6"
+      },
+      "spec": {
+        "source": "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.scratch/ticket-harness/evidence/m1-index-repair-01/test-tmp/ticket-harness-test-dyczcup1/target/spec.md",
+        "artifact": "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.scratch/ticket-harness/evidence/m1-index-repair-01/test-tmp/ticket-harness-test-dyczcup1/run/inputs/spec.md",
+        "sha256": "70fc083432bac5b804dc291e318b27ed5ed439bc44fb6d81f98e39b808c3c363"
+      },
+      "ticket": {
+        "source": "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.scratch/ticket-harness/evidence/m1-index-repair-01/test-tmp/ticket-harness-test-dyczcup1/target/01-value.md",
+        "artifact": "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.scratch/ticket-harness/evidence/m1-index-repair-01/test-tmp/ticket-harness-test-dyczcup1/run/inputs/ticket.md",
+        "sha256": "c3d58a4513f77911e3c7a915b9d9515fa758f59ff6a4b174233fd7da61b15154"
+      },
+      "plan": {
+        "source": "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.scratch/ticket-harness/evidence/m1-index-repair-01/test-tmp/ticket-harness-test-dyczcup1/target/plan.json",
+        "artifact": "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.scratch/ticket-harness/evidence/m1-index-repair-01/test-tmp/ticket-harness-test-dyczcup1/run/inputs/plan.json",
+        "sha256": "3ee4d5b011078e4d0bdf1d42199935f71d1cff1ee07cb5ad15af38a9dbe8d5fc"
+      },
+      "ticket-0": {
+        "source": "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.scratch/ticket-harness/evidence/m1-index-repair-01/test-tmp/ticket-harness-test-dyczcup1/target/04-work.md",
+        "artifact": "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.scratch/ticket-harness/evidence/m1-index-repair-01/test-tmp/ticket-harness-test-dyczcup1/run/inputs/ticket-0.md",
+        "sha256": "38e7b671f24b8549595abeef5ce15d5baa030cfaa6b96d623bb6399be9904ddc"
+      },
+      "ticket-1": {
+        "source": "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.scratch/ticket-harness/evidence/m1-index-repair-01/test-tmp/ticket-harness-test-dyczcup1/target/02-work.md",
+        "artifact": "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.scratch/ticket-harness/evidence/m1-index-repair-01/test-tmp/ticket-harness-test-dyczcup1/run/inputs/ticket-1.md",
+        "sha256": "308c3c67fa603e2ee190877d9487a58413de51f1b8fc239f728450099e053c4f"
+      },
+      "ticket-2": {
+        "source": "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.scratch/ticket-harness/evidence/m1-index-repair-01/test-tmp/ticket-harness-test-dyczcup1/target/03-work.md",
+        "artifact": "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.scratch/ticket-harness/evidence/m1-index-repair-01/test-tmp/ticket-harness-test-dyczcup1/run/inputs/ticket-2.md",
+        "sha256": "3d338f0f67ac51bbb3a3c204a71570ed79ba2cb269582a45cd1d577d5d42c4e7"
+      },
+      "ticket-4": {
+        "source": "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.scratch/ticket-harness/evidence/m1-index-repair-01/test-tmp/ticket-harness-test-dyczcup1/target/05-context.md",
+        "artifact": "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.scratch/ticket-harness/evidence/m1-index-repair-01/test-tmp/ticket-harness-test-dyczcup1/run/inputs/ticket-4.md",
+        "sha256": "6f7b730a1ae19cc725876492213fd51fd150b14244b9b01a444d2e5be9607e48"
+      },
+      "ticket-5": {
+        "source": "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.scratch/ticket-harness/evidence/m1-index-repair-01/test-tmp/ticket-harness-test-dyczcup1/target/07-context.md",
+        "artifact": "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.scratch/ticket-harness/evidence/m1-index-repair-01/test-tmp/ticket-harness-test-dyczcup1/run/inputs/ticket-5.md",
+        "sha256": "17976a1b7794ab7ea71f3ea60048617568820e11b87d96c8561829766ebd805d"
+      },
+      "standards-0": {
+        "source": "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.scratch/ticket-harness/evidence/m1-index-repair-01/test-tmp/ticket-harness-test-dyczcup1/target/STANDARDS.md",
+        "artifact": "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.scratch/ticket-harness/evidence/m1-index-repair-01/test-tmp/ticket-harness-test-dyczcup1/run/inputs/standards-0.md",
+        "sha256": "8a5efa5017f12574ff43bab7d9a487d9216a65b74d2e4709ec0dba7d141682d2"
+      }
+    },
+    "ticket": {
+      "id": "01",
+      "state": "Done",
+      "attempt": 1,
+      "ticket": "01",
+      "starting_revision": "57e8d41bc2aa5292daedd971c73024e1ee8eb2ec",
+      "gate_start": 6,
+      "source": "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.scratch/ticket-harness/evidence/m1-index-repair-01/test-tmp/ticket-harness-test-dyczcup1/run/worktrees/ticket-01-implementation",
+      "submitted_revision": "b90a9a96cb0fc647c84b8bef28b201b7761ac3ea",
+      "changed_files": [
+        "last-ticket",
+        "work-01"
+      ],
+      "candidate_revision": "c5f05ac32c179e2dab7e095bbb6170975e38391d",
+      "done_revision": "c5f05ac32c179e2dab7e095bbb6170975e38391d"
+    },
+    "gates": [
+      {
+        "stage": "baseline",
+        "revision": "6fbfcaa6629f09d1f299818177a476a36aa9d423",
+        "argv": [
+          "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.venv/bin/python",
+          "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.scratch/ticket-harness/evidence/m1-index-repair-01/test-tmp/ticket-harness-test-dyczcup1/graph-check.py"
+        ],
+        "cwd": "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.scratch/ticket-harness/evidence/m1-index-repair-01/test-tmp/ticket-harness-test-dyczcup1/run/worktrees/baseline",
+        "stdout": "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.scratch/ticket-harness/evidence/m1-index-repair-01/test-tmp/ticket-harness-test-dyczcup1/run/artifacts/baseline.stdout",
+        "stderr": "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.scratch/ticket-harness/evidence/m1-index-repair-01/test-tmp/ticket-harness-test-dyczcup1/run/artifacts/baseline.stderr",
+        "passed": true,
+        "timeout_seconds": 1800,
+        "timed_out": false,
+        "exit_code": 0,
+        "cleanup": {
+          "process_group": 6828,
+          "signal": "SIGKILL",
+          "sent": false
+        },
+        "ticket": null,
+        "attempt": 0,
+        "timeout_category": "baseline"
+      },
+      {
+        "stage": "implementation",
+        "revision": "6fbfcaa6629f09d1f299818177a476a36aa9d423",
+        "argv": [
+          "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.venv/bin/python",
+          "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.scratch/ticket-harness/evidence/m1-index-repair-01/test-tmp/ticket-harness-test-dyczcup1/graph-agent.py"
+        ],
+        "cwd": "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.scratch/ticket-harness/evidence/m1-index-repair-01/test-tmp/ticket-harness-test-dyczcup1/run/worktrees/ticket-03-implementation",
+        "stdout": "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.scratch/ticket-harness/evidence/m1-index-repair-01/test-tmp/ticket-harness-test-dyczcup1/run/artifacts/ticket-03-implementation.stdout",
+        "stderr": "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.scratch/ticket-harness/evidence/m1-index-repair-01/test-tmp/ticket-harness-test-dyczcup1/run/artifacts/ticket-03-implementation.stderr",
+        "passed": true,
+        "timeout_seconds": 1800,
+        "timed_out": false,
+        "assignment": "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.scratch/ticket-harness/evidence/m1-index-repair-01/test-tmp/ticket-harness-test-dyczcup1/run/artifacts/ticket-03-implementation.assignment.json",
+        "exit_code": 0,
+        "cleanup": {
+          "process_group": 6842,
+          "signal": "SIGKILL",
+          "sent": false
+        },
+        "ticket": "03",
+        "attempt": 1,
+        "timeout_category": "implementation",
+        "report": {
+          "role": "implementation",
+          "ticket": "03",
+          "attempt": 1,
+          "base_revision": "6fbfcaa6629f09d1f299818177a476a36aa9d423",
+          "revision": "6fbfcaa6629f09d1f299818177a476a36aa9d423",
+          "pid": 6842,
+          "result": "submitted",
+          "summary": "Delivered ticket",
+          "changed_files": [],
+          "checks": [],
+          "acceptance_evidence": [
+            "Delivered cumulative work"
+          ],
+          "unresolved_questions": []
+        },
+        "report_status": "valid"
+      },
+      {
+        "stage": "check-other",
+        "revision": "ba2591cea8826332cf6133b7a62b93504b0d51db",
+        "argv": [
+          "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.venv/bin/python",
+          "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.scratch/ticket-harness/evidence/m1-index-repair-01/test-tmp/ticket-harness-test-dyczcup1/graph-check.py"
+        ],
+        "cwd": "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.scratch/ticket-harness/evidence/m1-index-repair-01/test-tmp/ticket-harness-test-dyczcup1/run/worktrees/ticket-03-implementation",
+        "stdout": "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.scratch/ticket-harness/evidence/m1-index-repair-01/test-tmp/ticket-harness-test-dyczcup1/run/artifacts/ticket-03-check-other.stdout",
+        "stderr": "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.scratch/ticket-harness/evidence/m1-index-repair-01/test-tmp/ticket-harness-test-dyczcup1/run/artifacts/ticket-03-check-other.stderr",
+        "passed": true,
+        "timeout_seconds": 300,
+        "timed_out": false,
+        "exit_code": 0,
+        "cleanup": {
+          "process_group": 6858,
+          "signal": "SIGKILL",
+          "sent": false
+        },
+        "ticket": "03",
+        "attempt": 1,
+        "timeout_category": "checks"
+      },
+      {
+        "stage": "spec",
+        "revision": "ba2591cea8826332cf6133b7a62b93504b0d51db",
+        "argv": [
+          "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.venv/bin/python",
+          "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.scratch/ticket-harness/evidence/m1-index-repair-01/test-tmp/ticket-harness-test-dyczcup1/graph-agent.py"
+        ],
+        "cwd": "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.scratch/ticket-harness/evidence/m1-index-repair-01/test-tmp/ticket-harness-test-dyczcup1/run/worktrees/ticket-03-spec",
+        "stdout": "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.scratch/ticket-harness/evidence/m1-index-repair-01/test-tmp/ticket-harness-test-dyczcup1/run/artifacts/ticket-03-spec.stdout",
+        "stderr": "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.scratch/ticket-harness/evidence/m1-index-repair-01/test-tmp/ticket-harness-test-dyczcup1/run/artifacts/ticket-03-spec.stderr",
+        "passed": true,
+        "timeout_seconds": 900,
+        "timed_out": false,
+        "assignment": "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.scratch/ticket-harness/evidence/m1-index-repair-01/test-tmp/ticket-harness-test-dyczcup1/run/artifacts/ticket-03-spec.assignment.json",
+        "exit_code": 0,
+        "cleanup": {
+          "process_group": 6878,
+          "signal": "SIGKILL",
+          "sent": false
+        },
+        "ticket": "03",
+        "attempt": 1,
+        "timeout_category": "spec",
+        "report": {
+          "role": "spec",
+          "ticket": "03",
+          "attempt": 1,
+          "base_revision": "6fbfcaa6629f09d1f299818177a476a36aa9d423",
+          "revision": "ba2591cea8826332cf6133b7a62b93504b0d51db",
+          "pid": 6878,
+          "findings": []
+        },
+        "report_status": "valid"
+      },
+      {
+        "stage": "standards",
+        "revision": "ba2591cea8826332cf6133b7a62b93504b0d51db",
+        "argv": [
+          "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.venv/bin/python",
+          "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.scratch/ticket-harness/evidence/m1-index-repair-01/test-tmp/ticket-harness-test-dyczcup1/graph-agent.py"
+        ],
+        "cwd": "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.scratch/ticket-harness/evidence/m1-index-repair-01/test-tmp/ticket-harness-test-dyczcup1/run/worktrees/ticket-03-standards",
+        "stdout": "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.scratch/ticket-harness/evidence/m1-index-repair-01/test-tmp/ticket-harness-test-dyczcup1/run/artifacts/ticket-03-standards.stdout",
+        "stderr": "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.scratch/ticket-harness/evidence/m1-index-repair-01/test-tmp/ticket-harness-test-dyczcup1/run/artifacts/ticket-03-standards.stderr",
+        "passed": true,
+        "timeout_seconds": 900,
+        "timed_out": false,
+        "assignment": "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.scratch/ticket-harness/evidence/m1-index-repair-01/test-tmp/ticket-harness-test-dyczcup1/run/artifacts/ticket-03-standards.assignment.json",
+        "exit_code": 0,
+        "cleanup": {
+          "process_group": 6905,
+          "signal": "SIGKILL",
+          "sent": false
+        },
+        "ticket": "03",
+        "attempt": 1,
+        "timeout_category": "standards",
+        "report": {
+          "role": "standards",
+          "ticket": "03",
+          "attempt": 1,
+          "base_revision": "6fbfcaa6629f09d1f299818177a476a36aa9d423",
+          "revision": "ba2591cea8826332cf6133b7a62b93504b0d51db",
+          "pid": 6905,
+          "findings": []
+        },
+        "report_status": "valid"
+      },
+      {
+        "stage": "candidate",
+        "revision": "57e8d41bc2aa5292daedd971c73024e1ee8eb2ec",
+        "argv": [
+          "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.venv/bin/python",
+          "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.scratch/ticket-harness/evidence/m1-index-repair-01/test-tmp/ticket-harness-test-dyczcup1/graph-check.py"
+        ],
+        "cwd": "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.scratch/ticket-harness/evidence/m1-index-repair-01/test-tmp/ticket-harness-test-dyczcup1/run/worktrees/ticket-03-candidate",
+        "stdout": "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.scratch/ticket-harness/evidence/m1-index-repair-01/test-tmp/ticket-harness-test-dyczcup1/run/artifacts/ticket-03-candidate.stdout",
+        "stderr": "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.scratch/ticket-harness/evidence/m1-index-repair-01/test-tmp/ticket-harness-test-dyczcup1/run/artifacts/ticket-03-candidate.stderr",
+        "passed": true,
+        "timeout_seconds": 1800,
+        "timed_out": false,
+        "exit_code": 0,
+        "cleanup": {
+          "process_group": 6948,
+          "signal": "SIGKILL",
+          "sent": false
+        },
+        "ticket": "03",
+        "attempt": 1,
+        "timeout_category": "candidate"
+      },
+      {
+        "stage": "implementation",
+        "revision": "57e8d41bc2aa5292daedd971c73024e1ee8eb2ec",
+        "argv": [
+          "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.venv/bin/python",
+          "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.scratch/ticket-harness/evidence/m1-index-repair-01/test-tmp/ticket-harness-test-dyczcup1/graph-agent.py"
+        ],
+        "cwd": "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.scratch/ticket-harness/evidence/m1-index-repair-01/test-tmp/ticket-harness-test-dyczcup1/run/worktrees/ticket-01-implementation",
+        "stdout": "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.scratch/ticket-harness/evidence/m1-index-repair-01/test-tmp/ticket-harness-test-dyczcup1/run/artifacts/ticket-01-implementation.stdout",
+        "stderr": "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.scratch/ticket-harness/evidence/m1-index-repair-01/test-tmp/ticket-harness-test-dyczcup1/run/artifacts/ticket-01-implementation.stderr",
+        "passed": true,
+        "timeout_seconds": 1800,
+        "timed_out": false,
+        "assignment": "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.scratch/ticket-harness/evidence/m1-index-repair-01/test-tmp/ticket-harness-test-dyczcup1/run/artifacts/ticket-01-implementation.assignment.json",
+        "exit_code": 0,
+        "cleanup": {
+          "process_group": 7011,
+          "signal": "SIGKILL",
+          "sent": false
+        },
+        "ticket": "01",
+        "attempt": 1,
+        "timeout_category": "implementation",
+        "report": {
+          "role": "implementation",
+          "ticket": "01",
+          "attempt": 1,
+          "base_revision": "57e8d41bc2aa5292daedd971c73024e1ee8eb2ec",
+          "revision": "57e8d41bc2aa5292daedd971c73024e1ee8eb2ec",
+          "pid": 7011,
+          "result": "submitted",
+          "summary": "Delivered ticket",
+          "changed_files": [],
+          "checks": [],
+          "acceptance_evidence": [
+            "Delivered cumulative work"
+          ],
+          "unresolved_questions": []
+        },
+        "report_status": "valid"
+      },
+      {
+        "stage": "check-ticket",
+        "revision": "b90a9a96cb0fc647c84b8bef28b201b7761ac3ea",
+        "argv": [
+          "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.venv/bin/python",
+          "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.scratch/ticket-harness/evidence/m1-index-repair-01/test-tmp/ticket-harness-test-dyczcup1/graph-check.py"
+        ],
+        "cwd": "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.scratch/ticket-harness/evidence/m1-index-repair-01/test-tmp/ticket-harness-test-dyczcup1/run/worktrees/ticket-01-implementation",
+        "stdout": "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.scratch/ticket-harness/evidence/m1-index-repair-01/test-tmp/ticket-harness-test-dyczcup1/run/artifacts/ticket-01-check-ticket.stdout",
+        "stderr": "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.scratch/ticket-harness/evidence/m1-index-repair-01/test-tmp/ticket-harness-test-dyczcup1/run/artifacts/ticket-01-check-ticket.stderr",
+        "passed": true,
+        "timeout_seconds": 300,
+        "timed_out": false,
+        "exit_code": 0,
+        "cleanup": {
+          "process_group": 7051,
+          "signal": "SIGKILL",
+          "sent": false
+        },
+        "ticket": "01",
+        "attempt": 1,
+        "timeout_category": "checks"
+      },
+      {
+        "stage": "spec",
+        "revision": "b90a9a96cb0fc647c84b8bef28b201b7761ac3ea",
+        "argv": [
+          "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.venv/bin/python",
+          "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.scratch/ticket-harness/evidence/m1-index-repair-01/test-tmp/ticket-harness-test-dyczcup1/graph-agent.py"
+        ],
+        "cwd": "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.scratch/ticket-harness/evidence/m1-index-repair-01/test-tmp/ticket-harness-test-dyczcup1/run/worktrees/ticket-01-spec",
+        "stdout": "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.scratch/ticket-harness/evidence/m1-index-repair-01/test-tmp/ticket-harness-test-dyczcup1/run/artifacts/ticket-01-spec.stdout",
+        "stderr": "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.scratch/ticket-harness/evidence/m1-index-repair-01/test-tmp/ticket-harness-test-dyczcup1/run/artifacts/ticket-01-spec.stderr",
+        "passed": true,
+        "timeout_seconds": 900,
+        "timed_out": false,
+        "assignment": "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.scratch/ticket-harness/evidence/m1-index-repair-01/test-tmp/ticket-harness-test-dyczcup1/run/artifacts/ticket-01-spec.assignment.json",
+        "exit_code": 0,
+        "cleanup": {
+          "process_group": 7095,
+          "signal": "SIGKILL",
+          "sent": false
+        },
+        "ticket": "01",
+        "attempt": 1,
+        "timeout_category": "spec",
+        "report": {
+          "role": "spec",
+          "ticket": "01",
+          "attempt": 1,
+          "base_revision": "57e8d41bc2aa5292daedd971c73024e1ee8eb2ec",
+          "revision": "b90a9a96cb0fc647c84b8bef28b201b7761ac3ea",
+          "pid": 7095,
+          "findings": []
+        },
+        "report_status": "valid"
+      },
+      {
+        "stage": "standards",
+        "revision": "b90a9a96cb0fc647c84b8bef28b201b7761ac3ea",
+        "argv": [
+          "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.venv/bin/python",
+          "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.scratch/ticket-harness/evidence/m1-index-repair-01/test-tmp/ticket-harness-test-dyczcup1/graph-agent.py"
+        ],
+        "cwd": "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.scratch/ticket-harness/evidence/m1-index-repair-01/test-tmp/ticket-harness-test-dyczcup1/run/worktrees/ticket-01-standards",
+        "stdout": "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.scratch/ticket-harness/evidence/m1-index-repair-01/test-tmp/ticket-harness-test-dyczcup1/run/artifacts/ticket-01-standards.stdout",
+        "stderr": "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.scratch/ticket-harness/evidence/m1-index-repair-01/test-tmp/ticket-harness-test-dyczcup1/run/artifacts/ticket-01-standards.stderr",
+        "passed": true,
+        "timeout_seconds": 900,
+        "timed_out": false,
+        "assignment": "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.scratch/ticket-harness/evidence/m1-index-repair-01/test-tmp/ticket-harness-test-dyczcup1/run/artifacts/ticket-01-standards.assignment.json",
+        "exit_code": 0,
+        "cleanup": {
+          "process_group": 7146,
+          "signal": "SIGKILL",
+          "sent": false
+        },
+        "ticket": "01",
+        "attempt": 1,
+        "timeout_category": "standards",
+        "report": {
+          "role": "standards",
+          "ticket": "01",
+          "attempt": 1,
+          "base_revision": "57e8d41bc2aa5292daedd971c73024e1ee8eb2ec",
+          "revision": "b90a9a96cb0fc647c84b8bef28b201b7761ac3ea",
+          "pid": 7146,
+          "findings": []
+        },
+        "report_status": "valid"
+      },
+      {
+        "stage": "candidate",
+        "revision": "c5f05ac32c179e2dab7e095bbb6170975e38391d",
+        "argv": [
+          "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.venv/bin/python",
+          "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.scratch/ticket-harness/evidence/m1-index-repair-01/test-tmp/ticket-harness-test-dyczcup1/graph-check.py"
+        ],
+        "cwd": "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.scratch/ticket-harness/evidence/m1-index-repair-01/test-tmp/ticket-harness-test-dyczcup1/run/worktrees/ticket-01-candidate",
+        "stdout": "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.scratch/ticket-harness/evidence/m1-index-repair-01/test-tmp/ticket-harness-test-dyczcup1/run/artifacts/ticket-01-candidate.stdout",
+        "stderr": "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.scratch/ticket-harness/evidence/m1-index-repair-01/test-tmp/ticket-harness-test-dyczcup1/run/artifacts/ticket-01-candidate.stderr",
+        "passed": true,
+        "timeout_seconds": 1800,
+        "timed_out": false,
+        "exit_code": 0,
+        "cleanup": {
+          "process_group": 7213,
+          "signal": "SIGKILL",
+          "sent": false
+        },
+        "ticket": "01",
+        "attempt": 1,
+        "timeout_category": "candidate"
+      },
+      {
+        "stage": "milestone-regression",
+        "revision": "983ed3560f7149a68740e7f8957551d04a75d72a",
+        "argv": [
+          "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.venv/bin/python",
+          "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.scratch/ticket-harness/evidence/m1-index-repair-01/test-tmp/ticket-harness-test-dyczcup1/graph-check.py"
+        ],
+        "cwd": "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.scratch/ticket-harness/evidence/m1-index-repair-01/test-tmp/ticket-harness-test-dyczcup1/run/worktrees/milestone-candidate",
+        "stdout": "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.scratch/ticket-harness/evidence/m1-index-repair-01/test-tmp/ticket-harness-test-dyczcup1/run/artifacts/milestone-regression.stdout",
+        "stderr": "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.scratch/ticket-harness/evidence/m1-index-repair-01/test-tmp/ticket-harness-test-dyczcup1/run/artifacts/milestone-regression.stderr",
+        "passed": true,
+        "timeout_seconds": 1800,
+        "timed_out": false,
+        "exit_code": 0,
+        "cleanup": {
+          "process_group": 7331,
+          "signal": "SIGKILL",
+          "sent": false
+        },
+        "ticket": null,
+        "attempt": 0,
+        "timeout_category": "candidate"
+      }
+    ],
+    "attempts": [
+      {
+        "ticket": "03",
+        "attempt": 1,
+        "state": "Done",
+        "starting_revision": "6fbfcaa6629f09d1f299818177a476a36aa9d423",
+        "gate_start": 1,
+        "source": "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.scratch/ticket-harness/evidence/m1-index-repair-01/test-tmp/ticket-harness-test-dyczcup1/run/worktrees/ticket-03-implementation",
+        "submitted_revision": "ba2591cea8826332cf6133b7a62b93504b0d51db",
+        "changed_files": [
+          "last-ticket",
+          "work-03"
+        ],
+        "candidate_revision": "57e8d41bc2aa5292daedd971c73024e1ee8eb2ec",
+        "done_revision": "57e8d41bc2aa5292daedd971c73024e1ee8eb2ec",
+        "gate_end": 6
+      },
+      {
+        "ticket": "01",
+        "attempt": 1,
+        "state": "Done",
+        "starting_revision": "57e8d41bc2aa5292daedd971c73024e1ee8eb2ec",
+        "gate_start": 6,
+        "source": "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.scratch/ticket-harness/evidence/m1-index-repair-01/test-tmp/ticket-harness-test-dyczcup1/run/worktrees/ticket-01-implementation",
+        "submitted_revision": "b90a9a96cb0fc647c84b8bef28b201b7761ac3ea",
+        "changed_files": [
+          "last-ticket",
+          "work-01"
+        ],
+        "candidate_revision": "c5f05ac32c179e2dab7e095bbb6170975e38391d",
+        "done_revision": "c5f05ac32c179e2dab7e095bbb6170975e38391d",
+        "gate_end": 11
+      }
+    ],
+    "requirements": {
+      "01": {
+        "id": "01",
+        "title": "Work 01",
+        "readiness": "ready-for-agent",
+        "dependencies": [],
+        "acceptance": [
+          "Deliver work 01."
+        ],
+        "checks": [
+          "ticket"
+        ],
+        "source": "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.scratch/ticket-harness/evidence/m1-index-repair-01/test-tmp/ticket-harness-test-dyczcup1/target/01-value.md"
+      },
+      "04": {
+        "id": "04",
+        "title": "Work 04",
+        "readiness": "ready-for-agent",
+        "dependencies": [
+          "01"
+        ],
+        "acceptance": [
+          "Deliver work 04."
+        ],
+        "checks": [
+          "ticket"
+        ],
+        "source": "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.scratch/ticket-harness/evidence/m1-index-repair-01/test-tmp/ticket-harness-test-dyczcup1/target/04-work.md"
+      },
+      "02": {
+        "id": "02",
+        "title": "Work 02",
+        "readiness": "ready-for-agent",
+        "dependencies": [
+          "03",
+          "04"
+        ],
+        "acceptance": [
+          "Deliver work 02."
+        ],
+        "checks": [
+          "ticket"
+        ],
+        "source": "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.scratch/ticket-harness/evidence/m1-index-repair-01/test-tmp/ticket-harness-test-dyczcup1/target/02-work.md"
+      },
+      "03": {
+        "id": "03",
+        "title": "Work 03",
+        "readiness": "ready-for-agent",
+        "dependencies": [],
+        "acceptance": [
+          "Deliver work 03."
+        ],
+        "checks": [
+          "other"
+        ],
+        "source": "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.scratch/ticket-harness/evidence/m1-index-repair-01/test-tmp/ticket-harness-test-dyczcup1/target/03-work.md"
+      },
+      "05": {
+        "id": "05",
+        "title": "Human context",
+        "readiness": "ready-for-human",
+        "dependencies": [],
+        "acceptance": [
+          "Human work."
+        ],
+        "checks": [
+          "ticket",
+          "other"
+        ],
+        "source": "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.scratch/ticket-harness/evidence/m1-index-repair-01/test-tmp/ticket-harness-test-dyczcup1/target/05-context.md"
+      },
+      "07": {
+        "id": "07",
+        "title": "Agent context",
+        "readiness": "ready-for-agent",
+        "dependencies": [
+          "05"
+        ],
+        "acceptance": [
+          "Context work."
+        ],
+        "checks": [
+          "ticket",
+          "other"
+        ],
+        "source": "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.scratch/ticket-harness/evidence/m1-index-repair-01/test-tmp/ticket-harness-test-dyczcup1/target/07-context.md"
+      }
+    },
+    "max_repairs": 0,
+    "timeouts": {
+      "implementation": 1800,
+      "repair": 1800,
+      "spec": 900,
+      "standards": 900,
+      "checks": 300,
+      "baseline": 1800,
+      "candidate": 1800
+    },
+    "selected_tickets": [
+      "01",
+      "03"
+    ],
+    "run_id": "b4240f8e19b1437686d7a6491397d1b4",
+    "plan": {
+      "version": "v1",
+      "approval": "human-approved fixture bundle v1",
+      "development": "dev",
+      "required_tickets": [
+        "01",
+        "02",
+        "03",
+        "04"
+      ],
+      "milestones": [
+        {
+          "id": "M1",
+          "tickets": [
+            "03",
+            "01"
+          ],
+          "qa": {
+            "setup": "Inspect disposable feature",
+            "actions": [
+              "Read delivered work"
+            ],
+            "pass_conditions": [
+              "Work 01 and 03 exist"
+            ]
+          }
+        },
+        {
+          "id": "M2",
+          "tickets": [
+            "04",
+            "02"
+          ],
+          "qa": {
+            "setup": "Inspect all work",
+            "actions": [
+              "Read all delivered work"
+            ],
+            "pass_conditions": [
+              "All required work exists"
+            ]
+          }
+        }
+      ],
+      "final_milestone": "M2",
+      "final_coverage": [
+        "01",
+        "02",
+        "03",
+        "04"
+      ],
+      "roles": {
+        "worker": {
+          "model": "scripted-fixture",
+          "reasoning": "Medium"
+        },
+        "spec": {
+          "model": "scripted-spec",
+          "reasoning": "High"
+        },
+        "standards": {
+          "model": "scripted-standards",
+          "reasoning": "High"
+        }
+      },
+      "worker_overrides": {
+        "03": {
+          "reasoning": "High",
+          "reason": "Fixture override"
+        }
+      }
+    },
+    "worker_settings": {
+      "01": {
+        "model": "scripted-fixture",
+        "reasoning": "Medium"
+      },
+      "02": {
+        "model": "scripted-fixture",
+        "reasoning": "Medium"
+      },
+      "03": {
+        "model": "scripted-fixture",
+        "reasoning": "High"
+      },
+      "04": {
+        "model": "scripted-fixture",
+        "reasoning": "Medium"
+      }
+    },
+    "feature_complete": false,
+    "milestone": {
+      "id": "M1",
+      "state": "awaiting_human_qa",
+      "feature_revision": "c5f05ac32c179e2dab7e095bbb6170975e38391d",
+      "development_revision": "6fbfcaa6629f09d1f299818177a476a36aa9d423",
+      "candidate_revision": "983ed3560f7149a68740e7f8957551d04a75d72a"
+    },
+    "tickets": {
+      "01": {
+        "id": "01",
+        "state": "Done",
+        "attempt": 1,
+        "ticket": "01",
+        "starting_revision": "57e8d41bc2aa5292daedd971c73024e1ee8eb2ec",
+        "gate_start": 6,
+        "source": "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.scratch/ticket-harness/evidence/m1-index-repair-01/test-tmp/ticket-harness-test-dyczcup1/run/worktrees/ticket-01-implementation",
+        "submitted_revision": "b90a9a96cb0fc647c84b8bef28b201b7761ac3ea",
+        "changed_files": [
+          "last-ticket",
+          "work-01"
+        ],
+        "candidate_revision": "c5f05ac32c179e2dab7e095bbb6170975e38391d",
+        "done_revision": "c5f05ac32c179e2dab7e095bbb6170975e38391d"
+      },
+      "02": {
+        "id": "02",
+        "state": "Pending",
+        "attempt": 0
+      },
+      "03": {
+        "id": "03",
+        "state": "Done",
+        "attempt": 1,
+        "ticket": "03",
+        "starting_revision": "6fbfcaa6629f09d1f299818177a476a36aa9d423",
+        "gate_start": 1,
+        "source": "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.scratch/ticket-harness/evidence/m1-index-repair-01/test-tmp/ticket-harness-test-dyczcup1/run/worktrees/ticket-03-implementation",
+        "submitted_revision": "ba2591cea8826332cf6133b7a62b93504b0d51db",
+        "changed_files": [
+          "last-ticket",
+          "work-03"
+        ],
+        "candidate_revision": "57e8d41bc2aa5292daedd971c73024e1ee8eb2ec",
+        "done_revision": "57e8d41bc2aa5292daedd971c73024e1ee8eb2ec"
+      },
+      "04": {
+        "id": "04",
+        "state": "Pending",
+        "attempt": 0
+      }
+    },
+    "development_branch": "dev",
+    "development_revision": "6fbfcaa6629f09d1f299818177a476a36aa9d423",
+    "base_revision": "6fbfcaa6629f09d1f299818177a476a36aa9d423",
+    "integration_revision": "c5f05ac32c179e2dab7e095bbb6170975e38391d",
+    "integration_branch": "integration",
+    "operations": [
+      {
+        "stage": "baseline-worktree",
+        "ticket": null,
+        "attempt": 0,
+        "passed": true
+      },
+      {
+        "stage": "ticket-03-implementation-worktree",
+        "ticket": "03",
+        "attempt": 1,
+        "passed": true
+      },
+      {
+        "stage": "ticket-03-submission",
+        "ticket": "03",
+        "attempt": 1,
+        "passed": true
+      },
+      {
+        "stage": "ticket-03-spec-worktree",
+        "ticket": "03",
+        "attempt": 1,
+        "passed": true
+      },
+      {
+        "stage": "ticket-03-standards-worktree",
+        "ticket": "03",
+        "attempt": 1,
+        "passed": true
+      },
+      {
+        "stage": "ticket-03-candidate-merge",
+        "ticket": "03",
+        "attempt": 1,
+        "passed": true
+      },
+      {
+        "stage": "ticket-01-implementation-worktree",
+        "ticket": "01",
+        "attempt": 1,
+        "passed": true
+      },
+      {
+        "stage": "ticket-01-submission",
+        "ticket": "01",
+        "attempt": 1,
+        "passed": true
+      },
+      {
+        "stage": "ticket-01-spec-worktree",
+        "ticket": "01",
+        "attempt": 1,
+        "passed": true
+      },
+      {
+        "stage": "ticket-01-standards-worktree",
+        "ticket": "01",
+        "attempt": 1,
+        "passed": true
+      },
+      {
+        "stage": "ticket-01-candidate-merge",
+        "ticket": "01",
+        "attempt": 1,
+        "passed": true
+      },
+      {
+        "stage": "milestone-candidate-merge",
+        "ticket": null,
+        "attempt": 0,
+        "passed": true
+      },
+      {
+        "stage": "milestone-candidate-validation",
+        "ticket": null,
+        "attempt": 0,
+        "passed": true
+      }
+    ],
+    "starting_development_revision": "6fbfcaa6629f09d1f299818177a476a36aa9d423",
+    "qa_request": "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.scratch/ticket-harness/evidence/m1-index-repair-01/test-tmp/ticket-harness-test-dyczcup1/run/qa-request.json",
+    "qa_decision": "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.scratch/ticket-harness/evidence/m1-index-repair-01/test-tmp/ticket-harness-test-dyczcup1/run/qa-decision.json",
+    "qa_decision_status": "missing",
+    "checkpoint_id": "7a95b80a8d764310a088de3806b86787"
+  },
+  "milestone_index": 0,
+  "verified": [
+    [
+      {
+        "stage": "baseline",
+        "revision": "6fbfcaa6629f09d1f299818177a476a36aa9d423",
+        "argv": [
+          "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.venv/bin/python",
+          "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.scratch/ticket-harness/evidence/m1-index-repair-01/test-tmp/ticket-harness-test-dyczcup1/graph-check.py"
+        ],
+        "cwd": "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.scratch/ticket-harness/evidence/m1-index-repair-01/test-tmp/ticket-harness-test-dyczcup1/run/worktrees/baseline",
+        "stdout": "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.scratch/ticket-harness/evidence/m1-index-repair-01/test-tmp/ticket-harness-test-dyczcup1/run/artifacts/baseline.stdout",
+        "stderr": "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.scratch/ticket-harness/evidence/m1-index-repair-01/test-tmp/ticket-harness-test-dyczcup1/run/artifacts/baseline.stderr",
+        "passed": true,
+        "timeout_seconds": 1800,
+        "timed_out": false,
+        "exit_code": 0,
+        "cleanup": {
+          "process_group": 6828,
+          "signal": "SIGKILL",
+          "sent": false
+        },
+        "ticket": null,
+        "attempt": 0,
+        "timeout_category": "baseline"
+      },
+      "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.scratch/ticket-harness/evidence/m1-index-repair-01/test-tmp/ticket-harness-test-dyczcup1/run/worktrees/baseline",
+      "6fbfcaa6629f09d1f299818177a476a36aa9d423"
+    ],
+    [
+      {
+        "stage": "check-other",
+        "revision": "ba2591cea8826332cf6133b7a62b93504b0d51db",
+        "argv": [
+          "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.venv/bin/python",
+          "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.scratch/ticket-harness/evidence/m1-index-repair-01/test-tmp/ticket-harness-test-dyczcup1/graph-check.py"
+        ],
+        "cwd": "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.scratch/ticket-harness/evidence/m1-index-repair-01/test-tmp/ticket-harness-test-dyczcup1/run/worktrees/ticket-03-implementation",
+        "stdout": "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.scratch/ticket-harness/evidence/m1-index-repair-01/test-tmp/ticket-harness-test-dyczcup1/run/artifacts/ticket-03-check-other.stdout",
+        "stderr": "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.scratch/ticket-harness/evidence/m1-index-repair-01/test-tmp/ticket-harness-test-dyczcup1/run/artifacts/ticket-03-check-other.stderr",
+        "passed": true,
+        "timeout_seconds": 300,
+        "timed_out": false,
+        "exit_code": 0,
+        "cleanup": {
+          "process_group": 6858,
+          "signal": "SIGKILL",
+          "sent": false
+        },
+        "ticket": "03",
+        "attempt": 1,
+        "timeout_category": "checks"
+      },
+      "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.scratch/ticket-harness/evidence/m1-index-repair-01/test-tmp/ticket-harness-test-dyczcup1/run/worktrees/ticket-03-implementation",
+      "ba2591cea8826332cf6133b7a62b93504b0d51db"
+    ],
+    [
+      {
+        "stage": "spec",
+        "revision": "ba2591cea8826332cf6133b7a62b93504b0d51db",
+        "argv": [
+          "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.venv/bin/python",
+          "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.scratch/ticket-harness/evidence/m1-index-repair-01/test-tmp/ticket-harness-test-dyczcup1/graph-agent.py"
+        ],
+        "cwd": "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.scratch/ticket-harness/evidence/m1-index-repair-01/test-tmp/ticket-harness-test-dyczcup1/run/worktrees/ticket-03-spec",
+        "stdout": "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.scratch/ticket-harness/evidence/m1-index-repair-01/test-tmp/ticket-harness-test-dyczcup1/run/artifacts/ticket-03-spec.stdout",
+        "stderr": "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.scratch/ticket-harness/evidence/m1-index-repair-01/test-tmp/ticket-harness-test-dyczcup1/run/artifacts/ticket-03-spec.stderr",
+        "passed": true,
+        "timeout_seconds": 900,
+        "timed_out": false,
+        "assignment": "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.scratch/ticket-harness/evidence/m1-index-repair-01/test-tmp/ticket-harness-test-dyczcup1/run/artifacts/ticket-03-spec.assignment.json",
+        "exit_code": 0,
+        "cleanup": {
+          "process_group": 6878,
+          "signal": "SIGKILL",
+          "sent": false
+        },
+        "ticket": "03",
+        "attempt": 1,
+        "timeout_category": "spec",
+        "report": {
+          "role": "spec",
+          "ticket": "03",
+          "attempt": 1,
+          "base_revision": "6fbfcaa6629f09d1f299818177a476a36aa9d423",
+          "revision": "ba2591cea8826332cf6133b7a62b93504b0d51db",
+          "pid": 6878,
+          "findings": []
+        },
+        "report_status": "valid"
+      },
+      "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.scratch/ticket-harness/evidence/m1-index-repair-01/test-tmp/ticket-harness-test-dyczcup1/run/worktrees/ticket-03-spec",
+      "ba2591cea8826332cf6133b7a62b93504b0d51db"
+    ],
+    [
+      {
+        "stage": "standards",
+        "revision": "ba2591cea8826332cf6133b7a62b93504b0d51db",
+        "argv": [
+          "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.venv/bin/python",
+          "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.scratch/ticket-harness/evidence/m1-index-repair-01/test-tmp/ticket-harness-test-dyczcup1/graph-agent.py"
+        ],
+        "cwd": "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.scratch/ticket-harness/evidence/m1-index-repair-01/test-tmp/ticket-harness-test-dyczcup1/run/worktrees/ticket-03-standards",
+        "stdout": "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.scratch/ticket-harness/evidence/m1-index-repair-01/test-tmp/ticket-harness-test-dyczcup1/run/artifacts/ticket-03-standards.stdout",
+        "stderr": "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.scratch/ticket-harness/evidence/m1-index-repair-01/test-tmp/ticket-harness-test-dyczcup1/run/artifacts/ticket-03-standards.stderr",
+        "passed": true,
+        "timeout_seconds": 900,
+        "timed_out": false,
+        "assignment": "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.scratch/ticket-harness/evidence/m1-index-repair-01/test-tmp/ticket-harness-test-dyczcup1/run/artifacts/ticket-03-standards.assignment.json",
+        "exit_code": 0,
+        "cleanup": {
+          "process_group": 6905,
+          "signal": "SIGKILL",
+          "sent": false
+        },
+        "ticket": "03",
+        "attempt": 1,
+        "timeout_category": "standards",
+        "report": {
+          "role": "standards",
+          "ticket": "03",
+          "attempt": 1,
+          "base_revision": "6fbfcaa6629f09d1f299818177a476a36aa9d423",
+          "revision": "ba2591cea8826332cf6133b7a62b93504b0d51db",
+          "pid": 6905,
+          "findings": []
+        },
+        "report_status": "valid"
+      },
+      "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.scratch/ticket-harness/evidence/m1-index-repair-01/test-tmp/ticket-harness-test-dyczcup1/run/worktrees/ticket-03-standards",
+      "ba2591cea8826332cf6133b7a62b93504b0d51db"
+    ],
+    [
+      {
+        "stage": "candidate",
+        "revision": "57e8d41bc2aa5292daedd971c73024e1ee8eb2ec",
+        "argv": [
+          "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.venv/bin/python",
+          "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.scratch/ticket-harness/evidence/m1-index-repair-01/test-tmp/ticket-harness-test-dyczcup1/graph-check.py"
+        ],
+        "cwd": "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.scratch/ticket-harness/evidence/m1-index-repair-01/test-tmp/ticket-harness-test-dyczcup1/run/worktrees/ticket-03-candidate",
+        "stdout": "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.scratch/ticket-harness/evidence/m1-index-repair-01/test-tmp/ticket-harness-test-dyczcup1/run/artifacts/ticket-03-candidate.stdout",
+        "stderr": "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.scratch/ticket-harness/evidence/m1-index-repair-01/test-tmp/ticket-harness-test-dyczcup1/run/artifacts/ticket-03-candidate.stderr",
+        "passed": true,
+        "timeout_seconds": 1800,
+        "timed_out": false,
+        "exit_code": 0,
+        "cleanup": {
+          "process_group": 6948,
+          "signal": "SIGKILL",
+          "sent": false
+        },
+        "ticket": "03",
+        "attempt": 1,
+        "timeout_category": "candidate"
+      },
+      "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.scratch/ticket-harness/evidence/m1-index-repair-01/test-tmp/ticket-harness-test-dyczcup1/run/worktrees/ticket-03-candidate",
+      "57e8d41bc2aa5292daedd971c73024e1ee8eb2ec"
+    ],
+    [
+      {
+        "stage": "check-ticket",
+        "revision": "b90a9a96cb0fc647c84b8bef28b201b7761ac3ea",
+        "argv": [
+          "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.venv/bin/python",
+          "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.scratch/ticket-harness/evidence/m1-index-repair-01/test-tmp/ticket-harness-test-dyczcup1/graph-check.py"
+        ],
+        "cwd": "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.scratch/ticket-harness/evidence/m1-index-repair-01/test-tmp/ticket-harness-test-dyczcup1/run/worktrees/ticket-01-implementation",
+        "stdout": "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.scratch/ticket-harness/evidence/m1-index-repair-01/test-tmp/ticket-harness-test-dyczcup1/run/artifacts/ticket-01-check-ticket.stdout",
+        "stderr": "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.scratch/ticket-harness/evidence/m1-index-repair-01/test-tmp/ticket-harness-test-dyczcup1/run/artifacts/ticket-01-check-ticket.stderr",
+        "passed": true,
+        "timeout_seconds": 300,
+        "timed_out": false,
+        "exit_code": 0,
+        "cleanup": {
+          "process_group": 7051,
+          "signal": "SIGKILL",
+          "sent": false
+        },
+        "ticket": "01",
+        "attempt": 1,
+        "timeout_category": "checks"
+      },
+      "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.scratch/ticket-harness/evidence/m1-index-repair-01/test-tmp/ticket-harness-test-dyczcup1/run/worktrees/ticket-01-implementation",
+      "b90a9a96cb0fc647c84b8bef28b201b7761ac3ea"
+    ],
+    [
+      {
+        "stage": "spec",
+        "revision": "b90a9a96cb0fc647c84b8bef28b201b7761ac3ea",
+        "argv": [
+          "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.venv/bin/python",
+          "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.scratch/ticket-harness/evidence/m1-index-repair-01/test-tmp/ticket-harness-test-dyczcup1/graph-agent.py"
+        ],
+        "cwd": "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.scratch/ticket-harness/evidence/m1-index-repair-01/test-tmp/ticket-harness-test-dyczcup1/run/worktrees/ticket-01-spec",
+        "stdout": "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.scratch/ticket-harness/evidence/m1-index-repair-01/test-tmp/ticket-harness-test-dyczcup1/run/artifacts/ticket-01-spec.stdout",
+        "stderr": "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.scratch/ticket-harness/evidence/m1-index-repair-01/test-tmp/ticket-harness-test-dyczcup1/run/artifacts/ticket-01-spec.stderr",
+        "passed": true,
+        "timeout_seconds": 900,
+        "timed_out": false,
+        "assignment": "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.scratch/ticket-harness/evidence/m1-index-repair-01/test-tmp/ticket-harness-test-dyczcup1/run/artifacts/ticket-01-spec.assignment.json",
+        "exit_code": 0,
+        "cleanup": {
+          "process_group": 7095,
+          "signal": "SIGKILL",
+          "sent": false
+        },
+        "ticket": "01",
+        "attempt": 1,
+        "timeout_category": "spec",
+        "report": {
+          "role": "spec",
+          "ticket": "01",
+          "attempt": 1,
+          "base_revision": "57e8d41bc2aa5292daedd971c73024e1ee8eb2ec",
+          "revision": "b90a9a96cb0fc647c84b8bef28b201b7761ac3ea",
+          "pid": 7095,
+          "findings": []
+        },
+        "report_status": "valid"
+      },
+      "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.scratch/ticket-harness/evidence/m1-index-repair-01/test-tmp/ticket-harness-test-dyczcup1/run/worktrees/ticket-01-spec",
+      "b90a9a96cb0fc647c84b8bef28b201b7761ac3ea"
+    ],
+    [
+      {
+        "stage": "standards",
+        "revision": "b90a9a96cb0fc647c84b8bef28b201b7761ac3ea",
+        "argv": [
+          "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.venv/bin/python",
+          "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.scratch/ticket-harness/evidence/m1-index-repair-01/test-tmp/ticket-harness-test-dyczcup1/graph-agent.py"
+        ],
+        "cwd": "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.scratch/ticket-harness/evidence/m1-index-repair-01/test-tmp/ticket-harness-test-dyczcup1/run/worktrees/ticket-01-standards",
+        "stdout": "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.scratch/ticket-harness/evidence/m1-index-repair-01/test-tmp/ticket-harness-test-dyczcup1/run/artifacts/ticket-01-standards.stdout",
+        "stderr": "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.scratch/ticket-harness/evidence/m1-index-repair-01/test-tmp/ticket-harness-test-dyczcup1/run/artifacts/ticket-01-standards.stderr",
+        "passed": true,
+        "timeout_seconds": 900,
+        "timed_out": false,
+        "assignment": "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.scratch/ticket-harness/evidence/m1-index-repair-01/test-tmp/ticket-harness-test-dyczcup1/run/artifacts/ticket-01-standards.assignment.json",
+        "exit_code": 0,
+        "cleanup": {
+          "process_group": 7146,
+          "signal": "SIGKILL",
+          "sent": false
+        },
+        "ticket": "01",
+        "attempt": 1,
+        "timeout_category": "standards",
+        "report": {
+          "role": "standards",
+          "ticket": "01",
+          "attempt": 1,
+          "base_revision": "57e8d41bc2aa5292daedd971c73024e1ee8eb2ec",
+          "revision": "b90a9a96cb0fc647c84b8bef28b201b7761ac3ea",
+          "pid": 7146,
+          "findings": []
+        },
+        "report_status": "valid"
+      },
+      "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.scratch/ticket-harness/evidence/m1-index-repair-01/test-tmp/ticket-harness-test-dyczcup1/run/worktrees/ticket-01-standards",
+      "b90a9a96cb0fc647c84b8bef28b201b7761ac3ea"
+    ],
+    [
+      {
+        "stage": "candidate",
+        "revision": "c5f05ac32c179e2dab7e095bbb6170975e38391d",
+        "argv": [
+          "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.venv/bin/python",
+          "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.scratch/ticket-harness/evidence/m1-index-repair-01/test-tmp/ticket-harness-test-dyczcup1/graph-check.py"
+        ],
+        "cwd": "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.scratch/ticket-harness/evidence/m1-index-repair-01/test-tmp/ticket-harness-test-dyczcup1/run/worktrees/ticket-01-candidate",
+        "stdout": "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.scratch/ticket-harness/evidence/m1-index-repair-01/test-tmp/ticket-harness-test-dyczcup1/run/artifacts/ticket-01-candidate.stdout",
+        "stderr": "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.scratch/ticket-harness/evidence/m1-index-repair-01/test-tmp/ticket-harness-test-dyczcup1/run/artifacts/ticket-01-candidate.stderr",
+        "passed": true,
+        "timeout_seconds": 1800,
+        "timed_out": false,
+        "exit_code": 0,
+        "cleanup": {
+          "process_group": 7213,
+          "signal": "SIGKILL",
+          "sent": false
+        },
+        "ticket": "01",
+        "attempt": 1,
+        "timeout_category": "candidate"
+      },
+      "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.scratch/ticket-harness/evidence/m1-index-repair-01/test-tmp/ticket-harness-test-dyczcup1/run/worktrees/ticket-01-candidate",
+      "c5f05ac32c179e2dab7e095bbb6170975e38391d"
+    ],
+    [
+      {
+        "stage": "milestone-regression",
+        "revision": "983ed3560f7149a68740e7f8957551d04a75d72a",
+        "argv": [
+          "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.venv/bin/python",
+          "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.scratch/ticket-harness/evidence/m1-index-repair-01/test-tmp/ticket-harness-test-dyczcup1/graph-check.py"
+        ],
+        "cwd": "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.scratch/ticket-harness/evidence/m1-index-repair-01/test-tmp/ticket-harness-test-dyczcup1/run/worktrees/milestone-candidate",
+        "stdout": "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.scratch/ticket-harness/evidence/m1-index-repair-01/test-tmp/ticket-harness-test-dyczcup1/run/artifacts/milestone-regression.stdout",
+        "stderr": "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.scratch/ticket-harness/evidence/m1-index-repair-01/test-tmp/ticket-harness-test-dyczcup1/run/artifacts/milestone-regression.stderr",
+        "passed": true,
+        "timeout_seconds": 1800,
+        "timed_out": false,
+        "exit_code": 0,
+        "cleanup": {
+          "process_group": 7331,
+          "signal": "SIGKILL",
+          "sent": false
+        },
+        "ticket": null,
+        "attempt": 0,
+        "timeout_category": "candidate"
+      },
+      "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.scratch/ticket-harness/evidence/m1-index-repair-01/test-tmp/ticket-harness-test-dyczcup1/run/worktrees/milestone-candidate",
+      "983ed3560f7149a68740e7f8957551d04a75d72a"
+    ]
+  ],
+  "evidence": {
+    "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.scratch/ticket-harness/evidence/m1-index-repair-01/test-tmp/ticket-harness-test-dyczcup1/run/artifacts/baseline.stdout": "ff06e59b8ee8b03106783473079b9c326cb9246b5296719359a8454fd05caa10",
+    "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.scratch/ticket-harness/evidence/m1-index-repair-01/test-tmp/ticket-harness-test-dyczcup1/run/artifacts/baseline.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.scratch/ticket-harness/evidence/m1-index-repair-01/test-tmp/ticket-harness-test-dyczcup1/run/artifacts/ticket-03-implementation.assignment.json": "57c0137cbf7cc0dc3e59f22e85f879cc850c1a26cac0fb2a12b3c88203140e1b",
+    "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.scratch/ticket-harness/evidence/m1-index-repair-01/test-tmp/ticket-harness-test-dyczcup1/run/artifacts/ticket-03-implementation.stdout": "8ecae2e570589888e785dbed5b1b44f781b8f298273facaf5201eb9b61f7171e",
+    "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.scratch/ticket-harness/evidence/m1-index-repair-01/test-tmp/ticket-harness-test-dyczcup1/run/artifacts/ticket-03-implementation.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.scratch/ticket-harness/evidence/m1-index-repair-01/test-tmp/ticket-harness-test-dyczcup1/run/artifacts/ticket-03-check-other.stdout": "2cc5071d591d2e2c8b141c7bca4ce15d50a81c146d2a9cb289b783d9a155fbc5",
+    "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.scratch/ticket-harness/evidence/m1-index-repair-01/test-tmp/ticket-harness-test-dyczcup1/run/artifacts/ticket-03-check-other.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.scratch/ticket-harness/evidence/m1-index-repair-01/test-tmp/ticket-harness-test-dyczcup1/run/artifacts/ticket-03-spec.assignment.json": "b371d71a45608607d42a3c3323be6bc19f7073285bdf7b1407a439fabf7ec4cf",
+    "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.scratch/ticket-harness/evidence/m1-index-repair-01/test-tmp/ticket-harness-test-dyczcup1/run/artifacts/ticket-03-spec.stdout": "4d9b70b57640e62939a5c38ef5ccd2820487c35ffef58bf9b1d32421d1206e52",
+    "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.scratch/ticket-harness/evidence/m1-index-repair-01/test-tmp/ticket-harness-test-dyczcup1/run/artifacts/ticket-03-spec.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.scratch/ticket-harness/evidence/m1-index-repair-01/test-tmp/ticket-harness-test-dyczcup1/run/artifacts/ticket-03-standards.assignment.json": "b2cf622e3070a2309ba63186ed8a0bac1c3d2c1c04a12298fd46f40bc461f6cd",
+    "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.scratch/ticket-harness/evidence/m1-index-repair-01/test-tmp/ticket-harness-test-dyczcup1/run/artifacts/ticket-03-standards.stdout": "c80328490d196af7d1d38cb3996277d24007e6c86ca4eb370480694c83a26cc9",
+    "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.scratch/ticket-harness/evidence/m1-index-repair-01/test-tmp/ticket-harness-test-dyczcup1/run/artifacts/ticket-03-standards.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.scratch/ticket-harness/evidence/m1-index-repair-01/test-tmp/ticket-harness-test-dyczcup1/run/artifacts/ticket-03-candidate.stdout": "46573c7e12759fe67773f0a280d8f6ccaca419cacc90db2227a11dbb3738b534",
+    "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.scratch/ticket-harness/evidence/m1-index-repair-01/test-tmp/ticket-harness-test-dyczcup1/run/artifacts/ticket-03-candidate.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.scratch/ticket-harness/evidence/m1-index-repair-01/test-tmp/ticket-harness-test-dyczcup1/run/artifacts/ticket-01-implementation.assignment.json": "34bde7fbfa0fa93ca1e95fb2aa2f1abd8f05cf67905111471f2e9c9542ed9235",
+    "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.scratch/ticket-harness/evidence/m1-index-repair-01/test-tmp/ticket-harness-test-dyczcup1/run/artifacts/ticket-01-implementation.stdout": "9c77e5a1a4db135ec0285d2fd901b8b84c9a34bfbf133b622e86e9423f47b057",
+    "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.scratch/ticket-harness/evidence/m1-index-repair-01/test-tmp/ticket-harness-test-dyczcup1/run/artifacts/ticket-01-implementation.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.scratch/ticket-harness/evidence/m1-index-repair-01/test-tmp/ticket-harness-test-dyczcup1/run/artifacts/ticket-01-check-ticket.stdout": "0c77c333e510754a9162a9dc726fe5d4d11644ddb87ae891275fdf852db987b1",
+    "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.scratch/ticket-harness/evidence/m1-index-repair-01/test-tmp/ticket-harness-test-dyczcup1/run/artifacts/ticket-01-check-ticket.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.scratch/ticket-harness/evidence/m1-index-repair-01/test-tmp/ticket-harness-test-dyczcup1/run/artifacts/ticket-01-spec.assignment.json": "1d7b21781a449b009940a1560ab1cc31091d230bef86d221ee53f3d618efa59b",
+    "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.scratch/ticket-harness/evidence/m1-index-repair-01/test-tmp/ticket-harness-test-dyczcup1/run/artifacts/ticket-01-spec.stdout": "09ca52f665e337e18c8651728332a437dabc72dcd96e76479324ddfd9dc06786",
+    "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.scratch/ticket-harness/evidence/m1-index-repair-01/test-tmp/ticket-harness-test-dyczcup1/run/artifacts/ticket-01-spec.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.scratch/ticket-harness/evidence/m1-index-repair-01/test-tmp/ticket-harness-test-dyczcup1/run/artifacts/ticket-01-standards.assignment.json": "5964c4f618e9e132e3571d28f5aaed663a95ece0eff4572bd2d1b4080b18d105",
+    "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.scratch/ticket-harness/evidence/m1-index-repair-01/test-tmp/ticket-harness-test-dyczcup1/run/artifacts/ticket-01-standards.stdout": "7cd8ab2c471918fdca27d4fa13ed4bf38003afce98377f22dfd743607e903f8e",
+    "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.scratch/ticket-harness/evidence/m1-index-repair-01/test-tmp/ticket-harness-test-dyczcup1/run/artifacts/ticket-01-standards.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.scratch/ticket-harness/evidence/m1-index-repair-01/test-tmp/ticket-harness-test-dyczcup1/run/artifacts/ticket-01-candidate.stdout": "8f08503ff436a20c5385b1e58cf5283621d6a4327f1f5d4593cd3a65428977e9",
+    "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.scratch/ticket-harness/evidence/m1-index-repair-01/test-tmp/ticket-harness-test-dyczcup1/run/artifacts/ticket-01-candidate.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.scratch/ticket-harness/evidence/m1-index-repair-01/test-tmp/ticket-harness-test-dyczcup1/run/artifacts/milestone-regression.stdout": "11028f60b80dc438f920b0fc737c52cb47c4c8e5f8f1426d515bd3344bd80b4c",
+    "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.scratch/ticket-harness/evidence/m1-index-repair-01/test-tmp/ticket-harness-test-dyczcup1/run/artifacts/milestone-regression.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.scratch/ticket-harness/evidence/m1-index-repair-01/test-tmp/ticket-harness-test-dyczcup1/run/artifacts/qa-request.json": "837263153feb4f241d874f0943c0b9e44474be4fb20d84ba32e689ad527092a9"
+  },
+  "request_sha256": "837263153feb4f241d874f0943c0b9e44474be4fb20d84ba32e689ad527092a9"
+}

@@ -1,0 +1,27 @@
+F                                                                        [100%]
+=================================== FAILURES ===================================
+_______ test_inherited_caller_index_is_preserved_during_ticket_execution _______
+
+harness = <test_reports.ReportFixture testMethod=runTest>
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x153229de08c0>
+
+    def test_inherited_caller_index_is_preserved_during_ticket_execution(harness, monkeypatch):
+        (harness.repo / "value.txt").write_text("caller staged\n")
+        harness.git("add", "value.txt")
+        (harness.repo / "value.txt").write_text("caller unstaged\n")
+        (harness.repo / "unrelated.txt").write_text("caller untracked\n")
+        index = harness.repo / ".git/index"
+        before = index.read_bytes()
+        with monkeypatch.context() as environment:
+            environment.setenv("GIT_INDEX_FILE", str(index))
+            result = harness.run_ticket()
+>       assert index.read_bytes() == before
+E       AssertionError: assert b'DIRC\x00\x0...e3\x8ect\xa4_' == b'DIRC\x00\x0...\xa7w\xc3\x9d'
+E         
+E         At index 16 diff: b'\x13' != b'\x0c'
+E         Use -v to get more diff
+
+tests/test_transaction.py:248: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_transaction.py::test_inherited_caller_index_is_preserved_during_ticket_execution
+1 failed in 0.42s

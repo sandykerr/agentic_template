@@ -1,0 +1,88 @@
+{
+  "scenario": "test_invalid_plans_reject_before_processes_or_branch_changes[unknown-required-unknown ticket]",
+  "record": {
+    "outcome": "invalid-input",
+    "artifacts": "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.scratch/ticket-harness/evidence/m1-index-repair-01/test-tmp/ticket-harness-test-to_uvemq/run/artifacts",
+    "inputs": {},
+    "ticket": {
+      "state": "Blocked",
+      "attempt": 0
+    },
+    "gates": [],
+    "attempts": [],
+    "failure": {
+      "stage": "inputs",
+      "message": "plan.required_tickets: unknown ticket IDs ['99']"
+    }
+  },
+  "cli_observations": [
+    {
+      "command": [
+        "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.venv/bin/python",
+        "-m",
+        "ticket_harness",
+        "run",
+        "--config",
+        "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.scratch/ticket-harness/evidence/m1-index-repair-01/test-tmp/ticket-harness-test-to_uvemq/project.json",
+        "--output",
+        "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.scratch/ticket-harness/evidence/m1-index-repair-01/test-tmp/ticket-harness-test-to_uvemq/run"
+      ],
+      "exit_code": 1,
+      "stderr": "",
+      "stdout_matches_record": true,
+      "record": {
+        "outcome": "invalid-input",
+        "artifacts": "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.scratch/ticket-harness/evidence/m1-index-repair-01/test-tmp/ticket-harness-test-to_uvemq/run/artifacts",
+        "inputs": {},
+        "ticket": {
+          "state": "Blocked",
+          "attempt": 0
+        },
+        "gates": [],
+        "attempts": [],
+        "failure": {
+          "stage": "inputs",
+          "message": "plan.required_tickets: unknown ticket IDs ['99']"
+        }
+      }
+    },
+    {
+      "command": [
+        "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.venv/bin/python",
+        "-m",
+        "ticket_harness",
+        "status",
+        "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.scratch/ticket-harness/evidence/m1-index-repair-01/test-tmp/ticket-harness-test-to_uvemq/run"
+      ],
+      "exit_code": 0,
+      "stderr": "",
+      "stdout_matches_record": true,
+      "record": {
+        "outcome": "invalid-input",
+        "artifacts": "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.scratch/ticket-harness/evidence/m1-index-repair-01/test-tmp/ticket-harness-test-to_uvemq/run/artifacts",
+        "inputs": {},
+        "ticket": {
+          "state": "Blocked",
+          "attempt": 0
+        },
+        "gates": [],
+        "attempts": [],
+        "failure": {
+          "stage": "inputs",
+          "message": "plan.required_tickets: unknown ticket IDs ['99']"
+        }
+      }
+    }
+  ],
+  "foreground_observations": [],
+  "qa_artifacts": {},
+  "integration": "deb06117b96cc0ba2d19a2357c929e86533c549a",
+  "history": "deb06117b96cc0ba2d19a2357c929e86533c549a ae36b29336a76a42e3110d10ebd5da3d04d9124e Approved dependency graph\nae36b29336a76a42e3110d10ebd5da3d04d9124e  Fixture baseline",
+  "caller_status": "?? plan.json",
+  "launches": [],
+  "assignments": {},
+  "qa_request": null,
+  "milestone_candidate": null,
+  "development": "deb06117b96cc0ba2d19a2357c929e86533c549a",
+  "outputs": {}
+}

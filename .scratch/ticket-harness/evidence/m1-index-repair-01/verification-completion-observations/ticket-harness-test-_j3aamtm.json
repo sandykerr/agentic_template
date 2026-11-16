@@ -1,0 +1,145 @@
+{
+  "scenario": "test_unselected_context_cycles_and_unavailable_unused_checks_still_reject",
+  "record": {
+    "outcome": "invalid-input",
+    "artifacts": "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.scratch/ticket-harness/evidence/m1-index-repair-01/test-tmp/ticket-harness-test-_j3aamtm/second-rejection/artifacts",
+    "inputs": {},
+    "ticket": {
+      "state": "Blocked",
+      "attempt": 0
+    },
+    "gates": [],
+    "attempts": [],
+    "failure": {
+      "stage": "inputs",
+      "message": "checks.unused: executable unavailable: '/missing/ticket09-check'"
+    }
+  },
+  "cli_observations": [
+    {
+      "command": [
+        "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.venv/bin/python",
+        "-m",
+        "ticket_harness",
+        "run",
+        "--config",
+        "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.scratch/ticket-harness/evidence/m1-index-repair-01/test-tmp/ticket-harness-test-_j3aamtm/project.json",
+        "--output",
+        "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.scratch/ticket-harness/evidence/m1-index-repair-01/test-tmp/ticket-harness-test-_j3aamtm/run"
+      ],
+      "exit_code": 1,
+      "stderr": "",
+      "stdout_matches_record": true,
+      "record": {
+        "outcome": "invalid-input",
+        "artifacts": "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.scratch/ticket-harness/evidence/m1-index-repair-01/test-tmp/ticket-harness-test-_j3aamtm/run/artifacts",
+        "inputs": {},
+        "ticket": {
+          "state": "Blocked",
+          "attempt": 0
+        },
+        "gates": [],
+        "attempts": [],
+        "failure": {
+          "stage": "inputs",
+          "message": "dependency cycle: 05 -> 05"
+        }
+      }
+    },
+    {
+      "command": [
+        "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.venv/bin/python",
+        "-m",
+        "ticket_harness",
+        "status",
+        "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.scratch/ticket-harness/evidence/m1-index-repair-01/test-tmp/ticket-harness-test-_j3aamtm/run"
+      ],
+      "exit_code": 0,
+      "stderr": "",
+      "stdout_matches_record": true,
+      "record": {
+        "outcome": "invalid-input",
+        "artifacts": "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.scratch/ticket-harness/evidence/m1-index-repair-01/test-tmp/ticket-harness-test-_j3aamtm/run/artifacts",
+        "inputs": {},
+        "ticket": {
+          "state": "Blocked",
+          "attempt": 0
+        },
+        "gates": [],
+        "attempts": [],
+        "failure": {
+          "stage": "inputs",
+          "message": "dependency cycle: 05 -> 05"
+        }
+      }
+    },
+    {
+      "command": [
+        "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.venv/bin/python",
+        "-m",
+        "ticket_harness",
+        "run",
+        "--config",
+        "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.scratch/ticket-harness/evidence/m1-index-repair-01/test-tmp/ticket-harness-test-_j3aamtm/project.json",
+        "--output",
+        "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.scratch/ticket-harness/evidence/m1-index-repair-01/test-tmp/ticket-harness-test-_j3aamtm/second-rejection"
+      ],
+      "exit_code": 1,
+      "stderr": "",
+      "stdout_matches_record": true,
+      "record": {
+        "outcome": "invalid-input",
+        "artifacts": "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.scratch/ticket-harness/evidence/m1-index-repair-01/test-tmp/ticket-harness-test-_j3aamtm/second-rejection/artifacts",
+        "inputs": {},
+        "ticket": {
+          "state": "Blocked",
+          "attempt": 0
+        },
+        "gates": [],
+        "attempts": [],
+        "failure": {
+          "stage": "inputs",
+          "message": "checks.unused: executable unavailable: '/missing/ticket09-check'"
+        }
+      }
+    },
+    {
+      "command": [
+        "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.venv/bin/python",
+        "-m",
+        "ticket_harness",
+        "status",
+        "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.scratch/ticket-harness/evidence/m1-index-repair-01/test-tmp/ticket-harness-test-_j3aamtm/second-rejection"
+      ],
+      "exit_code": 0,
+      "stderr": "",
+      "stdout_matches_record": true,
+      "record": {
+        "outcome": "invalid-input",
+        "artifacts": "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.scratch/ticket-harness/evidence/m1-index-repair-01/test-tmp/ticket-harness-test-_j3aamtm/second-rejection/artifacts",
+        "inputs": {},
+        "ticket": {
+          "state": "Blocked",
+          "attempt": 0
+        },
+        "gates": [],
+        "attempts": [],
+        "failure": {
+          "stage": "inputs",
+          "message": "checks.unused: executable unavailable: '/missing/ticket09-check'"
+        }
+      }
+    }
+  ],
+  "foreground_observations": [],
+  "qa_artifacts": {},
+  "integration": "3c1544320d6c865416acac6bb13006cecff48640",
+  "history": "3c1544320d6c865416acac6bb13006cecff48640 fd90ac583480f55b50b654e16dea0dad22320b22 Approved dependency graph\nfd90ac583480f55b50b654e16dea0dad22320b22  Fixture baseline",
+  "caller_status": "",
+  "launches": [],
+  "assignments": {},
+  "qa_request": null,
+  "milestone_candidate": null,
+  "development": null,
+  "outputs": {}
+}

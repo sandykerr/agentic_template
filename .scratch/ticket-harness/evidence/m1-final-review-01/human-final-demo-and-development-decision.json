@@ -1,0 +1,62 @@
+{
+  "actor": "human user in this conversation",
+  "observed_at": "2026-11-16T15:16:58.601087+00:00",
+  "actual_answer": "Approve final demo and conditionally accept development M1",
+  "fixture_request": {
+    "request_id": "ca4bffef76d14545869e525dd842fdc5",
+    "run_id": "a339cf523b9141cb920718fe2c6960c8",
+    "run_directory": "/tmp/ticket-harness-m1-repaired-qa-lju67ec9/run",
+    "plan_version": "v1",
+    "plan_approval": "User requested continuation of M1 repair and final verification; disposable QA inputs, not development acceptance",
+    "plan_input": {
+      "source": "/tmp/ticket-harness-m1-repaired-qa-lju67ec9/target/plan.json",
+      "artifact": "/tmp/ticket-harness-m1-repaired-qa-lju67ec9/run/inputs/plan.json",
+      "sha256": "7619163c6569d0c47c3a31daf1169a4406eabcb07f502720bdda161ae7af1464"
+    },
+    "milestone": "M2",
+    "feature_branch": "integration",
+    "feature_revision": "4678c779ebe1999652c41fcad7e2232430ff041f",
+    "development_branch": "dev",
+    "development_revision": "088f10a7e174fd644b53fa71d9252fe732465474",
+    "candidate_revision": "2338f88cce672b05ca2fb44127f35ce3659a8cfa",
+    "candidate_worktree": "/tmp/ticket-harness-m1-repaired-qa-lju67ec9/run/worktrees/milestone-2-milestone-candidate",
+    "human_checks": {
+      "setup": "Inspect complete disposable feature after explicit M1 approval",
+      "actions": [
+        "Read work-01 and work-02"
+      ],
+      "pass_conditions": [
+        "Both work files exist; final acceptance alone marks feature complete"
+      ]
+    },
+    "regression_evidence": [
+      {
+        "stage": "milestone-regression",
+        "revision": "2338f88cce672b05ca2fb44127f35ce3659a8cfa",
+        "argv": [
+          "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.venv/bin/python",
+          "/tmp/ticket-harness-m1-repaired-qa-lju67ec9/check.py"
+        ],
+        "cwd": "/tmp/ticket-harness-m1-repaired-qa-lju67ec9/run/worktrees/milestone-2-milestone-candidate",
+        "stdout": "/tmp/ticket-harness-m1-repaired-qa-lju67ec9/run/artifacts/milestone-2-milestone-regression.stdout",
+        "stderr": "/tmp/ticket-harness-m1-repaired-qa-lju67ec9/run/artifacts/milestone-2-milestone-regression.stderr",
+        "passed": true,
+        "timeout_seconds": 1800,
+        "timed_out": false,
+        "exit_code": 0,
+        "cleanup": {
+          "process_group": 431,
+          "signal": "SIGKILL",
+          "sent": false
+        },
+        "ticket": null,
+        "attempt": 0,
+        "timeout_category": "candidate"
+      }
+    ]
+  },
+  "development_request_id": "41a556a9352d44a3922a9c41f30f36af",
+  "development_assessed_source": "88e4cd8aabc78e76e66efc02983fec3900ab0a23",
+  "condition": "Final promotion advances both demo refs to exact tested candidate and exits completed/true with no baseline or implementation replay",
+  "conditional_development_acceptance": true
+}

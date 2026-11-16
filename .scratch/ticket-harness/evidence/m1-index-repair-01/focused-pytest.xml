@@ -1,0 +1,255 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="15" skipped="0" tests="125" time="100.851" timestamp="2026-11-13T12:41:41.809901-05:00" hostname="gpu012"><testcase classname="tests.test_cli.TicketCycleTests" name="test_blocking_spec_review_preserves_submission_without_integrating" time="0.451" /><testcase classname="tests.test_cli.TicketCycleTests" name="test_blocking_standards_review_cannot_integrate" time="0.553" /><testcase classname="tests.test_cli.TicketCycleTests" name="test_existing_run_is_never_overwritten" time="0.756" /><testcase classname="tests.test_cli.TicketCycleTests" name="test_failed_baseline_is_environment_failure_without_an_assignment" time="0.242" /><testcase classname="tests.test_cli.TicketCycleTests" name="test_failed_candidate_suite_preserves_tested_candidate_without_integrating" time="0.693" /><testcase classname="tests.test_cli.TicketCycleTests" name="test_failed_lightweight_check_preserves_submission_and_stops_reviews" time="0.362" /><testcase classname="tests.test_cli.TicketCycleTests" name="test_nonzero_implementation_exit_cannot_produce_done" time="0.273" /><testcase classname="tests.test_cli.TicketCycleTests" name="test_one_ticket_passes_every_gate_and_status_reads_its_exact_revision" time="0.747" /><testcase classname="tests.test_transaction" name="test_worker_cannot_rewrite_approved_ticket_in_its_source" time="0.316" /><testcase classname="tests.test_transaction" name="test_later_review_editing_earlier_review_source_invalidates_approval" time="0.651" /><testcase classname="tests.test_transaction" name="test_assignment_tampering_is_rejected_and_preserved[snapshot-implementation]" time="0.321" /><testcase classname="tests.test_transaction" name="test_assignment_tampering_is_rejected_and_preserved[snapshot-spec]" time="0.509" /><testcase classname="tests.test_transaction" name="test_assignment_tampering_is_rejected_and_preserved[snapshot-standards]" time="1.428" /><testcase classname="tests.test_transaction" name="test_assignment_tampering_is_rejected_and_preserved[record-implementation]" time="0.347" /><testcase classname="tests.test_transaction" name="test_assignment_tampering_is_rejected_and_preserved[record-spec]" time="0.522" /><testcase classname="tests.test_transaction" name="test_assignment_tampering_is_rejected_and_preserved[record-standards]" time="0.638" /><testcase classname="tests.test_transaction" name="test_assignment_tampering_is_rejected_and_preserved[assignment-implementation]" time="0.317" /><testcase classname="tests.test_transaction" name="test_assignment_tampering_is_rejected_and_preserved[assignment-spec]" time="0.508" /><testcase classname="tests.test_transaction" name="test_assignment_tampering_is_rejected_and_preserved[assignment-standards]" time="0.636" /><testcase classname="tests.test_transaction" name="test_assignment_tampering_is_rejected_and_preserved[prior-output-implementation]" time="0.315" /><testcase classname="tests.test_transaction" name="test_assignment_tampering_is_rejected_and_preserved[prior-output-spec]" time="0.506" /><testcase classname="tests.test_transaction" name="test_assignment_tampering_is_rejected_and_preserved[prior-output-standards]" time="0.639" /><testcase classname="tests.test_transaction" name="test_assignment_tampering_is_rejected_and_preserved[original-implementation]" time="0.319" /><testcase classname="tests.test_transaction" name="test_assignment_tampering_is_rejected_and_preserved[original-spec]" time="0.512" /><testcase classname="tests.test_transaction" name="test_assignment_tampering_is_rejected_and_preserved[original-standards]" time="0.642" /><testcase classname="tests.test_transaction" name="test_review_source_changes_cannot_approve_another_revision[dirty-spec]" time="0.506" /><testcase classname="tests.test_transaction" name="test_review_source_changes_cannot_approve_another_revision[dirty-standards]" time="0.636" /><testcase classname="tests.test_transaction" name="test_review_source_changes_cannot_approve_another_revision[commit-spec]" time="0.517" /><testcase classname="tests.test_transaction" name="test_review_source_changes_cannot_approve_another_revision[commit-standards]" time="0.645" /><testcase classname="tests.test_transaction" name="test_review_source_changes_cannot_approve_another_revision[head-spec]" time="0.509" /><testcase classname="tests.test_transaction" name="test_review_source_changes_cannot_approve_another_revision[head-standards]" time="0.641" /><testcase classname="tests.test_transaction" name="test_review_editing_checked_submission_invalidates_check_evidence[spec]" time="0.515" /><testcase classname="tests.test_transaction" name="test_review_editing_checked_submission_invalidates_check_evidence[standards]" time="0.642" /><testcase classname="tests.test_transaction" name="test_candidate_check_cannot_change_verified_source[candidate]" time="0.671" /><testcase classname="tests.test_transaction" name="test_candidate_check_cannot_change_verified_source[spec]" time="0.672" /><testcase classname="tests.test_transaction" name="test_candidate_check_cannot_change_verified_source[standards]" time="0.673" /><testcase classname="tests.test_transaction" name="test_candidate_check_cannot_change_verified_source[implementation]" time="0.675" /><testcase classname="tests.test_transaction" name="test_external_integration_movement_is_preserved[spec]" time="0.834" /><testcase classname="tests.test_transaction" name="test_external_integration_movement_is_preserved[standards]" time="0.843" /><testcase classname="tests.test_transaction" name="test_external_integration_movement_is_preserved[candidate]" time="0.743" /><testcase classname="tests.test_transaction" name="test_failed_merge_preserves_submission_and_merge_diagnostics" time="0.661"><failure message="assert 0 != 0&#10; +  where 0 = CompletedProcess(args=['/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.venv/bin/python', '-m...ge&quot;: &quot;candidate-merge&quot;,\n      &quot;ticket&quot;: &quot;01&quot;,\n      &quot;attempt&quot;: 1,\n      &quot;passed&quot;: true\n    }\n  ]\n}\n', stderr='').returncode">harness = &lt;test_reports.ReportFixture testMethod=runTest&gt;
+
+    def test_failed_merge_preserves_submission_and_merge_diagnostics(harness):
+        hook = harness.repo / ".git/hooks/pre-merge-commit"
+        hook.write_text("#!/bin/sh\necho 'Controlled merge failure' &gt;&amp;2\nexit 1\n")
+        hook.chmod(0o755)
+        result = harness.run_ticket()
+&gt;       assert result.returncode != 0
+E       assert 0 != 0
+E        +  where 0 = CompletedProcess(args=['/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.venv/bin/python', '-m...ge": "candidate-merge",\n      "ticket": "01",\n      "attempt": 1,\n      "passed": true\n    }\n  ]\n}\n', stderr='').returncode
+
+tests/test_transaction.py:173: AssertionError</failure></testcase><testcase classname="tests.test_transaction" name="test_merge_hook_source_resolution_requires_new_review" time="0.658"><failure message="assert 0 != 0&#10; +  where 0 = CompletedProcess(args=['/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.venv/bin/python', '-m...ge&quot;: &quot;candidate-merge&quot;,\n      &quot;ticket&quot;: &quot;01&quot;,\n      &quot;attempt&quot;: 1,\n      &quot;passed&quot;: true\n    }\n  ]\n}\n', stderr='').returncode">harness = &lt;test_reports.ReportFixture testMethod=runTest&gt;
+
+    def test_merge_hook_source_resolution_requires_new_review(harness):
+        hook = harness.repo / ".git/hooks/post-merge"
+        hook.write_text(
+            "#!/bin/sh\nprintf '3\\n' &gt; value.txt\ngit add value.txt\ngit commit --no-edit &gt;/dev/null\n"
+        )
+        hook.chmod(0o755)
+        # Use a passing suite so test failure depends on review validity, not check coverage.
+        suite_script(harness, "pass")
+        result = harness.run_ticket()
+&gt;       assert result.returncode != 0
+E       assert 0 != 0
+E        +  where 0 = CompletedProcess(args=['/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.venv/bin/python', '-m...ge": "candidate-merge",\n      "ticket": "01",\n      "attempt": 1,\n      "passed": true\n    }\n  ]\n}\n', stderr='').returncode
+
+tests/test_transaction.py:196: AssertionError</failure></testcase><testcase classname="tests.test_transaction" name="test_submission_hook_cannot_change_approved_requirements" time="0.671"><failure message="assert 0 != 0&#10; +  where 0 = CompletedProcess(args=['/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.venv/bin/python', '-m...ge&quot;: &quot;candidate-merge&quot;,\n      &quot;ticket&quot;: &quot;01&quot;,\n      &quot;attempt&quot;: 1,\n      &quot;passed&quot;: true\n    }\n  ]\n}\n', stderr='').returncode">harness = &lt;test_reports.ReportFixture testMethod=runTest&gt;
+
+    def test_submission_hook_cannot_change_approved_requirements(harness):
+        hook = harness.repo / ".git/hooks/pre-commit"
+        hook.write_text("#!/bin/sh\necho 'Redefined success' &gt; 01-value.md\ngit add 01-value.md\n")
+        hook.chmod(0o755)
+        result = harness.run_ticket()
+&gt;       assert result.returncode != 0
+E       assert 0 != 0
+E        +  where 0 = CompletedProcess(args=['/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.venv/bin/python', '-m...ge": "candidate-merge",\n      "ticket": "01",\n      "attempt": 1,\n      "passed": true\n    }\n  ]\n}\n', stderr='').returncode
+
+tests/test_transaction.py:210: AssertionError</failure></testcase><testcase classname="tests.test_transaction" name="test_rejected_candidate_preserves_caller_index_and_file_bytes" time="0.684" /><testcase classname="tests.test_transaction" name="test_inherited_caller_index_is_preserved_during_ticket_execution[harness-False]" time="0.671" /><testcase classname="tests.test_transaction" name="test_inherited_caller_index_is_preserved_during_ticket_execution[harness-True]" time="0.473" /><testcase classname="tests.test_transaction" name="test_inherited_caller_index_is_preserved_during_ticket_execution[agent-False]" time="0.817" /><testcase classname="tests.test_transaction" name="test_inherited_caller_index_is_preserved_during_ticket_execution[check-False]" time="0.685" /><testcase classname="tests.test_transaction" name="test_index_flags_cannot_hide_unreviewed_source[--assume-unchanged]" time="0.506" /><testcase classname="tests.test_transaction" name="test_index_flags_cannot_hide_unreviewed_source[--skip-worktree]" time="0.506" /><testcase classname="tests.test_transaction" name="test_git_hooks_cannot_overwrite_harness_evidence[review-output-pre-commit]" time="0.671"><failure message="assert 0 != 0&#10; +  where 0 = CompletedProcess(args=['/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.venv/bin/python', '-m...ge&quot;: &quot;candidate-merge&quot;,\n      &quot;ticket&quot;: &quot;01&quot;,\n      &quot;attempt&quot;: 1,\n      &quot;passed&quot;: true\n    }\n  ]\n}\n', stderr='').returncode">harness = &lt;test_reports.ReportFixture testMethod=runTest&gt;
+hook_name = 'pre-commit', target = 'review-output'
+
+    @pytest.mark.parametrize("hook_name", ["pre-commit", "pre-merge-commit"])
+    @pytest.mark.parametrize("target", ["review-output", "record", "snapshot"])
+    def test_git_hooks_cannot_overwrite_harness_evidence(harness, hook_name, target):
+        paths = {
+            "review-output": harness.output
+            / ("artifacts/baseline.stdout" if hook_name == "pre-commit" else "artifacts/spec.stdout"),
+            "record": harness.output / "run.json",
+            "snapshot": harness.output / "inputs/ticket.md",
+        }
+        path = paths[target]
+        hook = harness.repo / f".git/hooks/{hook_name}"
+        hook.write_text(f"#!/bin/sh\necho 'tampered by hook' &gt; '{path}'\n")
+        hook.chmod(0o755)
+        result = harness.run_ticket()
+&gt;       assert result.returncode != 0
+E       assert 0 != 0
+E        +  where 0 = CompletedProcess(args=['/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.venv/bin/python', '-m...ge": "candidate-merge",\n      "ticket": "01",\n      "attempt": 1,\n      "passed": true\n    }\n  ]\n}\n', stderr='').returncode
+
+tests/test_transaction.py:306: AssertionError</failure></testcase><testcase classname="tests.test_transaction" name="test_git_hooks_cannot_overwrite_harness_evidence[review-output-pre-merge-commit]" time="0.692"><failure message="assert 0 != 0&#10; +  where 0 = CompletedProcess(args=['/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.venv/bin/python', '-m...ge&quot;: &quot;candidate-merge&quot;,\n      &quot;ticket&quot;: &quot;01&quot;,\n      &quot;attempt&quot;: 1,\n      &quot;passed&quot;: true\n    }\n  ]\n}\n', stderr='').returncode">harness = &lt;test_reports.ReportFixture testMethod=runTest&gt;
+hook_name = 'pre-merge-commit', target = 'review-output'
+
+    @pytest.mark.parametrize("hook_name", ["pre-commit", "pre-merge-commit"])
+    @pytest.mark.parametrize("target", ["review-output", "record", "snapshot"])
+    def test_git_hooks_cannot_overwrite_harness_evidence(harness, hook_name, target):
+        paths = {
+            "review-output": harness.output
+            / ("artifacts/baseline.stdout" if hook_name == "pre-commit" else "artifacts/spec.stdout"),
+            "record": harness.output / "run.json",
+            "snapshot": harness.output / "inputs/ticket.md",
+        }
+        path = paths[target]
+        hook = harness.repo / f".git/hooks/{hook_name}"
+        hook.write_text(f"#!/bin/sh\necho 'tampered by hook' &gt; '{path}'\n")
+        hook.chmod(0o755)
+        result = harness.run_ticket()
+&gt;       assert result.returncode != 0
+E       assert 0 != 0
+E        +  where 0 = CompletedProcess(args=['/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.venv/bin/python', '-m...ge": "candidate-merge",\n      "ticket": "01",\n      "attempt": 1,\n      "passed": true\n    }\n  ]\n}\n', stderr='').returncode
+
+tests/test_transaction.py:306: AssertionError</failure></testcase><testcase classname="tests.test_transaction" name="test_git_hooks_cannot_overwrite_harness_evidence[record-pre-commit]" time="0.666"><failure message="assert 0 != 0&#10; +  where 0 = CompletedProcess(args=['/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.venv/bin/python', '-m...ge&quot;: &quot;candidate-merge&quot;,\n      &quot;ticket&quot;: &quot;01&quot;,\n      &quot;attempt&quot;: 1,\n      &quot;passed&quot;: true\n    }\n  ]\n}\n', stderr='').returncode">harness = &lt;test_reports.ReportFixture testMethod=runTest&gt;
+hook_name = 'pre-commit', target = 'record'
+
+    @pytest.mark.parametrize("hook_name", ["pre-commit", "pre-merge-commit"])
+    @pytest.mark.parametrize("target", ["review-output", "record", "snapshot"])
+    def test_git_hooks_cannot_overwrite_harness_evidence(harness, hook_name, target):
+        paths = {
+            "review-output": harness.output
+            / ("artifacts/baseline.stdout" if hook_name == "pre-commit" else "artifacts/spec.stdout"),
+            "record": harness.output / "run.json",
+            "snapshot": harness.output / "inputs/ticket.md",
+        }
+        path = paths[target]
+        hook = harness.repo / f".git/hooks/{hook_name}"
+        hook.write_text(f"#!/bin/sh\necho 'tampered by hook' &gt; '{path}'\n")
+        hook.chmod(0o755)
+        result = harness.run_ticket()
+&gt;       assert result.returncode != 0
+E       assert 0 != 0
+E        +  where 0 = CompletedProcess(args=['/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.venv/bin/python', '-m...ge": "candidate-merge",\n      "ticket": "01",\n      "attempt": 1,\n      "passed": true\n    }\n  ]\n}\n', stderr='').returncode
+
+tests/test_transaction.py:306: AssertionError</failure></testcase><testcase classname="tests.test_transaction" name="test_git_hooks_cannot_overwrite_harness_evidence[record-pre-merge-commit]" time="0.670"><failure message="assert 0 != 0&#10; +  where 0 = CompletedProcess(args=['/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.venv/bin/python', '-m...ge&quot;: &quot;candidate-merge&quot;,\n      &quot;ticket&quot;: &quot;01&quot;,\n      &quot;attempt&quot;: 1,\n      &quot;passed&quot;: true\n    }\n  ]\n}\n', stderr='').returncode">harness = &lt;test_reports.ReportFixture testMethod=runTest&gt;
+hook_name = 'pre-merge-commit', target = 'record'
+
+    @pytest.mark.parametrize("hook_name", ["pre-commit", "pre-merge-commit"])
+    @pytest.mark.parametrize("target", ["review-output", "record", "snapshot"])
+    def test_git_hooks_cannot_overwrite_harness_evidence(harness, hook_name, target):
+        paths = {
+            "review-output": harness.output
+            / ("artifacts/baseline.stdout" if hook_name == "pre-commit" else "artifacts/spec.stdout"),
+            "record": harness.output / "run.json",
+            "snapshot": harness.output / "inputs/ticket.md",
+        }
+        path = paths[target]
+        hook = harness.repo / f".git/hooks/{hook_name}"
+        hook.write_text(f"#!/bin/sh\necho 'tampered by hook' &gt; '{path}'\n")
+        hook.chmod(0o755)
+        result = harness.run_ticket()
+&gt;       assert result.returncode != 0
+E       assert 0 != 0
+E        +  where 0 = CompletedProcess(args=['/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.venv/bin/python', '-m...ge": "candidate-merge",\n      "ticket": "01",\n      "attempt": 1,\n      "passed": true\n    }\n  ]\n}\n', stderr='').returncode
+
+tests/test_transaction.py:306: AssertionError</failure></testcase><testcase classname="tests.test_transaction" name="test_git_hooks_cannot_overwrite_harness_evidence[snapshot-pre-commit]" time="0.670"><failure message="assert 0 != 0&#10; +  where 0 = CompletedProcess(args=['/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.venv/bin/python', '-m...ge&quot;: &quot;candidate-merge&quot;,\n      &quot;ticket&quot;: &quot;01&quot;,\n      &quot;attempt&quot;: 1,\n      &quot;passed&quot;: true\n    }\n  ]\n}\n', stderr='').returncode">harness = &lt;test_reports.ReportFixture testMethod=runTest&gt;
+hook_name = 'pre-commit', target = 'snapshot'
+
+    @pytest.mark.parametrize("hook_name", ["pre-commit", "pre-merge-commit"])
+    @pytest.mark.parametrize("target", ["review-output", "record", "snapshot"])
+    def test_git_hooks_cannot_overwrite_harness_evidence(harness, hook_name, target):
+        paths = {
+            "review-output": harness.output
+            / ("artifacts/baseline.stdout" if hook_name == "pre-commit" else "artifacts/spec.stdout"),
+            "record": harness.output / "run.json",
+            "snapshot": harness.output / "inputs/ticket.md",
+        }
+        path = paths[target]
+        hook = harness.repo / f".git/hooks/{hook_name}"
+        hook.write_text(f"#!/bin/sh\necho 'tampered by hook' &gt; '{path}'\n")
+        hook.chmod(0o755)
+        result = harness.run_ticket()
+&gt;       assert result.returncode != 0
+E       assert 0 != 0
+E        +  where 0 = CompletedProcess(args=['/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.venv/bin/python', '-m...ge": "candidate-merge",\n      "ticket": "01",\n      "attempt": 1,\n      "passed": true\n    }\n  ]\n}\n', stderr='').returncode
+
+tests/test_transaction.py:306: AssertionError</failure></testcase><testcase classname="tests.test_transaction" name="test_git_hooks_cannot_overwrite_harness_evidence[snapshot-pre-merge-commit]" time="0.662"><failure message="assert 0 != 0&#10; +  where 0 = CompletedProcess(args=['/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.venv/bin/python', '-m...ge&quot;: &quot;candidate-merge&quot;,\n      &quot;ticket&quot;: &quot;01&quot;,\n      &quot;attempt&quot;: 1,\n      &quot;passed&quot;: true\n    }\n  ]\n}\n', stderr='').returncode">harness = &lt;test_reports.ReportFixture testMethod=runTest&gt;
+hook_name = 'pre-merge-commit', target = 'snapshot'
+
+    @pytest.mark.parametrize("hook_name", ["pre-commit", "pre-merge-commit"])
+    @pytest.mark.parametrize("target", ["review-output", "record", "snapshot"])
+    def test_git_hooks_cannot_overwrite_harness_evidence(harness, hook_name, target):
+        paths = {
+            "review-output": harness.output
+            / ("artifacts/baseline.stdout" if hook_name == "pre-commit" else "artifacts/spec.stdout"),
+            "record": harness.output / "run.json",
+            "snapshot": harness.output / "inputs/ticket.md",
+        }
+        path = paths[target]
+        hook = harness.repo / f".git/hooks/{hook_name}"
+        hook.write_text(f"#!/bin/sh\necho 'tampered by hook' &gt; '{path}'\n")
+        hook.chmod(0o755)
+        result = harness.run_ticket()
+&gt;       assert result.returncode != 0
+E       assert 0 != 0
+E        +  where 0 = CompletedProcess(args=['/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.venv/bin/python', '-m...ge": "candidate-merge",\n      "ticket": "01",\n      "attempt": 1,\n      "passed": true\n    }\n  ]\n}\n', stderr='').returncode
+
+tests/test_transaction.py:306: AssertionError</failure></testcase><testcase classname="tests.test_transaction" name="test_worktree_checkout_hook_cannot_destroy_previous_review" time="0.670"><failure message="assert 0 != 0&#10; +  where 0 = CompletedProcess(args=['/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.venv/bin/python', '-m...ge&quot;: &quot;candidate-merge&quot;,\n      &quot;ticket&quot;: &quot;01&quot;,\n      &quot;attempt&quot;: 1,\n      &quot;passed&quot;: true\n    }\n  ]\n}\n', stderr='').returncode">harness = &lt;test_reports.ReportFixture testMethod=runTest&gt;
+
+    def test_worktree_checkout_hook_cannot_destroy_previous_review(harness):
+        path = harness.output / "artifacts/spec.stdout"
+        hook = harness.repo / ".git/hooks/post-checkout"
+        hook.write_text(f"#!/bin/sh\nif test -f '{path}'; then echo 'tampered' &gt; '{path}'; fi\n")
+        hook.chmod(0o755)
+        result = harness.run_ticket()
+&gt;       assert result.returncode != 0
+E       assert 0 != 0
+E        +  where 0 = CompletedProcess(args=['/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.venv/bin/python', '-m...ge": "candidate-merge",\n      "ticket": "01",\n      "attempt": 1,\n      "passed": true\n    }\n  ]\n}\n', stderr='').returncode
+
+tests/test_transaction.py:328: AssertionError</failure></testcase><testcase classname="tests.test_transaction" name="test_final_ref_update_cannot_run_hooks_after_verification" time="0.678" /><testcase classname="tests.test_transaction" name="test_removed_or_replaced_snapshot_is_restored_with_durable_diagnostics[missing]" time="0.320" /><testcase classname="tests.test_transaction" name="test_removed_or_replaced_snapshot_is_restored_with_durable_diagnostics[directory]" time="0.325" /><testcase classname="tests.test_repairs" name="test_failed_check_repairs_current_changes_and_renews_all_gates" time="1.013" /><testcase classname="tests.test_repairs" name="test_failed_git_operations_have_per_attempt_diagnostics" time="0.766"><failure message="assert 0 == 1&#10; +  where 0 = CompletedProcess(args=['/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.venv/bin/python', '-m...ge&quot;: &quot;candidate-merge&quot;,\n      &quot;ticket&quot;: &quot;01&quot;,\n      &quot;attempt&quot;: 1,\n      &quot;passed&quot;: true\n    }\n  ]\n}\n', stderr='').returncode&#10;[+2 more lines; full report in element text]">harness = &lt;test_cli.TicketFixture testMethod=runTest&gt;
+
+    def test_failed_git_operations_have_per_attempt_diagnostics(harness):
+        reject_until(harness, "merge", 100)
+&gt;       assert harness.run_ticket().returncode == 1
+E       assert 0 == 1
+E        +  where 0 = CompletedProcess(args=['/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.venv/bin/python', '-m...ge": "candidate-merge",\n      "ticket": "01",\n      "attempt": 1,\n      "passed": true\n    }\n  ]\n}\n', stderr='').returncode
+E        +    where CompletedProcess(args=['/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.venv/bin/python', '-m...ge": "candidate-merge",\n      "ticket": "01",\n      "attempt": 1,\n      "passed": true\n    }\n  ]\n}\n', stderr='') = run_ticket()
+E        +      where run_ticket = &lt;test_cli.TicketFixture testMethod=runTest&gt;.run_ticket
+
+tests/test_repairs.py:88: AssertionError</failure></testcase><testcase classname="tests.test_repairs" name="test_invalid_worker_report_preserves_uncommitted_changes_for_fresh_repair" time="0.884" /><testcase classname="tests.test_repairs" name="test_each_rejection_can_repair_with_fresh_revision_bound_verification[check-ticket]" time="0.979" /><testcase classname="tests.test_repairs" name="test_each_rejection_can_repair_with_fresh_revision_bound_verification[spec]" time="1.078" /><testcase classname="tests.test_repairs" name="test_each_rejection_can_repair_with_fresh_revision_bound_verification[standards]" time="1.201" /><testcase classname="tests.test_repairs" name="test_each_rejection_can_repair_with_fresh_revision_bound_verification[candidate]" time="1.413" /><testcase classname="tests.test_repairs" name="test_each_rejection_can_repair_with_fresh_revision_bound_verification[merge]" time="0.757"><failure message="AssertionError: assert ['Done'] == ['Rejected', 'Done']&#10;  &#10;  At index 0 diff: 'Done' != 'Rejected'&#10;  Right contains one more item: 'Done'&#10;  Use -v to get more diff">harness = &lt;test_cli.TicketFixture testMethod=runTest&gt;, stage = 'merge'
+
+    @pytest.mark.parametrize("stage", ["check-ticket", "spec", "standards", "candidate", "merge"])
+    def test_each_rejection_can_repair_with_fresh_revision_bound_verification(harness, stage):
+        reject_until(harness, stage, 1)
+        result = harness.run_ticket()
+        assert result.returncode == 0, result.stdout + result.stderr
+        record = harness.record()
+&gt;       assert [a["state"] for a in record["attempts"]] == ["Rejected", "Done"]
+E       AssertionError: assert ['Done'] == ['Rejected', 'Done']
+E         
+E         At index 0 diff: 'Done' != 'Rejected'
+E         Right contains one more item: 'Done'
+E         Use -v to get more diff
+
+tests/test_repairs.py:159: AssertionError</failure></testcase><testcase classname="tests.test_repairs" name="test_exhaustion_is_bounded_and_preserves_complete_attempt_history[0-check-ticket]" time="0.403" /><testcase classname="tests.test_repairs" name="test_exhaustion_is_bounded_and_preserves_complete_attempt_history[0-spec]" time="0.520" /><testcase classname="tests.test_repairs" name="test_exhaustion_is_bounded_and_preserves_complete_attempt_history[0-standards]" time="0.663" /><testcase classname="tests.test_repairs" name="test_exhaustion_is_bounded_and_preserves_complete_attempt_history[0-candidate]" time="0.825" /><testcase classname="tests.test_repairs" name="test_exhaustion_is_bounded_and_preserves_complete_attempt_history[0-merge]" time="0.768"><failure message="assert 0 == 1&#10; +  where 0 = CompletedProcess(args=['/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.venv/bin/python', '-m...ge&quot;: &quot;candidate-merge&quot;,\n      &quot;ticket&quot;: &quot;01&quot;,\n      &quot;attempt&quot;: 1,\n      &quot;passed&quot;: true\n    }\n  ]\n}\n', stderr='').returncode">harness = &lt;test_cli.TicketFixture testMethod=runTest&gt;, stage = 'merge'
+allowance = 0
+
+    @pytest.mark.parametrize("stage", ["check-ticket", "spec", "standards", "candidate", "merge"])
+    @pytest.mark.parametrize("allowance", [0, 1, 2])
+    def test_exhaustion_is_bounded_and_preserves_complete_attempt_history(harness, stage, allowance):
+        harness.config["max_repairs"] = allowance
+        reject_until(harness, stage, 100)
+        (harness.repo / "value.txt").write_text("caller staged\n")
+        harness.git("add", "value.txt")
+        (harness.repo / "value.txt").write_text("caller unstaged\n")
+        (harness.repo / "unrelated").write_text("caller untracked")
+        before = harness.git("status", "--porcelain")
+        result = harness.run_ticket()
+&gt;       assert result.returncode == 1
+E       assert 0 == 1
+E        +  where 0 = CompletedProcess(args=['/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.venv/bin/python', '-m...ge": "candidate-merge",\n      "ticket": "01",\n      "attempt": 1,\n      "passed": true\n    }\n  ]\n}\n', stderr='').returncode
+
+tests/test_repairs.py:206: AssertionError</failure></testcase><testcase classname="tests.test_repairs" name="test_exhaustion_is_bounded_and_preserves_complete_attempt_history[1-check-ticket]" time="0.580" /><testcase classname="tests.test_repairs" name="test_exhaustion_is_bounded_and_preserves_complete_attempt_history[1-spec]" time="0.823" /><testcase classname="tests.test_repairs" name="test_exhaustion_is_bounded_and_preserves_complete_attempt_history[1-standards]" time="1.075" /><testcase classname="tests.test_repairs" name="test_exhaustion_is_bounded_and_preserves_complete_attempt_history[1-candidate]" time="1.389" /><testcase classname="tests.test_repairs" name="test_exhaustion_is_bounded_and_preserves_complete_attempt_history[1-merge]" time="0.765"><failure message="assert 0 == 1&#10; +  where 0 = CompletedProcess(args=['/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.venv/bin/python', '-m...ge&quot;: &quot;candidate-merge&quot;,\n      &quot;ticket&quot;: &quot;01&quot;,\n      &quot;attempt&quot;: 1,\n      &quot;passed&quot;: true\n    }\n  ]\n}\n', stderr='').returncode">harness = &lt;test_cli.TicketFixture testMethod=runTest&gt;, stage = 'merge'
+allowance = 1
+
+    @pytest.mark.parametrize("stage", ["check-ticket", "spec", "standards", "candidate", "merge"])
+    @pytest.mark.parametrize("allowance", [0, 1, 2])
+    def test_exhaustion_is_bounded_and_preserves_complete_attempt_history(harness, stage, allowance):
+        harness.config["max_repairs"] = allowance
+        reject_until(harness, stage, 100)
+        (harness.repo / "value.txt").write_text("caller staged\n")
+        harness.git("add", "value.txt")
+        (harness.repo / "value.txt").write_text("caller unstaged\n")
+        (harness.repo / "unrelated").write_text("caller untracked")
+        before = harness.git("status", "--porcelain")
+        result = harness.run_ticket()
+&gt;       assert result.returncode == 1
+E       assert 0 == 1
+E        +  where 0 = CompletedProcess(args=['/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.venv/bin/python', '-m...ge": "candidate-merge",\n      "ticket": "01",\n      "attempt": 1,\n      "passed": true\n    }\n  ]\n}\n', stderr='').returncode
+
+tests/test_repairs.py:206: AssertionError</failure></testcase><testcase classname="tests.test_repairs" name="test_exhaustion_is_bounded_and_preserves_complete_attempt_history[2-check-ticket]" time="0.762" /><testcase classname="tests.test_repairs" name="test_exhaustion_is_bounded_and_preserves_complete_attempt_history[2-spec]" time="1.122" /><testcase classname="tests.test_repairs" name="test_exhaustion_is_bounded_and_preserves_complete_attempt_history[2-standards]" time="1.524" /><testcase classname="tests.test_repairs" name="test_exhaustion_is_bounded_and_preserves_complete_attempt_history[2-candidate]" time="2.013" /><testcase classname="tests.test_repairs" name="test_exhaustion_is_bounded_and_preserves_complete_attempt_history[2-merge]" time="0.779"><failure message="assert 0 == 1&#10; +  where 0 = CompletedProcess(args=['/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.venv/bin/python', '-m...ge&quot;: &quot;candidate-merge&quot;,\n      &quot;ticket&quot;: &quot;01&quot;,\n      &quot;attempt&quot;: 1,\n      &quot;passed&quot;: true\n    }\n  ]\n}\n', stderr='').returncode">harness = &lt;test_cli.TicketFixture testMethod=runTest&gt;, stage = 'merge'
+allowance = 2
+
+    @pytest.mark.parametrize("stage", ["check-ticket", "spec", "standards", "candidate", "merge"])
+    @pytest.mark.parametrize("allowance", [0, 1, 2])
+    def test_exhaustion_is_bounded_and_preserves_complete_attempt_history(harness, stage, allowance):
+        harness.config["max_repairs"] = allowance
+        reject_until(harness, stage, 100)
+        (harness.repo / "value.txt").write_text("caller staged\n")
+        harness.git("add", "value.txt")
+        (harness.repo / "value.txt").write_text("caller unstaged\n")
+        (harness.repo / "unrelated").write_text("caller untracked")
+        before = harness.git("status", "--porcelain")
+        result = harness.run_ticket()
+&gt;       assert result.returncode == 1
+E       assert 0 == 1
+E        +  where 0 = CompletedProcess(args=['/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.venv/bin/python', '-m...ge": "candidate-merge",\n      "ticket": "01",\n      "attempt": 1,\n      "passed": true\n    }\n  ]\n}\n', stderr='').returncode
+
+tests/test_repairs.py:206: AssertionError</failure></testcase><testcase classname="tests.test_repairs" name="test_report_and_process_failures_share_the_repair_allowance[missing-implementation]" time="0.581" /><testcase classname="tests.test_repairs" name="test_report_and_process_failures_share_the_repair_allowance[missing-spec]" time="1.053" /><testcase classname="tests.test_repairs" name="test_report_and_process_failures_share_the_repair_allowance[missing-standards]" time="1.457" /><testcase classname="tests.test_repairs" name="test_report_and_process_failures_share_the_repair_allowance[malformed-implementation]" time="0.573" /><testcase classname="tests.test_repairs" name="test_report_and_process_failures_share_the_repair_allowance[malformed-spec]" time="1.051" /><testcase classname="tests.test_repairs" name="test_report_and_process_failures_share_the_repair_allowance[malformed-standards]" time="1.465" /><testcase classname="tests.test_repairs" name="test_report_and_process_failures_share_the_repair_allowance[nonzero-implementation]" time="0.591" /><testcase classname="tests.test_repairs" name="test_report_and_process_failures_share_the_repair_allowance[nonzero-spec]" time="1.110" /><testcase classname="tests.test_repairs" name="test_report_and_process_failures_share_the_repair_allowance[nonzero-standards]" time="1.601" /><testcase classname="tests.test_repairs" name="test_report_and_process_failures_share_the_repair_allowance[stale-implementation]" time="0.606" /><testcase classname="tests.test_repairs" name="test_report_and_process_failures_share_the_repair_allowance[stale-spec]" time="1.048" /><testcase classname="tests.test_repairs" name="test_report_and_process_failures_share_the_repair_allowance[stale-standards]" time="1.439" /><testcase classname="tests.test_repairs" name="test_report_and_process_failures_share_the_repair_allowance[mistyped-implementation]" time="0.577" /><testcase classname="tests.test_repairs" name="test_report_and_process_failures_share_the_repair_allowance[mistyped-spec]" time="1.188" /><testcase classname="tests.test_repairs" name="test_report_and_process_failures_share_the_repair_allowance[mistyped-standards]" time="1.452" /><testcase classname="tests.test_repairs" name="test_report_and_process_failures_share_the_repair_allowance[overflow-implementation]" time="1.230" /><testcase classname="tests.test_repairs" name="test_report_and_process_failures_share_the_repair_allowance[overflow-spec]" time="1.091" /><testcase classname="tests.test_repairs" name="test_report_and_process_failures_share_the_repair_allowance[overflow-standards]" time="1.459" /><testcase classname="tests.test_repairs" name="test_valid_human_decision_stops_without_capture_or_repair[0]" time="0.249" /><testcase classname="tests.test_repairs" name="test_valid_human_decision_stops_without_capture_or_repair[7]" time="0.260" /><testcase classname="tests.test_repairs" name="test_invalid_allowance_is_rejected_before_any_process[-1]" time="0.089" /><testcase classname="tests.test_repairs" name="test_invalid_allowance_is_rejected_before_any_process[True]" time="0.085" /><testcase classname="tests.test_repairs" name="test_invalid_allowance_is_rejected_before_any_process[2.0]" time="0.086" /><testcase classname="tests.test_repairs" name="test_invalid_allowance_is_rejected_before_any_process[2]" time="0.086" /><testcase classname="tests.test_repairs" name="test_invalid_allowance_is_rejected_before_any_process[None]" time="0.088" /><testcase classname="tests.test_repairs" name="test_invalid_allowance_is_rejected_before_any_process[value5]" time="0.088" /><testcase classname="tests.test_repairs" name="test_invalid_allowance_is_rejected_before_any_process[value6]" time="0.089" /><testcase classname="tests.test_repairs" name="test_failed_shared_baseline_consumes_no_repairs" time="0.151" /><testcase classname="tests.test_repairs" name="test_worker_internal_edit_iterations_are_one_attempt" time="0.788" /><testcase classname="tests.test_repairs" name="test_final_default_repair_gets_all_rejected_revision_and_gate_history" time="1.979" /><testcase classname="tests.test_repairs" name="test_repair_source_mutation_invalidates_approval_before_another_full_verification" time="1.514" /><testcase classname="tests.test_repairs" name="test_external_integration_change_after_rejection_does_not_authorize_repair" time="0.472" /><testcase classname="tests.test_repairs" name="test_repair_cannot_overwrite_earlier_attempt_evidence" time="0.572" /><testcase classname="tests.test_repairs" name="test_numbered_check_names_cannot_collide_with_repair_artifacts" time="1.703" /><testcase classname="tests.test_repairs" name="test_invalidated_shared_baseline_stops_before_starting_repairs" time="0.274" /><testcase classname="tests.test_milestones" name="test_changed_development_base_is_combined_with_feature_using_a_clean_same_file_merge" time="2.246" /><testcase classname="tests.test_milestones" name="test_conflicting_development_preserves_resolution_and_requires_renewed_reviews[False]" time="1.770" /><testcase classname="tests.test_milestones" name="test_conflicting_development_preserves_resolution_and_requires_renewed_reviews[True]" time="1.837" /><testcase classname="tests.test_milestones" name="test_development_alias_after_validation_cannot_follow_automatic_integration[False]" time="1.089" /><testcase classname="tests.test_milestones" name="test_development_alias_after_validation_cannot_follow_automatic_integration[True]" time="2.633" /><testcase classname="tests.test_qa_promotion" name="test_approval_rejects_same_oid_alias_installed_after_destination_validation" time="2.760" /><testcase classname="tests.test_continuation" name="test_continued_run_records_invalidation_of_earlier_verified_source" time="2.669" /></testsuite></testsuites>

@@ -1,0 +1,115 @@
+.FF.F.                                                                   [100%]
+=================================== FAILURES ===================================
+_ test_inherited_caller_index_is_preserved_during_ticket_execution[False-agent] _
+
+harness = <test_reports.ReportFixture testMethod=runTest>
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x15040f3ac5c0>
+writer = 'agent', rejected = False
+
+    @pytest.mark.parametrize("writer", ["harness", "agent", "check"])
+    @pytest.mark.parametrize("rejected", [False, True])
+    def test_inherited_caller_index_is_preserved_during_ticket_execution(
+        harness, monkeypatch, writer, rejected
+    ):
+        if writer == "agent":
+            harness.agent_report(
+                "implementation",
+                "import subprocess\nsubprocess.run(['git', 'add', '--all'], check=True)",
+            )
+        if writer == "check":
+            suite_script(harness, "subprocess.run(['git', 'add', '--all'], check=True)")
+        if rejected:
+            harness.config["agent"] += ["--reject", "standards"]
+        (harness.repo / "value.txt").write_text("caller staged\n")
+        harness.git("add", "value.txt")
+        (harness.repo / "value.txt").write_text("caller unstaged\n")
+        (harness.repo / "unrelated.txt").write_text("caller untracked\n")
+        index = harness.repo / ".git/index"
+        before = index.read_bytes()
+        with monkeypatch.context() as environment:
+            environment.setenv("GIT_INDEX_FILE", str(index))
+            result = harness.run_ticket()
+>       assert index.read_bytes() == before
+E       AssertionError: assert b'DIRC\x00\x0...:\xaf\xe9\x80' == b'DIRC\x00\x0...d6 v8\xe2\x91'
+E         
+E         At index 15 diff: b'&' != b'%'
+E         Use -v to get more diff
+
+tests/test_transaction.py:261: AssertionError
+_ test_inherited_caller_index_is_preserved_during_ticket_execution[False-check] _
+
+harness = <test_reports.ReportFixture testMethod=runTest>
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x15040f3ad910>
+writer = 'check', rejected = False
+
+    @pytest.mark.parametrize("writer", ["harness", "agent", "check"])
+    @pytest.mark.parametrize("rejected", [False, True])
+    def test_inherited_caller_index_is_preserved_during_ticket_execution(
+        harness, monkeypatch, writer, rejected
+    ):
+        if writer == "agent":
+            harness.agent_report(
+                "implementation",
+                "import subprocess\nsubprocess.run(['git', 'add', '--all'], check=True)",
+            )
+        if writer == "check":
+            suite_script(harness, "subprocess.run(['git', 'add', '--all'], check=True)")
+        if rejected:
+            harness.config["agent"] += ["--reject", "standards"]
+        (harness.repo / "value.txt").write_text("caller staged\n")
+        harness.git("add", "value.txt")
+        (harness.repo / "value.txt").write_text("caller unstaged\n")
+        (harness.repo / "unrelated.txt").write_text("caller untracked\n")
+        index = harness.repo / ".git/index"
+        before = index.read_bytes()
+        with monkeypatch.context() as environment:
+            environment.setenv("GIT_INDEX_FILE", str(index))
+            result = harness.run_ticket()
+>       assert index.read_bytes() == before
+E       assert b'DIRC\x00\x0...4\xdd\x19\xe3' == b'DIRC\x00\x0...x99VZ\xd3\xae'
+E         
+E         At index 15 diff: b"'" != b'&'
+E         Use -v to get more diff
+
+tests/test_transaction.py:261: AssertionError
+_ test_inherited_caller_index_is_preserved_during_ticket_execution[True-agent] _
+
+harness = <test_reports.ReportFixture testMethod=runTest>
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x15040f3ac3e0>
+writer = 'agent', rejected = True
+
+    @pytest.mark.parametrize("writer", ["harness", "agent", "check"])
+    @pytest.mark.parametrize("rejected", [False, True])
+    def test_inherited_caller_index_is_preserved_during_ticket_execution(
+        harness, monkeypatch, writer, rejected
+    ):
+        if writer == "agent":
+            harness.agent_report(
+                "implementation",
+                "import subprocess\nsubprocess.run(['git', 'add', '--all'], check=True)",
+            )
+        if writer == "check":
+            suite_script(harness, "subprocess.run(['git', 'add', '--all'], check=True)")
+        if rejected:
+            harness.config["agent"] += ["--reject", "standards"]
+        (harness.repo / "value.txt").write_text("caller staged\n")
+        harness.git("add", "value.txt")
+        (harness.repo / "value.txt").write_text("caller unstaged\n")
+        (harness.repo / "unrelated.txt").write_text("caller untracked\n")
+        index = harness.repo / ".git/index"
+        before = index.read_bytes()
+        with monkeypatch.context() as environment:
+            environment.setenv("GIT_INDEX_FILE", str(index))
+            result = harness.run_ticket()
+>       assert index.read_bytes() == before
+E       assert b'DIRC\x00\x0...\nB\x00S\xb4z' == b'DIRC\x00\x0...\x12h\xf5\x97'
+E         
+E         At index 15 diff: b'(' != b"'"
+E         Use -v to get more diff
+
+tests/test_transaction.py:261: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_transaction.py::test_inherited_caller_index_is_preserved_during_ticket_execution[False-agent]
+FAILED tests/test_transaction.py::test_inherited_caller_index_is_preserved_during_ticket_execution[False-check]
+FAILED tests/test_transaction.py::test_inherited_caller_index_is_preserved_during_ticket_execution[True-agent]
+3 failed, 3 passed in 4.09s

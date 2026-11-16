@@ -1,0 +1,53 @@
+{
+  "request_id": "af4eea6758044990a06aa5c1504d98d0",
+  "run_id": "a339cf523b9141cb920718fe2c6960c8",
+  "run_directory": "/tmp/ticket-harness-m1-repaired-qa-lju67ec9/run",
+  "plan_version": "v1",
+  "plan_approval": "User requested continuation of M1 repair and final verification; disposable QA inputs, not development acceptance",
+  "plan_input": {
+    "source": "/tmp/ticket-harness-m1-repaired-qa-lju67ec9/target/plan.json",
+    "artifact": "/tmp/ticket-harness-m1-repaired-qa-lju67ec9/run/inputs/plan.json",
+    "sha256": "7619163c6569d0c47c3a31daf1169a4406eabcb07f502720bdda161ae7af1464"
+  },
+  "milestone": "M1",
+  "feature_branch": "integration",
+  "feature_revision": "08aac89bef9e04c5c481affd5a914cc5f055a65b",
+  "development_branch": "dev",
+  "development_revision": "5d09935b2bf2c4bf0e533b1e6889963b07c55191",
+  "candidate_revision": "088f10a7e174fd644b53fa71d9252fe732465474",
+  "candidate_worktree": "/tmp/ticket-harness-m1-repaired-qa-lju67ec9/run/worktrees/milestone-candidate",
+  "human_checks": {
+    "setup": "Inspect the disposable candidate worktree",
+    "actions": [
+      "Read value.txt and work-01; confirm work-02 is absent"
+    ],
+    "pass_conditions": [
+      "value.txt is 2, work-01 delivered, dev unchanged, ticket02 unstarted"
+    ]
+  },
+  "regression_evidence": [
+    {
+      "stage": "milestone-regression",
+      "revision": "088f10a7e174fd644b53fa71d9252fe732465474",
+      "argv": [
+        "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.venv/bin/python",
+        "/tmp/ticket-harness-m1-repaired-qa-lju67ec9/check.py"
+      ],
+      "cwd": "/tmp/ticket-harness-m1-repaired-qa-lju67ec9/run/worktrees/milestone-candidate",
+      "stdout": "/tmp/ticket-harness-m1-repaired-qa-lju67ec9/run/artifacts/milestone-regression.stdout",
+      "stderr": "/tmp/ticket-harness-m1-repaired-qa-lju67ec9/run/artifacts/milestone-regression.stderr",
+      "passed": true,
+      "timeout_seconds": 1800,
+      "timed_out": false,
+      "exit_code": 0,
+      "cleanup": {
+        "process_group": 221,
+        "signal": "SIGKILL",
+        "sent": false
+      },
+      "ticket": null,
+      "attempt": 0,
+      "timeout_category": "candidate"
+    }
+  ]
+}

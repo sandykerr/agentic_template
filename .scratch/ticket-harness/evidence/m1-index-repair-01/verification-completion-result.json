@@ -1,0 +1,127 @@
+{
+  "observed_at_utc": "2026-11-13T20:39:28.209300+00:00",
+  "head": "e2b0a260fa192a7b51edc5f4cc5692c6340444c2",
+  "frozen_manifest": "final-implementation.json",
+  "current_hash_mismatches": {
+    "source_sha256": [],
+    "instruction_sha256": []
+  },
+  "checks": {
+    "completion-full-suite-retry": {
+      "command": [
+        ".venv/bin/python",
+        "-m",
+        "pytest",
+        "-p",
+        "completion_capture",
+        "--junitxml=.scratch/ticket-harness/evidence/m1-index-repair-01/completion-full-suite-retry.xml"
+      ],
+      "exit": 0,
+      "interrupted": false,
+      "seconds": 2880.2910483251326,
+      "source": "completion-full-suite-retry-source.json",
+      "source_unchanged": true,
+      "log": "completion-full-suite-retry.log",
+      "PYTHONPATH": "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template:/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.scratch/ticket-harness/evidence/m1-index-repair-01",
+      "TMPDIR": "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.scratch/ticket-harness/evidence/m1-index-repair-01/test-tmp",
+      "matches_frozen_source": true,
+      "matches_frozen_instructions": true
+    },
+    "completion-mypy": {
+      "command": [
+        ".venv/bin/python",
+        "-m",
+        "mypy"
+      ],
+      "exit": 0,
+      "interrupted": false,
+      "seconds": 20.132403428899124,
+      "source": "completion-mypy-source.json",
+      "source_unchanged": true,
+      "log": "completion-mypy.log",
+      "PYTHONPATH": "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template:/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.scratch/ticket-harness/evidence/m1-index-repair-01",
+      "TMPDIR": "/tmp",
+      "matches_frozen_source": true,
+      "matches_frozen_instructions": true
+    },
+    "completion-lint": {
+      "command": [
+        ".venv/bin/python",
+        "-m",
+        "ruff",
+        "check",
+        "ticket_harness",
+        "tests",
+        "examples"
+      ],
+      "exit": 0,
+      "interrupted": false,
+      "seconds": 43.56009988300502,
+      "source": "completion-lint-source.json",
+      "source_unchanged": true,
+      "log": "completion-lint.log",
+      "PYTHONPATH": "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template:/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.scratch/ticket-harness/evidence/m1-index-repair-01",
+      "TMPDIR": "/tmp",
+      "matches_frozen_source": true,
+      "matches_frozen_instructions": true
+    },
+    "completion-format": {
+      "command": [
+        ".venv/bin/python",
+        "-m",
+        "ruff",
+        "format",
+        "--check",
+        "ticket_harness",
+        "tests",
+        "examples"
+      ],
+      "exit": 0,
+      "interrupted": false,
+      "seconds": 43.550378871150315,
+      "source": "completion-format-source.json",
+      "source_unchanged": true,
+      "log": "completion-format.log",
+      "PYTHONPATH": "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template:/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.scratch/ticket-harness/evidence/m1-index-repair-01",
+      "TMPDIR": "/tmp",
+      "matches_frozen_source": true,
+      "matches_frozen_instructions": true
+    },
+    "completion-whitespace": {
+      "command": [
+        "git",
+        "diff",
+        "--check"
+      ],
+      "exit": 0,
+      "interrupted": false,
+      "seconds": 0.10022762208245695,
+      "source": "completion-whitespace-source.json",
+      "source_unchanged": true,
+      "log": "completion-whitespace.log",
+      "PYTHONPATH": "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template:/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.scratch/ticket-harness/evidence/m1-index-repair-01",
+      "TMPDIR": "/tmp",
+      "matches_frozen_source": true,
+      "matches_frozen_instructions": true
+    }
+  },
+  "junit_suites": [
+    {
+      "name": "pytest",
+      "errors": "0",
+      "failures": "0",
+      "skipped": "0",
+      "tests": "563",
+      "time": "2878.067",
+      "timestamp": "2026-11-13T14:50:37.409646-05:00",
+      "hostname": "gpu012"
+    }
+  ],
+  "capture_helper_sha256": "14afb68ed05677db8e0d35d1de4f585913f48ac326baf2cb7bc98e9aa83621a7",
+  "historical_observations_preserved": true,
+  "verification": "passed",
+  "independent_reviews": "pending",
+  "F1": "open/blocking",
+  "M1": "unaccepted",
+  "M2": "ineligible"
+}

@@ -1,0 +1,319 @@
+........................................FFF.......FFFFFFF....F.....F.... [ 57%]
+F....F....F..........................................                    [100%]
+=================================== FAILURES ===================================
+_________ test_failed_merge_preserves_submission_and_merge_diagnostics _________
+
+harness = <test_reports.ReportFixture testMethod=runTest>
+
+    def test_failed_merge_preserves_submission_and_merge_diagnostics(harness):
+        hook = harness.repo / ".git/hooks/pre-merge-commit"
+        hook.write_text("#!/bin/sh\necho 'Controlled merge failure' >&2\nexit 1\n")
+        hook.chmod(0o755)
+        result = harness.run_ticket()
+>       assert result.returncode != 0
+E       assert 0 != 0
+E        +  where 0 = CompletedProcess(args=['/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.venv/bin/python', '-m...ge": "candidate-merge",\n      "ticket": "01",\n      "attempt": 1,\n      "passed": true\n    }\n  ]\n}\n', stderr='').returncode
+
+tests/test_transaction.py:173: AssertionError
+____________ test_merge_hook_source_resolution_requires_new_review _____________
+
+harness = <test_reports.ReportFixture testMethod=runTest>
+
+    def test_merge_hook_source_resolution_requires_new_review(harness):
+        hook = harness.repo / ".git/hooks/post-merge"
+        hook.write_text(
+            "#!/bin/sh\nprintf '3\\n' > value.txt\ngit add value.txt\ngit commit --no-edit >/dev/null\n"
+        )
+        hook.chmod(0o755)
+        # Use a passing suite so test failure depends on review validity, not check coverage.
+        suite_script(harness, "pass")
+        result = harness.run_ticket()
+>       assert result.returncode != 0
+E       assert 0 != 0
+E        +  where 0 = CompletedProcess(args=['/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.venv/bin/python', '-m...ge": "candidate-merge",\n      "ticket": "01",\n      "attempt": 1,\n      "passed": true\n    }\n  ]\n}\n', stderr='').returncode
+
+tests/test_transaction.py:196: AssertionError
+___________ test_submission_hook_cannot_change_approved_requirements ___________
+
+harness = <test_reports.ReportFixture testMethod=runTest>
+
+    def test_submission_hook_cannot_change_approved_requirements(harness):
+        hook = harness.repo / ".git/hooks/pre-commit"
+        hook.write_text("#!/bin/sh\necho 'Redefined success' > 01-value.md\ngit add 01-value.md\n")
+        hook.chmod(0o755)
+        result = harness.run_ticket()
+>       assert result.returncode != 0
+E       assert 0 != 0
+E        +  where 0 = CompletedProcess(args=['/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.venv/bin/python', '-m...ge": "candidate-merge",\n      "ticket": "01",\n      "attempt": 1,\n      "passed": true\n    }\n  ]\n}\n', stderr='').returncode
+
+tests/test_transaction.py:210: AssertionError
+__ test_git_hooks_cannot_overwrite_harness_evidence[review-output-pre-commit] __
+
+harness = <test_reports.ReportFixture testMethod=runTest>
+hook_name = 'pre-commit', target = 'review-output'
+
+    @pytest.mark.parametrize("hook_name", ["pre-commit", "pre-merge-commit"])
+    @pytest.mark.parametrize("target", ["review-output", "record", "snapshot"])
+    def test_git_hooks_cannot_overwrite_harness_evidence(harness, hook_name, target):
+        paths = {
+            "review-output": harness.output
+            / ("artifacts/baseline.stdout" if hook_name == "pre-commit" else "artifacts/spec.stdout"),
+            "record": harness.output / "run.json",
+            "snapshot": harness.output / "inputs/ticket.md",
+        }
+        path = paths[target]
+        hook = harness.repo / f".git/hooks/{hook_name}"
+        hook.write_text(f"#!/bin/sh\necho 'tampered by hook' > '{path}'\n")
+        hook.chmod(0o755)
+        result = harness.run_ticket()
+>       assert result.returncode != 0
+E       assert 0 != 0
+E        +  where 0 = CompletedProcess(args=['/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.venv/bin/python', '-m...ge": "candidate-merge",\n      "ticket": "01",\n      "attempt": 1,\n      "passed": true\n    }\n  ]\n}\n', stderr='').returncode
+
+tests/test_transaction.py:306: AssertionError
+_ test_git_hooks_cannot_overwrite_harness_evidence[review-output-pre-merge-commit] _
+
+harness = <test_reports.ReportFixture testMethod=runTest>
+hook_name = 'pre-merge-commit', target = 'review-output'
+
+    @pytest.mark.parametrize("hook_name", ["pre-commit", "pre-merge-commit"])
+    @pytest.mark.parametrize("target", ["review-output", "record", "snapshot"])
+    def test_git_hooks_cannot_overwrite_harness_evidence(harness, hook_name, target):
+        paths = {
+            "review-output": harness.output
+            / ("artifacts/baseline.stdout" if hook_name == "pre-commit" else "artifacts/spec.stdout"),
+            "record": harness.output / "run.json",
+            "snapshot": harness.output / "inputs/ticket.md",
+        }
+        path = paths[target]
+        hook = harness.repo / f".git/hooks/{hook_name}"
+        hook.write_text(f"#!/bin/sh\necho 'tampered by hook' > '{path}'\n")
+        hook.chmod(0o755)
+        result = harness.run_ticket()
+>       assert result.returncode != 0
+E       assert 0 != 0
+E        +  where 0 = CompletedProcess(args=['/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.venv/bin/python', '-m...ge": "candidate-merge",\n      "ticket": "01",\n      "attempt": 1,\n      "passed": true\n    }\n  ]\n}\n', stderr='').returncode
+
+tests/test_transaction.py:306: AssertionError
+_____ test_git_hooks_cannot_overwrite_harness_evidence[record-pre-commit] ______
+
+harness = <test_reports.ReportFixture testMethod=runTest>
+hook_name = 'pre-commit', target = 'record'
+
+    @pytest.mark.parametrize("hook_name", ["pre-commit", "pre-merge-commit"])
+    @pytest.mark.parametrize("target", ["review-output", "record", "snapshot"])
+    def test_git_hooks_cannot_overwrite_harness_evidence(harness, hook_name, target):
+        paths = {
+            "review-output": harness.output
+            / ("artifacts/baseline.stdout" if hook_name == "pre-commit" else "artifacts/spec.stdout"),
+            "record": harness.output / "run.json",
+            "snapshot": harness.output / "inputs/ticket.md",
+        }
+        path = paths[target]
+        hook = harness.repo / f".git/hooks/{hook_name}"
+        hook.write_text(f"#!/bin/sh\necho 'tampered by hook' > '{path}'\n")
+        hook.chmod(0o755)
+        result = harness.run_ticket()
+>       assert result.returncode != 0
+E       assert 0 != 0
+E        +  where 0 = CompletedProcess(args=['/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.venv/bin/python', '-m...ge": "candidate-merge",\n      "ticket": "01",\n      "attempt": 1,\n      "passed": true\n    }\n  ]\n}\n', stderr='').returncode
+
+tests/test_transaction.py:306: AssertionError
+__ test_git_hooks_cannot_overwrite_harness_evidence[record-pre-merge-commit] ___
+
+harness = <test_reports.ReportFixture testMethod=runTest>
+hook_name = 'pre-merge-commit', target = 'record'
+
+    @pytest.mark.parametrize("hook_name", ["pre-commit", "pre-merge-commit"])
+    @pytest.mark.parametrize("target", ["review-output", "record", "snapshot"])
+    def test_git_hooks_cannot_overwrite_harness_evidence(harness, hook_name, target):
+        paths = {
+            "review-output": harness.output
+            / ("artifacts/baseline.stdout" if hook_name == "pre-commit" else "artifacts/spec.stdout"),
+            "record": harness.output / "run.json",
+            "snapshot": harness.output / "inputs/ticket.md",
+        }
+        path = paths[target]
+        hook = harness.repo / f".git/hooks/{hook_name}"
+        hook.write_text(f"#!/bin/sh\necho 'tampered by hook' > '{path}'\n")
+        hook.chmod(0o755)
+        result = harness.run_ticket()
+>       assert result.returncode != 0
+E       assert 0 != 0
+E        +  where 0 = CompletedProcess(args=['/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.venv/bin/python', '-m...ge": "candidate-merge",\n      "ticket": "01",\n      "attempt": 1,\n      "passed": true\n    }\n  ]\n}\n', stderr='').returncode
+
+tests/test_transaction.py:306: AssertionError
+____ test_git_hooks_cannot_overwrite_harness_evidence[snapshot-pre-commit] _____
+
+harness = <test_reports.ReportFixture testMethod=runTest>
+hook_name = 'pre-commit', target = 'snapshot'
+
+    @pytest.mark.parametrize("hook_name", ["pre-commit", "pre-merge-commit"])
+    @pytest.mark.parametrize("target", ["review-output", "record", "snapshot"])
+    def test_git_hooks_cannot_overwrite_harness_evidence(harness, hook_name, target):
+        paths = {
+            "review-output": harness.output
+            / ("artifacts/baseline.stdout" if hook_name == "pre-commit" else "artifacts/spec.stdout"),
+            "record": harness.output / "run.json",
+            "snapshot": harness.output / "inputs/ticket.md",
+        }
+        path = paths[target]
+        hook = harness.repo / f".git/hooks/{hook_name}"
+        hook.write_text(f"#!/bin/sh\necho 'tampered by hook' > '{path}'\n")
+        hook.chmod(0o755)
+        result = harness.run_ticket()
+>       assert result.returncode != 0
+E       assert 0 != 0
+E        +  where 0 = CompletedProcess(args=['/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.venv/bin/python', '-m...ge": "candidate-merge",\n      "ticket": "01",\n      "attempt": 1,\n      "passed": true\n    }\n  ]\n}\n', stderr='').returncode
+
+tests/test_transaction.py:306: AssertionError
+_ test_git_hooks_cannot_overwrite_harness_evidence[snapshot-pre-merge-commit] __
+
+harness = <test_reports.ReportFixture testMethod=runTest>
+hook_name = 'pre-merge-commit', target = 'snapshot'
+
+    @pytest.mark.parametrize("hook_name", ["pre-commit", "pre-merge-commit"])
+    @pytest.mark.parametrize("target", ["review-output", "record", "snapshot"])
+    def test_git_hooks_cannot_overwrite_harness_evidence(harness, hook_name, target):
+        paths = {
+            "review-output": harness.output
+            / ("artifacts/baseline.stdout" if hook_name == "pre-commit" else "artifacts/spec.stdout"),
+            "record": harness.output / "run.json",
+            "snapshot": harness.output / "inputs/ticket.md",
+        }
+        path = paths[target]
+        hook = harness.repo / f".git/hooks/{hook_name}"
+        hook.write_text(f"#!/bin/sh\necho 'tampered by hook' > '{path}'\n")
+        hook.chmod(0o755)
+        result = harness.run_ticket()
+>       assert result.returncode != 0
+E       assert 0 != 0
+E        +  where 0 = CompletedProcess(args=['/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.venv/bin/python', '-m...ge": "candidate-merge",\n      "ticket": "01",\n      "attempt": 1,\n      "passed": true\n    }\n  ]\n}\n', stderr='').returncode
+
+tests/test_transaction.py:306: AssertionError
+__________ test_worktree_checkout_hook_cannot_destroy_previous_review __________
+
+harness = <test_reports.ReportFixture testMethod=runTest>
+
+    def test_worktree_checkout_hook_cannot_destroy_previous_review(harness):
+        path = harness.output / "artifacts/spec.stdout"
+        hook = harness.repo / ".git/hooks/post-checkout"
+        hook.write_text(f"#!/bin/sh\nif test -f '{path}'; then echo 'tampered' > '{path}'; fi\n")
+        hook.chmod(0o755)
+        result = harness.run_ticket()
+>       assert result.returncode != 0
+E       assert 0 != 0
+E        +  where 0 = CompletedProcess(args=['/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.venv/bin/python', '-m...ge": "candidate-merge",\n      "ticket": "01",\n      "attempt": 1,\n      "passed": true\n    }\n  ]\n}\n', stderr='').returncode
+
+tests/test_transaction.py:328: AssertionError
+___________ test_failed_git_operations_have_per_attempt_diagnostics ____________
+
+harness = <test_cli.TicketFixture testMethod=runTest>
+
+    def test_failed_git_operations_have_per_attempt_diagnostics(harness):
+        reject_until(harness, "merge", 100)
+>       assert harness.run_ticket().returncode == 1
+E       assert 0 == 1
+E        +  where 0 = CompletedProcess(args=['/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.venv/bin/python', '-m...ge": "candidate-merge",\n      "ticket": "01",\n      "attempt": 1,\n      "passed": true\n    }\n  ]\n}\n', stderr='').returncode
+E        +    where CompletedProcess(args=['/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.venv/bin/python', '-m...ge": "candidate-merge",\n      "ticket": "01",\n      "attempt": 1,\n      "passed": true\n    }\n  ]\n}\n', stderr='') = run_ticket()
+E        +      where run_ticket = <test_cli.TicketFixture testMethod=runTest>.run_ticket
+
+tests/test_repairs.py:88: AssertionError
+_ test_each_rejection_can_repair_with_fresh_revision_bound_verification[merge] _
+
+harness = <test_cli.TicketFixture testMethod=runTest>, stage = 'merge'
+
+    @pytest.mark.parametrize("stage", ["check-ticket", "spec", "standards", "candidate", "merge"])
+    def test_each_rejection_can_repair_with_fresh_revision_bound_verification(harness, stage):
+        reject_until(harness, stage, 1)
+        result = harness.run_ticket()
+        assert result.returncode == 0, result.stdout + result.stderr
+        record = harness.record()
+>       assert [a["state"] for a in record["attempts"]] == ["Rejected", "Done"]
+E       AssertionError: assert ['Done'] == ['Rejected', 'Done']
+E         
+E         At index 0 diff: 'Done' != 'Rejected'
+E         Right contains one more item: 'Done'
+E         Use -v to get more diff
+
+tests/test_repairs.py:159: AssertionError
+__ test_exhaustion_is_bounded_and_preserves_complete_attempt_history[0-merge] __
+
+harness = <test_cli.TicketFixture testMethod=runTest>, stage = 'merge'
+allowance = 0
+
+    @pytest.mark.parametrize("stage", ["check-ticket", "spec", "standards", "candidate", "merge"])
+    @pytest.mark.parametrize("allowance", [0, 1, 2])
+    def test_exhaustion_is_bounded_and_preserves_complete_attempt_history(harness, stage, allowance):
+        harness.config["max_repairs"] = allowance
+        reject_until(harness, stage, 100)
+        (harness.repo / "value.txt").write_text("caller staged\n")
+        harness.git("add", "value.txt")
+        (harness.repo / "value.txt").write_text("caller unstaged\n")
+        (harness.repo / "unrelated").write_text("caller untracked")
+        before = harness.git("status", "--porcelain")
+        result = harness.run_ticket()
+>       assert result.returncode == 1
+E       assert 0 == 1
+E        +  where 0 = CompletedProcess(args=['/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.venv/bin/python', '-m...ge": "candidate-merge",\n      "ticket": "01",\n      "attempt": 1,\n      "passed": true\n    }\n  ]\n}\n', stderr='').returncode
+
+tests/test_repairs.py:206: AssertionError
+__ test_exhaustion_is_bounded_and_preserves_complete_attempt_history[1-merge] __
+
+harness = <test_cli.TicketFixture testMethod=runTest>, stage = 'merge'
+allowance = 1
+
+    @pytest.mark.parametrize("stage", ["check-ticket", "spec", "standards", "candidate", "merge"])
+    @pytest.mark.parametrize("allowance", [0, 1, 2])
+    def test_exhaustion_is_bounded_and_preserves_complete_attempt_history(harness, stage, allowance):
+        harness.config["max_repairs"] = allowance
+        reject_until(harness, stage, 100)
+        (harness.repo / "value.txt").write_text("caller staged\n")
+        harness.git("add", "value.txt")
+        (harness.repo / "value.txt").write_text("caller unstaged\n")
+        (harness.repo / "unrelated").write_text("caller untracked")
+        before = harness.git("status", "--porcelain")
+        result = harness.run_ticket()
+>       assert result.returncode == 1
+E       assert 0 == 1
+E        +  where 0 = CompletedProcess(args=['/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.venv/bin/python', '-m...ge": "candidate-merge",\n      "ticket": "01",\n      "attempt": 1,\n      "passed": true\n    }\n  ]\n}\n', stderr='').returncode
+
+tests/test_repairs.py:206: AssertionError
+__ test_exhaustion_is_bounded_and_preserves_complete_attempt_history[2-merge] __
+
+harness = <test_cli.TicketFixture testMethod=runTest>, stage = 'merge'
+allowance = 2
+
+    @pytest.mark.parametrize("stage", ["check-ticket", "spec", "standards", "candidate", "merge"])
+    @pytest.mark.parametrize("allowance", [0, 1, 2])
+    def test_exhaustion_is_bounded_and_preserves_complete_attempt_history(harness, stage, allowance):
+        harness.config["max_repairs"] = allowance
+        reject_until(harness, stage, 100)
+        (harness.repo / "value.txt").write_text("caller staged\n")
+        harness.git("add", "value.txt")
+        (harness.repo / "value.txt").write_text("caller unstaged\n")
+        (harness.repo / "unrelated").write_text("caller untracked")
+        before = harness.git("status", "--porcelain")
+        result = harness.run_ticket()
+>       assert result.returncode == 1
+E       assert 0 == 1
+E        +  where 0 = CompletedProcess(args=['/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.venv/bin/python', '-m...ge": "candidate-merge",\n      "ticket": "01",\n      "attempt": 1,\n      "passed": true\n    }\n  ]\n}\n', stderr='').returncode
+
+tests/test_repairs.py:206: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_transaction.py::test_failed_merge_preserves_submission_and_merge_diagnostics
+FAILED tests/test_transaction.py::test_merge_hook_source_resolution_requires_new_review
+FAILED tests/test_transaction.py::test_submission_hook_cannot_change_approved_requirements
+FAILED tests/test_transaction.py::test_git_hooks_cannot_overwrite_harness_evidence[review-output-pre-commit]
+FAILED tests/test_transaction.py::test_git_hooks_cannot_overwrite_harness_evidence[review-output-pre-merge-commit]
+FAILED tests/test_transaction.py::test_git_hooks_cannot_overwrite_harness_evidence[record-pre-commit]
+FAILED tests/test_transaction.py::test_git_hooks_cannot_overwrite_harness_evidence[record-pre-merge-commit]
+FAILED tests/test_transaction.py::test_git_hooks_cannot_overwrite_harness_evidence[snapshot-pre-commit]
+FAILED tests/test_transaction.py::test_git_hooks_cannot_overwrite_harness_evidence[snapshot-pre-merge-commit]
+FAILED tests/test_transaction.py::test_worktree_checkout_hook_cannot_destroy_previous_review
+FAILED tests/test_repairs.py::test_failed_git_operations_have_per_attempt_diagnostics
+FAILED tests/test_repairs.py::test_each_rejection_can_repair_with_fresh_revision_bound_verification[merge]
+FAILED tests/test_repairs.py::test_exhaustion_is_bounded_and_preserves_complete_attempt_history[0-merge]
+FAILED tests/test_repairs.py::test_exhaustion_is_bounded_and_preserves_complete_attempt_history[1-merge]
+FAILED tests/test_repairs.py::test_exhaustion_is_bounded_and_preserves_complete_attempt_history[2-merge]
+15 failed, 110 passed in 100.86s (0:01:40)

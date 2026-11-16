@@ -1,0 +1,169 @@
+diff --git a/.gitignore b/.gitignore
+index a26814f..db2c13e 100644
+--- a/.gitignore
++++ b/.gitignore
+@@ -5,6 +5,8 @@ __pycache__/
+ .mypy_cache/
+ .ruff_cache/
+ /.micromamba/
++/.venv/
++/.uv-cache/
+ .pytest_cache/
+ *.egg-info/
+ build/
+diff --git a/AGENTS.md b/AGENTS.md
+index 09809e2..8f1844c 100644
+--- a/AGENTS.md
++++ b/AGENTS.md
+@@ -1,6 +1,6 @@
+ ## Python development
+ 
+-Before running Python, installing dependencies, or running tests, read `docs/agents/python-environment.md` for the reusable micromamba environment and worktree instructions.
++Before running Python, installing dependencies, or running tests, read `docs/agents/python-environment.md` for the default checkout-local uv environment and worktree instructions.
+ 
+ ## Agent skills
+ 
+diff --git a/README.md b/README.md
+index 3190a2b..47c07f1 100644
+--- a/README.md
++++ b/README.md
+@@ -1,6 +1,42 @@
+ # Agentic Template Repo
+ 
+-Python development uses a reusable micromamba environment. See [Python environment setup and usage](docs/agents/python-environment.md).
++Python development defaults to a checkout-local uv environment. See
++[Python environment setup and usage](docs/agents/python-environment.md).
++
++## Python setup with uv
++
++Install [uv](https://docs.astral.sh/uv/getting-started/installation/), then run
++these commands from the repository root:
++
++```bash
++export UV_CACHE_DIR="$PWD/.uv-cache"
++uv venv --python 3.12 .venv
++uv pip sync --python .venv/bin/python requirements-uv.txt
++source .venv/bin/activate
++```
++
++[requirements-uv.txt](requirements-uv.txt) freezes the direct and transitive
++dependencies for Python 3.12. It includes the PyPI equivalents of
++[environment.yml](environment.yml) (pip, pytest, PyYAML), plus the editable
++project and its pinned `dev` tools from [pyproject.toml](pyproject.toml).
++Conda channels are not used by uv. The project source remains editable; Python
++is selected separately by `uv venv`, rather than pinned as a package.
++
++Run `python -m pytest` or `ticket-harness --help` after activation. Each checkout
++has its own ignored `.venv` and cache, so editable installs stay local.
++
++To refresh the frozen dependencies after changing `environment.yml` or
++`pyproject.toml`, first update the PyPI equivalents in
++[requirements-uv.in](requirements-uv.in), then run:
++
++```bash
++uv pip compile --python .venv/bin/python requirements-uv.in -o requirements-uv.txt
++uv pip sync --python .venv/bin/python requirements-uv.txt
++```
++
++Existing pins are retained where compatible; add `--upgrade` to the compile
++command to update all packages. Commit both requirements files. This uses uv's
++[requirements locking workflow](https://docs.astral.sh/uv/pip/compile/).
+ 
+ This is my template for how I do agentic work. Currently, this uses Matt Pocock's skills which allow humans to "stay in the loop" while also taking advantage of the efficiency gains of automated agentic development. Commands below are in the codex `$skill` format, but other platforms may invoke skills differently.
+ 
+diff --git a/docs/agents/python-environment.md b/docs/agents/python-environment.md
+index d7fb635..e6dc94d 100644
+--- a/docs/agents/python-environment.md
++++ b/docs/agents/python-environment.md
+@@ -1,36 +1,35 @@
+ # Python environment
+ 
+-Use [environment.yml](../../environment.yml). Put project dependencies in
+-[pyproject.toml](../../pyproject.toml), shared development tools in environment.yml.
+-The [testing policy](testing.md#check-commands) owns project check/tool setup.
++Use the current checkout's uv-managed `.venv` by default for Python, dependency
++installation, and checks. Run commands from that checkout's root and use
++`.venv/bin/python` explicitly so shell activation is unnecessary.
+ 
+-From the checkout being developed:
++## Setup and synchronization
+ 
+-```bash
+-export XDG_CACHE_HOME=/home/ajkerr1/development/agentic_template/.micromamba/cache
+-micromamba run --prefix /home/ajkerr1/development/agentic_template/.micromamba/envs/dev python -m pytest
+-```
+-
+-Set the cache in every shell using `micromamba run`: process locks need a writable
+-cache and the sandbox's default home cache may be read-only. The prefix's absolute
+-`bin/python` also works without micromamba or this setting. Use that interpreter
+-for `-m pip` and `-m pytest`.
+-
+-Reuse this absolute prefix across worktrees and agents; run commands from the
+-checkout being developed using its source or documented import configuration.
+-Coordinate shared package changes. An editable install points at one checkout;
+-use a separate worktree environment for an isolated install or different versions.
+-
+-From a new clone or isolated worktree root, create its environment:
+-
+-```bash
+-micromamba --no-rc --root-prefix "$PWD/.micromamba" create --yes --prefix "$PWD/.micromamba/envs/dev" --file environment.yml
+-```
+-
+-After changing environment.yml, update the existing environment with:
++For a new clone or worktree, create and populate its environment:
+ 
+ ```bash
+-micromamba --no-rc --root-prefix "$PWD/.micromamba" install --yes --prefix "$PWD/.micromamba/envs/dev" --file environment.yml
++export UV_CACHE_DIR="$PWD/.uv-cache"
++uv venv --python 3.12 .venv
++uv pip sync --python .venv/bin/python requirements-uv.txt
+ ```
+ 
+-Use that clone/worktree's absolute prefix and writable cache afterward.
++Reuse an existing `.venv`; run the sync command after the frozen requirements
++change. Set `UV_CACHE_DIR` in each shell using uv so its cache is writable.
++Each worktree owns its environment and editable project install. Create a fresh
++environment in a new worktree rather than sharing another checkout's `.venv`.
++
++## Dependencies and checks
++
++[requirements-uv.txt](../../requirements-uv.txt) freezes the environment,
++including the editable project and its `dev` extra. Put project dependencies and
++pinned project check tools in [pyproject.toml](../../pyproject.toml), and shared
++development tools in [environment.yml](../../environment.yml). Keep the PyPI
++equivalents in [requirements-uv.in](../../requirements-uv.in) aligned with
++environment.yml. Follow the [README refresh instructions](../../README.md#python-setup-with-uv)
++to regenerate and sync the frozen requirements after dependency changes.
++
++Use `.venv/bin/python -m pip` if pip is specifically needed. Use the
++[testing policy's check commands](testing.md#check-commands) for verification.
++Micromamba remains an optional alternative when explicitly requested; uv is the
++default for agent work.
+diff --git a/docs/agents/testing.md b/docs/agents/testing.md
+index 250eece..9c338e9 100644
+--- a/docs/agents/testing.md
++++ b/docs/agents/testing.md
+@@ -34,16 +34,15 @@ or reusing approval for another candidate.
+ 
+ ## Check commands
+ 
+-Use the environment's interpreter from the checkout being developed. The
+-`.[dev]` extra in [pyproject.toml](../../pyproject.toml) supplies pinned check tools;
+-install it with `python -m pip install '.[dev]'`, using an isolated environment
+-when dependency changes would affect other worktrees.
++Use the current checkout's `.venv/bin/python`. Follow the
++[environment setup and synchronization instructions](python-environment.md)
++before checks; the frozen requirements include the project's pinned `dev` tools.
+ 
+ ```bash
+-python -m pytest
+-python -m mypy
+-python -m ruff check ticket_harness tests examples
+-python -m ruff format --check ticket_harness tests examples
++.venv/bin/python -m pytest
++.venv/bin/python -m mypy
++.venv/bin/python -m ruff check ticket_harness tests examples
++.venv/bin/python -m ruff format --check ticket_harness tests examples
+ git diff --check
+ ```
+ 
