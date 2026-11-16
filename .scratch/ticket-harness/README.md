@@ -234,3 +234,22 @@ passes. The reviewed instruction snapshot and later status-only bookkeeping rema
 separately identified. Historical completion summaries above preserve their original
 then-pending scope, not current acceptance status. M2 ticket25 is next; the overall
 feature still requires M2/M3/M4 and final acceptance.
+
+## Ticket 25 capture completion
+
+2026-11-16: [25: Guide ticket and shared evidence creation — completed](evidence/ticket-25/25-completion.md)
+at `febd86321851e2acec994237f9d1a1adea824c55`, original checkpoint `3b0c1ab` and
+fixed baseline `2c01fe9`. All seven criteria pass; 589/full tests and strict
+type/lint/format/whitespace, skill/routing/link and installed checks pass. An
+interrupted terminal's three completed checks were preserved and reused only
+after exact-input hash verification; remaining gates completed separately.
+Fresh independent Spec02, Standards02 and triggered all-package Standards02
+each report zero new blocking/optional findings. All five original full keys are
+independently fixed; [review index](reviews/README.md) and
+[append-only history](evidence/ticket-25/25-finding-history.md) retain provenance.
+The current evidence-policy-1 planning bundle remains separately supplied workspace
+input; this scoped completion does not publish unrelated planning/archive edits.
+Ticket26 is next within EC1, without starting it. Future cumulative EC1 review and
+actual human acceptance after25–26 still gate27; the earlier M1 summary's M2/old25
+next-step wording above retains its historical context. No EC1 acceptance, evidence
+deletion, promotion or push occurred.

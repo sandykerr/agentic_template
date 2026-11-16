@@ -1,0 +1,180 @@
+[
+  {
+    "name": "pytest",
+    "argv": [
+      "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.venv/bin/python",
+      "-m",
+      "pytest"
+    ],
+    "cwd": "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template",
+    "returncode": 0,
+    "reused_from": ".scratch/ticket-harness/evidence/ticket-25/captures/verification-71288fc1a1da4058830978bc454711dc",
+    "identity_basis": "all original source/instruction hashes match before resume"
+  },
+  {
+    "name": "mypy",
+    "argv": [
+      "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.venv/bin/python",
+      "-m",
+      "mypy"
+    ],
+    "cwd": "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template",
+    "returncode": 0,
+    "reused_from": ".scratch/ticket-harness/evidence/ticket-25/captures/verification-71288fc1a1da4058830978bc454711dc",
+    "identity_basis": "all original source/instruction hashes match before resume"
+  },
+  {
+    "name": "ruff",
+    "argv": [
+      "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.venv/bin/python",
+      "-m",
+      "ruff",
+      "check",
+      "ticket_harness",
+      "tests",
+      "examples"
+    ],
+    "cwd": "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template",
+    "returncode": 0,
+    "reused_from": ".scratch/ticket-harness/evidence/ticket-25/captures/verification-71288fc1a1da4058830978bc454711dc",
+    "identity_basis": "all original source/instruction hashes match before resume"
+  },
+  {
+    "name": "format",
+    "argv": [
+      "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.venv/bin/python",
+      "-m",
+      "ruff",
+      "format",
+      "--check",
+      "ticket_harness",
+      "tests",
+      "examples"
+    ],
+    "cwd": "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template",
+    "returncode": 0
+  },
+  {
+    "name": "whitespace",
+    "argv": [
+      "git",
+      "diff",
+      "--check"
+    ],
+    "cwd": "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template",
+    "returncode": 0
+  },
+  {
+    "name": "skill-validation",
+    "argv": [
+      "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.venv/bin/python",
+      "/panfs/ccds02/nobackup/people/ajkerr1/.codex/skills/.system/skill-creator/scripts/quick_validate.py",
+      "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.agents/skills/custom/capture-evidence"
+    ],
+    "cwd": "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template",
+    "returncode": 0
+  },
+  {
+    "name": "wheel",
+    "argv": [
+      "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.venv/bin/python",
+      "-m",
+      "pip",
+      "wheel",
+      "--no-deps",
+      "--wheel-dir",
+      "/dev/shm/ticket25-resume-cC4Wm4/ticket25-installed-y6fwkch2/wheels",
+      "."
+    ],
+    "cwd": "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template",
+    "returncode": 0
+  },
+  {
+    "name": "install",
+    "argv": [
+      "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.venv/bin/python",
+      "-m",
+      "pip",
+      "install",
+      "--no-deps",
+      "--no-index",
+      "--target",
+      "/dev/shm/ticket25-resume-cC4Wm4/ticket25-installed-y6fwkch2/installed",
+      "/dev/shm/ticket25-resume-cC4Wm4/ticket25-installed-y6fwkch2/wheels/ticket_harness-0.1.0-py3-none-any.whl"
+    ],
+    "cwd": "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template",
+    "returncode": 0
+  },
+  {
+    "name": "installed-capture-help",
+    "argv": [
+      "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.venv/bin/python",
+      "-m",
+      "ticket_harness.evidence",
+      "--help"
+    ],
+    "cwd": "/dev/shm/ticket25-resume-cC4Wm4/ticket25-installed-y6fwkch2",
+    "returncode": 0
+  },
+  {
+    "name": "installed-harness-help",
+    "argv": [
+      "/dev/shm/ticket25-resume-cC4Wm4/ticket25-installed-y6fwkch2/installed/bin/ticket-harness",
+      "--help"
+    ],
+    "cwd": "/dev/shm/ticket25-resume-cC4Wm4/ticket25-installed-y6fwkch2",
+    "returncode": 0
+  },
+  {
+    "name": "installed-allocation",
+    "argv": [
+      "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.venv/bin/python",
+      "-m",
+      "ticket_harness.evidence",
+      "--feature",
+      "/dev/shm/ticket25-resume-cC4Wm4/ticket25-installed-y6fwkch2/target/.scratch/installed-sample",
+      "allocate",
+      "--ticket",
+      "25",
+      "--purpose",
+      "installed CLI smoke",
+      "--producer",
+      "installed"
+    ],
+    "cwd": "/dev/shm/ticket25-resume-cC4Wm4/ticket25-installed-y6fwkch2",
+    "returncode": 0
+  },
+  {
+    "name": "installed-registration",
+    "argv": [
+      "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.venv/bin/python",
+      "-m",
+      "ticket_harness.evidence",
+      "--feature",
+      "/dev/shm/ticket25-resume-cC4Wm4/ticket25-installed-y6fwkch2/target/.scratch/installed-sample",
+      "register",
+      "--allocation",
+      "/dev/shm/ticket25-resume-cC4Wm4/ticket25-installed-y6fwkch2/target/.scratch/installed-sample/evidence/ticket-25/captures/installed-eaa9fd62ce95490e8b69617000b369b2/allocation.json",
+      "--file",
+      "observed.txt",
+      "--source-version",
+      "installed wheel",
+      "--activity",
+      "installed CLI smoke",
+      "--result",
+      "observed payload"
+    ],
+    "cwd": "/dev/shm/ticket25-resume-cC4Wm4/ticket25-installed-y6fwkch2",
+    "returncode": 0
+  },
+  {
+    "name": "installed-source-identity",
+    "returncode": 0,
+    "sha256": "8040d512b43380678f4c6baae419ab37763c468c0190ac08dd7be3b1f04d7187"
+  },
+  {
+    "name": "source-unchanged",
+    "returncode": 0,
+    "changed": []
+  }
+]

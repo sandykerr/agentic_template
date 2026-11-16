@@ -1,0 +1,130 @@
+....FF..                                                                 [100%]
+=================================== FAILURES ===================================
+______ test_ambiguous_or_unsafe_scope_never_allocates_output[arguments4] _______
+
+feature = PosixPath('/dev/shm/ticket25-verification-1EQrbx/pytest-of-ajkerr1/pytest-1/test_ambiguous_or_unsafe_scope4/.scratch/sample')
+arguments = ['--ticket', '25', '--ticket', '26', '--shared', '']
+
+    @pytest.mark.parametrize(
+        "arguments",
+        [
+            ["--ticket", "99"],
+            ["--ticket", "25", "--ticket", "25"],
+            ["--ticket", "25", "--shared", "one-ticket"],
+            ["--ticket", "25", "--milestone", "EC1"],
+            ["--ticket", "25", "--ticket", "26", "--shared", ""],
+            ["--ticket", "25", "--ticket", "26", "--shared", "capture-trials", "--milestone", ""],
+            ["--ticket", "25", "--ticket", "26", "--shared", "../escape"],
+            ["--ticket", "25", "--ticket", "26", "--shared", "ticket-25"],
+        ],
+    )
+    def test_ambiguous_or_unsafe_scope_never_allocates_output(feature, arguments):
+>       cli(feature, "allocate", "--purpose", "checks", "--producer", "worker", *arguments, ok=False)
+
+tests/test_evidence.py:394: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+feature = PosixPath('/dev/shm/ticket25-verification-1EQrbx/pytest-of-ajkerr1/pytest-1/test_ambiguous_or_unsafe_scope4/.scratch/sample')
+ok = False
+args = ('allocate', '--purpose', 'checks', '--producer', 'worker', '--ticket', ...)
+
+    def cli(feature, *args, ok=True):
+        result = subprocess.run(
+            [sys.executable, "-m", "ticket_harness.evidence", "--feature", str(feature), *args],
+            cwd=ROOT,
+            text=True,
+            capture_output=True,
+        )
+        if os.environ.get("TICKET_HARNESS_TEST_OBSERVATIONS"):
+            with (feature.parent.parent / "commands.jsonl").open("a") as stream:
+                stream.write(
+                    json.dumps(
+                        {
+                            "argv": result.args,
+                            "returncode": result.returncode,
+                            "stdout": result.stdout,
+                            "stderr": result.stderr,
+                        }
+                    )
+                    + "\n"
+                )
+        if ok:
+            assert result.returncode == 0, result.stdout + result.stderr
+            return json.loads(result.stdout)
+>       assert result.returncode != 0, result.stdout
+E       AssertionError: {
+E           "allocation": "/dev/shm/ticket25-verification-1EQrbx/pytest-of-ajkerr1/pytest-1/test_ambiguous_or_unsafe_scope4/.scratch/sample/evidence/ticket-25/captures/worker-c496175567944d31abb0a96dc9059793/allocation.json",
+E           "destination": "/dev/shm/ticket25-verification-1EQrbx/pytest-of-ajkerr1/pytest-1/test_ambiguous_or_unsafe_scope4/.scratch/sample/evidence/ticket-25/captures/worker-c496175567944d31abb0a96dc9059793",
+E           "review_artifact": "/dev/shm/ticket25-verification-1EQrbx/pytest-of-ajkerr1/pytest-1/test_ambiguous_or_unsafe_scope4/.scratch/sample/evidence/ticket-25/evidence-review.json"
+E         }
+E         
+E       assert 0 != 0
+E        +  where 0 = CompletedProcess(args=['/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.venv/bin/python', '-m...rr1/pytest-1/test_ambiguous_or_unsafe_scope4/.scratch/sample/evidence/ticket-25/evidence-review.json"\n}\n', stderr='').returncode
+
+tests/test_evidence.py:57: AssertionError
+______ test_ambiguous_or_unsafe_scope_never_allocates_output[arguments5] _______
+
+feature = PosixPath('/dev/shm/ticket25-verification-1EQrbx/pytest-of-ajkerr1/pytest-1/test_ambiguous_or_unsafe_scope5/.scratch/sample')
+arguments = ['--ticket', '25', '--ticket', '26', '--shared', 'capture-trials', ...]
+
+    @pytest.mark.parametrize(
+        "arguments",
+        [
+            ["--ticket", "99"],
+            ["--ticket", "25", "--ticket", "25"],
+            ["--ticket", "25", "--shared", "one-ticket"],
+            ["--ticket", "25", "--milestone", "EC1"],
+            ["--ticket", "25", "--ticket", "26", "--shared", ""],
+            ["--ticket", "25", "--ticket", "26", "--shared", "capture-trials", "--milestone", ""],
+            ["--ticket", "25", "--ticket", "26", "--shared", "../escape"],
+            ["--ticket", "25", "--ticket", "26", "--shared", "ticket-25"],
+        ],
+    )
+    def test_ambiguous_or_unsafe_scope_never_allocates_output(feature, arguments):
+>       cli(feature, "allocate", "--purpose", "checks", "--producer", "worker", *arguments, ok=False)
+
+tests/test_evidence.py:394: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+feature = PosixPath('/dev/shm/ticket25-verification-1EQrbx/pytest-of-ajkerr1/pytest-1/test_ambiguous_or_unsafe_scope5/.scratch/sample')
+ok = False
+args = ('allocate', '--purpose', 'checks', '--producer', 'worker', '--ticket', ...)
+
+    def cli(feature, *args, ok=True):
+        result = subprocess.run(
+            [sys.executable, "-m", "ticket_harness.evidence", "--feature", str(feature), *args],
+            cwd=ROOT,
+            text=True,
+            capture_output=True,
+        )
+        if os.environ.get("TICKET_HARNESS_TEST_OBSERVATIONS"):
+            with (feature.parent.parent / "commands.jsonl").open("a") as stream:
+                stream.write(
+                    json.dumps(
+                        {
+                            "argv": result.args,
+                            "returncode": result.returncode,
+                            "stdout": result.stdout,
+                            "stderr": result.stderr,
+                        }
+                    )
+                    + "\n"
+                )
+        if ok:
+            assert result.returncode == 0, result.stdout + result.stderr
+            return json.loads(result.stdout)
+>       assert result.returncode != 0, result.stdout
+E       AssertionError: {
+E           "allocation": "/dev/shm/ticket25-verification-1EQrbx/pytest-of-ajkerr1/pytest-1/test_ambiguous_or_unsafe_scope5/.scratch/sample/evidence/capture-trials/captures/worker-7993106d907e48a99ec2683f456a1288/allocation.json",
+E           "destination": "/dev/shm/ticket25-verification-1EQrbx/pytest-of-ajkerr1/pytest-1/test_ambiguous_or_unsafe_scope5/.scratch/sample/evidence/capture-trials/captures/worker-7993106d907e48a99ec2683f456a1288",
+E           "review_artifact": "/dev/shm/ticket25-verification-1EQrbx/pytest-of-ajkerr1/pytest-1/test_ambiguous_or_unsafe_scope5/.scratch/sample/evidence/capture-trials/evidence-review.json"
+E         }
+E         
+E       assert 0 != 0
+E        +  where 0 = CompletedProcess(args=['/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.venv/bin/python', '-m...ytest-1/test_ambiguous_or_unsafe_scope5/.scratch/sample/evidence/capture-trials/evidence-review.json"\n}\n', stderr='').returncode
+
+tests/test_evidence.py:57: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_evidence.py::test_ambiguous_or_unsafe_scope_never_allocates_output[arguments4]
+FAILED tests/test_evidence.py::test_ambiguous_or_unsafe_scope_never_allocates_output[arguments5]
+2 failed, 6 passed, 17 deselected in 1.18s

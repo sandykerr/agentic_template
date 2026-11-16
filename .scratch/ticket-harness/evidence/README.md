@@ -13,6 +13,7 @@ findings or human acceptance.
 | 07–12 | [07](ticket-07/README.md), [08](ticket-08/README.md), [09](ticket-09/README.md), [10](ticket-10/README.md), [11](ticket-11/README.md), [12](ticket-12/README.md) |
 | 13–18 | [13](ticket-13/README.md), [14](ticket-14/README.md), [15](ticket-15/README.md), [16](ticket-16/README.md), [17](ticket-17/README.md), [18](ticket-18/README.md) |
 | 19–24 | [19](ticket-19/README.md), [20](ticket-20/README.md), [21](ticket-21/README.md), [22](ticket-22/README.md), [23](ticket-23/README.md), [24](ticket-24/README.md) |
+| 25 | [Capture completion](ticket-25/25-completion.md), [canonical evidence](ticket-25/25-evidence-index.md), [shared EC1 capture](evidence-capture-workflow/EC1/evidence-review.json) |
 
 Cross-ticket bundles stay separate:
 

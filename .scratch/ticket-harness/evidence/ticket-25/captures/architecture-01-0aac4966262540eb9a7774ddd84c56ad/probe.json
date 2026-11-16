@@ -1,0 +1,172 @@
+[
+  {
+    "case": "empty-shared",
+    "allocation": {
+      "argv": [
+        "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.venv/bin/python",
+        "-m",
+        "ticket_harness.evidence",
+        "--feature",
+        "/dev/shm/ticket25-verification-1EQrbx/ticket25-architecture-rshw4dco/.scratch/empty-shared",
+        "allocate",
+        "--ticket",
+        "25",
+        "--purpose",
+        "architecture probe",
+        "--producer",
+        "probe",
+        "--ticket",
+        "26",
+        "--shared",
+        ""
+      ],
+      "exit": 0,
+      "stdout": "{\n  \"allocation\": \"/dev/shm/ticket25-verification-1EQrbx/ticket25-architecture-rshw4dco/.scratch/empty-shared/evidence/ticket-25/captures/probe-4ea67e6485284c2b9a33b43f764b1c91/allocation.json\",\n  \"destination\": \"/dev/shm/ticket25-verification-1EQrbx/ticket25-architecture-rshw4dco/.scratch/empty-shared/evidence/ticket-25/captures/probe-4ea67e6485284c2b9a33b43f764b1c91\",\n  \"review_artifact\": \"/dev/shm/ticket25-verification-1EQrbx/ticket25-architecture-rshw4dco/.scratch/empty-shared/evidence/ticket-25/evidence-review.json\"\n}\n",
+      "stderr": ""
+    },
+    "ordinary_after": {
+      "argv": [
+        "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.venv/bin/python",
+        "-m",
+        "ticket_harness.evidence",
+        "--feature",
+        "/dev/shm/ticket25-verification-1EQrbx/ticket25-architecture-rshw4dco/.scratch/empty-shared",
+        "allocate",
+        "--ticket",
+        "25",
+        "--purpose",
+        "architecture probe",
+        "--producer",
+        "probe"
+      ],
+      "exit": 1,
+      "stdout": "",
+      "stderr": "Incompatible evidence record: /dev/shm/ticket25-verification-1EQrbx/ticket25-architecture-rshw4dco/.scratch/empty-shared/evidence/ticket-25/evidence-review.json\n"
+    },
+    "ticket26_link_created": false,
+    "artifact": {
+      "schema_version": 1,
+      "folder": "evidence/ticket-25",
+      "scope": {
+        "tickets": [
+          {
+            "id": "25",
+            "issue": "issues/25-sample.md"
+          },
+          {
+            "id": "26",
+            "issue": "issues/26-sample.md"
+          }
+        ],
+        "shared": "",
+        "milestone": null
+      },
+      "captures": [],
+      "shared_records": [],
+      "assessments": [],
+      "approvals": [],
+      "execution_results": []
+    }
+  },
+  {
+    "case": "empty-milestone",
+    "allocation": {
+      "argv": [
+        "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.venv/bin/python",
+        "-m",
+        "ticket_harness.evidence",
+        "--feature",
+        "/dev/shm/ticket25-verification-1EQrbx/ticket25-architecture-rshw4dco/.scratch/empty-milestone",
+        "allocate",
+        "--ticket",
+        "25",
+        "--purpose",
+        "architecture probe",
+        "--producer",
+        "probe",
+        "--ticket",
+        "26",
+        "--shared",
+        "shared-evidence",
+        "--milestone",
+        ""
+      ],
+      "exit": 0,
+      "stdout": "{\n  \"allocation\": \"/dev/shm/ticket25-verification-1EQrbx/ticket25-architecture-rshw4dco/.scratch/empty-milestone/evidence/shared-evidence/captures/probe-f1cd20a377e84e3db868fa8ce293e869/allocation.json\",\n  \"destination\": \"/dev/shm/ticket25-verification-1EQrbx/ticket25-architecture-rshw4dco/.scratch/empty-milestone/evidence/shared-evidence/captures/probe-f1cd20a377e84e3db868fa8ce293e869\",\n  \"review_artifact\": \"/dev/shm/ticket25-verification-1EQrbx/ticket25-architecture-rshw4dco/.scratch/empty-milestone/evidence/shared-evidence/evidence-review.json\"\n}\n",
+      "stderr": ""
+    },
+    "unscoped_after": {
+      "argv": [
+        "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.venv/bin/python",
+        "-m",
+        "ticket_harness.evidence",
+        "--feature",
+        "/dev/shm/ticket25-verification-1EQrbx/ticket25-architecture-rshw4dco/.scratch/empty-milestone",
+        "allocate",
+        "--ticket",
+        "25",
+        "--purpose",
+        "architecture probe",
+        "--producer",
+        "probe",
+        "--ticket",
+        "26",
+        "--shared",
+        "shared-evidence"
+      ],
+      "exit": 1,
+      "stdout": "",
+      "stderr": "Incompatible evidence record: /dev/shm/ticket25-verification-1EQrbx/ticket25-architecture-rshw4dco/.scratch/empty-milestone/evidence/shared-evidence/evidence-review.json\n"
+    }
+  },
+  {
+    "case": "retry-prior",
+    "retry_first": {
+      "argv": [
+        "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.venv/bin/python",
+        "-m",
+        "ticket_harness.evidence",
+        "--feature",
+        "/dev/shm/ticket25-verification-1EQrbx/ticket25-architecture-rshw4dco/.scratch/retry-prior",
+        "register",
+        "--allocation",
+        "/dev/shm/ticket25-verification-1EQrbx/ticket25-architecture-rshw4dco/.scratch/retry-prior/evidence/ticket-25/captures/probe-67ffb04be9c84004819cf41f6879acf9/allocation.json",
+        "--file",
+        "result.txt",
+        "--source-version",
+        "probe fixture",
+        "--activity",
+        "scoped CLI observation",
+        "--result",
+        "fixture payload"
+      ],
+      "exit": 0,
+      "stdout": "{\n  \"review_artifact\": \"/dev/shm/ticket25-verification-1EQrbx/ticket25-architecture-rshw4dco/.scratch/retry-prior/evidence/ticket-25/evidence-review.json\",\n  \"capture\": {\n    \"id\": \"67ffb04be9c84004819cf41f6879acf9\",\n    \"purpose\": \"architecture probe\",\n    \"producer\": \"probe\",\n    \"source_version\": \"probe fixture\",\n    \"activity\": \"scoped CLI observation\",\n    \"result\": \"fixture payload\",\n    \"kind\": \"original\",\n    \"derived_from\": [],\n    \"files\": [\n      {\n        \"path\": \"evidence/ticket-25/captures/probe-67ffb04be9c84004819cf41f6879acf9/result.txt\",\n        \"size\": 9,\n        \"sha256\": \"25718360e05d3c2d0963d1381e9dd4dae5fca789244ee4b9f861adcc0cc96218\"\n      }\n    ]\n  }\n}\n",
+      "stderr": ""
+    },
+    "retry_second": {
+      "argv": [
+        "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.venv/bin/python",
+        "-m",
+        "ticket_harness.evidence",
+        "--feature",
+        "/dev/shm/ticket25-verification-1EQrbx/ticket25-architecture-rshw4dco/.scratch/retry-prior",
+        "register",
+        "--allocation",
+        "/dev/shm/ticket25-verification-1EQrbx/ticket25-architecture-rshw4dco/.scratch/retry-prior/evidence/ticket-25/captures/probe-6f38eb7c072a4fee99b1e947e7f67c47/allocation.json",
+        "--file",
+        "result.txt",
+        "--source-version",
+        "probe fixture",
+        "--activity",
+        "scoped CLI observation",
+        "--result",
+        "fixture payload"
+      ],
+      "exit": 1,
+      "stdout": "",
+      "stderr": "Registered original changed: evidence/ticket-25/captures/probe-6f38eb7c072a4fee99b1e947e7f67c47/result.txt\n"
+    },
+    "authoritative_record_unchanged": true
+  }
+]

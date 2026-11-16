@@ -1,0 +1,355 @@
+============================= test session starts ==============================
+platform linux -- Python 3.12.15, pytest-9.2.0, pluggy-1.7.0
+rootdir: /panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template
+configfile: pyproject.toml
+testpaths: tests
+collected 586 items
+
+tests/test_cli.py ........                                               [  1%]
+tests/test_continuation.py .......................                       [  5%]
+tests/test_dependencies.py ..............F......                         [  8%]
+tests/test_evidence.py .......................                           [ 12%]
+tests/test_human_decisions.py .....................................      [ 19%]
+tests/test_milestones.py .....................................F......... [ 27%]
+.                                                                        [ 27%]
+tests/test_optional_suggestions.py ......................                [ 31%]
+tests/test_preflight.py ................................................ [ 39%]
+............FF...                                                        [ 42%]
+tests/test_qa_promotion.py 
+
+=================================== FAILURES ===================================
+_ test_later_ticket_cannot_destroy_earlier_evidence_or_reuse_invalidated_approval[hook] _
+
+graph = <test_dependencies.DependencyFixture testMethod=runTest>
+mutation = 'hook'
+
+    @pytest.mark.parametrize("mutation", ["delete", "directory", "hook", "source"])
+    def test_later_ticket_cannot_destroy_earlier_evidence_or_reuse_invalidated_approval(
+        graph, mutation
+    ):
+        graph.config["max_repairs"] = 2
+        target = graph.output / "artifacts/ticket-01-spec.stdout"
+        if mutation == "hook":
+            hook = graph.repo / ".git/hooks/pre-commit"
+            hook.write_text(f"#!/bin/sh\nif [ \"$(cat last-ticket)\" = 03 ]; then\nrm '{target}'\nfi\n")
+            hook.chmod(0o755)
+        else:
+            action = {
+                "delete": "p.unlink()",
+                "directory": "p.unlink(); p.mkdir(); (p / 'rejected').write_text('tampered directory')",
+                "source": "p.write_text('tampered earlier source')",
+            }[mutation]
+            path = graph.output / "worktrees/ticket-01-spec/work-01" if mutation == "source" else target
+            extend_agent(
+                graph,
+                "if a['ticket'] == '03' and a['role'] == 'implementation':\n"
+                f"    p = Path({str(path)!r})\n    {action}",
+            )
+        result = graph.run_ticket()
+>       assert result.returncode == 1
+E       assert 0 == 1
+E        +  where 0 = CompletedProcess(args=['/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.venv/bin/python', '-m...et-02-candidate-merge",\n      "ticket": "02",\n      "attempt": 1,\n      "passed": true\n    }\n  ]\n}\n', stderr='').returncode
+
+tests/test_dependencies.py:449: AssertionError
+_ test_milestone_merge_hook_cannot_present_changed_source_without_renewed_reviews _
+
+graph = <test_dependencies.DependencyFixture testMethod=runTest>
+
+    def test_milestone_merge_hook_cannot_present_changed_source_without_renewed_reviews(graph):
+        configure_plan(graph)
+        hook = graph.repo / ".git/hooks/post-merge"
+        hook.write_text(
+            "#!/bin/sh\n"
+            'if [ "$(basename "$PWD")" = milestone-candidate ]; then\n'
+            "  printf 'unreviewed resolution\\n' > value.txt\n"
+            "  git add value.txt\n"
+            "  git commit --no-edit >/dev/null\n"
+            "fi\n"
+        )
+        hook.chmod(0o755)
+        result = run_until_wait(graph)
+>       assert result.returncode == 1
+E       assert 0 == 1
+E        +  where 0 = CompletedProcess(args=['/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.venv/bin/python', '-m...cision": "/tmp/ticket-harness-test-r_7mv3za/run/qa-decision.json",\n  "qa_decision_status": "missing"\n}\n', stderr='').returncode
+
+tests/test_milestones.py:695: AssertionError
+_ test_tracked_relative_executable_can_run_when_missing_from_dirty_caller_checkout _
+
+case = <test_cli.TicketCycleTests testMethod=runTest>
+
+    def test_tracked_relative_executable_can_run_when_missing_from_dirty_caller_checkout(case):
+        executable = case.repo / "local-check"
+        executable.write_text("#!/bin/sh\nexit 0\n")
+        executable.chmod(0o755)
+        case.git("add", "local-check")
+        case.git("commit", "-m", "Executable check at approved base")
+        case.git("update-ref", "refs/heads/integration", case.git("rev-parse", "HEAD"))
+        executable.unlink()
+        before = case.git("status", "--porcelain=v1")
+        case.config["checks"]["ticket"] = ["./local-check"]
+        result = case.run_ticket()
+>       assert result.returncode == 0, result.stdout + result.stderr
+E       AssertionError: {
+E           "outcome": "environment",
+E           "artifacts": "/tmp/ticket-harness-test-ou8pv9z_/run/artifacts",
+E           "inputs": {
+E             "configuration": {
+E               "source": "/tmp/ticket-harness-test-ou8pv9z_/project.json",
+E               "artifact": "/tmp/ticket-harness-test-ou8pv9z_/run/inputs/configuration.json",
+E               "sha256": "36f74bc344344e63244768e8a89da8d178930d18d0881fcf5c56c2ff8a3af66c"
+E             },
+E             "spec": {
+E               "source": "/tmp/ticket-harness-test-ou8pv9z_/target/spec.md",
+E               "artifact": "/tmp/ticket-harness-test-ou8pv9z_/run/inputs/spec.md",
+E               "sha256": "70fc083432bac5b804dc291e318b27ed5ed439bc44fb6d81f98e39b808c3c363"
+E             },
+E             "ticket": {
+E               "source": "/tmp/ticket-harness-test-ou8pv9z_/target/01-value.md",
+E               "artifact": "/tmp/ticket-harness-test-ou8pv9z_/run/inputs/ticket.md",
+E               "sha256": "f6b0b71fb8923adc649d922cd69ebdbb51e1635b766b5e9d666b781101a80bb3"
+E             },
+E             "standards-0": {
+E               "source": "/tmp/ticket-harness-test-ou8pv9z_/target/STANDARDS.md",
+E               "artifact": "/tmp/ticket-harness-test-ou8pv9z_/run/inputs/standards-0.md",
+E               "sha256": "8a5efa5017f12574ff43bab7d9a487d9216a65b74d2e4709ec0dba7d141682d2"
+E             }
+E           },
+E           "ticket": {
+E             "id": "01",
+E             "state": "Blocked",
+E             "attempt": 1,
+E             "ticket": "01",
+E             "starting_revision": "d6413dfbceea56a75be097c436632273b2bb772d",
+E             "gate_start": 1,
+E             "source": "/tmp/ticket-harness-test-ou8pv9z_/run/worktrees/implementation",
+E             "submitted_revision": "9ea9f1c463e36958c6c77c0828f8c14c4c94bb0e",
+E             "changed_files": [
+E               "value.txt"
+E             ]
+E           },
+E           "gates": [
+E             {
+E               "stage": "baseline",
+E               "revision": "d6413dfbceea56a75be097c436632273b2bb772d",
+E               "argv": [
+E                 "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.venv/bin/python",
+E                 "check.py",
+E                 "suite"
+E               ],
+E               "cwd": "/tmp/ticket-harness-test-ou8pv9z_/run/worktrees/baseline",
+E               "stdout": "/tmp/ticket-harness-test-ou8pv9z_/run/artifacts/baseline.stdout",
+E               "stderr": "/tmp/ticket-harness-test-ou8pv9z_/run/artifacts/baseline.stderr",
+E               "passed": true,
+E               "timeout_seconds": 1800,
+E               "timed_out": false,
+E               "exit_code": 0,
+E               "cleanup": {
+E                 "process_group": 3881675,
+E                 "signal": "SIGKILL",
+E                 "sent": false
+E               },
+E               "ticket": null,
+E               "attempt": 0,
+E               "timeout_category": "baseline"
+E             },
+E             {
+E               "stage": "implementation",
+E               "revision": "d6413dfbceea56a75be097c436632273b2bb772d",
+E               "argv": [
+E                 "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.venv/bin/python",
+E                 "/tmp/ticket-harness-test-ou8pv9z_/agent.py"
+E               ],
+E               "cwd": "/tmp/ticket-harness-test-ou8pv9z_/run/worktrees/implementation",
+E               "stdout": "/tmp/ticket-harness-test-ou8pv9z_/run/artifacts/implementation.stdout",
+E               "stderr": "/tmp/ticket-harness-test-ou8pv9z_/run/artifacts/implementation.stderr",
+E               "passed": true,
+E               "timeout_seconds": 1800,
+E               "timed_out": false,
+E               "assignment": "/tmp/ticket-harness-test-ou8pv9z_/run/artifacts/implementation.assignment.json",
+E               "exit_code": 0,
+E               "cleanup": {
+E                 "process_group": 3881689,
+E                 "signal": "SIGKILL",
+E                 "sent": false
+E               },
+E               "ticket": "01",
+E               "attempt": 1,
+E               "timeout_category": "implementation",
+E               "report": {
+E                 "role": "implementation",
+E                 "ticket": "01",
+E                 "attempt": 1,
+E                 "base_revision": "d6413dfbceea56a75be097c436632273b2bb772d",
+E                 "revision": "d6413dfbceea56a75be097c436632273b2bb772d",
+E                 "pid": 3881689,
+E                 "result": "submitted",
+E                 "summary": "Changed value to 2",
+E                 "changed_files": [
+E                   "value.txt"
+E                 ],
+E                 "checks": [],
+E                 "acceptance_evidence": [
+E                   "value.txt contains 2"
+E                 ],
+E                 "unresolved_questions": []
+E               },
+E               "report_status": "valid"
+E             },
+E             {
+E               "stage": "check-ticket",
+E               "revision": "9ea9f1c463e36958c6c77c0828f8c14c4c94bb0e",
+E               "argv": [
+E                 "./local-check"
+E               ],
+E               "cwd": "/tmp/ticket-harness-test-ou8pv9z_/run/worktrees/implementation",
+E               "stdout": "/tmp/ticket-harness-test-ou8pv9z_/run/artifacts/check-ticket.stdout",
+E               "stderr": "/tmp/ticket-harness-test-ou8pv9z_/run/artifacts/check-ticket.stderr",
+E               "passed": false,
+E               "timeout_seconds": 300,
+E               "timed_out": false,
+E               "exit_code": null,
+E               "execution_error": "[Errno 13] Permission denied: './local-check'",
+E               "ticket": "01",
+E               "attempt": 1,
+E               "timeout_category": "checks"
+E             }
+E           ],
+E           "attempts": [
+E             {
+E               "ticket": "01",
+E               "attempt": 1,
+E               "state": "Rejected",
+E               "starting_revision": "d6413dfbceea56a75be097c436632273b2bb772d",
+E               "gate_start": 1,
+E               "source": "/tmp/ticket-harness-test-ou8pv9z_/run/worktrees/implementation",
+E               "submitted_revision": "9ea9f1c463e36958c6c77c0828f8c14c4c94bb0e",
+E               "changed_files": [
+E                 "value.txt"
+E               ],
+E               "failure": {
+E                 "stage": "check-ticket",
+E                 "message": "Execution environment failure: [Errno 13] Permission denied: './local-check'"
+E               },
+E               "gate_end": 3
+E             }
+E           ],
+E           "requirements": {
+E             "01": {
+E               "id": "01",
+E               "title": "Change value",
+E               "readiness": "ready-for-agent",
+E               "dependencies": [],
+E               "acceptance": [
+E                 "value.txt contains 2."
+E               ],
+E               "checks": [
+E                 "ticket"
+E               ],
+E               "source": "/tmp/ticket-harness-test-ou8pv9z_/target/01-value.md"
+E             }
+E           },
+E           "max_repairs": 0,
+E           "timeouts": {
+E             "implementation": 1800,
+E             "repair": 1800,
+E             "spec": 900,
+E             "standards": 900,
+E             "checks": 300,
+E             "baseline": 1800,
+E             "candidate": 1800
+E           },
+E           "selected_tickets": [
+E             "01"
+E           ],
+E           "tickets": {
+E             "01": {
+E               "id": "01",
+E               "state": "Blocked",
+E               "attempt": 1,
+E               "ticket": "01",
+E               "starting_revision": "d6413dfbceea56a75be097c436632273b2bb772d",
+E               "gate_start": 1,
+E               "source": "/tmp/ticket-harness-test-ou8pv9z_/run/worktrees/implementation",
+E               "submitted_revision": "9ea9f1c463e36958c6c77c0828f8c14c4c94bb0e",
+E               "changed_files": [
+E                 "value.txt"
+E               ]
+E             }
+E           },
+E           "base_revision": "d6413dfbceea56a75be097c436632273b2bb772d",
+E           "integration_revision": "d6413dfbceea56a75be097c436632273b2bb772d",
+E           "integration_branch": "integration",
+E           "operations": [
+E             {
+E               "stage": "baseline-worktree",
+E               "ticket": null,
+E               "attempt": 0,
+E               "passed": true
+E             },
+E             {
+E               "stage": "implementation-worktree",
+E               "ticket": "01",
+E               "attempt": 1,
+E               "passed": true
+E             },
+E             {
+E               "stage": "submission",
+E               "ticket": "01",
+E               "attempt": 1,
+E               "passed": true
+E             }
+E           ],
+E           "environment_failure": true,
+E           "failure": {
+E             "stage": "check-ticket",
+E             "message": "Execution environment failure: [Errno 13] Permission denied: './local-check'"
+E           }
+E         }
+E         
+E       assert 1 == 0
+E        +  where 1 = CompletedProcess(args=['/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.venv/bin/python', '-m...n    "message": "Execution environment failure: [Errno 13] Permission denied: \'./local-check\'"\n  }\n}\n', stderr='').returncode
+
+tests/test_preflight.py:432: AssertionError
+_____ test_caller_relative_path_search_cannot_supply_a_worktree_executable _____
+
+case = <test_cli.TicketCycleTests testMethod=runTest>
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7fdcd12e3e00>
+
+    def test_caller_relative_path_search_cannot_supply_a_worktree_executable(case, monkeypatch):
+        executable = case.repo / "local-check"
+        executable.write_text("#!/bin/sh\nexit 0\n")
+        executable.chmod(0o755)
+        relative = os.path.relpath(case.repo, test_cli.ROOT)
+        monkeypatch.setenv("PATH", relative + os.pathsep + os.environ["PATH"])
+        case.config["checks"]["ticket"] = ["local-check"]
+>       reject(case, "checks.ticket: executable resolved through a relative PATH entry")
+
+tests/test_preflight.py:446: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+case = <test_cli.TicketCycleTests testMethod=runTest>
+diagnostic = 'checks.ticket: executable resolved through a relative PATH entry'
+
+    def reject(case, diagnostic):
+        references = case.git("show-ref")
+        worktrees = case.git("worktree", "list", "--porcelain")
+        status = case.git("status", "--porcelain=v1")
+        result = case.run_ticket()
+        assert result.returncode != 0, result.stdout + result.stderr
+        record = json.loads(result.stdout)
+        assert record["outcome"] == "invalid-input", record
+        assert record["failure"]["stage"] == "inputs"
+>       assert diagnostic in record["failure"]["message"], record
+E       AssertionError: {'outcome': 'invalid-input', 'artifacts': '/tmp/ticket-harness-test-b2pnn0f5/run/artifacts', 'inputs': {}, 'ticket': {'state': 'Blocked', 'attempt': 0}, ...}
+E       assert 'checks.ticket: executable resolved through a relative PATH entry' in "checks.ticket: executable unavailable: 'local-check'"
+
+tests/test_preflight.py:37: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_dependencies.py::test_later_ticket_cannot_destroy_earlier_evidence_or_reuse_invalidated_approval[hook]
+FAILED tests/test_milestones.py::test_milestone_merge_hook_cannot_present_changed_source_without_renewed_reviews
+FAILED tests/test_preflight.py::test_tracked_relative_executable_can_run_when_missing_from_dirty_caller_checkout
+FAILED tests/test_preflight.py::test_caller_relative_path_search_cannot_supply_a_worktree_executable
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! KeyboardInterrupt !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/tests/test_milestones.py:311: KeyboardInterrupt
+(to show a full traceback on KeyboardInterrupt use --full-trace)
+================== 4 failed, 243 passed in 343.05s (0:05:43) ===================

@@ -1,0 +1,19 @@
+usage: evidence.py [-h] --feature FEATURE [--protect PROTECT]
+                   {allocate,register} ...
+
+Development-only evidence routing and registration; no review/deletion
+authority. Public interface: ``python -m ticket_harness.evidence --help``.
+Producers own allocated payloads; this helper owns capture metadata under a
+directory flock. Review tools must acquire that same lock before updating
+review namespaces.
+
+positional arguments:
+  {allocate,register}
+    allocate           Select and reserve a unique producer destination
+    register           Register existing payload bytes and observed facts
+
+options:
+  -h, --help           show this help message and exit
+  --feature FEATURE
+  --protect PROTECT    Active approved-input/frozen path or subtree; repeat as
+                       needed

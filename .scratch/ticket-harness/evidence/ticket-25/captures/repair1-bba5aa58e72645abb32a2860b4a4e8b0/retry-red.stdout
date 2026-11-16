@@ -1,0 +1,83 @@
+F                                                                        [100%]
+=================================== FAILURES ===================================
+________ test_identical_retry_rejects_changed_later_registered_original ________
+
+feature = PosixPath('/dev/shm/ticket25-verification-1EQrbx/pytest-of-ajkerr1/pytest-3/test_identical_retry_rejects_c0/.scratch/sample')
+
+    def test_identical_retry_rejects_changed_later_registered_original(feature):
+        first = allocate(feature)
+        (Path(first["destination"]) / "checks.log").write_text("first original\n")
+        register(feature, first)
+        second = allocate(feature)
+        later_original = Path(second["destination"]) / "checks.log"
+        later_original.write_text("second original\n")
+        register(feature, second)
+        artifact = Path(first["review_artifact"])
+        saved = artifact.read_bytes()
+    
+        later_original.write_text("changed second original\n")
+>       result = register(feature, first, ok=False)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_evidence.py:253: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/test_evidence.py:76: in register
+    return cli(
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+feature = PosixPath('/dev/shm/ticket25-verification-1EQrbx/pytest-of-ajkerr1/pytest-3/test_identical_retry_rejects_c0/.scratch/sample')
+ok = False
+args = ('register', '--allocation', '/dev/shm/ticket25-verification-1EQrbx/pytest-of-ajkerr1/pytest-3/test_identical_retry_re...-25/captures/worker-a9097d74cb06484a94dce538cccef223/allocation.json', '--file', 'checks.log', '--source-version', ...)
+
+    def cli(feature, *args, ok=True):
+        result = subprocess.run(
+            [sys.executable, "-m", "ticket_harness.evidence", "--feature", str(feature), *args],
+            cwd=ROOT,
+            text=True,
+            capture_output=True,
+        )
+        if os.environ.get("TICKET_HARNESS_TEST_OBSERVATIONS"):
+            with (feature.parent.parent / "commands.jsonl").open("a") as stream:
+                stream.write(
+                    json.dumps(
+                        {
+                            "argv": result.args,
+                            "returncode": result.returncode,
+                            "stdout": result.stdout,
+                            "stderr": result.stderr,
+                        }
+                    )
+                    + "\n"
+                )
+        if ok:
+            assert result.returncode == 0, result.stdout + result.stderr
+            return json.loads(result.stdout)
+>       assert result.returncode != 0, result.stdout
+E       AssertionError: {
+E           "review_artifact": "/dev/shm/ticket25-verification-1EQrbx/pytest-of-ajkerr1/pytest-3/test_identical_retry_rejects_c0/.scratch/sample/evidence/ticket-25/evidence-review.json",
+E           "capture": {
+E             "id": "a9097d74cb06484a94dce538cccef223",
+E             "purpose": "check results",
+E             "producer": "worker",
+E             "source_version": "commit:abc plus retained patch",
+E             "activity": "python -m pytest",
+E             "result": "exit 0; 3 passed",
+E             "kind": "original",
+E             "derived_from": [],
+E             "files": [
+E               {
+E                 "path": "evidence/ticket-25/captures/worker-a9097d74cb06484a94dce538cccef223/checks.log",
+E                 "size": 15,
+E                 "sha256": "9e8cb91622f947174b22d39070a2e527fe7dd9fed096815b13926668a3d55b7d"
+E               }
+E             ]
+E           }
+E         }
+E         
+E       assert 0 != 0
+E        +  where 0 = CompletedProcess(args=['/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.venv/bin/python', '-m...    "sha256": "9e8cb91622f947174b22d39070a2e527fe7dd9fed096815b13926668a3d55b7d"\n      }\n    ]\n  }\n}\n', stderr='').returncode
+
+tests/test_evidence.py:57: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_evidence.py::test_identical_retry_rejects_changed_later_registered_original
+1 failed, 25 deselected in 1.12s

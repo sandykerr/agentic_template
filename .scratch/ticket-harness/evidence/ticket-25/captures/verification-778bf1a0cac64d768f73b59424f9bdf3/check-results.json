@@ -1,0 +1,174 @@
+[
+  {
+    "name": "pytest",
+    "argv": [
+      "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.venv/bin/python",
+      "-m",
+      "pytest"
+    ],
+    "cwd": "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template",
+    "returncode": 2
+  },
+  {
+    "name": "mypy",
+    "argv": [
+      "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.venv/bin/python",
+      "-m",
+      "mypy"
+    ],
+    "cwd": "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template",
+    "returncode": 0
+  },
+  {
+    "name": "ruff",
+    "argv": [
+      "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.venv/bin/python",
+      "-m",
+      "ruff",
+      "check",
+      "ticket_harness",
+      "tests",
+      "examples"
+    ],
+    "cwd": "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template",
+    "returncode": 0
+  },
+  {
+    "name": "format",
+    "argv": [
+      "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.venv/bin/python",
+      "-m",
+      "ruff",
+      "format",
+      "--check",
+      "ticket_harness",
+      "tests",
+      "examples"
+    ],
+    "cwd": "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template",
+    "returncode": 0
+  },
+  {
+    "name": "whitespace",
+    "argv": [
+      "git",
+      "diff",
+      "--check"
+    ],
+    "cwd": "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template",
+    "returncode": 0
+  },
+  {
+    "name": "skill-validation",
+    "argv": [
+      "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.venv/bin/python",
+      "/panfs/ccds02/nobackup/people/ajkerr1/.codex/skills/.system/skill-creator/scripts/quick_validate.py",
+      "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.agents/skills/custom/capture-evidence"
+    ],
+    "cwd": "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template",
+    "returncode": 0
+  },
+  {
+    "name": "wheel",
+    "argv": [
+      "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.venv/bin/python",
+      "-m",
+      "pip",
+      "wheel",
+      "--no-deps",
+      "--wheel-dir",
+      "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.scratch/ticket25-compute-temp/ticket25-installed-d84fd2zd/wheels",
+      "."
+    ],
+    "cwd": "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template",
+    "returncode": 0
+  },
+  {
+    "name": "install",
+    "argv": [
+      "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.venv/bin/python",
+      "-m",
+      "pip",
+      "install",
+      "--no-deps",
+      "--no-index",
+      "--target",
+      "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.scratch/ticket25-compute-temp/ticket25-installed-d84fd2zd/installed",
+      "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.scratch/ticket25-compute-temp/ticket25-installed-d84fd2zd/wheels/ticket_harness-0.1.0-py3-none-any.whl"
+    ],
+    "cwd": "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template",
+    "returncode": 0
+  },
+  {
+    "name": "installed-capture-help",
+    "argv": [
+      "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.venv/bin/python",
+      "-m",
+      "ticket_harness.evidence",
+      "--help"
+    ],
+    "cwd": "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.scratch/ticket25-compute-temp/ticket25-installed-d84fd2zd",
+    "returncode": 0
+  },
+  {
+    "name": "installed-harness-help",
+    "argv": [
+      "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.scratch/ticket25-compute-temp/ticket25-installed-d84fd2zd/installed/bin/ticket-harness",
+      "--help"
+    ],
+    "cwd": "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.scratch/ticket25-compute-temp/ticket25-installed-d84fd2zd",
+    "returncode": 0
+  },
+  {
+    "name": "installed-allocation",
+    "argv": [
+      "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.venv/bin/python",
+      "-m",
+      "ticket_harness.evidence",
+      "--feature",
+      "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.scratch/ticket25-compute-temp/ticket25-installed-d84fd2zd/target/.scratch/installed-sample",
+      "allocate",
+      "--ticket",
+      "25",
+      "--purpose",
+      "installed CLI smoke",
+      "--producer",
+      "installed"
+    ],
+    "cwd": "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.scratch/ticket25-compute-temp/ticket25-installed-d84fd2zd",
+    "returncode": 0
+  },
+  {
+    "name": "installed-registration",
+    "argv": [
+      "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.venv/bin/python",
+      "-m",
+      "ticket_harness.evidence",
+      "--feature",
+      "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.scratch/ticket25-compute-temp/ticket25-installed-d84fd2zd/target/.scratch/installed-sample",
+      "register",
+      "--allocation",
+      "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.scratch/ticket25-compute-temp/ticket25-installed-d84fd2zd/target/.scratch/installed-sample/evidence/ticket-25/captures/installed-023c8417e8d34a26808b5279141eb8e5/allocation.json",
+      "--file",
+      "observed.txt",
+      "--source-version",
+      "installed wheel",
+      "--activity",
+      "installed CLI smoke",
+      "--result",
+      "observed payload"
+    ],
+    "cwd": "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.scratch/ticket25-compute-temp/ticket25-installed-d84fd2zd",
+    "returncode": 0
+  },
+  {
+    "name": "installed-source-identity",
+    "returncode": 0,
+    "sha256": "3ff4a447731917a1dd7f4cb71a2882f31fe27cbdebdb7dfeb5401609cef436bb"
+  },
+  {
+    "name": "source-unchanged",
+    "returncode": 0,
+    "changed": []
+  }
+]

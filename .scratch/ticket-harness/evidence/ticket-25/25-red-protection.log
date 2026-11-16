@@ -1,0 +1,126 @@
+By accessing and using this information system, you acknowledge and
+consent to the following:
+
+You are accessing a U.S. Government information system, which
+includes: (1) this computer; (2) this computer network; (3) all
+computers connected to this network including end user systems; (4)
+all devices and storage media attached to this network or to any
+computer on this network; and (5) cloud and remote information
+services. This information system is provided for
+U.S. Government-authorized use only. You have no reasonable
+expectation of privacy regarding any communication transmitted through
+or data stored on this information system.  At any time, and for any
+lawful purpose, the U.S. Government may monitor, intercept, search,
+and seize any communication or data transiting, stored on, or
+traveling to or from this information system.  You are NOT authorized
+to process classified information on this information system.
+Unauthorized or improper use of this system may result in suspension
+or loss of access privileges, disciplinary action, and civil and/or
+criminal penalties.
+
+.......FF........                                                        [100%]
+=================================== FAILURES ===================================
+_ test_payload_cannot_escape_or_register_allocation_metadata[./allocation.json] _
+
+feature = PosixPath('/tmp/pytest-of-ajkerr1/pytest-2/test_payload_cannot_escape_or_2/.scratch/sample')
+unsafe = './allocation.json'
+
+    @pytest.mark.parametrize("unsafe", ["../outside.log", "/tmp/outside.log", "./allocation.json"])
+    def test_payload_cannot_escape_or_register_allocation_metadata(feature, unsafe):
+        allocation = allocate(feature)
+        destination = Path(allocation["destination"])
+        (destination / "checks.log").write_text("passing\n")
+        artifact = Path(allocation["review_artifact"])
+        before = artifact.read_bytes()
+>       result = register(feature, allocation, "--file", unsafe, ok=False)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_evidence.py:166: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/test_evidence.py:44: in register
+    return cli(
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+feature = PosixPath('/tmp/pytest-of-ajkerr1/pytest-2/test_payload_cannot_escape_or_2/.scratch/sample')
+ok = False
+args = ('register', '--allocation', '/tmp/pytest-of-ajkerr1/pytest-2/test_payload_cannot_escape_or_2/.scratch/sample/evidence...-25/captures/worker-5b66103a92564c5fb9f722ec8f3c809e/allocation.json', '--file', 'checks.log', '--source-version', ...)
+
+    def cli(feature, *args, ok=True):
+        result = subprocess.run(
+            [sys.executable, "-m", "ticket_harness.evidence", "--feature", str(feature), *args],
+            cwd=ROOT,
+            text=True,
+            capture_output=True,
+        )
+        if ok:
+            assert result.returncode == 0, result.stdout + result.stderr
+            return json.loads(result.stdout)
+>       assert result.returncode != 0, result.stdout
+E       AssertionError: {
+E           "review_artifact": "/tmp/pytest-of-ajkerr1/pytest-2/test_payload_cannot_escape_or_2/.scratch/sample/evidence/ticket-25/evidence-review.json",
+E           "capture": {
+E             "id": "5b66103a92564c5fb9f722ec8f3c809e",
+E             "purpose": "check results",
+E             "producer": "worker",
+E             "source_version": "commit:abc plus retained patch",
+E             "activity": "python -m pytest",
+E             "result": "exit 0; 3 passed",
+E             "kind": "original",
+E             "derived_from": [],
+E             "files": [
+E               {
+E                 "path": "evidence/ticket-25/captures/worker-5b66103a92564c5fb9f722ec8f3c809e/checks.log",
+E                 "size": 8,
+E                 "sha256": "3a88a33a73b7ba0a8e72ca538458535f51559fe7c7ea0add1f34ead914885f88"
+E               },
+E               {
+E                 "path": "evidence/ticket-25/captures/worker-5b66103a92564c5fb9f722ec8f3c809e/allocation.json",
+E                 "size": 476,
+E                 "sha256": "d41e883af1e4ca67386d6f7d04380a00210ffbc425d9ee5a067c944d712d2ae5"
+E               }
+E             ]
+E           }
+E         }
+E         
+E       assert 0 != 0
+E        +  where 0 = CompletedProcess(args=['/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.venv/bin/python', '-m...    "sha256": "d41e883af1e4ca67386d6f7d04380a00210ffbc425d9ee5a067c944d712d2ae5"\n      }\n    ]\n  }\n}\n', stderr='').returncode
+
+tests/test_evidence.py:35: AssertionError
+____ test_declared_frozen_subtree_does_not_prevent_unrelated_ticket_capture ____
+
+feature = PosixPath('/tmp/pytest-of-ajkerr1/pytest-2/test_declared_frozen_subtree_d0/.scratch/sample')
+
+    def test_declared_frozen_subtree_does_not_prevent_unrelated_ticket_capture(feature):
+        frozen = feature / "evidence" / "ticket-26"
+        frozen.mkdir(parents=True)
+        original = frozen / "frozen.json"
+        original.write_bytes(b"approved bytes")
+>       allocation = cli(feature, "--protect", str(frozen), "allocate", "--ticket", "25",
+                         "--purpose", "safe checks", "--producer", "worker")
+
+tests/test_evidence.py:176: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+feature = PosixPath('/tmp/pytest-of-ajkerr1/pytest-2/test_declared_frozen_subtree_d0/.scratch/sample')
+ok = True
+args = ('--protect', '/tmp/pytest-of-ajkerr1/pytest-2/test_declared_frozen_subtree_d0/.scratch/sample/evidence/ticket-26', 'allocate', '--ticket', '25', '--purpose', ...)
+
+    def cli(feature, *args, ok=True):
+        result = subprocess.run(
+            [sys.executable, "-m", "ticket_harness.evidence", "--feature", str(feature), *args],
+            cwd=ROOT,
+            text=True,
+            capture_output=True,
+        )
+        if ok:
+>           assert result.returncode == 0, result.stdout + result.stderr
+E           AssertionError: Protected destination: /tmp/pytest-of-ajkerr1/pytest-2/test_declared_frozen_subtree_d0/.scratch/sample/evidence
+E             
+E           assert 1 == 0
+E            +  where 1 = CompletedProcess(args=['/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.venv/bin/python', '-m...rr='Protected destination: /tmp/pytest-of-ajkerr1/pytest-2/test_declared_frozen_subtree_d0/.scratch/sample/evidence\n').returncode
+
+tests/test_evidence.py:33: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_evidence.py::test_payload_cannot_escape_or_register_allocation_metadata[./allocation.json]
+FAILED tests/test_evidence.py::test_declared_frozen_subtree_does_not_prevent_unrelated_ticket_capture
+2 failed, 15 passed in 3.52s

@@ -1,0 +1,35 @@
+forest203
+/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template
+x86_64
+3b0c1ab7ec41929d3febab44269f791e55897e70
+ M tests/test_evidence.py
+ M ticket_harness/evidence.py
+ 13:44:09 up 26 days,  6:13,  5 users,  load average: 3.65, 3.20, 2.40
+              total        used        free      shared  buff/cache   available
+Mem:         115295       41428       19803           5       54063       67115
+Swap:          4095          53        4042
+USER         PID %CPU %MEM COMMAND
+mcarrol2 4014080 89.3 13.1 python
+mcarrol2 4014326 87.9 10.7 python
+mcarrol2 4014386 85.9 10.6 python
+root       27683  2.0  0.0 BESClient
+root           1  1.6  0.0 systemd
+root        2132  0.2  0.0 kpanfs_thpool
+root        2133  0.2  0.0 kpanfs_thpool
+root        2134  0.2  0.0 kpanfs_thpool
+root        2135  0.2  0.0 kpanfs_thpool
+root        2136  0.2  0.0 kpanfs_thpool
+root        2137  0.2  0.0 kpanfs_thpool
+{"allocation": "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.scratch/ticket-harness/evidence/ticket-25/captures/verification-af04a56bf9164e46b8a86d8ab49532b9/allocation.json", "destination": "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.scratch/ticket-harness/evidence/ticket-25/captures/verification-af04a56bf9164e46b8a86d8ab49532b9", "review_artifact": "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.scratch/ticket-harness/evidence/ticket-25/evidence-review.json"}
+Traceback (most recent call last):
+  File "/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.scratch/ticket-harness/evidence/ticket-25/25-verify-executable-temp.py", line 32, in <module>
+    "files": {str(p.relative_to(ROOT)): hashlib.sha256(p.read_bytes()).hexdigest() for p in paths},
+                                                       ^^^^^^^^^^^^^^
+  File "/usr/lib64/python3.12/pathlib.py", line 1019, in read_bytes
+    with self.open(mode='rb') as f:
+         ^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib64/python3.12/pathlib.py", line 1013, in open
+    return io.open(self, mode, buffering, encoding, errors, newline)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '/panfs/ccds02/nobackup/people/ajkerr1/agentic_template/agentic_template/.scratch/ticket-harness/evidence-policy.md'
+driver_exit=1
