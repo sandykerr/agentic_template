@@ -4,6 +4,10 @@ Before running Python, installing dependencies, or running tests, read `docs/age
 
 ## Agent skills
 
+### ADAPT compute
+
+Before running tests or CPU-, GPU-, or memory-intensive processes, check `hostname -s`. If it matches `adaptlogin*`, `gpulogin*`, `forest20[1-5]`, or ADAPT Slurm compute hosts (`gpu[0-9]*`, `gh[0-9]*`, `gg[0-9]*`), read and use [adapt-compute](.agents/skills/custom/adapt-compute/SKILL.md) to select the execution host, allocate resources, and run the workload.
+
 ### Testing
 
 Before adding or changing tests, or choosing verification scope, read `docs/agents/testing.md`.
