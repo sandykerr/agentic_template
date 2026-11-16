@@ -22,7 +22,7 @@ Cross-ticket bundles stay separate:
 - [M1 cumulative assessment](../reviews/M1-architecture-01.md) and
   [M1 QA captures](m1-qa-01/): historical original finding and demonstration records;
   [current independent review and candidate](m1-final-review-01/qa-guide.md).
-- [M1 human correction](../reviews/M1-human-readability-01.md) and
+- [M1 human correction](../reviews/README.md#readability-correction) and
   [source/check captures](m1-human-review-01/): retained source-specific results.
 - [Retention audit](evidence-retention-audit-01/README.md) and
   [human case decisions](evidence-retention-audit-01/retention-decisions.md).
@@ -123,3 +123,25 @@ navigation. Fresh Spec/Standards/cumulative Standards each 0/0; original F1 fixe
 563/full and static passes bound to the same source. The new exact demo request is
 completed after both actual human approvals; development M1 is accepted after
 all final exact-promotion/completion/no-replay conditions passed. M2 ticket25 is next.
+
+## Retired review wrappers
+
+2026-11-16: user-approved consolidation removed eleven redundant assessment wrappers
+after preserving unique histories and verifying retained originals. Original reviewer
+reports, approvals and finding histories remain unchanged. Historical references to
+the paths below resolve to these surviving assessments; the original relative links
+in copied historical excerpts still describe the former review-directory location.
+
+| Retired path under `reviews/` (deleted) | Surviving assessment |
+| --- | --- |
+| `ticket-16.md` (deleted) | [Ticket 16](ticket-16/README.md#review-assessment) |
+| `ticket-17.md` (deleted) | [Ticket 17](ticket-17/README.md#review-assessment) |
+| `ticket-18.md` (deleted) | [Ticket 18](ticket-18/README.md#review-assessment) |
+| `ticket-19.md` (deleted) | [Ticket 19](ticket-19/README.md#review-assessment) |
+| `ticket-20.md` (deleted) | [Ticket 20](ticket-20/README.md#review-assessment) |
+| `ticket-21.md` (deleted) | [Ticket 21](ticket-21/README.md#review-assessment) |
+| `ticket-22.md` (deleted) | [Ticket 22](ticket-22/README.md#review-assessment) |
+| `ticket-23.md` (deleted) | [Ticket 23](ticket-23/README.md#review-assessment) |
+| `ticket-24.md` (deleted) | [Ticket 24](ticket-24/README.md#review-assessment) |
+| `M1-human-readability-01.md` (deleted) | [Bounded readability correction](../reviews/README.md#readability-correction) and [original root review](m1-human-review-01/root-01.md) |
+| `M1-index-repair-01.md` (deleted) | [Caller-index repair assessment](../reviews/M1-architecture-01.md#caller-index-repair-assessment) |

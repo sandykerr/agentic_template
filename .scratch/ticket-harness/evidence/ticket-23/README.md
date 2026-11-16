@@ -1,6 +1,6 @@
 # Ticket 23 evidence
 
-[Completion](23-completion.md) · [Assessment](../../reviews/ticket-23.md) · [Finding history](23-finding-history.md)
+[Completion](23-completion.md) · [Assessment](#review-assessment) · [Finding history](23-finding-history.md)
 
 These originals preserve their recorded bytes and may embed historical paths. Use the [historical path map](../README.md#historical-paths) to locate moved evidence. Captured scripts retain their original execution assumptions and are not directly rerunnable from this layout.
 
@@ -49,3 +49,44 @@ Removed files:
 Separate from the batch above, the root reviewer approved removal of 1 generated Python cache files totaling 5,712 bytes under C1. The historical capture tools are not in use; their authored source scripts remain. This removes regenerable bytecode without changing original source, results or the protected checkpoint/review evidence.
 
 - `23-tools/__pycache__/capture23.cpython-312-pytest-9.2.0.pyc` (5,712 bytes)
+
+## Review assessment
+
+**review-ticket-23: completed.** Fixed original baseline: `851a855889b1ec99ae78ce415da1d66a3cf06687`, captured before edits; unrelated worktree changes preserved.
+Assessed source(s): `8b1b37becb544299e8981144e4ad56da42e2d45f`, committed after final checks and before both independent source reviews.
+
+The original reviews, captures and completion record linked above retain the
+independent axes, instructions/settings, inspected/omitted scope and results.
+Finding dispositions remain in [23-finding-history.md](23-finding-history.md).
+This is the historical ticket assessment; current M1 acceptance is recorded in the
+[review index](../../reviews/README.md), separately from ticket completion.
+
+<details>
+<summary>Historical assessment events (verbatim)</summary>
+
+Copied from the retired `reviews/ticket-23.md`; relative links inside this
+historical excerpt use that original location. Use the navigation above and the
+[retired-wrapper map](../README.md#retired-review-wrappers) for current destinations.
+
+```markdown
+
+- A01 — Root captured `851a855` as fixed original baseline and preserved unrelated
+  edits. Fresh Medium worker produced a genuine pre-edit stopped checkpoint and
+  implemented the bounded lifecycle migration. User interruption ended incomplete
+  test runs; originals remain retained without a pass.
+- A02 — Fresh Medium resumed assignment verified unchanged executable source,
+  retained interrupted evidence and completed the full 544-test final-source suite,
+  static/whitespace checks and archive/compatibility audit. Committed8b1b37b before
+  review. Root independently matched26 committed identities,10,446 files and 544
+  scenario entries, plus genuine baseline/consumer identities and preserved work.
+- A03 — Root captured common/axis instruction identities and dispatched separate
+  fresh High contexts on the same source/baseline. Each traced actual changed and
+  unchanged collaborators and saved its original before aggregation, excluding
+  its current sibling report. Both independently assessed all four triggers No.
+- A04 — Root captured originals unchanged, read and aggregated both clean results,
+  completed this assessment and reconciled all seven criteria separately. No code
+  change, repair, blocker waiver, human decision or pending revalidation. Real M1
+  cumulative work and human QA remain unperformed.
+```
+
+</details>

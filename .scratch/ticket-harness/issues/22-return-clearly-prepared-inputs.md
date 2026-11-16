@@ -47,7 +47,7 @@ readiness: `ready-for-agent`; original criterion wording and Blocked by retained
 [Seven-criterion evidence and exact checks](../evidence/ticket-22/22-completion.md),
 [ownership/coverage](../evidence/ticket-22/22-implementation-report.md),
 [criterion observations](../evidence/ticket-22/22-criterion-evidence.md) and
-[assessment](../reviews/ticket-22.md) establish completion. Full suite: **544 passed
+[assessment](../evidence/ticket-22/README.md#review-assessment) establish completion. Full suite: **544 passed
 in 709.21s**, strict mypy/Ruff lint/format/whitespace passed; 126 focused tests passed.
 Genuine pre-edit checkpoint continued under final source with preserved prior work.
 Separate fresh High [Spec](../evidence/ticket-22/22-review-spec-01.md) and

@@ -57,7 +57,7 @@ renewed producer timing limit remain explicit in the evidence and both reviews.
 
 Independent whole-ticket [Spec spec-01](../evidence/ticket-20/20-review-spec-01.md): **0
 blocking/0 optional**; independent [Standards standards-01](../evidence/ticket-20/20-review-standards-01.md):
-**0 blocking/0 optional**. [Assessment and immutable report identities](../reviews/ticket-20.md)
+**0 blocking/0 optional**. [Assessment and immutable report identities](../evidence/ticket-20/README.md#review-assessment)
 and [finding/authority history](../evidence/ticket-20/20-finding-history.md) preserve originals.
 No unresolved full finding key, unchecked criterion, missing required ticket
 report, pending relevant revalidation or actual human decision remains. All four

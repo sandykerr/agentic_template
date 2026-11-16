@@ -1,6 +1,6 @@
 # Ticket 21 evidence
 
-[Completion](21-completion.md) · [Assessment](../../reviews/ticket-21.md) · [Finding history](21-finding-history.md)
+[Completion](21-completion.md) · [Assessment](#review-assessment) · [Finding history](21-finding-history.md)
 
 These originals preserve their recorded bytes and may embed historical paths. Use the [historical path map](../README.md#historical-paths) to locate moved evidence. Captured scripts retain their original execution assumptions and are not directly rerunnable from this layout.
 
@@ -46,3 +46,47 @@ Removed files:
 Separate from the batch above, the root reviewer approved removal of 1 generated Python cache files totaling 5,712 bytes under C1. The historical capture tools are not in use; their authored source scripts remain. This removes regenerable bytecode without changing original source, results or the protected checkpoint/review evidence.
 
 - `21-tools/__pycache__/capture21.cpython-312-pytest-9.2.0.pyc` (5,712 bytes)
+
+## Review assessment
+
+**review-ticket-21: completed.** Fixed original baseline: `8574c6e5fb0a55ea3539e52c7c53044f1c036583`, captured from clean worktree before implementation.
+Assessed source(s): `10b7050ec1fc06767e473b90217fa0d0bd100a0f`.
+
+The original reviews, captures and completion record linked above retain the
+independent axes, instructions/settings, inspected/omitted scope and results.
+Finding dispositions remain in [21-finding-history.md](21-finding-history.md).
+This is the historical ticket assessment; current M1 acceptance is recorded in the
+[review index](../../reviews/README.md), separately from ticket completion.
+
+<details>
+<summary>Historical assessment events (verbatim)</summary>
+
+Copied from the retired `reviews/ticket-21.md`; relative links inside this
+historical excerpt use that original location. Use the navigation above and the
+[retired-wrapper map](../README.md#retired-review-wrappers) for current destinations.
+
+```markdown
+
+- A01 — `/root` captured the clean original baseline and assigned fresh Medium
+  `/root/implement21` to the bounded ticket. Worker retained a genuine checkpoint
+  before runtime edits and continued it with final source; implementation and
+  same-run check/CLI/Git evidence committed at `10b7050ec1fc06767e473b90217fa0d0bd100a0f`.
+- A02 — `/root` independently matched all 26 tested source/test/configuration
+  hashes to committed Git blobs and checked all six required command exits.
+  Dispatched separate fresh High Spec and Standards contexts against that same
+  checkpoint and fixed original baseline, excluding sibling current reports.
+  Originals remain pending and assessment in progress.
+
+- A03 — `/root/spec21` saved spec-01 with zero findings, substantive whole-ticket
+  behavior/ownership reasoning, a four-case CLI reproduction and complete identity
+  audit. `/root/standards21` independently saved standards-01 with zero findings,
+  cross-module owner/writer/save/restore/invalidation reasoning and four negative
+  triggers. Neither read the current sibling report.
+- A04 — `/root` captured each original unchanged and then both together with
+  external digests before aggregation; completed this assessment and reconciled
+  ticket completion separately. No repair, report edit, waived blocker, human
+  decision, source change or pending relevant revalidation. Real M1 cumulative
+  work and human QA remain unperformed.
+```
+
+</details>

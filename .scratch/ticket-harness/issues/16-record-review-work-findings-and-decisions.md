@@ -44,7 +44,7 @@ previous readiness: `ready-for-agent`. All six acceptance criteria verified in
 six-case workflow validation (316 links/anchors); runtime suite is outside this
 standalone documentation scope. Separate fresh High [Spec](../evidence/ticket-16/16-review-spec.md)
 and [Standards](../evidence/ticket-16/16-review-standards.md) reviews each found zero blocking
-or optional findings. [Assessment and report provenance](../reviews/ticket-16.md)
+or optional findings. [Assessment and report provenance](../evidence/ticket-16/README.md#review-assessment)
 are retained. No unchecked criteria or unresolved real findings remain. Declared
 dependencies are preserved. Implementation, bookkeeping and handoff commits are
 separate; ticket completion does not accept M1 or launch ticket 17.

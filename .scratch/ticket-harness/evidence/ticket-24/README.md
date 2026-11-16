@@ -1,6 +1,6 @@
 # Ticket 24 evidence
 
-[Completion](24-completion.md) · [Assessment](../../reviews/ticket-24.md) · [Finding history](24-finding-history.md)
+[Completion](24-completion.md) · [Assessment](#review-assessment) · [Finding history](24-finding-history.md)
 
 These originals preserve their recorded bytes and may embed historical paths. Use the [historical path map](../README.md#historical-paths) to locate moved evidence. Captured scripts retain their original execution assumptions and are not directly rerunnable from this layout.
 
@@ -81,3 +81,14 @@ Separate from the batch above, the root reviewer approved removal of 6 generated
 - `24-repair2-tools/__pycache__/capture24repair2.cpython-312-pytest-9.2.0.pyc` (5,735 bytes)
 - `24-repair2-tools/__pycache__/delay24observerentry.cpython-312-pytest-9.2.0.pyc` (2,597 bytes)
 - `24-repair2-tools/__pycache__/result24resume.cpython-312-pytest-9.2.0.pyc` (1,476 bytes)
+
+## Review assessment
+
+**review-ticket-24: completed.** Fixed original baseline: `ed017ae0c2b96769f31c710cfb4ff4708989b446`.
+Assessed source(s): `ab08f7f03b5248709cdde3f5a65e4f632b8198b4`.
+
+The original reviews, captures and completion record linked above retain the
+independent axes, instructions/settings, inspected/omitted scope and results.
+Finding dispositions remain in [24-finding-history.md](24-finding-history.md).
+This is the historical ticket assessment; current M1 acceptance is recorded in the
+[review index](../../reviews/README.md), separately from ticket completion.

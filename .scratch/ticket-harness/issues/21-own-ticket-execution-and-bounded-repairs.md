@@ -52,7 +52,7 @@ preserved; original live fixture archives retained. No tests changed.
 
 Separate fresh High [Spec](../evidence/ticket-21/21-review-spec-01.md) and
 [Standards](../evidence/ticket-21/21-review-standards-01.md) each found **0 blocking / 0 optional**.
-[Assessment](../reviews/ticket-21.md), [immutable originals/capture](../evidence/ticket-21/21-review-round1-capture.json)
+[Assessment](../evidence/ticket-21/README.md#review-assessment), [immutable originals/capture](../evidence/ticket-21/21-review-round1-capture.json)
 and [finding history](../evidence/ticket-21/21-finding-history.md) preserve scope, identities,
 independent reasoning and all four negative start/final triggers. No unchecked
 criterion, unresolved actual key, missing required ticket report, pending relevant

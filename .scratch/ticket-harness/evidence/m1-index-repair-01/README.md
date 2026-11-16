@@ -101,7 +101,7 @@ repeat is the full-suite completion result; this changes no assertions or gates.
 
 ## Review and human boundary
 
-[Repair assessment](../../reviews/M1-index-repair-01.md),
+[Repair assessment](../../reviews/M1-architecture-01.md#caller-index-repair-assessment),
 [cumulative assessment](../../reviews/M1-architecture-01.md) and
 [append-only original finding history](../../reviews/M1-architecture-01-history.md)
 own current lifecycle, dispositions and readiness. Independent exact-source

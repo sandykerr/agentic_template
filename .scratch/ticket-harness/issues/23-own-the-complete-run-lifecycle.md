@@ -49,7 +49,7 @@ Previous readiness: `ready-for-agent`. Implemented and verified at
 [Completion reconciliation](../evidence/ticket-23/23-completion.md) maps all seven original
 criteria to exact source, behavioral observations and independent reviews;
 [detailed criterion evidence](../evidence/ticket-23/23-criterion-evidence.md) and
-[assessment/history](../reviews/ticket-23.md) retain the ownership rationale.
+[assessment/history](../evidence/ticket-23/README.md#review-assessment) retain the ownership rationale.
 Full final-source suite: **544 passed in 706.22s**; strict mypy, Ruff lint/format
 and both whitespace checks passed. Genuine pre-refactor checkpoint continued under
 final source with prior work preserved and one baseline. Separate fresh High Spec

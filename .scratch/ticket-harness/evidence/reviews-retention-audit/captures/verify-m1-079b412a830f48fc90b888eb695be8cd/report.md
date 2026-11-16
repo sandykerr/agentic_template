@@ -1,0 +1,11 @@
+# M1 consolidation fidelity verification
+
+Actor `/root/audit_m1_records`; configured GPT-6.1-Sol Medium, delivery telemetry unavailable. 2026-11-16. **Fidelity passes; fix maintained navigation before deletion.** No sibling verification reports read.
+
+Compared both `/tmp/review-consolidation-2ns8ah_0/originals/M1-*.md` wrappers with drafts `reviews/M1-architecture-01.md` (SHA256 `8cf2ceb7c2328c78f48d21684785f77c0797a1f6c5e8245415d8738384061a07`) and `reviews/README.md` (`6bc9f02a95f89ca46db255072bfa8f70220918883c49483793825c73840327b1`). Draft repair subsection retains distinct review ID, fixed repair/cumulative baselines, assessed source/repair commit, triggers, independent High axes/settings limits, evidence/scope/omission pointers and separate QA acceptance. Shell `diff` of dated repair history found only an extra leading blank line: every event's wording survives.
+
+Readability section preserves original ID, uncommitted-source identity, Medium worker/root settings, triggers, checks and historical unresolved-F1/QA limit. Its linked original `evidence/m1-human-review-01/root-01.md` retains supplemental cross-review, source archive/worker manifest, observer diagnosis/failed trials, detailed scope and omissions. Human response retains dated 2026-11-12 context. No substantive unique judgment disappears.
+
+Required correction: draft architecture still has maintained links to deleted wrappers (lines20/75/80). Redirect repair links to `#caller-index-repair-assessment` and readability link to `README.md#readability-correction`. Leave historical history/report bytes intact; draft evidence README supplies both historical path mappings. This is a navigation prerequisite, not lost review substance.
+
+Finding-history SHA256 remains `e9f30fc7dc43a661035e44a77cb5afcb9958483ba7ea9ae3463264d511f395ad`, matching original audit. Plan HEAD `85138fde`; observed checkout HEAD `2278467d5f45a54461ce19d543b07ff638238933`: recheck execution identities. Commands: cat/head/sed/rg, sha256sum, git rev-parse, diff. No edits to assessed files, deletions, tests, Python, runtime/code review or exhaustive link audit; sole output is this exclusive capture. User authorization covers consolidation; this report verifies retention fidelity only.

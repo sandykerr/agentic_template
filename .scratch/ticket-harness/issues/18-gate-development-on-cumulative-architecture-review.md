@@ -51,7 +51,7 @@ no harness runtime/tests/dependencies changed or runtime-suite result is claimed
 
 Separate fresh High [Spec](../evidence/ticket-18/18-review-spec.md) and
 [Standards](../evidence/ticket-18/18-review-standards.md) each report **0 blocking / 0 optional**;
-[assessment](../reviews/ticket-18.md) preserves both original axes and identities.
+[assessment](../evidence/ticket-18/README.md#review-assessment) preserves both original axes and identities.
 No unresolved actual findings, missing reports, pending relevant revalidation,
 required human decision or unchecked criterion remains. Fixture F1 is independently
 fixed only on its exact clean source; the alternate synthetic human/deferred branch

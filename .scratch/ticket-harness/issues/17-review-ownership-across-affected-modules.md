@@ -43,7 +43,7 @@ Previous readiness: `ready-for-agent`. Implementation `4814eabd4bf2f196f7fb69156
 reviewed from fixed baseline `c82b15f504c29a69e8fb708e10568574150e80d3`.
 All six criteria are verified in [criterion evidence](../evidence/ticket-17/17-completion.md),
 with [actual passing checks](../evidence/ticket-17/17-checks.log) and the
-[real assessment](../reviews/ticket-17.md). Separate fresh High
+[real assessment](../evidence/ticket-17/README.md#review-assessment). Separate fresh High
 [Spec](../evidence/ticket-17/17-review-spec.md) and [Standards](../evidence/ticket-17/17-review-standards.md)
 each found zero blocking or optional findings. No unchecked criteria or unresolved
 actual findings/decisions remain. Representative fixture concerns retain their

@@ -1,6 +1,6 @@
 # Ticket 22 evidence
 
-[Completion](22-completion.md) · [Assessment](../../reviews/ticket-22.md) · [Finding history](22-finding-history.md)
+[Completion](22-completion.md) · [Assessment](#review-assessment) · [Finding history](22-finding-history.md)
 
 These originals preserve their recorded bytes and may embed historical paths. Use the [historical path map](../README.md#historical-paths) to locate moved evidence. Captured scripts retain their original execution assumptions and are not directly rerunnable from this layout.
 
@@ -46,3 +46,48 @@ Removed files:
 Separate from the batch above, the root reviewer approved removal of 1 generated Python cache files totaling 5,712 bytes under C1. The historical capture tools are not in use; their authored source scripts remain. This removes regenerable bytecode without changing original source, results or the protected checkpoint/review evidence.
 
 - `22-tools/__pycache__/capture22.cpython-312-pytest-9.2.0.pyc` (5,712 bytes)
+
+## Review assessment
+
+**review-ticket-22: completed.** Fixed original baseline: `803c6ff9a4e5e057124aefc5bb96f2c9518162dd`, captured before edits; existing unrelated changes preserved.
+Assessed source(s): `33fa0ea6e667a3879564ed4628c10f6d59ada21b`, committed after final checks and before both fresh reviews.
+
+The original reviews, captures and completion record linked above retain the
+independent axes, instructions/settings, inspected/omitted scope and results.
+Finding dispositions remain in [22-finding-history.md](22-finding-history.md).
+This is the historical ticket assessment; current M1 acceptance is recorded in the
+[review index](../../reviews/README.md), separately from ticket completion.
+
+<details>
+<summary>Historical assessment events (verbatim)</summary>
+
+Copied from the retired `reviews/ticket-22.md`; relative links inside this
+historical excerpt use that original location. Use the navigation above and the
+[retired-wrapper map](../README.md#retired-review-wrappers) for current destinations.
+
+```markdown
+
+- A01 — `/root` captured the original baseline and preserved unrelated changes.
+  Fresh Medium `/root/implement22` retained a genuine pre-edit deliberate checkpoint,
+  implemented only the assigned slice and committed verified source at `33fa0ea`.
+  [Checkpoint history](../evidence/ticket-22/22-checkpoint/history.md) preserves the initial
+  pre-format continuation and final-source continuation from the genuine saved
+  archive as separate observations.
+- A02 — `/root` independently matched all 26 tested identities to committed Git
+  blobs, all six required exits, all 10,446 raw files and genuine producer/final
+  continuation evidence. Saved common/axis instructions and their identities before
+  dispatching separate fresh High contexts on the same source and fixed baseline.
+  Both originals pending; review lifecycle in progress.
+
+- A03 — `/root/spec22` and `/root/standards22` independently saved clean original
+  reports on the same committed source, excluding the current sibling report.
+  Both traced actual owners/callers/writers/saved/restore/invalidation paths and
+  independently confirmed all four No triggers. Spec additionally streamed all
+  raw identities; Standards retained its reuse limits. Neither replayed tests.
+- A04 — `/root` independently captured each original unchanged before combining
+  hashes and aggregating; completed this assessment and reconciled all seven
+  criteria separately. No repair, blocker waiver, source change, human decision
+  or pending relevant revalidation. M1 cumulative work/human QA remain unperformed.
+```
+
+</details>

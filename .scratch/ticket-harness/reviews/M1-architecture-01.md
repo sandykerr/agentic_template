@@ -17,7 +17,7 @@
 | Instructions | Current AGENTS/domain/ADRs, approved ownership/review/M1 contracts, codebase design, Microsoft OOP and test-strategy. [Instruction hashes/snapshot](../evidence/m1-final-review-01/README.md); additional read references and digests disclosed in original report. |
 | Inspected scope | Every line of all ten package files; entry/run/ticket/attempt/check/review/candidate/QA/stop/continue/promotion, all process writers, shared canonical gates, persistence/restoration/invalidation, plausible repair-policy and extra-stage changes. |
 | Omitted scope / assumptions | No passing suite replay, new calibration, live backend, exhaustive platform matrix or new installed-wheel/old-checkpoint campaign. Historical ticket19 Git object unavailable; inspected retained h8/b7 bytes match final independent identities. All limits disclosed without weakening current accepted-input guarantees. |
-| Reports and evidence | [Fresh cumulative original](../evidence/m1-final-review-01/cumulative-standards-01-original.md), zero new blockers/optional suggestions; [external report capture](../evidence/m1-final-review-01/capture.json). Separate [repair axes](M1-index-repair-01.md), [563/full and static passes](../evidence/m1-index-repair-01/verification-completion-result.json). |
+| Reports and evidence | [Fresh cumulative original](../evidence/m1-final-review-01/cumulative-standards-01-original.md), zero new blockers/optional suggestions; [external report capture](../evidence/m1-final-review-01/capture.json). Separate [repair axes](#caller-index-repair-assessment), [563/full and static passes](../evidence/m1-index-repair-01/verification-completion-result.json). |
 | History and decisions | Original blocking `review-M1-architecture-01/standards-01/F1` fixed by authorized repair, both routine axes and cumulative reviewer independently verify exact current source; [Event06](M1-architecture-01-history.md#event06--independent-exact-source-repair-verification). No waiver, deferral or changed contract needed. |
 | Prior keys / pending work | Relevant ticket24 three full keys revalidated in current source; ticket19 two fixture keys retain finite G2/C5 scope and original identities. Historical optional/synthetic observations preserved. No unresolved in-scope finding, deferred production work or pending relevant source revalidation. |
 | Milestone eligibility | Review/finding/check/candidate gates and actual human QA pass. Both exact demo approvals consumed; final refs equal tested `2338f88`, completed/true/exit0 without replay. [M1 accepted](../evidence/m1-final-review-01/m1-qa-decision.md); M2 ticket25 eligible, not started. |
@@ -72,12 +72,12 @@ and append-only Event06; they are not the current finding disposition.
 
 The human's [M1 readability review](../../../docs/human_qa/m1_review.md) requested helper extractions and docstrings after the immutable standards-01 report. The uncommitted correction is identified by [exact current source/test hashes](../evidence/m1-human-review-01/final-source.json) and its source patch/archive; the original report still assesses d02e61e only. [Event02](M1-architecture-01-history.md#event02--readability-correction-changes-assessed-source-revalidation-pending) retains F1 open with pending relevant current-source revalidation. Four start/post ownership triggers remain No for the correction; existing owners, writers, checkpoint paths and canonical references are preserved. This is not a renewed fresh High cumulative assessment. Candidate readiness and M1 acceptance remain held.
 
-Final correction verification: [bounded human-readability assessment](M1-human-readability-01.md), [renewed source/test identities](../evidence/m1-human-review-01/renewed-source.json) and [Event03](M1-architecture-01-history.md#event03--final-correction-checks-retained-blocker-and-cumulative-renewal-remain-open) retain 559/full and static passes, including the existing Git-observer reliability correction. F1 remains open and the required High cumulative renewal is still absent; these correction results do not establish QA readiness or acceptance.
+Final correction verification: [bounded human-readability assessment](README.md#readability-correction), [renewed source/test identities](../evidence/m1-human-review-01/renewed-source.json) and [Event03](M1-architecture-01-history.md#event03--final-correction-checks-retained-blocker-and-cumulative-renewal-remain-open) retain 559/full and static passes, including the existing Git-observer reliability correction. F1 remains open and the required High cumulative renewal is still absent; these correction results do not establish QA readiness or acceptance.
 
 ## Repair and renewal in progress — 2026-11-13
 
 The human requested continuation of the [bounded repair handoff](../handoff-m1-caller-index-repair-and-final-verification.md).
-[Repair work](M1-index-repair-01.md) preserves the separate repair baseline
+[Repair work](#caller-index-repair-assessment) preserves the separate repair baseline
 `e2b0a26` and cumulative baseline `1a623ba`.
 [Event04](M1-architecture-01-history.md#event04--authorized-routing-repair-claimed-independent-verification-pending)
 records the claimed correction and its current limits. F1 remains open;
@@ -86,3 +86,61 @@ verification subsequently passed; see the [completion record](../evidence/m1-ind
 and Event05 in the finding history. Passing checks do not close F1.
 The preceding table and original assessment-completion statement describe
 standards-01 only. Current cumulative renewal is incomplete and readiness remains held.
+
+## Caller-index repair assessment
+
+**review-M1-index-repair-01: completed.** Bounded repair of
+`review-M1-architecture-01/standards-01/F1` under oop-v2 / review-process-1.
+Fixed repair baseline `e2b0a260fa192a7b51edc5f4cc5692c6340444c2`; assessed source
+`88e4cd8aabc78e76e66efc02983fec3900ab0a23`, repair checkpoint
+`e06eeaf7ae961a927e13b8d330b1675646afe4e2`. The cumulative baseline remains
+`1a623bad0b08241367948948b731b9e1f5114671`, with provenance above.
+
+All four start/post ownership triggers were No; required cumulative review remained
+a separate gate. Fresh independent High Sol Spec and Standards each found 0 blocking
+and 0 optional findings and verified the original F1 fixed at the assessed source.
+[Assignments, original reports, instructions and scope/omissions](../evidence/m1-final-review-01/README.md),
+[owner/writer trace](../evidence/m1-index-repair-01/worker-notes.md),
+[563/full and static results](../evidence/m1-index-repair-01/verification-completion-result.json)
+and [independent source binding](../evidence/m1-final-review-01/source-and-instructions.json)
+retain the detailed evidence. Configured High/250K was advisory; backend enforcement
+and measured telemetry unavailable. No waiver, deferral or changed contract.
+[Event06](M1-architecture-01-history.md#event06--independent-exact-source-repair-verification)
+preserves the fixed disposition; [actual M1 acceptance](../evidence/m1-final-review-01/m1-qa-decision.md)
+remains separate from repair assessment completion.
+
+### Repair assessment history (verbatim)
+
+Copied from retired `reviews/M1-index-repair-01.md`, in the same relative directory.
+These dated entries retain their historical pending states and former ticket numbering.
+
+
+- 2026-11-13, root: resumed authorized repair. Preserved original reports and
+  existing user environment/documentation changes. Registered this cross-ticket
+  assessment before readiness claims; no implementation ticket reopened or selected.
+- 2026-11-13, root: completed required implementation verification on unchanged
+  frozen repair bytes: 563/full with zero failures/errors/skips, strict mypy,
+  Ruff lint/format and whitespace passed. Retained a failed evidence-plugin
+  attempt separately; corrected only a separate capture helper for path aliases.
+  [Completion record](../evidence/m1-index-repair-01/verification-completion.md).
+  F1 remains open; no independent review, candidate acceptance or promotion inferred.
+
+- 2026-11-16, root: reconciled repair checkpoint `e06eeaf7ae961a927e13b8d330b1675646afe4e2`
+  and current assessed HEAD `88e4cd8aabc78e76e66efc02983fec3900ab0a23`.
+  [Current manifest](../evidence/m1-final-review-01/source-and-instructions.json)
+  matches all 28 source and 50 instruction hashes; retained full/static checks
+  remain applicable. Opened fresh independent fork-none High Sol Spec,
+  Standards and mandatory cumulative Standards assignments; see the
+  [canonical review index](../evidence/m1-final-review-01/README.md).
+  F1 disposition and readiness remain pending original reports.
+
+- 2026-11-16, root: received and preserved both original independent reports
+  before changing assessed source. Each is complete with zero blocking/optional
+  findings and verifies the original F1 mechanism. Recorded fixed disposition in
+  Event06; no source repair or check replay needed. Cumulative review and QA are
+  separate pending gates.
+
+- 2026-11-16, root: actual human conditional development M1 acceptance became
+  effective after all final exact-promotion/completion/no-replay conditions passed.
+  [Decision/result](../evidence/m1-final-review-01/m1-qa-decision.md). No further
+  executable repair or source revalidation was needed; M2 ticket25 is next.

@@ -55,7 +55,7 @@ Separate fresh final High [Spec](../evidence/ticket-19/19-review-spec-03.md) and
 [Standards](../evidence/ticket-19/19-review-standards-03.md) each report 0 new blockers/0 optional,
 independently verify both original actual full keys fixed at final source, and
 accept finite G2/C5 evaluation, skill/probe limits and bounded EOF handling.
-[Assessment](../reviews/ticket-19.md) and
+[Assessment](../evidence/ticket-19/README.md#review-assessment) and
 [append-only history](../evidence/ticket-19/19-finding-history.md) retain all original reports,
 differing axes and exact repair verification. No unresolved actual key, unchecked
 criterion, missing required ticket report, pending relevant revalidation or actual
