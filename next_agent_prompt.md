@@ -1,49 +1,132 @@
-**Waiting: M1 QA preparation found a caller-index preservation blocker. No implementation ticket is selected.**
+Use $implement-with-checkboxes to implement only:
+`.scratch/ticket-harness/issues/25-guide-and-record-human-milestone-qa.md`
 
-**Current continuation — 2026-11-13:** Use the
-[M1 repair and final verification handoff](.scratch/ticket-harness/handoff-m1-caller-index-repair-and-final-verification.md).
-The human code/documentation review is complete, and its existing implementation
-is committed at `c994d52`; F1 remains open and M1 remains unaccepted. The older
-source, live-demo and raw-evidence statements below retain historical context;
-the linked handoff and cleanup account identify their current limits.
+**25: Guide a human through milestone QA.** This is a prepared assignment;
+ticket25 has not started. Do not automatically execute another ticket afterward.
 
-The human requested beginning QA for completed ticket24, then asked whether human QA belongs to M1. It does: implementation membership10–24 is complete, but M1 remains open until required review/finding/candidate gates and explicit human acceptance pass. That clarification supplies no approval. M2 tickets25–29 remain ineligible.
+## Starting state and eligibility
 
-Follow [AGENTS.md](AGENTS.md), [Python environment](docs/agents/python-environment.md), [testing](docs/agents/testing.md) and the consolidated [development review contract](docs/agents/review-records.md) for ownership, review preparation, findings and architecture checkpoints. Use [create-next-agent-prompt](.agents/skills/custom/create-next-agent-prompt/SKILL.md) when refreshing this handoff. Preserve unrelated dirty work; no changes from this QA preparation have been committed.
+Follow [AGENTS.md](AGENTS.md), [GLOSSARY](GLOSSARY.md), relevant ADRs and the
+[tracker](docs/agents/issue-tracker.md). Inspect/preserve unrelated work and capture
+your starting HEAD as the fixed whole-ticket review baseline. Do not use historical
+M1 source as that ticket baseline. Existing user environment/requirements/README
+and recovery-file edits are unrelated to this assignment; do not broadly stage them.
 
-## Actual current checkpoint
+Approved plan: [oop-v2 / review-process-1 spec](.scratch/ticket-harness/spec.md),
+[approval](.scratch/ticket-harness/approval.md),
+[membership and QA](.scratch/ticket-harness/milestones.md).
+M1 tickets10–24 are verified complete and **M1 is accepted 2026-11-16**.
+[Actual human decision and fulfilled condition](.scratch/ticket-harness/evidence/m1-final-review-01/m1-qa-decision.md)
+accept source `88e4cd8aabc78e76e66efc02983fec3900ab0a23`, development request
+`41a556a9352d44a3922a9c41f30f36af`. Both exact demo decisions were human-approved;
+final promotion/completion/no-replay conditions passed. This was an explicit
+conditional human acceptance fulfilled by actual observations, not agent approval.
 
-[QA guide](.scratch/ticket-harness/evidence/m1-qa-01/qa-guide.md) contains the planned human checks and linked observations. [Cumulative assessment review-M1-architecture-01](.scratch/ticket-harness/reviews/M1-architecture-01.md) records the current source, report and finding status. Read its current summary, [immutable original](.scratch/ticket-harness/evidence/m1-qa-01/standards-01-original.md) and [finding history](.scratch/ticket-harness/reviews/M1-architecture-01-history.md) before acting; do not equate completed assessment with resolved findings or milestone acceptance.
+M2 order is25–29. Ticket25 is the first open, unclaimed ready-for-agent ticket.
+Declared prerequisites10/14 are verified by their acceptance/completion records,
+checks and independent reviews:
+[10 completion](.scratch/ticket-harness/evidence/ticket-10/10-completion.md),
+[14 completion](.scratch/ticket-harness/evidence/ticket-14/14-completion.md).
+Preserve `Blocked by:` as dependency history. Read the actual ticket and its
+[proposal slice R07](.scratch/ticket-harness/ticket-proposal.md#r07-guide-a-human-through-milestone-qa).
+M2 acceptance remains required before M3; this handoff accepts no later milestone
+and does not complete the overall feature.
 
-Starting/current source HEAD is `d02e61ea27de4febd17e337bd51529d07861226b`. Established cumulative baseline is `1a623bad0b08241367948948b731b9e1f5114671`: it introduces the original harness spec/tickets/glossary/ADR and directly parents first implementation `b09e324`. Parent `8e28f0b` imports skills. There is no earlier accepted milestone. [Source/instruction/provenance capture](.scratch/ticket-harness/evidence/m1-qa-01/start.json) and [frozen instructions](.scratch/ticket-harness/evidence/m1-qa-01/instruction-snapshot.tar.gz) retain actual identities. Ticket24's original `ed017ae` remains a whole-ticket baseline, not the cumulative baseline.
+## Scoped behavior and all acceptance criteria
 
-The completed fresh cumulative High Standards assessment reports one blocker and zero new optional suggestions. It inspected all ten package Python files and collaborators. It demonstrated a new blocker with ordinary inherited `GIT_INDEX_FILE`: submission capture stages/commits into an external caller-owned index; later integrity failure does not undo that mutation. Full key: `review-M1-architecture-01/standards-01/F1`. Caller HEAD/index/work preservation is already required by the spec; calibration's separate b7 control never repaired production. Record this as a new cumulative finding, preserve original classification/history and hold readiness. Do not reopen completed ticket24 acceptance markers or rewrite old clean reports.
+Read [QA/promotion](.scratch/ticket-harness/spec.md#feature-to-development-promotion-and-human-qa),
+[safe continuation](.scratch/ticket-harness/spec.md#corrections-and-safe-continuation),
+[review work](.scratch/ticket-harness/spec.md#review-work-findings-and-decisions),
+[ownership](.scratch/ticket-harness/spec.md#ownership-contracts-and-cross-module-review),
+[runtime adoption](.scratch/ticket-harness/spec.md#runtime-review-adoption),
+[architecture checkpoints](.scratch/ticket-harness/spec.md#cumulative-architecture-checkpoints)
+and [actual request/decision contract](docs/ticket-harness/qa.md).
 
-No executable code or tests were changed during QA preparation. Prior ticket24 [completion evidence](.scratch/ticket-harness/evidence/ticket-24/24-completion.md) retains559 passed/1284.57s and all required static/whitespace gates at `ab08f7f03b5248709cdde3f5a65e4f632b8198b4`. Captured package/tests/examples/packaging bytes at d02 match that source. This is reuse with original provenance, not a new559-test run. [Current targeted checks](.scratch/ticket-harness/evidence/m1-qa-01/check-results.json) passed3 scenarios: invalid inputs execute nothing, failed baseline launches no assignment, restored source invalidation updates the durable canonical gate. [Raw log](.scratch/ticket-harness/evidence/m1-qa-01/check-0.log) and [retained restored-gate observations](.scratch/ticket-harness/evidence/m1-qa-01/current-observations/) support those observations.
+Implement only the focused QA-session skill, reusing existing guidance where
+appropriate. Preserve these six ticket outcomes:
 
-## Disposable runtime demonstration
+- Read the exact request/candidate; guide planned human checks, evidence inspection
+  and observable acceptance conditions.
+- Record findings; withhold acceptance until explicit human approval. Passing tests,
+  agent recommendations and requests to self-approve grant no approval authority.
+- Write only the precise decision artifact for matching current identities,
+  preserving provenance and rejecting stale requests.
+- Do not implement corrections or change product source/integration refs. Route
+  findings to the versioned planning workflow.
+- Validate isolated explicit-approval, withheld-approval, stale-request and
+  self-approval-request examples without changing actual user work.
+- Present source-identified review reports, open findings and disposition reasons
+  alongside candidate evidence. Review decisions do not substitute for separate
+  exact QA acceptance.
 
-[Actual location/identities](.scratch/ticket-harness/evidence/m1-qa-01/demo-location.json), [exact request snapshot](.scratch/ticket-harness/evidence/m1-qa-01/human-checkpoint-request.json), [stopped record](.scratch/ticket-harness/evidence/m1-qa-01/human-checkpoint-record.json), [commands](.scratch/ticket-harness/evidence/m1-qa-01/demo-commands.json) and [initial live archive](.scratch/ticket-harness/evidence/m1-qa-01/demo-initial-checkpoint.tar.gz).
+Use the existing runtime JSON contract: exactly `decision: APPROVED` and the
+complete matching current request object, written atomically only after actual
+approval. The QA-session skill owns human guidance/observations and decision
+provenance; runtime QA/Git owners consume decisions and perform promotion. Do not
+add background execution, correction implementation, real backend delivery or
+runtime review enforcement from later tickets.
 
-- Live target: `/tmp/ticket-harness-m1-human-qa-yjwh5cr2/target`; live output: `/tmp/ticket-harness-m1-human-qa-yjwh5cr2/run`.
-- Runtime plan version `v1`, run `1638d6acc5a24cb09b02501278f6b655`, request `ab28c720bf0d4d2c8e2b3609bab2f3c3`, fixture milestone M1.
-- Feature `08858e827a685130efb08d9fe7ccfa596e269746`; development base `2574bcee408a0582295ba6322747bf3570a8d478`; tested candidate `7f14c90426e1d030637033494460e221e83db46d`.
-- Candidate tree: `/tmp/ticket-harness-m1-human-qa-yjwh5cr2/run/worktrees/milestone-candidate`; value2/work01 delivered/work02 absent; first ticket Done, later ticket unstarted, feature incomplete. Milestone regression passed on this exact disposable candidate.
-- Stale fabricated approval rejected; clean stop/continue/second stop succeeded without replaying completed assignments/baseline. Final checkpoint `2e202b6724db4ab2916e1a658697241e`; stopped_at_qa, foreground exit2, no active owner/process or consumed approval.
-- Decision location `/tmp/ticket-harness-m1-human-qa-yjwh5cr2/run/qa-decision.json` contains a deliberately stale rejected fixture decision. It is not human acceptance and must not be relabeled/copied as one. New exact fixture approval is absent; development M1 QA decision is also absent.
+## Roles, ownership and review
 
-This is an isolated demonstration, not promotion/acceptance of the development checkout. Preserve its frozen evidence and stopped state. New executable repair requires current-source review/checks and renewed candidate preparation; this old fixture cannot authorize repaired-source acceptance. Genuine pre-refactor checkpoint producer/current-consumer evidence remains under [ticket24 completion](.scratch/ticket-harness/evidence/ticket-24/24-completion.md) with its original source scope.
+Inherit approved development settings: GPT-6.1 Sol Medium for fresh implementation
+and repair; fresh independent Spec High and Standards High. Ticket25 has no worker
+override. Advisory ≤250K active context; report unavailable backend enforcement or
+telemetry. Apply ticket/default guidance and record actual supplied instruction
+identities. These development settings prove no runtime model profile or captured
+skill delivery.
 
-## Next responsible action and boundaries
+Use [development review contract](docs/agents/review-records.md): record guidance
+responsibility, permitted writers, identity/staleness invariants, failures and
+persistence/provenance or explicit absence. Assess all four architecture triggers
+at start and after implementation, including prose-created responsibilities.
+Obtain triggered broader assessment before integration and cumulative M2 assessment
+before its future QA readiness. Missing ownership or consequential contract changes
+need a human decision; internal file/module choices remain worker decisions.
 
-Read the original cumulative finding and reproduction, then resolve the concrete Git adapter/environment concern through the responsible repair workflow before candidate readiness. No repair assignment or new implementation ticket has been launched by this begin-QA session. A future authorized repair must preserve the existing owner/contract, use the public CLI/scripted process/real Git seam, retain the red observation, renew affected checks plus required full final-source/static gates, and obtain independent exact-source verification and renewed cumulative assessment. Do not mark F1 fixed from a worker claim or tests alone. Consequential contract/scope changes and blocker deferrals need the actual human decision/amendment; none exists.
+The accepted M1 cumulative baseline for later M2 checkpoint work is exact
+`88e4cd8` with its linked QA decision, not a newer prose commit. Prior M1 repair
+baseline remains `e2b0a26`; original feature baseline remains `1a623ba`.
+[Current cumulative assessment](.scratch/ticket-harness/reviews/M1-architecture-01.md),
+[original repair/cumulative reports and hashes](.scratch/ticket-harness/evidence/m1-final-review-01/capture.json),
+[append-only F1 history](.scratch/ticket-harness/reviews/M1-architecture-01-history.md).
+Original cumulative F1 is independently fixed; no unresolved in-scope production
+finding, deferral, waiver or pending relevant source revalidation remains.
+Historical ticket24 three full keys and ticket19 two fixture keys retain their
+original identities/judgments. G2/C5 is finite historical evaluation, not current
+package proof or runtime guidance delivery. The missing old ticket19 Git object
+and retained-control hash verification are disclosed in the cumulative original;
+no new calibration campaign is authorized or necessary.
 
-After finding gates pass, prepare the current candidate/request and walk the human through all approved M1 checks in the QA guide, including real review traceability, evaluation limits, ownership, explicit approval/promotion and final-only completion. Record actual observations and request-specific human decisions separately. No human check has yet been marked passed, no actual fixture approval or development M1 acceptance exists, and M2 cannot start.
+## Verification and completion
 
-Approved development role settings remain GPT-6.1 Sol, Medium implementation/repair and independent High reviews, advisory active context<=250000. Backend delivery/enforcement and measured telemetry unavailable. [Evaluated guidance G2/C5](.agents/skills/custom/evaluate-reviewers/SKILL.md#repository-evaluation-history), aggregate `332ddabe972f596d86cd09eda809bd2f93d1f57602f01d75ed9f39f2b182510d`, retains five evolving corpora/two guidance versions and failed observations. It does not replace real source reviews/runtime enforcement. Historical ticket24 three fixed keys and ticket19 two fixed keys remain in their full append-only histories; retain historical optional observations rather than inferring all-source cleanliness.
+Before Python/checks read [environment](docs/agents/python-environment.md) and
+[testing policy](docs/agents/testing.md); use checkout-local uv `.venv/bin/python`.
+Read [test-strategy](.agents/skills/custom/test-strategy/SKILL.md) before selecting
+coverage, [writing-for-agents](.agents/skills/matt-pocock/writing-for-agents/SKILL.md)
+and the installed skill-creator when applicable; locate its actual path from the
+session skill catalog.
+Map existing guidance/examples before creating redundant cases. This ticket's
+standalone skill/document changes need official skill validation, link/routing/
+workflow checks and retained disposable examples, rather than an artificial
+runtime TDD cycle or replay of unrelated passing suites. If executable behavior
+changes, preserve the approved public CLI/scripted-process/real-Git seam, use TDD
+for a distinct missing behavior, and run required full/static/explicit gates.
+No new private test seam is authorized. Hook scenarios need executable TMPDIR.
 
-Preserve unrelated preexisting `.gitignore`, tracker19/33/34, development-efficiency and workflow-efficiency archival work/index links. New work here consists of QA evidence, cumulative assessment/navigation and this waiting handoff. No code repair, implementation selection, production promotion, milestone acceptance, push or later-ticket launch is authorized by this handoff itself.
+Retain actual commands/results, source/instruction identity, examples and artifacts
+in one canonical evidence index before independent review. After checks, commit
+only this implementation, then use code-review with the captured original baseline
+and complete ticket/spec. Obtain separate fresh Spec/Standards originals with
+substantive inspected/omitted scope and findings. Preserve both before repairs;
+repair blockers with a fresh Medium assignment, renew affected required checks,
+commit and re-review whole-ticket scope from the original baseline. Optional
+suggestions remain optional. Scripted example roles do not replace source review.
 
-## Later human readability correction
-
-The user subsequently requested implementation of [docs/human_qa/m1_review.md](docs/human_qa/m1_review.md), using three fresh GPT-6.1 Sol Medium workers and root as reviewer. Helper extraction/docstring changes now exist in the uncommitted package; read that document's response and [exact source/check evidence](.scratch/ticket-harness/evidence/m1-human-review-01/start.json) for actual outcomes. Historical d02e61e/ab08f7f reports and stopped fixture identities above remain historical; they cannot accept this changed source. [Cumulative Event02](.scratch/ticket-harness/reviews/M1-architecture-01-history.md#event02--readability-correction-changes-assessed-source-revalidation-pending) preserves the Git-index blocker as open with pending relevant current-source revalidation. No fix, current-source High cumulative assessment, candidate renewal or human acceptance is inferred. The readability response does not select another ticket or authorize M2.
+After every criterion/gate passes, reconcile acceptance markers/status/completion
+comment/index with actual evidence and commit bookkeeping separately; otherwise
+leave unverified criteria unchecked and readiness unchanged. Then automatically use
+create-next-agent-prompt, select again through M2 eligibility, and commit the
+handoff separately under the implementation workflow. Creating the handoff starts
+no next ticket. Report implementation/bookkeeping/handoff commits, checks,
+independent outcomes, unresolved criteria and next selection or exact blocker.
+Do not push or promote a real development checkout without separate authorization.
