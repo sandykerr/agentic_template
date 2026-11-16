@@ -167,12 +167,12 @@ class CaptureStore:
                 "Use one ticket, or --shared with at least two tickets; milestones are shared"
             )
         purpose, producer = _text(purpose), _slug(producer)
-        if shared:
+        if shared is not None:
             # Reserve ticket-* for actual ticket folders.
             if _slug(shared).lower().startswith("ticket-"):
                 raise ValueError("Shared name cannot use the ticket- prefix")
             folder = self.evidence / shared
-            if milestone:
+            if milestone is not None:
                 folder /= _slug(milestone)
         else:
             folder = self.evidence / f"ticket-{selected[0]['id']}"
@@ -181,7 +181,7 @@ class CaptureStore:
             # Validate every destination before the first metadata write.
             record = self._record(folder, scope)
             linked: list[tuple[Path, dict[str, Any]]] = []
-            if shared:
+            if shared is not None:
                 for ticket in selected:
                     target = self.evidence / f"ticket-{ticket['id']}"
                     local = self._record(
@@ -302,6 +302,7 @@ class CaptureStore:
                 for item in prior["files"]:
                     if self._identity(self._within(item["path"], self.evidence)) != item:
                         raise ValueError(f"Registered original changed: {item['path']}")
+            for prior in record["captures"]:
                 if prior["id"] == capture["id"]:
                     if prior != capture:
                         raise ValueError(

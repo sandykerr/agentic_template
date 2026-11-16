@@ -238,6 +238,24 @@ def test_changed_original_or_registration_metadata_cannot_be_overwritten(feature
     assert artifact.read_bytes() == saved
 
 
+def test_identical_retry_rejects_changed_later_registered_original(feature):
+    first = allocate(feature)
+    (Path(first["destination"]) / "checks.log").write_text("first original\n")
+    register(feature, first)
+    second = allocate(feature)
+    later_original = Path(second["destination"]) / "checks.log"
+    later_original.write_text("second original\n")
+    register(feature, second)
+    artifact = Path(first["review_artifact"])
+    saved = artifact.read_bytes()
+
+    later_original.write_text("changed second original\n")
+    result = register(feature, first, ok=False)
+
+    assert "Registered original changed" in result.stderr
+    assert artifact.read_bytes() == saved
+
+
 @pytest.mark.parametrize("unsafe", ["../outside.log", "/tmp/outside.log", "./allocation.json"])
 def test_payload_cannot_escape_or_register_allocation_metadata(feature, unsafe):
     allocation = allocate(feature)
@@ -384,6 +402,8 @@ def test_derived_capture_requires_originals_and_unknown_facts_are_explicit(featu
         ["--ticket", "25", "--ticket", "25"],
         ["--ticket", "25", "--shared", "one-ticket"],
         ["--ticket", "25", "--milestone", "EC1"],
+        ["--ticket", "25", "--ticket", "26", "--shared", ""],
+        ["--ticket", "25", "--ticket", "26", "--shared", "capture-trials", "--milestone", ""],
         ["--ticket", "25", "--ticket", "26", "--shared", "../escape"],
         ["--ticket", "25", "--ticket", "26", "--shared", "ticket-25"],
     ],
