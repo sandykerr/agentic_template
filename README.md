@@ -66,6 +66,12 @@ Run: `$to-spec <prompt>` for the issue after grilling. This creates a markdown "
 
 Run: `$to-tickets <prompt>` to subdivide the spec doc into smaller tasks, designed for a small, efficient context window.
 
+Use the repo's [custom to-tickets wrapper](.agents/skills/custom/to-tickets/SKILL.md).
+It publishes one file per ticket, keeps shared contracts in the spec and retains
+reviewed proposals as history. The full
+[grill-to-tickets workflow](.agents/skills/custom/grill-to-tickets/SKILL.md) uses
+the same wrapper and publication standard.
+
 This step is quite crucial in an efficient agentic workflow. Due to context rot, agents are best used when short-lived; they are faster and less prone to confusion/forgetting/hallucinating.
 
 With the tickets, agents can work autonomously on issues after we've brainstormed, given parameters we set. For example, you can require a code review afer a certain number of tickets; this helps keep you in the loop and can give you more clarity on the decisions you deferred in step 2 (grilling). This is a very granular way of batching agent work into parts you care about so that you stay in the loop.

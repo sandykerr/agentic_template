@@ -1,7 +1,8 @@
 # Shared planning reference
 
-This is the authoritative planning policy for custom planning workflows and
-their generated bundles. Upstream skills supply interview, domain, synthesis,
+This is the authoritative planning policy for
+[to-tickets](../to-tickets/SKILL.md), [grill-to-tickets](../grill-to-tickets/SKILL.md)
+and their generated bundles. Upstream skills supply interview, domain, synthesis,
 and slicing procedures; this reference augments their outputs and governs when
 publication is allowed. It defines planning documents, not a runtime schema.
 
@@ -32,8 +33,8 @@ in implementation/handoff context. Current source reviews and M1 QA remain separ
 Keep proposals in the conversation or an explicitly marked draft location,
 separate from published inputs. A suitable local staging location is
 `.scratch/<feature>/drafts/<version>/`; mark each document **Draft — unapproved**.
-Before approval, keep proposed individual ticket bodies inside `ticket-proposal.md`
-rather than publishing files under `issues/`. Existing approved spec, tickets,
+Before approval, keep proposed individual ticket bodies inside a versioned
+draft `ticket-proposal.md` rather than publishing files under `issues/`. Existing approved spec, tickets,
 milestones and index stay unchanged. Proposed glossary/ADR changes affecting an
 approved contract belong with the draft until accepted; ordinary resolved domain
 terms can be captured using the project's domain-modeling procedure.
@@ -210,7 +211,7 @@ and section anchors so a fresh worker can find the approved contracts.
 - **Out of Scope** and **Further Notes**, including unresolved matters if still
   a draft. Required decisions must be resolved before approval/publication.
 
-### `ticket-proposal.md`
+### Draft `ticket-proposal.md` and retained review history
 
 - Draft/approved state and version matching the spec; summary of changes from
   the prior proposal and any approved version.
@@ -218,7 +219,31 @@ and section anchors so a fresh worker can find the approved contracts.
 - Dependency graph or edge list, preferred topological order, milestone table
   with actual ticket IDs, and the role/testing exceptions being proposed.
 - Questions/feedback and their resolution; approval scope and decision reference
-  once accepted. After publication link the individual ticket files.
+  once accepted.
+
+Use this combined document to review complete ticket bodies before publication.
+After publication retain the reviewed version under `drafts/<version>/` or
+`archive/`, with an index pointer identifying its historical role and original
+link base if moved. Preserve original approval records, manifests and hashes;
+record relocation separately rather than rewriting publication history. The
+proposal is a snapshot, not a maintained copy of the published tickets.
+
+### Published document ownership
+
+- `spec.md` owns shared behavior, interfaces, ownership, role defaults, testing
+  seams and required verification contracts. Tickets link to scoped sections.
+- Each `issues/<NN>-<slug>.md` owns that ticket's bounded outcome, criteria,
+  dependencies, overrides and completion history. It contains exactly one ticket;
+  link sibling tickets rather than embedding their bodies or acceptance criteria.
+- `milestones.md` owns membership, QA actions, acceptance and progression gates.
+- `README.md` owns navigation, preferred order and current status/evidence links.
+  Link the authoritative documents rather than copying their contracts or bodies.
+
+Publish these four document types as the maintained bundle. A root
+`ticket-proposal.md` is unnecessary after publication; update live references to
+the authoritative locations before retiring it. Historical references may point
+to the retained snapshot. Shared requirements must remain reachable from each
+affected ticket and handoff without consulting a proposal.
 
 ### `issues/<NN>-<slug>.md` (one per approved ticket)
 
@@ -260,12 +285,13 @@ a model/context override here if agreed; absent overrides inherit the spec defau
 
 ### `README.md` (feature index)
 
-- Version, approval scope/reference, links to spec, proposal and milestones.
+- Version, approval scope/reference, links to spec, issue files and milestones.
 - Every ticket's ID/title/link, declared dependencies, readiness and milestone;
   preferred execution order and current eligible group without claiming execution.
 - Final QA requirement and distinction between plan approval and QA acceptance.
-- Link prior versions/change summary for revisions; preserve existing completion
-  evidence. A published plan alone does not claim any ticket or milestone complete.
+- Link retained proposals/prior versions as history and summarize revisions;
+  preserve existing completion evidence. A published plan alone does not claim
+  any ticket or milestone complete.
 
 ## Approval, validation and publication
 
@@ -298,6 +324,10 @@ Validate the approved draft before publication:
   settings, unresolved required decisions, or fabricated acceptance remain.
 - References resolve, ticket bodies match those approved, and the destination
   preserves existing approved inputs and unrelated work.
+- Each issue contains only its own body and criteria; shared contracts have one
+  authoritative spec location and resolve from tickets and handoffs. The index
+  navigates those sources without maintaining another copy. Retained proposals
+  are clearly historical and are not required for current implementation.
 
 If validation requires a substantive change, revise the draft and obtain approval
 for that changed scope. Publish all files of the validated bundle, then check
@@ -306,4 +336,4 @@ approval reference without inventing a decision or timestamp. Report paths and
 any remaining execution prerequisites. This workflow authors approved inputs;
 it does not implement scheduling, branch promotion, approval watching, restart,
 QA execution, background launch, or runtime skill selection. Generated-bundle
-runtime and skill-metadata proof remains ticket 37 in the harness project.
+runtime and skill-metadata proof remains ticket 43 (formerly 37) in the harness project; see the feature’s evidence-policy numbering map.

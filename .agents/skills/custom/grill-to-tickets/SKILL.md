@@ -11,8 +11,8 @@ boundary. Read it before interviewing or drafting. This is one user-facing
 workflow; perform its internal stages without asking the user to invoke other
 commands.
 
-Read the applicable upstream instructions at each stage. Where no Skill tool is
-available, read the linked files and perform their procedures directly. Apply
+Read the linked stage instructions, including the custom ticket wrapper.
+Where no Skill tool is available, read the linked files and perform their procedures directly. Apply
 the shared reference's staging and approval boundary to their publication steps.
 
 1. Read target-project guidance and existing approved inputs, then use
@@ -22,7 +22,7 @@ the shared reference's staging and approval boundary to their publication steps.
    understanding.
 2. Use [spec synthesis](../../matt-pocock/to-spec/SKILL.md) and
    [test strategy](../test-strategy/SKILL.md) to draft the agreed behavior and
-   testing contracts. Use [vertical tickets](../../matt-pocock/to-tickets/SKILL.md)
+   testing contracts. Use [custom to-tickets](../to-tickets/SKILL.md)
    to propose bounded outcomes, blocking edges, and milestone membership. Assign
    sequential IDs using the shared reference's [ticket numbering rules](../references/planning.md#ticket-numbering)
    before presenting the proposal.
@@ -30,8 +30,10 @@ the shared reference's staging and approval boundary to their publication steps.
    targeted grilling when feedback introduces consequential decisions. Finish
    with an explicit decision on the current coherent bundle.
 4. On approval, validate and publish the bundle using the shared reference's
-   output shapes. Otherwise retain a clearly marked draft and report that
-   publication is withheld.
+   output shapes: shared contracts in the spec, one body per issue, QA in
+   milestones and navigation in the index. Retain the reviewed proposal as
+   history. Otherwise retain a clearly marked draft and report that publication
+   is withheld.
 
 Report the draft or published locations, plan version and approval scope, and
 remaining decisions. Planning output does not start a run or record QA acceptance.
