@@ -1,0 +1,392 @@
+{
+  "schema_version": 1,
+  "folder": "evidence/ticket-05",
+  "scope": {
+    "tickets": [
+      {
+        "id": "05",
+        "issue": "issues/05-repair-rejected-submissions-within-budget.md"
+      }
+    ],
+    "shared": null,
+    "milestone": null
+  },
+  "captures": [],
+  "shared_records": [
+    "evidence/historical-evidence-assessment/evidence-review.json",
+    "evidence/evidence-retention-audit-01/evidence-review.json"
+  ],
+  "assessments": [
+    {
+      "review_id": "historical-evidence-review-20261116-fresh-01",
+      "reviewer": "/root/fresh_evidence_review",
+      "settings": {
+        "configured_model": "gpt-6.1-sol",
+        "configured_reasoning": "High",
+        "fresh_assignment": true,
+        "context_target": 250000,
+        "context_enforcement": "advisory; no hard-enforcement telemetry",
+        "backend_delivery_telemetry": "unavailable",
+        "occupied_context_telemetry": "unavailable"
+      },
+      "report": {
+        "path": "evidence/historical-evidence-assessment/captures/fresh-reviewer-5ccb3b2240ed4f8ba456d3e7053c3122/original-review.md",
+        "size": 9699,
+        "sha256": "1e9054aed9168375ce4019116ff2112961d455dd537c3b2f1ffbf667f447f901"
+      },
+      "comparison": {
+        "path": "evidence/historical-evidence-assessment/captures/fresh-reviewer-5ccb3b2240ed4f8ba456d3e7053c3122/comparison-results.json",
+        "size": 1819455,
+        "sha256": "8ece1529ffef35a3aecc203c2d99252af4edbedfa1056f8c1b295d9a8b231c7c"
+      },
+      "inventory": {
+        "path": "evidence/historical-evidence-assessment/captures/inventory-root-72f0b403e93345f0a95967f008f9b99a/inventory-reference.json.gz",
+        "sha256": "f8aa9c90b82bcc4e34205c8159af1f38469d65e37a8e706836c9c90986124919",
+        "path_root": "repository-relative file identities; authority paths feature-relative"
+      },
+      "format": "descriptive historical assessment v1; no delivered retirement execution schema",
+      "execution_support": "unsupported: capture helper only implements allocate/register",
+      "execution": {
+        "attempted": false,
+        "removed_paths": []
+      },
+      "software_acceptance": "unchanged; no QA or ticket acceptance authority",
+      "groups": [
+        {
+          "group_id": "ticket-05-completion",
+          "files": [
+            {
+              "path": "evidence/ticket-05/05-completion.md",
+              "kind": "regular",
+              "size": 10342,
+              "sha256": "979a940019f9f0b9b4d1650affbfbe0ee7485f9e0055baa194c0e97134902a95",
+              "mode": "0o100644",
+              "nlink": 1
+            }
+          ],
+          "inventory_binding": {
+            "path": "evidence/historical-evidence-assessment/captures/inventory-root-72f0b403e93345f0a95967f008f9b99a/inventory-reference.json.gz",
+            "sha256": "f8aa9c90b82bcc4e34205c8159af1f38469d65e37a8e706836c9c90986124919",
+            "path_root": "repository-relative file identities; authority paths feature-relative"
+          },
+          "evidence_type": "completion plus embedded original independent review reports",
+          "proposed_action": "keep",
+          "reason_codes": [
+            "DURABLE_ORIGINAL_REVIEW",
+            "SOURCE_SPECIFIC_RESULT",
+            "CROSS_TICKET_PROVENANCE"
+          ],
+          "supporting_facts": [
+            "Contains original independent review output inside completion text; no separate surviving reviewer report is present in this ticket folder.",
+            "Historical check counts, exact baseline/implementation and review findings remain source-specific.",
+            "Prior fixes and review sequence are preserved where applicable."
+          ],
+          "remaining_uses": [
+            "Feature README completion navigation",
+            "own issue completion comment",
+            "ticket-06/06-completion.md prerequisite section",
+            "ticket-07/07-completion.md prerequisite section",
+            "ticket-08/08-completion.md prerequisite section"
+          ],
+          "retained_results_and_source": {
+            "implementation": "34a49b7090a77d689a67c4230cc8b5f12c9c9f35",
+            "result": "362 passed in 408.88s; earlier 355 is not final; statics/install passed",
+            "scope": "bounded fresh repairs and exhaustion across check/review/merge/candidate gates",
+            "paths": [
+              "evidence/ticket-05/05-completion.md",
+              "evidence/ticket-05/05-scenario-results.json"
+            ]
+          },
+          "worker_proposal": {
+            "path": "evidence/historical-evidence-assessment/captures/assessor-01-08-ec3c831ecd3a4c4c91e28c138129a678/proposal.json",
+            "sha256": "ccbe99e185eaaaff691d9fdb322774e89cf42e1275cf8df98ec80371550273f6",
+            "group_id": "ticket-05-completion",
+            "reference_report": "shared inventory/reference report and immutable proposal contain lexical reader candidates; absence of matches is not absence of use"
+          },
+          "final_review": {
+            "decision": "keep",
+            "review_id": "historical-evidence-review-20261116-fresh-01",
+            "deletion_approved": false,
+            "human_decision": {
+              "status": "not required for this keep/routine decision"
+            },
+            "execution_eligibility": "protected; no deletion proposal approved",
+            "future_execution_checks": [
+              "exact current identities and unchanged proposal",
+              "required retained results/source remain available",
+              "actual remaining active/frozen/continuation readers resolved",
+              "all current required approvals and policy conditions",
+              "guarded Python execution and actual navigation/result recording"
+            ],
+            "execution_attempted": false
+          },
+          "information_loss": "Original independent judgments, original review limitations and criterion-to-check provenance would be lost.",
+          "reassessment": {
+            "trigger_ticket": null,
+            "next_human_qa": "ticket-harness/EC1",
+            "remaining_use": [
+              "Feature README completion navigation",
+              "own issue completion comment",
+              "ticket-06/06-completion.md prerequisite section",
+              "ticket-07/07-completion.md prerequisite section",
+              "ticket-08/08-completion.md prerequisite section"
+            ],
+            "condition": "Reaching trigger requires reassessment before completion bookkeeping; it does not authorize deletion. Unresolved or no usable trigger goes to next EC1 human evidence QA.",
+            "worker_route": {
+              "trigger_ticket": null,
+              "next_human_qa": "EC1 evidence review if reviewer disputes retention; otherwise durable/needed evidence remains retained",
+              "question": "No automatic deletion when milestone is accepted."
+            }
+          }
+        },
+        {
+          "group_id": "ticket-05-observations",
+          "files": [
+            {
+              "path": "evidence/ticket-05/05-scenario-results.json",
+              "kind": "regular",
+              "size": 57974,
+              "sha256": "749c4396f6d1a45310cda0456ba5655f25d57873e3dbcf47b38632cc218be3d2",
+              "mode": "0o100644",
+              "nlink": 1
+            }
+          ],
+          "inventory_binding": {
+            "path": "evidence/historical-evidence-assessment/captures/inventory-root-72f0b403e93345f0a95967f008f9b99a/inventory-reference.json.gz",
+            "sha256": "f8aa9c90b82bcc4e34205c8159af1f38469d65e37a8e706836c9c90986124919",
+            "path_root": "repository-relative file identities; authority paths feature-relative"
+          },
+          "evidence_type": "executed lossy historical scenario extract",
+          "proposed_action": "keep",
+          "reason_codes": [
+            "ONLY_NEEDED_SUBSTANTIVE_RESULTS",
+            "SOURCE_SPECIFIC_RESULT"
+          ],
+          "supporting_facts": [
+            "20 distinct observed scenarios: bounded fresh repairs and exhaustion across check/review/merge/candidate gates.",
+            "Original raw observation payload was already retired 2026-11-13. Current extract preserves distinct gate/revision/outcome facts not all repeated in completion.",
+            "No archive/mixed command log exists in this assigned surviving payload set. Scripted fixture review JSON is not an actual independent development review."
+          ],
+          "remaining_uses": [
+            "Feature README direct observation link",
+            "ticket README fixture link",
+            "Own issue completion evidence",
+            "ticket-06/06-completion.md prerequisite section",
+            "ticket-07/07-completion.md prerequisite section",
+            "ticket-08/08-completion.md prerequisite section"
+          ],
+          "retained_results_and_source": {
+            "implementation": "34a49b7090a77d689a67c4230cc8b5f12c9c9f35",
+            "result": "362 passed in 408.88s; earlier 355 is not final; statics/install passed",
+            "scope": "bounded fresh repairs and exhaustion across check/review/merge/candidate gates",
+            "paths": [
+              "evidence/ticket-05/05-completion.md",
+              "evidence/ticket-05/05-scenario-results.json"
+            ]
+          },
+          "worker_proposal": {
+            "path": "evidence/historical-evidence-assessment/captures/assessor-01-08-ec3c831ecd3a4c4c91e28c138129a678/proposal.json",
+            "sha256": "ccbe99e185eaaaff691d9fdb322774e89cf42e1275cf8df98ec80371550273f6",
+            "group_id": "ticket-05-observations",
+            "reference_report": "shared inventory/reference report and immutable proposal contain lexical reader candidates; absence of matches is not absence of use"
+          },
+          "final_review": {
+            "decision": "keep",
+            "review_id": "historical-evidence-review-20261116-fresh-01",
+            "deletion_approved": false,
+            "human_decision": {
+              "status": "not required for this keep/routine decision"
+            },
+            "execution_eligibility": "protected; no deletion proposal approved",
+            "future_execution_checks": [
+              "exact current identities and unchanged proposal",
+              "required retained results/source remain available",
+              "actual remaining active/frozen/continuation readers resolved",
+              "all current required approvals and policy conditions",
+              "guarded Python execution and actual navigation/result recording"
+            ],
+            "execution_attempted": false
+          },
+          "information_loss": "Would lose exact scenario outcomes, source/Git identities, diagnostics and observed assertion distinctions. A rerun would be a new observation.",
+          "reassessment": {
+            "trigger_ticket": null,
+            "next_human_qa": "ticket-harness/EC1",
+            "remaining_use": [
+              "Feature README direct observation link",
+              "ticket README fixture link",
+              "Own issue completion evidence",
+              "ticket-06/06-completion.md prerequisite section",
+              "ticket-07/07-completion.md prerequisite section",
+              "ticket-08/08-completion.md prerequisite section"
+            ],
+            "condition": "Reaching trigger requires reassessment before completion bookkeeping; it does not authorize deletion. Unresolved or no usable trigger goes to next EC1 human evidence QA.",
+            "worker_route": {
+              "trigger_ticket": null,
+              "next_human_qa": "EC1 evidence review if reviewer disputes retention; otherwise durable/needed evidence remains retained",
+              "question": "No automatic deletion when milestone is accepted."
+            }
+          }
+        },
+        {
+          "group_id": "ticket-05-navigation",
+          "files": [
+            {
+              "path": "evidence/ticket-05/README.md",
+              "kind": "regular",
+              "size": 1961,
+              "sha256": "1a4613591f1f4a56124f1dc8b1c084a2c756e69526d447652401b0b49bd83567",
+              "mode": "0o100644",
+              "nlink": 1
+            }
+          ],
+          "inventory_binding": {
+            "path": "evidence/historical-evidence-assessment/captures/inventory-root-72f0b403e93345f0a95967f008f9b99a/inventory-reference.json.gz",
+            "sha256": "f8aa9c90b82bcc4e34205c8159af1f38469d65e37a8e706836c9c90986124919",
+            "path_root": "repository-relative file identities; authority paths feature-relative"
+          },
+          "evidence_type": "maintained navigation plus historical retirement account",
+          "proposed_action": "keep",
+          "reason_codes": [
+            "NAVIGATION_DEPENDENCY",
+            "RETIREMENT_PROVENANCE"
+          ],
+          "supporting_facts": [
+            "Links the two retained payloads and historical path migration guide.",
+            "Retirement date/old hash/byte count and declared losses must survive."
+          ],
+          "remaining_uses": [
+            "evidence/README.md ticket table",
+            "Feature evidence readers"
+          ],
+          "retained_results_and_source": {
+            "implementation": "34a49b7090a77d689a67c4230cc8b5f12c9c9f35",
+            "result": "362 passed in 408.88s; earlier 355 is not final; statics/install passed",
+            "scope": "bounded fresh repairs and exhaustion across check/review/merge/candidate gates",
+            "paths": [
+              "evidence/ticket-05/05-completion.md",
+              "evidence/ticket-05/05-scenario-results.json"
+            ]
+          },
+          "worker_proposal": {
+            "path": "evidence/historical-evidence-assessment/captures/assessor-01-08-ec3c831ecd3a4c4c91e28c138129a678/proposal.json",
+            "sha256": "ccbe99e185eaaaff691d9fdb322774e89cf42e1275cf8df98ec80371550273f6",
+            "group_id": "ticket-05-navigation",
+            "reference_report": "shared inventory/reference report and immutable proposal contain lexical reader candidates; absence of matches is not absence of use"
+          },
+          "final_review": {
+            "decision": "keep",
+            "review_id": "historical-evidence-review-20261116-fresh-01",
+            "deletion_approved": false,
+            "human_decision": {
+              "status": "not required for this keep/routine decision"
+            },
+            "execution_eligibility": "protected; no deletion proposal approved",
+            "future_execution_checks": [
+              "exact current identities and unchanged proposal",
+              "required retained results/source remain available",
+              "actual remaining active/frozen/continuation readers resolved",
+              "all current required approvals and policy conditions",
+              "guarded Python execution and actual navigation/result recording"
+            ],
+            "execution_attempted": false
+          },
+          "information_loss": "Would remove current wayfinding and, for 03\u201308, the retained retirement account.",
+          "reassessment": {
+            "trigger_ticket": ".scratch/ticket-harness/issues/30-calibrate-and-adopt-the-complete-evidence-workflow.md",
+            "next_human_qa": "ticket-harness/EC1",
+            "remaining_use": [
+              "evidence/README.md ticket table",
+              "Feature evidence readers"
+            ],
+            "condition": "Reaching trigger requires reassessment before completion bookkeeping; it does not authorize deletion. Unresolved or no usable trigger goes to next EC1 human evidence QA.",
+            "worker_route": {
+              "trigger_ticket": ".scratch/ticket-harness/issues/30-calibrate-and-adopt-the-complete-evidence-workflow.md",
+              "next_human_qa": "EC3",
+              "question": "If navigation is refreshed, preserve retirement account and clarify that its dated M1/F1 sentence describes 2026-11-13; current M1 was accepted 2026-11-16. Do not edit historical completions."
+            }
+          }
+        },
+        {
+          "group_id": "ticket-05-capture-control",
+          "files": [
+            {
+              "path": "evidence/ticket-05/evidence-review.json",
+              "kind": "regular",
+              "size": 433,
+              "sha256": "dfff746095764c79b416520a7a4590f106292994575b7e1d484157f05c723149",
+              "mode": "0o100600",
+              "nlink": 1,
+              "identity_scope": "inventory-time mutable capture/review authority; authorized consolidation changes bytes; never approved for deletion"
+            }
+          ],
+          "inventory_binding": {
+            "path": "evidence/historical-evidence-assessment/captures/inventory-root-72f0b403e93345f0a95967f008f9b99a/inventory-reference.json.gz",
+            "sha256": "f8aa9c90b82bcc4e34205c8159af1f38469d65e37a8e706836c9c90986124919",
+            "path_root": "repository-relative file identities; authority paths feature-relative"
+          },
+          "evidence_type": "new helper-owned shared capture reference/control metadata",
+          "proposed_action": "keep",
+          "reason_codes": [
+            "CAPTURE_CONTROL_REMAINING_USE"
+          ],
+          "supporting_facts": [
+            "Newly allocated helper record links this ticket to current shared historical assessment; empty assessments/approvals are not deletion permission."
+          ],
+          "remaining_uses": [
+            "Current capture registration",
+            "Fresh reviewer consolidation and future guarded tool"
+          ],
+          "retained_results_and_source": {
+            "implementation": "34a49b7090a77d689a67c4230cc8b5f12c9c9f35",
+            "result": "362 passed in 408.88s; earlier 355 is not final; statics/install passed",
+            "scope": "bounded fresh repairs and exhaustion across check/review/merge/candidate gates",
+            "paths": [
+              "evidence/ticket-05/05-completion.md",
+              "evidence/ticket-05/05-scenario-results.json"
+            ]
+          },
+          "worker_proposal": {
+            "path": "evidence/historical-evidence-assessment/captures/assessor-01-08-ec3c831ecd3a4c4c91e28c138129a678/proposal.json",
+            "sha256": "ccbe99e185eaaaff691d9fdb322774e89cf42e1275cf8df98ec80371550273f6",
+            "group_id": "ticket-05-capture-control",
+            "reference_report": "shared inventory/reference report and immutable proposal contain lexical reader candidates; absence of matches is not absence of use"
+          },
+          "final_review": {
+            "decision": "keep",
+            "review_id": "historical-evidence-review-20261116-fresh-01",
+            "deletion_approved": false,
+            "human_decision": {
+              "status": "not required for this keep/routine decision"
+            },
+            "execution_eligibility": "protected; no deletion proposal approved",
+            "future_execution_checks": [
+              "exact current identities and unchanged proposal",
+              "required retained results/source remain available",
+              "actual remaining active/frozen/continuation readers resolved",
+              "all current required approvals and policy conditions",
+              "guarded Python execution and actual navigation/result recording"
+            ],
+            "execution_attempted": false
+          },
+          "information_loss": "Would break current shared provenance and later review consolidation.",
+          "reassessment": {
+            "trigger_ticket": null,
+            "next_human_qa": "ticket-harness/EC1",
+            "remaining_use": [
+              "Current capture registration",
+              "Fresh reviewer consolidation and future guarded tool"
+            ],
+            "condition": "Reaching trigger requires reassessment before completion bookkeeping; it does not authorize deletion. Unresolved or no usable trigger goes to next EC1 human evidence QA.",
+            "worker_route": {
+              "trigger_ticket": null,
+              "next_human_qa": "EC1 evidence review if reviewer disputes retention; otherwise durable/needed evidence remains retained",
+              "question": "No automatic deletion when milestone is accepted."
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "approvals": [],
+  "execution_results": []
+}

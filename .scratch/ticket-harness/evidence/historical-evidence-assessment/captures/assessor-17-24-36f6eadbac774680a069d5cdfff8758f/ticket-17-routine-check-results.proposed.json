@@ -1,0 +1,159 @@
+{
+  "label": "PROPOSED DERIVED LOSSY REPLACEMENT; NOT APPROVED; ORIGINALS REMAIN",
+  "ticket": "17",
+  "implementation_source": "4814eabd4bf2f196f7fb6915667c4305b7c2d0b9",
+  "actual_capture_head": "c82b15f504c29a69e8fb708e10568574150e80d3",
+  "original_baseline": "c82b15f504c29a69e8fb708e10568574150e80d3",
+  "source_identity_qualification": "Checks ran before implementation commit on working bytes; preserved source_identities identify those bytes. Completion and independent reports bind them to implementation Git blobs. This assessment does not rerun or renew checks.",
+  "source_identities": {
+    "retained_exact_map": ".scratch/ticket-harness/evidence/ticket-17/17-check-results.json#/source_identities",
+    "entry_count": 31,
+    "qualification": "Retained map identifies actual checked working bytes; completion/original independent reports bind these to named implementation commit. No new source verification claimed."
+  },
+  "originals": [
+    {
+      "path": ".scratch/ticket-harness/evidence/ticket-17/17-checks.log",
+      "size": 11571,
+      "sha256": "ac42f790287b17269b9a008b87e985e797b78295af2620b1d6872d21d1f71fb5"
+    },
+    {
+      "path": ".scratch/ticket-harness/evidence/ticket-17/17-bookkeeping-checks.log",
+      "size": 1710,
+      "sha256": "3bb2631b12077bedc2fc895e0c8b67f15b7d3fa0e009804d77b45d6a17aa06e0"
+    }
+  ],
+  "commands": [
+    {
+      "command": "git rev-parse HEAD",
+      "observed_exits_in_order": [
+        0,
+        0
+      ],
+      "source_logs": [
+        ".scratch/ticket-harness/evidence/ticket-17/17-checks.log"
+      ],
+      "failure_details": []
+    },
+    {
+      "command": "git status --short",
+      "observed_exits_in_order": [
+        0,
+        0
+      ],
+      "source_logs": [
+        ".scratch/ticket-harness/evidence/ticket-17/17-checks.log"
+      ],
+      "failure_details": []
+    },
+    {
+      "command": "bash -n .scratch/ticket-harness/evidence/17-run-checks.sh",
+      "observed_exits_in_order": [
+        0,
+        0
+      ],
+      "source_logs": [
+        ".scratch/ticket-harness/evidence/ticket-17/17-checks.log"
+      ],
+      "failure_details": []
+    },
+    {
+      "command": "env PYTHONPATH=/usr/lib/python3/dist-packages {historical_interpreter} /home/ajkerr1/.codex/skills/.system/skill-creator/scripts/quick_validate.py .agents/skills/custom/implement-with-checkboxes",
+      "observed_exits_in_order": [
+        0,
+        0
+      ],
+      "source_logs": [
+        ".scratch/ticket-harness/evidence/ticket-17/17-checks.log"
+      ],
+      "failure_details": []
+    },
+    {
+      "command": "env PYTHONPATH=/usr/lib/python3/dist-packages {historical_interpreter} /home/ajkerr1/.codex/skills/.system/skill-creator/scripts/quick_validate.py .agents/skills/custom/create-next-agent-prompt",
+      "observed_exits_in_order": [
+        0,
+        0
+      ],
+      "source_logs": [
+        ".scratch/ticket-harness/evidence/ticket-17/17-checks.log"
+      ],
+      "failure_details": []
+    },
+    {
+      "command": "env PYTHONPATH=/usr/lib/python3/dist-packages {historical_interpreter} /home/ajkerr1/.codex/skills/.system/skill-creator/scripts/quick_validate.py .agents/skills/custom/review-architecture",
+      "observed_exits_in_order": [
+        0,
+        0
+      ],
+      "source_logs": [
+        ".scratch/ticket-harness/evidence/ticket-17/17-checks.log"
+      ],
+      "failure_details": []
+    },
+    {
+      "command": "{historical_interpreter} .scratch/ticket-harness/evidence/17-check.py",
+      "observed_exits_in_order": [
+        1,
+        0
+      ],
+      "source_logs": [
+        ".scratch/ticket-harness/evidence/ticket-17/17-checks.log"
+      ],
+      "failure_details": [
+        "command: /home/ajkerr1/development/agentic_template/.micromamba/envs/dev/bin/python .scratch/ticket-harness/evidence/17-check.py\nTraceback (most recent call last):\n  File \"/home/ajkerr1/development/agentic_template/.scratch/ticket-harness/evidence/17-check.py\", line 102, in <module>\n    main()\n  File \"/home/ajkerr1/development/agentic_template/.scratch/ticket-harness/evidence/17-check.py\", line 41, in main\n    observations = audit(paths)\n                   ^^^^^^^^^^^^\n  File \"/home/ajkerr1/development/agentic_template/.scratch/ticket-harness/evidence/16-check.py\", line 96, in links\n    assert target.exists(), (path, href, \"missing file or directory\")\n           ^^^^^^^^^^^^^^^\nAssertionError: (PosixPath('/home/ajkerr1/development/agentic_template/.scratch/ticket-harness/evidence/17-implementation-report.md'), '17-check-results.json', 'missing file or directory')\nexit=1\n"
+      ]
+    },
+    {
+      "command": "git diff --check c82b15f504c29a69e8fb708e10568574150e80d3",
+      "observed_exits_in_order": [
+        0,
+        0
+      ],
+      "source_logs": [
+        ".scratch/ticket-harness/evidence/ticket-17/17-checks.log"
+      ],
+      "failure_details": []
+    },
+    {
+      "command": "{historical_interpreter} .scratch/ticket-harness/evidence/17-bookkeeping-check.py",
+      "observed_exits_in_order": [
+        0,
+        0,
+        0
+      ],
+      "source_logs": [
+        ".scratch/ticket-harness/evidence/ticket-17/17-bookkeeping-checks.log"
+      ],
+      "failure_details": []
+    },
+    {
+      "command": "git diff --cached --check",
+      "observed_exits_in_order": [
+        2
+      ],
+      "source_logs": [
+        ".scratch/ticket-harness/evidence/ticket-17/17-bookkeeping-checks.log"
+      ],
+      "failure_details": [
+        "command: git diff --cached --check\n.scratch/ticket-harness/evidence/17-review-spec-assignment.txt:10: new blank line at EOF.\n.scratch/ticket-harness/evidence/17-review-standards-assignment.txt:28: new blank line at EOF.\nexit=2\nCorrection: preserve exact prompt bytes in adjacent gzip artifacts and remove only\nextra EOF blank lines in readable displays; original report/instruction digests\nremain intact, and the collector now checks git diff --check against source.\n"
+      ]
+    }
+  ],
+  "substantive_results": {
+    "links": 94,
+    "protected_files": 6228,
+    "validators": 3,
+    "scope": "guidance only; no runtime suite claimed",
+    "resolved_failure": "Initial17-check.py exit1: 17-implementation-report.md linked not-yet-created17-check-results.json; corrected collector and subsequent check pass. The first failed trace is retained above.",
+    "bookkeeping": "First check173 links then175; final check confirms six criteria, unchanged wording/dependency/source/original reports/raw prompts and175 links. Staged whitespace exit2 arose only from trailing EOF blanks in two readable assignment displays; exact prompts retained in adjacent gzip artifacts and only display EOF blanks normalized. Final source/raw-prompt audit passed; no source repair or original report rewriting."
+  },
+  "durable_results_kept": [
+    ".scratch/ticket-harness/evidence/ticket-17/17-completion.md",
+    ".scratch/ticket-harness/evidence/ticket-17/17-check-results.json",
+    ".scratch/ticket-harness/evidence/ticket-17/17-review-spec.md",
+    ".scratch/ticket-harness/evidence/ticket-17/17-review-standards.md"
+  ],
+  "limits": "Original independent judgments, walkthrough sources/bundles, raw failed17 D report, exact prompts, capture identities and histories remain separate protected originals. Unknown backend model/context delivery is not observed zero. M1 later accepted at88e4cd8 on2026-11-16; these historical checks do not verify that later source.",
+  "loss": "Omits repeated git-status path listings, successful stdout formatting and repeated bundle-verification text. Preserves commands/exits and substantive validation/source facts; full historical output would be lost only after later approval and execution.",
+  "required_review": "Fresh High compares this candidate to both originals, then human merge approval at next EC1 QA. Current workflow has no guarded retirement executor; no deletion authority supplied.",
+  "historical_interpreter": "/home/ajkerr1/development/agentic_template/.micromamba/envs/dev/bin/python"
+}

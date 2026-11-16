@@ -1,0 +1,802 @@
+{
+  "schema_version": 1,
+  "folder": "evidence/ticket-20",
+  "scope": {
+    "tickets": [
+      {
+        "id": "20",
+        "issue": "issues/20-own-implementation-attempt-transitions.md"
+      }
+    ],
+    "shared": null,
+    "milestone": null
+  },
+  "captures": [],
+  "shared_records": [
+    "evidence/historical-evidence-assessment/evidence-review.json",
+    "evidence/evidence-retention-audit-01/evidence-review.json",
+    "evidence/m1-final-review-01/evidence-review.json",
+    "evidence/m1-human-review-01/evidence-review.json",
+    "evidence/m1-index-repair-01/evidence-review.json",
+    "evidence/m1-qa-01/evidence-review.json"
+  ],
+  "assessments": [
+    {
+      "review_id": "historical-evidence-review-20261116-fresh-01",
+      "reviewer": "/root/fresh_evidence_review",
+      "settings": {
+        "configured_model": "gpt-6.1-sol",
+        "configured_reasoning": "High",
+        "fresh_assignment": true,
+        "context_target": 250000,
+        "context_enforcement": "advisory; no hard-enforcement telemetry",
+        "backend_delivery_telemetry": "unavailable",
+        "occupied_context_telemetry": "unavailable"
+      },
+      "report": {
+        "path": "evidence/historical-evidence-assessment/captures/fresh-reviewer-5ccb3b2240ed4f8ba456d3e7053c3122/original-review.md",
+        "size": 9699,
+        "sha256": "1e9054aed9168375ce4019116ff2112961d455dd537c3b2f1ffbf667f447f901"
+      },
+      "comparison": {
+        "path": "evidence/historical-evidence-assessment/captures/fresh-reviewer-5ccb3b2240ed4f8ba456d3e7053c3122/comparison-results.json",
+        "size": 1819455,
+        "sha256": "8ece1529ffef35a3aecc203c2d99252af4edbedfa1056f8c1b295d9a8b231c7c"
+      },
+      "inventory": {
+        "path": "evidence/historical-evidence-assessment/captures/inventory-root-72f0b403e93345f0a95967f008f9b99a/inventory-reference.json.gz",
+        "sha256": "f8aa9c90b82bcc4e34205c8159af1f38469d65e37a8e706836c9c90986124919",
+        "path_root": "repository-relative file identities; authority paths feature-relative"
+      },
+      "format": "descriptive historical assessment v1; no delivered retirement execution schema",
+      "execution_support": "unsupported: capture helper only implements allocate/register",
+      "execution": {
+        "attempted": false,
+        "removed_paths": []
+      },
+      "software_acceptance": "unchanged; no QA or ticket acceptance authority",
+      "groups": [
+        {
+          "group_id": "ticket-20-redundant-driver-log",
+          "files": [
+            {
+              "path": "evidence/ticket-20/20-final-checks.log",
+              "kind": "regular",
+              "size": 1221,
+              "sha256": "0f7b76304e1ef7cd0cfbd0e1386e48e7fa21050ec9e81c0335c0ada3e04b12be",
+              "mode": "0o100644",
+              "nlink": 1
+            }
+          ],
+          "inventory_binding": {
+            "path": "evidence/historical-evidence-assessment/captures/inventory-root-72f0b403e93345f0a95967f008f9b99a/inventory-reference.json.gz",
+            "sha256": "f8aa9c90b82bcc4e34205c8159af1f38469d65e37a8e706836c9c90986124919",
+            "path_root": "repository-relative file identities; authority paths feature-relative"
+          },
+          "evidence_type": "routine passing command-result serialization",
+          "proposed_action": "delete",
+          "reason_codes": [
+            "ROUTINE_OUTPUT",
+            "EXACT_RESULT_REDUNDANCY"
+          ],
+          "supporting_facts": [
+            "Entire file parsed as six JSON objects. Exact Python value equality against retained final-check-results.json results list is true, including full command argv, exits, seconds and historical log filenames.",
+            "The driver file contains no stdout/stderr stream, original independent review, human approval or unique substantive outcome.",
+            "This comparison is read-only evidence assessment, not a test replay or independent verification of historical commands."
+          ],
+          "remaining_uses": [
+            "Retained completion/results/source and original reviews preserve historical verification. Completion and implementation report still link this driver; maintained navigation must mark successful retirement and point to results.",
+            "Preserve historical evidence-manifest hash reference; do not rewrite original provenance."
+          ],
+          "retained_results_and_source": [
+            ".scratch/ticket-harness/evidence/ticket-20/20-final-check-results.json",
+            ".scratch/ticket-harness/evidence/ticket-20/20-final-source.json",
+            ".scratch/ticket-harness/evidence/ticket-20/20-completion.md"
+          ],
+          "worker_proposal": {
+            "path": "evidence/historical-evidence-assessment/captures/assessor-17-24-36f6eadbac774680a069d5cdfff8758f/proposal.json",
+            "sha256": "9e087ee38cfef356700512e9fc88d78fb04d0bbef075746c511ae544a2a5a85b",
+            "group_id": "ticket-20-redundant-driver-log",
+            "reference_report": "shared inventory/reference report and immutable proposal contain lexical reader candidates; absence of matches is not absence of use"
+          },
+          "final_review": {
+            "decision": "approve routine retirement assessment",
+            "review_id": "historical-evidence-review-20261116-fresh-01",
+            "deletion_approved": true,
+            "human_decision": {
+              "status": "not required for this keep/routine decision"
+            },
+            "execution_eligibility": "blocked; guarded retirement executor and capture/retirement guidance reconciliation absent",
+            "future_execution_checks": [
+              "exact current identities and unchanged proposal",
+              "required retained results/source remain available",
+              "actual remaining active/frozen/continuation readers resolved",
+              "all current required approvals and policy conditions",
+              "guarded Python execution and actual navigation/result recording"
+            ],
+            "execution_attempted": false
+          },
+          "exact_source": "0aa2660505e4233ca2e321cee439ba51b150e055",
+          "information_loss": "Only JSONL framing/whitespace is lost; all six command result values retained exactly.",
+          "reassessment": {
+            "trigger_ticket": "ticket-harness/26",
+            "next_human_qa": "ticket-harness/EC1",
+            "remaining_use": [
+              "Retained completion/results/source and original reviews preserve historical verification. Completion and implementation report still link this driver; maintained navigation must mark successful retirement and point to results.",
+              "Preserve historical evidence-manifest hash reference; do not rewrite original provenance."
+            ],
+            "condition": "Reaching trigger requires reassessment before completion bookkeeping; it does not authorize deletion. Unresolved or no usable trigger goes to next EC1 human evidence QA.",
+            "worker_route": {
+              "triggering_ticket": "ticket-harness/26",
+              "next_human_qa": "ticket-harness/EC1",
+              "route": "Reassess at trigger after code/policy integration, before completion bookkeeping; unresolved or no usable trigger goes to next human QA. Reaching trigger does not authorize deletion."
+            }
+          }
+        },
+        {
+          "group_id": "ticket-20-checkpoint-compatibility",
+          "files": [
+            {
+              "path": "evidence/ticket-20/20-checkpoint/continue.log",
+              "kind": "regular",
+              "size": 105,
+              "sha256": "24793a7cd07287f843c2a1e1aba4eb0d08d20fe97bc00ef6dbb6b448a081eb31",
+              "mode": "0o100644",
+              "nlink": 1
+            },
+            {
+              "path": "evidence/ticket-20/20-checkpoint/continue.py",
+              "kind": "regular",
+              "size": 2703,
+              "sha256": "7d7dd337df074aa59a6faefef3d2496ff1d980520ae97875d2651c6ac6ea2042",
+              "mode": "0o100644",
+              "nlink": 1
+            },
+            {
+              "path": "evidence/ticket-20/20-checkpoint/preservation-history.md",
+              "kind": "regular",
+              "size": 2960,
+              "sha256": "2cb48ff7923b40ee998ac61e671b74d97daeeee881032692d5f563a3bb3dc097",
+              "mode": "0o100644",
+              "nlink": 1
+            },
+            {
+              "path": "evidence/ticket-20/20-checkpoint/produce.log",
+              "kind": "regular",
+              "size": 91,
+              "sha256": "7eacae2d2b5954b75406ef3b3de0f7aa7ebfc0eb77af39e4fba2f3083ead1624",
+              "mode": "0o100644",
+              "nlink": 1
+            },
+            {
+              "path": "evidence/ticket-20/20-checkpoint/produce.py",
+              "kind": "regular",
+              "size": 1920,
+              "sha256": "fce77c3cabf46e22fe515130c2df9e58db3ae773e30dfdbe8f83736b46d90e8b",
+              "mode": "0o100644",
+              "nlink": 1
+            },
+            {
+              "path": "evidence/ticket-20/20-checkpoint/producer.json",
+              "kind": "regular",
+              "size": 57955,
+              "sha256": "3ac21617aee0920d5b95523e18b8a9252a161c33bbef038be275b6732369cd08",
+              "mode": "0o100644",
+              "nlink": 1
+            },
+            {
+              "path": "evidence/ticket-20/20-checkpoint/renewed/consumer-source-crosscheck.json",
+              "kind": "regular",
+              "size": 1387,
+              "sha256": "2c104108037a0dc80ea67ebfd48944c663b7148a41a6d38ccd1659d52d096d12",
+              "mode": "0o100644",
+              "nlink": 1
+            },
+            {
+              "path": "evidence/ticket-20/20-checkpoint/renewed/continuation.json",
+              "kind": "regular",
+              "size": 147306,
+              "sha256": "d6ca0fdad1ff2ed612244250c62d0b6bddcbca7005e22f7881c765f4896d0388",
+              "mode": "0o100644",
+              "nlink": 1
+            },
+            {
+              "path": "evidence/ticket-20/20-checkpoint/renewed/continued-fixture.tar.gz",
+              "kind": "regular",
+              "size": 64204,
+              "sha256": "992cd5966ca8baa09b931dd8e69e7d3d311c4436ecd6b2398e218acb6944bf3b",
+              "mode": "0o100644",
+              "nlink": 1
+            },
+            {
+              "path": "evidence/ticket-20/20-checkpoint/renewed/producer.json",
+              "kind": "regular",
+              "size": 57955,
+              "sha256": "7dd7425226e97083dae4194cc3c4c10f6ce9b1158abd570ff328729951364926",
+              "mode": "0o100644",
+              "nlink": 1
+            },
+            {
+              "path": "evidence/ticket-20/20-checkpoint/renewed/stopped-checkpoint.json",
+              "kind": "regular",
+              "size": 48927,
+              "sha256": "fba86a241a27d008575c40b74dae21a38205ee7b2ecf1a9add6813b58ec9867e",
+              "mode": "0o100644",
+              "nlink": 1
+            },
+            {
+              "path": "evidence/ticket-20/20-checkpoint/renewed/stopped-fixture.tar.gz",
+              "kind": "regular",
+              "size": 47601,
+              "sha256": "d289785f3360cc5ba3a5810ef4d15a78ad15da381146fcb0cdc7cff535716f89",
+              "mode": "0o100644",
+              "nlink": 1
+            },
+            {
+              "path": "evidence/ticket-20/20-checkpoint/renewed/stopped-run.json",
+              "kind": "regular",
+              "size": 25222,
+              "sha256": "0d96aaa5e48c31c22ffb8dca457fb1eff31dd33d5bf0a77bb248aabd932648aa",
+              "mode": "0o100644",
+              "nlink": 1
+            },
+            {
+              "path": "evidence/ticket-20/20-checkpoint/reproduce.log",
+              "kind": "regular",
+              "size": 91,
+              "sha256": "faf3ed45c0cc7c659b2b073e63b275a53b20ceff95be5d2a5d190fe7788064b6",
+              "mode": "0o100644",
+              "nlink": 1
+            },
+            {
+              "path": "evidence/ticket-20/20-checkpoint/reproduce.py",
+              "kind": "regular",
+              "size": 2046,
+              "sha256": "e524de45c46cd39827e49e43a5769ce20f3263d91739296f2ed3806b2e55bb74",
+              "mode": "0o100644",
+              "nlink": 1
+            },
+            {
+              "path": "evidence/ticket-20/20-checkpoint/stopped-checkpoint.json",
+              "kind": "regular",
+              "size": 48927,
+              "sha256": "9eb35167a5bb480a86331aa06c8d48d41da74e92b076484479f1ab52a3e1ff4c",
+              "mode": "0o100644",
+              "nlink": 1
+            },
+            {
+              "path": "evidence/ticket-20/20-checkpoint/stopped-fixture.tar.gz",
+              "kind": "regular",
+              "size": 45,
+              "sha256": "85cea451eec057fa7e734548ca3ba6d779ed5836a3f9de14b8394575ef0d7d8e",
+              "mode": "0o100644",
+              "nlink": 1
+            },
+            {
+              "path": "evidence/ticket-20/20-checkpoint/stopped-run.json",
+              "kind": "regular",
+              "size": 25222,
+              "sha256": "14d66237192839be8a59c01246353ded951138d6271b4dcac9f96d22dc24d184",
+              "mode": "0o100644",
+              "nlink": 1
+            }
+          ],
+          "inventory_binding": {
+            "path": "evidence/historical-evidence-assessment/captures/inventory-root-72f0b403e93345f0a95967f008f9b99a/inventory-reference.json.gz",
+            "sha256": "f8aa9c90b82bcc4e34205c8159af1f38469d65e37a8e706836c9c90986124919",
+            "path_root": "repository-relative file identities; authority paths feature-relative"
+          },
+          "evidence_type": "genuine producer/consumer checkpoint records, fixtures and compatibility source provenance",
+          "proposed_action": "keep",
+          "reason_codes": [
+            "REMAINING_CONTINUATION_COMPATIBILITY_USE",
+            "UNIQUE_SOURCE_INSTRUCTIONS_RESULTS"
+          ],
+          "supporting_facts": [
+            "20 original live fixture was lost; original45-byte archive is empty failed capture. Renewed producer ran exact baseline later after local edits, not pre-edit. Preservation history and source-pointer correction prevent false provenance.",
+            "M1 accepted at88e4cd8 does not repeal deliberate continuation compatibility or approved44 cumulative release requirements.",
+            "Archive member identities are present in shared inventory. These archives may contain scripted runtime reports/approvals and Git objects; no entire-archive deletion is proposed. Actual independent reviews, if any embedded, remain durable."
+          ],
+          "remaining_uses": [
+            "Named M1 compatibility examples (especially24 producer/current consumer) and future43/44 cumulative continuation/support checks; no authorization to remove supported compatibility."
+          ],
+          "retained_results_and_source": [
+            ".scratch/ticket-harness/evidence/ticket-20/20-completion.md",
+            ".scratch/ticket-harness/evidence/ticket-20/20-checkpoint/preservation-history.md",
+            ".scratch/ticket-harness/evidence/ticket-20/20-checkpoint/producer.json",
+            ".scratch/ticket-harness/evidence/ticket-20/20-checkpoint/renewed/continuation.json",
+            ".scratch/ticket-harness/evidence/ticket-20/20-checkpoint/renewed/producer.json"
+          ],
+          "worker_proposal": {
+            "path": "evidence/historical-evidence-assessment/captures/assessor-17-24-36f6eadbac774680a069d5cdfff8758f/proposal.json",
+            "sha256": "9e087ee38cfef356700512e9fc88d78fb04d0bbef075746c511ae544a2a5a85b",
+            "group_id": "ticket-20-checkpoint-compatibility",
+            "reference_report": "shared inventory/reference report and immutable proposal contain lexical reader candidates; absence of matches is not absence of use"
+          },
+          "final_review": {
+            "decision": "keep",
+            "review_id": "historical-evidence-review-20261116-fresh-01",
+            "deletion_approved": false,
+            "human_decision": {
+              "status": "not required for this keep/routine decision"
+            },
+            "execution_eligibility": "protected; no deletion proposal approved",
+            "future_execution_checks": [
+              "exact current identities and unchanged proposal",
+              "required retained results/source remain available",
+              "actual remaining active/frozen/continuation readers resolved",
+              "all current required approvals and policy conditions",
+              "guarded Python execution and actual navigation/result recording"
+            ],
+            "execution_attempted": false
+          },
+          "exact_source": "0aa2660505e4233ca2e321cee439ba51b150e055",
+          "information_loss": "None; all bytes retained.",
+          "reassessment": {
+            "trigger_ticket": "ticket-harness/44",
+            "next_human_qa": "ticket-harness/EC1",
+            "remaining_use": [
+              "Named M1 compatibility examples (especially24 producer/current consumer) and future43/44 cumulative continuation/support checks; no authorization to remove supported compatibility."
+            ],
+            "condition": "Reaching trigger requires reassessment before completion bookkeeping; it does not authorize deletion. Unresolved or no usable trigger goes to next EC1 human evidence QA.",
+            "worker_route": {
+              "triggering_ticket": "ticket-harness/44",
+              "next_human_qa": "ticket-harness/EC1",
+              "route": "Reassess at trigger after code/policy integration, before completion bookkeeping; unresolved or no usable trigger goes to next human QA. Reaching trigger does not authorize deletion."
+            }
+          }
+        },
+        {
+          "group_id": "ticket-20-independent-review-and-history",
+          "files": [
+            {
+              "path": "evidence/ticket-20/20-finding-history.md",
+              "kind": "regular",
+              "size": 1534,
+              "sha256": "70258fe7efb2abe02773a302f7a45d7ff97e57daaf2fbb254b8fc934180d27c2",
+              "mode": "0o100644",
+              "nlink": 1
+            },
+            {
+              "path": "evidence/ticket-20/20-review-common.md",
+              "kind": "regular",
+              "size": 4736,
+              "sha256": "0dddc603b89d37730061be7cfec2144680ef976081f2f56bb4eb255a98adeb71",
+              "mode": "0o100644",
+              "nlink": 1
+            },
+            {
+              "path": "evidence/ticket-20/20-review-round1-assignments.json",
+              "kind": "regular",
+              "size": 1388,
+              "sha256": "dc5951fed7cbc697316948f39423dc496d520c5e1af00584e9594a0437f35840",
+              "mode": "0o100644",
+              "nlink": 1
+            },
+            {
+              "path": "evidence/ticket-20/20-review-round1-capture.json",
+              "kind": "regular",
+              "size": 2300,
+              "sha256": "959676531a97f2cce8a19150a25c8c83195005e125e9872c058664a63f506a97",
+              "mode": "0o100644",
+              "nlink": 1
+            },
+            {
+              "path": "evidence/ticket-20/20-review-round1-instructions.json",
+              "kind": "regular",
+              "size": 4393,
+              "sha256": "a9f226db745dbdb3caea8ca9256229f84a49a63a283a27269f14ddec380138f8",
+              "mode": "0o100644",
+              "nlink": 1
+            },
+            {
+              "path": "evidence/ticket-20/20-review-spec-01-audit.json",
+              "kind": "regular",
+              "size": 1235,
+              "sha256": "b4011531a70469c9bdb3ce1ad6152a8b350e2c9fcd84a817f4ffd47a1fdea7bb",
+              "mode": "0o100644",
+              "nlink": 1
+            },
+            {
+              "path": "evidence/ticket-20/20-review-spec-01-check.log",
+              "kind": "regular",
+              "size": 116,
+              "sha256": "16b6dafa258877fbf0f6c5da596891dfb17c2f4d37db307fb8e342a5dc62ff5b",
+              "mode": "0o100644",
+              "nlink": 1
+            },
+            {
+              "path": "evidence/ticket-20/20-review-spec-01-prompt.txt",
+              "kind": "regular",
+              "size": 1087,
+              "sha256": "baefbd4b1d0a604970ac3ec197723930acac4b78fbc993b842bec9a709371ead",
+              "mode": "0o100644",
+              "nlink": 1
+            },
+            {
+              "path": "evidence/ticket-20/20-review-spec-01.md",
+              "kind": "regular",
+              "size": 18441,
+              "sha256": "e03c924b8262f7e428eed26d2afe965586c3a0245fad90c8a8ebeff4b53d592e",
+              "mode": "0o100644",
+              "nlink": 1
+            },
+            {
+              "path": "evidence/ticket-20/20-review-spec-instructions.md",
+              "kind": "regular",
+              "size": 1295,
+              "sha256": "a6cc7173207be822f5fe41245ff5cdc81e4916ca2bae198b43cdfff45898a822",
+              "mode": "0o100644",
+              "nlink": 1
+            },
+            {
+              "path": "evidence/ticket-20/20-review-standards-01-prompt.txt",
+              "kind": "regular",
+              "size": 1107,
+              "sha256": "056c1028a1f121698b59b58250ffd2aaa5934d894da760e7408bac588c869c5f",
+              "mode": "0o100644",
+              "nlink": 1
+            },
+            {
+              "path": "evidence/ticket-20/20-review-standards-01.md",
+              "kind": "regular",
+              "size": 16228,
+              "sha256": "93e52457c6596c959a43db2a70b006128b3b120dc362b490043acf331e465bc4",
+              "mode": "0o100644",
+              "nlink": 1
+            },
+            {
+              "path": "evidence/ticket-20/20-review-standards-instructions.md",
+              "kind": "regular",
+              "size": 3169,
+              "sha256": "12e8584f75db6432efdd14315126ec729ccdcfb38fa2fee569533636f40f4e2d",
+              "mode": "0o100644",
+              "nlink": 1
+            },
+            {
+              "path": "evidence/ticket-20/evidence-review.json",
+              "kind": "regular",
+              "size": 430,
+              "sha256": "7800d03f803fd7d963e7ace9ae2bbd9557f1866a3ce47ecaae70a5412c0657e2",
+              "mode": "0o100600",
+              "nlink": 1,
+              "identity_scope": "inventory-time mutable capture/review authority; authorized consolidation changes bytes; never approved for deletion"
+            }
+          ],
+          "inventory_binding": {
+            "path": "evidence/historical-evidence-assessment/captures/inventory-root-72f0b403e93345f0a95967f008f9b99a/inventory-reference.json.gz",
+            "sha256": "f8aa9c90b82bcc4e34205c8159af1f38469d65e37a8e706836c9c90986124919",
+            "path_root": "repository-relative file identities; authority paths feature-relative"
+          },
+          "evidence_type": "original independent reports, assignments, exact instructions, capture/audit identities and append-only dispositions",
+          "proposed_action": "keep",
+          "reason_codes": [
+            "DURABLE_ORIGINAL_REVIEW",
+            "UNIQUE_SOURCE_INSTRUCTIONS_RESULTS"
+          ],
+          "supporting_facts": [
+            "Original separate Spec/Standards judgments, including failed/rejected rounds and different conclusions, are durable under current policy. Preserve identity snapshots/manifests and exact original/display mappings rather than replacing with completion prose.",
+            "Both final axes are clean only for their recorded exact source/scope; no future-source verification or human acceptance is inferred."
+          ],
+          "remaining_uses": [
+            "Durable rationale/authority and actual source review scope; later cumulative reviews/QA use original reports/history."
+          ],
+          "retained_results_and_source": [
+            ".scratch/ticket-harness/evidence/ticket-20/20-completion.md",
+            ".scratch/ticket-harness/reviews/ticket-20.md",
+            ".scratch/ticket-harness/evidence/ticket-20/20-finding-history.md",
+            ".scratch/ticket-harness/evidence/ticket-20/20-review-common.md",
+            ".scratch/ticket-harness/evidence/ticket-20/20-review-spec-01.md",
+            ".scratch/ticket-harness/evidence/ticket-20/20-review-spec-instructions.md",
+            ".scratch/ticket-harness/evidence/ticket-20/20-review-standards-01.md",
+            ".scratch/ticket-harness/evidence/ticket-20/20-review-standards-instructions.md"
+          ],
+          "worker_proposal": {
+            "path": "evidence/historical-evidence-assessment/captures/assessor-17-24-36f6eadbac774680a069d5cdfff8758f/proposal.json",
+            "sha256": "9e087ee38cfef356700512e9fc88d78fb04d0bbef075746c511ae544a2a5a85b",
+            "group_id": "ticket-20-independent-review-and-history",
+            "reference_report": "shared inventory/reference report and immutable proposal contain lexical reader candidates; absence of matches is not absence of use"
+          },
+          "final_review": {
+            "decision": "keep",
+            "review_id": "historical-evidence-review-20261116-fresh-01",
+            "deletion_approved": false,
+            "human_decision": {
+              "status": "not required for this keep/routine decision"
+            },
+            "execution_eligibility": "protected; no deletion proposal approved",
+            "future_execution_checks": [
+              "exact current identities and unchanged proposal",
+              "required retained results/source remain available",
+              "actual remaining active/frozen/continuation readers resolved",
+              "all current required approvals and policy conditions",
+              "guarded Python execution and actual navigation/result recording"
+            ],
+            "execution_attempted": false
+          },
+          "exact_source": "0aa2660505e4233ca2e321cee439ba51b150e055",
+          "information_loss": "None; all bytes retained.",
+          "reassessment": {
+            "trigger_ticket": null,
+            "next_human_qa": "ticket-harness/EC1",
+            "remaining_use": [
+              "Durable rationale/authority and actual source review scope; later cumulative reviews/QA use original reports/history."
+            ],
+            "condition": "Reaching trigger requires reassessment before completion bookkeeping; it does not authorize deletion. Unresolved or no usable trigger goes to next EC1 human evidence QA.",
+            "worker_route": {
+              "triggering_ticket": null,
+              "next_human_qa": "ticket-harness/EC1",
+              "route": "Reassess at trigger after code/policy integration, before completion bookkeeping; unresolved or no usable trigger goes to next human QA. Reaching trigger does not authorize deletion."
+            }
+          }
+        },
+        {
+          "group_id": "ticket-20-remaining-provenance-and-tools",
+          "files": [
+            {
+              "path": "evidence/ticket-20/20-capture-audit.json",
+              "kind": "regular",
+              "size": 308,
+              "sha256": "797d35ddc64456fce1557799bd3c9f284bf095db8a59b38f61992f7ed63afac4",
+              "mode": "0o100644",
+              "nlink": 1
+            },
+            {
+              "path": "evidence/ticket-20/20-completion.md",
+              "kind": "regular",
+              "size": 6601,
+              "sha256": "c18c4fc9618d5ad132d0a7197a21d0c265b2da137820ff0fc8e13cc516597a4f",
+              "mode": "0o100644",
+              "nlink": 1
+            },
+            {
+              "path": "evidence/ticket-20/20-criterion-evidence.md",
+              "kind": "regular",
+              "size": 4697,
+              "sha256": "211f7ed1bf1835afa87932eb28991addd7c060cc7ad2fd7db759b674ecc7e13a",
+              "mode": "0o100644",
+              "nlink": 1
+            },
+            {
+              "path": "evidence/ticket-20/20-development-format.log",
+              "kind": "regular",
+              "size": 23,
+              "sha256": "257e2056c07d2caeafd1fe2ade777c2fe7d25f1092cd23bdcf4cf6c416daac14",
+              "mode": "0o100644",
+              "nlink": 1
+            },
+            {
+              "path": "evidence/ticket-20/20-development-mypy.log",
+              "kind": "regular",
+              "size": 44,
+              "sha256": "14fdf673bd175fe32ef42df34666481bb15e465313f7dbef32d0aea2ba76a26e",
+              "mode": "0o100644",
+              "nlink": 1
+            },
+            {
+              "path": "evidence/ticket-20/20-evidence-manifest.json",
+              "kind": "regular",
+              "size": 4923,
+              "sha256": "823a9a2ab018c666571e0c4cf569b1789aec1818b33c9f285f747b9de3f54e18",
+              "mode": "0o100644",
+              "nlink": 1
+            },
+            {
+              "path": "evidence/ticket-20/20-final-check-results.json",
+              "kind": "regular",
+              "size": 1825,
+              "sha256": "a8eaaec849a77b105b67ec6fb6292d951de4d4665460959f2615aeb9d047b0fb",
+              "mode": "0o100644",
+              "nlink": 1
+            },
+            {
+              "path": "evidence/ticket-20/20-final-source.json",
+              "kind": "regular",
+              "size": 16137,
+              "sha256": "4dc5bd4ee7c55c25011bdcc6bac279efa6ac904b2a5bf67de06c9d7d619fe626",
+              "mode": "0o100644",
+              "nlink": 1
+            },
+            {
+              "path": "evidence/ticket-20/20-implementation-report.md",
+              "kind": "regular",
+              "size": 12247,
+              "sha256": "659f62ae75b6a1a86a382bd3f53246ed5e43cf4b8a948f3706cc351f156480de",
+              "mode": "0o100644",
+              "nlink": 1
+            },
+            {
+              "path": "evidence/ticket-20/20-observation-summary.log",
+              "kind": "regular",
+              "size": 392,
+              "sha256": "df045c318746b0f5f72b8556422a620848d1be964472ff76d692f14866101163",
+              "mode": "0o100644",
+              "nlink": 1
+            },
+            {
+              "path": "evidence/ticket-20/20-staged-whitespace.log",
+              "kind": "regular",
+              "size": 351,
+              "sha256": "2bbb0e03b6e4c2334dbfa59cf98405350ba245631eb24e5086cfd461f5745b25",
+              "mode": "0o100644",
+              "nlink": 1
+            },
+            {
+              "path": "evidence/ticket-20/20-start.md",
+              "kind": "regular",
+              "size": 4735,
+              "sha256": "408e14b6e7c3cdc54dbf6e8dc153b7ae23b90a6d803ae6b9d7ce064ec288c6bb",
+              "mode": "0o100644",
+              "nlink": 1
+            },
+            {
+              "path": "evidence/ticket-20/20-tool-setup-escalated.log",
+              "kind": "regular",
+              "size": 1990,
+              "sha256": "7ae9deaeb6975eb952c9d20f80b0738d0082bffaf792438b157647c3efd7407f",
+              "mode": "0o100644",
+              "nlink": 1
+            },
+            {
+              "path": "evidence/ticket-20/20-tool-setup.log",
+              "kind": "regular",
+              "size": 1754,
+              "sha256": "d25e1c5a4a81f34689a0ac6130469d863ba843a1d4c0d8c0854c4bc23366c3be",
+              "mode": "0o100644",
+              "nlink": 1
+            },
+            {
+              "path": "evidence/ticket-20/20-tool-unavailable.log",
+              "kind": "regular",
+              "size": 437,
+              "sha256": "377fe2258c5832fb56b649a9a55b4ffa5191748422939d7a0aa209b8d687a47e",
+              "mode": "0o100644",
+              "nlink": 1
+            },
+            {
+              "path": "evidence/ticket-20/20-tools/capture20.py",
+              "kind": "regular",
+              "size": 2090,
+              "sha256": "9a007c8728ee227f55a87538a42c5e238e261d11d20ca22420c8f5fbed17f0de",
+              "mode": "0o100644",
+              "nlink": 1
+            },
+            {
+              "path": "evidence/ticket-20/20-tools/checks.py",
+              "kind": "regular",
+              "size": 2267,
+              "sha256": "d32051bfe1d1569a28ffac829211540a3be26ba48d71508e4a26e05577129bc4",
+              "mode": "0o100644",
+              "nlink": 1
+            },
+            {
+              "path": "evidence/ticket-20/20-tools/summarize.py",
+              "kind": "regular",
+              "size": 2164,
+              "sha256": "8045e0cd77ce4c1835ee2fc6795e6ba1e45fe091f1046bf4af7e7bc4f603b74b",
+              "mode": "0o100644",
+              "nlink": 1
+            },
+            {
+              "path": "evidence/ticket-20/20-versions.json",
+              "kind": "regular",
+              "size": 916,
+              "sha256": "33fc3eafea232e6bd8c8db1d9f9fe81906b5a86a12f3ec2abce5b6679ada20fc",
+              "mode": "0o100644",
+              "nlink": 1
+            },
+            {
+              "path": "evidence/ticket-20/README.md",
+              "kind": "regular",
+              "size": 3172,
+              "sha256": "08f7e3c741b3045bce84363c7091613588f932c427e10ce56e21c913c7a77543",
+              "mode": "0o100644",
+              "nlink": 1
+            }
+          ],
+          "inventory_binding": {
+            "path": "evidence/historical-evidence-assessment/captures/inventory-root-72f0b403e93345f0a95967f008f9b99a/inventory-reference.json.gz",
+            "sha256": "f8aa9c90b82bcc4e34205c8159af1f38469d65e37a8e706836c9c90986124919",
+            "path_root": "repository-relative file identities; authority paths feature-relative"
+          },
+          "evidence_type": "retained source/check results, implementation rationale, metadata and historical authored helpers",
+          "proposed_action": "keep",
+          "reason_codes": [
+            "UNIQUE_SOURCE_INSTRUCTIONS_RESULTS",
+            "UNCERTAIN_REUSABLE_HELPER"
+          ],
+          "supporting_facts": [
+            "This residual is explicit inventoried paths, not implicit permission for unnamed files. Completion/source/check results retain substantive outcomes after earlier raw retirement; current assessment does not recreate discarded bytes.",
+            "Historical authored helper scripts retain logic and original path assumptions; source/instruction identities may include uncommitted/external content. No helper was replayed. Capture evidence-review.json/allocation provenance is not final approval.",
+            "Routine-looking filenames alone do not establish disposability. Existing results/retention locators remain evidence of actual scope and historical losses."
+          ],
+          "remaining_uses": [
+            "Retained exact-source outcome and meaningful limitations; routine/helper reuse must be assessed by next evidence-workflow reassessment."
+          ],
+          "retained_results_and_source": [
+            ".scratch/ticket-harness/evidence/ticket-20/20-completion.md",
+            ".scratch/ticket-harness/evidence/ticket-20/20-final-check-results.json",
+            ".scratch/ticket-harness/evidence/ticket-20/20-final-source.json",
+            ".scratch/ticket-harness/evidence/ticket-20/20-implementation-report.md"
+          ],
+          "worker_proposal": {
+            "path": "evidence/historical-evidence-assessment/captures/assessor-17-24-36f6eadbac774680a069d5cdfff8758f/proposal.json",
+            "sha256": "9e087ee38cfef356700512e9fc88d78fb04d0bbef075746c511ae544a2a5a85b",
+            "group_id": "ticket-20-remaining-provenance-and-tools",
+            "reference_report": "shared inventory/reference report and immutable proposal contain lexical reader candidates; absence of matches is not absence of use"
+          },
+          "final_review": {
+            "decision": "keep",
+            "review_id": "historical-evidence-review-20261116-fresh-01",
+            "deletion_approved": false,
+            "human_decision": {
+              "status": "not required for this keep/routine decision"
+            },
+            "execution_eligibility": "protected; no deletion proposal approved",
+            "future_execution_checks": [
+              "exact current identities and unchanged proposal",
+              "required retained results/source remain available",
+              "actual remaining active/frozen/continuation readers resolved",
+              "all current required approvals and policy conditions",
+              "guarded Python execution and actual navigation/result recording"
+            ],
+            "execution_attempted": false
+          },
+          "exact_source": "0aa2660505e4233ca2e321cee439ba51b150e055",
+          "information_loss": "None; all bytes retained.",
+          "reassessment": {
+            "trigger_ticket": "ticket-harness/29",
+            "next_human_qa": "ticket-harness/EC1",
+            "remaining_use": [
+              "Retained exact-source outcome and meaningful limitations; routine/helper reuse must be assessed by next evidence-workflow reassessment."
+            ],
+            "condition": "Reaching trigger requires reassessment before completion bookkeeping; it does not authorize deletion. Unresolved or no usable trigger goes to next EC1 human evidence QA.",
+            "worker_route": {
+              "triggering_ticket": "ticket-harness/29",
+              "next_human_qa": "ticket-harness/EC1",
+              "route": "Reassess at trigger after code/policy integration, before completion bookkeeping; unresolved or no usable trigger goes to next human QA. Reaching trigger does not authorize deletion."
+            },
+            "uncertainty": "Unique historical source/instructions/results or helper/frozen-reader use not cleared; see supporting facts and immutable worker proposal."
+          }
+        }
+      ]
+    }
+  ],
+  "approvals": [
+    {
+      "review_id": "historical-evidence-review-20261116-fresh-01",
+      "group_id": "ticket-20-redundant-driver-log",
+      "actor": "/root/fresh_evidence_review",
+      "role": "fresh High evidence reviewer",
+      "decision": "approved",
+      "action": "delete",
+      "authority_scope": "policy judgment for these exact identities only; descriptive record is not an executable schema",
+      "files": [
+        {
+          "path": "evidence/ticket-20/20-final-checks.log",
+          "kind": "regular",
+          "size": 1221,
+          "sha256": "0f7b76304e1ef7cd0cfbd0e1386e48e7fa21050ec9e81c0335c0ada3e04b12be",
+          "mode": "0o100644",
+          "nlink": 1
+        }
+      ],
+      "proposal": {
+        "path": "evidence/historical-evidence-assessment/captures/assessor-17-24-36f6eadbac774680a069d5cdfff8758f/proposal.json",
+        "size": 8310398,
+        "sha256": "9e087ee38cfef356700512e9fc88d78fb04d0bbef075746c511ae544a2a5a85b"
+      },
+      "inventory_sha256": "f8aa9c90b82bcc4e34205c8159af1f38469d65e37a8e706836c9c90986124919",
+      "human_merge_required": false,
+      "execution": "blocked and unattempted; no guarded executor or capture/retirement guidance reconciliation",
+      "conditions": [
+        "exact current identities and unchanged proposal",
+        "required retained results/source remain available",
+        "actual remaining active/frozen/continuation readers resolved",
+        "all current required approvals and policy conditions",
+        "guarded Python execution and actual navigation/result recording"
+      ]
+    }
+  ],
+  "execution_results": []
+}

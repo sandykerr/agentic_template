@@ -1,0 +1,133 @@
+{
+  "label": "PROPOSED DERIVED LOSSY REPLACEMENT; NOT APPROVED; ORIGINALS REMAIN",
+  "ticket": "18",
+  "implementation_source": "816aecbaa67f79ca5fd97c78f40593cdb007c45a",
+  "actual_capture_head": "02d76205a1c40e45c607ef2a5d11ec282393edcd",
+  "original_baseline": "02d76205a1c40e45c607ef2a5d11ec282393edcd",
+  "source_identity_qualification": "Checks ran before implementation commit on working bytes; preserved source_identities identify those bytes. Completion and independent reports bind them to implementation Git blobs. This assessment does not rerun or renew checks.",
+  "source_identities": {
+    "retained_exact_map": ".scratch/ticket-harness/evidence/ticket-18/18-check-results.json#/source_identities",
+    "entry_count": 15,
+    "qualification": "Retained map identifies actual checked working bytes; completion/original independent reports bind these to named implementation commit. No new source verification claimed."
+  },
+  "originals": [
+    {
+      "path": ".scratch/ticket-harness/evidence/ticket-18/18-checks.log",
+      "size": 4202,
+      "sha256": "e9769729b3664ec92ec271bad94a589d4c9b3bfff6e158aa017c143445190b6a"
+    },
+    {
+      "path": ".scratch/ticket-harness/evidence/ticket-18/18-bookkeeping-checks.log",
+      "size": 424,
+      "sha256": "17dd1f1c3de72380021f6fbb5c2a942c2fc3a324d07d8aca11d032b6bc8f9051"
+    }
+  ],
+  "commands": [
+    {
+      "command": "git rev-parse HEAD",
+      "observed_exits_in_order": [
+        0,
+        0
+      ],
+      "source_logs": [
+        ".scratch/ticket-harness/evidence/ticket-18/18-checks.log"
+      ],
+      "failure_details": []
+    },
+    {
+      "command": "git status --short",
+      "observed_exits_in_order": [
+        0,
+        0
+      ],
+      "source_logs": [
+        ".scratch/ticket-harness/evidence/ticket-18/18-checks.log"
+      ],
+      "failure_details": []
+    },
+    {
+      "command": "bash -n .scratch/ticket-harness/evidence/18-run-checks.sh",
+      "observed_exits_in_order": [
+        0,
+        0
+      ],
+      "source_logs": [
+        ".scratch/ticket-harness/evidence/ticket-18/18-checks.log"
+      ],
+      "failure_details": []
+    },
+    {
+      "command": "env PYTHONPATH=/usr/lib/python3/dist-packages {historical_interpreter} /home/ajkerr1/.codex/skills/.system/skill-creator/scripts/quick_validate.py .agents/skills/custom/implement-with-checkboxes",
+      "observed_exits_in_order": [
+        0,
+        0
+      ],
+      "source_logs": [
+        ".scratch/ticket-harness/evidence/ticket-18/18-checks.log"
+      ],
+      "failure_details": []
+    },
+    {
+      "command": "env PYTHONPATH=/usr/lib/python3/dist-packages {historical_interpreter} /home/ajkerr1/.codex/skills/.system/skill-creator/scripts/quick_validate.py .agents/skills/custom/create-next-agent-prompt",
+      "observed_exits_in_order": [
+        0,
+        0
+      ],
+      "source_logs": [
+        ".scratch/ticket-harness/evidence/ticket-18/18-checks.log"
+      ],
+      "failure_details": []
+    },
+    {
+      "command": "{historical_interpreter} .scratch/ticket-harness/evidence/18-check.py",
+      "observed_exits_in_order": [
+        0,
+        0
+      ],
+      "source_logs": [
+        ".scratch/ticket-harness/evidence/ticket-18/18-checks.log"
+      ],
+      "failure_details": []
+    },
+    {
+      "command": "git diff --check 02d76205a1c40e45c607ef2a5d11ec282393edcd",
+      "observed_exits_in_order": [
+        0,
+        0
+      ],
+      "source_logs": [
+        ".scratch/ticket-harness/evidence/ticket-18/18-checks.log"
+      ],
+      "failure_details": []
+    },
+    {
+      "command": "{historical_interpreter} -B .scratch/ticket-harness/evidence/18-bookkeeping-check.py",
+      "observed_exits_in_order": [
+        0
+      ],
+      "source_logs": [
+        ".scratch/ticket-harness/evidence/ticket-18/18-bookkeeping-checks.log"
+      ],
+      "failure_details": []
+    }
+  ],
+  "substantive_results": {
+    "links": 392,
+    "protected_paths": 6314,
+    "process_observations": 6,
+    "manual_guidance_observations": 7,
+    "validators": 2,
+    "scope": "guidance only; no runtime suite claimed",
+    "bookkeeping": "Six criteria/wording/dependencies, reviewed implementation/original reports preserved;202 local links; handoff_selected null is actual observation. Both implementation-log passes succeed; final staged implementation whitespace exits0."
+  },
+  "durable_results_kept": [
+    ".scratch/ticket-harness/evidence/ticket-18/18-completion.md",
+    ".scratch/ticket-harness/evidence/ticket-18/18-check-results.json",
+    ".scratch/ticket-harness/evidence/ticket-18/18-review-spec.md",
+    ".scratch/ticket-harness/evidence/ticket-18/18-review-standards.md"
+  ],
+  "limits": "Original independent judgments, walkthrough sources/bundles, raw failed17 D report, exact prompts, capture identities and histories remain separate protected originals. Unknown backend model/context delivery is not observed zero. M1 later accepted at88e4cd8 on2026-11-16; these historical checks do not verify that later source.",
+  "loss": "Omits repeated git-status path listings, successful stdout formatting and repeated bundle-verification text. Preserves commands/exits and substantive validation/source facts; full historical output would be lost only after later approval and execution.",
+  "required_review": "Fresh High compares this candidate to both originals, then human merge approval at next EC1 QA. Current workflow has no guarded retirement executor; no deletion authority supplied.",
+  "historical_interpreter": "/home/ajkerr1/development/agentic_template/.micromamba/envs/dev/bin/python"
+}

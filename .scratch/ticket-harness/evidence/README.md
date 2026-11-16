@@ -25,6 +25,9 @@ Cross-ticket bundles stay separate:
   [source/check captures](m1-human-review-01/): retained source-specific results.
 - [Retention audit](evidence-retention-audit-01/README.md) and
   [human case decisions](evidence-retention-audit-01/retention-decisions.md).
+- [Current 01–24 assessment](historical-evidence-assessment/evidence-review.json):
+  shared inventory and separate proposals; no removals executed because the
+  guarded retirement executor is unavailable. Original evidence remains in place.
 - [Cleanup and organization decisions](../evidence-cleanup-and-organization-decisions.md):
   current direction, exceptions and verified changes.
 
