@@ -1,14 +1,14 @@
 # Reusable ticket-execution harness with traceable review and milestone QA
 
-**Approved plan version:** oop-v2. **Revision:** review-process-1.
+**Approved plan version:** evidence-policy-1. **Base:** oop-v2 / review-process-1.
 
-**Publication approval:** [Human decision and scope](approval.md).
+**Ticket publication decision:** [Human instruction and scope](README.md#ticket-publication-decision).
 
 **Relationship to prior work:** Amendment to the approved milestone-QA realignment at source `152b0c4577269789a419079c6261c69f9a0695fd`, which had no explicit version identifier. The earlier five-refactor-only oop-v2 draft is preserved under `drafts/oop-v2-before-review-process/`; oop-v1 remains unapproved planning history. The human approved this complete coherent bundle for local publication; see the approval record above.
 
 **Confirmed direction:** The human confirmed the five ownership refactors and sequential open-ticket renumbering, then agreed to the five review-process improvements, traceable review tracking in the existing tracker and human decision history, and requested their incorporation into this spec/ticket/milestone draft. The approved criteria and sequencing below are part of that publication decision.
 
-**Implementation status:** Completed 01–15 retain IDs, criteria and evidence. New M1 review work 16–19 precedes ownership refactors 20–24; nine new M1 tickets remain unimplemented. Existing open work is renumbered as shown in the [mapping](archive/oop-numbering-history.md), with new runtime review enforcement 33 before real agents 34. M1 QA is not requested/accepted, and later groups remain gated. Publication starts no implementation, review evaluation, run or human QA acceptance.
+**Implementation status:** Tickets 01–24 are complete; M1 is accepted. New evidence tickets 25–30 precede the remapped existing open work 31–44. EC1 (25–26) is the next eligible milestone; no new implementation or milestone acceptance is claimed. See the [numbering map](archive/evidence-policy-numbering-history.md).
 
 ## Problem Statement
 
@@ -175,7 +175,7 @@ Keep separate fresh Spec and Standards review assignments against the original f
 
 Prior findings and dispositions travel into scoped review/repair context. Preserve initial axis independence; aggregate only after each assessment is recorded. Separate substantive review reasoning from mechanical evidence auditing. A passing test or matching source hash establishes its own fact, not an ownership/design conclusion. Put project requirements in repo-owned wrappers/shared references and reuse upstream skills unchanged.
 
-Bootstrap review work 16–19 under the existing independent implementation reviews, applying stronger record/scope/checkpoint requirements as their owning tickets land and validating them through isolated examples. Calibration 19 must complete before refactors 20–24; runtime adoption waits for 33. Preserve the original scope of completed 01–15 rather than creating retrospective review attestations or reopening them.
+Bootstrap review work 16–19 under the existing independent implementation reviews, applying stronger record/scope/checkpoint requirements as their owning tickets land and validating them through isolated examples. Calibration 19 must complete before refactors 20–24; runtime adoption waits for 39. Preserve the original scope of completed 01–15 rather than creating retrospective review attestations or reopening them.
 
 ### Cumulative architecture checkpoints
 
@@ -195,7 +195,7 @@ This establishes development-review evidence. It does not prove a harness live b
 
 ### Runtime review adoption
 
-Existing later guidance/capture/context tickets consume this shared contract. New runtime ticket 33 enforces source-identified review work, finding history, scoped cumulative assessments and human review decisions with scripted processes at the existing CLI/real-Git seam, before real-agent ticket 34 proves actual delivery and behavior. Use Standards for explicitly identified cumulative review scope, with independent ticket Spec/Standards reviews retained; cumulative work must not masquerade as an ordinary ticket attempt.
+Existing later guidance/capture/context tickets consume this shared contract. New runtime ticket 39 enforces source-identified review work, finding history, scoped cumulative assessments and human review decisions with scripted processes at the existing CLI/real-Git seam, before real-agent ticket 40 proves actual delivery and behavior. Use Standards for explicitly identified cumulative review scope, with independent ticket Spec/Standards reviews retained; cumulative work must not masquerade as an ordinary ticket attempt.
 
 Ordinary in-scope ticket blockers retain existing bounded repairs; a cumulative blocker outside that policy or a scope/ownership/risk decision preserves work and stops incomplete with a human-decision handoff. Its resolution uses an explicitly authorized amendment/fresh run linked to prior evidence; a review disposition alone never resumes a stopped run. Planned continue remains restricted to deliberately saved QA checkpoints, preserving the exclusion of arbitrary interrupted-stage recovery. Missing/incomplete/stale required review work cannot authorize affected integration or a consumable QA request. Optional findings alone cause no repair cycle. Expose pending review work, inspected scope, findings/dispositions and decision links observationally.
 
@@ -385,9 +385,72 @@ Review guidance/record development uses standalone document/skill validation, so
 
 Runtime enforcement is verified through the existing public CLI, scripted external processes, real isolated Git repositories and observable records/refs. Cover distinct review identity/history, required scope, missing/stale assessments, in-scope repairs, human disposition authority, optional findings, QA readiness/frozen evidence and deliberate continuation, mapping existing report/decision/repair/milestone tests first. Executable changes retain the full final-source suite and static gates under the testing policy; guidance-only changes receive their documented validations. Existing report/QA/checkpoint compatibility remains required. Actual real-agent delivery/effectiveness is demonstrated in the real-backend slice, separate from M1 development evaluation and scripted runtime tests.
 
+## Shared implementation and verification contract
+
+The accepted spec governs every ticket. Each slice delivers usable behavior,
+its structured records, user/agent guidance and verification together. Early
+slices explicitly retain unsupported or uncertain material; they cannot claim
+the later capabilities or bypass required review to demonstrate deletion.
+
+Approved testing seam: public command-line behavior, scripted external processes
+and observable JSON/filesystem/Git outcomes in disposable repositories. This
+extends the existing CLI testing approach to the local evidence tool; no new
+public internal-module seam is proposed. The human approved this seam as part of local publication. Real agent calibration is separate from scripted contract tests.
+
+Follow the [testing policy](../../docs/agents/testing.md),
+[Python environment](../../docs/agents/python-environment.md),
+[development review contract](../../docs/agents/review-records.md) and applicable
+[compute routing](../../AGENTS.md#adapt-compute). Use TDD for new executable
+behavior at the public seam; map existing coverage before adding cases. Executable
+implementation checkpoints retain the full final-source suite, strict typing,
+lint, format, whitespace and separate independent Spec/Standards reviews.
+Packaging/entry-point changes also require installed CLI checks. Guidance changes
+need skill, routing and link validation and isolated behavioral examples.
+
+Evidence-only cleanup does not itself require replaying historical runtime tests.
+Tool implementation still requires its applicable checks. Preserve actual source,
+command/result identities and original reviews; do not claim historical results
+verify new code. Shared-state, lifecycle, persistence/restoration or additional
+writer changes require the existing architecture-trigger assessment; cumulative
+architecture review precedes every required milestone QA readiness claim.
+
+### Ownership and authority
+
+Python owns deterministic routing, inventory, reference discovery, record
+validation, guarded deletion and actual execution results. Assessment workers own
+separate temporary proposals. The fresh reviewer owns consolidation, cross-file
+synthesis and final deletion approvals within each authoritative review artifact.
+The human owns merge approval, calibration adjudication and unresolved milestone
+choices. Capture and reassessment views confer no deletion authority. Changed
+assessed content invalidates applicable prior approvals; execution preserves
+approval and actual-result distinctions, including partial failures.
+
+## Evidence policy and local workflow
+
+The [accepted evidence workflow spec](evidence-workflow-spec.md) is part of this approved plan and governs new local evidence work 25–30. It defines capture routing, one JSON review artifact per ticket/shared folder, independent assessment, fresh review, human merge decisions, reassessment and guarded Python deletion. The [publication decision](README.md#ticket-publication-decision) records the approved extension; its ticket bodies are authoritative in the [ticket index](README.md#complete-ticket-index). Policy reconciliation is implementation work; automatic runtime cleanup is not added to the harness by publication.
+
+Parallel evidence assessment inside this local workflow is separate from the still-sequential harness ticket executor. Human cleanup decisions remain separate from exact-candidate QA acceptance and promotion. New verification obeys current ADAPT compute routing; historical results keep their original scope.
+
 ## Role Configuration
 
-Preserve the existing development defaults: GPT-6.1 Sol for implementation, repair and each fresh independent review assignment; Medium for implementation/repair; High for Spec and Standards separately; at most 250,000 active-context tokens per assignment. Existing ticket-specific overrides, where explicit, remain in force; no new ticket overrides are proposed. This records the already-agreed configuration rather than asserting current backend availability or introducing runtime enforcement.
+Preserve the existing development defaults: GPT-6.1 Sol for implementation,
+repair and each fresh independent review assignment; Medium for
+implementation/repair; High for Spec and Standards separately; at most 250,000
+active-context tokens per assignment. Use fresh contexts for every assignment.
+Existing ticket-specific overrides, where explicit, remain in force; no new
+ticket overrides are proposed. This records the already-agreed configuration
+rather than asserting current backend availability or introducing runtime
+enforcement.
+
+The product workflow's evidence assessors use Medium, and its separate fresh final
+evidence reviewer uses High. These roles do not replace implementation Spec or
+Standards review. Use non-overlapping worker assignments, bounded by the available
+execution resources, rather than requiring exactly three workers for every task.
+Required workflow guidance comes from the accepted evidence criteria, capture and
+review skills as delivered, existing development review/testing guidance, and
+skill-creation/writing guidance for skill authors. Calibration follows the existing
+[reviewer-evaluation procedure](../../.agents/skills/custom/evaluate-reviewers/SKILL.md).
+Unavailable role settings or real assignments are reported, not simulated as proof.
 
 Development assignments follow project AGENTS/domain/ADR/testing guidance, the implementation and completion workflow, and independent Spec/Standards review requirements. Refactors 20–24 add the existing [object-oriented design](../../.agents/skills/microsoft/microsoft_oop/SKILL.md), [codebase design](../../.agents/skills/matt-pocock/codebase-design/SKILL.md) and [test strategy](../../.agents/skills/custom/test-strategy/SKILL.md) guidance for worker, repair and Standards. Apply [TDD](../../.agents/skills/matt-pocock/tdd/SKILL.md) to a distinct missing behavior/regression when necessary, without manufacturing new behavior tests for an already-covered refactor. Spec reviewers use the approved behavior and coverage contracts. Unchanged future runtime role-skill requirements remain with their renumbered tickets; installed skills are not automatically selected run inputs.
 
@@ -395,11 +458,20 @@ Review work 16–19 adds repo-owned review/record/architecture/evaluation guidan
 
 ## Milestone Contract
 
-See [milestones.md](milestones.md). M1 is 10–24: completed 10–15, review workflow/evaluation 16–19, and ownership refactors 20–24. M2 is 25–29. M3 is 30–34, including scripted runtime review enforcement 33 before real agents 34. E1 is 35 immediately after verified 34 and never gates release. Final M4 is 36–38 and cumulatively accepts all required release work. Each required milestone has a cumulative architecture assessment before human QA readiness; early risk-trigger assessments apply within milestones. Plan approval is separate from review decisions, execution and exact-candidate QA acceptance.
+See [milestones.md](milestones.md). Accepted M1 retains tickets 10–24. The new
+sequence is EC1 (25–26), EC2 (27), EC3 (28–30), then existing M2 (31–35),
+M3 (36–40) and M4 (42–44). Human acceptance gates each required next group.
+Runtime review enforcement 39 precedes real agents 40. Independent E1 ticket 41
+runs immediately after verified 40 and never gates release. M4 cumulatively
+accepts all required outcomes, including the evidence capability, without adding
+automatic runtime cleanup. Required cumulative architecture assessments precede
+QA readiness; risk-trigger assessments also apply during ticket development.
+Plan approval, review decisions, evidence cleanup decisions and exact-candidate
+QA acceptance remain distinct.
 
 ## Out of Scope
 
-- Concurrent ticket execution.
+- Concurrent harness ticket execution; bounded local evidence-assessment workers are in scope.
 - Recovery from arbitrary interrupted execution or automatic crash recovery; deliberate continuation at planned QA checkpoints is in scope.
 - Hosted PR creation/approval and required GitHub workflow integration; initial milestone regressions execute locally.
 - Automated failure emails and notification-provider setup.
@@ -413,6 +485,6 @@ See [milestones.md](milestones.md). M1 is 10–24: completed 10–15, review wor
 
 The [domain glossary](../../GLOSSARY.md), [ADR-0001](../../docs/adr/0001-reusable-harness-and-local-integration.md), and [ADR-0002](../../docs/adr/0002-human-qa-gates-feature-promotion.md) supply vocabulary and architectural rationale. This spec is the requirements authority; the former design summary now points here.
 
-The [approved implementation plan](ticket-proposal.md) records the skill/ticket/milestone mapping; its local publication approval is linked above. At publication reconcile issue files and live references using the authorized open-ticket numbering map, preserving completed-ticket IDs, historical identities, evidence and captured inputs. This bundle's approval does not start execution or authorize external publishing. Preserve implemented CLI names, runtime schemas, file encodings and observable behavior; choices for later unimplemented features remain with their owning tickets.
+The [ticket index](README.md#complete-ticket-index) links the authoritative issue bodies and the [milestone plan](milestones.md) defines QA membership and gates; local publication approval is linked above. The [retired proposal](archive/README.md#retired-evidence-policy-1-proposal) is publication history. At publication reconcile issue files and live references using the authorized open-ticket numbering map, preserving completed-ticket IDs, historical identities, evidence and captured inputs. This bundle's approval does not start execution or authorize external publishing. Preserve implemented CLI names, runtime schemas, file encodings and observable behavior; choices for later unimplemented features remain with their owning tickets.
 
 Internal class names, source layout and method structure remain worker choices within the agreed ownership contracts. Implemented timeout defaults, record encoding, installed CLI invocation and deliberately saved checkpoint compatibility retain their existing behavior during these refactors.

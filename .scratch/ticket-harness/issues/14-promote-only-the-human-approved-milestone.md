@@ -8,7 +8,7 @@
 
 **Milestone:** M1. Follow [milestone eligibility](../milestones.md) before selecting work.
 
-**Plan slice:** [R05](../ticket-proposal.md#r05-consume-approval-promote-and-continue).
+**Historical plan slice:** [R05](../archive/before-evidence-policy-1/ticket-proposal.md#r05-consume-approval-promote-and-continue).
 
 **Agent context limit:** 250,000 tokens of active context. Use the [agent context policy](../README.md#agent-context-policy).
 

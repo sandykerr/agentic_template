@@ -122,7 +122,7 @@ records and archives describe historical observations, not a live continuation.
 navigation. Fresh Spec/Standards/cumulative Standards each 0/0; original F1 fixed,
 563/full and static passes bound to the same source. The new exact demo request is
 completed after both actual human approvals; development M1 is accepted after
-all final exact-promotion/completion/no-replay conditions passed. M2 ticket25 is next.
+all final exact-promotion/completion/no-replay conditions passed. EC1 ticket 25 (capture evidence) is next under the [evidence-policy amendment](../README.md#ticket-publication-decision); the former M2 ticket 25 is now 31.
 
 ## Retired review wrappers
 

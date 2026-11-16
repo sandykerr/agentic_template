@@ -8,7 +8,7 @@
 
 **Milestone:** M1. Follow [milestone eligibility](../milestones.md) before selecting work.
 
-**Plan slice:** [R02](../ticket-proposal.md#r02-stop-development-handoffs-at-human-checkpoints).
+**Historical plan slice:** [R02](../archive/before-evidence-policy-1/ticket-proposal.md#r02-stop-development-handoffs-at-human-checkpoints).
 
 **Agent context limit:** 250,000 tokens of active context. Use the [agent context policy](../README.md#agent-context-policy).
 

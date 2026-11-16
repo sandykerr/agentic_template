@@ -1,33 +1,69 @@
-# Ticket harness — ownership and review amendment
+# Ticket harness — evidence policy and operator workflow
 
-**Approved plan version:** oop-v2. **Revision:** review-process-1.
+**Approved plan version:** evidence-policy-1. **Base:** oop-v2 / review-process-1.
 
-**Publication approval:** [Human decision and scope](approval.md).
+**Ticket publication decision:** [Human instruction and scope](#ticket-publication-decision).
 
-Evidence is organized [by ticket](evidence/README.md). The
-[cleanup and organization record](evidence-cleanup-and-organization-decisions.md)
-records the human's direction, historical path mapping and verification.
-Selected historical raw captures have been retired; ticket READMEs identify the
-surviving results and deliberately discarded detail. Historical completion
-statements below describe their original checkpoints, not current raw availability.
+Read the [feature spec](spec.md), [evidence workflow spec](evidence-workflow-spec.md),
+[authoritative ticket files](#complete-ticket-index), [milestones](milestones.md)
+and [old-to-new numbering map](archive/evidence-policy-numbering-history.md).
+The [prior authoring bundle](archive/before-evidence-policy-1/README.md) preserves
+the previous approved requirements and navigation.
 
-**M1 accepted 2026-11-16** at `88e4cd8`; [human decision and exact-source evidence](evidence/m1-final-review-01/m1-qa-decision.md).
-Next eligible work is [25: Guide a human through milestone QA](issues/25-guide-and-record-human-milestone-qa.md)
-in M2. The generated root handoff prepares ticket25; it has not started.
+**M1 is accepted** at `88e4cd8`; [actual human decision](evidence/m1-final-review-01/m1-qa-decision.md).
+Ticket25 is verified complete; next eligible work is ticket26 in EC1. Tickets
+01–25 are complete, and26–30 remain subject to their dependencies and gates. The
+former open 25–38 are now 31–44. No implementation starts with this publication.
 
-Review the [spec](spec.md), [complete ticket bodies/dependencies](ticket-proposal.md), [milestones](milestones.md), [numbering map](archive/oop-numbering-history.md), domain additions and supporting updates together. The human approved this complete expansion for local publication; the approval record identifies its scope and reviewed source.
+## Document ownership
+
+The [feature spec](spec.md) owns shared implementation, role and verification
+contracts; [individual issue files](issues/) own ticket bodies and criteria;
+[milestones](milestones.md) own human QA and progression gates. This index links
+those sources and records current status. The
+[retired proposal](archive/README.md#retired-evidence-policy-1-proposal) preserves
+publication history and is no longer synchronized with current tickets.
+
+The [evidence workflow spec](evidence-workflow-spec.md) owns evidence requirements.
+The [capture skill](../../.agents/skills/custom/capture-evidence/SKILL.md) provides
+producer steps; the [helper reference](../../docs/agents/evidence-capture.md)
+describes implemented commands, records and failure behavior.
+
+## Ticket publication decision
+
+For evidence-policy-1, extending oop-v2 / review-process-1, the human accepted the
+evidence workflow spec, requested capture before cleanup and explicit ADAPT
+execution criteria in ticket 26, then instructed:
+
+> Ok, use $to-tickets to create the markdown ticket files, including the newly ordered tickets from previous tickets 25-onward.
+
+The decision authorized local publication of tickets 25–30 and renumbering the
+former open tickets 25–38 to 31–44, with the reviewed public CLI testing seam and
+role defaults. EC1 covers 25–26, EC2 covers 27, and EC3 covers 28–30, followed by
+the existing M2–M4. E1 remains independent after verified ticket 40. Completed
+tickets 01–24 and actual M1 acceptance retain their existing authority.
+
+Publication itself authorized no implementation, run, evidence deletion,
+milestone acceptance, Git-history rewrite or external publication.
+
+This concise reconstruction replaces `evidence-policy-approval.md`. The
+[publication record](evidence-policy-publication-record.json) and
+[validation](evidence-policy-publication-validation.json) retain the original
+publication paths and identities; their hashes describe the original document.
+The former `evidence-policy.md` is now [the workflow spec](evidence-workflow-spec.md).
 
 ## Implementation status
 
-Completed 01–15 retain their IDs and evidence. New development review work 16–19 precedes five refactors 20–24 in M1; new runtime review enforcement 33 precedes real-agent work 34 in M3. Thirteen inherited open tickets are renumbered coherently; after ticket 24 completion, 14 open tickets 25–38 remain. All fifteen required M1 tickets 10–24 are verified complete. Human M1 QA is accepted; M2 is eligible, while M3/M4 retain their later acceptance gates.
+Required development order: accepted M1 → EC1 (25–26) → EC2 (27) → EC3 (28–30)
+→ M2 (31–35) → M3 (36–40) → M4 (42–44). Human acceptance gates each next group.
+E1 (41) is independent immediately after verified real-agent ticket 40.
+Ticket25 is complete; ticket26 is next within EC1. Later groups remain gated by
+actual human acceptance; the generated root handoff starts no implementation.
 
-Ticket25 is the next eligible agent-ready implementation: prerequisite tickets
-10/14 are verified complete and actual M1 acceptance is recorded. M1 caller-index
-repair, independent review/cumulative assessment, exact demo and human acceptance
-are complete. No M2 work is started by this bookkeeping or handoff.
-
-Ticket24 is verified complete at `ab08f7f`; [completion evidence](evidence/ticket-24/24-completion.md), [assessment](reviews/ticket-24.md) and [history](evidence/ticket-24/24-finding-history.md) preserve all checks, three review rounds and fixed findings. The [prior pause](evidence/ticket-24/24-pause.md) remains historical. Current M1 cumulative renewal and actual human QA acceptance are complete.
-Root `next_agent_prompt.md` carries the current checkpoint status.
+Evidence remains [organized by ticket](evidence/README.md), with retirement notes
+in the affected ticket READMEs. Historical completion and acceptance records keep
+their original IDs, scope and paths; use the numbering map for current open-ticket
+navigation.
 
 ## Complete ticket index
 
@@ -57,32 +93,26 @@ Root `next_agent_prompt.md` carries the current checkpoint status.
 | [22: Return clearly prepared inputs](issues/22-return-clearly-prepared-inputs.md) | 02, 12, 19 | completed | M1 |
 | [23: Own the complete run lifecycle](issues/23-own-the-complete-run-lifecycle.md) | 15, 21, 22 | completed | M1 |
 | [24: Own milestone review and checkpoint continuation](issues/24-own-milestone-review-and-checkpoint-continuation.md) | 15, 23 | completed | M1 |
-| [25: Guide a human through milestone QA](issues/25-guide-and-record-human-milestone-qa.md) | 10, 14 | ready-for-agent | M2 |
-| [26: Propose a versioned correction plan](issues/26-propose-versioned-qa-corrections.md) | 10, 25 | ready-for-agent | M2 |
-| [27: Execute approved QA corrections](issues/27-execute-approved-qa-corrections.md) | 15, 26 | ready-for-agent | M2 |
-| [28: Operate the orchestrator in the background](issues/28-operate-the-harness-in-the-background.md) | 15 | ready-for-agent | M2 |
-| [29: Continue independent work inside the current milestone](issues/29-continue-independent-work-after-blocks.md) | 12, 06 | ready-for-agent | M2 |
-| [30: Supply coherent design guidance to Standards review](issues/30-supply-combined-design-guidance-to-standards-review.md) | 03, 19 | ready-for-agent | M3 |
-| [31: Capture and deliver selected local skills](issues/31-capture-and-deliver-selected-local-skills.md) | 10, 30 | ready-for-agent | M3 |
-| [32: Deliver focused implementation and Spec contexts](issues/32-deliver-focused-implementation-and-spec-review-contexts.md) | 31, 19 | ready-for-agent | M3 |
-| [33: Enforce traceable runtime review checkpoints](issues/33-enforce-traceable-runtime-review-checkpoints.md) | 19, 24, 30, 31, 32 | ready-for-agent | M3 |
-| [34: Complete the workflow with real Codex roles](issues/34-run-a-real-codex-ticket-cycle.md) | 15, 32, 08, 33 | ready-for-agent | M3 |
-| [35: Run the early context-budget comparison](issues/35-compare-configurable-agent-context-limits.md) | 34 | ready-for-agent | E1 |
-| [36: Verify runtime write and approval boundaries](issues/36-verify-role-write-boundaries.md) | 25, 34 | ready-for-agent | M4 |
-| [37: Run a generated approved plan through the runtime](issues/37-run-a-generated-plan-through-the-runtime.md) | 10, 27, 31 | ready-for-agent | M4 |
-| [38: Demonstrate the revised first usable release](issues/38-demonstrate-the-first-usable-release.md) | 11, 28, 29, 36, 37, 07 | ready-for-agent | M4 |
-
-Preferred groups: M1 10–24, M2 25–29, M3 30–34, independent E1 35 immediately after verified 34, final M4 36–38 after M3 acceptance. Review work completion, findings dispositioned, implementation Done and human QA acceptance remain distinct. Review work-item IDs are separate from this implementation-ticket sequence. E1 never gates release.
-
-## History
-
-The completed [workflow-efficiency follow-up](archive/workflow-efficiency/README.md)
-after ticket 19 is archived here with its original reviews and evidence. It added
-the current [development preparation procedure](../../docs/agents/review-records.md#prepare-review-and-repair)
-to existing skill and handoff routes. Its historical next-ticket statements do
-not select current work; runtime adoption remains with tickets 33/34.
-
-Preserve the [prior approved authoring bundle](archive/before-oop-v2/README.md), original open issues and old root handoff before replacing live authoring files. The [mapping](archive/oop-numbering-history.md) records published and previous-draft identities. The earlier unapproved oop-v2 snapshot is retained under `drafts/oop-v2-before-review-process/`; oop-v1 remains prior planning history. Historical completion evidence below remains verbatim, with its original next-ticket/milestone statements scoped to that time.
+| [25: Guide ticket and shared evidence creation](issues/25-guide-ticket-and-shared-evidence-creation.md) | 24 | completed | EC1 |
+| [26: Review and safely retire routine ticket evidence](issues/26-review-and-safely-retire-routine-ticket-evidence.md) | 25 | ready-for-agent | EC1 |
+| [27: Assess evidence in parallel and consolidate fresh review](issues/27-assess-evidence-in-parallel-and-consolidate-fresh-review.md) | 26 | ready-for-agent | EC2 |
+| [28: Guide human review of summaries and proposed merges](issues/28-guide-human-review-of-summaries-and-proposed-merges.md) | 27 | ready-for-agent | EC3 |
+| [29: Reassess retained evidence during ticket completion](issues/29-reassess-retained-evidence-during-ticket-completion.md) | 28 | ready-for-agent | EC3 |
+| [30: Calibrate and adopt the complete evidence workflow](issues/30-calibrate-and-adopt-the-complete-evidence-workflow.md) | 29 | ready-for-agent | EC3 |
+| [31: Guide a human through milestone QA](issues/31-guide-and-record-human-milestone-qa.md) | 10, 14, 30 | ready-for-agent | M2 |
+| [32: Propose a versioned correction plan](issues/32-propose-versioned-qa-corrections.md) | 10, 31 | ready-for-agent | M2 |
+| [33: Execute approved QA corrections](issues/33-execute-approved-qa-corrections.md) | 15, 32 | ready-for-agent | M2 |
+| [34: Operate the orchestrator in the background](issues/34-operate-the-harness-in-the-background.md) | 15 | ready-for-agent | M2 |
+| [35: Continue independent work inside the current milestone](issues/35-continue-independent-work-after-blocks.md) | 12, 06 | ready-for-agent | M2 |
+| [36: Supply coherent design guidance to Standards review](issues/36-supply-combined-design-guidance-to-standards-review.md) | 03, 19 | ready-for-agent | M3 |
+| [37: Capture and deliver selected local skills](issues/37-capture-and-deliver-selected-local-skills.md) | 10, 36 | ready-for-agent | M3 |
+| [38: Deliver focused implementation and Spec contexts](issues/38-deliver-focused-implementation-and-spec-review-contexts.md) | 37, 19 | ready-for-agent | M3 |
+| [39: Enforce traceable runtime review checkpoints](issues/39-enforce-traceable-runtime-review-checkpoints.md) | 19, 24, 36, 37, 38 | ready-for-agent | M3 |
+| [40: Complete the workflow with real Codex roles](issues/40-run-a-real-codex-ticket-cycle.md) | 15, 38, 08, 39 | ready-for-agent | M3 |
+| [41: Run the early context-budget comparison](issues/41-compare-configurable-agent-context-limits.md) | 40 | ready-for-agent | E1 |
+| [42: Verify runtime write and approval boundaries](issues/42-verify-role-write-boundaries.md) | 31, 40 | ready-for-agent | M4 |
+| [43: Run a generated approved plan through the runtime](issues/43-run-a-generated-plan-through-the-runtime.md) | 10, 33, 37 | ready-for-agent | M4 |
+| [44: Demonstrate the revised first usable release](issues/44-demonstrate-the-first-usable-release.md) | 11, 34, 35, 42, 43, 07 | ready-for-agent | M4 |
 
 ## Agent context policy
 
@@ -119,7 +149,7 @@ no real review result or milestone acceptance.
 
 ## Early context-budget experiment
 
-[35: Compare configurable 100K–250K agent context limits](issues/35-compare-configurable-agent-context-limits.md) is ready for execution immediately after issue 34 supplies the verified real Codex cycle, configured roles, and usage artifacts. Prioritize it then; it does not require the final release demonstration, multi-ticket scheduling, the planning skill, or the later access-boundary probes. It is a separate early experiment, not an additional first-release completion gate.
+[41: Compare configurable 100K–250K agent context limits](issues/41-compare-configurable-agent-context-limits.md) is ready for execution immediately after issue 40 supplies the verified real Codex cycle, configured roles, and usage artifacts. Prioritize it then; it does not require the final release demonstration, multi-ticket scheduling, the planning skill, or the later access-boundary probes. It is a separate early experiment, not an additional first-release completion gate.
 
 The user requested configurable per-agent limits of **100K, 150K, 200K, and 250K**. Compare the same workload, model, role reasoning settings, and acceptance checks at each setting. Record verified results, repair behavior, observed active context, compaction/handoff behavior, elapsed time, and cumulative/cached usage separately.
 
