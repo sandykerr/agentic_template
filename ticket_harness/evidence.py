@@ -96,7 +96,8 @@ class CaptureStore:
     @contextmanager
     def ownership(self) -> Iterator[None]:
         """Serialize capture and later review writers on the evidence directory itself."""
-        self.evidence.mkdir(exist_ok=True)
+        if not self.evidence.exists():
+            self.evidence.mkdir(exist_ok=True)
         descriptor = os.open(self.evidence, os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW)
         try:
             fcntl.flock(descriptor, fcntl.LOCK_EX)
@@ -347,6 +348,12 @@ def main() -> int:
     register.add_argument(
         "--derived-from", action="append", default=[], help="Original path relative to feature"
     )
+    for operation in ("preview", "execute"):
+        retirement = commands.add_parser(
+            operation, help="Validate explicit fresh local retirement authority"
+        )
+        retirement.add_argument("--authority", required=True)
+        retirement.add_argument("--group", action="append", required=True)
     args = parser.parse_args()
     try:
         store = CaptureStore(args.feature, args.protect)
@@ -354,7 +361,7 @@ def main() -> int:
             output = store.allocate(
                 args.ticket, args.shared, args.milestone, args.purpose, args.producer
             )
-        else:
+        elif args.operation == "register":
             output = store.register(
                 args.allocation,
                 args.file,
@@ -364,8 +371,12 @@ def main() -> int:
                 args.kind,
                 args.derived_from,
             )
+        else:
+            from ticket_harness.retirement import Retirement
+
+            output = Retirement(store).run(args.authority, args.group, args.operation == "execute")
         print(json.dumps(output, indent=2))
-        return 0
+        return 1 if output.get("state") == "partial" else 0
     except (
         GateFailure,
         OSError,

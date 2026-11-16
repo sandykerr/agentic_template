@@ -60,3 +60,82 @@ Failures print a diagnostic on stderr and exit nonzero. Inspect returned artifac
 before retrying a partially completed operation. Never interpret registration or
 schema validity as independent review, retention/deletion approval, finding
 resolution, milestone acceptance or permission to promote.
+
+## Explicit local retirement execution
+
+`preview --authority FEATURE_RELATIVE_PATH --group ID` and `execute` with the
+same arguments consume a **new** `retirement` proposal in the named existing
+`evidence-review.json`. Repeat `--group` for an explicit selection. Preview reads
+and locks existing evidence without writing. Execution performs complete preflight
+before deleting anything, then rechecks authority, dependencies and each original
+before its unlink. Any partial failure exits nonzero and appends the actual
+per-file results to `execution_results`; approvals remain separate and unchanged.
+Re-execution against missing originals is blocked. Arbitrary crash recovery is
+not supported. All metadata/deletion mutations use the capture directory flock.
+
+This is a minimum development-only execution contract, not ticket26 completion,
+full inventory/assessment/reassessment tooling, runtime adoption or EC1 acceptance.
+Historical assessments/approvals are never executable authority. Their `keep` and
+`merge proposed` groups remain protected. Fresh review must establish contents,
+remaining uses and applicable policy/consumer identities; an empty search or
+capture registration cannot establish eligibility.
+
+The exact new proposal schema is an object with these fields (no extra fields):
+
+- `schema_version`: integer `1`.
+- `source_identity`: nonempty description of the assessed source version.
+- `protected`: array of regular-file identities for all lasting decisions, actual
+  human approvals, independent reviews, needed inputs and other protected survivors.
+- `groups`: nonoverlapping groups with exactly `id`, `action` (`keep`, `delete`,
+  `merge`), `assessor`, `evidence_type`, `reason`, `files`, `remaining_uses`,
+  `conditions`, `retained_results`, `source`, `replacements`, and `protected`.
+
+An identity has exactly `path` (canonical feature-relative path), `size` (integer
+bytes), `sha256` (hex digest), and `kind` (`regular`). Every source, retained
+result, replacement, protection and condition-evidence identity must still match.
+`source` includes retained exact code/source plus current policy and reader-context
+identities needed to validate the decision. Files listed by unselected or keep
+groups, all approval reports, source/results/replacements and condition evidence
+are protected from every selected deletion. Operator `--protect PATH` additionally
+protects active/frozen/continuable inputs or subtrees; operators must supply all
+such inputs, because external runs are not discovered. Protected originals outside
+evidence may be listed within the feature; use `--protect` for other paths.
+
+Eligible groups have `evidence_type: "routine"`, nonempty retained results/source,
+no remaining uses (`[]`), and nonempty `conditions`. Each condition has exactly
+`id` (reason), `resolved: true`, and nonempty `evidence` identities. Uncertain,
+durable or mixed-content originals stay protected. Classifications are attributed
+judgments, not automatically inferred from filenames or hashes.
+
+The sibling `retirement_approvals` array contains one fresh independent approval
+for each selected group. Each object has exactly `group`, `proposal_sha256`,
+`reviewer` (different from the assessor), `decision: "approve"`, `report` (identity
+of the original independent report), and `human_merge` (normally null). The digest
+is SHA256 of the complete `retirement` object serialized as UTF-8 JSON with sorted
+keys, separators `(',', ':')`, default ASCII escaping and no NaN values. It binds
+all groups, identities, retention conditions and context. The report retains
+actual assignment/settings/inspection provenance; hashing does not prove judgment.
+Missing, conflicting, stale or non-independent approvals cannot act.
+
+A merge additionally requires nonempty `replacements` and `human_merge` with exactly
+`actor`, `statement` (actual human approval), `proposal_sha256`, and `replacements`
+(exactly matching the proposal). Changed originals or replacement bytes block
+execution. Durable originals remain protected despite a replacement.
+
+Only explicit, unaliased regular files within this feature's evidence directory
+may be removed. Symlink components, hard links, traversal, control artifacts
+(`evidence-review.json`, `allocation.json`) and overlapping retained dependencies
+are rejected. Capture arrays and unknown top-level future fields survive updates;
+unknown execution schema versions/fields are rejected. The tool assumes cooperative
+writers; it does not guarantee safety against adversarial filesystem races.
+
+Navigation remains `pending operator reconciliation` in the execution result.
+After successful removals, the operator updates maintained navigation using actual
+outcomes, preserving historical reports/manifests. Record that reconciliation under
+the same evidence-directory lock. Failed removals must retain their live links.
+
+If recording fails after an unlink, execution stops and returns nonzero with
+`state: "partial"`, the actual observed per-file outcomes and `recording_error`
+on stdout. The authority can therefore be incomplete; preserve stdout and resolve
+that discrepancy before another proposal. The tool never invents a successful
+record write or continues deleting after a failed outcome write.
