@@ -34,16 +34,15 @@ or reusing approval for another candidate.
 
 ## Check commands
 
-Use the environment's interpreter from the checkout being developed. The
-`.[dev]` extra in [pyproject.toml](../../pyproject.toml) supplies pinned check tools;
-install it with `python -m pip install '.[dev]'`, using an isolated environment
-when dependency changes would affect other worktrees.
+Use the current checkout's `.venv/bin/python`. Follow the
+[environment setup and synchronization instructions](python-environment.md)
+before checks; the frozen requirements include the project's pinned `dev` tools.
 
 ```bash
-python -m pytest
-python -m mypy
-python -m ruff check ticket_harness tests examples
-python -m ruff format --check ticket_harness tests examples
+.venv/bin/python -m pytest
+.venv/bin/python -m mypy
+.venv/bin/python -m ruff check ticket_harness tests examples
+.venv/bin/python -m ruff format --check ticket_harness tests examples
 git diff --check
 ```
 

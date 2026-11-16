@@ -1,6 +1,42 @@
 # Agentic Template Repo
 
-Python development uses a reusable micromamba environment. See [Python environment setup and usage](docs/agents/python-environment.md).
+Python development defaults to a checkout-local uv environment. See
+[Python environment setup and usage](docs/agents/python-environment.md).
+
+## Python setup with uv
+
+Install [uv](https://docs.astral.sh/uv/getting-started/installation/), then run
+these commands from the repository root:
+
+```bash
+export UV_CACHE_DIR="$PWD/.uv-cache"
+uv venv --python 3.12 .venv
+uv pip sync --python .venv/bin/python requirements-uv.txt
+source .venv/bin/activate
+```
+
+[requirements-uv.txt](requirements-uv.txt) freezes the direct and transitive
+dependencies for Python 3.12. It includes the PyPI equivalents of
+[environment.yml](environment.yml) (pip, pytest, PyYAML), plus the editable
+project and its pinned `dev` tools from [pyproject.toml](pyproject.toml).
+Conda channels are not used by uv. The project source remains editable; Python
+is selected separately by `uv venv`, rather than pinned as a package.
+
+Run `python -m pytest` or `ticket-harness --help` after activation. Each checkout
+has its own ignored `.venv` and cache, so editable installs stay local.
+
+To refresh the frozen dependencies after changing `environment.yml` or
+`pyproject.toml`, first update the PyPI equivalents in
+[requirements-uv.in](requirements-uv.in), then run:
+
+```bash
+uv pip compile --python .venv/bin/python requirements-uv.in -o requirements-uv.txt
+uv pip sync --python .venv/bin/python requirements-uv.txt
+```
+
+Existing pins are retained where compatible; add `--upgrade` to the compile
+command to update all packages. Commit both requirements files. This uses uv's
+[requirements locking workflow](https://docs.astral.sh/uv/pip/compile/).
 
 This is my template for how I do agentic work. Currently, this uses Matt Pocock's skills which allow humans to "stay in the loop" while also taking advantage of the efficiency gains of automated agentic development. Commands below are in the codex `$skill` format, but other platforms may invoke skills differently.
 
