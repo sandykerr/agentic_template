@@ -24,6 +24,12 @@ authorized work; class/method/file choices remain worker decisions.
 
 ## Prepare review and repair
 
+Use [capture-evidence](../../.agents/skills/custom/capture-evidence/SKILL.md) to
+allocate separate destinations for review producers and register original reports,
+instruction identities and check outputs. The helper records capture facts; this
+contract continues to govern review authority, immutable reports and required
+inspection. Shared evidence links from each relevant ticket's JSON artifact.
+
 Before review, the current worker finishes contract/coverage mapping, required
 final-source checks and lossless evidence capture under the [testing policy](testing.md).
 Keep agreed time/context/repair bounds in existing notes. Extra assignments need a

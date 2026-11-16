@@ -24,6 +24,11 @@ contract; historical corpus outcomes neither assess new source nor add calibrati
 
 ## Implement and review
 
+Before producing implementation, check or review evidence, use
+[capture-evidence](../capture-evidence/SKILL.md) for destination allocation and
+registration. Keep the testing and review contracts below authoritative for
+required evidence and decisions; capture supplies no retention or deletion authority.
+
 Finish the review contract's local preparation before each fresh review round;
 preserve the role settings and review gates below.
 

@@ -27,6 +27,12 @@ failing required checks leave verification incomplete. Evidence identifies actua
 source/test revisions and relevant uncommitted changes and retains required
 CLI/Git observations from that execution; apply test-strategy's capture/reuse rules.
 
+Before producing development check evidence, use
+[capture-evidence](../../.agents/skills/custom/capture-evidence/SKILL.md) to allocate
+the destination and register actual provenance. Capture preserves originals for
+required checks/reviews; subsequent retirement follows the separately approved
+evidence workflow and cannot change frozen-input or exact-candidate gates.
+
 Every configured harness baseline, lightweight, review and exact-candidate gate
 remains required. Source changes invalidate approvals under existing rules;
 development test selection or a prior passing tree cannot authorize skipping gates

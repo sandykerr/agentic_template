@@ -1,5 +1,7 @@
 # Forest CPU execution
 
+Start with any retained Forest terminal: inspect its current capacity and reuse
+it when suitable. Probe candidates only when no suitable live connection exists.
 From the base ADAPT login node, probe `forest201` through `forest205` with direct
 SSH. Forest access does not use Slurm; no `forest` partition was present in the
 Slurm configuration observed when creating this skill.

@@ -1,6 +1,7 @@
 # Slurm execution through gpulogin1
 
-From the base ADAPT login node:
+Reuse the retained gpulogin1 terminal, or open a persistent connection from the
+base ADAPT login node:
 
 ```bash
 ssh -tt -o ServerAliveInterval=30 -o ServerAliveCountMax=3 gpulogin1
