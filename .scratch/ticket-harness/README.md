@@ -52,6 +52,9 @@ This concise reconstruction replaces `evidence-policy-approval.md`. The
 publication paths and identities; their hashes describe the original document.
 The former `evidence-policy.md` is now [the workflow spec](evidence-workflow-spec.md).
 
+The human subsequently chose to discard the completed cleanup account and remove
+its maintained links. That account requires no recreation or relocation in ticket 30.
+
 ## Implementation status
 
 Required development order: accepted M1 → EC1 (25–26) → EC2 (27) → EC3 (28–30)

@@ -29,8 +29,6 @@ Cross-ticket bundles stay separate:
 - [Current 01–24 assessment](historical-evidence-assessment/evidence-review.json):
   shared inventory and separate proposals; no removals executed because the
   guarded retirement executor is unavailable. Original evidence remains in place.
-- [Cleanup and organization decisions](../evidence-cleanup-and-organization-decisions.md):
-  current direction, exceptions and verified changes.
 
 ## Historical paths
 
@@ -77,9 +75,7 @@ This organization introduced no old-path aliases and removed no Git history.
 
 ## Retired evidence
 
-The human authorized selective retirement after organization. The
-[execution account](../evidence-cleanup-and-organization-decisions.md#retroactive-archival-and-selective-retirement)
-records scope, authority, exceptions and actual reductions. Each affected ticket
+The human authorized selective retirement after organization. Each affected ticket
 README has a `Retired evidence` section with its lasting results and limits.
 
 Historical completion/review records describe what was retained when written.

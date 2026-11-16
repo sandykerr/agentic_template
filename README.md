@@ -112,8 +112,6 @@ The hook checks blobs throughout outgoing history and rejects files over GitHub'
 and awk. If you already use a hooks directory, integrate this check into your
 existing pre-push hook instead of replacing that configuration.
 
-The human-directed [retroactive evidence cleanup](.scratch/ticket-harness/evidence-cleanup-and-organization-decisions.md#retroactive-archival-and-selective-retirement)
-retires selected unnecessary raw captures after their useful results are recorded.
 Use the [current evidence index](.scratch/ticket-harness/evidence/README.md) and
 ticket retirement notes to distinguish retained originals from derived summaries.
 Ticket 19's command-heavy round-two identity captures were replaced by explicitly
