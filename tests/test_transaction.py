@@ -235,6 +235,48 @@ def test_rejected_candidate_preserves_caller_index_and_file_bytes(harness):
     assert harness.git("show", record["ticket"]["submitted_revision"] + ":value.txt") == "2"
 
 
+@pytest.mark.parametrize(
+    ("writer", "rejected"),
+    [("harness", False), ("harness", True), ("agent", False), ("check", False)],
+)
+def test_inherited_caller_index_is_preserved_during_ticket_execution(
+    harness, monkeypatch, writer, rejected
+):
+    if writer == "agent":
+        harness.agent_report(
+            "implementation",
+            "import subprocess\nsubprocess.run(['git', 'add', '--all'], check=True)",
+        )
+    if writer == "check":
+        suite_script(harness, "subprocess.run(['git', 'add', '--all'], check=True)")
+    if rejected:
+        harness.config["agent"] += ["--reject", "standards"]
+    (harness.repo / "value.txt").write_text("caller staged\n")
+    harness.git("add", "value.txt")
+    (harness.repo / "value.txt").write_text("caller unstaged\n")
+    (harness.repo / "unrelated.txt").write_text("caller untracked\n")
+    index = harness.repo / ".git/index"
+    before = index.read_bytes()
+    with monkeypatch.context() as environment:
+        environment.setenv("GIT_INDEX_FILE", str(index))
+        result = harness.run_ticket()
+    assert index.read_bytes() == before
+    assert harness.git("rev-parse", "HEAD") == harness.base
+    assert harness.git("show", ":value.txt") == "caller staged"
+    assert (harness.repo / "value.txt").read_text() == "caller unstaged\n"
+    assert (harness.repo / "unrelated.txt").read_text() == "caller untracked\n"
+    record = harness.record()
+    if rejected:
+        assert result.returncode != 0
+        assert record["failure"]["stage"] == "standards"
+        assert harness.git("rev-parse", "integration") == harness.base
+    else:
+        assert result.returncode == 0, result.stdout + result.stderr
+        assert record["outcome"] == "completed"
+        assert harness.git("rev-parse", "integration") == record["ticket"]["candidate_revision"]
+        assert harness.git("show", "integration:value.txt") == "2"
+
+
 @pytest.mark.parametrize("flag", ["--assume-unchanged", "--skip-worktree"])
 def test_index_flags_cannot_hide_unreviewed_source(harness, flag):
     harness.agent_report(

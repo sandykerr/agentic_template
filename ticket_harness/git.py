@@ -6,7 +6,7 @@ import subprocess
 import tempfile
 from pathlib import Path
 
-from ticket_harness.records import GateFailure
+from ticket_harness.records import GateFailure, worktree_environment
 
 IDENTITY = ["-c", "user.name=Ticket Harness", "-c", "user.email=harness@example.invalid"]
 
@@ -14,7 +14,11 @@ IDENTITY = ["-c", "user.name=Ticket Harness", "-c", "user.email=harness@example.
 def git(repository: Path, *args: str) -> str:
     """Run Git in the target repository; return stripped stdout or raise GateFailure."""
     result = subprocess.run(
-        ["git", "-C", str(repository), *args], capture_output=True, text=True, check=False
+        ["git", "-C", str(repository), *args],
+        env=worktree_environment(),
+        capture_output=True,
+        text=True,
+        check=False,
     )
     if result.returncode:
         diagnostic = "\n".join(
@@ -182,6 +186,7 @@ def _update_direct_branches(
             stdout=subprocess.PIPE,
             stderr=diagnostic,
             bufsize=0,
+            env=worktree_environment(),
         )
         try:
             _transaction_exchange(process, commands + "prepare\n", b"start: ok\nprepare: ok\n")

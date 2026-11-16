@@ -19,6 +19,33 @@ class NonRepairableFailure(GateFailure):
     """A failure that another implementation attempt cannot resolve."""
 
 
+def worktree_environment() -> dict[str, str]:
+    """Copy the environment without Git's repository-local routing and config.
+
+    Git's ``rev-parse --local-env-vars`` identifies these variables as local to
+    the caller's repository. Neither ``git -C`` nor a subprocess cwd overrides
+    them. Keep nonlocal settings, including identities and diagnostic tracing.
+    """
+    local = {
+        "GIT_ALTERNATE_OBJECT_DIRECTORIES",
+        "GIT_CONFIG",
+        "GIT_CONFIG_PARAMETERS",
+        "GIT_CONFIG_COUNT",
+        "GIT_OBJECT_DIRECTORY",
+        "GIT_DIR",
+        "GIT_WORK_TREE",
+        "GIT_IMPLICIT_WORK_TREE",
+        "GIT_GRAFT_FILE",
+        "GIT_INDEX_FILE",
+        "GIT_NO_REPLACE_OBJECTS",
+        "GIT_REPLACE_REF_BASE",
+        "GIT_PREFIX",
+        "GIT_SHALLOW_FILE",
+        "GIT_COMMON_DIR",
+    }
+    return {key: value for key, value in os.environ.items() if key not in local}
+
+
 def write_json(path: Path, value: Any) -> None:
     """Replace a JSON record via a sibling temporary file; propagate filesystem errors."""
     temporary = path.with_suffix(".tmp")
@@ -135,7 +162,7 @@ def execute(
                 stdin=subprocess.PIPE if payload is not None else subprocess.DEVNULL,
                 stdout=subprocess.PIPE,
                 stderr=subprocess.PIPE,
-                env={**os.environ, "TICKET_HARNESS_STAGE": stage},
+                env={**worktree_environment(), "TICKET_HARNESS_STAGE": stage},
                 start_new_session=True,
             )
             captured_out, captured_err = _communicate(
